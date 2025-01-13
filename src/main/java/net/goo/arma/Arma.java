@@ -1,9 +1,18 @@
-package net.goo.tutorialmod;
+package net.goo.arma;
 
 import com.mojang.logging.LogUtils;
+import net.goo.arma.block.ModBlocks;
+import net.goo.arma.entity.ModEntities;
+import net.goo.arma.entity.client.SupernovaExplosionRenderer;
+import net.goo.arma.item.ModCreativeModTabs;
+import net.goo.arma.item.ModItems;
+import net.goo.arma.loot.ModLootModifiers;
+import net.goo.arma.particle.ModParticles;
+import net.goo.arma.sound.ModSounds;
+import net.goo.arma.villager.ModVillagers;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,27 +23,29 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(TutorialMod.MOD_ID)
-public class TutorialMod {
-    // Define mod id in a common place for everything to reference
-    public static final String MOD_ID = "tutorialmod";
-    private static final Logger LOGGER = LogUtils.getLogger();
+@Mod(Arma.MOD_ID)
+public class Arma {
+    public static final String MOD_ID = "arma";
+    public static final Logger LOGGER = LogUtils.getLogger();
 
-    public TutorialMod() {
+    public Arma() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModCreativeModTabs.register(modEventBus);
+        ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
+        ModVillagers.register(modEventBus);
+        ModLootModifiers.register(modEventBus);
+        ModEntities.register(modEventBus);
+        ModSounds.register(modEventBus);
+        ModParticles.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
-        modEventBus.addListener(this::addCreative);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-
-    }
-
-    // Add the example block item to the building blocks tab
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
 
     }
 
@@ -46,11 +57,10 @@ public class TutorialMod {
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
+    public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-
+            EntityRenderers.register(ModEntities.SUPERNOVA_EXPLOSION_ENTITY.get(), SupernovaExplosionRenderer::new);
         }
     }
 }
