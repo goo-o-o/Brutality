@@ -7,6 +7,7 @@ import net.goo.armament.entity.client.ThrownZeusThunderboltRenderer;
 import net.goo.armament.item.ModCreativeModTabs;
 import net.goo.armament.item.ModItems;
 import net.goo.armament.loot.ModLootModifiers;
+import net.goo.armament.network.PacketHandler;
 import net.goo.armament.particle.ModParticles;
 import net.goo.armament.sound.ModSounds;
 import net.goo.armament.villager.ModVillagers;
@@ -21,7 +22,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(Armament.MOD_ID)
 public class Armament {
     public static final String MOD_ID = "armament";
@@ -30,6 +30,7 @@ public class Armament {
     public Armament() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        // Register features
         ModCreativeModTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
@@ -39,29 +40,30 @@ public class Armament {
         ModSounds.register(modEventBus);
         ModParticles.register(modEventBus);
 
+
+        // Register network-related classes
+        PacketHandler.register();  // Ensure packets are properly registered
         modEventBus.addListener(this::commonSetup);
 
+        // Register general Forge event handlers (e.g., for item/ block registration)
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-
+        LOGGER.info("Armament: Performing common setup");
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-
+        LOGGER.info("Armament: Server is starting!");
     }
 
     @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public class ClientModEvents {
+    public static class ClientModEvents {
 
         @SubscribeEvent
         public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-            event.registerEntityRenderer(ModEntities.THROWN_ZEUS_THUNDERBOLT.get(), ThrownZeusThunderboltRenderer::new);
+            event.registerEntityRenderer(ModEntities.THROWN_ZEUS_THUNDERBOLT_ENTITY.get(), ThrownZeusThunderboltRenderer::new);
         }
     }
-
-
 }

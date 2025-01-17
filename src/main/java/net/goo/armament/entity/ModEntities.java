@@ -2,8 +2,8 @@ package net.goo.armament.entity;
 
 import net.goo.armament.Armament;
 import net.goo.armament.entity.custom.SupernovaExplosionEntity;
-import net.goo.armament.entity.custom.TestTridentEntity;
-import net.goo.armament.entity.custom.ThrownZeusThunderbolt;
+
+import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -22,21 +22,13 @@ public class ModEntities {
                             .sized(1.0F, 1.0F)
                             .build("supernova_explosion"));
 
-    public static final RegistryObject<EntityType<ThrownZeusThunderbolt>> THROWN_ZEUS_THUNDERBOLT =
+    public static final RegistryObject<EntityType<ThrownZeusThunderboltEntity>> THROWN_ZEUS_THUNDERBOLT_ENTITY =
             ENTITY_TYPES.register("thrown_zeus_thunderbolt",
-                    () -> EntityType.Builder.<ThrownZeusThunderbolt>of(ThrownZeusThunderbolt::new, MobCategory.MISC)
+                    () -> EntityType.Builder.<ThrownZeusThunderboltEntity>of(ThrownZeusThunderboltEntity::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
                             .clientTrackingRange(4)
                             .setUpdateInterval(20)
                             .build("thrown_zeus_thunderbolt"));
-
-    public static final RegistryObject<EntityType<TestTridentEntity>> TEST_TRIDENT_ENTITY =
-            ENTITY_TYPES.register("test_trident_entity",
-                    () -> EntityType.Builder.<TestTridentEntity>of(TestTridentEntity::new, MobCategory.MISC)
-                            .sized(0.5F, 0.5F)
-                            .clientTrackingRange(4)
-                            .setUpdateInterval(20)
-                            .build("test_trident_entity"));
 
 
     public static void register(IEventBus eventBus) {

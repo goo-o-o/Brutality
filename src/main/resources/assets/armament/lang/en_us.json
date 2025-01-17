@@ -1,6 +1,17 @@
 {
   "item.armament.supernova_sword": "\u00a75\u00a7lSuper\u00a7e\u00a7lNova",
-  "item.armament.zeus_thunderbolt": "\u00a7e\u00a7lZeus' Thunderbolt",
+  "item.armament.supernova_sword.desc1": "\u00a7dForged with the heart of a \u00a7ldying star.",
+  "item.armament.supernova_sword.desc3": "\u00a7e\u00a7lStarburst",
+  "item.armament.supernova_sword.desc4": "\u00a7gDoes AoE damage to nearby mobs",
 
+
+  "item.armament.zeus_thunderbolt": "\u00a7e\u00a7lZeus' Thunderbolt",
+  "item.armament.zeus_thunderbolt.desc1": "\u00A7eStrike down your foes with the might of \u00A7l\u00A7oZeus\u00A7r\u00A7e!",
+  "item.armament.zeus_thunderbolt.desc3": "\u00A76\u00A7lHermes' Blessing",
+  "item.armament.zeus_thunderbolt.desc4": "\u00A7r\u00A76Gain increased movement speed",
+
+
+
+  "linebreak": "",
   "creativeTab.armament_tab": "Armament Tab"
 }

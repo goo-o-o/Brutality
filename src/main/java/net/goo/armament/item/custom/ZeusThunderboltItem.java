@@ -2,9 +2,11 @@ package net.goo.armament.item.custom;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.armament.entity.custom.ThrownZeusThunderbolt;
+import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
 import net.goo.armament.item.custom.client.ZeusThunderboltItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -12,6 +14,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -21,47 +24,83 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoItem {
-        public static final int THROW_THRESHOLD_TIME = 10;
-        public static final float BASE_DAMAGE = 8.0F;
-        public static final float SHOOT_POWER = 2.5F;
-        private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+    public static final int THROW_THRESHOLD_TIME = 10;
+    public static final float BASE_DAMAGE = 8.0F;
+    public static final float SHOOT_POWER = 2.5F;
+    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+    private static final UUID SPEED_BOOST_UUID = UUID.fromString("f9d0a647-4999-4637-b4a0-7f768a65b5db");  // Unique UUID for speed boost modifier
 
-        public ZeusThunderboltItem(Item.Properties pProperties) {
-            super(pProperties);
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 8.0D, AttributeModifier.Operation.ADDITION));
-            builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", (double)-2.9F, AttributeModifier.Operation.ADDITION));
-            this.defaultModifiers = builder.build();
-        }
+    public ZeusThunderboltItem(Item.Properties pProperties) {
+        super(pProperties);
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 8.0D, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", (double)-2.9F, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(SPEED_BOOST_UUID, "Tool modifier",2, AttributeModifier.Operation.ADDITION));
+        this.defaultModifiers = builder.build();
 
-    public UseAnim getUseAnimation(ItemStack itemStack) {
+
+    }
+
+
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc1"));
+        pTooltipComponents.add(Component.translatable("linebreak"));
+        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc3"));
+        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc4"));
+        pTooltipComponents.add(Component.translatable("linebreak"));
+
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
+
+    @Override
+    public ItemStack getDefaultInstance() {
+        ItemStack stack = new ItemStack(this);
+        EnchantmentHelper.setEnchantments(Map.of(Enchantments.LOYALTY, 5, Enchantments.INFINITY_ARROWS, 1), stack);
+        return stack;
+    }
+
+    public boolean canAttackBlock(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer) {
+        return !pPlayer.isCreative();
+    }
+
+    /**
+     * Returns the action that specifies what animation to play when the item is being used.
+     */
+    public UseAnim getUseAnimation(ItemStack pStack) {
         return UseAnim.SPEAR;
     }
 
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level p_43405_, Player p_43406_, InteractionHand p_43407_) {
-        ItemStack itemstack = p_43406_.getItemInHand(p_43407_);
-        {
-            p_43406_.startUsingItem(p_43407_);
-            return InteractionResultHolder.consume(itemstack);
-        }
+    /**
+     * How long it takes to use or consume an item
+     */
+    public int getUseDuration(ItemStack pStack) {
+        return 72000;
     }
 
 
-    @Override
+
+    /**
+     * Called when the player stops using an Item (stops holding the right mouse button).
+     */
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving, int pTimeLeft) {
         if (pEntityLiving instanceof Player player) {
             int i = this.getUseDuration(pStack) - pTimeLeft;
@@ -73,23 +112,19 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
                             p_43388_.broadcastBreakEvent(pEntityLiving.getUsedItemHand());
                         });
                         if (j == 0) {
-                            Vec3 spawnPos = player.getEyePosition();
-                            ThrownZeusThunderbolt thrownZeusThunderbolt = new ThrownZeusThunderbolt(pLevel, (LivingEntity) player, pStack);
-                            thrownZeusThunderbolt.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 0.0F); // Correct usage, constant speed
+                            ThrownZeusThunderboltEntity thrownZeusThunderbolt = new ThrownZeusThunderboltEntity(pLevel, player, pStack);
+                            thrownZeusThunderbolt.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F + (float)j * 0.5F, 0.0F);
 
                             if (player.getAbilities().instabuild) {
                                 thrownZeusThunderbolt.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                             }
 
-                            thrownZeusThunderbolt.setPos(spawnPos.x, spawnPos.y + 1, spawnPos.z);
-
                             pLevel.addFreshEntity(thrownZeusThunderbolt);
-                            pLevel.playSound(null, thrownZeusThunderbolt, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
-                            if (!player.getAbilities().instabuild) {
-                                player.getInventory().removeItem(pStack);
-                            }
+                            pLevel.playSound((Player)null, thrownZeusThunderbolt, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+
                         }
                     }
+
                     player.awardStat(Stats.ITEM_USED.get(this));
                     if (j > 0) {
                         float f7 = player.getYRot();
@@ -102,7 +137,7 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
                         f1 *= f5 / f4;
                         f2 *= f5 / f4;
                         f3 *= f5 / f4;
-                        player.push(f1, f2, f3);
+                        player.push((double)f1, (double)f2, (double)f3);
                         player.startAutoSpinAttack(20);
                         if (player.onGround()) {
                             float f6 = 1.1999999F;
@@ -118,7 +153,7 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
                             soundevent = SoundEvents.TRIDENT_RIPTIDE_1;
                         }
 
-                        pLevel.playSound(null, player, soundevent, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        pLevel.playSound((Player)null, player, soundevent, SoundSource.PLAYERS, 1.0F, 1.0F);
                     }
 
                 }
@@ -126,7 +161,30 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
         }
     }
 
+    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
+        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        if (EnchantmentHelper.getRiptide(itemstack) > 0 && !pPlayer.isInWaterOrRain()) {
+            return InteractionResultHolder.fail(itemstack);
+        } else {
+            pPlayer.startUsingItem(pHand);
+            return InteractionResultHolder.consume(itemstack);
+        }
+    }
 
+
+    public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntityLiving) {
+        if ((double)pState.getDestroySpeed(pLevel, pPos) != 0.0D) {
+            pStack.hurtAndBreak(2, pEntityLiving, (p_43385_) -> {
+                p_43385_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+            });
+        }
+
+        return true;
+    }
+
+    public int getEnchantmentValue() {
+        return 1;
+    }
 
     private PlayState predicate(AnimationState animationState) {
         animationState.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));

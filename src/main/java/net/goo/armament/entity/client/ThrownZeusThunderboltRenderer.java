@@ -1,34 +1,49 @@
 package net.goo.armament.entity.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.goo.armament.Armament;
-import net.goo.armament.entity.custom.ThrownZeusThunderbolt;
+import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
-import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
+import net.minecraft.util.Mth;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class ThrownZeusThunderboltRenderer extends GeoEntityRenderer<ThrownZeusThunderbolt> {
+@OnlyIn(Dist.CLIENT)
+public class ThrownZeusThunderboltRenderer extends EntityRenderer<ThrownZeusThunderboltEntity> {
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Armament.MOD_ID, "textures/entity/thrown_zeus_thunderbolt.png");
+    private final ThrownZeusThunderboltModel model;
 
-    public ThrownZeusThunderboltRenderer(EntityRendererProvider.Context context) { // Correct constructor!
-        super(context, new ThrownZeusThunderboltModel());
-        this.addRenderLayer(new AutoGlowingGeoLayer<>(this));
-    }
-
-
-    @Override
-    public void render(ThrownZeusThunderbolt entity, float entityYaw, float partialTick, PoseStack poseStack,
-                       MultiBufferSource bufferSource, int packedLight) {
-
-        poseStack.pushPose();
-
-        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
-        poseStack.popPose();
+    public ThrownZeusThunderboltRenderer(EntityRendererProvider.Context pContext) {
+        super(pContext);
+        this.model = new ThrownZeusThunderboltModel(pContext.bakeLayer(ModModelLayers.THROWN_ZEUS_THUNDERBOLT_ENTITY_LAYER));
     }
 
     @Override
-    public ResourceLocation getTextureLocation(ThrownZeusThunderbolt animatable) {
-        return new ResourceLocation(Armament.MOD_ID, "textures/entity/thrown_zeus_thunderbolt.png");
+    public ResourceLocation getTextureLocation(ThrownZeusThunderboltEntity pEntity) {
+        return TEXTURE;
     }
+
+    public void render(ThrownZeusThunderboltEntity pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+        pPoseStack.pushPose();
+        pPoseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(pPartialTicks, pEntity.yRotO, pEntity.getYRot()) - 90.0F));
+        pPoseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(pPartialTicks, pEntity.xRotO, pEntity.getXRot()) + 90.0F));
+        VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(pBuffer, this.model.renderType(this.getTextureLocation(pEntity)), false, pEntity.isFoil());
+        this.model.renderToBuffer(pPoseStack, vertexconsumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        pPoseStack.popPose();
+        super.render(pEntity, pEntityYaw, pPartialTicks, pPoseStack, pBuffer, pPackedLight);
+    }
+
+    @Override
+    protected int getBlockLightLevel(ThrownZeusThunderboltEntity pEntity, BlockPos pPos) {
+        return 15; // This will make it always emit maximum light, making the entity appear emissive
+    }
+
 }

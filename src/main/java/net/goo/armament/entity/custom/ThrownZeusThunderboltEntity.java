@@ -4,8 +4,6 @@ import net.goo.armament.entity.ModEntities;
 import net.goo.armament.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -23,31 +21,27 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
 
 import javax.annotation.Nullable;
 
-public class ThrownZeusThunderbolt extends AbstractArrow implements GeoEntity {
-    private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-    private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(ThrownZeusThunderbolt.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownZeusThunderbolt.class, EntityDataSerializers.BOOLEAN);
+public class ThrownZeusThunderboltEntity extends AbstractArrow {
+    private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(ThrownZeusThunderboltEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownZeusThunderboltEntity.class, EntityDataSerializers.BOOLEAN);
     private ItemStack tridentItem = new ItemStack(ModItems.ZEUS_THUNDERBOLT_TRIDENT.get());
     private boolean dealtDamage;
-    private int clientSideReturnThunderboltTickCount;
+    private int clientSideReturnTridentTickCount;
+    private int i;
+    private BlockState lastState;
 
-    public ThrownZeusThunderbolt(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
+    public ThrownZeusThunderboltEntity(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
-    public ThrownZeusThunderbolt(Level pLevel, LivingEntity pShooter, ItemStack pStack) {
-        super(ModEntities.THROWN_ZEUS_THUNDERBOLT.get(), pShooter, pLevel);
+    public ThrownZeusThunderboltEntity(Level pLevel, LivingEntity pShooter, ItemStack pStack) {
+        super(ModEntities.THROWN_ZEUS_THUNDERBOLT_ENTITY.get(), pShooter, pLevel);
         this.tridentItem = pStack.copy();
         this.entityData.set(ID_LOYALTY, (byte) EnchantmentHelper.getLoyalty(pStack));
         this.entityData.set(ID_FOIL, pStack.hasFoil());
@@ -59,23 +53,33 @@ public class ThrownZeusThunderbolt extends AbstractArrow implements GeoEntity {
         this.entityData.define(ID_FOIL, false);
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
+
+    @Override
+    public boolean isNoGravity() {
+        return true;
+    }
+
     public void tick() {
         if (this.inGroundTime > 4) {
             this.dealtDamage = true;
         }
 
+        if (this.tickCount >= 1200) {
+            this.discard();
+        }
+
+        this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.02D, 0.0D));  // Update the DeltaMovement
+
         Entity entity = this.getOwner();
         int i = this.entityData.get(ID_LOYALTY);
-        if (i > 0 && (this.dealtDamage || this.isNoPhysics()) && entity != null) {
+        if (i > 0 && (this.dealtDamage || this.isNoPhysics()) && entity != null) { // Check if hit mob or block and there is an owner
             if (!this.isAcceptibleReturnOwner()) {
                 if (!this.level().isClientSide && this.pickup == AbstractArrow.Pickup.ALLOWED) {
-                    this.spawnAtLocation(this.getPickupItem(), 0.1F);
+                this.discard();
+
                 }
 
-                this.discard();
+
             } else {
                 this.setNoPhysics(true);
                 Vec3 vec3 = entity.getEyePosition().subtract(this.position());
@@ -85,21 +89,16 @@ public class ThrownZeusThunderbolt extends AbstractArrow implements GeoEntity {
                 }
 
                 double d0 = 0.05D * (double)i;
-                this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(vec3.normalize().scale(d0)));
-                if (this.clientSideReturnThunderboltTickCount == 0) {
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(vec3.normalize().scale(d0))); // Base Loyalty + Loyalty level speed
+                if (this.clientSideReturnTridentTickCount == 0) {
                     this.playSound(SoundEvents.TRIDENT_RETURN, 10.0F, 1.0F);
                 }
 
-                ++this.clientSideReturnThunderboltTickCount;
+                ++this.clientSideReturnTridentTickCount;
             }
         }
 
         super.tick();
-    }
-
-    @Override
-    public void setNoGravity(boolean pNoGravity) {
-        super.setNoGravity(true);
     }
 
     private boolean isAcceptibleReturnOwner() {
@@ -112,8 +111,13 @@ public class ThrownZeusThunderbolt extends AbstractArrow implements GeoEntity {
     }
 
     protected ItemStack getPickupItem() {
-        return this.tridentItem.copy();
+        return ItemStack.EMPTY;
     }
+
+    protected boolean tryPickup(Player pPlayer) {
+        return super.tryPickup(pPlayer) || this.isNoPhysics() && this.ownedBy(pPlayer);
+    }
+
 
     public boolean isFoil() {
         return this.entityData.get(ID_FOIL);
@@ -132,18 +136,13 @@ public class ThrownZeusThunderbolt extends AbstractArrow implements GeoEntity {
      */
     protected void onHitEntity(EntityHitResult pResult) {
         Entity entity = pResult.getEntity();
-        if (entity == this.getOwner()) {
-            return;
-        }
-
-        entity = pResult.getEntity();
         float f = 8.0F;
         if (entity instanceof LivingEntity livingentity) {
             f += EnchantmentHelper.getDamageBonus(this.tridentItem, livingentity.getMobType());
         }
 
         Entity entity1 = this.getOwner();
-        DamageSource damagesource = this.damageSources().trident(this, (Entity) (entity1 == null ? this : entity1));
+        DamageSource damagesource = this.damageSources().trident(this, (Entity)(entity1 == null ? this : entity1));
         this.dealtDamage = true;
         SoundEvent soundevent = SoundEvents.TRIDENT_HIT;
         if (entity.hurt(damagesource, f)) {
@@ -152,10 +151,10 @@ public class ThrownZeusThunderbolt extends AbstractArrow implements GeoEntity {
             }
 
             if (entity instanceof LivingEntity) {
-                LivingEntity livingentity1 = (LivingEntity) entity;
+                LivingEntity livingentity1 = (LivingEntity)entity;
                 if (entity1 instanceof LivingEntity) {
                     EnchantmentHelper.doPostHurtEffects(livingentity1, entity1);
-                    EnchantmentHelper.doPostDamageEffects((LivingEntity) entity1, livingentity1);
+                    EnchantmentHelper.doPostDamageEffects((LivingEntity)entity1, livingentity1);
                 }
 
                 this.doPostHurtEffects(livingentity1);
@@ -164,13 +163,13 @@ public class ThrownZeusThunderbolt extends AbstractArrow implements GeoEntity {
 
         this.setDeltaMovement(this.getDeltaMovement().multiply(-0.01D, -0.1D, -0.01D));
         float f1 = 1.0F;
-        if (this.level() instanceof ServerLevel && this.level().isThundering() && this.isChanneling()) {
+        if (this.level() instanceof ServerLevel) {
             BlockPos blockpos = entity.blockPosition();
             if (this.level().canSeeSky(blockpos)) {
                 LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(this.level());
                 if (lightningbolt != null) {
                     lightningbolt.moveTo(Vec3.atBottomCenterOf(blockpos));
-                    lightningbolt.setCause(entity1 instanceof ServerPlayer ? (ServerPlayer) entity1 : null);
+                    lightningbolt.setCause(entity1 instanceof ServerPlayer ? (ServerPlayer)entity1 : null);
                     this.level().addFreshEntity(lightningbolt);
                     soundevent = SoundEvents.TRIDENT_THUNDER;
                     f1 = 5.0F;
@@ -180,24 +179,6 @@ public class ThrownZeusThunderbolt extends AbstractArrow implements GeoEntity {
 
         this.playSound(soundevent, f1, 1.0F);
     }
-
-    public boolean isChanneling() {
-        return EnchantmentHelper.hasChanneling(this.tridentItem);
-    }
-
-    protected boolean tryPickup(Player pPlayer) {
-        return super.tryPickup(pPlayer) || this.isNoPhysics() && this.ownedBy(pPlayer) && pPlayer.getInventory().add(this.getPickupItem());
-    }
-
-    @Override
-    public boolean canCollideWith(Entity entity) {
-        return super.canCollideWith(entity) && !this.isOwner(entity);
-    }
-
-    private boolean isOwner(Entity entity) {
-        return this.getOwner() != null && this.getOwner().equals(entity);
-    }
-
 
     /**
      * The sound made when an entity is hit by this projectile
@@ -221,8 +202,8 @@ public class ThrownZeusThunderbolt extends AbstractArrow implements GeoEntity {
      */
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        if (pCompound.contains("Trident", 10)) {
-            this.tridentItem = ItemStack.of(pCompound.getCompound("Trident"));
+        if (pCompound.contains("ThrownThunderbolt", 10)) {
+            this.tridentItem = ItemStack.of(pCompound.getCompound("ThrownThunderbolt"));
         }
 
         this.dealtDamage = pCompound.getBoolean("DealtDamage");
@@ -231,7 +212,7 @@ public class ThrownZeusThunderbolt extends AbstractArrow implements GeoEntity {
 
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.put("Trident", this.tridentItem.save(new CompoundTag()));
+        pCompound.put("ThrownThunderbolt", this.tridentItem.save(new CompoundTag()));
         pCompound.putBoolean("DealtDamage", this.dealtDamage);
     }
 
@@ -250,25 +231,4 @@ public class ThrownZeusThunderbolt extends AbstractArrow implements GeoEntity {
     public boolean shouldRender(double pX, double pY, double pZ) {
         return true;
     }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
-
-    private PlayState animationPredicate(AnimationState animationState) {
-        animationState.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
-        return PlayState.CONTINUE;
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::animationPredicate));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
-    }
-
 }

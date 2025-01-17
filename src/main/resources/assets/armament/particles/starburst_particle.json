@@ -1,0 +1,29 @@
+{
+  "textures": [
+    "armament:starburst/starburst_particle_1",
+    "armament:starburst/starburst_particle_2",
+    "armament:starburst/starburst_particle_3",
+    "armament:starburst/starburst_particle_4",
+    "armament:starburst/starburst_particle_5",
+    "armament:starburst/starburst_particle_6",
+    "armament:starburst/starburst_particle_7",
+    "armament:starburst/starburst_particle_8",
+    "armament:starburst/starburst_particle_9",
+    "armament:starburst/starburst_particle_10",
+    "armament:starburst/starburst_particle_11",
+    "armament:starburst/starburst_particle_12",
+    "armament:starburst/starburst_particle_13",
+    "armament:starburst/starburst_particle_14",
+    "armament:starburst/starburst_particle_15",
+    "armament:starburst/starburst_particle_16",
+    "armament:starburst/starburst_particle_17",
+    "armament:starburst/starburst_particle_18",
+    "armament:starburst/starburst_particle_19",
+    "armament:starburst/starburst_particle_20",
+    "armament:starburst/starburst_particle_21",
+    "armament:starburst/starburst_particle_22",
+    "armament:starburst/starburst_particle_23",
+    "armament:starburst/starburst_particle_24",
+    "armament:starburst/starburst_particle_25"
+  ]
+}

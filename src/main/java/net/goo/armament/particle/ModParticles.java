@@ -15,6 +15,9 @@ public class ModParticles{
     public static final RegistryObject<SimpleParticleType> SUPERNOVA_SWORD_PARTICLE =
             PARTICLE_TYPES.register("supernova_sword_particle", () -> new SimpleParticleType(true));
 
+    public static final RegistryObject<SimpleParticleType> STARBURST_PARTICLE =
+            PARTICLE_TYPES.register("starburst_particle", () -> new SimpleParticleType(true));
+
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);
     }

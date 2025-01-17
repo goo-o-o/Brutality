@@ -14,13 +14,12 @@ public class ModCreativeModTabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Armament.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> ARMAMENT_TAB = CREATIVE_MODE_TABS.register("armament_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SUPERNOVA_SWORD.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.ZEUS_THUNDERBOLT_TRIDENT.get()))
                     .title(Component.translatable("creativeTab.armament_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
 
                         output.accept(ModItems.SUPERNOVA_SWORD.get());
-                        output.accept(ModItems.ZEUS_THUNDERBOLT_TRIDENT.get());
-                        output.accept(ModItems.TEST_TRIDENT.get());
+                        output.accept(ModItems.ZEUS_THUNDERBOLT_TRIDENT.get().getDefaultInstance());
 
                     })
                     .build());
