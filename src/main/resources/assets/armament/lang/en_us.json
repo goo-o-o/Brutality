@@ -1,17 +1,29 @@
 {
   "item.armament.supernova_sword": "\u00a75\u00a7lSuper\u00a7e\u00a7lNova",
-  "item.armament.supernova_sword.desc1": "\u00a7dForged with the heart of a \u00a7ldying star.",
+  "item.armament.supernova_sword.desc1": "\u00a7d\u00a7oForged with the heart of a dying star, this sword hums with celestial energy. Within its hilt lay pure cosmic power, ready wreck destruction at any moment.",
   "item.armament.supernova_sword.desc3": "\u00a7e\u00a7lStarburst",
   "item.armament.supernova_sword.desc4": "\u00a7gDoes AoE damage to nearby mobs",
 
 
   "item.armament.zeus_thunderbolt": "\u00a7e\u00a7lZeus' Thunderbolt",
-  "item.armament.zeus_thunderbolt.desc1": "\u00A7eStrike down your foes with the might of \u00A7l\u00A7oZeus\u00A7r\u00A7e!",
+  "item.armament.zeus_thunderbolt.desc1": "\u00A7e\u00a7o\",Crafted by the hand of the mighty god \u00a7lZeus\u00a7r\u00a7e\u00a7o, this thunderous weapon channels the fury of the heavens. Its crackling energy strikes with the force of a storm, bringing divine retribution upon all who stand before it.\"",
   "item.armament.zeus_thunderbolt.desc3": "\u00A76\u00A7lHermes' Blessing",
   "item.armament.zeus_thunderbolt.desc4": "\u00A7r\u00A76Gain increased movement speed",
 
+  "item.armament.seeker_of_knowledge_sword": "\u00a7a\u00a7lSeeker of Knowledge",
+  "item.armament.seeker_of_knowledge_sword.desc1": "\u00a72\u00a7o\"In the relentless pursuit of knowledge, its blade carves through the veil of ignorance, severing falsehoods and casting light into the darkest corners of understanding. Each swing carries the weight of unspoken truths, leaving a path of shattered illusions and unyielding clarity in its wake.\"",
+  "item.armament.seeker_of_knowledge_sword.desc3": "\u00A7a\u00A7lSage's Tribute",
+  "item.armament.seeker_of_knowledge_sword.desc4": "\u00A72Gain 100% increased experience from all sources",
 
+  "item.armament.terraton_hammer": "\u00a77\u00a7lTerraton Hammer",
+  "item.armament.terraton_hammer.desc1": "\u00a72\u00a7o\"Forged from the unyielding core of an ancient golem, this colossal hammer carries the weight of forgotten eons. Each strike echoes with the power of the earth, capable of shattering stone and bone alike. Wield it wisely, for its strength demands a heavy toll.\"",
+  "item.armament.terraton_hammer.desc3": "\u00A77\u00A7lColossal Blow",
+  "item.armament.terraton_hammer.desc4": "\u00A72Deal massive damage at the cost of movement and attack speed",
 
-  "linebreak": "",
-  "creativeTab.armament_tab": "Armament Tab"
+  "item.armament.divine_rhitta_axe": "\u00A7e\u00A7lDivine Axe Rhitta",
+  "item.armament.divine_rhitta_axe.desc1": "\u00A76\u00A7o\"A colossal battle axe imbued with the boundless power of the sun. Originally wielded by Lion Sin Escanor, the One who stands at the pinnacle of all races.\"",
+  "item.armament.divine_rhitta_axe.desc3": "\u00A7e\u00A7lCruel Sun",
+  "item.armament.divine_rhitta_axe.desc4": "\u00A76Right click to summon a miniature sun that ignites all nearby mobs",
+
+  "creativeTab.armament_tab": "Armament"
 }

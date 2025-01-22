@@ -1,0 +1,18 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "armament:item/terraton_hammer_3d"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "armament:item/terraton_hammer_2d"
+    },
+    "ground": {
+      "parent": "armament:item/terraton_hammer_3d"
+    },
+    "fixed": {
+      "parent": "armament:item/terraton_hammer_2d"
+    }
+  }
+}

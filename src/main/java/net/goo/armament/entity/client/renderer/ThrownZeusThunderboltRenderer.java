@@ -1,9 +1,11 @@
-package net.goo.armament.entity.client;
+package net.goo.armament.entity.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.goo.armament.Armament;
+import net.goo.armament.entity.client.ModModelLayers;
+import net.goo.armament.entity.client.model.ThrownZeusThunderboltModel;
 import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;

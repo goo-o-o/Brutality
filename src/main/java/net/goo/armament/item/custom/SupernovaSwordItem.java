@@ -36,10 +36,10 @@ public class SupernovaSwordItem extends SwordItem implements GeoItem {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("item.armament.supernova_sword.desc1"));
-        pTooltipComponents.add(Component.translatable("linebreak"));
+        pTooltipComponents.add(Component.literal(""));
         pTooltipComponents.add(Component.translatable("item.armament.supernova_sword.desc3"));
         pTooltipComponents.add(Component.translatable("item.armament.supernova_sword.desc4"));
-        pTooltipComponents.add(Component.translatable("linebreak"));
+        pTooltipComponents.add(Component.literal(""));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

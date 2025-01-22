@@ -1,0 +1,52 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"rotating": {
+			"loop": true,
+			"animation_length": 4,
+			"bones": {
+				"cruel_sun": {
+					"rotation": [0, "(query.life_time * 90) % 360", 0],
+					"position": [0, "math.cos(query.life_time * 360) / 2", 0],
+					"scale": [3, 3, 3]
+				},
+				"ring": {
+					"rotation": [0, "(query.life_time * 90) % 360", 0],
+					"position": [0, "math.cos(query.life_time * 360) / 2", 0],
+					"scale": [3, 3, 3]
+				}
+			}
+		},
+		"spawn": {
+			"loop": "false",
+			"animation_length": 1,
+			"bones": {
+				"cruel_sun": {
+					"scale": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [3, 3, 3],
+							"easing": "easeInElastic"
+						}
+					},
+					"rotation": [0, "(query.life_time * 90) % 360", 0]
+				},
+				"ring": {
+					"scale": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [3, 3, 3],
+							"easing": "easeInElastic"
+						}
+					},
+					"rotation": [0, "(query.life_time * 90) % 360", 0]
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

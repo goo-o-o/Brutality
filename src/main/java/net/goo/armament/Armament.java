@@ -3,9 +3,15 @@ package net.goo.armament;
 import com.mojang.logging.LogUtils;
 import net.goo.armament.block.ModBlocks;
 import net.goo.armament.entity.ModEntities;
-import net.goo.armament.entity.client.ThrownZeusThunderboltRenderer;
+import net.goo.armament.entity.client.ModModelLayers;
+import net.goo.armament.entity.client.model.CruelSun2Model;
+import net.goo.armament.entity.client.model.ThrownZeusThunderboltModel;
+import net.goo.armament.entity.client.renderer.CruelSun2Renderer;
+import net.goo.armament.entity.client.renderer.CruelSunRenderer;
+import net.goo.armament.entity.client.renderer.ThrownZeusThunderboltRenderer;
 import net.goo.armament.item.ModCreativeModTabs;
 import net.goo.armament.item.ModItems;
+import net.goo.armament.item.custom.SeekerOfKnowledgeSwordXPHandler;
 import net.goo.armament.loot.ModLootModifiers;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.particle.ModParticles;
@@ -40,6 +46,8 @@ public class Armament {
         ModSounds.register(modEventBus);
         ModParticles.register(modEventBus);
 
+        // Item specific features
+        SeekerOfKnowledgeSwordXPHandler.register();
 
         // Register network-related classes
         PacketHandler.register();  // Ensure packets are properly registered
@@ -60,10 +68,17 @@ public class Armament {
 
     @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
-
         @SubscribeEvent
         public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
             event.registerEntityRenderer(ModEntities.THROWN_ZEUS_THUNDERBOLT_ENTITY.get(), ThrownZeusThunderboltRenderer::new);
+            event.registerEntityRenderer(ModEntities.CRUEL_SUN_ENTITY.get(), CruelSunRenderer::new);
+            event.registerEntityRenderer(ModEntities.CRUEL_SUN_ENTITY_2.get(), CruelSun2Renderer::new);
+        }
+
+        @SubscribeEvent
+        public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
+            event.registerLayerDefinition(ModModelLayers.THROWN_ZEUS_THUNDERBOLT_ENTITY_LAYER, ThrownZeusThunderboltModel::createBodyLayer);
+            event.registerLayerDefinition(ModModelLayers.CRUEL_SUN_2_ENTITY_LAYER, CruelSun2Model::createBodyLayer);
         }
     }
 }

@@ -1,0 +1,53 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "texture_size": [
+    64,
+    64
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -7.5,
+        1
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -6,
+        1
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        4,
+        -12,
+        -4
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        4,
+        -12,
+        -4
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        -4,
+        0
+      ]
+    }
+  },
+  "textures": {
+    "particle": "armament:item/texture"
+  }
+}

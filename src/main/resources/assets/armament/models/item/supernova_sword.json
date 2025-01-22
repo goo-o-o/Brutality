@@ -9,7 +9,7 @@
       "parent": "armament:item/supernova_sword_2d"
     },
     "ground": {
-      "parent": "armament:item/supernova_sword_2d"
+      "parent": "armament:item/supernova_sword_3d"
     },
     "fixed": {
       "parent": "armament:item/supernova_sword_2d"

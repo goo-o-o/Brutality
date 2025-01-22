@@ -9,7 +9,7 @@
       "parent": "armament:item/zeus_thunderbolt_2d"
     },
     "ground": {
-      "parent": "armament:item/zeus_thunderbolt_2d"
+      "parent": "armament:item/zeus_thunderbolt_3d"
     },
     "fixed": {
       "parent": "armament:item/zeus_thunderbolt_2d"

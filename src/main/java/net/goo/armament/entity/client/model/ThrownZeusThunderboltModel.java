@@ -1,4 +1,4 @@
-package net.goo.armament.entity.client;// Made with Blockbench 4.11.2
+package net.goo.armament.entity.client.model;// Made with Blockbench 4.11.2
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 

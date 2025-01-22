@@ -56,17 +56,16 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
         builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(SPEED_BOOST_UUID, "Tool modifier",2, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
 
-
     }
 
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc1"));
-        pTooltipComponents.add(Component.translatable("linebreak"));
+        pTooltipComponents.add(Component.literal(""));
         pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc3"));
         pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc4"));
-        pTooltipComponents.add(Component.translatable("linebreak"));
+        pTooltipComponents.add(Component.literal(""));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

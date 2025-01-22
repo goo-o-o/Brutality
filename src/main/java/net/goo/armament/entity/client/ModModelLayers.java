@@ -5,8 +5,12 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
 
 public class ModModelLayers {
-    public static final ModelLayerLocation SUPERNOVA_EXPLOSION_LAYER = new ModelLayerLocation(
-            new ResourceLocation(Armament.MOD_ID, "supernova_explosion_layer"), "main");
     public static final ModelLayerLocation THROWN_ZEUS_THUNDERBOLT_ENTITY_LAYER = new ModelLayerLocation(
             new ResourceLocation(Armament.MOD_ID, "thrown_zeus_thunderbolt"), "main");
+
+    public static final ModelLayerLocation CRUEL_SUN_ENTITY_LAYER = new ModelLayerLocation(
+            new ResourceLocation(Armament.MOD_ID, "cruel_sun"), "main");
+
+    public static final ModelLayerLocation CRUEL_SUN_2_ENTITY_LAYER = new ModelLayerLocation(
+            new ResourceLocation(Armament.MOD_ID, "cruel_sun"), "main");
 }
