@@ -23,7 +23,7 @@ public class ForgeEventBusClientEvents {
         if (level.isClientSide()) {
             if (player.getMainHandItem().getItem() instanceof SupernovaSwordItem) {
                 if (tickCounter >= 4) {
-                spawnSwordParticles(player, level);
+                spawnSupernovaSwordParticles(player, level);
                     tickCounter = 0;
                 }
                 tickCounter++;
@@ -32,7 +32,7 @@ public class ForgeEventBusClientEvents {
     }
 
     // Handle particle spawning logic
-    private static void spawnSwordParticles(Player player, Level level) {
+    private static void spawnSupernovaSwordParticles(Player player, Level level) {
         Vec3 bodyDirection = player.getForward();
         Vec3 perpendicularDirection = bodyDirection.cross(new Vec3(0, 1, 0)).normalize();
 
@@ -48,5 +48,7 @@ public class ForgeEventBusClientEvents {
                 particlePosition.x, particlePosition.y, particlePosition.z,
                 velocity.x, velocity.y, velocity.z);
     }
+
+
 
 }

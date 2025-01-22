@@ -20,7 +20,7 @@ public class TerratonHammerFatigueHandler {
             // Check if the player is holding the Terraton Hammer in the main hand
             if (player.getMainHandItem().getItem() == ModItems.TERRATON_HAMMER.get()) {
                     // Apply the mining fatigue effect
-                    player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 1, 8, false, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 4, 8, false, false));
             }
         }
     }

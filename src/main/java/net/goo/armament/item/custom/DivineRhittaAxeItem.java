@@ -25,7 +25,6 @@ import java.util.function.Consumer;
 
 public class DivineRhittaAxeItem extends AxeItem implements GeoItem {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-    private int despawnTickCounter = 0; // Manual tick counter for despawning
 
     public DivineRhittaAxeItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
@@ -70,22 +69,12 @@ public class DivineRhittaAxeItem extends AxeItem implements GeoItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         if (!pLevel.isClientSide && pUsedHand == InteractionHand.MAIN_HAND) {
-            CruelSunEntity cruelSun = pLevel.getEntitiesOfClass(CruelSunEntity.class, pPlayer.getBoundingBox().inflate(50))
-                    .stream()
-                    .findFirst()
-                    .orElse(null);
-
+            CruelSunEntity cruelSun = ModEntities.CRUEL_SUN_ENTITY.get().create(pLevel);
+            pPlayer.getCooldowns().addCooldown(this, 400);
             if (cruelSun != null) {
-                cruelSun.discard();
-
-            } else {
-                CruelSunEntity entity = ModEntities.CRUEL_SUN_ENTITY.get().create(pLevel);
-                if (entity != null) {
-                    entity.setOwner(pPlayer); // Set the owner
-                    entity.setPos(pPlayer.getX(), pPlayer.getY() + 5, pPlayer.getZ());
-                    pLevel.addFreshEntity(entity);
-                } else {
-                }
+                // Set the position of the entity above the player
+                cruelSun.setPos(pPlayer.getX(), pPlayer.getY() + 5, pPlayer.getZ());
+                pLevel.addFreshEntity(cruelSun);
             }
         }
 

@@ -3,12 +3,6 @@ package net.goo.armament;
 import com.mojang.logging.LogUtils;
 import net.goo.armament.block.ModBlocks;
 import net.goo.armament.entity.ModEntities;
-import net.goo.armament.entity.client.ModModelLayers;
-import net.goo.armament.entity.client.model.CruelSun2Model;
-import net.goo.armament.entity.client.model.ThrownZeusThunderboltModel;
-import net.goo.armament.entity.client.renderer.CruelSun2Renderer;
-import net.goo.armament.entity.client.renderer.CruelSunRenderer;
-import net.goo.armament.entity.client.renderer.ThrownZeusThunderboltRenderer;
 import net.goo.armament.item.ModCreativeModTabs;
 import net.goo.armament.item.ModItems;
 import net.goo.armament.item.custom.SeekerOfKnowledgeSwordXPHandler;
@@ -17,8 +11,6 @@ import net.goo.armament.network.PacketHandler;
 import net.goo.armament.particle.ModParticles;
 import net.goo.armament.sound.ModSounds;
 import net.goo.armament.villager.ModVillagers;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -35,6 +27,7 @@ public class Armament {
 
     public Armament() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
 
         // Register features
         ModCreativeModTabs.register(modEventBus);
@@ -66,19 +59,4 @@ public class Armament {
         LOGGER.info("Armament: Server is starting!");
     }
 
-    @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents {
-        @SubscribeEvent
-        public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-            event.registerEntityRenderer(ModEntities.THROWN_ZEUS_THUNDERBOLT_ENTITY.get(), ThrownZeusThunderboltRenderer::new);
-            event.registerEntityRenderer(ModEntities.CRUEL_SUN_ENTITY.get(), CruelSunRenderer::new);
-            event.registerEntityRenderer(ModEntities.CRUEL_SUN_ENTITY_2.get(), CruelSun2Renderer::new);
-        }
-
-        @SubscribeEvent
-        public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
-            event.registerLayerDefinition(ModModelLayers.THROWN_ZEUS_THUNDERBOLT_ENTITY_LAYER, ThrownZeusThunderboltModel::createBodyLayer);
-            event.registerLayerDefinition(ModModelLayers.CRUEL_SUN_2_ENTITY_LAYER, CruelSun2Model::createBodyLayer);
-        }
-    }
 }

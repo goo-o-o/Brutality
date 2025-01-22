@@ -1,7 +1,6 @@
 package net.goo.armament.entity;
 
 import net.goo.armament.Armament;
-import net.goo.armament.entity.custom.CruelSun2Entity;
 import net.goo.armament.entity.custom.CruelSunEntity;
 import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
 import net.minecraft.world.entity.EntityType;
@@ -24,21 +23,11 @@ public class ModEntities {
                             .setUpdateInterval(20)
                             .build("thrown_zeus_thunderbolt"));
 
-    public static final RegistryObject<EntityType<CruelSunEntity>> CRUEL_SUN_ENTITY = ENTITY_TYPES.register(
-            "cruel_sun",
+    public static final RegistryObject<EntityType<CruelSunEntity>> CRUEL_SUN_ENTITY
+            = ENTITY_TYPES.register("cruel_sun",
             () -> EntityType.Builder.of(CruelSunEntity::new, MobCategory.MISC)
                     .sized(3.0f, 3.0f)
-                    .clientTrackingRange(4)
-                    .setUpdateInterval(20)
                     .build("cruel_sun"));
-
-    public static final RegistryObject<EntityType<CruelSun2Entity>> CRUEL_SUN_ENTITY_2 = ENTITY_TYPES.register(
-            "cruel_sun_2",
-            () -> EntityType.Builder.of(CruelSun2Entity::new, MobCategory.MISC)
-                    .sized(3.0f, 3.0f)
-                    .clientTrackingRange(4)
-                    .setUpdateInterval(20)
-                    .build("cruel_sun_2"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
