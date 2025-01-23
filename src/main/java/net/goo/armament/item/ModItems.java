@@ -12,10 +12,10 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, Armament.MOD_ID);
 
-    public static final RegistryObject<SwordItem> SUPERNOVA_SWORD = ITEMS.register("supernova_sword",
+    public static final RegistryObject<SwordItem> SUPERNOVA_SWORD = ITEMS.register("supernova",
             () -> new SupernovaSwordItem(Tiers.NETHERITE, 5, -2.6F, new Item.Properties()));
 
-    public static final RegistryObject<SwordItem> SEEKER_OF_KNOWLEDGE_SWORD = ITEMS.register("seeker_of_knowledge_sword",
+    public static final RegistryObject<SwordItem> SEEKER_OF_KNOWLEDGE_SWORD = ITEMS.register("seeker_of_knowledge",
             () -> new SeekerOfKnowledgeSwordItem(Tiers.NETHERITE, 1, -2.6F, new Item.Properties()));
 
     public static final RegistryObject<Item> ZEUS_THUNDERBOLT_TRIDENT = ITEMS.register("zeus_thunderbolt",
@@ -25,8 +25,11 @@ public class ModItems {
     public static final RegistryObject<SwordItem> TERRATON_HAMMER = ITEMS.register("terraton_hammer",
             () -> new TerratonHammerItem(Tiers.NETHERITE, 45, 0F, new Item.Properties()));
 
-    public static final RegistryObject<AxeItem> DIVINE_RHITTA_AXE = ITEMS.register("divine_rhitta_axe",
+    public static final RegistryObject<AxeItem> DIVINE_RHITTA_AXE = ITEMS.register("divine_axe_rhitta",
             () -> new DivineRhittaAxeItem(Tiers.NETHERITE, 8, -3.1F, new Item.Properties()));
+
+    public static final RegistryObject<Item> LEAF_BLOWER = ITEMS.register("leaf_blower",
+            () -> new LeafBlowerItem(new Item.Properties().stacksTo(1)));
 
 
     public static void register(IEventBus eventBus) {

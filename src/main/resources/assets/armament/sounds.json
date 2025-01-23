@@ -1,0 +1,20 @@
+{
+  "leaf_blower_on": {
+    "category": "item",
+    "sounds": [
+      {"name": "armament:leaf_blower_on", "stream": true}
+    ]
+  },
+  "leaf_blower_active": {
+    "category": "item",
+    "sounds": [
+      {"name": "armament:leaf_blower_active", "stream": true, "loop": true}
+    ]
+  },
+  "leaf_blower_off": {
+    "category": "item",
+    "sounds": [
+      {"name": "armament:leaf_blower_off", "stream": true}
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.item.custom.client.SeekerOfKnowledgeSwordItemRenderer;
+import net.goo.armament.item.custom.client.renderer.SeekerOfKnowledgeSwordItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -27,10 +27,10 @@ public class SeekerOfKnowledgeSwordItem extends SwordItem implements GeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.seeker_of_knowledge_sword.desc1"));
+        pTooltipComponents.add(Component.translatable("item.armament.seeker_of_knowledge.desc1"));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.seeker_of_knowledge_sword.desc3"));
-        pTooltipComponents.add(Component.translatable("item.armament.seeker_of_knowledge_sword.desc4"));
+        pTooltipComponents.add(Component.translatable("item.armament.seeker_of_knowledge.desc2"));
+        pTooltipComponents.add(Component.translatable("item.armament.seeker_of_knowledge.desc3"));
         pTooltipComponents.add(Component.literal(""));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

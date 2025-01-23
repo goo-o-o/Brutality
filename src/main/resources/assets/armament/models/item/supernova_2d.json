@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "armament:item/seeker_of_knowledge_sword_gui"
+    "layer0": "armament:item/supernova_gui"
   }
 }

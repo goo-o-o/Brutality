@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "armament:item/divine_rhitta_axe_gui"
+    "layer0": "armament:item/leaf_blower_gui"
   }
 }

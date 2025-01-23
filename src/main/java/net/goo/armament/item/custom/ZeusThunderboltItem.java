@@ -3,7 +3,7 @@ package net.goo.armament.item.custom;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
-import net.goo.armament.item.custom.client.ZeusThunderboltItemRenderer;
+import net.goo.armament.item.custom.client.renderer.ZeusThunderboltItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -63,8 +63,8 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc1"));
         pTooltipComponents.add(Component.literal(""));
+        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc2"));
         pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc3"));
-        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc4"));
         pTooltipComponents.add(Component.literal(""));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

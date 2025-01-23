@@ -3,8 +3,10 @@ package net.goo.armament.entity.custom;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+
+import java.util.List;
 
 public class CruelSunEntity extends Entity {
     private int lifespan = 200; // Total lifespan (10 seconds)
@@ -40,12 +42,16 @@ public class CruelSunEntity extends Entity {
         }
 
         if (!level().isClientSide) {
-            // Burn nearby entities
-            double radius = 10.0; // 10-block radius
-            level().getEntities(this, this.getBoundingBox().inflate(radius), entity -> entity instanceof Mob)
-                    .forEach(entity -> {
-                        entity.setSecondsOnFire(5); // Set the entity on fire for 5 seconds
-                    });
+            double radius = 10.0; // Radius within which entities are affected
+            List<Entity> entities = level().getEntities(this, this.getBoundingBox().inflate(radius),
+                    e -> e instanceof LivingEntity);
+
+            for (Entity entity : entities) {
+                if (entity instanceof LivingEntity livingEntity) {
+                    // Apply fire to the entity
+                    livingEntity.setSecondsOnFire(5); // Burn for 5 seconds
+                }
+            }
         }
     }
 

@@ -20,6 +20,7 @@ public class ModCreativeModTabs {
 
                         output.accept(ModItems.SUPERNOVA_SWORD.get());
                         output.accept(ModItems.DIVINE_RHITTA_AXE.get());
+                        output.accept(ModItems.LEAF_BLOWER.get());
                         output.accept(ModItems.TERRATON_HAMMER.get());
                         output.accept(ModItems.SEEKER_OF_KNOWLEDGE_SWORD.get());
                         output.accept(ModItems.ZEUS_THUNDERBOLT_TRIDENT.get().getDefaultInstance());

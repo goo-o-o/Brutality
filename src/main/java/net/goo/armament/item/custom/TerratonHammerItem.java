@@ -2,7 +2,7 @@ package net.goo.armament.item.custom;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.armament.item.custom.client.TerratonHammerItemRenderer;
+import net.goo.armament.item.custom.client.renderer.TerratonHammerItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -51,8 +51,8 @@ public class TerratonHammerItem extends SwordItem implements GeoItem {
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("item.armament.terraton_hammer.desc1"));
         pTooltipComponents.add(Component.literal(""));
+        pTooltipComponents.add(Component.translatable("item.armament.terraton_hammer.desc2"));
         pTooltipComponents.add(Component.translatable("item.armament.terraton_hammer.desc3"));
-        pTooltipComponents.add(Component.translatable("item.armament.terraton_hammer.desc4"));
         pTooltipComponents.add(Component.literal(""));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

@@ -1,6 +1,6 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.item.custom.client.SupernovaSwordItemRenderer;
+import net.goo.armament.item.custom.client.renderer.SupernovaSwordItemRenderer;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.network.s2cSpawnParticleFromStarburstPacket;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -19,7 +19,6 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.RenderUtils;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -37,8 +36,8 @@ public class SupernovaSwordItem extends SwordItem implements GeoItem {
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("item.armament.supernova_sword.desc1"));
         pTooltipComponents.add(Component.literal(""));
+        pTooltipComponents.add(Component.translatable("item.armament.supernova_sword.desc2"));
         pTooltipComponents.add(Component.translatable("item.armament.supernova_sword.desc3"));
-        pTooltipComponents.add(Component.translatable("item.armament.supernova_sword.desc4"));
         pTooltipComponents.add(Component.literal(""));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
@@ -57,11 +56,6 @@ public class SupernovaSwordItem extends SwordItem implements GeoItem {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
-    }
-
-    @Override
-    public double getTick(Object itemStack) {
-        return RenderUtils.getCurrentTick();
     }
 
     @Override

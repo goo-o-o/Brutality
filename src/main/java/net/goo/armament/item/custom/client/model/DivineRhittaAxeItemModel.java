@@ -1,4 +1,4 @@
-package net.goo.armament.item.custom.client;
+package net.goo.armament.item.custom.client.model;
 
 import net.goo.armament.Armament;
 import net.goo.armament.item.custom.DivineRhittaAxeItem;
@@ -7,7 +7,7 @@ import software.bernie.geckolib.model.DefaultedItemGeoModel;
 
 public class DivineRhittaAxeItemModel extends DefaultedItemGeoModel<DivineRhittaAxeItem> {
     public DivineRhittaAxeItemModel() {
-        super(new ResourceLocation(Armament.MOD_ID, "divine_rhitta_axe"));
+        super(new ResourceLocation(Armament.MOD_ID, "divine_axe_rhitta"));
     }
 
 }

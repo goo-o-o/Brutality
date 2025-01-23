@@ -2,7 +2,7 @@ package net.goo.armament.item.custom;
 
 import net.goo.armament.entity.ModEntities;
 import net.goo.armament.entity.custom.CruelSunEntity;
-import net.goo.armament.item.custom.client.DivineRhittaAxeItemRenderer;
+import net.goo.armament.item.custom.client.renderer.DivineRhittaAxeItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -32,10 +32,10 @@ public class DivineRhittaAxeItem extends AxeItem implements GeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.divine_rhitta_axe.desc1"));
+        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc1"));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.divine_rhitta_axe.desc3"));
-        pTooltipComponents.add(Component.translatable("item.armament.divine_rhitta_axe.desc4"));
+        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc2"));
+        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc3"));
         pTooltipComponents.add(Component.literal(""));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
