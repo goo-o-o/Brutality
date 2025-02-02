@@ -5,7 +5,7 @@ import net.goo.armament.block.ModBlocks;
 import net.goo.armament.entity.ModEntities;
 import net.goo.armament.item.ModCreativeModTabs;
 import net.goo.armament.item.ModItems;
-import net.goo.armament.item.custom.SeekerOfKnowledgeSwordXPHandler;
+import net.goo.armament.item.custom.TruthseekerSwordItemXpHandler;
 import net.goo.armament.loot.ModLootModifiers;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.particle.ModParticles;
@@ -40,7 +40,7 @@ public class Armament {
         ModParticles.register(modEventBus);
 
         // Item specific features
-        SeekerOfKnowledgeSwordXPHandler.register();
+        TruthseekerSwordItemXpHandler.register();
 
         // Register network-related classes
         PacketHandler.register();  // Ensure packets are properly registered

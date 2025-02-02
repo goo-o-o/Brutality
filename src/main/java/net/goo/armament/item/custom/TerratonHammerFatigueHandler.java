@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class TerratonHammerFatigueHandler {
-    private static int tickCount = 0;
 
     @SubscribeEvent
     public static void onPlayerUpdate(LivingEvent.LivingTickEvent event) {

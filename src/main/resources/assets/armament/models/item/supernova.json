@@ -2,17 +2,17 @@
   "parent": "minecraft:item/handheld",
   "loader": "forge:separate_transforms",
   "base": {
-    "parent": "armament:item/supernova_3d"
+    "parent": "armament:item/supernova_handheld"
   },
   "perspectives": {
     "gui": {
-      "parent": "armament:item/supernova_2d"
+      "parent": "armament:item/supernova_inventory"
     },
     "ground": {
-      "parent": "armament:item/supernova_3d"
+      "parent": "armament:item/supernova_handheld"
     },
     "fixed": {
-      "parent": "armament:item/supernova_2d"
+      "parent": "armament:item/supernova_inventory"
     }
   }
 }

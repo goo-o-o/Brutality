@@ -2,7 +2,9 @@ package net.goo.armament.item;
 
 import net.goo.armament.Armament;
 import net.goo.armament.item.custom.*;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.Tiers;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -12,25 +14,37 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, Armament.MOD_ID);
 
-    public static final RegistryObject<SwordItem> SUPERNOVA_SWORD = ITEMS.register("supernova",
+    public static final RegistryObject<Item> SUPERNOVA_SWORD = ITEMS.register("supernova",
             () -> new SupernovaSwordItem(Tiers.NETHERITE, 5, -2.6F, new Item.Properties()));
 
-    public static final RegistryObject<SwordItem> SEEKER_OF_KNOWLEDGE_SWORD = ITEMS.register("seeker_of_knowledge",
-            () -> new SeekerOfKnowledgeSwordItem(Tiers.NETHERITE, 1, -2.6F, new Item.Properties()));
+    public static final RegistryObject<Item> TRUTHSEEKER_SWORD = ITEMS.register("truthseeker",
+            () -> new TruthseekerSwordItem(Tiers.NETHERITE, 1, -2.6F, new Item.Properties()));
 
     public static final RegistryObject<Item> ZEUS_THUNDERBOLT_TRIDENT = ITEMS.register("zeus_thunderbolt",
             () -> new ZeusThunderboltItem(new Item.Properties()
                     .stacksTo(1).fireResistant().setNoRepair().rarity(Rarity.EPIC)));
 
-    public static final RegistryObject<SwordItem> TERRATON_HAMMER = ITEMS.register("terraton_hammer",
+    public static final RegistryObject<Item> EVENT_HORIZON_LANCE = ITEMS.register("event_horizon",
+            () -> new EventHorizonLanceItem(new Item.Properties()
+                    .stacksTo(1).fireResistant().setNoRepair().rarity(Rarity.EPIC)));
+
+    public static final RegistryObject<Item> TERRATON_HAMMER = ITEMS.register("terraton_hammer",
             () -> new TerratonHammerItem(Tiers.NETHERITE, 45, 0F, new Item.Properties()));
 
-    public static final RegistryObject<AxeItem> DIVINE_RHITTA_AXE = ITEMS.register("divine_axe_rhitta",
+    public static final RegistryObject<Item> DIVINE_RHITTA_AXE = ITEMS.register("divine_axe_rhitta",
             () -> new DivineRhittaAxeItem(Tiers.NETHERITE, 8, -3.1F, new Item.Properties()));
 
     public static final RegistryObject<Item> LEAF_BLOWER = ITEMS.register("leaf_blower",
             () -> new LeafBlowerItem(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> TERRA_BLADE = ITEMS.register("terra_blade",
+            () -> new TerraBladeSwordItem(Tiers.NETHERITE, 3, -2.2F, new Item.Properties()));
+
+    public static final RegistryObject<Item> DOOMFIST_GAUNTLET = ITEMS.register("doomfist_gauntlet",
+            () -> new DoomfistGauntletItem(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> JACKPOT_HAMMER = ITEMS.register("jackpot",
+            () -> new JackpotHammerItem(Tiers.NETHERITE, -2.6F, new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

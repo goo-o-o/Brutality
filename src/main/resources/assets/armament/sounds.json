@@ -8,13 +8,37 @@
   "leaf_blower_active": {
     "category": "item",
     "sounds": [
-      {"name": "armament:leaf_blower_active", "stream": true, "loop": true}
+      {"name": "armament:leaf_blower_active", "stream": true}
     ]
   },
   "leaf_blower_off": {
     "category": "item",
     "sounds": [
       {"name": "armament:leaf_blower_off", "stream": true}
+    ]
+  },
+  "jackpot_sound_1": {
+    "category": "item",
+    "sounds": [
+      {"name": "armament:jackpot_sound_1"}
+    ]
+  },
+  "jackpot_sound_2": {
+    "category": "item",
+    "sounds": [
+      {"name": "armament:jackpot_sound_2"}
+    ]
+  },
+  "jackpot_sound_3": {
+    "category": "item",
+    "sounds": [
+      {"name": "armament:jackpot_sound_3"}
+    ]
+  },
+  "jackpot_sound_4": {
+    "category": "item",
+    "sounds": [
+      {"name": "armament:jackpot_sound_4"}
     ]
   }
 }

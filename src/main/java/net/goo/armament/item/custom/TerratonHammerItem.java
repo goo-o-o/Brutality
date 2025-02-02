@@ -28,6 +28,7 @@ import java.util.function.Consumer;
 public class TerratonHammerItem extends SwordItem implements GeoItem {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private static final UUID MOVEMENT_SPEED_MODIFIER_UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+    private final Multimap<Attribute, AttributeModifier> attributeModifiers;
 
     public TerratonHammerItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
@@ -40,7 +41,6 @@ public class TerratonHammerItem extends SwordItem implements GeoItem {
                 .build();
     }
 
-    private final Multimap<Attribute, AttributeModifier> attributeModifiers;
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot equipmentSlot, ItemStack stack) {
@@ -49,11 +49,10 @@ public class TerratonHammerItem extends SwordItem implements GeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.terraton_hammer.desc1"));
+        pTooltipComponents.add(Component.translatable("item.armament.terraton_hammer.desc.1"));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.terraton_hammer.desc2"));
-        pTooltipComponents.add(Component.translatable("item.armament.terraton_hammer.desc3"));
-        pTooltipComponents.add(Component.literal(""));
+        pTooltipComponents.add(Component.translatable("item.armament.terraton_hammer.desc.2"));
+        pTooltipComponents.add(Component.translatable("item.armament.terraton_hammer.desc.3"));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

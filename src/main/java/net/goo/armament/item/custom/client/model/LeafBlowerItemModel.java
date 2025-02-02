@@ -7,7 +7,7 @@ import software.bernie.geckolib.model.DefaultedItemGeoModel;
 
 public class LeafBlowerItemModel extends DefaultedItemGeoModel<LeafBlowerItem> {
     public LeafBlowerItemModel() {
-        super(new ResourceLocation(Armament.MOD_ID, "leaf_blower"));
+        super(new ResourceLocation(Armament.MOD_ID, "leaf_blower_handheld"));
     }
 
 }

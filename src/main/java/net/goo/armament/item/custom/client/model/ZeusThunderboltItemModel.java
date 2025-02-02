@@ -7,6 +7,6 @@ import software.bernie.geckolib.model.DefaultedItemGeoModel;
 
 public class ZeusThunderboltItemModel extends DefaultedItemGeoModel<ZeusThunderboltItem> {
     public ZeusThunderboltItemModel() {
-        super(new ResourceLocation(Armament.MOD_ID, "zeus_thunderbolt"));
+        super(new ResourceLocation(Armament.MOD_ID, "zeus_thunderbolt_handheld"));
     }
 }

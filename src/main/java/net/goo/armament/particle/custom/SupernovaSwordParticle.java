@@ -14,7 +14,7 @@ public class SupernovaSwordParticle extends TextureSheetParticle {
         this.xd = xSpeed;
         this.yd = ySpeed;
         this.zd = zSpeed;
-        this.quadSize *= (level.random.nextFloat() * 2); // Adjust particle size
+        this.quadSize *= (level.random.nextFloat() * 3); // Adjust particle size
         this.lifetime = 60; // Number of ticks the particle will live
         this.setSpriteFromAge(spriteSet);
 

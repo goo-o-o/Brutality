@@ -1,12 +1,14 @@
 package net.goo.armament.entity.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.goo.armament.Armament;
 import net.goo.armament.entity.client.ModModelLayers;
 import net.goo.armament.entity.client.model.CruelSunModel;
 import net.goo.armament.entity.custom.CruelSunEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -40,11 +42,11 @@ public class CruelSunRenderer extends EntityRenderer<CruelSunEntity> {
             double scaleFactor = Math.sin(Math.PI / 2 * x); // Ease-in with sine
             pPoseStack.scale((float) scaleFactor * 3F, (float) scaleFactor * 3F, (float) scaleFactor * 3F);
             System.out.println("Scaling Up: " + scaleFactor);
-        } else if (pEntity.tickCount >= 20 && pEntity.tickCount < 180) {
+        } else if (pEntity.tickCount < 180) {
             // Waiting phase: Fixed scale of 3
             pPoseStack.scale(3F, 3F, 3F); // No scaling changes during this phase
             System.out.println("Waiting Phase");
-        } else if (pEntity.tickCount >= 180) {
+        } else {
             // Scaling down phase: From 3 to 0
             double x = (f1 - 180) / 20.0; // Normalize tick count to [0, 1] over 20 ticks
             double scaleFactor = Math.sin(Math.PI / 2 * (1 - x)); // Ease-out with sine
@@ -58,9 +60,9 @@ public class CruelSunRenderer extends EntityRenderer<CruelSunEntity> {
         // Apply bobbing effect (optional)
         double bobbingHeight = Math.sin(f1 * 0.1) * 0.25; // Bouncing with 0.5 blocks height
         pPoseStack.translate(0.0D, bobbingHeight - 0.5F, 0.0D);
-
+        VertexConsumer vertexConsumer = pBuffer.getBuffer(RenderType.entityTranslucentEmissive(this.getTextureLocation(pEntity)));
         // Render the model
-        this.model.renderToBuffer(pPoseStack, pBuffer.getBuffer(this.model.renderType(getTextureLocation(pEntity))), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 
         // Pop the PoseStack to clean up transformations
         pPoseStack.popPose();

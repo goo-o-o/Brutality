@@ -32,11 +32,10 @@ public class DivineRhittaAxeItem extends AxeItem implements GeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc1"));
+        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc.1"));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc2"));
-        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc3"));
-        pTooltipComponents.add(Component.literal(""));
+        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc.2"));
+        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc.3"));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

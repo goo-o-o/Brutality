@@ -7,7 +7,7 @@ import software.bernie.geckolib.model.DefaultedItemGeoModel;
 
 public class TerratonHammerItemModel extends DefaultedItemGeoModel<TerratonHammerItem> {
     public TerratonHammerItemModel() {
-        super(new ResourceLocation(Armament.MOD_ID, "terraton_hammer"));
+        super(new ResourceLocation(Armament.MOD_ID, "terraton_hammer_handheld"));
     }
 
 }

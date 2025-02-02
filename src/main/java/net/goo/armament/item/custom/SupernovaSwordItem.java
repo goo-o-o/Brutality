@@ -1,10 +1,11 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.item.custom.client.renderer.SupernovaSwordItemRenderer;
-import net.goo.armament.network.PacketHandler;
-import net.goo.armament.network.s2cSpawnParticleFromStarburstPacket;
+import net.goo.armament.particle.ModParticles;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -34,11 +35,10 @@ public class SupernovaSwordItem extends SwordItem implements GeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.supernova_sword.desc1"));
+        pTooltipComponents.add(Component.translatable("item.armament.supernova.desc.1"));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.supernova_sword.desc2"));
-        pTooltipComponents.add(Component.translatable("item.armament.supernova_sword.desc3"));
-        pTooltipComponents.add(Component.literal(""));
+        pTooltipComponents.add(Component.translatable("item.armament.supernova.desc.2"));
+        pTooltipComponents.add(Component.translatable("item.armament.supernova.desc.3"));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
@@ -102,11 +102,17 @@ public class SupernovaSwordItem extends SwordItem implements GeoItem {
 
     private void spawnStarburstExplosionParticles(LivingEntity player, LivingEntity pTarget, Level level) {
         width = pTarget.getBbWidth();
-
-        PacketHandler.sendToAllClients(new s2cSpawnParticleFromStarburstPacket(
-                pTarget.getX() + (level.random.nextFloat() - 0.5 * width),
-                pTarget.getY() + (level.random.nextFloat() - 0.5 * pTarget.getBbHeight() + 2),
-                pTarget.getZ() + (level.random.nextFloat() - 0.5 * width)));
+        ((ServerPlayer) player).connection.send(new ClientboundLevelParticlesPacket(
+                ModParticles.STARBURST_PARTICLE.get(),
+                true,
+                pTarget.getX(),
+                pTarget.getY(),
+                pTarget.getZ(),
+                0.5F,
+                0.5F,
+                0.5F,
+                0,
+                1));
     }
 
 }

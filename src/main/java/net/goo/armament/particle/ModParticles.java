@@ -14,9 +14,23 @@ public class ModParticles{
 
     public static final RegistryObject<SimpleParticleType> SUPERNOVA_SWORD_PARTICLE =
             PARTICLE_TYPES.register("supernova_sword_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> BLACK_HOLE_PARTICLE =
+            PARTICLE_TYPES.register("black_hole_entity_particle", () -> new SimpleParticleType(true));
 
     public static final RegistryObject<SimpleParticleType> STARBURST_PARTICLE =
             PARTICLE_TYPES.register("starburst_particle", () -> new SimpleParticleType(true));
+
+    public static final RegistryObject<SimpleParticleType> POKER_CHIP_RED_PARTICLE =
+            PARTICLE_TYPES.register("poker_chip_red_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> POKER_CHIP_BLUE_PARTICLE =
+            PARTICLE_TYPES.register("poker_chip_blue_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> POKER_CHIP_GREEN_PARTICLE =
+            PARTICLE_TYPES.register("poker_chip_green_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> POKER_CHIP_YELLOW_PARTICLE =
+            PARTICLE_TYPES.register("poker_chip_yellow_particle", () -> new SimpleParticleType(true));
+
+
+
 
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);

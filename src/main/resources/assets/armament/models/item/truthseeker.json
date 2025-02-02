@@ -1,0 +1,18 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "armament:item/truthseeker_handheld"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "armament:item/truthseeker_inventory"
+    },
+    "ground": {
+      "parent": "armament:item/truthseeker_handheld"
+    },
+    "fixed": {
+      "parent": "armament:item/truthseeker_inventory"
+    }
+  }
+}

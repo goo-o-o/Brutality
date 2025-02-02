@@ -1,7 +1,9 @@
 package net.goo.armament.entity;
 
 import net.goo.armament.Armament;
+import net.goo.armament.entity.custom.BlackHoleEntity;
 import net.goo.armament.entity.custom.CruelSunEntity;
+import net.goo.armament.entity.custom.TerraBeamEntity;
 import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -28,6 +30,19 @@ public class ModEntities {
             () -> EntityType.Builder.of(CruelSunEntity::new, MobCategory.MISC)
                     .sized(3.0f, 3.0f)
                     .build("cruel_sun"));
+
+    public static final RegistryObject<EntityType<TerraBeamEntity>> TERRA_BEAM_ENTITY =
+            ENTITY_TYPES.register("terra_beam",
+                    () -> EntityType.Builder.of(TerraBeamEntity::new, MobCategory.MISC)
+                            .sized(1F, 1F)
+                            .build("terra_beam"));
+
+    public static final RegistryObject<EntityType<BlackHoleEntity>> BLACK_HOLE_ENTITY =
+            ENTITY_TYPES.register("black_hole",
+                    () -> EntityType.Builder.of(BlackHoleEntity::new, MobCategory.MISC)
+                            .sized(1F, 1F)
+                            .setUpdateInterval(1)
+                            .build("black_hole"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

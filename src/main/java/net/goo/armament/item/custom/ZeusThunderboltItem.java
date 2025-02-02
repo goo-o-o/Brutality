@@ -2,7 +2,9 @@ package net.goo.armament.item.custom;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.goo.armament.Armament;
 import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
+import net.goo.armament.item.ModItems;
 import net.goo.armament.item.custom.client.renderer.ZeusThunderboltItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
@@ -23,12 +25,16 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.event.GrindstoneEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -40,7 +46,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
+@Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoItem {
     public static final int THROW_THRESHOLD_TIME = 10;
     public static final float BASE_DAMAGE = 8.0F;
@@ -61,11 +69,10 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc1"));
+        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc.1"));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc2"));
-        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc3"));
-        pTooltipComponents.add(Component.literal(""));
+        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc.2"));
+        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc.3"));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
@@ -88,18 +95,32 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
         return UseAnim.SPEAR;
     }
 
-    /**
-     * How long it takes to use or consume an item
-     */
     public int getUseDuration(ItemStack pStack) {
         return 72000;
     }
 
+    @SubscribeEvent
+    public static void onGrindstoneUse(GrindstoneEvent.OnPlaceItem event) {
+        ItemStack bottomItem = event.getBottomItem();
+        ItemStack topItem = event.getTopItem();
+        ItemStack targetStack = bottomItem.isEmpty() ? topItem : bottomItem;
 
+        if (targetStack.getItem() == ModItems.ZEUS_THUNDERBOLT_TRIDENT.get()) {
+            ItemStack resultStack = targetStack.copy();
 
-    /**
-     * Called when the player stops using an Item (stops holding the right mouse button).
-     */
+            Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(resultStack);
+            enchantments = enchantments.entrySet().stream().filter(entry ->
+                            entry.getKey().isCurse() || entry.getKey() == Enchantments.LOYALTY || entry.getKey() == Enchantments.INFINITY_ARROWS)
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+            enchantments.put(Enchantments.LOYALTY, 5);
+            enchantments.put(Enchantments.INFINITY_ARROWS, 1);
+            EnchantmentHelper.setEnchantments(enchantments, resultStack);
+            event.setXp(0);
+            event.setOutput(resultStack);
+        }
+    }
+
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving, int pTimeLeft) {
         if (pEntityLiving instanceof Player player) {
             int i = this.getUseDuration(pStack) - pTimeLeft;

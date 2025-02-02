@@ -5,7 +5,9 @@ import net.goo.armament.entity.ModEntities;
 import net.goo.armament.entity.client.ModModelLayers;
 import net.goo.armament.entity.client.model.CruelSunModel;
 import net.goo.armament.entity.client.model.ThrownZeusThunderboltModel;
+import net.goo.armament.entity.client.renderer.BlackHoleRenderer;
 import net.goo.armament.entity.client.renderer.CruelSunRenderer;
+import net.goo.armament.entity.client.renderer.TerraBeamRenderer;
 import net.goo.armament.entity.client.renderer.ThrownZeusThunderboltRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -18,6 +20,8 @@ public class ModEventBusClientEvents {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.THROWN_ZEUS_THUNDERBOLT_ENTITY.get(), ThrownZeusThunderboltRenderer::new);
         event.registerEntityRenderer(ModEntities.CRUEL_SUN_ENTITY.get(), CruelSunRenderer::new);
+        event.registerEntityRenderer(ModEntities.TERRA_BEAM_ENTITY.get(), TerraBeamRenderer::new);
+        event.registerEntityRenderer(ModEntities.BLACK_HOLE_ENTITY.get(), BlackHoleRenderer::new);
     }
 
     @SubscribeEvent

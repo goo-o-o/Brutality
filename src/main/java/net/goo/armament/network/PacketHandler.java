@@ -12,20 +12,27 @@ public class PacketHandler {
     private static final String PROTOCOL_VERSION = "1";
     private static final SimpleChannel NETWORK_CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(Armament.MOD_ID, "main_channel"),
-            () -> PROTOCOL_VERSION, // Protocol version
-            PROTOCOL_VERSION::equals, // Validate version
-            PROTOCOL_VERSION::equals // Validate version
+            () -> PROTOCOL_VERSION,
+            PROTOCOL_VERSION::equals,
+            PROTOCOL_VERSION::equals
     );
+    public static int packetId = 0;
 
     public static void register() {
-        int packetId = 0; // Use this to assign unique IDs to each packet.
 
-        // Register the c2sSpawnParticleFromStarburstPacket
-        NETWORK_CHANNEL.messageBuilder(s2cSpawnParticleFromStarburstPacket.class, packetId++, NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(s2cSpawnParticleFromStarburstPacket::encode)
-                .decoder(s2cSpawnParticleFromStarburstPacket::new)
-                .consumerMainThread(s2cSpawnParticleFromStarburstPacket::handle)
+
+        NETWORK_CHANNEL.messageBuilder(c2sOffLeafBlowerPacket.class, packetId++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(c2sOffLeafBlowerPacket::encode)
+                .decoder(c2sOffLeafBlowerPacket::new)
+                .consumerMainThread(c2sOffLeafBlowerPacket::handle)
                 .add();
+
+        NETWORK_CHANNEL.messageBuilder(c2sTerraBeamPacket.class, packetId++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(c2sTerraBeamPacket::encode)
+                .decoder(c2sTerraBeamPacket::new)
+                .consumerMainThread(c2sTerraBeamPacket::handle)
+                .add();
+
     }
 
     public static void sendToServer(Object msg) {

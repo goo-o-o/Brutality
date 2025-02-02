@@ -7,7 +7,7 @@ import software.bernie.geckolib.model.DefaultedItemGeoModel;
 
 public class DivineRhittaAxeItemModel extends DefaultedItemGeoModel<DivineRhittaAxeItem> {
     public DivineRhittaAxeItemModel() {
-        super(new ResourceLocation(Armament.MOD_ID, "divine_axe_rhitta"));
+        super(new ResourceLocation(Armament.MOD_ID, "divine_axe_rhitta_handheld"));
     }
 
 }

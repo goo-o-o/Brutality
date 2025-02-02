@@ -1,0 +1,25 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"idle": {
+			"loop": true,
+			"animation_length": 8,
+			"bones": {
+				"black hole": {
+					"rotation": {
+						"vector": ["math.sin(query.anim_time * 45) * 6", 0, "math.cos(query.anim_time * 45) * 4"]
+					},
+					"position": {
+						"vector": [0, "math.sin(query.anim_time * 45) * 2", 0]
+					}
+				},
+				"ring": {
+					"rotation": {
+						"vector": [0, "query.anim_time * 45", 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

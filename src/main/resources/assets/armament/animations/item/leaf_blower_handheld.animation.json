@@ -1,0 +1,64 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"active": {
+			"loop": true,
+			"animation_length": 0.2917,
+			"bones": {
+				"main": {
+					"rotation": {
+						"vector": [0, 0, "math.cos(query.anim_time * 3000) * 1.5"]
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "leaf_blower_active"
+				}
+			}
+		},
+		"on": {
+			"animation_length": 1.25,
+			"bones": {
+				"main": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, "math.cos(query.anim_time * 3000) * 1.5"],
+							"easing": "easeOutSine"
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "leaf_blower_on"
+				}
+			}
+		},
+		"off": {
+			"animation_length": 1.5,
+			"bones": {
+				"main": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, "math.cos(query.anim_time * 3000) * 1.5"]
+						},
+						"1.5": {
+							"vector": [0, 0, 0],
+							"easing": "easeOutSine"
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "leaf_blower_off"
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

@@ -1,11 +1,13 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.item.custom.client.renderer.LeafBlowerItemRenderer;
+import net.goo.armament.network.PacketHandler;
+import net.goo.armament.network.c2sOffLeafBlowerPacket;
 import net.goo.armament.sound.ModSounds;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -23,7 +25,10 @@ import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 
 import java.util.List;
@@ -31,8 +36,8 @@ import java.util.function.Consumer;
 
 public class LeafBlowerItem extends Item implements GeoItem {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-    private static final String TOGGLE_KEY = "LeafBlowerActive";
-    private boolean isActive = false;
+    private static final String ACTIVE_KEY = "LeafBlowerActive";
+    private int tickCounter;
 
     public LeafBlowerItem(Properties pProperties) {
         super(pProperties);
@@ -40,39 +45,36 @@ public class LeafBlowerItem extends Item implements GeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc1"));
+        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc.1"));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc2"));
-        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc3"));
-        pTooltipComponents.add(Component.literal(""));
+        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc.2"));
+        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc.3"));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
-    public boolean isActive(ItemStack stack) {
-        CompoundTag tag = stack.getOrCreateTag();
-        return tag.getBoolean(TOGGLE_KEY);
+    public static void setActive(ItemStack stack, boolean active) {
+        stack.getOrCreateTag().putBoolean(ACTIVE_KEY, active);
+    }
+
+    public static boolean isActive(ItemStack stack) {
+        return stack.getOrCreateTag().getBoolean(ACTIVE_KEY);
     }
 
     private PlayState predicate(AnimationState animationState) {
         ItemStack stack = (ItemStack) animationState.getData(DataTickets.ITEMSTACK);
-
-        if (stack != null) {
-            CompoundTag tag = stack.getOrCreateTag();
-            boolean isActive = tag.getBoolean("LeafBlowerActive");
-
-            if (isActive) {
-                animationState.getController().setAnimation(RawAnimation.begin().then("active", Animation.LoopType.LOOP));
+            if (isActive(stack)) {
+                animationState.getController().setAnimation(RawAnimation.begin().thenPlay("on").thenLoop("active"));
                 return PlayState.CONTINUE;
+            } else {
+                animationState.getController().setAnimation(RawAnimation.begin().thenPlay("off"));
+                return PlayState.STOP;
             }
-        }
-
-        return PlayState.STOP;
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, "controller", 2, this::predicate));
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
     @Override
@@ -95,64 +97,89 @@ public class LeafBlowerItem extends Item implements GeoItem {
         });
     }
 
+    @Override
+    public int getUseDuration(ItemStack pStack) {
+        return 72000;
+    }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        if (!pLevel.isClientSide) {
-            ItemStack stack = pPlayer.getItemInHand(pUsedHand);
-
-            CompoundTag tag = stack.getOrCreateTag();
-            boolean isActive = tag.getBoolean("LeafBlowerActive");
-            tag.putBoolean("LeafBlowerActive", !isActive);
-
-            if (isActive) {
-                // Play the turn-off sound when the item is deactivated
-                pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(),
-                        ModSounds.LEAF_BLOWER_OFF.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-                tag.putBoolean(TOGGLE_KEY, false);
-            } else {
-                // Play the turn-on sound when the item is activated
-                pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(),
-                        ModSounds.LEAF_BLOWER_ON.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-                tag.putBoolean(TOGGLE_KEY, true);
-
-                // Play the looped active sound once it's turned on
-
-
-                pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(),
-                        ModSounds.LEAF_BLOWER_ACTIVE.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-
-            }
-
-            pPlayer.displayClientMessage(Component.translatable("item.armament.leaf_blower." + (isActive ? "off" : "on")), true);
+        if (pLevel.isClientSide) {
+            pPlayer.startUsingItem(pUsedHand);
+            pPlayer.playSound(ModSounds.LEAF_BLOWER_ON.get(), 0.25F, 1);
         }
-
+        if (!pLevel.isClientSide) {
+            setActive(pPlayer.getItemInHand(pUsedHand), true);
+        }
         return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
     }
 
+    @Override
+    public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {
+         if (pLivingEntity instanceof Player pPlayer) {
+                pPlayer.playSound(ModSounds.LEAF_BLOWER_OFF.get(), 0.25F, 1);
+                PacketHandler.sendToServer(new c2sOffLeafBlowerPacket());;
+                tickCounter = 0;
+            }
+    }
 
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (!pLevel.isClientSide && pEntity instanceof Player pPlayer) {
-            if (pStack.getOrCreateTag().getBoolean(TOGGLE_KEY) && pIsSelected) {
-                Vec3 viewVector = pPlayer.getViewVector(1.0F);
-                double range = 10.0D;
 
-                Vec3 eyePosition = pPlayer.getEyePosition();
-                Vec3 targetPosition = eyePosition.add(viewVector.scale(range));
-                AABB searchBox = new AABB(eyePosition, targetPosition).inflate(1.0D);
+        if (isActive(pStack)) {
+            if (pLevel.isClientSide && pEntity instanceof Player pPlayer) {
+                tickCounter++;
+                if (tickCounter >= 28 && tickCounter % 5 == 0) {
+                    pPlayer.playSound(ModSounds.LEAF_BLOWER_ACTIVE.get(), 0.25F, 1);
+                }
+            }
 
-                List<Entity> entities = pLevel.getEntities(pPlayer, searchBox, entity -> entity instanceof LivingEntity && entity != pPlayer);
+            if (!pLevel.isClientSide && pEntity instanceof Player pPlayer) {
+                ItemStack mainHandStack = pPlayer.getMainHandItem();
+                ItemStack offHandStack = pPlayer.getOffhandItem();
 
-                for (Entity target : entities) {
-                    if (pPlayer.hasLineOfSight(target) && !pPlayer.isUnderWater()) {
-                        Vec3 pushDirection = target.position().subtract(pPlayer.position()).normalize().scale(1.5D);
-                        target.setDeltaMovement(pushDirection);
+                boolean bothHandsActive = mainHandStack.getItem() instanceof LeafBlowerItem && offHandStack.getItem() instanceof LeafBlowerItem;
+                boolean eitherHandsActive = mainHandStack.getItem() instanceof LeafBlowerItem || offHandStack.getItem() instanceof LeafBlowerItem;
+
+                if (bothHandsActive || eitherHandsActive) {
+
+                    float range = bothHandsActive ? 12.0F : 6F;
+                    float pushScale = bothHandsActive ? 0.5F : 0.25F;
+                    Vec3 viewVector = pPlayer.getViewVector(1.0F);
+                    Vec3 eyePosition = pPlayer.getEyePosition();
+                    Vec3 targetPosition = eyePosition.add(viewVector.scale(range));
+                    AABB searchBox = new AABB(eyePosition, targetPosition).inflate(bothHandsActive ? 1.5F : 1.0F);
+
+                    List<Entity> entities = pLevel.getEntities(pPlayer, searchBox, entity -> entity instanceof LivingEntity);
+
+                    for (Entity target : entities) {
+                        // Check if the target is in line of sight and not underwater
+                        if (pPlayer.hasLineOfSight(target) && !pPlayer.isUnderWater()) {
+                            Vec3 pushDirection = target.position().subtract(pPlayer.position()).normalize().scale(pushScale);
+
+                            // Add delta movement to the target
+                            target.addDeltaMovement(pushDirection);
+
+                            // If the target is a ServerPlayer, send a motion packet to update its position on client
+                            if (target instanceof ServerPlayer serverTarget) {
+                                // Send the packet only for the target player, not for pPlayer
+                                serverTarget.connection.send(new ClientboundSetEntityMotionPacket(target));
+                            }
+                        }
                     }
+
+                    // Apply player recoil
+                    if (bothHandsActive && pPlayer instanceof ServerPlayer) {
+                        Vec3 oppositePushVector = new Vec3(-pPlayer.getLookAngle().x, -pPlayer.getLookAngle().y, -pPlayer.getLookAngle().z).normalize();
+                        Vec3 playerRecoilVector = oppositePushVector.scale(0.04F);
+                        pPlayer.addDeltaMovement(playerRecoilVector);
+                        ((ServerPlayer) pPlayer).connection.send(new ClientboundSetEntityMotionPacket(pPlayer));
+                    }
+
+                } else {
+                    setActive(pStack, false);
                 }
             }
         }
-
-        super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
     }
 }

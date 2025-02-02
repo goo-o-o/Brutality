@@ -7,6 +7,6 @@ import software.bernie.geckolib.model.DefaultedItemGeoModel;
 
 public class SupernovaSwordItemModel extends DefaultedItemGeoModel<SupernovaSwordItem> {
     public SupernovaSwordItemModel() {
-        super(new ResourceLocation(Armament.MOD_ID, "supernova"));
+        super(new ResourceLocation(Armament.MOD_ID, "supernova_handheld"));
     }
 }

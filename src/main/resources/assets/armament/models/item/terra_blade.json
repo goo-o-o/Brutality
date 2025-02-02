@@ -1,0 +1,18 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "armament:item/terra_blade_handheld"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "armament:item/terra_blade_inventory"
+    },
+    "ground": {
+      "parent": "armament:item/terra_blade_handheld"
+    },
+    "fixed": {
+      "parent": "armament:item/terra_blade_inventory"
+    }
+  }
+}
