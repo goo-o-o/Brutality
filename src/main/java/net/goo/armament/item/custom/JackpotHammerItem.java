@@ -5,11 +5,15 @@ import com.google.common.collect.Multimap;
 import net.goo.armament.item.custom.client.renderer.JackpotHammerItemRenderer;
 import net.goo.armament.particle.ModParticles;
 import net.goo.armament.sound.ModSounds;
+import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -66,14 +70,22 @@ public class JackpotHammerItem extends TieredItem implements GeoItem {
         return builder.build();
     }
 
+    int[] color1 = new int[]{255, 200, 50};
+    int[] color2 = new int[]{38, 234, 239};
+
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.jackpot.desc.1"));
+        pTooltipComponents.add(Component.translatable("item.armament.jackpot.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.jackpot.desc.2"));
-        pTooltipComponents.add(Component.translatable("item.armament.jackpot.desc.3"));
+        pTooltipComponents.add(Component.translatable("item.armament.jackpot.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
+        pTooltipComponents.add(Component.translatable("item.armament.jackpot.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
+
+    @Override
+    public Component getName(ItemStack pStack) {
+        return ModUtils.addGradientText((Component.translatable("item.armament.jackpot")), color1, color2).withStyle(Style.EMPTY.withBold(true));
     }
 
     @Override
@@ -130,24 +142,19 @@ public class JackpotHammerItem extends TieredItem implements GeoItem {
                     RegistryObject<SoundEvent> randomJackpotSound = ModSounds.JACKPOT_SOUNDS.get(randomIndex);
                     Holder<SoundEvent> soundHolder = Holder.direct(randomJackpotSound.get());
 
-                    ((ServerPlayer) player).connection.send(new ClientboundSoundPacket(
-                            soundHolder,
-                            SoundSource.PLAYERS,
-                            player.getX(),
-                            player.getY(),
-                            player.getZ(),
-                            1.0F,
-                            1.0F,
-                            player.getId()
-                    ));
+                    ((ServerLevel) level).sendParticles(ModParticles.POKER_CHIP_GREEN_PARTICLE.get(),
+                            entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(),
+                            50, 0, 0,0, 0);
+                    ((ServerLevel) level).sendParticles(ModParticles.POKER_CHIP_RED_PARTICLE.get(),
+                            entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(),
+                            50, 0, 0,0, 0);
+                    ((ServerLevel) level).sendParticles(ModParticles.POKER_CHIP_BLUE_PARTICLE.get(),
+                            entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(),
+                            50, 0, 0,0, 0);
+                    ((ServerLevel) level).sendParticles(ModParticles.POKER_CHIP_YELLOW_PARTICLE.get(),
+                            entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(),
+                            50, 0, 0,0, 0);
 
-                    ((ServerPlayer) player).connection.send(new ClientboundLevelParticlesPacket(ModParticles.POKER_CHIP_RED_PARTICLE.get(), true, entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(), 0, 0, 0, 0, 50));
-
-                    ((ServerPlayer) player).connection.send(new ClientboundLevelParticlesPacket(ModParticles.POKER_CHIP_GREEN_PARTICLE.get(), true, entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(), 0, 0, 0, 0, 50));
-
-                    ((ServerPlayer) player).connection.send(new ClientboundLevelParticlesPacket(ModParticles.POKER_CHIP_BLUE_PARTICLE.get(), true, entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(), 0, 0, 0, 0, 50));
-
-                    ((ServerPlayer) player).connection.send(new ClientboundLevelParticlesPacket(ModParticles.POKER_CHIP_YELLOW_PARTICLE.get(), true, entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(), 0, 0, 0, 0, 50));
                 }
 
             } else {

@@ -3,8 +3,10 @@ package net.goo.armament.item.custom;
 import net.goo.armament.entity.ModEntities;
 import net.goo.armament.entity.custom.CruelSunEntity;
 import net.goo.armament.item.custom.client.renderer.DivineRhittaAxeItemRenderer;
+import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -30,14 +32,22 @@ public class DivineRhittaAxeItem extends AxeItem implements GeoItem {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
     }
 
+    int[] color1 = new int[]{255, 253, 112};
+    int[] color2 = new int[]{86, 73, 191};
+
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc.1"));
+        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc.2"));
-        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc.3"));
+        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
+        pTooltipComponents.add(Component.translatable("item.armament.divine_axe_rhitta.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
+
+    @Override
+    public Component getName(ItemStack pStack) {
+        return ModUtils.addGradientText((Component.translatable("item.armament.divine_axe_rhitta")), color1, color2).withStyle(Style.EMPTY.withBold(true));
     }
 
     @Override

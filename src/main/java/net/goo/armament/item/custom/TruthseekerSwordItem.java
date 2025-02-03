@@ -1,8 +1,10 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.item.custom.client.renderer.TruthseekerItemRenderer;
+import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
@@ -25,14 +27,22 @@ public class TruthseekerSwordItem extends SwordItem implements GeoItem {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
     }
 
+    int[] color1 = new int[]{128, 244, 58};
+    int[] color2 = new int[]{93, 33, 0};
+
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.truthseeker.desc.1"));
+        pTooltipComponents.add(Component.translatable("item.armament.truthseeker.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.truthseeker.desc.2"));
-        pTooltipComponents.add(Component.translatable("item.armament.truthseeker.desc.3"));
+        pTooltipComponents.add(Component.translatable("item.armament.truthseeker.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
+        pTooltipComponents.add(Component.translatable("item.armament.truthseeker.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
+
+    @Override
+    public Component getName(ItemStack pStack) {
+        return ModUtils.addGradientText((Component.translatable("item.armament.truthseeker")), color1, color2).withStyle(Style.EMPTY.withBold(true));
     }
 
     @Override

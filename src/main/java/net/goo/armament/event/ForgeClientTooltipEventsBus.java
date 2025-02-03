@@ -20,7 +20,6 @@ private static Font customFont;
 
     @SubscribeEvent
     public static void tooltipFontHandler(RenderTooltipEvent.Pre event) {
-        loadCustomFont();
     }
 
     @SubscribeEvent
@@ -48,8 +47,8 @@ private static Font customFont;
         }
 
         if (stack instanceof JackpotHammerItem) {
-            event.setBorderStart(toARGB(255, 85, 219, 220));
-            event.setBorderEnd(toARGB(255, 26, 231, 0));
+            event.setBorderStart(toARGB(255, 255, 200, 50));
+            event.setBorderEnd(toARGB(255, 38, 234, 239));
         }
 
         if (stack instanceof DivineRhittaAxeItem) {
@@ -69,7 +68,7 @@ private static Font customFont;
 
         if (stack instanceof TerratonHammerItem) {
             event.setBorderStart(toARGB(255, 186, 198, 195));
-            event.setBorderEnd(toARGB(255, 19, 26, 25));
+            event.setBorderEnd(toARGB(255, 25, 50, 50));
         }
 
         if (stack instanceof ZeusThunderboltItem) {
@@ -90,21 +89,4 @@ private static Font customFont;
         return (a << 24) | (r << 16) | (g << 8) | b;
     }
 
-    private static void loadCustomFont() {
-        try {
-            // Load the font using a .ttf file from your assets
-            ResourceLocation fontPath = new ResourceLocation(Armament.MOD_ID, "fonts/alagard.ttf");
-            File fontFile = new File(fontPath.getPath());
-
-            // Create the font from file
-            customFont = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(12f); // Adjust size as needed
-
-            // Register the font
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(customFont);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace(); // Handle exceptions appropriately
-            customFont = null; // Reset to null if there's an error
-        }
-    }
 }

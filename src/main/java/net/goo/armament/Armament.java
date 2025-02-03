@@ -11,6 +11,7 @@ import net.goo.armament.network.PacketHandler;
 import net.goo.armament.particle.ModParticles;
 import net.goo.armament.sound.ModSounds;
 import net.goo.armament.villager.ModVillagers;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;

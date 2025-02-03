@@ -4,8 +4,10 @@ import net.goo.armament.item.custom.client.renderer.LeafBlowerItemRenderer;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.network.c2sOffLeafBlowerPacket;
 import net.goo.armament.sound.ModSounds;
+import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -43,14 +45,22 @@ public class LeafBlowerItem extends Item implements GeoItem {
         super(pProperties);
     }
 
+    int[] color1 = new int[]{212, 6, 6};
+    int[] color2 = new int[]{255, 255, 255};
+
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc.1"));
+        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc.2"));
-        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc.3"));
+        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
+        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
+
+    @Override
+    public Component getName(ItemStack pStack) {
+        return ModUtils.addGradientText((Component.translatable("item.armament.leaf_blower")), color1, color2).withStyle(Style.EMPTY.withBold(true));
     }
 
     public static void setActive(ItemStack stack, boolean active) {

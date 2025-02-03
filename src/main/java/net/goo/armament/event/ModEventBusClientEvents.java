@@ -1,5 +1,6 @@
 package net.goo.armament.event;
 
+import com.mojang.authlib.GameProfile;
 import net.goo.armament.Armament;
 import net.goo.armament.entity.ModEntities;
 import net.goo.armament.entity.client.ModModelLayers;
@@ -9,10 +10,17 @@ import net.goo.armament.entity.client.renderer.BlackHoleRenderer;
 import net.goo.armament.entity.client.renderer.CruelSunRenderer;
 import net.goo.armament.entity.client.renderer.TerraBeamRenderer;
 import net.goo.armament.entity.client.renderer.ThrownZeusThunderboltRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.loading.targets.FMLClientDevLaunchHandler;
+
+import java.lang.reflect.Field;
+import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModEventBusClientEvents {
@@ -29,4 +37,5 @@ public class ModEventBusClientEvents {
         event.registerLayerDefinition(ModModelLayers.THROWN_ZEUS_THUNDERBOLT_ENTITY_LAYER, ThrownZeusThunderboltModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.CRUEL_SUN_ENTITY_LAYER, CruelSunModel::createBodyLayer);
     }
+
 }

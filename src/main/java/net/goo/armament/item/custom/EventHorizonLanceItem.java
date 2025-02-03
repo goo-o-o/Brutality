@@ -62,12 +62,10 @@ public class EventHorizonLanceItem extends TridentItem implements Vanishable, Ge
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
 
-
         pTooltipComponents.add(Component.translatable("item.armament.event_horizon.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
         pTooltipComponents.add(Component.literal(""));
         pTooltipComponents.add(Component.translatable("item.armament.event_horizon.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
         pTooltipComponents.add(Component.translatable("item.armament.event_horizon.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
-
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
@@ -75,7 +73,6 @@ public class EventHorizonLanceItem extends TridentItem implements Vanishable, Ge
     @Override
     public Component getName(ItemStack pStack) {
         return ModUtils.addGradientText((Component.translatable("item.armament.event_horizon")), color1, color2).withStyle(Style.EMPTY.withBold(true));
-
     }
 
 
@@ -171,7 +168,7 @@ public class EventHorizonLanceItem extends TridentItem implements Vanishable, Ge
                     playerLookVec = playerLookVec.scale(distance).add(0, 1, 0);
                     Vec3 absVec = player.getPosition(1F).add(playerLookVec);
 
-                    blackHoleEntity.lerpTo(absVec.x, absVec.y, absVec.z, 0, 0, 3, false);
+                    blackHoleEntity.lerpTo(absVec.x, absVec.y, absVec.z, 0, 0, 1, false);
 
                 } else {
                     blackHoleEntity.discard();

@@ -2,9 +2,12 @@ package net.goo.armament.item.custom;
 
 import net.goo.armament.item.custom.client.renderer.SupernovaSwordItemRenderer;
 import net.goo.armament.particle.ModParticles;
+import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,20 +30,27 @@ import java.util.function.Consumer;
 
 public class SupernovaSwordItem extends SwordItem implements GeoItem {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-    private float width;
 
     public SupernovaSwordItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
     }
 
+    int[] color1 = new int[]{255, 255, 222};
+    int[] color2 = new int[]{90, 37, 131};
+
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.supernova.desc.1"));
+        pTooltipComponents.add(Component.translatable("item.armament.supernova.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.supernova.desc.2"));
-        pTooltipComponents.add(Component.translatable("item.armament.supernova.desc.3"));
+        pTooltipComponents.add(Component.translatable("item.armament.supernova.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
+        pTooltipComponents.add(Component.translatable("item.armament.supernova.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
+
+    @Override
+    public Component getName(ItemStack pStack) {
+        return ModUtils.addGradientText((Component.translatable("item.armament.supernova")), color1, color2).withStyle(Style.EMPTY.withBold(true));
     }
 
     private PlayState predicate(AnimationState animationState) {
@@ -101,18 +111,9 @@ public class SupernovaSwordItem extends SwordItem implements GeoItem {
     }
 
     private void spawnStarburstExplosionParticles(LivingEntity player, LivingEntity pTarget, Level level) {
-        width = pTarget.getBbWidth();
-        ((ServerPlayer) player).connection.send(new ClientboundLevelParticlesPacket(
-                ModParticles.STARBURST_PARTICLE.get(),
-                true,
-                pTarget.getX(),
-                pTarget.getY(),
-                pTarget.getZ(),
-                0.5F,
-                0.5F,
-                0.5F,
-                0,
-                1));
+        ((ServerLevel) level).sendParticles(ModParticles.STARBURST_PARTICLE.get(),
+                pTarget.getX(), pTarget.getY(), pTarget.getZ(),
+                0, 0, 0,0, 0);
     }
 
 }

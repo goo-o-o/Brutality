@@ -6,9 +6,11 @@ import net.goo.armament.Armament;
 import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
 import net.goo.armament.item.ModItems;
 import net.goo.armament.item.custom.client.renderer.ZeusThunderboltItemRenderer;
+import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -66,15 +68,22 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
 
     }
 
+    int[] color1 = new int[]{255, 215, 86};
+    int[] color2 = new int[]{164, 92, 0};
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc.1"));
+        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc.2"));
-        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc.3"));
+        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
+        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
+
+    @Override
+    public Component getName(ItemStack pStack) {
+        return ModUtils.addGradientText((Component.translatable("item.armament.zeus_thunderbolt")), color1, color2).withStyle(Style.EMPTY.withBold(true));
     }
 
     @Override
