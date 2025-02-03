@@ -83,7 +83,7 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addGradientText((Component.translatable("item.armament.zeus_thunderbolt")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.addColorGradientText((Component.translatable("item.armament.zeus_thunderbolt")), color1, color2).withStyle(Style.EMPTY.withBold(true));
     }
 
     @Override

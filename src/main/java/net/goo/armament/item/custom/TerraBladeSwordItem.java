@@ -50,7 +50,7 @@ public class TerraBladeSwordItem extends SwordItem {
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addGradientText((Component.translatable("item.armament.terra_blade")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.addColorGradientText((Component.translatable("item.armament.terra_blade")), color1, color2).withStyle(Style.EMPTY.withBold(true));
     }
 
 }

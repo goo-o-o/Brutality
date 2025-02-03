@@ -46,6 +46,9 @@ public class ModItems {
     public static final RegistryObject<Item> JACKPOT_HAMMER = ITEMS.register("jackpot",
             () -> new JackpotHammerItem(Tiers.NETHERITE, -2.6F, new Item.Properties()));
 
+    public static final RegistryObject<Item> ENTROPY_DRILL = ITEMS.register("entropy_drill",
+            () -> new EntropyDrill(new Item.Properties()));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

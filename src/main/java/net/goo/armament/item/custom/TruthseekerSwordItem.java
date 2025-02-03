@@ -42,7 +42,7 @@ public class TruthseekerSwordItem extends SwordItem implements GeoItem {
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addGradientText((Component.translatable("item.armament.truthseeker")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.addColorGradientText((Component.translatable("item.armament.truthseeker")), color1, color2).withStyle(Style.EMPTY.withBold(true));
     }
 
     @Override

@@ -47,7 +47,7 @@ public class DivineRhittaAxeItem extends AxeItem implements GeoItem {
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addGradientText((Component.translatable("item.armament.divine_axe_rhitta")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.addColorGradientText((Component.translatable("item.armament.divine_axe_rhitta")), color1, color2).withStyle(Style.EMPTY.withBold(true));
     }
 
     @Override

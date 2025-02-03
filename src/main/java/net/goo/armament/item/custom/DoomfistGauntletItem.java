@@ -58,7 +58,7 @@ public class DoomfistGauntletItem extends BowItem implements GeoItem {
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addGradientText((Component.translatable("item.armament.doomfist_gauntlet")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.addColorGradientText((Component.translatable("item.armament.doomfist_gauntlet")), color1, color2).withStyle(Style.EMPTY.withBold(true));
     }
 
 

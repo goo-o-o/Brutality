@@ -60,7 +60,7 @@ public class LeafBlowerItem extends Item implements GeoItem {
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addGradientText((Component.translatable("item.armament.leaf_blower")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.addColorGradientText((Component.translatable("item.armament.leaf_blower")), color1, color2).withStyle(Style.EMPTY.withBold(true));
     }
 
     public static void setActive(ItemStack stack, boolean active) {
