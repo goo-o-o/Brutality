@@ -46,8 +46,11 @@ public class ModItems {
     public static final RegistryObject<Item> JACKPOT_HAMMER = ITEMS.register("jackpot",
             () -> new JackpotHammerItem(Tiers.NETHERITE, -2.6F, new Item.Properties()));
 
-    public static final RegistryObject<Item> ENTROPY_DRILL = ITEMS.register("entropy_drill",
-            () -> new EntropyDrill(new Item.Properties()));
+    public static final RegistryObject<Item> QUANTUM_DRILL = ITEMS.register("quantum_drill",
+            () -> new QuantumDrillItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> RESONANCE_PICKAXE = ITEMS.register("resonance_pickaxe",
+            () -> new ResonancePickaxeItem(Tiers.NETHERITE, 4, -2.2F, new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

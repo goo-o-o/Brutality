@@ -6,20 +6,29 @@ import net.minecraft.network.chat.Style;
 
 public class ModUtils {
 
-    public static MutableComponent addColorGradientText(Component text, int r1, int g1, int b1, int r2, int g2, int b2) {
-        // Define your start and end colors in RGB
-        int startColor = rgbToInt(r1, g1, b1);
-        int endColor = rgbToInt(r2, g2, b2);
-
-        // Create a component to hold all parts of the gradient text
+    public static MutableComponent addColorGradientText(Component text, int[]... rgbColors) {
+        // Create a component to hold all the parts of the gradient text
         MutableComponent gradientTextComponent = Component.empty(); // Initialize with an empty component
 
         String string = text.getString();
         int length = string.length();
+        int numColors = rgbColors.length; // Number of color stops
+
+        if (numColors == 0 || length == 0) {
+            return gradientTextComponent; // Return empty component if no colors or no text
+        }
 
         for (int i = 0; i < length; i++) {
-            // Calculate the ratio of the current position to the total length
-            float ratio = (float) i / (length - 1);
+            // Determine which segment of the gradient the current index falls into
+            int segment = Math.min((i * numColors) / length, numColors - 1);
+            int nextSegment = Math.min(segment + 1, numColors - 1);
+
+            // Calculate ratio for interpolation between current color and the next
+            float ratio = (float) (i - (segment * length) / numColors) / ((float) (length) / numColors);
+
+            // Get current and next colors
+            int startColor = rgbToInt(rgbColors[segment]);
+            int endColor = rgbToInt(rgbColors[nextSegment]);
 
             // Interpolate between startColor and endColor
             int r = (int) ((1 - ratio) * ((startColor >> 16) & 0xFF) + ratio * ((endColor >> 16) & 0xFF));
@@ -37,90 +46,7 @@ public class ModUtils {
             gradientTextComponent = gradientTextComponent.append(letterComponent);
         }
 
-        // Add the complete gradient text to the tooltip as a single line
-        return gradientTextComponent;
-    }
-
-    public static int rgbToInt(int r, int g, int b) {
-        return (r << 16) | (g << 8) | b;
-    }
-
-    public static MutableComponent addColorGradientText(Component text, int[] rgb1, int[] rgb2) {
-
-        int startColor = rgbToInt(rgb1);
-        int endColor = rgbToInt(rgb2);
-
-        MutableComponent gradientTextComponent = Component.empty(); // Initialize with an empty component
-
-        String string = text.getString();
-        int length = string.length();
-
-        for (int i = 0; i < length; i++) {
-            // Calculate the ratio of the current position to the total length
-            float ratio = (float) i / (length - 1);
-
-            // Interpolate between startColor and endColor
-            int r = (int) ((1 - ratio) * ((startColor >> 16) & 0xFF) + ratio * ((endColor >> 16) & 0xFF));
-            int g = (int) ((1 - ratio) * ((startColor >> 8) & 0xFF) + ratio * ((endColor >> 8) & 0xFF));
-            int b = (int) ((1 - ratio) * (startColor & 0xFF) + ratio * (endColor & 0xFF));
-
-            // Create the color integer
-            int color = (r << 16) | (g << 8) | b;
-
-            Component letterComponent = Component.literal(String.valueOf(string.charAt(i)))
-                    .withStyle(Style.EMPTY.withColor(color));
-
-            gradientTextComponent = gradientTextComponent.append(letterComponent);
-        }
-
-        return gradientTextComponent;
-    }
-
-    public static MutableComponent addColorGradientText(Component text, int[] rgb1, int[] rgb2, int[] rgb3) {
-        // Define your start, middle, and end colors in RGB
-        int startColor = rgbToInt(rgb1);
-        int middleColor = rgbToInt(rgb2);
-        int endColor = rgbToInt(rgb3);
-
-        // Create a component to hold all parts of the gradient text
-        MutableComponent gradientTextComponent = Component.empty(); // Initialize with an empty component
-
-        String string = text.getString();
-        int length = string.length();
-
-        for (int i = 0; i < length; i++) {
-            // Define a variable for color
-            int color;
-
-            // Determine which range of the gradient the current position falls into
-            if (i < length / 3) {
-                // Start to middle transition
-                float ratio = (float) i / (length / 3);
-                int r = (int) ((1 - ratio) * ((startColor >> 16) & 0xFF) + ratio * ((middleColor >> 16) & 0xFF));
-                int g = (int) ((1 - ratio) * ((startColor >> 8) & 0xFF) + ratio * ((middleColor >> 8) & 0xFF));
-                int b = (int) ((1 - ratio) * (startColor & 0xFF) + ratio * (middleColor & 0xFF));
-                color = (r << 16) | (g << 8) | b; // Assign color
-            } else if (i < (2 * length) / 3) {
-                // Middle to end transition
-                float ratio = (float) (i - length / 3) / (length / 3);
-                int r = (int) ((1 - ratio) * ((middleColor >> 16) & 0xFF) + ratio * ((endColor >> 16) & 0xFF));
-                int g = (int) ((1 - ratio) * ((middleColor >> 8) & 0xFF) + ratio * ((endColor >> 8) & 0xFF));
-                int b = (int) ((1 - ratio) * (middleColor & 0xFF) + ratio * (endColor & 0xFF));
-                color = (r << 16) | (g << 8) | b; // Assign color
-            } else {
-                // End color
-                color = endColor;
-            }
-
-            // Create a component for the letter with the computed color
-            Component letterComponent = Component.literal(String.valueOf(string.charAt(i)))
-                    .withStyle(Style.EMPTY.withColor(color));
-
-            // Append the letter component to the main gradient text component
-            gradientTextComponent = gradientTextComponent.append(letterComponent);
-        }
-
-        // Add the complete gradient text to the tooltip as a single line
+        // Return the complete gradient text component
         return gradientTextComponent;
     }
 

@@ -1,6 +1,8 @@
 package net.goo.armament.entity.custom;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -53,7 +55,7 @@ public class BlackHoleEntity extends Entity implements GeoEntity {
         Vec3 blackHolePos = this.getPosition(1.0F);
         if (ownerUUID != null) {
             List<Entity> nearbyEntities = level().getEntities(this, this.getBoundingBox().inflate(7.5),
-                    e -> e instanceof LivingEntity && !(e instanceof Player && e.isSpectator()));
+                    e -> e instanceof LivingEntity && !(e instanceof Player && (e.isSpectator() || ((Player) e).isCreative()) ));
 
             for (Entity entity : nearbyEntities) {
                 if (entity != this && entity != level().getPlayerByUUID(ownerUUID)) {
@@ -61,6 +63,9 @@ public class BlackHoleEntity extends Entity implements GeoEntity {
                     Vec3 targetVector = blackHolePos.subtract(targetPos).normalize();
 
                     entity.addDeltaMovement(targetVector.scale(0.2F));
+                    if (entity instanceof ServerPlayer player) {
+                        player.connection.send(new ClientboundSetEntityMotionPacket(player));
+                    }
                 }
             }
         }

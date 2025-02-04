@@ -51,5 +51,10 @@
   "item.armament.event_horizon.desc.2": "Singularity",
   "item.armament.event_horizon.desc.3": "Right click to dislodge the black hole, allowing the user to manipulate it to their will, sucking in nearby mobs. Distance thrown is based on charge time",
 
+  "item.armament.resonance_pickaxe": "Resonance Pickaxe",
+  "item.armament.resonance_pickaxe.desc.1": "\"This ornate lance, forged in the depths of a swirling vortex, holds within it the secrets of the cosmos. A miniature black hole, stabilized and contained, pulses with an otherworldly power at its core. Those who wield it must be prepared to dance with the very fabric of reality.\"",
+  "item.armament.resonance_pickaxe.desc.2": "Singularity",
+  "item.armament.resonance_pickaxe.desc.3": "Right click to dislodge the black hole, allowing the user to manipulate it to their will, sucking in nearby mobs. Distance thrown is based on charge time",
+
   "creativeTab.armament_tab": "Armament"
 }

@@ -158,7 +158,7 @@ public class EventHorizonLanceItem extends TridentItem implements Vanishable, Ge
 
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (!pLevel.isClientSide && pEntity instanceof ServerPlayer player) {
+        if (!pLevel.isClientSide && pEntity instanceof ServerPlayer player && pIsSelected) {
             BlackHoleEntity blackHoleEntity = playerBlackHoleMap.get(player.getUUID());
             if (blackHoleEntity != null) {
                 if (isSpawned(pStack) && pIsSelected) {
