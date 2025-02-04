@@ -8,7 +8,6 @@ import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 public class SupernovaSwordItemRenderer extends GeoItemRenderer<SupernovaSwordItem> {
     public SupernovaSwordItemRenderer() {
         super(new SupernovaSwordItemModel());
-
         addRenderLayer(new AutoGlowingGeoLayer<>(this));
     }
 }

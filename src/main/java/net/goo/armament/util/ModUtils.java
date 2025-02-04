@@ -5,10 +5,36 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 
 public class ModUtils {
+    public static int getColorFromGradient(int percentage, int[]... rgbColors) {
+        // Handle edge cases when there are less than 2 colors
+        if (rgbColors.length < 2) {
+            return rgbToInt(rgbColors[0]);
+        }
 
+        // Calculate the ratio based on the percentage
+        float ratio = percentage / 100f;
+        int totalSegments = rgbColors.length - 1; // Number of segments created by color stops
+
+        // Determine the segment range for the given ratio
+        int segment = Math.min((int) (ratio * totalSegments), totalSegments - 1);
+        float localRatio = (ratio * totalSegments) - segment;
+
+        // Interpolate between the two colors
+        int[] color1 = rgbColors[segment];
+        int[] color2 = rgbColors[segment + 1];
+
+        // Calculate the resulting color
+        int r = (int) ((1 - localRatio) * color1[0] + localRatio * color2[0]);
+        int g = (int) ((1 - localRatio) * color1[1] + localRatio * color2[1]);
+        int b = (int) ((1 - localRatio) * color1[2] + localRatio * color2[2]);
+
+        return (r << 16) | (g << 8) | b; // Return the final color
+    }
+
+    // Method to add color gradient text with individual RGB color parameters
     public static MutableComponent addColorGradientText(Component text, int[]... rgbColors) {
         // Create a component to hold all the parts of the gradient text
-        MutableComponent gradientTextComponent = Component.empty(); // Initialize with an empty component
+        MutableComponent gradientTextComponent = Component.empty();
 
         String string = text.getString();
         int length = string.length();
@@ -19,24 +45,11 @@ public class ModUtils {
         }
 
         for (int i = 0; i < length; i++) {
-            // Determine which segment of the gradient the current index falls into
-            int segment = Math.min((i * numColors) / length, numColors - 1);
-            int nextSegment = Math.min(segment + 1, numColors - 1);
+            // Calculate the percentage based on character index
+            int percentage = (i * 100) / (length - 1); // Avoid division by zero for single character strings
 
-            // Calculate ratio for interpolation between current color and the next
-            float ratio = (float) (i - (segment * length) / numColors) / ((float) (length) / numColors);
-
-            // Get current and next colors
-            int startColor = rgbToInt(rgbColors[segment]);
-            int endColor = rgbToInt(rgbColors[nextSegment]);
-
-            // Interpolate between startColor and endColor
-            int r = (int) ((1 - ratio) * ((startColor >> 16) & 0xFF) + ratio * ((endColor >> 16) & 0xFF));
-            int g = (int) ((1 - ratio) * ((startColor >> 8) & 0xFF) + ratio * ((endColor >> 8) & 0xFF));
-            int b = (int) ((1 - ratio) * (startColor & 0xFF) + ratio * (endColor & 0xFF));
-
-            // Create the color integer
-            int color = (r << 16) | (g << 8) | b;
+            // Get the color from the gradient using the helper method
+            int color = getColorFromGradient(percentage, rgbColors);
 
             // Create a component for the letter with the computed color
             Component letterComponent = Component.literal(String.valueOf(string.charAt(i)))
@@ -50,42 +63,8 @@ public class ModUtils {
         return gradientTextComponent;
     }
 
-    public static int getColorFromGradient(int percentage, int[] rgb1, int[] rgb2, int[] rgb3) {
-        // Normalize the percentage to a value between 0 and 1
-        float ratio = percentage / 100f;
-        int color;
-
-        // Determine the position in the gradient
-        if (ratio < 1f / 3f) {
-            // Interpolate between startColor (rgb1) and middleColor (rgb2)
-            float localRatio = ratio / (1f / 3f);
-            int r = (int) ((1 - localRatio) * rgb1[0] + localRatio * rgb2[0]);
-            int g = (int) ((1 - localRatio) * rgb1[1] + localRatio * rgb2[1]);
-            int b = (int) ((1 - localRatio) * rgb1[2] + localRatio * rgb2[2]);
-            color = (r << 16) | (g << 8) | b;
-        } else if (ratio < 2f / 3f) {
-            // Interpolate between middleColor (rgb2) and endColor (rgb3)
-            float localRatio = (ratio - (1f / 3f)) / (1f / 3f);
-            int r = (int) ((1 - localRatio) * rgb2[0] + localRatio * rgb3[0]);
-            int g = (int) ((1 - localRatio) * rgb2[1] + localRatio * rgb3[1]);
-            int b = (int) ((1 - localRatio) * rgb2[2] + localRatio * rgb3[2]);
-            color = (r << 16) | (g << 8) | b;
-        } else {
-            // Directly use the endColor (rgb3)
-            color = (rgb3[0] << 16) | (rgb3[1] << 8) | rgb3[2];
-        }
-
-        return color;
-    }
-
+    // Example RGB conversion method
     public static int rgbToInt(int[] rgb) {
-        if (rgb.length < 3) {
-            throw new IllegalArgumentException("RGB array must have three elements: [r, g, b]");
-        }
-        int r = rgb[0];
-        int g = rgb[1];
-        int b = rgb[2];
-        return (r << 16) | (g << 8) | b;
+        return (rgb[0] << 16) | (rgb[1] << 8) | rgb[2]; // Assume RGB value is in the range [0, 255]
     }
-
 }

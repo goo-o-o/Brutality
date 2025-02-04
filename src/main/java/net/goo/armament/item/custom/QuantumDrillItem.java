@@ -1,6 +1,8 @@
 package net.goo.armament.item.custom;
 
+import net.goo.armament.item.custom.client.renderer.QuantumDrillItemRenderer;
 import net.goo.armament.util.ModUtils;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -15,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.constant.DataTickets;
@@ -26,6 +29,7 @@ import software.bernie.geckolib.core.object.PlayState;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import static net.minecraft.core.BlockPos.withinManhattan;
 
@@ -53,6 +57,21 @@ public class QuantumDrillItem extends Item implements GeoItem {
     @Override
     public Component getName(ItemStack pStack) {
         return ModUtils.addColorGradientText((Component.translatable("item.armament.quantum_drill")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+    }
+
+    @Override
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
+            private QuantumDrillItemRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if(this.renderer == null) {
+                    renderer = new QuantumDrillItemRenderer();
+                }
+                return this.renderer;
+            }
+        });
     }
 
     @Override
@@ -91,7 +110,7 @@ public class QuantumDrillItem extends Item implements GeoItem {
                     blockSet.add(pLevel.getBlockState(pos));
                 }
 
-                float efficiencyScaleFactor = 0.375F; // Lower is faster
+                float efficiencyScaleFactor = 0.5F; // Lower is faster
                 int uniqueBlocks = blockSet.size();
                 int blockLimit = 55;
                 float efficiencyFraction = Math.max((uniqueBlocks / (float) blockLimit), 0.01F);
