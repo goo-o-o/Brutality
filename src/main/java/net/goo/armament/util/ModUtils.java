@@ -1,12 +1,17 @@
 package net.goo.armament.util;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.List;
 
 public class ModUtils {
     public static int getColorFromGradient(int percentage, int[]... rgbColors) {
@@ -72,12 +77,65 @@ public class ModUtils {
         return (rgb[0] << 16) | (rgb[1] << 8) | rgb[2]; // Assume RGB value is in the range [0, 255]
     }
 
-    public static Entity getEntityPlayerLookingAt(Player player, float reach) {
-        Level level = player.level();
+    public static BlockPos LookingAtBlock(Player player, boolean isFluid, float hitDistance){
+        HitResult block =  player.pick(hitDistance, 1.0F, isFluid);
 
-        Vec3 eyesPos = player.getEyePosition();
-        Vec3 lookVec = player.getLookAngle().normalize();
-
-        Vec3 rayEnd =
+        if (block.getType() == HitResult.Type.BLOCK) {
+            BlockPos blockpos = ((BlockHitResult)block).getBlockPos();
+            return blockpos;
+        }
+        return null;
     }
+
+    /**
+     * Checks if the player is looking at any entity within a certain distance.
+     */
+    public static Entity getEntityPlayerLookingAt(Player pPlayer, double range) {
+        // Get player's eye position
+        Vec3 playerPos = pPlayer.getEyePosition(1.0F);
+        Vec3 viewVector = pPlayer.getViewVector(1.0F).normalize();
+
+        // Get the list of entities within the specified range
+        List<Entity> entities = pPlayer.level().getEntitiesOfClass(Entity.class, new AABB(playerPos, playerPos).inflate(range));
+        Entity closestEntity = null;
+        double closestDistance = Double.MAX_VALUE; // Start with a very large distance
+
+        for (Entity entity : entities) {
+            // Calculate direction to the entity
+            Vec3 entityPos = new Vec3(entity.getX(), entity.getEyeY(), entity.getZ());
+            Vec3 directionToEntity = entityPos.subtract(playerPos);
+            double distanceToEntity = directionToEntity.length();
+
+            if (distanceToEntity > 0) {
+                directionToEntity = directionToEntity.normalize();
+                double dotProduct = viewVector.dot(directionToEntity);
+
+                // Check if the angle is within range
+                if (dotProduct > 1.0D - 0.075D / distanceToEntity) { // Adjust threshold as needed
+                    // Check line of sight
+                    if (pPlayer.hasLineOfSight(entity)) {
+                        // If this entity is closer than the closest found so far, update
+                        if (distanceToEntity < closestDistance) {
+                            closestEntity = entity;
+                            closestDistance = distanceToEntity; // Update the closest distance
+                        }
+                    }
+                }
+            }
+        }
+        return closestEntity; // Return the closest entity or null if none found
+    }
+
+//    public static Entity getTargetedEntity(Entity user, int range) {
+//        Vec3 rayCastOrigin = user.getEyePosition();
+//        Vec2 userView = user.getRotationVector().normalized().scale(range);
+//        Vec3 rayCastEnd = rayCastOrigin.add(userView);
+//        AABB searchBox = user.getBoundingBox().inflate(range, range, range);
+//        EntityHitResult hitResult = ProjectileUtil.raycast(user, rayCastOrigin, rayCastEnd, searchBox,
+//                (target) -> !target.isSpectator() && target.canHit() && target instanceof LivingEntity, range * range);
+//        if (hitResult != null) {
+//            return hitResult.getEntity();
+//        }
+//        return null;
+//    }
 }

@@ -15,8 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -31,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import static net.goo.armament.util.ModUtils.LookingAtBlock;
 import static net.minecraft.core.BlockPos.withinManhattan;
 
 public class QuantumDrillItem extends Item implements GeoItem {
@@ -157,15 +156,7 @@ public class QuantumDrillItem extends Item implements GeoItem {
         }
     }
 
-    public BlockPos LookingAtBlock(Player player, boolean isFluid, float hitDistance){
-        HitResult block =  player.pick(hitDistance, 1.0F, isFluid);
 
-        if (block.getType() == HitResult.Type.BLOCK) {
-            BlockPos blockpos = ((BlockHitResult)block).getBlockPos();
-            return blockpos;
-        }
-        return null;
-    }
 
     public boolean isActive(ItemStack stack) {
         return stack.getOrCreateTag().getBoolean(ACTIVE);

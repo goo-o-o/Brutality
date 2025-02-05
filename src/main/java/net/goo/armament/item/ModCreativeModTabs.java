@@ -27,6 +27,7 @@ public class ModCreativeModTabs {
                         output.accept(ModItems.DOOMFIST_GAUNTLET.get());
                         output.accept(ModItems.JACKPOT_HAMMER.get());
                         output.accept(ModItems.QUANTUM_DRILL.get());
+                        output.accept(ModItems.SHADOWSTEP_SWORD.get());
                         output.accept(ModItems.ZEUS_THUNDERBOLT_TRIDENT.get().getDefaultInstance());
                         output.accept(ModItems.EVENT_HORIZON_LANCE.get());
                         output.accept(ModItems.RESONANCE_PICKAXE.get());

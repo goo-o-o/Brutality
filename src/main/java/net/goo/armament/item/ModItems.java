@@ -17,6 +17,9 @@ public class ModItems {
     public static final RegistryObject<Item> SUPERNOVA_SWORD = ITEMS.register("supernova",
             () -> new SupernovaSwordItem(Tiers.NETHERITE, 5, -2.6F, new Item.Properties()));
 
+    public static final RegistryObject<Item> SHADOWSTEP_SWORD = ITEMS.register("shadowstep",
+            () -> new ShadowstepSwordItem(Tiers.NETHERITE, 5, -2.6F, new Item.Properties()));
+
     public static final RegistryObject<Item> TRUTHSEEKER_SWORD = ITEMS.register("truthseeker",
             () -> new TruthseekerSwordItem(Tiers.NETHERITE, 1, -2.6F, new Item.Properties()));
 
