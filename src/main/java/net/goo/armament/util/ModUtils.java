@@ -3,6 +3,10 @@ package net.goo.armament.util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class ModUtils {
     public static int getColorFromGradient(int percentage, int[]... rgbColors) {
@@ -66,5 +70,14 @@ public class ModUtils {
     // Example RGB conversion method
     public static int rgbToInt(int[] rgb) {
         return (rgb[0] << 16) | (rgb[1] << 8) | rgb[2]; // Assume RGB value is in the range [0, 255]
+    }
+
+    public static Entity getEntityPlayerLookingAt(Player player, float reach) {
+        Level level = player.level();
+
+        Vec3 eyesPos = player.getEyePosition();
+        Vec3 lookVec = player.getLookAngle().normalize();
+
+        Vec3 rayEnd =
     }
 }

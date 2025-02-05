@@ -36,6 +36,7 @@ import static net.minecraft.core.BlockPos.withinManhattan;
 public class QuantumDrillItem extends Item implements GeoItem {
     private static final String ACTIVE = "drillActive";
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+    private static final String SPEED = "speed";
 
     public QuantumDrillItem(Properties pProperties) {
         super(pProperties);
@@ -84,6 +85,9 @@ public class QuantumDrillItem extends Item implements GeoItem {
 
         if (!pLevel.isClientSide) {
             setActive(pStack, !isActive(pStack));
+            if (!isActive(pStack)) {
+                setSpeed(pStack, 0);
+            }
         }
 
         return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
@@ -121,6 +125,14 @@ public class QuantumDrillItem extends Item implements GeoItem {
                         (Component.literal(String.format("%.2f", efficiencyPercentage) + "% efficiency")
                                 .withStyle(Style.EMPTY.withColor(ModUtils.getColorFromGradient((int) efficiencyPercentage, efficiencyColor3, efficiencyColor2, efficiencyColor1)).withBold(true))),
                         true);
+
+                if ((int) efficiencyPercentage < 33) {
+                    setSpeed(pStack, 1);
+                } else if (((int) efficiencyPercentage) < 66) {
+                    setSpeed(pStack, 2);
+                } else {
+                    setSpeed(pStack, 3);
+                }
 
                 blockSet.clear();
             }
@@ -163,10 +175,22 @@ public class QuantumDrillItem extends Item implements GeoItem {
         stack.getOrCreateTag().putBoolean(ACTIVE, active);
     }
 
+    public static int getSpeed(ItemStack stack) {
+        return stack.getOrCreateTag().getInt(SPEED);
+    }
+
+    public static void setSpeed(ItemStack stack, int speed) {
+        stack.getOrCreateTag().putInt(SPEED, speed);
+    }
+
     private PlayState predicate(AnimationState animationState) {
         ItemStack stack = (ItemStack) animationState.getData(DataTickets.ITEMSTACK);
-        if (isActive(stack)) {
-            animationState.getController().setAnimation(RawAnimation.begin().thenPlayAndHold("active"));
+        if (getSpeed(stack) == 1) {
+            animationState.getController().setAnimation(RawAnimation.begin().then("activelow", Animation.LoopType.LOOP));
+        } else if (getSpeed(stack) == 2) {
+            animationState.getController().setAnimation(RawAnimation.begin().then("activemed", Animation.LoopType.LOOP));
+        } else if (getSpeed(stack) == 3) {
+            animationState.getController().setAnimation(RawAnimation.begin().then("activehigh", Animation.LoopType.LOOP));
         } else {
             animationState.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
         }
@@ -175,7 +199,7 @@ public class QuantumDrillItem extends Item implements GeoItem {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController(this, "controller", 10, this::predicate));
     }
 
     @Override

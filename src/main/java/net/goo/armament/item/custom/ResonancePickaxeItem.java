@@ -70,7 +70,7 @@ public class ResonancePickaxeItem extends PickaxeItem implements GeoItem {
         Level level = pContext.getLevel();
         ItemStack stack = pContext.getItemInHand();
         if (player != null) {
-            player.getCooldowns().addCooldown(stack.getItem(), 20);
+            player.getCooldowns().addCooldown(stack.getItem(), 60);
             BlockPos blockPos = LookingAtBlock(player, false, 5F);
             Block selectedBlock = level.getBlockState(blockPos).getBlock();
             ResourceLocation blockID = ForgeRegistries.BLOCKS.getKey(selectedBlock);
