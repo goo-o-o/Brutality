@@ -8,7 +8,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class PokerChipRedParticle extends TextureSheetParticle {
     private final SpriteSet sprites;
-    private double initialVelocity; // Adjust this for launch speed
+    private final double initialVelocity; // Adjust this for launch speed
     private double time = 0; // Track time elapsed
 
     protected PokerChipRedParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet) {

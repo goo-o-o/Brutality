@@ -1,9 +1,11 @@
 package net.goo.armament.util;
 
+import net.goo.armament.Armament;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
@@ -14,6 +16,28 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public class ModUtils {
+    public static final ResourceLocation ALAGARD = new ResourceLocation(Armament.MOD_ID, "alagard");
+
+    public static List<Component> tooltipHelper(List<Component> component, String localeKey, boolean bold, ResourceLocation font, int[]... colors) {
+        Component textComponent = Component.translatable(localeKey).withStyle(Style.EMPTY.withBold(bold).withFont(font));
+        if (colors.length == 1) {
+            textComponent.getStyle().withColor(ModUtils.rgbToInt(colors[0]));
+        } else {
+            component.add(addColorGradientText(textComponent, colors));
+        }
+        return component;
+    }
+
+    public static List<Component> tooltipHelper(List<Component> component, String localeKey, boolean bold, int[]... colors) {
+        Component textComponent = Component.translatable(localeKey).withStyle(Style.EMPTY.withBold(bold));
+        if (colors.length == 1) {
+            textComponent.getStyle().withColor(ModUtils.rgbToInt(colors[0]));
+        } else {
+            component.add(addColorGradientText(textComponent, colors));
+        }
+        return component;
+    }
+
     public static int getColorFromGradient(int percentage, int[]... rgbColors) {
         // Handle edge cases when there are less than 2 colors
         if (rgbColors.length < 2) {
@@ -126,16 +150,4 @@ public class ModUtils {
         return closestEntity; // Return the closest entity or null if none found
     }
 
-//    public static Entity getTargetedEntity(Entity user, int range) {
-//        Vec3 rayCastOrigin = user.getEyePosition();
-//        Vec2 userView = user.getRotationVector().normalized().scale(range);
-//        Vec3 rayCastEnd = rayCastOrigin.add(userView);
-//        AABB searchBox = user.getBoundingBox().inflate(range, range, range);
-//        EntityHitResult hitResult = ProjectileUtil.raycast(user, rayCastOrigin, rayCastEnd, searchBox,
-//                (target) -> !target.isSpectator() && target.canHit() && target instanceof LivingEntity, range * range);
-//        if (hitResult != null) {
-//            return hitResult.getEntity();
-//        }
-//        return null;
-//    }
 }

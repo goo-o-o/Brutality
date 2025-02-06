@@ -128,8 +128,8 @@ public class LeafBlowerItem extends Item implements GeoItem {
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {
          if (pLivingEntity instanceof Player pPlayer) {
                 pPlayer.playSound(ModSounds.LEAF_BLOWER_OFF.get(), 0.25F, 1);
-                PacketHandler.sendToServer(new c2sOffLeafBlowerPacket());;
-                tickCounter = 0;
+                PacketHandler.sendToServer(new c2sOffLeafBlowerPacket());
+             tickCounter = 0;
             }
     }
 

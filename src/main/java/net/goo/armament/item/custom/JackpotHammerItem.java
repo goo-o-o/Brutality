@@ -7,12 +7,12 @@ import net.goo.armament.particle.ModParticles;
 import net.goo.armament.sound.ModSounds;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,7 +26,6 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -81,7 +80,7 @@ public class JackpotHammerItem extends TieredItem implements GeoItem {
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addColorGradientText((Component.translatable("item.armament.jackpot")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.addColorGradientText((Component.translatable("item.armament.jackpot")), color1, color2).withStyle(Style.EMPTY.withBold(true).withFont());
     }
 
     @Override
@@ -134,9 +133,11 @@ public class JackpotHammerItem extends TieredItem implements GeoItem {
                     player.displayClientMessage(Component.literal("\u00a7" +
                             (msgPicker == 0 ? "a\u00a7l\u00a7oCHA-CHING! " : msgPicker == 1 ? "b\u00a7l\u00a7oHUGE WIN! " : "c\u00a7l\u00a7oJACKPOT! ") + "\u00a7r" + damage + " damage"), true);
 
-                    int randomIndex = level.random.nextInt(ModSounds.JACKPOT_SOUNDS.size() + 1);
-                    RegistryObject<SoundEvent> randomJackpotSound = ModSounds.JACKPOT_SOUNDS.get(randomIndex);
-                    Holder<SoundEvent> soundHolder = Holder.direct(randomJackpotSound.get());
+                    int randomIndex = level.random.nextInt(ModSounds.JACKPOT_SOUNDS.size());
+                    SoundEvent jackpotSound = ModSounds.JACKPOT_SOUNDS.get(randomIndex).get();
+
+                    player.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), jackpotSound, SoundSource.PLAYERS, 1F ,1F);
+                    entity.playSound(jackpotSound, 1.0F, 1.0F);
 
                     ((ServerLevel) level).sendParticles(ModParticles.POKER_CHIP_GREEN_PARTICLE.get(),
                             entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(),

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class BlackHoleEntity extends Entity implements GeoEntity {
-    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+    private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private UUID ownerUUID;
 
     public BlackHoleEntity(EntityType<?> pEntityType, Level pLevel) {

@@ -62,7 +62,7 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
         super(pProperties);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 8.0D, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", (double)-2.9F, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.9F, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(SPEED_BOOST_UUID, "Tool modifier",2, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
 
@@ -149,7 +149,7 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
                             }
 
                             pLevel.addFreshEntity(thrownZeusThunderbolt);
-                            pLevel.playSound((Player)null, thrownZeusThunderbolt, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+                            pLevel.playSound(null, thrownZeusThunderbolt, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
 
                         }
                     }
@@ -166,11 +166,11 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
                         f1 *= f5 / f4;
                         f2 *= f5 / f4;
                         f3 *= f5 / f4;
-                        player.push((double)f1, (double)f2, (double)f3);
+                        player.push(f1, f2, f3);
                         player.startAutoSpinAttack(20);
                         if (player.onGround()) {
                             float f6 = 1.1999999F;
-                            player.move(MoverType.SELF, new Vec3(0.0D, (double)1.1999999F, 0.0D));
+                            player.move(MoverType.SELF, new Vec3(0.0D, 1.1999999F, 0.0D));
                         }
 
                         SoundEvent soundevent;
@@ -182,7 +182,7 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
                             soundevent = SoundEvents.TRIDENT_RIPTIDE_1;
                         }
 
-                        pLevel.playSound((Player)null, player, soundevent, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        pLevel.playSound(null, player, soundevent, SoundSource.PLAYERS, 1.0F, 1.0F);
                     }
 
                 }
@@ -225,7 +225,7 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
         controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
     }
 
-    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+    private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
