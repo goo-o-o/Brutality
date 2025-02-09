@@ -1,11 +1,11 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.item.custom.client.renderer.SupernovaSwordItemRenderer;
+import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.client.event.item.renderer.SupernovaSwordItemRenderer;
 import net.goo.armament.particle.ModParticles;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,31 +25,39 @@ import software.bernie.geckolib.core.object.PlayState;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static net.goo.armament.util.ModResources.SPACE;
+
 
 public class SupernovaSwordItem extends SwordItem implements GeoItem {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-
-    public SupernovaSwordItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
-    }
-
+    private final ModItemCategories category;
     int[] color1 = new int[]{255, 255, 222};
     int[] color2 = new int[]{90, 37, 131};
 
+    public SupernovaSwordItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, ModItemCategories category) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
+        this.category = category;
+    }
+
+    public ModItemCategories getCategory() {
+        return category;
+    }
+
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.supernova.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.supernova.desc.1", false, null, color2));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.supernova.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
-        pTooltipComponents.add(Component.translatable("item.armament.supernova.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.supernova.desc.2", false, null, color1));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.supernova.desc.3", false, null, color2));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addColorGradientText((Component.translatable("item.armament.supernova")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.tooltipHelper("item.armament.supernova", false, SPACE, color1, color2);
     }
+
 
     private PlayState predicate(AnimationState animationState) {
         animationState.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));

@@ -5,11 +5,11 @@ import com.google.common.collect.Multimap;
 import net.goo.armament.Armament;
 import net.goo.armament.entity.ModEntities;
 import net.goo.armament.entity.custom.BlackHoleEntity;
-import net.goo.armament.item.custom.client.renderer.EventHorizonLanceItemRenderer;
+import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.client.event.item.renderer.EventHorizonLanceItemRenderer;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -40,39 +40,46 @@ import software.bernie.geckolib.core.object.PlayState;
 import java.util.*;
 import java.util.function.Consumer;
 
+import static net.goo.armament.util.ModResources.SPACE;
+
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EventHorizonLanceItem extends TridentItem implements Vanishable, GeoItem {
     private static final String SPAWNED = "blackHoleSpawned";
     private static final UUID SPEED_BOOST_UUID = UUID.fromString("f9d0a647-4999-4637-b4a0-7f768a65b5db");  // Unique UUID for speed boost modifier
     private static final Map<UUID, BlackHoleEntity> playerBlackHoleMap = new HashMap<>();
     private double spawnRadius;
+    int[] color1 = new int[]{250, 140, 20};
+    int[] color2 = new int[]{50, 50, 50};
+    private final ModItemCategories category;
 
-    public EventHorizonLanceItem(Properties pProperties) {
+    public EventHorizonLanceItem(Properties pProperties, ModItemCategories category) {
         super(pProperties);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 8.0D, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.9F, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(SPEED_BOOST_UUID, "Tool modifier",2, AttributeModifier.Operation.ADDITION));
         Multimap<Attribute, AttributeModifier> defaultModifiers = builder.build();
-
+        this.category = category;
     }
 
-    int[] color1 = new int[]{250, 140, 20};
-    int[] color2 = new int[]{50, 50, 50};
+    public ModItemCategories getCategory() {
+        return category;
+    }
+
+
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-
-        pTooltipComponents.add(Component.translatable("item.armament.event_horizon.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.event_horizon.desc.1", false, null, color2));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.event_horizon.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
-        pTooltipComponents.add(Component.translatable("item.armament.event_horizon.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.event_horizon.desc.2", false, null, color1));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.event_horizon.desc.3", false, null, color2));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addColorGradientText((Component.translatable("item.armament.event_horizon")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.tooltipHelper("item.armament.event_horizon", false, SPACE, color1, color2);
     }
 
 

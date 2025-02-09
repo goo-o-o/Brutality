@@ -1,6 +1,5 @@
 package net.goo.armament.util;
 
-import net.goo.armament.Armament;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -16,26 +15,21 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public class ModUtils {
-    public static final ResourceLocation ALAGARD = new ResourceLocation(Armament.MOD_ID, "alagard");
 
-    public static List<Component> tooltipHelper(List<Component> component, String localeKey, boolean bold, ResourceLocation font, int[]... colors) {
-        Component textComponent = Component.translatable(localeKey).withStyle(Style.EMPTY.withBold(bold).withFont(font));
-        if (colors.length == 1) {
-            textComponent.getStyle().withColor(ModUtils.rgbToInt(colors[0]));
+    public static Component tooltipHelper(String localeKey, boolean bold, ResourceLocation font, int[]... colors) {
+        if (font == null) {
+            if (colors.length == 1) {
+                return Component.translatable(localeKey).withStyle(Style.EMPTY.withBold(bold).withColor(rgbToInt(colors[0])));
+            } else {
+                return addColorGradientText(Component.translatable(localeKey), colors).withStyle(Style.EMPTY.withBold(bold));
+            }
         } else {
-            component.add(addColorGradientText(textComponent, colors));
+            if (colors.length == 1) {
+                return Component.translatable(localeKey).withStyle(Style.EMPTY.withBold(bold).withFont(font).withColor(rgbToInt(colors[0])));
+            } else {
+                return addColorGradientText(Component.translatable(localeKey), colors).withStyle(Style.EMPTY.withBold(bold).withFont(font));
+            }
         }
-        return component;
-    }
-
-    public static List<Component> tooltipHelper(List<Component> component, String localeKey, boolean bold, int[]... colors) {
-        Component textComponent = Component.translatable(localeKey).withStyle(Style.EMPTY.withBold(bold));
-        if (colors.length == 1) {
-            textComponent.getStyle().withColor(ModUtils.rgbToInt(colors[0]));
-        } else {
-            component.add(addColorGradientText(textComponent, colors));
-        }
-        return component;
     }
 
     public static int getColorFromGradient(int percentage, int[]... rgbColors) {

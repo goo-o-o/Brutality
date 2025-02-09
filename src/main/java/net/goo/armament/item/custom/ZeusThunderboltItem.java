@@ -4,13 +4,13 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.armament.Armament;
 import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
+import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.ModItems;
-import net.goo.armament.item.custom.client.renderer.ZeusThunderboltItemRenderer;
+import net.goo.armament.client.event.item.renderer.ZeusThunderboltItemRenderer;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -50,6 +50,8 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import static net.goo.armament.util.ModResources.FANTASY;
+
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoItem {
     public static final int THROW_THRESHOLD_TIME = 10;
@@ -57,9 +59,13 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
     public static final float SHOOT_POWER = 2.5F;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
     private static final UUID SPEED_BOOST_UUID = UUID.fromString("f9d0a647-4999-4637-b4a0-7f768a65b5db");  // Unique UUID for speed boost modifier
+    private final ModItemCategories category;
+    int[] color1 = new int[]{255, 215, 86};
+    int[] color2 = new int[]{164, 92, 0};
 
-    public ZeusThunderboltItem(Item.Properties pProperties) {
+    public ZeusThunderboltItem(Item.Properties pProperties, ModItemCategories category) {
         super(pProperties);
+        this.category = category;
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 8.0D, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.9F, AttributeModifier.Operation.ADDITION));
@@ -68,23 +74,25 @@ public class ZeusThunderboltItem extends TridentItem implements Vanishable, GeoI
 
     }
 
-    int[] color1 = new int[]{255, 215, 86};
-    int[] color2 = new int[]{164, 92, 0};
+    public ModItemCategories getCategory() {
+        return category;
+    }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.zeus_thunderbolt.desc.1", false, null, color2));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
-        pTooltipComponents.add(Component.translatable("item.armament.zeus_thunderbolt.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.zeus_thunderbolt.desc.2", false, null, color1));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.zeus_thunderbolt.desc.3", false, null, color2));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addColorGradientText((Component.translatable("item.armament.zeus_thunderbolt")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.tooltipHelper("item.armament.zeus_thunderbolt", false, FANTASY, color1, color2);
     }
+
 
     @Override
     public ItemStack getDefaultInstance() {

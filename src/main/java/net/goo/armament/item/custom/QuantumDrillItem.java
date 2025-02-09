@@ -1,6 +1,7 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.item.custom.client.renderer.QuantumDrillItemRenderer;
+import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.client.event.item.renderer.QuantumDrillItemRenderer;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import static net.goo.armament.util.ModResources.TECHNOLOGY;
 import static net.goo.armament.util.ModUtils.LookingAtBlock;
 import static net.minecraft.core.BlockPos.withinManhattan;
 
@@ -36,28 +38,36 @@ public class QuantumDrillItem extends Item implements GeoItem {
     private static final String ACTIVE = "drillActive";
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private static final String SPEED = "speed";
-
-    public QuantumDrillItem(Properties pProperties) {
-        super(pProperties);
-    }
-
     int[] color1 = new int[]{255, 255, 255};
     int[] color2 = new int[]{0, 120, 190};
+    private final ModItemCategories category;
+
+    public QuantumDrillItem(Properties pProperties, ModItemCategories category) {
+        super(pProperties);
+        this.category = category;
+    }
+
+
+    public ModItemCategories getCategory() {
+        return category;
+    }
+
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.quantum_drill.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.quantum_drill.desc.1", false, null, color2));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.quantum_drill.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
-        pTooltipComponents.add(Component.translatable("item.armament.quantum_drill.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.quantum_drill.desc.2", false, null, color1));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.quantum_drill.desc.3", false, null, color2));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addColorGradientText((Component.translatable("item.armament.quantum_drill")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.tooltipHelper("item.armament.quantum_drill", false, TECHNOLOGY, color1, color2);
     }
+
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {

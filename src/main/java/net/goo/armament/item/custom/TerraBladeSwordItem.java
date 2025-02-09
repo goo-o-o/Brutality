@@ -1,11 +1,11 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
+import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.network.c2sTerraBeamPacket;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
@@ -19,10 +19,17 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import static net.goo.armament.util.ModResources.FANTASY;
+
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class TerraBladeSwordItem extends SwordItem {
-    public TerraBladeSwordItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
+    int[] color1 = new int[]{174, 229, 58};
+    int[] color2 = new int[]{0, 82, 60};
+    private final ModItemCategories category;
+
+    public TerraBladeSwordItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, ModItemCategories category) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
+        this.category = category;
     }
 
 
@@ -32,25 +39,25 @@ public class TerraBladeSwordItem extends SwordItem {
         if (player.getMainHandItem().getItem() instanceof TerraBladeSwordItem) {
             PacketHandler.sendToServer(new c2sTerraBeamPacket());
         }
-
     }
 
-    int[] color1 = new int[]{174, 229, 58};
-    int[] color2 = new int[]{0, 82, 60};
+    public ModItemCategories getCategory() {
+        return category;
+    }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.terra_blade.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.terra_blade.desc.1", false, null, color2));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.terra_blade.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
-        pTooltipComponents.add(Component.translatable("item.armament.terra_blade.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.terra_blade.desc.2", false, null, color1));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.terra_blade.desc.3", false, null, color2));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addColorGradientText((Component.translatable("item.armament.terra_blade")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.tooltipHelper("item.armament.terra_blade", false, FANTASY, color1, color2);
     }
 
 }

@@ -2,11 +2,11 @@ package net.goo.armament.item.custom;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.armament.item.custom.client.renderer.TerratonHammerItemRenderer;
+import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.client.event.item.renderer.TerratonHammerItemRenderer;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -27,13 +27,19 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import static net.goo.armament.util.ModResources.FANTASY;
+
 public class TerratonHammerItem extends SwordItem implements GeoItem {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private static final UUID MOVEMENT_SPEED_MODIFIER_UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
     private final Multimap<Attribute, AttributeModifier> attributeModifiers;
+    private final ModItemCategories category;
+    int[] color1 = new int[]{186, 198, 195};
+    int[] color2 = new int[]{25, 50, 50};
 
-    public TerratonHammerItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
+    public TerratonHammerItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, ModItemCategories category) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
+        this.category = category;
 
         // Predefine modifiers
         this.attributeModifiers = ImmutableMultimap.<Attribute, AttributeModifier>builder()
@@ -43,33 +49,34 @@ public class TerratonHammerItem extends SwordItem implements GeoItem {
                 .build();
     }
 
-
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot equipmentSlot, ItemStack stack) {
-        return equipmentSlot == EquipmentSlot.MAINHAND ? this.attributeModifiers : super.getAttributeModifiers(equipmentSlot, stack);
+    public ModItemCategories getCategory() {
+        return category;
     }
-
-    int[] color1 = new int[]{186, 198, 195};
-    int[] color2 = new int[]{25, 50, 50};
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.terraton_hammer.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.terraton_hammer.desc.1", false, null, color2));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.terraton_hammer.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
-        pTooltipComponents.add(Component.translatable("item.armament.terraton_hammer.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.terraton_hammer.desc.2", false, null, color1));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.terraton_hammer.desc.3", false, null, color2));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addColorGradientText((Component.translatable("item.armament.terraton_hammer")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.tooltipHelper("item.armament.terraton_hammer", false, FANTASY, color1, color2);
     }
+
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
 
+    }
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot equipmentSlot, ItemStack stack) {
+        return equipmentSlot == EquipmentSlot.MAINHAND ? this.attributeModifiers : super.getAttributeModifiers(equipmentSlot, stack);
     }
 
     @Override

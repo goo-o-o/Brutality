@@ -3,9 +3,9 @@
     {
       "type": "ttf",
       "file": "armament:alagard.ttf",
-      "shift": [0.0, 0.0],
-      "size": 18,
-      "oversample": 2.0
+      "shift": [0, 0.8],
+      "size": 11.0,
+      "oversample": 10.0
     }
   ]
 }

@@ -1,0 +1,34 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "texture_size": [
+    32,
+    32
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -4.5,
+        1
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        0,
+        -4,
+        0
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        0,
+        -4,
+        0
+      ]
+    }
+  },
+  "textures": {
+    "particle": "armament:item/shadowstep_handheld"
+  }
+}

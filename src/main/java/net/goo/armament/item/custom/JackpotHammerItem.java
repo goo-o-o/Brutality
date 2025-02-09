@@ -2,13 +2,13 @@ package net.goo.armament.item.custom;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.armament.item.custom.client.renderer.JackpotHammerItemRenderer;
+import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.client.event.item.renderer.JackpotHammerItemRenderer;
 import net.goo.armament.particle.ModParticles;
 import net.goo.armament.sound.ModSounds;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -35,13 +35,38 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static net.goo.armament.util.ModResources.SILLY;
+
 public class JackpotHammerItem extends TieredItem implements GeoItem {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private final float attackSpeedModifier;
+    int[] color1 = new int[]{255, 200, 50};
+    int[] color2 = new int[]{38, 234, 239};
+    private final ModItemCategories category;
 
-    public JackpotHammerItem(Tier pTier, float pAttackSpeedModifier, Properties pProperties) {
+    public JackpotHammerItem(Tier pTier, float pAttackSpeedModifier, Properties pProperties, ModItemCategories category) {
         super(pTier, pProperties);
         this.attackSpeedModifier = pAttackSpeedModifier;
+        this.category = category;
+    }
+
+    public ModItemCategories getCategory() {
+        return category;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.jackpot.desc.1", false, null, color2));
+        pTooltipComponents.add(Component.literal(""));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.jackpot.desc.2", false, null, color1));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.jackpot.desc.3", false, null, color2));
+
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
+
+    @Override
+    public Component getName(ItemStack pStack) {
+        return ModUtils.tooltipHelper("item.armament.jackpot", false, SILLY, color1, color2);
     }
 
     @Override
@@ -65,23 +90,7 @@ public class JackpotHammerItem extends TieredItem implements GeoItem {
         return builder.build();
     }
 
-    int[] color1 = new int[]{255, 200, 50};
-    int[] color2 = new int[]{38, 234, 239};
 
-    @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.jackpot.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
-        pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.jackpot.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
-        pTooltipComponents.add(Component.translatable("item.armament.jackpot.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
-
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-    }
-
-    @Override
-    public Component getName(ItemStack pStack) {
-        return ModUtils.addColorGradientText((Component.translatable("item.armament.jackpot")), color1, color2).withStyle(Style.EMPTY.withBold(true).withFont());
-    }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {

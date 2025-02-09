@@ -1,10 +1,10 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.item.custom.client.renderer.DoomfistGauntletItemRenderer;
+import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.client.event.item.renderer.DoomfistGauntletItemRenderer;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -29,38 +29,45 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static net.goo.armament.util.ModResources.TECHNOLOGY;
+
 public class DoomfistGauntletItem extends BowItem implements GeoItem {
     private static final String PUNCHING = "isPunching";
     private static int clampedTime;
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-
-    public DoomfistGauntletItem(Properties pProperties) {
-        super(pProperties);
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-
-    }
-
     int[] color1 = new int[]{237, 205, 140};
     int[] color2 = new int[]{118, 118, 118};
+    private ModItemCategories category;
+
+    public DoomfistGauntletItem(Properties pProperties, ModItemCategories category) {
+        super(pProperties);
+        this.category = category;
+    }
+
+    public ModItemCategories getCategory() {
+        return category;
+    }
+
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.doomfist_gauntlet.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.doomfist_gauntlet.desc.1", false, null, color2));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.doomfist_gauntlet.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
-        pTooltipComponents.add(Component.translatable("item.armament.doomfist_gauntlet.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.doomfist_gauntlet.desc.2", false, null, color1));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.doomfist_gauntlet.desc.3", false, null, color2));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addColorGradientText((Component.translatable("item.armament.doomfist_gauntlet")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.tooltipHelper("item.armament.doomfist_gauntlet", false, TECHNOLOGY, color1, color2);
     }
 
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+
+    }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

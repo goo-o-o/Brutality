@@ -1,13 +1,13 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.item.custom.client.renderer.LeafBlowerItemRenderer;
+import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.client.event.item.renderer.LeafBlowerItemRenderer;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.network.c2sOffLeafBlowerPacket;
 import net.goo.armament.sound.ModSounds;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -36,32 +36,42 @@ import software.bernie.geckolib.core.object.PlayState;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static net.goo.armament.util.ModResources.TECHNOLOGY;
+
 public class LeafBlowerItem extends Item implements GeoItem {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private static final String ACTIVE_KEY = "LeafBlowerActive";
     private int tickCounter;
-
-    public LeafBlowerItem(Properties pProperties) {
-        super(pProperties);
-    }
-
     int[] color1 = new int[]{212, 6, 6};
     int[] color2 = new int[]{255, 255, 255};
+    private final ModItemCategories category;
+
+    public LeafBlowerItem(Properties pProperties, ModItemCategories category) {
+        super(pProperties);
+        this.category = category;
+    }
+
+
+    public ModItemCategories getCategory() {
+        return category;
+    }
+
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc.1").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.leaf_blower.desc.1", false, null, color2));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc.2").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color1))));
-        pTooltipComponents.add(Component.translatable("item.armament.leaf_blower.desc.3").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(color2))));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.leaf_blower.desc.2", false, null, color1));
+        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.leaf_blower.desc.3", false, null, color2));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.addColorGradientText((Component.translatable("item.armament.leaf_blower")), color1, color2).withStyle(Style.EMPTY.withBold(true));
+        return ModUtils.tooltipHelper("item.armament.leaf_blower", false, TECHNOLOGY, color1, color2);
     }
+
 
     public static void setActive(ItemStack stack, boolean active) {
         stack.getOrCreateTag().putBoolean(ACTIVE_KEY, active);
