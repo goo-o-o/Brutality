@@ -1,7 +1,7 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.client.event.item.renderer.ShadowstepSwordItemRenderer;
+import net.goo.armament.client.item.renderer.ShadowstepSwordItemRenderer;
 import net.goo.armament.particle.ModParticles;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -120,6 +120,8 @@ public class ShadowstepSwordItem extends SwordItem implements GeoItem {
 
                 pLevel.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1F ,1F);
                 entity.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+
+
 
             } else {
                 pPlayer.displayClientMessage(Component.translatable("item.armament.shadowstep.invalid").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(new int[]{200, 50, 50}))), true);

@@ -25,8 +25,8 @@ public class ModEntities {
                             .setUpdateInterval(20)
                             .build("thrown_zeus_thunderbolt"));
 
-    public static final RegistryObject<EntityType<CruelSunEntity>> CRUEL_SUN_ENTITY
-            = ENTITY_TYPES.register("cruel_sun",
+    public static final RegistryObject<EntityType<CruelSunEntity>> CRUEL_SUN_ENTITY =
+            ENTITY_TYPES.register("cruel_sun",
             () -> EntityType.Builder.of(CruelSunEntity::new, MobCategory.MISC)
                     .sized(3.0f, 3.0f)
                     .build("cruel_sun"));

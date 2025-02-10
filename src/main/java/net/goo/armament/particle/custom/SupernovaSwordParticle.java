@@ -69,10 +69,8 @@ public class SupernovaSwordParticle extends TextureSheetParticle {
 
     @Override
     public int getLightColor(float partialTick) {
-        int light = super.getLightColor(partialTick);
-        // If you want the particle to emit light, you can manipulate the light value here.
-        // A simple example: return full brightness when the particle is active.
-        return 15728880; // Full bright light (0xF0F0F0)
+        return 15728880;
     }
+
 
 }

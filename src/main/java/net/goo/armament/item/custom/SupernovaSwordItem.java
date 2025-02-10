@@ -1,7 +1,7 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.client.event.item.renderer.SupernovaSwordItemRenderer;
+import net.goo.armament.client.item.renderer.SupernovaSwordItemRenderer;
 import net.goo.armament.particle.ModParticles;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -118,8 +118,11 @@ public class SupernovaSwordItem extends SwordItem implements GeoItem {
 
     private void spawnStarburstExplosionParticles(LivingEntity player, LivingEntity pTarget, Level level) {
         ((ServerLevel) level).sendParticles(ModParticles.STARBURST_PARTICLE.get(),
-                pTarget.getX(), pTarget.getY(), pTarget.getZ(),
-                0, 0, 0,0, 0);
+                pTarget.getX(), pTarget.getY() + pTarget.getBbHeight() / 2, pTarget.getZ(),
+                0,
+                level.random.nextFloat() * pTarget.getBbWidth(),
+                level.random.nextFloat() * pTarget.getBbHeight(),
+                level.random.nextFloat() * pTarget.getBbWidth(), 0);
     }
 
 }

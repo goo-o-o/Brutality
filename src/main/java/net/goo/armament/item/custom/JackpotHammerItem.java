@@ -3,7 +3,7 @@ package net.goo.armament.item.custom;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.client.event.item.renderer.JackpotHammerItemRenderer;
+import net.goo.armament.client.item.renderer.JackpotHammerItemRenderer;
 import net.goo.armament.particle.ModParticles;
 import net.goo.armament.sound.ModSounds;
 import net.goo.armament.util.ModUtils;

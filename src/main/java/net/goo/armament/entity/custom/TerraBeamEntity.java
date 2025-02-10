@@ -23,7 +23,6 @@ public class TerraBeamEntity extends AbstractHurtingProjectile implements GeoEnt
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private final int lifespan = 60;
     private double randomRoll;
-    private boolean isRollInitialized;
     private int pierceCap;
 
     public TerraBeamEntity(EntityType<? extends AbstractHurtingProjectile> entityType, Level level) {
@@ -43,15 +42,11 @@ public class TerraBeamEntity extends AbstractHurtingProjectile implements GeoEnt
 
     private void initializeRoll(Level level) {
         this.randomRoll = level.random.nextInt(360);
-        this.isRollInitialized = true;
+        boolean isRollInitialized = true;
     }
 
     public double getRandomRoll() {
         return randomRoll;
-    }
-
-    public boolean isRollInitialized() {
-        return isRollInitialized;
     }
 
     @Override
@@ -106,7 +101,6 @@ public class TerraBeamEntity extends AbstractHurtingProjectile implements GeoEnt
     public void tick() {
         Entity entity = this.getOwner();
         if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
-//            updateAnimation();
             HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
 
             if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {

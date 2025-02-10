@@ -3,7 +3,7 @@ package net.goo.armament.item.custom;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.client.event.item.renderer.TerratonHammerItemRenderer;
+import net.goo.armament.client.item.renderer.TerratonHammerItemRenderer;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;

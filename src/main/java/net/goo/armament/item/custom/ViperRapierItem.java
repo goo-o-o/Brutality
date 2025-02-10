@@ -1,13 +1,15 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
+import net.goo.armament.client.item.renderer.TruthseekerItemRenderer;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.client.event.item.renderer.TruthseekerItemRenderer;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -93,34 +95,11 @@ public class ViperRapierItem extends SwordItem implements GeoItem {
     }
 
 
-//    int tickCount = 0;
-//    @Override
-//    public void onInventoryTick(ItemStack stack, Level level, Player player, int slotIndex, int selectedIndex) {
-//        if (player.getUseItem().getOrCreateTag().getBoolean(ATTACKING)) {
-//            tickCount++;
-//
-//            Vec3 viewVector = player.getViewVector(1.0F).normalize();
-//            Vec3 eyePosition = player.getEyePosition();
-//            Vec3 targetPosition = eyePosition.add(viewVector.scale(3));
-//            AABB searchBox = new AABB(eyePosition, targetPosition).inflate(1.0F);
-//
-//            List<Entity> entities = level.getEntities(player, searchBox, entity -> entity instanceof LivingEntity);
-//
-//            if (tickCount % 2 == 0) {
-//                if (tickCount <= 20) {
-//                    for (Entity target : entities) {
-//                        if (player.hasLineOfSight(target)) {
-//                            target.hurt(target.damageSources().generic(), 1);
-//                        }
-//                    }
-//                } else {
-//                    tickCount = 0;
-//                    player.getUseItem().getOrCreateTag().putBoolean(ATTACKING, false);
-//                }
-//                player.sendSystemMessage(Component.literal("TIME: " + level.getGameTime()));
-//            }
-//        }
-//    }
+    @Override
+    public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
+        pTarget.addEffect(new MobEffectInstance(MobEffects.POISON, 2, 0, false, true));
+        return super.hurtEnemy(pStack, pTarget, pAttacker);
+    }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
@@ -129,9 +108,8 @@ public class ViperRapierItem extends SwordItem implements GeoItem {
             if (!level.isClientSide)
             {
                 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-                for(int i = 0; i < amtOfAttacks; ++i)
-                {
-                    executor.schedule(() -> performBurstAttack(player), 200 * i, TimeUnit.MILLISECONDS);
+                for(int i = 0; i < amtOfAttacks; ++i) {
+                    executor.schedule(() -> performBurstAttack(player), 50 * i, TimeUnit.MILLISECONDS);
                 }
             }
         return super.use(level, player, usedHand);
@@ -146,10 +124,10 @@ public class ViperRapierItem extends SwordItem implements GeoItem {
         List<Entity> entities = player.level().getEntities(player, searchBox, entity -> entity instanceof LivingEntity);
 
         if (!entities.isEmpty()) {
-            for (Entity target : entities) {
-                if (player.hasLineOfSight(target) && target instanceof LivingEntity) {
+            for (Entity entity : entities) {
+                if (player.hasLineOfSight(entity) && entity instanceof LivingEntity target) {
                     target.invulnerableTime = 0;
-                    ((LivingEntity) target).knockback(0.15F, -viewVector.x, -viewVector.z);
+                    target.knockback(0.15F, -viewVector.x, -viewVector.z);
                     target.hurt(target.damageSources().generic(), 1);
                 }
             }

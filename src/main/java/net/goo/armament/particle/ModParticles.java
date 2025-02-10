@@ -18,6 +18,8 @@ public class ModParticles{
             PARTICLE_TYPES.register("black_hole_entity_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> VOID_SWEEP_PARTICLE =
             PARTICLE_TYPES.register("void_sweep_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> ZAP_PARTICLE =
+            PARTICLE_TYPES.register("zap_particle", () -> new SimpleParticleType(true));
 
     public static final RegistryObject<SimpleParticleType> STARBURST_PARTICLE =
             PARTICLE_TYPES.register("starburst_particle", () -> new SimpleParticleType(true));
