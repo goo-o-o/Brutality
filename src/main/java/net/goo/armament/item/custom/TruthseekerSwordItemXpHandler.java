@@ -1,6 +1,6 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.item.ModItems;
+import net.goo.armament.registry.ModItems;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerXpEvent;

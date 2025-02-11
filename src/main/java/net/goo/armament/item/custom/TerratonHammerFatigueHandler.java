@@ -1,7 +1,7 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.ModItems;
+import net.goo.armament.registry.ModItems;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;

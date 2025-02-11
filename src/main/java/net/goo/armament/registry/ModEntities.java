@@ -1,4 +1,4 @@
-package net.goo.armament.entity;
+package net.goo.armament.registry;
 
 import net.goo.armament.Armament;
 import net.goo.armament.entity.custom.BlackHoleEntity;

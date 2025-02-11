@@ -1,4 +1,4 @@
-package net.goo.armament.particle;
+package net.goo.armament.registry;
 
 import net.goo.armament.Armament;
 import net.minecraft.core.particles.ParticleType;

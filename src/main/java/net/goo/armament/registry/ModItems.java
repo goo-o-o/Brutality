@@ -1,6 +1,7 @@
-package net.goo.armament.item;
+package net.goo.armament.registry;
 
 import net.goo.armament.Armament;
+import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.custom.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -16,6 +17,10 @@ public class ModItems {
 
 //    public static final RegistryObject<Item> DIVINE_RHITTA_AXE = ITEMS.register("divine_axe_rhitta",
 //            () -> new DivineRhittaAxeItem(Tiers.NETHERITE, 8, -3.1F, new Item.Properties(), ModItemCategories.FANTASY));
+
+    public static final RegistryObject<Item> TEST_SWORD = ITEMS.register("test_sword",
+            () -> new TestSwordItem(Tiers.NETHERITE, 0, 0, new Item.Properties(),
+                    "event_horizon", ModItemCategories.SILLY));
 
     public static final RegistryObject<Item> DOOMFIST_GAUNTLET = ITEMS.register("doomfist_gauntlet",
             () -> new DoomfistGauntletItem(new Item.Properties().stacksTo(1), ModItemCategories.TECHNOLOGY));

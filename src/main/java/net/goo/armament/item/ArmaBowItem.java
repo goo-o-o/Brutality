@@ -1,5 +1,4 @@
 package net.goo.armament.item;
 
-public class ModToolTiers {
-
+public class ArmaBowItem {
 }

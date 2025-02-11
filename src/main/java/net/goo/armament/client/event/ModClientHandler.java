@@ -1,7 +1,7 @@
 package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
-import net.goo.armament.entity.ModEntities;
+import net.goo.armament.registry.ModEntities;
 import net.goo.armament.client.entity.ModModelLayers;
 import net.goo.armament.client.entity.model.CruelSunModel;
 import net.goo.armament.client.entity.model.ThrownZeusThunderboltModel;

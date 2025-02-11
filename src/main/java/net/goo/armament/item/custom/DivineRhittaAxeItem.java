@@ -1,6 +1,6 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.entity.ModEntities;
+import net.goo.armament.registry.ModEntities;
 import net.goo.armament.entity.custom.CruelSunEntity;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.client.item.renderer.DivineRhittaAxeItemRenderer;
@@ -89,7 +89,6 @@ public class DivineRhittaAxeItem extends AxeItem implements GeoItem {
             CruelSunEntity cruelSun = ModEntities.CRUEL_SUN_ENTITY.get().create(pLevel);
             pPlayer.getCooldowns().addCooldown(this, 400);
             if (cruelSun != null) {
-                // Set the position of the entity above the player
                 cruelSun.setPos(pPlayer.getX(), pPlayer.getY() + 5, pPlayer.getZ());
                 pLevel.addFreshEntity(cruelSun);
             }

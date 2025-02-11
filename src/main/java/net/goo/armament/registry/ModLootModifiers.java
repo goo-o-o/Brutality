@@ -1,7 +1,9 @@
-package net.goo.armament.loot;
+package net.goo.armament.registry;
 
 import com.mojang.serialization.Codec;
 import net.goo.armament.Armament;
+import net.goo.armament.loot.AddItemModifier;
+import net.goo.armament.loot.AddSusSandItemModifier;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

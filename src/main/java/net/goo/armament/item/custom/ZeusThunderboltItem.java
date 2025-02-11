@@ -6,7 +6,7 @@ import net.goo.armament.Armament;
 import net.goo.armament.client.item.renderer.ZeusThunderboltItemRenderer;
 import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.ModItems;
+import net.goo.armament.registry.ModItems;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;

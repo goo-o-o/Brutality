@@ -1,4 +1,4 @@
-package net.goo.armament.villager;
+package net.goo.armament.registry;
 
 import net.goo.armament.Armament;
 import net.minecraft.world.entity.ai.village.poi.PoiType;

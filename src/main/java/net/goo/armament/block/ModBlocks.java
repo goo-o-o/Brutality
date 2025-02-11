@@ -1,7 +1,7 @@
 package net.goo.armament.block;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.ModItems;
+import net.goo.armament.registry.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;

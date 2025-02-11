@@ -2,7 +2,7 @@ package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
 import net.goo.armament.network.PacketHandler;
-import net.goo.armament.particle.ModParticles;
+import net.goo.armament.registry.ModParticles;
 import net.goo.armament.particle.custom.*;
 import net.goo.armament.particle.custom.pokerchip.PokerChipBlueParticle;
 import net.goo.armament.particle.custom.pokerchip.PokerChipGreenParticle;

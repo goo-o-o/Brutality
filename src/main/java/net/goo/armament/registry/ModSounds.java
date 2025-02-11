@@ -1,4 +1,4 @@
-package net.goo.armament.sound;
+package net.goo.armament.registry;
 
 import net.goo.armament.Armament;
 import net.minecraft.resources.ResourceLocation;

@@ -1,6 +1,6 @@
 package net.goo.armament.network;
 
-import net.goo.armament.entity.ModEntities;
+import net.goo.armament.registry.ModEntities;
 import net.goo.armament.entity.custom.TerraBeamEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;

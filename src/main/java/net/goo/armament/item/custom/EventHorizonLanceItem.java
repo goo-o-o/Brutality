@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.armament.Armament;
 import net.goo.armament.client.item.renderer.EventHorizonLanceItemRenderer;
-import net.goo.armament.entity.ModEntities;
+import net.goo.armament.registry.ModEntities;
 import net.goo.armament.entity.custom.BlackHoleEntity;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.util.ModUtils;

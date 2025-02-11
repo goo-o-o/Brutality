@@ -5,7 +5,7 @@ import net.goo.armament.entity.custom.BlackHoleEntity;
 import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
 import net.goo.armament.item.custom.SupernovaSwordItem;
 import net.goo.armament.item.custom.ZeusThunderboltItem;
-import net.goo.armament.particle.ModParticles;
+import net.goo.armament.registry.ModParticles;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
