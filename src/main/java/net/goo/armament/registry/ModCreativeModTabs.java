@@ -25,7 +25,6 @@ public class ModCreativeModTabs {
                         output.accept(ModItems.TERRATON_HAMMER.get());
                         output.accept(ModItems.TRUTHSEEKER_SWORD.get());
                         output.accept(ModItems.DOOMFIST_GAUNTLET.get());
-                        output.accept(ModItems.TEST_SWORD.get());
                         output.accept(ModItems.JACKPOT_HAMMER.get());
                         output.accept(ModItems.QUANTUM_DRILL.get());
                         output.accept(ModItems.SHADOWSTEP_SWORD.get());

@@ -27,10 +27,6 @@ public class ArmaSwordItem extends SwordItem implements ArmaGeoItem {
     }
 
 
-    public String getIdentifier() {
-        return this.identifier;
-    }
-
     public ResourceLocation getFontFromCategory(ModItemCategories category) {
         this.category = category;
         switch (category) {

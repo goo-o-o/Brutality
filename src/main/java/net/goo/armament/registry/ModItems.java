@@ -18,9 +18,7 @@ public class ModItems {
 //    public static final RegistryObject<Item> DIVINE_RHITTA_AXE = ITEMS.register("divine_axe_rhitta",
 //            () -> new DivineRhittaAxeItem(Tiers.NETHERITE, 8, -3.1F, new Item.Properties(), ModItemCategories.FANTASY));
 
-    public static final RegistryObject<Item> TEST_SWORD = ITEMS.register("test_sword",
-            () -> new TestSwordItem(Tiers.NETHERITE, 0, 0, new Item.Properties(),
-                    "event_horizon", ModItemCategories.SILLY));
+
 
     public static final RegistryObject<Item> DOOMFIST_GAUNTLET = ITEMS.register("doomfist_gauntlet",
             () -> new DoomfistGauntletItem(new Item.Properties().stacksTo(1), ModItemCategories.TECHNOLOGY));
@@ -51,7 +49,8 @@ public class ModItems {
             () -> new TerraBladeSwordItem(Tiers.NETHERITE, 3, -2.2F, new Item.Properties(), ModItemCategories.FANTASY));
 
     public static final RegistryObject<Item> TRUTHSEEKER_SWORD = ITEMS.register("truthseeker",
-            () -> new TruthseekerSwordItem(Tiers.NETHERITE, 1, -2.6F, new Item.Properties(), ModItemCategories.FANTASY));
+            () -> new TruthseekerSwordItem(Tiers.NETHERITE, 0, 0, new Item.Properties(),
+                    "truthseeker", ModItemCategories.FANTASY));
 
     public static final RegistryObject<Item> TERRATON_HAMMER = ITEMS.register("terraton_hammer",
             () -> new TerratonHammerItem(Tiers.NETHERITE, 45, 0F, new Item.Properties(), ModItemCategories.FANTASY));
