@@ -2,16 +2,9 @@ package net.goo.armament;
 
 import com.mojang.logging.LogUtils;
 import net.goo.armament.block.ModBlocks;
-import net.goo.armament.entity.ModEntities;
-import net.goo.armament.item.ModCreativeModTabs;
-import net.goo.armament.item.ModItems;
-import net.goo.armament.item.custom.TruthseekerSwordItemXpHandler;
-import net.goo.armament.loot.ModLootModifiers;
 import net.goo.armament.network.PacketHandler;
-import net.goo.armament.particle.ModParticles;
-import net.goo.armament.sound.ModSounds;
-import net.goo.armament.villager.ModVillagers;
-import net.minecraft.client.Minecraft;
+import net.goo.armament.registry.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -20,6 +13,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+
+import java.util.Locale;
 
 @Mod(Armament.MOD_ID)
 public class Armament {
@@ -40,9 +35,6 @@ public class Armament {
         ModSounds.register(modEventBus);
         ModParticles.register(modEventBus);
 
-        // Item specific features
-        TruthseekerSwordItemXpHandler.register();
-
         // Register network-related classes
         PacketHandler.register();  // Ensure packets are properly registered
         modEventBus.addListener(this::commonSetup);
@@ -58,6 +50,10 @@ public class Armament {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         LOGGER.info("Armament: Server is starting!");
+    }
+
+    public static ResourceLocation prefix(String path) {
+        return new ResourceLocation(MOD_ID, path.toLowerCase(Locale.ROOT));
     }
 
 }

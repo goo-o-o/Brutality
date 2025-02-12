@@ -60,6 +60,7 @@ public class VoidSweepParticle extends TextureSheetParticle {
         }
     }
 
+
     @Override
     public void render(VertexConsumer buffer, Camera camera, float partialTicks) {
         Vec3 cameraPos = camera.getPosition();

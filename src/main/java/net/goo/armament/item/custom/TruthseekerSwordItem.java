@@ -1,81 +1,72 @@
 package net.goo.armament.item.custom;
 
+import net.goo.armament.Armament;
+import net.goo.armament.item.ArmaGeoItem;
+import net.goo.armament.item.ArmaSwordItem;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.client.event.item.renderer.TruthseekerItemRenderer;
-import net.goo.armament.util.ModUtils;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.network.chat.Component;
+import net.goo.armament.registry.ModItems;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
+import net.minecraftforge.event.entity.player.PlayerXpEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
-import java.util.List;
 import java.util.function.Consumer;
 
-import static net.goo.armament.util.ModResources.FANTASY;
-
-public class TruthseekerSwordItem extends SwordItem implements GeoItem {
-    private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-    private final ModItemCategories category;
-
-    public TruthseekerSwordItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, ModItemCategories category) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
-        this.category = category;
-    }
-
-    int[] color1 = new int[]{128, 244, 58};
-    int[] color2 = new int[]{93, 33, 0};
-
-    public ModItemCategories getCategory() {
-        return category;
+@Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+public class TruthseekerSwordItem extends ArmaSwordItem {
+    public TruthseekerSwordItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category);
+        this.colors = new int[][] {{128, 244, 58}, {99, 33, 0}};
+        this.identifier = "truthseeker";
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.truthseeker.desc.1", false, null, color2));
-        pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.truthseeker.desc.2", false, null, color1));
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.truthseeker.desc.3", false, null, color2));
-
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    public String geoIdentifier() {
+        return "truthseeker";
     }
 
     @Override
-    public Component getName(ItemStack pStack) {
-        return ModUtils.tooltipHelper("item.armament.truthseeker", false, FANTASY, color1, color2);
+    public String model(ItemStack stack) {
+        return geoIdentifier();
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+    public String texture(ItemStack stack) {
+        return model(stack);
+    }
+
+    @Override
+    public GeoAnimatable cacheItem() {
+        return this;
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
+    public <T extends Item & ArmaGeoItem> void initGeo(Consumer<IClientItemExtensions> consumer, int rendererID) {
+        super.initGeo(consumer, 1);
     }
 
-    @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            private TruthseekerItemRenderer renderer;
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public static void onXPChange(PlayerXpEvent.XpChange event) {
+        Player player = event.getEntity();
 
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                if (this.renderer == null) {
-                    renderer = new TruthseekerItemRenderer();
-                }
-                return this.renderer;
-            }
-        });
+        final float EXPERIENCE_BOOST = 2.0F;
+        if (player.getMainHandItem().getItem() == ModItems.TRUTHSEEKER_SWORD.get()) {
+            int originalXP = event.getAmount();
+            int boostedXP = (int) (originalXP * EXPERIENCE_BOOST);
+            event.setAmount(boostedXP);
+        }
     }
 
 }

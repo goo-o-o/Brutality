@@ -1,7 +1,7 @@
 package net.goo.armament.datagen;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.ModItems;
+import net.goo.armament.registry.ModItems;
 import net.goo.armament.loot.AddItemModifier;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;

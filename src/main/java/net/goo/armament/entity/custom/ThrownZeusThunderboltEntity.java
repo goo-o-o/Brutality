@@ -1,7 +1,7 @@
 package net.goo.armament.entity.custom;
 
-import net.goo.armament.entity.ModEntities;
-import net.goo.armament.item.ModItems;
+import net.goo.armament.registry.ModEntities;
+import net.goo.armament.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;

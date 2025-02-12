@@ -1,7 +1,7 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.client.event.item.renderer.QuantumDrillItemRenderer;
+import net.goo.armament.client.item.renderer.QuantumDrillItemRenderer;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;

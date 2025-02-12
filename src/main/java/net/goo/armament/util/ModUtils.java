@@ -90,6 +90,7 @@ public class ModUtils {
         return gradientTextComponent;
     }
 
+
     // Example RGB conversion method
     public static int rgbToInt(int[] rgb) {
         return (rgb[0] << 16) | (rgb[1] << 8) | rgb[2]; // Assume RGB value is in the range [0, 255]
