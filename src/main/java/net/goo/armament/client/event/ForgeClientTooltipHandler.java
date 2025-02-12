@@ -44,19 +44,19 @@ public class ForgeClientTooltipHandler {
         borderColorMap.put(ResonancePickaxeItem.class, new int[]{
                 toARGB(255, 255, 0, 0),
                 toARGB(255, 0, 0, 255)});
-        borderColorMap.put(ShadowstepSwordItem.class, new int[]{
+        borderColorMap.put(ShadowstepSword.class, new int[]{
                 toARGB(255, 65, 0, 125),
                 toARGB(255, 25, 25, 25)});
-        borderColorMap.put(SupernovaSwordItem.class, new int[]{
+        borderColorMap.put(SupernovaSword.class, new int[]{
                 toARGB(255, 255, 255, 222),
                 toARGB(255, 90, 37, 131)});
-        borderColorMap.put(TerraBladeSwordItem.class, new int[]{
+        borderColorMap.put(TerraBladeSword.class, new int[]{
                 toARGB(255, 174, 229, 58),
                 toARGB(255, 0, 82, 60)});
         borderColorMap.put(TerratonHammerItem.class, new int[]{
                 toARGB(255, 186, 198, 195),
                 toARGB(255, 25, 50, 50)});
-        borderColorMap.put(TruthseekerSwordItem.class, new int[]{
+        borderColorMap.put(TruthseekerSword.class, new int[]{
                 toARGB(255, 128, 244, 58),
                 toARGB(255, 93, 33, 0)});
         borderColorMap.put(ZeusThunderboltItem.class, new int[]{

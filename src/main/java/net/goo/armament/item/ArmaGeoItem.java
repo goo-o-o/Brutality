@@ -2,6 +2,7 @@ package net.goo.armament.item;
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -20,6 +21,9 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.function.Consumer;
 
+import static net.goo.armament.util.ModResources.*;
+import static net.goo.armament.util.ModResources.FANTASY;
+
 public interface ArmaGeoItem extends GeoItem {
 
     String geoIdentifier();
@@ -29,10 +33,25 @@ public interface ArmaGeoItem extends GeoItem {
     }
 
     default String texture(ItemStack stack) {
-        return geoIdentifier();
+        return model(stack);
     }
 
     GeoAnimatable cacheItem();
+
+    default ResourceLocation getFontFromCategory(ModItemCategories category) {
+        switch (category) {
+            case SILLY:
+                return SILLY; // Make sure SILLY is defined somewhere
+            case SPACE:
+                return SPACE; // Make sure SPACE is defined somewhere
+            case TECHNOLOGY:
+                return TECHNOLOGY; // Make sure TECHNOLOGY is defined somewhere
+            case FANTASY:
+                return FANTASY; // Make sure FANTASY is defined somewhere
+            default:
+                return null;
+        }
+    }
 
     @OnlyIn(Dist.CLIENT)
     default HumanoidModel.ArmPose getArmPose() {
@@ -47,7 +66,7 @@ public interface ArmaGeoItem extends GeoItem {
     @Override
     default void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, (state) ->
-                state.setAndContinue(RawAnimation.begin().thenLoop("animation.weapon.none")))
+                state.setAndContinue(RawAnimation.begin().thenLoop("idle")))
         );
     }
 

@@ -3,7 +3,7 @@ package net.goo.armament.client.event;
 import net.goo.armament.Armament;
 import net.goo.armament.entity.custom.BlackHoleEntity;
 import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
-import net.goo.armament.item.custom.SupernovaSwordItem;
+import net.goo.armament.item.custom.SupernovaSword;
 import net.goo.armament.item.custom.ZeusThunderboltItem;
 import net.goo.armament.registry.ModParticles;
 import net.minecraft.world.entity.player.Player;
@@ -30,7 +30,7 @@ public class ForgeClientParticleHandler {
 
         if (level.isClientSide()) {
             // SUPERNOVA PARTICLE HANDLER START //
-            if (mainHandItem instanceof SupernovaSwordItem || offHandItem instanceof SupernovaSwordItem) {
+            if (mainHandItem instanceof SupernovaSword || offHandItem instanceof SupernovaSword) {
                 if (tickCount % 4 == 0) {
                     spawnSupernovaSwordParticles(player, level);
                 }

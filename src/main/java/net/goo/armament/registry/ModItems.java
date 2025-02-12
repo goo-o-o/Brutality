@@ -40,17 +40,17 @@ public class ModItems {
             () -> new ResonancePickaxeItem(Tiers.NETHERITE, 4, -2.2F, new Item.Properties(), ModItemCategories.TECHNOLOGY));
 
     public static final RegistryObject<Item> SHADOWSTEP_SWORD = ITEMS.register("shadowstep",
-            () -> new ShadowstepSwordItem(Tiers.NETHERITE, -1, -2F, new Item.Properties(), ModItemCategories.FANTASY));
+            () -> new ShadowstepSword(Tiers.NETHERITE, 5, -2.6F, new Item.Properties(),
+                    "shadowstep", ModItemCategories.FANTASY));
 
     public static final RegistryObject<Item> SUPERNOVA_SWORD = ITEMS.register("supernova",
-            () -> new SupernovaSwordItem(Tiers.NETHERITE, 5, -2.6F, new Item.Properties(), ModItemCategories.SPACE));
+            () -> new SupernovaSword(Tiers.NETHERITE, 5, -2.6F, new Item.Properties(), "supernova", ModItemCategories.FANTASY));
 
-    public static final RegistryObject<Item> TERRA_BLADE = ITEMS.register("terra_blade",
-            () -> new TerraBladeSwordItem(Tiers.NETHERITE, 3, -2.2F, new Item.Properties(), ModItemCategories.FANTASY));
+    public static final RegistryObject<Item> TERRA_BLADE = ITEMS.register("truthseeker",
+            () -> new TerraBladeSword(Tiers.NETHERITE, 3, -2.2F, new Item.Properties(), "truthseeker", ModItemCategories.FANTASY));
 
     public static final RegistryObject<Item> TRUTHSEEKER_SWORD = ITEMS.register("truthseeker",
-            () -> new TruthseekerSwordItem(Tiers.NETHERITE, 0, 0, new Item.Properties(),
-                    "truthseeker", ModItemCategories.FANTASY));
+            () -> new TruthseekerSword(Tiers.NETHERITE, 0, 0, new Item.Properties(), "truthseeker", ModItemCategories.FANTASY));
 
     public static final RegistryObject<Item> TERRATON_HAMMER = ITEMS.register("terraton_hammer",
             () -> new TerratonHammerItem(Tiers.NETHERITE, 45, 0F, new Item.Properties(), ModItemCategories.FANTASY));
