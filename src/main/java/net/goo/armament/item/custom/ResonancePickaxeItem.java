@@ -1,8 +1,8 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.client.item.model.ResonancePickaxeItemRenderer;
+import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
@@ -24,13 +24,13 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;

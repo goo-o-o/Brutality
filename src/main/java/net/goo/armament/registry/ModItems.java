@@ -44,10 +44,12 @@ public class ModItems {
                     "shadowstep", ModItemCategories.FANTASY));
 
     public static final RegistryObject<Item> SUPERNOVA_SWORD = ITEMS.register("supernova",
-            () -> new SupernovaSword(Tiers.NETHERITE, 5, -2.6F, new Item.Properties(), "supernova", ModItemCategories.FANTASY));
+            () -> new SupernovaSword(Tiers.NETHERITE, 5, -2.6F, new Item.Properties(),
+                    "supernova", ModItemCategories.FANTASY));
 
-    public static final RegistryObject<Item> TERRA_BLADE = ITEMS.register("truthseeker",
-            () -> new TerraBladeSword(Tiers.NETHERITE, 3, -2.2F, new Item.Properties(), "truthseeker", ModItemCategories.FANTASY));
+    public static final RegistryObject<Item> TERRA_BLADE = ITEMS.register("terra_blade",
+            () -> new TerraBladeSword(Tiers.NETHERITE, 3, -2.2F, new Item.Properties(),
+                    "terra_blade", ModItemCategories.FANTASY));
 
     public static final RegistryObject<Item> TRUTHSEEKER_SWORD = ITEMS.register("truthseeker",
             () -> new TruthseekerSword(Tiers.NETHERITE, 0, 0, new Item.Properties(), "truthseeker", ModItemCategories.FANTASY));
@@ -59,8 +61,9 @@ public class ModItems {
             () -> new ViperRapierItem(Tiers.NETHERITE, -2, 0F, new Item.Properties(), ModItemCategories.FANTASY));
 
     public static final RegistryObject<Item> ZEUS_THUNDERBOLT_TRIDENT = ITEMS.register("zeus_thunderbolt",
-            () -> new ZeusThunderboltItem(new Item.Properties()
-                    .stacksTo(1).fireResistant().setNoRepair().rarity(Rarity.EPIC), ModItemCategories.FANTASY));
+            () -> new ZeusThunderboltTrident(new Item.Properties(), "zeus_thunderbolt",
+                    ModItemCategories.FANTASY));
+
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

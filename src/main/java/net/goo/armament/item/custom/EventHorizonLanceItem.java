@@ -4,9 +4,9 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.armament.Armament;
 import net.goo.armament.client.item.renderer.EventHorizonLanceItemRenderer;
-import net.goo.armament.registry.ModEntities;
 import net.goo.armament.entity.custom.BlackHoleEntity;
 import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.registry.ModEntities;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
@@ -29,7 +29,6 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -37,6 +36,7 @@ import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInst
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -81,8 +81,6 @@ public class EventHorizonLanceItem extends TridentItem implements Vanishable, Ge
     public Component getName(ItemStack pStack) {
         return ModUtils.tooltipHelper("item.armament.event_horizon", false, SPACE, color1, color2);
     }
-
-
 
     public UseAnim getUseAnimation(ItemStack pStack) {
         return UseAnim.SPEAR;

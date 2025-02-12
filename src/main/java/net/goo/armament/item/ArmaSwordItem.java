@@ -1,7 +1,9 @@
 package net.goo.armament.item;
 
 import net.goo.armament.util.ModUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
@@ -25,7 +27,14 @@ public class ArmaSwordItem extends SwordItem implements ArmaGeoItem {
 
     @Override
     public Component getName(ItemStack pStack) {
-        return ModUtils.tooltipHelper("item.armament." + identifier, false, getFontFromCategory(category), colors);
+        Level pLevel = Minecraft.getInstance().level;
+        return ModUtils.tooltipHelper("item.armament." + identifier, false, getFontFromCategory(category), pLevel.getGameTime(), 0.5F, 2, colors);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+        super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
+        getName(pStack);
     }
 
     @Override

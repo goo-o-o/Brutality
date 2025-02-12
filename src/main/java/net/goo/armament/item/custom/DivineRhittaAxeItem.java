@@ -1,9 +1,9 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.registry.ModEntities;
+import net.goo.armament.client.item.renderer.DivineRhittaAxeItemRenderer;
 import net.goo.armament.entity.custom.CruelSunEntity;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.client.item.renderer.DivineRhittaAxeItemRenderer;
+import net.goo.armament.registry.ModEntities;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
@@ -16,12 +16,12 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 

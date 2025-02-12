@@ -59,7 +59,7 @@ public class ForgeClientTooltipHandler {
         borderColorMap.put(TruthseekerSword.class, new int[]{
                 toARGB(255, 128, 244, 58),
                 toARGB(255, 93, 33, 0)});
-        borderColorMap.put(ZeusThunderboltItem.class, new int[]{
+        borderColorMap.put(ZeusThunderboltTrident.class, new int[]{
                 toARGB(255, 255, 215, 86),
                 toARGB(255, 164, 92, 0)});
 

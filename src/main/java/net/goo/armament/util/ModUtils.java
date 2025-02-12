@@ -16,6 +16,22 @@ import java.util.List;
 
 public class ModUtils {
 
+    public static Component tooltipHelper(String localeKey, boolean bold, ResourceLocation font, long tickCount, float waveSpeed, float spreadMultiplier, int[]... colors) {
+        if (font == null) {
+            if (colors.length == 1) {
+                return Component.translatable(localeKey).withStyle(Style.EMPTY.withBold(bold).withColor(rgbToInt(colors[0])));
+            } else {
+                return addColorGradientText(Component.translatable(localeKey), tickCount, waveSpeed, spreadMultiplier, colors).withStyle(Style.EMPTY.withBold(bold));
+            }
+        } else {
+            if (colors.length == 1) {
+                return Component.translatable(localeKey).withStyle(Style.EMPTY.withBold(bold).withFont(font).withColor(rgbToInt(colors[0])));
+            } else {
+                return addColorGradientText(Component.translatable(localeKey), tickCount, waveSpeed, spreadMultiplier, colors).withStyle(Style.EMPTY.withBold(bold).withFont(font));
+            }
+        }
+    }
+
     public static Component tooltipHelper(String localeKey, boolean bold, ResourceLocation font, int[]... colors) {
         if (font == null) {
             if (colors.length == 1) {
@@ -59,6 +75,54 @@ public class ModUtils {
     }
 
     // Method to add color gradient text with individual RGB color parameters
+    public static MutableComponent addColorGradientText(Component text, long tickCount, float speed, float spreadMultiplier, int[]... rgbColors) {
+        MutableComponent gradientTextComponent = Component.empty();
+        String string = text.getString();
+        int length = string.length();
+        int numColors = rgbColors.length;
+
+        // Handle edge cases for empty input
+        if (numColors == 0 || length == 0) {
+            return gradientTextComponent; // Return empty component if no colors or no text
+        }
+
+        int[][] adjustedColors = new int[numColors + 1][3];
+        System.arraycopy(rgbColors, 0, adjustedColors, 0, numColors);
+        adjustedColors[numColors] = rgbColors[0]; // Duplicate the first color for looping
+
+        speed = 1 / speed;
+        float effectiveTickCount = tickCount % (speed * 20);
+        float ratio = effectiveTickCount / (speed * 20);
+
+        // Create a float spread multiplier for more smoother effect
+         // Use 2.0f for double, 3.0f for triple effect
+        spreadMultiplier = 1 / spreadMultiplier;
+        int effectiveLength = (int) (length * spreadMultiplier);
+
+        for (int i = 0; i < length; i++) {
+            // Calculate the adjusted index within the effective length
+            // Scale the index by the ratio and the effective length
+            float adjustedIndex = (((float)i * spreadMultiplier) / length + ratio) * effectiveLength;
+
+            // Normalize the adjusted index to a value between 0 and effectiveLength - 1
+            adjustedIndex = adjustedIndex % effectiveLength;
+
+            // Calculate the color based on adjusted index as a percentage
+            int percentage = (int) ((adjustedIndex / effectiveLength) * 100);
+
+            // Get color from gradient
+            int color = getColorFromGradient(percentage, adjustedColors);
+
+            // Create the colored component for the current character
+            Component letterComponent = Component.literal(String.valueOf(string.charAt(i)))
+                    .withStyle(Style.EMPTY.withColor(color));
+
+            gradientTextComponent = gradientTextComponent.append(letterComponent);
+        }
+
+        return gradientTextComponent;
+    }
+
     public static MutableComponent addColorGradientText(Component text, int[]... rgbColors) {
         // Create a component to hold all the parts of the gradient text
         MutableComponent gradientTextComponent = Component.empty();
@@ -106,9 +170,7 @@ public class ModUtils {
         return null;
     }
 
-    /**
-     * Checks if the player is looking at any entity within a certain distance.
-     */
+
     public static Entity getEntityPlayerLookingAt(Player pPlayer, double range) {
         // Get player's eye position
         Vec3 playerPos = pPlayer.getEyePosition(1.0F);

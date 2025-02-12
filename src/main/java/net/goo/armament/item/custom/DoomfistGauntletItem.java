@@ -1,7 +1,7 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.client.item.renderer.DoomfistGauntletItemRenderer;
+import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
@@ -20,12 +20,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 

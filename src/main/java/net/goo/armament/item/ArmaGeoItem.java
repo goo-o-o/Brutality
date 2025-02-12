@@ -39,18 +39,12 @@ public interface ArmaGeoItem extends GeoItem {
     GeoAnimatable cacheItem();
 
     default ResourceLocation getFontFromCategory(ModItemCategories category) {
-        switch (category) {
-            case SILLY:
-                return SILLY; // Make sure SILLY is defined somewhere
-            case SPACE:
-                return SPACE; // Make sure SPACE is defined somewhere
-            case TECHNOLOGY:
-                return TECHNOLOGY; // Make sure TECHNOLOGY is defined somewhere
-            case FANTASY:
-                return FANTASY; // Make sure FANTASY is defined somewhere
-            default:
-                return null;
-        }
+        return switch (category) {
+            case SILLY -> SILLY; // Make sure SILLY is defined somewhere
+            case SPACE -> SPACE; // Make sure SPACE is defined somewhere
+            case TECHNOLOGY -> TECHNOLOGY; // Make sure TECHNOLOGY is defined somewhere
+            case FANTASY -> FANTASY; // Make sure FANTASY is defined somewhere
+        };
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -29,7 +29,7 @@ public class ModCreativeModTabs {
                         output.accept(ModItems.QUANTUM_DRILL.get());
                         output.accept(ModItems.SHADOWSTEP_SWORD.get());
                         output.accept(ModItems.ZEUS_THUNDERBOLT_TRIDENT.get().getDefaultInstance());
-//                        output.accept(ModItems.EVENT_HORIZON_LANCE.get());
+                        output.accept(ModItems.EVENT_HORIZON_LANCE.get());
                         output.accept(ModItems.RESONANCE_PICKAXE.get());
 
                     })
