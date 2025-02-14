@@ -1,5 +1,6 @@
-package net.goo.armament.item;
+package net.goo.armament.client.item;
 
+import net.goo.armament.item.ModItemCategories;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.resources.ResourceLocation;

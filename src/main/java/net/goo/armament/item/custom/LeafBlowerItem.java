@@ -1,13 +1,12 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.client.item.renderer.LeafBlowerItemRenderer;
+import net.goo.armament.Armament;
+import net.goo.armament.item.ArmaGenericItem;
+import net.goo.armament.client.item.ArmaGeoItem;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.network.c2sOffLeafBlowerPacket;
 import net.goo.armament.registry.ModSounds;
-import net.goo.armament.util.ModUtils;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -17,61 +16,30 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import software.bernie.geckolib.animatable.GeoItem;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.constant.DataTickets;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 
-import javax.annotation.Nullable;
 import java.util.List;
-import java.util.function.Consumer;
 
-import static net.goo.armament.util.ModResources.TECHNOLOGY;
-
-public class LeafBlowerItem extends Item implements GeoItem {
-    private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+@Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+public class LeafBlowerItem extends ArmaGenericItem implements ArmaGeoItem {
     private static final String ACTIVE_KEY = "LeafBlowerActive";
     private int tickCounter;
-    int[] color1 = new int[]{212, 6, 6};
-    int[] color2 = new int[]{255, 255, 255};
-    private final ModItemCategories category;
 
-    public LeafBlowerItem(Properties pProperties, ModItemCategories category) {
-        super(pProperties);
-        this.category = category;
+    public LeafBlowerItem(Properties pProperties, String identifier, ModItemCategories category) {
+        super(pProperties, identifier, category);
+        this.colors = new int[][] {{212, 6, 6}, {255, 255, 255}};
     }
-
-
-    public ModItemCategories getCategory() {
-        return category;
-    }
-
-
-    @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.leaf_blower.desc.1", false, null, color2));
-        pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.leaf_blower.desc.2", false, null, color1));
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.leaf_blower.desc.3", false, null, color2));
-
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-    }
-
-    @Override
-    public Component getName(ItemStack pStack) {
-        return ModUtils.tooltipHelper("item.armament.leaf_blower", false, TECHNOLOGY, color1, color2);
-    }
-
 
     public static void setActive(ItemStack stack, boolean active) {
         stack.getOrCreateTag().putBoolean(ACTIVE_KEY, active);
@@ -95,26 +63,6 @@ public class LeafBlowerItem extends Item implements GeoItem {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "controller", 0, this::predicate));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
-    }
-
-    @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            private LeafBlowerItemRenderer renderer;
-
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                if (this.renderer == null) {
-                    renderer = new LeafBlowerItemRenderer();
-                }
-                return this.renderer;
-            }
-        });
     }
 
     @Override
@@ -198,6 +146,23 @@ public class LeafBlowerItem extends Item implements GeoItem {
 
                 } else {
                     setActive(pStack, false);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void cancelFallDamage(LivingFallEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            ItemStack mainStack = player.getMainHandItem();
+            ItemStack offStack = player.getOffhandItem();
+            Item mainItem = mainStack.getItem();
+            Item offItem = offStack.getItem();
+
+            if (mainItem instanceof LeafBlowerItem && offItem instanceof LeafBlowerItem) {
+                if (mainStack.getOrCreateTag().getBoolean(ACTIVE_KEY) && offStack.getOrCreateTag().getBoolean(ACTIVE_KEY)) {
+                    event.setCanceled(true);
+
                 }
             }
         }

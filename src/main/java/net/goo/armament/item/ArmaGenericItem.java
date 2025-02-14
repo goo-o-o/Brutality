@@ -5,23 +5,20 @@ import net.goo.armament.util.ModUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 
 import java.util.List;
 
-public class ArmaSwordItem extends SwordItem implements ArmaGeoItem {
+public class ArmaGenericItem extends Item implements ArmaGeoItem {
     public String identifier;
     public ModItemCategories category;
     protected int[][] colors;
 
-    public ArmaSwordItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
+    public ArmaGenericItem(Properties pProperties, String identifier, ModItemCategories category) {
+        super(pProperties);
         this.category = category;
         this.identifier = identifier;
     }

@@ -1,5 +1,6 @@
 package net.goo.armament.item;
 
+import net.goo.armament.client.item.ArmaGeoItem;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;

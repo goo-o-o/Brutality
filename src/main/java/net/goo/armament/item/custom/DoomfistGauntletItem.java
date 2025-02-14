@@ -1,10 +1,8 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.client.item.renderer.DoomfistGauntletItemRenderer;
+import net.goo.armament.client.item.ArmaGeoItem;
+import net.goo.armament.item.ArmaGenericItem;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.util.ModUtils;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -13,55 +11,26 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static net.goo.armament.util.ModResources.TECHNOLOGY;
-
-public class DoomfistGauntletItem extends BowItem implements GeoItem {
+public class DoomfistGauntletItem extends ArmaGenericItem implements GeoItem {
     private static final String PUNCHING = "isPunching";
     private static int clampedTime;
-    private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-    int[] color1 = new int[]{237, 205, 140};
-    int[] color2 = new int[]{118, 118, 118};
-    private ModItemCategories category;
 
-    public DoomfistGauntletItem(Properties pProperties, ModItemCategories category) {
-        super(pProperties);
-        this.category = category;
-    }
-
-    public ModItemCategories getCategory() {
-        return category;
-    }
-
-
-    @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.doomfist_gauntlet.desc.1", false, null, color2));
-        pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.doomfist_gauntlet.desc.2", false, null, color1));
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.doomfist_gauntlet.desc.3", false, null, color2));
-
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-    }
-
-    @Override
-    public Component getName(ItemStack pStack) {
-        return ModUtils.tooltipHelper("item.armament.doomfist_gauntlet", false, TECHNOLOGY, color1, color2);
+    public DoomfistGauntletItem(Properties pProperties, String identifier, ModItemCategories category) {
+        super(pProperties, identifier, category);
+        this.colors = new int[][]{{237, 205, 140}, {118, 118, 118}};
     }
 
     @Override
@@ -70,23 +39,13 @@ public class DoomfistGauntletItem extends BowItem implements GeoItem {
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
+    public int getUseDuration(ItemStack pStack) {
+        return 72000;
     }
 
     @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            private DoomfistGauntletItemRenderer renderer;
-
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                if (this.renderer == null) {
-                    renderer = new DoomfistGauntletItemRenderer();
-                }
-                return this.renderer;
-            }
-        });
+    public UseAnim getUseAnimation(ItemStack pStack) {
+        return UseAnim.BOW;
     }
 
     @Override
@@ -114,6 +73,11 @@ public class DoomfistGauntletItem extends BowItem implements GeoItem {
         pStack.getOrCreateTag().putBoolean(PUNCHING, false);
         pPlayer.startUsingItem(pUsedHand);
         return InteractionResultHolder.consume(pStack);
+    }
+
+    @Override
+    public <T extends Item & ArmaGeoItem> void initGeo(Consumer<IClientItemExtensions> consumer, int rendererID) {
+        super.initGeo(consumer, 1);
     }
 
     int tickCount = 0;

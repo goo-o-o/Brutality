@@ -1,7 +1,7 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.ArmaGeoItem;
+import net.goo.armament.client.item.ArmaGeoItem;
 import net.goo.armament.item.ArmaSwordItem;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.network.PacketHandler;
@@ -24,11 +24,6 @@ public class TerraBladeSword extends ArmaSwordItem {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category);
         this.colors = new int[][]{{174, 229, 58}, {0, 82, 60}};
         this.identifier = "terra_blade";
-    }
-
-    @Override
-    public String geoIdentifier() {
-        return "terra_blade";
     }
 
     @Override

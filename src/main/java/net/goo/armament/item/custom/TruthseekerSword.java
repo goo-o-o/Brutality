@@ -1,7 +1,7 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.ArmaGeoItem;
+import net.goo.armament.client.item.ArmaGeoItem;
 import net.goo.armament.item.ArmaSwordItem;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.registry.ModItems;
@@ -23,11 +23,6 @@ public class TruthseekerSword extends ArmaSwordItem {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category);
         this.colors = new int[][] {{128, 244, 58}, {99, 33, 0}};
         this.identifier = "truthseeker";
-    }
-
-    @Override
-    public String geoIdentifier() {
-        return "truthseeker";
     }
 
     @Override

@@ -1,4 +1,4 @@
-package net.goo.armament.item;
+package net.goo.armament.client.item;
 
 import net.goo.armament.Armament;
 import net.minecraft.resources.ResourceLocation;

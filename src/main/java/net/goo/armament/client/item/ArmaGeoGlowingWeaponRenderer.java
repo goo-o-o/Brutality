@@ -1,4 +1,4 @@
-package net.goo.armament.item;
+package net.goo.armament.client.item;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;

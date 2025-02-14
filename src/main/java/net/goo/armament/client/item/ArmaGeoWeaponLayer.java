@@ -1,4 +1,4 @@
-package net.goo.armament.item;
+package net.goo.armament.client.item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

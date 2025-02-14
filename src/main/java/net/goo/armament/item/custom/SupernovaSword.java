@@ -1,6 +1,6 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.item.ArmaGeoItem;
+import net.goo.armament.client.item.ArmaGeoItem;
 import net.goo.armament.item.ArmaSwordItem;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.registry.ModParticles;
@@ -10,8 +10,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animation.*;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -20,13 +18,7 @@ import java.util.function.Consumer;
 public class SupernovaSword extends ArmaSwordItem {
     public SupernovaSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category);
-        this.colors = new int[][] {{65, 0, 125}, {25, 25, 25}};
-        this.identifier = "supernova";
-    }
-
-    @Override
-    public String geoIdentifier() {
-        return "supernova";
+        this.colors = new int[][] {{255, 255, 222}, {90, 37, 131}};
     }
 
     @Override

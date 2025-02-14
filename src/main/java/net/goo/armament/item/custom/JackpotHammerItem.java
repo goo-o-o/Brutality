@@ -2,12 +2,12 @@ package net.goo.armament.item.custom;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.armament.client.item.renderer.JackpotHammerItemRenderer;
+import net.goo.armament.item.ArmaHammerItem;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.registry.ModParticles;
 import net.goo.armament.registry.ModSounds;
 import net.goo.armament.util.ModUtils;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,58 +15,23 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TieredItem;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.function.Consumer;
-
-import static net.goo.armament.util.ModResources.SILLY;
-
-public class JackpotHammerItem extends TieredItem implements GeoItem {
-    private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+public class JackpotHammerItem extends ArmaHammerItem implements GeoItem {
     private final float attackSpeedModifier;
-    int[] color1 = new int[]{255, 200, 50};
-    int[] color2 = new int[]{38, 234, 239};
-    private final ModItemCategories category;
 
-    public JackpotHammerItem(Tier pTier, float pAttackSpeedModifier, Properties pProperties, ModItemCategories category) {
-        super(pTier, pProperties);
-        this.attackSpeedModifier = pAttackSpeedModifier;
-        this.category = category;
-    }
-
-    public ModItemCategories getCategory() {
-        return category;
-    }
-
-    @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.jackpot.desc.1", false, null, color2));
-        pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.jackpot.desc.2", false, null, color1));
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.jackpot.desc.3", false, null, color2));
-
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-    }
-
-    @Override
-    public Component getName(ItemStack pStack) {
-        return ModUtils.tooltipHelper("item.armament.jackpot", false, SILLY, color1, color2);
+    public JackpotHammerItem(Tier pTier, int pAttackDamageModifier, float attackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category) {
+        super(pTier, pAttackDamageModifier, attackSpeedModifier, pProperties, identifier, category);
+        this.attackSpeedModifier = attackSpeedModifier;
+        this.colors = new int[][] {{0, 255, 255}, {192, 0, 15}, {225, 255, 8}, {0, 237, 36}};
     }
 
     @Override
@@ -90,38 +55,15 @@ public class JackpotHammerItem extends TieredItem implements GeoItem {
         return builder.build();
     }
 
-
+    @Override
+    public Component getName(ItemStack pStack) {
+        Level pLevel = Minecraft.getInstance().level;
+        return ModUtils.tooltipHelper("item.armament." + identifier, false, getFontFromCategory(category), pLevel.getGameTime(), 0.5F, 4, colors);
+    }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
 
-    }
-
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
-    }
-
-
-    @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            private JackpotHammerItemRenderer renderer;
-
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                if (this.renderer == null) {
-                    renderer = new JackpotHammerItemRenderer();
-                }
-                return this.renderer;
-            }
-        });
-    }
-
-    @Override
-    public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
-        return true;
     }
 
     @Override

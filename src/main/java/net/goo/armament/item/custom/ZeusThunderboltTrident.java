@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.armament.Armament;
 import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
+import net.goo.armament.client.item.ArmaGeoItem;
 import net.goo.armament.item.ArmaTridentItem;
 import net.goo.armament.item.ModItemCategories;
 import net.minecraft.sounds.SoundEvents;
@@ -22,20 +23,17 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.event.GrindstoneEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import software.bernie.geckolib.animatable.GeoItem;
 
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class ZeusThunderboltTrident extends ArmaTridentItem implements Vanishable, GeoItem {
+public class ZeusThunderboltTrident extends ArmaTridentItem implements Vanishable, ArmaGeoItem {
     private static final UUID SPEED_BOOST_UUID = UUID.fromString("f9d0a647-4999-4637-b4a0-7f768a65b5db");  // Unique UUID for speed boost modifier
 
     public ZeusThunderboltTrident(Properties pProperties, String identifier, ModItemCategories category) {
         super(pProperties, identifier, category);
-        this.identifier = identifier;
-        this.category = category;
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(SPEED_BOOST_UUID, "Tool modifier",2, AttributeModifier.Operation.ADDITION));
         Multimap<Attribute, AttributeModifier> defaultModifiers = builder.build();

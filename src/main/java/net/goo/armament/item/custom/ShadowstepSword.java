@@ -1,10 +1,9 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.ArmaGeoItem;
+import net.goo.armament.client.item.ArmaGeoItem;
 import net.goo.armament.item.ArmaSwordItem;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.registry.ModItems;
 import net.goo.armament.registry.ModParticles;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.core.BlockPos;
@@ -27,11 +26,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.event.entity.player.PlayerXpEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.EnumSet;
@@ -43,12 +38,6 @@ public class ShadowstepSword extends ArmaSwordItem {
     public ShadowstepSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category);
         this.colors = new int[][] {{65, 0, 125}, {25, 25, 25}};
-        this.identifier = "shadowstep";
-    }
-
-    @Override
-    public String geoIdentifier() {
-        return "shadowstep";
     }
 
     @Override

@@ -4,7 +4,6 @@ import net.goo.armament.Armament;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.custom.*;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tiers;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -21,41 +20,42 @@ public class ModItems {
 
 
     public static final RegistryObject<Item> DOOMFIST_GAUNTLET = ITEMS.register("doomfist_gauntlet",
-            () -> new DoomfistGauntletItem(new Item.Properties().stacksTo(1), ModItemCategories.TECHNOLOGY));
+            () -> new DoomfistGauntletItem(new Item.Properties().stacksTo(1), "doomfist_gauntlet", ModItemCategories.TECHNOLOGY));
 
     public static final RegistryObject<Item> EVENT_HORIZON_LANCE = ITEMS.register("event_horizon",
-            () -> new EventHorizonLanceItem(new Item.Properties()
-                    .stacksTo(1).fireResistant().setNoRepair().rarity(Rarity.EPIC), ModItemCategories.SPACE));
+            () -> new ZeusThunderboltTrident(new Item.Properties(), "event_horizon",
+                    ModItemCategories.FANTASY));
+
 
     public static final RegistryObject<Item> JACKPOT_HAMMER = ITEMS.register("jackpot",
-            () -> new JackpotHammerItem(Tiers.NETHERITE, -2.6F, new Item.Properties(), ModItemCategories.SILLY));
+            () -> new JackpotHammerItem(Tiers.DIAMOND, 0, -2.6F, new Item.Properties(), "jackpot", ModItemCategories.SILLY));
 
     public static final RegistryObject<Item> LEAF_BLOWER = ITEMS.register("leaf_blower",
-            () -> new LeafBlowerItem(new Item.Properties().stacksTo(1), ModItemCategories.TECHNOLOGY));
+            () -> new LeafBlowerItem(new Item.Properties().stacksTo(1), "leaf_blower", ModItemCategories.TECHNOLOGY));
 
-    public static final RegistryObject<Item> QUANTUM_DRILL = ITEMS.register("quantum_drill",
-            () -> new QuantumDrillItem(new Item.Properties(), ModItemCategories.TECHNOLOGY));
-
-    public static final RegistryObject<Item> RESONANCE_PICKAXE = ITEMS.register("resonance_pickaxe",
-            () -> new ResonancePickaxeItem(Tiers.NETHERITE, 4, -2.2F, new Item.Properties(), ModItemCategories.TECHNOLOGY));
+//    public static final RegistryObject<Item> QUANTUM_DRILL = ITEMS.register("quantum_drill",
+//            () -> new QuantumDrillItem(new Item.Properties(), ModItemCategories.TECHNOLOGY));
+//
+//    public static final RegistryObject<Item> RESONANCE_PICKAXE = ITEMS.register("resonance_pickaxe",
+//            () -> new ResonancePickaxeItem(Tiers.NETHERITE, 4, -2.2F, new Item.Properties(), ModItemCategories.TECHNOLOGY));
 
     public static final RegistryObject<Item> SHADOWSTEP_SWORD = ITEMS.register("shadowstep",
             () -> new ShadowstepSword(Tiers.NETHERITE, 5, -2.6F, new Item.Properties(),
                     "shadowstep", ModItemCategories.FANTASY));
 
     public static final RegistryObject<Item> SUPERNOVA_SWORD = ITEMS.register("supernova",
-            () -> new SupernovaSword(Tiers.NETHERITE, 5, -2.6F, new Item.Properties(),
-                    "supernova", ModItemCategories.FANTASY));
+            () -> new SupernovaSword(Tiers.NETHERITE, 5, -2.6F, new Item.Properties(),"supernova",
+                    ModItemCategories.SPACE));
 
     public static final RegistryObject<Item> TERRA_BLADE = ITEMS.register("terra_blade",
-            () -> new TerraBladeSword(Tiers.NETHERITE, 3, -2.2F, new Item.Properties(),
-                    "terra_blade", ModItemCategories.FANTASY));
+            () -> new TerraBladeSword(Tiers.NETHERITE, 3, -2.2F, new Item.Properties(),"terra_blade",
+                    ModItemCategories.FANTASY));
 
     public static final RegistryObject<Item> TRUTHSEEKER_SWORD = ITEMS.register("truthseeker",
             () -> new TruthseekerSword(Tiers.NETHERITE, 0, 0, new Item.Properties(), "truthseeker", ModItemCategories.FANTASY));
 
     public static final RegistryObject<Item> TERRATON_HAMMER = ITEMS.register("terraton_hammer",
-            () -> new TerratonHammerItem(Tiers.NETHERITE, 45, 0F, new Item.Properties(), ModItemCategories.FANTASY));
+            () -> new TerratonHammerItem(Tiers.NETHERITE, 45, 0F, new Item.Properties(), "terraton_hammer", ModItemCategories.FANTASY));
 
     public static final RegistryObject<Item> VIPER_RAPIER = ITEMS.register("viper",
             () -> new ViperRapierItem(Tiers.NETHERITE, -2, 0F, new Item.Properties(), ModItemCategories.FANTASY));
