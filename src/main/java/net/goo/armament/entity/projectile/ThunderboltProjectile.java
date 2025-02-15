@@ -1,5 +1,6 @@
-package net.goo.armament.entity.custom;
+package net.goo.armament.entity.projectile;
 
+import net.goo.armament.particle.custom.ThunderboltTrailParticle;
 import net.goo.armament.registry.ModEntities;
 import net.goo.armament.registry.ModItems;
 import net.minecraft.core.BlockPos;
@@ -21,26 +22,23 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 
-public class ThrownZeusThunderboltEntity extends AbstractArrow {
-    private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(ThrownZeusThunderboltEntity.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownZeusThunderboltEntity.class, EntityDataSerializers.BOOLEAN);
+public class ThunderboltProjectile extends AbstractArrow {
+    private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(ThunderboltProjectile.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThunderboltProjectile.class, EntityDataSerializers.BOOLEAN);
     private ItemStack tridentItem = new ItemStack(ModItems.ZEUS_THUNDERBOLT_TRIDENT.get());
     private boolean dealtDamage;
     private int clientSideReturnTridentTickCount;
-    private int i;
-    private BlockState lastState;
 
-    public ThrownZeusThunderboltEntity(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
+    public ThunderboltProjectile(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
-    public ThrownZeusThunderboltEntity(Level pLevel, LivingEntity pShooter, ItemStack pStack) {
+    public ThunderboltProjectile(Level pLevel, LivingEntity pShooter, ItemStack pStack) {
         super(ModEntities.THROWN_ZEUS_THUNDERBOLT_ENTITY.get(), pShooter, pLevel);
         this.tridentItem = pStack.copy();
         this.entityData.set(ID_LOYALTY, (byte) EnchantmentHelper.getLoyalty(pStack));
@@ -60,6 +58,12 @@ public class ThrownZeusThunderboltEntity extends AbstractArrow {
     }
 
     public void tick() {
+        float ran = 0.04f;
+        float r = 0.9F + random.nextFloat() * ran;
+        float g = 0.9f + random.nextFloat() * ran;
+        float b = 0.5f + random.nextFloat() * ran;
+        this.level().addParticle((new ThunderboltTrailParticle.OrbData(r, g, b,2.75f + random.nextFloat() * 0.6f,3.75F + random.nextFloat() * 0.6f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
+
         if (this.inGroundTime > 4) {
             this.dealtDamage = true;
         }
@@ -73,6 +77,10 @@ public class ThrownZeusThunderboltEntity extends AbstractArrow {
         Entity entity = this.getOwner();
         int i = this.entityData.get(ID_LOYALTY);
         if (i > 0 && (this.dealtDamage || this.isNoPhysics()) && entity != null) { // Check if hit mob or block and there is an owner
+
+
+
+
             if (!this.isAcceptibleReturnOwner()) {
                 if (!this.level().isClientSide && this.pickup == AbstractArrow.Pickup.ALLOWED) {
                 this.discard();

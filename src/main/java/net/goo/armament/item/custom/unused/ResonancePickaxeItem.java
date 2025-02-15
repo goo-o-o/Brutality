@@ -1,7 +1,7 @@
-package net.goo.armament.item.custom;
+package net.goo.armament.item.custom.unused;
 
 import net.goo.armament.Armament;
-import net.goo.armament.client.item.model.ResonancePickaxeItemRenderer;
+import net.goo.armament.client.item.renderer.ResonancePickaxeItemRenderer;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;

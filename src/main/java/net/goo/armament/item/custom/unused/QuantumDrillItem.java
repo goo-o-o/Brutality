@@ -1,4 +1,4 @@
-package net.goo.armament.item.custom;
+package net.goo.armament.item.custom.unused;
 
 import net.goo.armament.client.item.renderer.QuantumDrillItemRenderer;
 import net.goo.armament.item.ModItemCategories;

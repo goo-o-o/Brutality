@@ -16,8 +16,8 @@ import java.util.function.Consumer;
 
 
 public class SupernovaSword extends ArmaSwordItem {
-    public SupernovaSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category);
+    public SupernovaSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity);
         this.colors = new int[][] {{255, 255, 222}, {90, 37, 131}};
     }
 

@@ -1,10 +1,12 @@
 package net.goo.armament.item;
 
 import net.goo.armament.client.item.ArmaGeoItem;
+import net.goo.armament.util.ModResources;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -20,12 +22,14 @@ import java.util.List;
 public class ArmaHammerItem extends AxeItem implements ArmaGeoItem {
     public String identifier;
     public ModItemCategories category;
+    public Rarity rarity;
     protected int[][] colors;
 
-    public ArmaHammerItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category) {
+    public ArmaHammerItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
         this.category = category;
         this.identifier = identifier;
+        this.rarity = rarity;
     }
 
     @Override
@@ -42,7 +46,8 @@ public class ArmaHammerItem extends AxeItem implements ArmaGeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-
+        pTooltipComponents.add(Component.translatable("rarity.armament." + rarity).withStyle(Style.EMPTY.withFont(ModResources.RARITY)));
+        pTooltipComponents.add(Component.literal(""));
         pTooltipComponents.add(ModUtils.tooltipHelper("item.armament." + identifier + ".desc.1", false, null, colors[1]));
         pTooltipComponents.add(Component.literal(""));
         pTooltipComponents.add(ModUtils.tooltipHelper("item.armament." + identifier + ".desc.2", false, null, colors[0]));

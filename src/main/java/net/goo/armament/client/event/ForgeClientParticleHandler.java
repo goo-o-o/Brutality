@@ -2,7 +2,7 @@ package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
 import net.goo.armament.entity.custom.BlackHoleEntity;
-import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
+import net.goo.armament.entity.projectile.ThunderboltProjectile;
 import net.goo.armament.item.custom.SupernovaSword;
 import net.goo.armament.item.custom.ZeusThunderboltTrident;
 import net.goo.armament.registry.ModParticles;
@@ -71,11 +71,11 @@ public class ForgeClientParticleHandler {
     }
 
     private static void spawnThrownThunderboltEntityParticle(Player player, Level level) {
-        List<ThrownZeusThunderboltEntity> thrownZeusThunderbolts = level.getEntitiesOfClass(ThrownZeusThunderboltEntity.class, player.getBoundingBox().inflate(100));
+        List<ThunderboltProjectile> thrownZeusThunderbolts = level.getEntitiesOfClass(ThunderboltProjectile.class, player.getBoundingBox().inflate(100));
         float particleSpawnRadius = 1F;
         if (!thrownZeusThunderbolts.isEmpty()) {
 
-            for (ThrownZeusThunderboltEntity thrownZeusThunderbolt : thrownZeusThunderbolts) {
+            for (ThunderboltProjectile thrownZeusThunderbolt : thrownZeusThunderbolts) {
 
                 double offsetX = (level.random.nextFloat() - 0.5) * particleSpawnRadius;
                 double offsetY = (level.random.nextFloat() - 0.5) * particleSpawnRadius;

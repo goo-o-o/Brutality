@@ -1,7 +1,7 @@
 package net.goo.armament.client.item.model;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.custom.QuantumDrillItem;
+import net.goo.armament.item.custom.unused.QuantumDrillItem;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.DefaultedItemGeoModel;
 

@@ -16,6 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -36,10 +37,11 @@ public class LeafBlowerItem extends ArmaGenericItem implements ArmaGeoItem {
     private static final String ACTIVE_KEY = "LeafBlowerActive";
     private int tickCounter;
 
-    public LeafBlowerItem(Properties pProperties, String identifier, ModItemCategories category) {
-        super(pProperties, identifier, category);
+    public LeafBlowerItem(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
+        super(pProperties, identifier, category, rarity);
         this.colors = new int[][] {{212, 6, 6}, {255, 255, 255}};
     }
+
 
     public static void setActive(ItemStack stack, boolean active) {
         stack.getOrCreateTag().putBoolean(ACTIVE_KEY, active);

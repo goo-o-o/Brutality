@@ -1,20 +1,24 @@
 package net.goo.armament.item.custom;
 
 import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.goo.armament.Armament;
-import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
 import net.goo.armament.client.item.ArmaGeoItem;
+import net.goo.armament.entity.projectile.ThunderboltProjectile;
 import net.goo.armament.item.ArmaTridentItem;
 import net.goo.armament.item.ModItemCategories;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Vanishable;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -32,12 +36,11 @@ import java.util.stream.Collectors;
 public class ZeusThunderboltTrident extends ArmaTridentItem implements Vanishable, ArmaGeoItem {
     private static final UUID SPEED_BOOST_UUID = UUID.fromString("f9d0a647-4999-4637-b4a0-7f768a65b5db");  // Unique UUID for speed boost modifier
 
-    public ZeusThunderboltTrident(Properties pProperties, String identifier, ModItemCategories category) {
-        super(pProperties, identifier, category);
+    public ZeusThunderboltTrident(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
+        super(pProperties, identifier, category, rarity);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(SPEED_BOOST_UUID, "Tool modifier",2, AttributeModifier.Operation.ADDITION));
-        Multimap<Attribute, AttributeModifier> defaultModifiers = builder.build();
-        this.colors = new int[][] {{255, 215, 86}, {164, 92, 0}};
+        builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(SPEED_BOOST_UUID, "Tool modifier", 2, AttributeModifier.Operation.ADDITION));
+        this.colors = new int[][]{{255, 215, 86}, {164, 92, 0}};
     }
 
     public ModItemCategories getCategory() {
@@ -74,6 +77,32 @@ public class ZeusThunderboltTrident extends ArmaTridentItem implements Vanishabl
     }
 
     @Override
+    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
+        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        if (pPlayer.isCrouching()) {
+            pPlayer.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 200, 2), pPlayer);
+            pPlayer.getCooldowns().addCooldown(itemstack.getItem(), 400);
+            return InteractionResultHolder.fail(itemstack);
+        } else if (!isUnbreakable()) {
+            if (itemstack.getDamageValue() >= itemstack.getMaxDamage() - 1) {
+                return InteractionResultHolder.fail(itemstack);
+            } else if (EnchantmentHelper.getRiptide(itemstack) > 0 && !pPlayer.isInWaterOrRain()) {
+                return InteractionResultHolder.fail(itemstack);
+            } else {
+                pPlayer.startUsingItem(pHand);
+                return InteractionResultHolder.consume(itemstack);
+            }
+        } else {
+            if (EnchantmentHelper.getRiptide(itemstack) > 0 && !pPlayer.isInWaterOrRain()) {
+                return InteractionResultHolder.fail(itemstack);
+            } else {
+                pPlayer.startUsingItem(pHand);
+                return InteractionResultHolder.consume(itemstack);
+            }
+        }
+    }
+
+    @Override
     public boolean isInfinite() {
         return true;
     }
@@ -91,7 +120,7 @@ public class ZeusThunderboltTrident extends ArmaTridentItem implements Vanishabl
             consumer.broadcastBreakEvent(player.getUsedItemHand());
         });
         if (j == 0) {
-            ThrownZeusThunderboltEntity thrownEntity = new ThrownZeusThunderboltEntity(pLevel, player, pStack);
+            ThunderboltProjectile thrownEntity = new ThunderboltProjectile(pLevel, player, pStack);
             thrownEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, getLaunchVel() + (float) j * 0.5F, 1.0F);
             if (player.getAbilities().instabuild) {
                 thrownEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;

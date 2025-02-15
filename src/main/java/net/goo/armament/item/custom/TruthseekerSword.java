@@ -7,6 +7,7 @@ import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.registry.ModItems;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.event.entity.player.PlayerXpEvent;
@@ -19,8 +20,8 @@ import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class TruthseekerSword extends ArmaSwordItem {
-    public TruthseekerSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category);
+    public TruthseekerSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity);
         this.colors = new int[][] {{128, 244, 58}, {99, 33, 0}};
         this.identifier = "truthseeker";
     }

@@ -2,6 +2,9 @@ package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
 import net.goo.armament.item.custom.*;
+import net.goo.armament.item.custom.unused.DivineRhittaAxeItem;
+import net.goo.armament.item.custom.unused.QuantumDrillItem;
+import net.goo.armament.item.custom.unused.ResonancePickaxeItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderTooltipEvent;

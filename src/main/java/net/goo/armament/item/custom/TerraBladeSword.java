@@ -8,6 +8,7 @@ import net.goo.armament.network.PacketHandler;
 import net.goo.armament.network.c2sTerraBeamPacket;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -20,8 +21,8 @@ import java.util.function.Consumer;
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class TerraBladeSword extends ArmaSwordItem {
 
-    public TerraBladeSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category);
+    public TerraBladeSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity);
         this.colors = new int[][]{{174, 229, 58}, {0, 82, 60}};
         this.identifier = "terra_blade";
     }

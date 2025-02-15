@@ -1,6 +1,8 @@
 package net.goo.armament.registry;
 
+import com.mojang.serialization.Codec;
 import net.goo.armament.Armament;
+import net.goo.armament.particle.custom.ThunderboltTrailParticle;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -32,6 +34,13 @@ public class ModParticles{
             PARTICLE_TYPES.register("poker_chip_green_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> POKER_CHIP_YELLOW_PARTICLE =
             PARTICLE_TYPES.register("poker_chip_yellow_particle", () -> new SimpleParticleType(true));
+
+    public static final RegistryObject<ParticleType<ThunderboltTrailParticle.OrbData>> THUNDERBOLT_TRAIL_PARTICLE = PARTICLE_TYPES.register("thunderbolt_trail_particle", () -> new ParticleType<ThunderboltTrailParticle.OrbData>(false, ThunderboltTrailParticle.OrbData.DESERIALIZER) {
+        @Override
+        public Codec<ThunderboltTrailParticle.OrbData> codec() {
+            return ThunderboltTrailParticle.OrbData.CODEC(THUNDERBOLT_TRAIL_PARTICLE.get());
+        }
+    });
 
 
 

@@ -10,6 +10,5 @@ public class ModResources {
     public static final ResourceLocation TECHNOLOGY = new ResourceLocation(Armament.MOD_ID, "b2bsporty"); // Font used: b2bSporty https://www.dafont.com/born2bsporty-fs.font
     public static final ResourceLocation SPACE = new ResourceLocation(Armament.MOD_ID, "cosmicalien"); // Font used: Cosmic Alien https://www.dafont.com/cosmic-alien.font?
 
-
-
+    public static final ResourceLocation RARITY = new ResourceLocation(Armament.MOD_ID, "gamer"); // Font used: Gamer https://www.dafont.com/gamer-2.font
 }

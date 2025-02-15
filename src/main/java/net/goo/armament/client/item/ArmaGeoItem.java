@@ -23,7 +23,6 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.function.Consumer;
 
 import static net.goo.armament.util.ModResources.*;
-import static net.goo.armament.util.ModResources.FANTASY;
 
 public interface ArmaGeoItem extends GeoItem {
 
@@ -71,6 +70,7 @@ public interface ArmaGeoItem extends GeoItem {
         if (rendererID == 0) {
             consumer.accept(new IClientItemExtensions() {
                 private ArmaGeoWeaponRenderer<T> renderer;
+
                 @Override
                 public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                     if (this.renderer == null) this.renderer = new ArmaGeoWeaponRenderer<>();
@@ -85,6 +85,7 @@ public interface ArmaGeoItem extends GeoItem {
         } else if (rendererID == 1) {
             consumer.accept(new IClientItemExtensions() {
                 private ArmaGeoGlowingWeaponRenderer<T> renderer;
+
                 @Override
                 public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                     if (this.renderer == null) this.renderer = new ArmaGeoGlowingWeaponRenderer<>();
@@ -98,4 +99,5 @@ public interface ArmaGeoItem extends GeoItem {
             });
         }
     }
+
 }

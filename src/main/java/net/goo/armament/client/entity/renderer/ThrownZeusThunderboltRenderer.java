@@ -6,7 +6,7 @@ import com.mojang.math.Axis;
 import net.goo.armament.Armament;
 import net.goo.armament.client.entity.ModModelLayers;
 import net.goo.armament.client.entity.model.ThrownZeusThunderboltModel;
-import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
+import net.goo.armament.entity.projectile.ThunderboltProjectile;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -19,7 +19,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ThrownZeusThunderboltRenderer extends EntityRenderer<ThrownZeusThunderboltEntity> {
+public class ThrownZeusThunderboltRenderer extends EntityRenderer<ThunderboltProjectile> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Armament.MOD_ID, "textures/entity/thrown_zeus_thunderbolt.png");
     private final ThrownZeusThunderboltModel model;
 
@@ -29,11 +29,11 @@ public class ThrownZeusThunderboltRenderer extends EntityRenderer<ThrownZeusThun
     }
 
     @Override
-    public ResourceLocation getTextureLocation(ThrownZeusThunderboltEntity pEntity) {
+    public ResourceLocation getTextureLocation(ThunderboltProjectile pEntity) {
         return TEXTURE;
     }
 
-    public void render(ThrownZeusThunderboltEntity pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+    public void render(ThunderboltProjectile pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
         pPoseStack.pushPose();
         pPoseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(pPartialTicks, pEntity.yRotO, pEntity.getYRot()) - 90.0F));
         pPoseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(pPartialTicks, pEntity.xRotO, pEntity.getXRot()) + 90.0F));
@@ -44,7 +44,7 @@ public class ThrownZeusThunderboltRenderer extends EntityRenderer<ThrownZeusThun
     }
 
     @Override
-    protected int getBlockLightLevel(ThrownZeusThunderboltEntity pEntity, BlockPos pPos) {
+    protected int getBlockLightLevel(ThunderboltProjectile pEntity, BlockPos pPos) {
         return 15; // This will make it always emit maximum light, making the entity appear emissive
     }
 

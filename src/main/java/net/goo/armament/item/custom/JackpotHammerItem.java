@@ -20,6 +20,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -28,8 +29,8 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 public class JackpotHammerItem extends ArmaHammerItem implements GeoItem {
     private final float attackSpeedModifier;
 
-    public JackpotHammerItem(Tier pTier, int pAttackDamageModifier, float attackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category) {
-        super(pTier, pAttackDamageModifier, attackSpeedModifier, pProperties, identifier, category);
+    public JackpotHammerItem(Tier pTier, int pAttackDamageModifier, float attackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
+        super(pTier, pAttackDamageModifier, attackSpeedModifier, pProperties, identifier, category, rarity);
         this.attackSpeedModifier = attackSpeedModifier;
         this.colors = new int[][] {{0, 255, 255}, {192, 0, 15}, {225, 255, 8}, {0, 237, 36}};
     }

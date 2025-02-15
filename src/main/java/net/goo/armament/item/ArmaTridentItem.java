@@ -1,9 +1,11 @@
 package net.goo.armament.item;
 
 import net.goo.armament.client.item.ArmaGeoItem;
+import net.goo.armament.util.ModResources;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -17,10 +19,7 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ThrownTrident;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.TridentItem;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -32,12 +31,14 @@ import java.util.List;
 public class ArmaTridentItem extends TridentItem implements ArmaGeoItem {
     public String identifier;
     public ModItemCategories category;
+    public Rarity rarity;
     protected int[][] colors;
 
-    public ArmaTridentItem(Properties pProperties, String identifier, ModItemCategories category) {
+    public ArmaTridentItem(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
         super(pProperties);
         this.category = category;
         this.identifier = identifier;
+        this.rarity = rarity;
     }
 
     @Override
@@ -54,7 +55,8 @@ public class ArmaTridentItem extends TridentItem implements ArmaGeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-
+        pTooltipComponents.add(Component.translatable("rarity.armament." + rarity).withStyle(Style.EMPTY.withFont(ModResources.RARITY)));
+        pTooltipComponents.add(Component.literal(""));
         pTooltipComponents.add(ModUtils.tooltipHelper("item.armament." + identifier + ".desc.1", false, null, colors[1]));
         pTooltipComponents.add(Component.literal(""));
         pTooltipComponents.add(ModUtils.tooltipHelper("item.armament." + identifier + ".desc.2", false, null, colors[0]));

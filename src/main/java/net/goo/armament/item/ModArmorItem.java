@@ -1,4 +1,4 @@
-package net.goo.armament.item.custom;
+package net.goo.armament.item;
 
 
 import net.minecraft.world.entity.player.Player;

@@ -2,12 +2,12 @@ package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
 import net.goo.armament.network.PacketHandler;
-import net.goo.armament.registry.ModParticles;
 import net.goo.armament.particle.custom.*;
 import net.goo.armament.particle.custom.pokerchip.PokerChipBlueParticle;
 import net.goo.armament.particle.custom.pokerchip.PokerChipGreenParticle;
 import net.goo.armament.particle.custom.pokerchip.PokerChipRedParticle;
 import net.goo.armament.particle.custom.pokerchip.PokerChipYellowParticle;
+import net.goo.armament.registry.ModParticles;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
@@ -23,6 +23,8 @@ public class ModHandler {
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
     }
+
+
 
     @SubscribeEvent
     public static void registerParticleFactories(final RegisterParticleProvidersEvent event) {
@@ -52,6 +54,9 @@ public class ModHandler {
 
         ParticleEngine.SpriteParticleRegistration<SimpleParticleType> poker_chip_blue_particle_factory = PokerChipBlueParticle.Provider::new;
         event.registerSpriteSet(ModParticles.POKER_CHIP_BLUE_PARTICLE.get(), poker_chip_blue_particle_factory);
+
+        event.registerSpecial(ModParticles.THUNDERBOLT_TRAIL_PARTICLE.get(), new ThunderboltTrailParticle.OrbFactory());
+
     }
 
     @SubscribeEvent

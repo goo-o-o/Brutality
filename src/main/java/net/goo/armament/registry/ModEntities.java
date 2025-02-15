@@ -4,7 +4,7 @@ import net.goo.armament.Armament;
 import net.goo.armament.entity.custom.BlackHoleEntity;
 import net.goo.armament.entity.custom.CruelSunEntity;
 import net.goo.armament.entity.custom.TerraBeamEntity;
-import net.goo.armament.entity.custom.ThrownZeusThunderboltEntity;
+import net.goo.armament.entity.projectile.ThunderboltProjectile;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -17,9 +17,9 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Armament.MOD_ID);
 
-    public static final RegistryObject<EntityType<ThrownZeusThunderboltEntity>> THROWN_ZEUS_THUNDERBOLT_ENTITY =
+    public static final RegistryObject<EntityType<ThunderboltProjectile>> THROWN_ZEUS_THUNDERBOLT_ENTITY =
             ENTITY_TYPES.register("thrown_zeus_thunderbolt",
-                    () -> EntityType.Builder.<ThrownZeusThunderboltEntity>of(ThrownZeusThunderboltEntity::new, MobCategory.MISC)
+                    () -> EntityType.Builder.<ThunderboltProjectile>of(ThunderboltProjectile::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
                             .clientTrackingRange(4)
                             .setUpdateInterval(20)

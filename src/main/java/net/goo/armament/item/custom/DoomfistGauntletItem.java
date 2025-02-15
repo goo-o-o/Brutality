@@ -13,6 +13,7 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -28,10 +29,11 @@ public class DoomfistGauntletItem extends ArmaGenericItem implements GeoItem {
     private static final String PUNCHING = "isPunching";
     private static int clampedTime;
 
-    public DoomfistGauntletItem(Properties pProperties, String identifier, ModItemCategories category) {
-        super(pProperties, identifier, category);
+    public DoomfistGauntletItem(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
+        super(pProperties, identifier, category, rarity);
         this.colors = new int[][]{{237, 205, 140}, {118, 118, 118}};
     }
+
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {

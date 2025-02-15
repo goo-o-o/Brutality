@@ -67,5 +67,9 @@
   "item.armament.zeus_thunderbolt.desc.2": "Hermes' Blessing",
   "item.armament.zeus_thunderbolt.desc.3": "Gain increased movement speed.",
 
+  "rarity.armament.legendary": "\u00a76LEGENDARY",
+  "rarity.armament.mythic": "\u00a7dMYTHIC",
+  "rarity.armament.fabled": "\u00a7cFABLED",
+
   "creativeTab.armament_tab": "Armament"
 }
