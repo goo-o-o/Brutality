@@ -37,8 +37,8 @@ public class LeafBlowerItem extends ArmaGenericItem implements ArmaGeoItem {
     private static final String ACTIVE_KEY = "LeafBlowerActive";
     private int tickCounter;
 
-    public LeafBlowerItem(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
-        super(pProperties, identifier, category, rarity);
+    public LeafBlowerItem(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+        super(pProperties, identifier, category, rarity, abilityCount);
         this.colors = new int[][] {{212, 6, 6}, {255, 255, 255}};
     }
 

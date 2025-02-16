@@ -29,8 +29,8 @@ public class DoomfistGauntletItem extends ArmaGenericItem implements GeoItem {
     private static final String PUNCHING = "isPunching";
     private static int clampedTime;
 
-    public DoomfistGauntletItem(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
-        super(pProperties, identifier, category, rarity);
+    public DoomfistGauntletItem(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+        super(pProperties, identifier, category, rarity, abilityCount);
         this.colors = new int[][]{{237, 205, 140}, {118, 118, 118}};
     }
 
@@ -91,8 +91,8 @@ public class DoomfistGauntletItem extends ArmaGenericItem implements GeoItem {
 
             if (pStack.getOrCreateTag().getBoolean(PUNCHING)) {
                 AABB boundingBox = new AABB(
-                        player.getX() - 0.75, player.getY() - 0.5, player.getZ(),
-                        player.getX() + 0.75, player.getY() + 0.5, player.getZ() + 1);
+                        player.getX() - 1f, player.getY() - 0.75f, player.getZ(),
+                        player.getX() + 1f, player.getY() + 0.75f, player.getZ() + 1f);
 
                 List<LivingEntity> nearbyEntities = pLevel.getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, ((LivingEntity) pEntity), boundingBox);
 

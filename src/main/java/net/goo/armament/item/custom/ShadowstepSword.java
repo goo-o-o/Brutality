@@ -36,8 +36,8 @@ import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ShadowstepSword extends ArmaSwordItem {
-    public ShadowstepSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity);
+    public ShadowstepSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity, abilityCount);
         this.colors = new int[][] {{65, 0, 125}, {25, 25, 25}};
     }
 

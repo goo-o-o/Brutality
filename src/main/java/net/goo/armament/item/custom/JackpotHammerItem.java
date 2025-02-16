@@ -29,8 +29,8 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 public class JackpotHammerItem extends ArmaHammerItem implements GeoItem {
     private final float attackSpeedModifier;
 
-    public JackpotHammerItem(Tier pTier, int pAttackDamageModifier, float attackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
-        super(pTier, pAttackDamageModifier, attackSpeedModifier, pProperties, identifier, category, rarity);
+    public JackpotHammerItem(Tier pTier, int pAttackDamageModifier, float attackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+        super(pTier, pAttackDamageModifier, attackSpeedModifier, pProperties, identifier, category, rarity, abilityCount);
         this.attackSpeedModifier = attackSpeedModifier;
         this.colors = new int[][] {{0, 255, 255}, {192, 0, 15}, {225, 255, 8}, {0, 237, 36}};
     }

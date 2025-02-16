@@ -32,8 +32,8 @@ public class TerratonHammerItem extends ArmaHammerItem implements GeoItem {
     private static final UUID MOVEMENT_SPEED_MODIFIER_UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
     private final Multimap<Attribute, AttributeModifier> attributeModifiers;
 
-    public TerratonHammerItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity);
+    public TerratonHammerItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity, abilityCount);
         this.attributeModifiers = ImmutableMultimap.<Attribute, AttributeModifier>builder()
         .put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 29, AttributeModifier.Operation.ADDITION))
         .put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.5, AttributeModifier.Operation.ADDITION))

@@ -24,7 +24,7 @@ import java.util.Locale;
 
 public class ThunderboltTrailParticle extends AbstractLightTrailParticle {
 
-    private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(Armament.MOD_ID, "textures/particle/thunderbolt.png");
+    private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(Armament.MOD_ID, "textures/particle/thunderbolt_trail_particle.png");
 
     private final int EntityId;
 

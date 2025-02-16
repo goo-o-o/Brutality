@@ -27,6 +27,9 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.event.GrindstoneEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.Map;
 import java.util.UUID;
@@ -36,8 +39,8 @@ import java.util.stream.Collectors;
 public class ZeusThunderboltTrident extends ArmaTridentItem implements Vanishable, ArmaGeoItem {
     private static final UUID SPEED_BOOST_UUID = UUID.fromString("f9d0a647-4999-4637-b4a0-7f768a65b5db");  // Unique UUID for speed boost modifier
 
-    public ZeusThunderboltTrident(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
-        super(pProperties, identifier, category, rarity);
+    public ZeusThunderboltTrident(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+        super(pProperties, identifier, category, rarity, abilityCount);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(SPEED_BOOST_UUID, "Tool modifier", 2, AttributeModifier.Operation.ADDITION));
         this.colors = new int[][]{{255, 215, 86}, {164, 92, 0}};
@@ -132,5 +135,12 @@ public class ZeusThunderboltTrident extends ArmaTridentItem implements Vanishabl
                 player.getInventory().removeItem(pStack);
             }
         }
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, (state) ->
+                state.setAndContinue(RawAnimation.begin().thenLoop("idle")))
+        );
     }
 }

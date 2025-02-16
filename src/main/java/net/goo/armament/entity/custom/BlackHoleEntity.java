@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -18,13 +19,14 @@ import software.bernie.geckolib.core.object.PlayState;
 import java.util.List;
 import java.util.UUID;
 
-public class BlackHoleEntity extends Entity implements GeoEntity {
+public class BlackHoleEntity extends ThrowableProjectile implements GeoEntity {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private UUID ownerUUID;
 
-    public BlackHoleEntity(EntityType<?> pEntityType, Level pLevel) {
+    public BlackHoleEntity(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
+
 
     @Override
     public CompoundTag getPersistentData() {
@@ -39,20 +41,24 @@ public class BlackHoleEntity extends Entity implements GeoEntity {
         this.ownerUUID = ownerUUID;
     }
 
+    public Player getOwner(UUID ownerUUID) {
+        return level().getPlayerByUUID(ownerUUID);
+    }
+
     @Override
     public boolean canCollideWith(Entity pEntity) {
         return false;
     }
 
     @Override
-    public boolean isPushable() {
-        return false;
+    public void setNoGravity(boolean pNoGravity) {
+        super.setNoGravity(true);
     }
-
 
     @Override
     public void tick() {
         Vec3 blackHolePos = this.getPosition(1.0F);
+        super.tick();
         if (ownerUUID != null) {
             List<Entity> nearbyEntities = level().getEntities(this, this.getBoundingBox().inflate(7.5),
                     e -> e instanceof LivingEntity && !(e instanceof Player && (e.isSpectator() || ((Player) e).isCreative()) ));
@@ -66,10 +72,10 @@ public class BlackHoleEntity extends Entity implements GeoEntity {
                     if (entity instanceof ServerPlayer player) {
                         player.connection.send(new ClientboundSetEntityMotionPacket(player));
                     }
+                    entity.hurt(entity.damageSources().flyIntoWall(), 1);
                 }
             }
         }
-        super.tick();
     }
 
     @Override

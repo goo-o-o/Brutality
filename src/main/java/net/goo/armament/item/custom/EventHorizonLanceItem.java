@@ -10,6 +10,7 @@ import net.goo.armament.registry.ModParticles;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -43,12 +44,13 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
     private static final String ACCRETION = "accretionActive";
     private static final Map<UUID, BlackHoleEntity> playerBlackHoleMap = new HashMap<>();
     private double spawnRadius;
-    int tickCount = 0;
+    private int tickCount = 0;
 
-    public EventHorizonLanceItem(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity) {
-        super(pProperties, identifier, category, rarity);
+    public EventHorizonLanceItem(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+        super(pProperties, identifier, category, rarity, abilityCount);
         this.colors = new int[][]{{250, 140, 20}, {50, 50, 50}};
     }
+
 
     public static void handleHangingBlackHole(Player player) {
         BlackHoleEntity blackHoleEntity = playerBlackHoleMap.get(player.getUUID());
@@ -96,7 +98,7 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
     }
 
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving, int pTimeLeft) {
-        if (pEntityLiving instanceof ServerPlayer player) {
+        if (pEntityLiving instanceof ServerPlayer player && !pLevel.isClientSide) {
             // Get the player's existing BlackHoleEntity
             BlackHoleEntity blackHoleEntity = playerBlackHoleMap.get(player.getUUID());
             setSpawnRadius(72000 - pTimeLeft);
@@ -112,7 +114,6 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
                 blackHoleEntity = new BlackHoleEntity(ModEntities.BLACK_HOLE_ENTITY.get(), pLevel);
                 blackHoleEntity.setOwner(player.getUUID());
                 blackHoleEntity.setPos(player.getX(), player.getY() + 2, player.getZ());
-
                 pLevel.addFreshEntity(blackHoleEntity);
                 playerBlackHoleMap.put(player.getUUID(), blackHoleEntity);
             }
@@ -120,7 +121,7 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
     }
 
     public void setSpawnRadius(double spawnRadius) {
-        this.spawnRadius = Math.min(spawnRadius, 20);
+        this.spawnRadius = Math.min(spawnRadius, 10);
     }
 
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
@@ -136,17 +137,17 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
 
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (!pLevel.isClientSide && pEntity instanceof ServerPlayer player && pIsSelected) {
+        if (!pLevel.isClientSide && pEntity instanceof Player player) {
             BlackHoleEntity blackHoleEntity = playerBlackHoleMap.get(player.getUUID());
             if (blackHoleEntity != null) {
-                if (isSpawned(pStack) && pIsSelected) {
-                    double distance = spawnRadius;
-                    Vec3 playerLookVec = player.getViewVector(0.1F).normalize();
-                    playerLookVec = playerLookVec.scale(distance).add(0, 1, 0);
-                    Vec3 absVec = player.getPosition(0F).add(playerLookVec);
-
-                    blackHoleEntity.lerpTo(absVec.x, absVec.y, absVec.z, 0, 0, 1, false);
-
+                if (pIsSelected && isSpawned(pStack)) {
+                    float speed = 0.25F;
+                    double plX = player.getX() - (Mth.sin((float) tickCount / (8 / speed)) * spawnRadius);
+                    double plY = player.getY() + (Mth.sin((float) tickCount / (4 / speed)) * 0.25);
+                    double plZ = player.getZ() - (Mth.cos((float) tickCount / (8 / speed)) * spawnRadius);
+                    Vec3 plPos = new Vec3(plX, plY + 1, plZ);
+                    blackHoleEntity.setDeltaMovement(plPos.subtract(blackHoleEntity.position()));
+//                    blackHoleEntity.setDeltaMovement(0, 1, 1);
                 } else {
                     blackHoleEntity.discard();
                     playerBlackHoleMap.remove(player.getUUID());
@@ -157,7 +158,7 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
             if (player.isCrouching() && pStack.getOrCreateTag().getBoolean(ACCRETION)) {
                 float suckFactor = 0.5F;
                 if (tickCount % 4 == 0) {
-                    player.connection.send(new ClientboundLevelParticlesPacket(ModParticles.BLACK_HOLE_PARTICLE.get(), true,
+                    ((ServerPlayer) player).connection.send(new ClientboundLevelParticlesPacket(ModParticles.BLACK_HOLE_PARTICLE.get(), true,
                             player.getX(), player.getY(), player.getZ(),
                             2, 2, 2, 10, 1));
                 }
@@ -168,16 +169,12 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
                 List<Entity> entities = pLevel.getEntities(player, pullBox, entity -> entity instanceof LivingEntity);
 
                 for (Entity target : entities) {
-                    // Check if the target is in line of sight and not underwater
                     Vec3 targetPosition = target.position();
                     Vec3 targetDirection = (player.position().subtract(targetPosition)).scale(suckFactor);
 
-                    // Add delta movement to the target
                     target.addDeltaMovement(targetDirection);
 
-                    // If the target is a ServerPlayer, send a motion packet to update its position on client
                     if (target instanceof ServerPlayer serverTarget) {
-                        // Send the packet only for the target player, not for player
                         serverTarget.connection.send(new ClientboundSetEntityMotionPacket(target));
                     }
 
@@ -188,7 +185,7 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
             } else pStack.getOrCreateTag().putBoolean(ACCRETION, false);
         }
         super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
-
+        tickCount++;
     }
 
     public boolean isSpawned(ItemStack pStack) {
@@ -200,7 +197,7 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
     }
 
     private PlayState predicate(AnimationState<GeoAnimatable> animationState) {
-        ItemStack stack = (ItemStack) animationState.getData(DataTickets.ITEMSTACK);
+        ItemStack stack = animationState.getData(DataTickets.ITEMSTACK);
         if (isSpawned(stack)) {
             animationState.getController().setAnimation(RawAnimation.begin().thenPlayAndHold("throw"));
         } else {
@@ -211,7 +208,8 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
+
 
 }
