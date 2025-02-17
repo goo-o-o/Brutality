@@ -61,7 +61,7 @@ public class TerraBeam extends ThrowableProjectile implements GeoEntity {
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
+        return this.cache;
     }
 
     @Override
@@ -92,6 +92,8 @@ public class TerraBeam extends ThrowableProjectile implements GeoEntity {
             }
         }
     }
+
+
 
     @Override
     public void setSilent(boolean pIsSilent) {

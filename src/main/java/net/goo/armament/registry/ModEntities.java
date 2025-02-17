@@ -2,7 +2,7 @@ package net.goo.armament.registry;
 
 import net.goo.armament.Armament;
 import net.goo.armament.entity.ArmaEffectEntity;
-import net.goo.armament.entity.custom.BlackHoleEntity;
+import net.goo.armament.entity.custom.BlackHole;
 import net.goo.armament.entity.custom.CruelSunEntity;
 import net.goo.armament.entity.custom.TerraBeam;
 import net.goo.armament.entity.custom.ThunderboltProjectile;
@@ -18,8 +18,8 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Armament.MOD_ID);
 
-    public static final RegistryObject<EntityType<ArmaEffectEntity>> ARMA_EFFECT_ENTITY = ENTITY_TYPES.register("arma_effect", () -> EntityType.Builder.of(ArmaEffectEntity::new, MobCategory.MISC)
-            .sized(0.5F, 0.5F).clientTrackingRange(64).build(Armament.prefix("arma_effect").toString()));
+    public static final RegistryObject<EntityType<ArmaEffectEntity>> ARMA_PROJECTILE_ENTITY = ENTITY_TYPES.register("arma_projectile", () -> EntityType.Builder.of(ArmaEffectEntity::new, MobCategory.MISC)
+            .sized(0.5F, 0.5F).clientTrackingRange(64).build(Armament.prefix("arma_projectile").toString()));
 
     public static final RegistryObject<EntityType<ThunderboltProjectile>> THROWN_ZEUS_THUNDERBOLT_ENTITY =
             ENTITY_TYPES.register("thrown_zeus_thunderbolt",
@@ -39,9 +39,9 @@ public class ModEntities {
                             .sized(1F, 1F)
                             .build("terra_beam"));
 
-    public static final RegistryObject<EntityType<BlackHoleEntity>> BLACK_HOLE_ENTITY =
+    public static final RegistryObject<EntityType<BlackHole>> BLACK_HOLE_ENTITY =
             ENTITY_TYPES.register("black_hole",
-                    () -> EntityType.Builder.of(BlackHoleEntity::new, MobCategory.MISC)
+                    () -> EntityType.Builder.of(BlackHole::new, MobCategory.MISC)
                             .sized(1F, 1F)
                             .setUpdateInterval(3)
                             .build("black_hole"));

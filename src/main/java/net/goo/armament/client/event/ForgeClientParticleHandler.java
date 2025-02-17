@@ -1,7 +1,7 @@
 package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
-import net.goo.armament.entity.custom.BlackHoleEntity;
+import net.goo.armament.entity.custom.BlackHole;
 import net.goo.armament.entity.custom.ThunderboltProjectile;
 import net.goo.armament.item.custom.SupernovaSword;
 import net.goo.armament.item.custom.ThunderboltTrident;
@@ -91,10 +91,10 @@ public class ForgeClientParticleHandler {
     }
 
     private static void spawnBlackHoleEntityParticles(Player player, Level level) {
-        List<BlackHoleEntity> blackHoleEntities = level.getEntitiesOfClass(BlackHoleEntity.class, player.getBoundingBox().inflate(50));
+        List<BlackHole> blackHoleEntities = level.getEntitiesOfClass(BlackHole.class, player.getBoundingBox().inflate(50));
         float particleSpawnRadius = 6;
         float particleSpeedFactor = 0.05F;
-        for (BlackHoleEntity blackHoleEntity : blackHoleEntities) {
+        for (BlackHole blackHoleEntity : blackHoleEntities) {
 
             double offsetX = (level.random.nextFloat() - 0.5) * particleSpawnRadius;
             double offsetY = (level.random.nextFloat() - 0.5) * particleSpawnRadius;

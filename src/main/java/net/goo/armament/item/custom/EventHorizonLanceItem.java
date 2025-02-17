@@ -2,7 +2,7 @@ package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
 import net.goo.armament.client.item.ArmaGeoItem;
-import net.goo.armament.entity.custom.BlackHoleEntity;
+import net.goo.armament.entity.custom.BlackHole;
 import net.goo.armament.item.ArmaTridentItem;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.registry.ModEntities;
@@ -44,7 +44,7 @@ import static net.goo.armament.util.ModResources.EVENT_HORIZON_COLORS;
 public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable {
     private static final String SPAWNED = "blackHoleSpawned";
     private static final String ACCRETION = "accretionActive";
-    private static final Map<UUID, BlackHoleEntity> playerBlackHoleMap = new HashMap<>();
+    private static final Map<UUID, BlackHole> playerBlackHoleMap = new HashMap<>();
     private double spawnRadius;
     private int tickCount = 0;
 
@@ -55,7 +55,7 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
 
 
     public static void handleHangingBlackHole(Player player) {
-        BlackHoleEntity blackHoleEntity = playerBlackHoleMap.get(player.getUUID());
+        BlackHole blackHoleEntity = playerBlackHoleMap.get(player.getUUID());
         if (blackHoleEntity != null) {
             playerBlackHoleMap.remove(player.getUUID());
             blackHoleEntity.remove(Entity.RemovalReason.DISCARDED);
@@ -102,7 +102,7 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving, int pTimeLeft) {
         if (pEntityLiving instanceof ServerPlayer player && !pLevel.isClientSide) {
             // Get the player's existing BlackHoleEntity
-            BlackHoleEntity blackHoleEntity = playerBlackHoleMap.get(player.getUUID());
+            BlackHole blackHoleEntity = playerBlackHoleMap.get(player.getUUID());
             setSpawnRadius(72000 - pTimeLeft);
             // Check if the black hole entity already exists
             if (blackHoleEntity != null) {
@@ -113,7 +113,7 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
             } else {
                 // If it does not exist, create a new black hole entity
                 pStack.getOrCreateTag().putBoolean(SPAWNED, true);
-                blackHoleEntity = new BlackHoleEntity(ModEntities.BLACK_HOLE_ENTITY.get(), pLevel);
+                blackHoleEntity = new BlackHole(ModEntities.BLACK_HOLE_ENTITY.get(), pLevel);
                 blackHoleEntity.setOwner(player.getUUID());
                 blackHoleEntity.setPos(player.getX(), player.getY() + 2, player.getZ());
                 pLevel.addFreshEntity(blackHoleEntity);
@@ -140,7 +140,7 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
         if (!pLevel.isClientSide && pEntity instanceof Player player) {
-            BlackHoleEntity blackHoleEntity = playerBlackHoleMap.get(player.getUUID());
+            BlackHole blackHoleEntity = playerBlackHoleMap.get(player.getUUID());
             if (blackHoleEntity != null) {
                 if (pIsSelected && isSpawned(pStack)) {
                     float speed = 0.25F;

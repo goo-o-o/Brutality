@@ -43,7 +43,7 @@ public class TerraBladeSword extends ArmaSwordItem {
         Player player = event.getEntity();
         if (player.getMainHandItem().getItem() instanceof TerraBladeSword) {
 //            PacketHandler.sendToServer(new c2sTerraBeamPacket());
-            ArmaEffectEntity.createInstance(player, null, ArmaVisualTypes.TERRA_BEAM.get());
+            ArmaEffectEntity.createInstance(player, null, ArmaVisualTypes.CRESCENTIA_STRIKE.get());
         }
     }
 

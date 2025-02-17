@@ -49,7 +49,7 @@ public class ArmaEffectEntity extends Entity implements GeoEntity {
     @Nullable
     public static ArmaEffectEntity getEffectInstance(LivingEntity owner, @Nullable Entity toFollow, ArmaVisualType visual, double offsetX, double offsetY, double offsetZ) {
         if (owner == null) return null;
-        ArmaEffectEntity slash = ModEntities.ARMA_EFFECT_ENTITY.get().create(owner.level());
+        ArmaEffectEntity slash = ModEntities.ARMA_PROJECTILE_ENTITY.get().create(owner.level());
         slash.setVisualID(visual.getName());
         slash.setAnimationID(visual.getAnimation().getAnimName());
         if (toFollow != null) {
@@ -262,7 +262,7 @@ public class ArmaEffectEntity extends Entity implements GeoEntity {
     }
 
     public ArmaVisualType getDefaultVisual() {
-        return ArmaVisualTypes.TERRA_BEAM.get();
+        return ArmaVisualTypes.CRESCENTIA_STRIKE.get();
     }
 
     @Override

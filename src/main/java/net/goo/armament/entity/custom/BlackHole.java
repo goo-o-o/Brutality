@@ -19,11 +19,11 @@ import software.bernie.geckolib.core.object.PlayState;
 import java.util.List;
 import java.util.UUID;
 
-public class BlackHoleEntity extends ThrowableProjectile implements GeoEntity {
+public class BlackHole extends ThrowableProjectile implements GeoEntity {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private UUID ownerUUID;
 
-    public BlackHoleEntity(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
+    public BlackHole(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
