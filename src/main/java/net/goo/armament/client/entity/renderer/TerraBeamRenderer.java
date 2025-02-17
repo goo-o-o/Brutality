@@ -3,7 +3,7 @@ package net.goo.armament.client.entity.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.goo.armament.client.entity.model.TerraBeamModel;
-import net.goo.armament.entity.custom.TerraBeamEntity;
+import net.goo.armament.entity.custom.TerraBeam;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -12,18 +12,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
-public class TerraBeamRenderer extends GeoEntityRenderer<TerraBeamEntity> {
+public class TerraBeamRenderer extends GeoEntityRenderer<TerraBeam> {
     public TerraBeamRenderer(EntityRendererProvider.Context context) {
         super(context, new TerraBeamModel());
     }
 
     @Override
-    protected int getBlockLightLevel(TerraBeamEntity pEntity, BlockPos pPos) {
+    protected int getBlockLightLevel(TerraBeam pEntity, BlockPos pPos) {
         return 15;
     }
 
     @Override
-    public void render(TerraBeamEntity pEntity, float entityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void render(TerraBeam pEntity, float entityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource bufferSource, int packedLight) {
         Player player = Minecraft.getInstance().player;
 
         if (player != null) {

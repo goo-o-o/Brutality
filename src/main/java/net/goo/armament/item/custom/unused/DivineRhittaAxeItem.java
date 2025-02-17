@@ -14,11 +14,13 @@ import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
+import static net.goo.armament.util.ModResources.RHITTA_COLORS;
+
 public class DivineRhittaAxeItem extends ArmaAxeItem implements GeoItem {
 
     public DivineRhittaAxeItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity, abilityCount);
-        this.colors = new int[][] {{255, 253, 112}, {86, 73, 191}};
+        this.colors = RHITTA_COLORS;
     }
 
 

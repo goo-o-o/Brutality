@@ -32,6 +32,8 @@ import software.bernie.geckolib.core.object.PlayState;
 
 import java.util.List;
 
+import static net.goo.armament.util.ModResources.LEAF_BLOWER_COLORS;
+
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class LeafBlowerItem extends ArmaGenericItem implements ArmaGeoItem {
     private static final String ACTIVE_KEY = "LeafBlowerActive";
@@ -39,7 +41,7 @@ public class LeafBlowerItem extends ArmaGenericItem implements ArmaGeoItem {
 
     public LeafBlowerItem(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pProperties, identifier, category, rarity, abilityCount);
-        this.colors = new int[][] {{212, 6, 6}, {255, 255, 255}};
+        this.colors = LEAF_BLOWER_COLORS;
     }
 
 

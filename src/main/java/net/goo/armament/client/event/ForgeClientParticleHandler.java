@@ -2,9 +2,9 @@ package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
 import net.goo.armament.entity.custom.BlackHoleEntity;
-import net.goo.armament.entity.projectile.ThunderboltProjectile;
+import net.goo.armament.entity.custom.ThunderboltProjectile;
 import net.goo.armament.item.custom.SupernovaSword;
-import net.goo.armament.item.custom.ZeusThunderboltTrident;
+import net.goo.armament.item.custom.ThunderboltTrident;
 import net.goo.armament.registry.ModParticles;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -46,7 +46,7 @@ public class ForgeClientParticleHandler {
             // ZAP PARTICLE HANDLER START
             int random = level.random.nextIntBetweenInclusive(15, 35);
             if (tickCount % random == 0) {
-                if (mainHandItem instanceof ZeusThunderboltTrident || offHandItem instanceof ZeusThunderboltTrident) {
+                if (mainHandItem instanceof ThunderboltTrident || offHandItem instanceof ThunderboltTrident) {
                     spawnZeusThunderboltParticle(player, level);
                 }
                     spawnThrownThunderboltEntityParticle(player, level);

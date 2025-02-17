@@ -6,6 +6,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -205,6 +206,25 @@ public class ModUtils {
             }
         }
         return closestEntity; // Return the closest entity or null if none found
+    }
+
+    public static double calculateXLook(LivingEntity player) {
+        return player.getLookAngle().x();
+    }
+
+    public static double calculateYLook(LivingEntity player, double yMult) {
+        double lookY = player.getLookAngle().y();
+
+        if (lookY > 0) return lookY * yMult;
+        else return lookY * 0.5;
+    }
+
+    public static double calculateYLook(LivingEntity player) {
+        return player.getLookAngle().y();
+    }
+
+    public static double calculateZLook(LivingEntity player) {
+        return player.getLookAngle().z();
     }
 
 }

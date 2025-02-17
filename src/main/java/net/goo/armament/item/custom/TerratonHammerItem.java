@@ -20,15 +20,14 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.UUID;
 
+import static net.goo.armament.util.ModResources.TERRATON_HAMMER_COLORS;
+
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class TerratonHammerItem extends ArmaHammerItem implements GeoItem {
-    private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private static final UUID MOVEMENT_SPEED_MODIFIER_UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
     private final Multimap<Attribute, AttributeModifier> attributeModifiers;
 
@@ -39,7 +38,7 @@ public class TerratonHammerItem extends ArmaHammerItem implements GeoItem {
         .put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.5, AttributeModifier.Operation.ADDITION))
         .put(Attributes.MOVEMENT_SPEED, new AttributeModifier(MOVEMENT_SPEED_MODIFIER_UUID, "Tool modifier", -0.25, AttributeModifier.Operation.MULTIPLY_BASE))
         .build();
-        this.colors = new int[][]{{186, 198, 195}, {25, 50, 50}};
+        this.colors = TERRATON_HAMMER_COLORS;
     }
 
     @Override

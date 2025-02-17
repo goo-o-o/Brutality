@@ -1,4 +1,4 @@
-package net.goo.armament.entity.projectile;
+package net.goo.armament.entity.custom;
 
 import net.goo.armament.particle.custom.ThunderboltTrailParticle;
 import net.goo.armament.registry.ModEntities;

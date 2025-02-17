@@ -5,8 +5,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -14,21 +15,30 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class TerraBeamEntity extends AbstractHurtingProjectile implements GeoEntity {
-    private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+public class TerraBeam extends ThrowableProjectile implements GeoEntity {
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final int lifespan = 60;
     private double randomRoll;
     private int pierceCap;
 
-    public TerraBeamEntity(EntityType<? extends AbstractHurtingProjectile> entityType, Level level) {
+    public TerraBeam(EntityType<? extends ThrowableProjectile> entityType, Level level) {
         super(entityType, level);
         initializeRoll(level);
         this.pierceCap = 0;
+    }
+
+    public TerraBeam(EntityType<? extends ThrowableProjectile> pEntityType, double pX, double pY, double pZ, Level pLevel) {
+        super(pEntityType, pX, pY, pZ, pLevel);
+    }
+
+    public TerraBeam(EntityType<? extends ThrowableProjectile> pEntityType, LivingEntity pShooter, Level pLevel) {
+        super(pEntityType, pShooter, pLevel);
+        this.noCulling = true;
     }
 
     @Override
@@ -73,7 +83,7 @@ public class TerraBeamEntity extends AbstractHurtingProjectile implements GeoEnt
     protected void onHitEntity(EntityHitResult pResult) {
         if (this.getOwner() != null) {
             Entity target = pResult.getEntity();
-            if (pResult.getEntity() != this.getOwner() && !(pResult.getEntity() instanceof TerraBeamEntity)) {
+            if (pResult.getEntity() != this.getOwner() && !(pResult.getEntity() instanceof TerraBeam)) {
                 target.hurt(damageSources().magic(), 7.5F);
                 pierceCap++;
                 if (pierceCap >= 3) {
@@ -85,16 +95,11 @@ public class TerraBeamEntity extends AbstractHurtingProjectile implements GeoEnt
 
     @Override
     public void setSilent(boolean pIsSilent) {
-        super.setSilent(pIsSilent);
+        super.setSilent(true);
     }
 
     @Override
     protected void defineSynchedData() {
-    }
-
-    @Override
-    protected boolean shouldBurn() {
-        return false;
     }
 
     @Override
@@ -117,20 +122,26 @@ public class TerraBeamEntity extends AbstractHurtingProjectile implements GeoEnt
             ProjectileUtil.rotateTowardsMovement(this, 0.2F);
             this.setDeltaMovement(motion.scale(inertia));
 
-            this.level().addParticle(this.getTrailParticle(), d0, d1 + 0.5D, d2, 0.0D, 0.0D, 0.0D);
+            Vec3 offsetVector = motion.normalize().scale(6);
+            double xx = random.nextGaussian() * 0.15F;
+            double yy = random.nextGaussian() * 0.15F;
+            double zz = random.nextGaussian() * 0.15F;
+            Vec3 direction = position();
+            this.level().addParticle(this.getTrailParticle(), true, direction.x() + offsetVector.x(), direction.y() + offsetVector.y() + 0.5, direction.z() + offsetVector.z(), xx, yy, zz);
             this.setPos(d0, d1, d2);
+
         }
         if (tickCount >= lifespan || this.getDeltaMovement().length() < 0.1) {
             this.discard();
         }
     }
 
-    @Override
+
     protected ParticleOptions getTrailParticle() {
         return ParticleTypes.COMPOSTER;
     }
 
-    @Override
+
     protected float getInertia() {
         return 0.925F;
     }

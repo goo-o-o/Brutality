@@ -1,6 +1,8 @@
 package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
+import net.goo.armament.entity.ArmaVisualType;
+import net.goo.armament.entity.ArmaVisualTypes;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.particle.custom.*;
 import net.goo.armament.particle.custom.pokerchip.PokerChipBlueParticle;
@@ -12,9 +14,12 @@ import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.registries.NewRegistryEvent;
+import net.minecraftforge.registries.RegistryBuilder;
 
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModHandler {
@@ -24,7 +29,10 @@ public class ModHandler {
     public static void registerAttributes(EntityAttributeCreationEvent event) {
     }
 
-
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onRegistryCreatingEvent(NewRegistryEvent event) {
+        event.create(new RegistryBuilder<ArmaVisualType>().setName(ArmaVisualTypes.VISUALS_KEY.location()).disableSaving());
+    }
 
     @SubscribeEvent
     public static void registerParticleFactories(final RegisterParticleProvidersEvent event) {

@@ -6,7 +6,7 @@ import com.mojang.math.Axis;
 import net.goo.armament.Armament;
 import net.goo.armament.client.entity.ModModelLayers;
 import net.goo.armament.client.entity.model.ThrownZeusThunderboltModel;
-import net.goo.armament.entity.projectile.ThunderboltProjectile;
+import net.goo.armament.entity.custom.ThunderboltProjectile;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

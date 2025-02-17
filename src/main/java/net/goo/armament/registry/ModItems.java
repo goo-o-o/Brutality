@@ -57,7 +57,7 @@ public class ModItems {
             () -> new ViperRapierItem(Tiers.NETHERITE, -2, 0, new Item.Properties(), "viper", ModItemCategories.FANTASY, ModRarities.LEGENDARY, 2));
 
     public static final RegistryObject<Item> ZEUS_THUNDERBOLT_TRIDENT = ITEMS.register("zeus_thunderbolt",
-            () -> new ZeusThunderboltTrident(new Item.Properties(), "zeus_thunderbolt",
+            () -> new ThunderboltTrident(new Item.Properties(), "zeus_thunderbolt",
                     ModItemCategories.FANTASY, ModRarities.FABLED, 3));
 
 

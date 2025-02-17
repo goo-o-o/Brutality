@@ -3,7 +3,7 @@ package net.goo.armament.item.custom;
 import com.google.common.collect.ImmutableMultimap;
 import net.goo.armament.Armament;
 import net.goo.armament.client.item.ArmaGeoItem;
-import net.goo.armament.entity.projectile.ThunderboltProjectile;
+import net.goo.armament.entity.custom.ThunderboltProjectile;
 import net.goo.armament.item.ArmaTridentItem;
 import net.goo.armament.item.ModItemCategories;
 import net.minecraft.sounds.SoundEvents;
@@ -35,15 +35,17 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static net.goo.armament.util.ModResources.THUNDERBOLT_COLORS;
+
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class ZeusThunderboltTrident extends ArmaTridentItem implements Vanishable, ArmaGeoItem {
+public class ThunderboltTrident extends ArmaTridentItem implements Vanishable, ArmaGeoItem {
     private static final UUID SPEED_BOOST_UUID = UUID.fromString("f9d0a647-4999-4637-b4a0-7f768a65b5db");  // Unique UUID for speed boost modifier
 
-    public ZeusThunderboltTrident(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+    public ThunderboltTrident(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pProperties, identifier, category, rarity, abilityCount);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(SPEED_BOOST_UUID, "Tool modifier", 2, AttributeModifier.Operation.ADDITION));
-        this.colors = new int[][]{{255, 215, 86}, {164, 92, 0}};
+        this.colors = THUNDERBOLT_COLORS;
     }
 
     public ModItemCategories getCategory() {

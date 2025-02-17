@@ -14,11 +14,13 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static net.goo.armament.util.ModResources.SUPERNOVA_COLORS;
+
 
 public class SupernovaSword extends ArmaSwordItem {
     public SupernovaSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity, abilityCount);
-        this.colors = new int[][] {{255, 255, 222}, {90, 37, 131}};
+        this.colors = SUPERNOVA_COLORS;
     }
 
     @Override

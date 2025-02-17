@@ -38,6 +38,8 @@ import software.bernie.geckolib.core.object.PlayState;
 import java.util.*;
 import java.util.function.Consumer;
 
+import static net.goo.armament.util.ModResources.EVENT_HORIZON_COLORS;
+
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable {
     private static final String SPAWNED = "blackHoleSpawned";
@@ -48,7 +50,7 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
 
     public EventHorizonLanceItem(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pProperties, identifier, category, rarity, abilityCount);
-        this.colors = new int[][]{{250, 140, 20}, {50, 50, 50}};
+        this.colors = EVENT_HORIZON_COLORS;
     }
 
 

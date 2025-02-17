@@ -443,7 +443,7 @@ java.lang.IllegalAccessException: class io.netty.util.internal.PlatformDependent
 [11Feb2025 03:31:25.241] [modloading-worker-0/DEBUG] [net.minecraftforge.fml.javafmlmod.AutomaticEventSubscriber/LOADING]: Auto-subscribing net.goo.armament.item.custom.TerraBladeSwordItem to FORGE
 [11Feb2025 03:31:25.245] [modloading-worker-0/DEBUG] [net.minecraftforge.fml.javafmlmod.AutomaticEventSubscriber/LOADING]: Auto-subscribing net.goo.armament.item.custom.TerratonHammerFatigueHandler to FORGE
 [11Feb2025 03:31:25.249] [modloading-worker-0/DEBUG] [net.minecraftforge.fml.javafmlmod.AutomaticEventSubscriber/LOADING]: Auto-subscribing net.goo.armament.item.custom.ViperRapierItem to FORGE
-[11Feb2025 03:31:25.249] [modloading-worker-0/DEBUG] [net.minecraftforge.fml.javafmlmod.AutomaticEventSubscriber/LOADING]: Auto-subscribing net.goo.armament.item.custom.ZeusThunderboltTrident to FORGE
+[11Feb2025 03:31:25.249] [modloading-worker-0/DEBUG] [net.minecraftforge.fml.javafmlmod.AutomaticEventSubscriber/LOADING]: Auto-subscribing net.goo.armament.item.custom.ThunderboltTrident to FORGE
 [11Feb2025 03:31:25.276] [modloading-worker-0/DEBUG] [net.minecraftforge.fml.config.ConfigTracker/CONFIG]: Config file forge-client.toml for forge tracking
 [11Feb2025 03:31:25.277] [modloading-worker-0/DEBUG] [net.minecraftforge.fml.config.ConfigTracker/CONFIG]: Config file forge-server.toml for forge tracking
 [11Feb2025 03:31:25.277] [modloading-worker-0/DEBUG] [net.minecraftforge.fml.ModLoadingContext/]: Attempted to register an empty config for type COMMON on mod forge

@@ -25,13 +25,15 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static net.goo.armament.util.ModResources.DOOMFIST_GAUNTLET_COLORS;
+
 public class DoomfistGauntletItem extends ArmaGenericItem implements GeoItem {
     private static final String PUNCHING = "isPunching";
     private static int clampedTime;
 
     public DoomfistGauntletItem(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pProperties, identifier, category, rarity, abilityCount);
-        this.colors = new int[][]{{237, 205, 140}, {118, 118, 118}};
+        this.colors = DOOMFIST_GAUNTLET_COLORS;
     }
 
 

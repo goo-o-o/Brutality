@@ -26,13 +26,15 @@ import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
+import static net.goo.armament.util.ModResources.JACKPOT_COLORS;
+
 public class JackpotHammerItem extends ArmaHammerItem implements GeoItem {
     private final float attackSpeedModifier;
 
     public JackpotHammerItem(Tier pTier, int pAttackDamageModifier, float attackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pTier, pAttackDamageModifier, attackSpeedModifier, pProperties, identifier, category, rarity, abilityCount);
         this.attackSpeedModifier = attackSpeedModifier;
-        this.colors = new int[][] {{0, 255, 255}, {192, 0, 15}, {225, 255, 8}, {0, 237, 36}};
+        this.colors = JACKPOT_COLORS;
     }
 
     @Override

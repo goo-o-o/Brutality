@@ -1,10 +1,10 @@
 package net.goo.armament.entity;
 
-public class CustomVisualType {
+public class ArmaVisualType {
     private final String name;
     private final String texture;
-    private final CustomEffectModel model;
-    private final CustomVisualAnimation animation;
+    private final ArmaVisualModel model;
+    private final ArmaVisualAnimation animation;
     private final int frames;
     private final int framesSpeed;
     private final double scale;
@@ -12,7 +12,7 @@ public class CustomVisualType {
     private final boolean fadeOut;
     private final boolean specialProperties;
 
-    public CustomVisualType(String name, String texture, CustomEffectModel model, CustomVisualAnimation animation, int frames, int framesSpeed, double scale, boolean rotateRandomly, boolean fadeOut, boolean specialProperties) {
+    public ArmaVisualType(String name, String texture, ArmaVisualModel model, ArmaVisualAnimation animation, int frames, int framesSpeed, double scale, boolean rotateRandomly, boolean fadeOut, boolean specialProperties) {
         this.name = name;
         this.texture = texture;
         this.model = model;
@@ -25,12 +25,12 @@ public class CustomVisualType {
         this.specialProperties = specialProperties;
     }
 
-    public CustomVisualType(String texture, CustomEffectModel model, CustomVisualAnimation animation, int frames, int framesSpeed, double scale, boolean rotateRandomly, boolean fadeOut, boolean specialProperties) {
+    public ArmaVisualType(String texture, ArmaVisualModel model, ArmaVisualAnimation animation, int frames, int framesSpeed, double scale, boolean rotateRandomly, boolean fadeOut, boolean specialProperties) {
         this(texture, texture, model, animation, frames, framesSpeed, scale, rotateRandomly, fadeOut, specialProperties);
     }
 
-    public static CustomVisualType createSkin(String skin, CustomVisualType parent) {
-        return new CustomVisualType(parent.name + "_" + skin, "skin/" + parent.texture + "_" + skin, parent.model, parent.animation, parent.frames, parent.framesSpeed, parent.scale, parent.rotateRandomly, parent.fadeOut, parent.specialProperties);
+    public static ArmaVisualType createSkin(String skin, ArmaVisualType parent) {
+        return new ArmaVisualType(parent.name + "_" + skin, "skin/" + parent.texture + "_" + skin, parent.model, parent.animation, parent.frames, parent.framesSpeed, parent.scale, parent.rotateRandomly, parent.fadeOut, parent.specialProperties);
     }
 
     public String getName() {
@@ -41,11 +41,11 @@ public class CustomVisualType {
         return texture;
     }
 
-    public CustomEffectModel getModel() {
+    public ArmaVisualModel getModel() {
         return model;
     }
 
-    public CustomVisualAnimation getAnimation() {
+    public ArmaVisualAnimation getAnimation() {
         return animation;
     }
 

@@ -38,8 +38,10 @@
 
   "item.armament.shadowstep": "Shadowstep",
   "item.armament.shadowstep.lore": "\"Coagulated in the depths of darkness, this blade grants its wielder the ability to meld with shadows, allowing for swift movement and surprise attacks. Its design is both elegant and deadly, perfectly balanced for precision strikes.\"",
+  "item.armament.shadowstep.ability.name.1": "Shadow Dominion",
+  "item.armament.shadowstep.ability.desc.1": "Right click at a target to teleport behind it, limited range.",
   "item.armament.shadowstep.ability.name.1": "Backstab Mastery",
-  "item.armament.shadowstep.ability.desc.1": "Right click at a target to teleport behind it, backstabs do 3x more damage.",
+  "item.armament.shadowstep.ability.desc.1": "Backstabs do 3x more damage.",
   "item.armament.shadowstep.invalid": "You cannot teleport there.",
 
   "item.armament.resonance_pickaxe": "Resonance Pickaxe",

@@ -15,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.goo.armament.util.ModResources.*;
+
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ForgeClientTooltipHandler {
 
@@ -27,44 +29,44 @@ public class ForgeClientTooltipHandler {
 
         // Populate the map with item-class to color pairs
         borderColorMap.put(DivineRhittaAxeItem.class, new int[]{
-                toARGB(255, 255, 253, 112),
-                toARGB(255, 86, 73, 191)});
+                toARGB(RHITTA_COLORS[0]),
+                toARGB(RHITTA_COLORS[1])});
         borderColorMap.put(DoomfistGauntletItem.class, new int[]{
-                toARGB(255, 237, 205, 140),
-                toARGB(255, 118, 118, 118)});
+                toARGB(DOOMFIST_GAUNTLET_COLORS[0]),
+                toARGB(DOOMFIST_GAUNTLET_COLORS[0])});
         borderColorMap.put(EventHorizonLanceItem.class, new int[]{
-                toARGB(255, 250, 140, 20),
-                toARGB(255, 50, 50, 50)});
+                toARGB(EVENT_HORIZON_COLORS[0]),
+                toARGB(EVENT_HORIZON_COLORS[1])});
         borderColorMap.put(JackpotHammerItem.class, new int[]{
-                toARGB(255, 255, 200, 50),
-                toARGB(255, 38, 234, 239)});
+                toARGB(JACKPOT_COLORS[0]),
+                toARGB(JACKPOT_COLORS[1])});
         borderColorMap.put(LeafBlowerItem.class, new int[]{
-                toARGB(255, 212, 6, 6),
-                toARGB(255, 255, 255, 255)});
+                toARGB(LEAF_BLOWER_COLORS[0]),
+                toARGB(LEAF_BLOWER_COLORS[1])});
         borderColorMap.put(QuantumDrillItem.class, new int[]{
-                toARGB(255, 255, 255, 255),
-                toARGB(255, 0, 120, 190)});
+                toARGB(QUANTUM_DRILL_COLORS[0]),
+                toARGB(QUANTUM_DRILL_COLORS[1])});
         borderColorMap.put(ResonancePickaxeItem.class, new int[]{
-                toARGB(255, 255, 0, 0),
-                toARGB(255, 0, 0, 255)});
+                toARGB(RESONANCE_PICKAXE_COLORS[0]),
+                toARGB(RESONANCE_PICKAXE_COLORS[1])});
         borderColorMap.put(ShadowstepSword.class, new int[]{
-                toARGB(255, 65, 0, 125),
-                toARGB(255, 25, 25, 25)});
+                toARGB(SHADOWSTEP_COLORS[0]),
+                toARGB(SHADOWSTEP_COLORS[1])});
         borderColorMap.put(SupernovaSword.class, new int[]{
-                toARGB(255, 255, 255, 222),
-                toARGB(255, 90, 37, 131)});
+                toARGB(SUPERNOVA_COLORS[0]),
+                toARGB(SHADOWSTEP_COLORS[1])});
         borderColorMap.put(TerraBladeSword.class, new int[]{
-                toARGB(255, 174, 229, 58),
-                toARGB(255, 0, 82, 60)});
+                toARGB(TERRA_BLADE_COLORS[0]),
+                toARGB(TERRA_BLADE_COLORS[1])});
         borderColorMap.put(TerratonHammerItem.class, new int[]{
-                toARGB(255, 186, 198, 195),
-                toARGB(255, 25, 50, 50)});
+                toARGB(TERRATON_HAMMER_COLORS[0]),
+                toARGB(TERRATON_HAMMER_COLORS[1])});
         borderColorMap.put(TruthseekerSword.class, new int[]{
-                toARGB(255, 128, 244, 58),
-                toARGB(255, 93, 33, 0)});
-        borderColorMap.put(ZeusThunderboltTrident.class, new int[]{
-                toARGB(255, 255, 215, 86),
-                toARGB(255, 164, 92, 0)});
+                toARGB(TRUTHSEEKER_COLORS[0]),
+                toARGB(TRUTHSEEKER_COLORS[1])});
+        borderColorMap.put(ThunderboltTrident.class, new int[]{
+                toARGB(THUNDERBOLT_COLORS[0]),
+                toARGB(THUNDERBOLT_COLORS[1])});
 
         // Iterate over the map to determine if the stack matches any key
         for (Map.Entry<Class<?>, int[]> entry : borderColorMap.entrySet()) {
@@ -78,15 +80,17 @@ public class ForgeClientTooltipHandler {
 
     }
 
-    public static int toARGB(int a, int r, int g, int b) {
+    public static int toARGB(int[] colors, int... alpha) {
         // Ensure values are clamped between 0 and 255
-        a = Math.max(0, Math.min(255, a));
-        r = Math.max(0, Math.min(255, r));
-        g = Math.max(0, Math.min(255, g));
-        b = Math.max(0, Math.min(255, b));
+        int a = 0;
+        if (alpha.length == 0) a = 255;
+
+        colors[0] = Math.max(0, Math.min(255, colors[0]));
+        colors[1] = Math.max(0, Math.min(255, colors[1]));
+        colors[2] = Math.max(0, Math.min(255, colors[2]));
 
         // Combine the components into a single ARGB integer
-        return (a << 24) | (r << 16) | (g << 8) | b;
+        return (a << 24) | (colors[0] << 16) | (colors[1] << 8) | colors[2];
     }
 
 }

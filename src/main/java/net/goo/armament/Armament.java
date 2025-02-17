@@ -2,6 +2,7 @@ package net.goo.armament;
 
 import com.mojang.logging.LogUtils;
 import net.goo.armament.block.ModBlocks;
+import net.goo.armament.entity.ArmaVisualTypes;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.registry.*;
 import net.minecraft.resources.ResourceLocation;
@@ -34,6 +35,7 @@ public class Armament {
         ModEntities.register(modEventBus);
         ModSounds.register(modEventBus);
         ModParticles.register(modEventBus);
+        ArmaVisualTypes.VISUALS.register(modEventBus);
 
         // Register network-related classes
         PacketHandler.register();  // Ensure packets are properly registered

@@ -34,11 +34,13 @@ import java.util.EnumSet;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import static net.goo.armament.util.ModResources.SHADOWSTEP_COLORS;
+
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ShadowstepSword extends ArmaSwordItem {
     public ShadowstepSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity, abilityCount);
-        this.colors = new int[][] {{65, 0, 125}, {25, 25, 25}};
+        this.colors = SHADOWSTEP_COLORS;
     }
 
     @Override
