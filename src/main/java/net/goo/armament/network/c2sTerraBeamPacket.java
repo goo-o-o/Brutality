@@ -1,7 +1,7 @@
 package net.goo.armament.network;
 
+import net.goo.armament.entity.base.SwordBeam;
 import net.goo.armament.registry.ModEntities;
-import net.goo.armament.entity.custom.TerraBeam;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +36,7 @@ public class c2sTerraBeamPacket {
                     double spawnY = senderPos.y + sender.getEyeHeight() + viewVector.y;
                     double spawnZ = senderPos.z + viewVector.z;
 
-                    TerraBeam terraBeamEntity = new TerraBeam(ModEntities.TERRA_BEAM_ENTITY.get(), level);
+                    SwordBeam terraBeamEntity = new SwordBeam(ModEntities.TERRA_BEAM.get(), level, "terra_beam", 60, true, 3, 7.5f, 2.5F);
                     terraBeamEntity.setOwner(sender);
                     terraBeamEntity.setPos(spawnX, spawnY - 0.25D, spawnZ);
                     terraBeamEntity.shootFromRotation(sender, sender.getXRot(), sender.getYRot(), 0.0F, 3.5F, 0.0F);

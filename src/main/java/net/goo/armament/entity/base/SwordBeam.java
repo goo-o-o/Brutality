@@ -1,11 +1,13 @@
-package net.goo.armament.entity.custom;
+package net.goo.armament.entity.base;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
@@ -16,41 +18,48 @@ import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class TerraBeam extends ThrowableProjectile implements GeoEntity {
+public class SwordBeam extends ThrowableProjectile implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private final int lifespan = 60;
+    private int lifespan = 60;
+    private boolean isRollRandom;
     private double randomRoll;
     private int pierceCap;
+    private float damage;
+    private float velocity;
+    private String identifier;
+    private static EntityDataAccessor<Integer> CURRENT_FRAME = SynchedEntityData.defineId(SwordBeam.class, EntityDataSerializers.INT);
 
-    public TerraBeam(EntityType<? extends ThrowableProjectile> entityType, Level level) {
+    public SwordBeam(EntityType<SwordBeam> entityType, Level level, String identifier, int lifespan, boolean randomizeRoll, int pierceCap, float damage, float velocity) {
         super(entityType, level);
         initializeRoll(level);
-        this.pierceCap = 0;
+        this.lifespan = lifespan;
+        this.isRollRandom = randomizeRoll;
+        this.pierceCap = pierceCap;
+        this.damage = damage;
+        this.velocity = velocity;
+        this.identifier = identifier;
     }
 
-    public TerraBeam(EntityType<? extends ThrowableProjectile> pEntityType, double pX, double pY, double pZ, Level pLevel) {
-        super(pEntityType, pX, pY, pZ, pLevel);
+    public SwordBeam(EntityType<SwordBeam> swordBeamEntityType, Level level) {
+        super(swordBeamEntityType, level);
     }
 
-    public TerraBeam(EntityType<? extends ThrowableProjectile> pEntityType, LivingEntity pShooter, Level pLevel) {
-        super(pEntityType, pShooter, pLevel);
-        this.noCulling = true;
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public int getCurrentFrame() {
+        return entityData.get(CURRENT_FRAME);
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
     }
 
-    private PlayState predicate(AnimationState animationState) {
-        return null;
-    }
-
-
     private void initializeRoll(Level level) {
+        if (!this.isRollRandom) return;
         this.randomRoll = level.random.nextInt(360);
         boolean isRollInitialized = true;
     }
@@ -83,8 +92,8 @@ public class TerraBeam extends ThrowableProjectile implements GeoEntity {
     protected void onHitEntity(EntityHitResult pResult) {
         if (this.getOwner() != null) {
             Entity target = pResult.getEntity();
-            if (pResult.getEntity() != this.getOwner() && !(pResult.getEntity() instanceof TerraBeam)) {
-                target.hurt(damageSources().magic(), 7.5F);
+            if (pResult.getEntity() != this.getOwner() && !(pResult.getEntity() instanceof SwordBeam)) {
+                target.hurt(damageSources().magic(), this.damage);
                 pierceCap++;
                 if (pierceCap >= 3) {
                     this.discard();
@@ -93,7 +102,10 @@ public class TerraBeam extends ThrowableProjectile implements GeoEntity {
         }
     }
 
-
+    @Override
+    public void shootFromRotation(Entity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy) {
+        super.shootFromRotation(pShooter, pShooter.getXRot(), pShooter.getYRot(), 0.0F, this.velocity, 0.0F);
+    }
 
     @Override
     public void setSilent(boolean pIsSilent) {
@@ -102,6 +114,7 @@ public class TerraBeam extends ThrowableProjectile implements GeoEntity {
 
     @Override
     protected void defineSynchedData() {
+        this.entityData.define(CURRENT_FRAME, 1);
     }
 
     @Override

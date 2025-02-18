@@ -21,17 +21,8 @@ public class ArmaGeoWeaponModel<T extends Item & ArmaGeoItem> extends GeoModel<T
 
 
     public ResourceLocation getAnimationResource(T animatable) {
-        ResourceLocation animLocation = Armament.prefix("animations/item/" + (renderer != null ? animatable.texture(renderer.getCurrentItemStack()) : animatable.geoIdentifier()) + "_handheld.animation.json");
+        return Armament.prefix("animations/item/" + (renderer != null ? animatable.texture(renderer.getCurrentItemStack()) : animatable.geoIdentifier()) + "_handheld.animation.json");
 
-//        ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
-//        try {
-//            resourceManager.getResourceOrThrow(animLocation);
-//            return animLocation;
-//        } catch (FileNotFoundException e) {
-//            return null;
-//        }
-
-        return animLocation;
     }
 
 }

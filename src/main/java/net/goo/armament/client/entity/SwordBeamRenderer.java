@@ -1,29 +1,45 @@
-package net.goo.armament.client.entity.renderer;
+package net.goo.armament.client.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.goo.armament.client.entity.model.TerraBeamModel;
-import net.goo.armament.entity.custom.TerraBeam;
+import net.goo.armament.Armament;
+import net.goo.armament.client.entity.model.SwordBeamModel;
+import net.goo.armament.entity.base.SwordBeam;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
-public class TerraBeamRenderer extends GeoEntityRenderer<TerraBeam> {
-    public TerraBeamRenderer(EntityRendererProvider.Context context) {
-        super(context, new TerraBeamModel());
+public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
+
+    public SwordBeamRenderer(EntityRendererProvider.Context renderManager) {
+        super(renderManager, new SwordBeamModel());
     }
 
     @Override
-    protected int getBlockLightLevel(TerraBeam pEntity, BlockPos pPos) {
+    protected int getBlockLightLevel(SwordBeam pEntity, BlockPos pPos) {
         return 15;
     }
 
+    public String getIdentifier() {
+        return this.getAnimatable().getIdentifier();
+    }
+
+    public int getCurrentFrame() {
+        return this.getAnimatable().getCurrentFrame();
+    }
+
     @Override
-    public void render(TerraBeam pEntity, float entityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource bufferSource, int packedLight) {
+    public ResourceLocation getTextureLocation(SwordBeam animatable) {
+        return Armament.prefix("textures/entity/" + getIdentifier() + getCurrentFrame() + ".png");
+    }
+
+    @Override
+    public void render(SwordBeam pEntity, float entityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource bufferSource, int packedLight) {
         Player player = Minecraft.getInstance().player;
 
         if (player != null) {
@@ -42,11 +58,10 @@ public class TerraBeamRenderer extends GeoEntityRenderer<TerraBeam> {
             }
         }
 
-            pPoseStack.scale(2f, 2f, 2f);
+        pPoseStack.scale(2f, 2f, 2f);
 
-            super.render(pEntity, entityYaw, pPartialTicks, pPoseStack, bufferSource, packedLight);
+        super.render(pEntity, entityYaw, pPartialTicks, pPoseStack, bufferSource, packedLight);
 
-            pPoseStack.popPose();
+        pPoseStack.popPose();
     }
-
 }
