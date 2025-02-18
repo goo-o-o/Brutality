@@ -15,6 +15,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.ForgeEventFactory;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -27,19 +28,23 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
     private double randomRoll;
     private int pierceCap;
     private float damage;
-    private float velocity;
     private String identifier;
     private static EntityDataAccessor<Integer> CURRENT_FRAME = SynchedEntityData.defineId(SwordBeam.class, EntityDataSerializers.INT);
+    private int ticksPerFrame;
+    private int totalFrames;
+    private float renderScale;
 
-    public SwordBeam(EntityType<SwordBeam> entityType, Level level, String identifier, int lifespan, boolean randomizeRoll, int pierceCap, float damage, float velocity) {
+    public SwordBeam(EntityType<SwordBeam> entityType, Level level, String identifier, int lifespan, boolean randomizeRoll, int pierceCap, float damage, int ticksPerFrame, int totalFrames, float renderScale) {
         super(entityType, level);
         initializeRoll(level);
         this.lifespan = lifespan;
         this.isRollRandom = randomizeRoll;
         this.pierceCap = pierceCap;
         this.damage = damage;
-        this.velocity = velocity;
         this.identifier = identifier;
+        this.ticksPerFrame = ticksPerFrame;
+        this.totalFrames = totalFrames;
+        this.renderScale = renderScale;
     }
 
     public SwordBeam(EntityType<SwordBeam> swordBeamEntityType, Level level) {
@@ -53,6 +58,8 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
     public int getCurrentFrame() {
         return entityData.get(CURRENT_FRAME);
     }
+
+    public float getRenderScale() { return this.renderScale; }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
@@ -104,7 +111,7 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
 
     @Override
     public void shootFromRotation(Entity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy) {
-        super.shootFromRotation(pShooter, pShooter.getXRot(), pShooter.getYRot(), 0.0F, this.velocity, 0.0F);
+        super.shootFromRotation(pShooter, pShooter.getXRot(), pShooter.getYRot(), 0.0F, pVelocity, 0.0F);
     }
 
     @Override
@@ -114,7 +121,7 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
 
     @Override
     protected void defineSynchedData() {
-        this.entityData.define(CURRENT_FRAME, 1);
+        this.entityData.define(CURRENT_FRAME, 8);
     }
 
     @Override
@@ -123,7 +130,7 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
         if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
             HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
 
-            if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
+            if (hitresult.getType() != HitResult.Type.MISS && !ForgeEventFactory.onProjectileImpact(this, hitresult)) {
                 this.onHit(hitresult);
             }
 
@@ -145,10 +152,12 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
             this.level().addParticle(this.getTrailParticle(), true, direction.x() + offsetVector.x(), direction.y() + offsetVector.y() + 0.5, direction.z() + offsetVector.z(), xx, yy, zz);
             this.setPos(d0, d1, d2);
 
+            if (tickCount >= lifespan || this.getDeltaMovement().length() < 0.1) {
+                this.discard();
+            }
+
         }
-        if (tickCount >= lifespan || this.getDeltaMovement().length() < 0.1) {
-            this.discard();
-        }
+
     }
 
 

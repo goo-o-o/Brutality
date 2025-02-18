@@ -9,5 +9,4 @@ public class SwordBeamModel extends DefaultedEntityGeoModel<SwordBeam> {
     public SwordBeamModel() {
         super(new ResourceLocation(Armament.MOD_ID, "sword_beam"));
     }
-
 }

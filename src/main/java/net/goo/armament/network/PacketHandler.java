@@ -27,10 +27,10 @@ public class PacketHandler {
                 .consumerMainThread(c2sOffLeafBlowerPacket::handle)
                 .add();
 
-        NETWORK_CHANNEL.messageBuilder(c2sTerraBeamPacket.class, packetId++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(c2sTerraBeamPacket::encode)
-                .decoder(c2sTerraBeamPacket::new)
-                .consumerMainThread(c2sTerraBeamPacket::handle)
+        NETWORK_CHANNEL.messageBuilder(c2sSwordBeamPacket.class, packetId++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(c2sSwordBeamPacket::encode)
+                .decoder(c2sSwordBeamPacket::new)
+                .consumerMainThread(c2sSwordBeamPacket::handle)
                 .add();
 
     }

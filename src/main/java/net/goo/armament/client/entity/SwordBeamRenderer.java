@@ -35,7 +35,7 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
 
     @Override
     public ResourceLocation getTextureLocation(SwordBeam animatable) {
-        return Armament.prefix("textures/entity/" + getIdentifier() + getCurrentFrame() + ".png");
+        return Armament.prefix("textures/entity/projectiles/terra_beam" + animatable.getCurrentFrame() + ".png");
     }
 
     @Override
@@ -52,13 +52,13 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
                 double pitch = Math.asin(moveVec.y); // Calculate pitch
                 pPoseStack.pushPose();
                 pPoseStack.translate(0.0D, 0.5D, 0.0D);
-                pPoseStack.mulPose(Axis.YP.rotationDegrees((float) Math.toDegrees(angle))); // Yaw
-                pPoseStack.mulPose(Axis.ZP.rotationDegrees(((float) Math.toDegrees(pitch)))); // Pitch
-                pPoseStack.mulPose(Axis.XP.rotationDegrees((float) pEntity.getRandomRoll())); // Roll
+                pPoseStack.mulPose(Axis.YP.rotationDegrees((float) Math.toDegrees(angle)));
+                pPoseStack.mulPose(Axis.ZP.rotationDegrees(((float) Math.toDegrees(pitch))));
+                pPoseStack.mulPose(Axis.XP.rotationDegrees((float) pEntity.getRandomRoll()));
             }
         }
 
-        pPoseStack.scale(2f, 2f, 2f);
+        pPoseStack.scale(pEntity.getRenderScale(), pEntity.getRenderScale(), pEntity.getRenderScale());
 
         super.render(pEntity, entityYaw, pPartialTicks, pPoseStack, bufferSource, packedLight);
 

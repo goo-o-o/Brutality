@@ -2,10 +2,10 @@ package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
 import net.goo.armament.client.item.ArmaGeoItem;
-import net.goo.armament.entity.ArmaEffectEntity;
-import net.goo.armament.entity.ArmaVisualTypes;
 import net.goo.armament.item.ArmaSwordItem;
 import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.network.PacketHandler;
+import net.goo.armament.network.c2sSwordBeamPacket;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -42,8 +42,8 @@ public class TerraBladeSword extends ArmaSwordItem {
     public static void onLeftClick(PlayerInteractEvent.LeftClickEmpty event) {
         Player player = event.getEntity();
         if (player.getMainHandItem().getItem() instanceof TerraBladeSword) {
-//            PacketHandler.sendToServer(new c2sTerraBeamPacket());
-            ArmaEffectEntity.createInstance(player, null, ArmaVisualTypes.CRESCENTIA_STRIKE.get());
+            PacketHandler.sendToServer(new c2sSwordBeamPacket("terra_beam"));
+//            ArmaEffectEntity.createInstance(player, null, ArmaVisualTypes.CRESCENTIA_STRIKE.get());
         }
     }
 

@@ -39,10 +39,6 @@ public class ModEntities {
                             .sized(1F, 1F)
                             .build("sword_beam"));
 
-    public static final RegistryObject<EntityType<SwordBeam>> TERRA_BEAM = ENTITY_TYPES.register("terra_beam", () -> EntityType.Builder.<SwordBeam>of(SwordBeam::new, MobCategory.MISC)
-            .sized(1F, 1F)
-            .build("terra_beam"));
-
     public static final RegistryObject<EntityType<BlackHole>> BLACK_HOLE_ENTITY =
             ENTITY_TYPES.register("black_hole",
                     () -> EntityType.Builder.of(BlackHole::new, MobCategory.MISC)
