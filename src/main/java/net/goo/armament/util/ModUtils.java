@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +17,11 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public class ModUtils {
+    protected static final RandomSource random = RandomSource.create();
+
+    public static float nextFloatBetweenInclusive(RandomSource random, float min, float max) {
+        return min + random.nextFloat() * (max - min);
+    }
 
     public static Component tooltipHelper(String localeKey, boolean bold, ResourceLocation font, long tickCount, float waveSpeed, float spreadMultiplier, int[]... colors) {
         if (font == null) {

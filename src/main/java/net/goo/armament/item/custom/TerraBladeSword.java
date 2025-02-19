@@ -1,6 +1,7 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
+import net.goo.armament.client.entity.BEAM_TYPES;
 import net.goo.armament.client.item.ArmaGeoItem;
 import net.goo.armament.item.ArmaSwordItem;
 import net.goo.armament.item.ModItemCategories;
@@ -42,8 +43,7 @@ public class TerraBladeSword extends ArmaSwordItem {
     public static void onLeftClick(PlayerInteractEvent.LeftClickEmpty event) {
         Player player = event.getEntity();
         if (player.getMainHandItem().getItem() instanceof TerraBladeSword) {
-            PacketHandler.sendToServer(new c2sSwordBeamPacket("terra_beam"));
-//            ArmaEffectEntity.createInstance(player, null, ArmaVisualTypes.CRESCENTIA_STRIKE.get());
+            PacketHandler.sendToServer(new c2sSwordBeamPacket(BEAM_TYPES.TERRA_BEAM, 3.5F));
         }
     }
 

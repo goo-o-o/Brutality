@@ -22,13 +22,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Locale;
 
-public class ThunderboltTrailParticle extends AbstractLightTrailParticle {
+public class ThunderboltTrail extends AbstractLightTrailParticle {
 
-    private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(Armament.MOD_ID, "textures/particle/thunderbolt_trail_particle.png");
+    private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(Armament.MOD_ID, "textures/particle/generic_trail_particle.png");
 
     private final int EntityId;
 
-    public ThunderboltTrailParticle(ClientLevel world, double x, double y, double z, float r, float g, float b, float width, float height, int EntityId) {
+    public ThunderboltTrail(ClientLevel world, double x, double y, double z, float r, float g, float b, int EntityId) {
         super(world, x, y, z, 0, 0, 0,r,g,b);
         this.EntityId = EntityId;
         this.gravity = 0;
@@ -94,7 +94,7 @@ public class ThunderboltTrailParticle extends AbstractLightTrailParticle {
 
     @Override
     public float getTrailHeight() {
-        return 0.5F;
+        return 1F;
     }
 
     public int getLightColor(float f) {
@@ -107,12 +107,12 @@ public class ThunderboltTrailParticle extends AbstractLightTrailParticle {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static final class OrbFactory implements ParticleProvider<ThunderboltTrailParticle.OrbData> {
+    public static final class OrbFactory implements ParticleProvider<ThunderboltTrail.OrbData> {
 
         @Override
-        public Particle createParticle(ThunderboltTrailParticle.OrbData typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            ThunderboltTrailParticle particle;
-            particle = new ThunderboltTrailParticle(worldIn, x, y, z, typeIn.getR(), typeIn.getG(), typeIn.getB(), typeIn.getWidth(), typeIn.getHeight(),typeIn.getEntityID());
+        public Particle createParticle(ThunderboltTrail.OrbData typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            ThunderboltTrail particle;
+            particle = new ThunderboltTrail(worldIn, x, y, z, typeIn.getR(), typeIn.getG(), typeIn.getB(),typeIn.getEntityID());
 
             return particle;
         }
@@ -120,8 +120,8 @@ public class ThunderboltTrailParticle extends AbstractLightTrailParticle {
 
 
     public static class OrbData implements ParticleOptions {
-        public static final Deserializer<ThunderboltTrailParticle.OrbData> DESERIALIZER = new Deserializer<ThunderboltTrailParticle.OrbData>() {
-            public ThunderboltTrailParticle.OrbData fromCommand(ParticleType<ThunderboltTrailParticle.OrbData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
+        public static final Deserializer<ThunderboltTrail.OrbData> DESERIALIZER = new Deserializer<ThunderboltTrail.OrbData>() {
+            public ThunderboltTrail.OrbData fromCommand(ParticleType<ThunderboltTrail.OrbData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
                 reader.expect(' ');
                 float r = reader.readFloat();
                 reader.expect(' ');
@@ -134,27 +134,21 @@ public class ThunderboltTrailParticle extends AbstractLightTrailParticle {
                 float height = reader.readFloat();
                 reader.expect(' ');
                 int EntityId = reader.readInt();
-                return new ThunderboltTrailParticle.OrbData(r, g, b,width,height, EntityId);
+                return new ThunderboltTrail.OrbData(r, g, b, EntityId);
             }
 
-            public ThunderboltTrailParticle.OrbData fromNetwork(ParticleType<ThunderboltTrailParticle.OrbData> particleTypeIn, FriendlyByteBuf buffer) {
-                return new ThunderboltTrailParticle.OrbData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(),buffer.readInt());
+            public ThunderboltTrail.OrbData fromNetwork(ParticleType<ThunderboltTrail.OrbData> particleTypeIn, FriendlyByteBuf buffer) {
+                return new ThunderboltTrail.OrbData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(),buffer.readInt());
             }
         };
 
-        private final float r;
-        private final float g;
-        private final float b;
-        private final float width;
-        private final float height;
+        private final float r, g, b;
         private final int entityid;
 
-        public OrbData(float r, float g, float b,float width, float height, int entityid) {
+        public OrbData(float r, float g, float b, int entityid) {
             this.r = r;
             this.g = g;
             this.b = b;
-            this.width = width;
-            this.height = height;
             this.entityid = entityid;
         }
 
@@ -163,19 +157,17 @@ public class ThunderboltTrailParticle extends AbstractLightTrailParticle {
             buffer.writeFloat(this.r);
             buffer.writeFloat(this.g);
             buffer.writeFloat(this.b);
-            buffer.writeFloat(this.width);
-            buffer.writeFloat(this.height);
             buffer.writeInt(this.entityid);
         }
 
         @Override
         public String writeToString() {
             return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f %.2f %d", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                    this.r, this.g, this.b,this.width,this.height,this.entityid);
+                    this.r, this.g, this.b, this.entityid);
         }
 
         @Override
-        public ParticleType<ThunderboltTrailParticle.OrbData> getType() {
+        public ParticleType<ThunderboltTrail.OrbData> getType() {
             return ModParticles.THUNDERBOLT_TRAIL_PARTICLE.get();
         }
 
@@ -195,16 +187,6 @@ public class ThunderboltTrailParticle extends AbstractLightTrailParticle {
         }
 
         @OnlyIn(Dist.CLIENT)
-        public float getWidth() {
-            return this.width;
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public float getHeight() {
-            return this.height;
-        }
-
-        @OnlyIn(Dist.CLIENT)
         public int getEntityID() {
             return this.entityid;
         }
@@ -214,15 +196,13 @@ public class ThunderboltTrailParticle extends AbstractLightTrailParticle {
             return this.getOwner();
         }
 
-        public static Codec<ThunderboltTrailParticle.OrbData> CODEC(ParticleType<ThunderboltTrailParticle.OrbData> particleType) {
+        public static Codec<ThunderboltTrail.OrbData> CODEC(ParticleType<ThunderboltTrail.OrbData> particleType) {
             return RecordCodecBuilder.create((codecBuilder) -> codecBuilder.group(
-                            Codec.FLOAT.fieldOf("r").forGetter(ThunderboltTrailParticle.OrbData::getR),
-                            Codec.FLOAT.fieldOf("g").forGetter(ThunderboltTrailParticle.OrbData::getG),
-                            Codec.FLOAT.fieldOf("b").forGetter(ThunderboltTrailParticle.OrbData::getB),
-                            Codec.FLOAT.fieldOf("width").forGetter(ThunderboltTrailParticle.OrbData::getWidth),
-                            Codec.FLOAT.fieldOf("height").forGetter(ThunderboltTrailParticle.OrbData::getHeight),
-                            Codec.INT.fieldOf("entityid").forGetter(ThunderboltTrailParticle.OrbData::getEntityID)
-                    ).apply(codecBuilder, ThunderboltTrailParticle.OrbData::new)
+                            Codec.FLOAT.fieldOf("r").forGetter(ThunderboltTrail.OrbData::getR),
+                            Codec.FLOAT.fieldOf("g").forGetter(ThunderboltTrail.OrbData::getG),
+                            Codec.FLOAT.fieldOf("b").forGetter(ThunderboltTrail.OrbData::getB),
+                            Codec.INT.fieldOf("entityid").forGetter(ThunderboltTrail.OrbData::getEntityID)
+                    ).apply(codecBuilder, ThunderboltTrail.OrbData::new)
             );
         }
     }

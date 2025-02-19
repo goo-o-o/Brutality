@@ -1,6 +1,6 @@
 package net.goo.armament.entity.custom;
 
-import net.goo.armament.particle.custom.ThunderboltTrailParticle;
+import net.goo.armament.particle.custom.ThunderboltTrail;
 import net.goo.armament.registry.ModEntities;
 import net.goo.armament.registry.ModItems;
 import net.minecraft.core.BlockPos;
@@ -27,6 +27,8 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 
+import static net.goo.armament.util.ModUtils.nextFloatBetweenInclusive;
+
 public class ThunderboltProjectile extends AbstractArrow {
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(ThunderboltProjectile.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThunderboltProjectile.class, EntityDataSerializers.BOOLEAN);
@@ -47,7 +49,7 @@ public class ThunderboltProjectile extends AbstractArrow {
 
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(ID_LOYALTY, (byte)0);
+        this.entityData.define(ID_LOYALTY, (byte) 0);
         this.entityData.define(ID_FOIL, false);
     }
 
@@ -58,11 +60,10 @@ public class ThunderboltProjectile extends AbstractArrow {
     }
 
     public void tick() {
-        float ran = 0.04f;
-        float r = 0.9F + random.nextFloat() * ran;
-        float g = 0.9f + random.nextFloat() * ran;
-        float b = 0.5f + random.nextFloat() * ran;
-        this.level().addParticle((new ThunderboltTrailParticle.OrbData(r, g, b,2.75f + random.nextFloat() * 0.6f,3.75F + random.nextFloat() * 0.6f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
+        float r = nextFloatBetweenInclusive(random, 0.75F, 1F);
+        float g = nextFloatBetweenInclusive(random, 0.75F, 1F);
+        float b = nextFloatBetweenInclusive(random, 0.15F, 0.2F);
+        this.level().addParticle((new ThunderboltTrail.OrbData(r, g, b, this.getId())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
 
         if (this.inGroundTime > 4) {
             this.dealtDamage = true;
@@ -78,25 +79,20 @@ public class ThunderboltProjectile extends AbstractArrow {
         int i = this.entityData.get(ID_LOYALTY);
         if (i > 0 && (this.dealtDamage || this.isNoPhysics()) && entity != null) { // Check if hit mob or block and there is an owner
 
-
-
-
             if (!this.isAcceptibleReturnOwner()) {
                 if (!this.level().isClientSide && this.pickup == AbstractArrow.Pickup.ALLOWED) {
-                this.discard();
-
+                    this.discard();
                 }
-
 
             } else {
                 this.setNoPhysics(true);
                 Vec3 vec3 = entity.getEyePosition().subtract(this.position());
-                this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.015D * (double)i, this.getZ());
+                this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.015D * (double) i, this.getZ());
                 if (this.level().isClientSide) {
                     this.yOld = this.getY();
                 }
 
-                double d0 = 0.05D * (double)i;
+                double d0 = 0.05D * (double) i;
                 this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(vec3.normalize().scale(d0))); // Base Loyalty + Loyalty level speed
                 if (this.clientSideReturnTridentTickCount == 0) {
                     this.playSound(SoundEvents.TRIDENT_RETURN, 10.0F, 1.0F);
@@ -126,22 +122,15 @@ public class ThunderboltProjectile extends AbstractArrow {
         return super.tryPickup(pPlayer) || this.isNoPhysics() && this.ownedBy(pPlayer);
     }
 
-
     public boolean isFoil() {
         return this.entityData.get(ID_FOIL);
     }
 
-    /**
-     * Gets the EntityHitResult representing the entity hit
-     */
     @Nullable
     protected EntityHitResult findHitEntity(Vec3 pStartVec, Vec3 pEndVec) {
         return this.dealtDamage ? null : super.findHitEntity(pStartVec, pEndVec);
     }
 
-    /**
-     * Called when the arrow hits an entity
-     */
     protected void onHitEntity(EntityHitResult pResult) {
         Entity entity = pResult.getEntity();
         float f = 8.0F;
@@ -161,7 +150,7 @@ public class ThunderboltProjectile extends AbstractArrow {
             if (entity instanceof LivingEntity livingentity1) {
                 if (entity1 instanceof LivingEntity) {
                     EnchantmentHelper.doPostHurtEffects(livingentity1, entity1);
-                    EnchantmentHelper.doPostDamageEffects((LivingEntity)entity1, livingentity1);
+                    EnchantmentHelper.doPostDamageEffects((LivingEntity) entity1, livingentity1);
                 }
 
                 this.doPostHurtEffects(livingentity1);
@@ -176,7 +165,7 @@ public class ThunderboltProjectile extends AbstractArrow {
                 LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(this.level());
                 if (lightningbolt != null) {
                     lightningbolt.moveTo(Vec3.atBottomCenterOf(blockpos));
-                    lightningbolt.setCause(entity1 instanceof ServerPlayer ? (ServerPlayer)entity1 : null);
+                    lightningbolt.setCause(entity1 instanceof ServerPlayer ? (ServerPlayer) entity1 : null);
                     this.level().addFreshEntity(lightningbolt);
                     soundevent = SoundEvents.TRIDENT_THUNDER;
                     f1 = 5.0F;
@@ -187,16 +176,11 @@ public class ThunderboltProjectile extends AbstractArrow {
         this.playSound(soundevent, f1, 1.0F);
     }
 
-    /**
-     * The sound made when an entity is hit by this projectile
-     */
     protected SoundEvent getDefaultHitGroundSoundEvent() {
         return SoundEvents.TRIDENT_HIT_GROUND;
     }
 
-    /**
-     * Called by a player entity when they collide with an entity
-     */
+
     public void playerTouch(Player pEntity) {
         if (this.ownedBy(pEntity) || this.getOwner() == null) {
             super.playerTouch(pEntity);
@@ -204,9 +188,6 @@ public class ThunderboltProjectile extends AbstractArrow {
 
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         if (pCompound.contains("ThrownThunderbolt", 10)) {
@@ -214,7 +195,7 @@ public class ThunderboltProjectile extends AbstractArrow {
         }
 
         this.dealtDamage = pCompound.getBoolean("DealtDamage");
-        this.entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(this.tridentItem));
+        this.entityData.set(ID_LOYALTY, (byte) EnchantmentHelper.getLoyalty(this.tridentItem));
     }
 
     public void addAdditionalSaveData(CompoundTag pCompound) {

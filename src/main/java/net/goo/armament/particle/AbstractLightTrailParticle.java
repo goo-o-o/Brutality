@@ -120,6 +120,7 @@ public abstract class AbstractLightTrailParticle extends Particle {
 
     public abstract float getTrailHeight();
 
+
     public abstract ResourceLocation getTrailTexture();
 
     public int sampleCount() {
