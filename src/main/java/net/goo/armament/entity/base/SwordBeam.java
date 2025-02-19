@@ -1,11 +1,6 @@
 package net.goo.armament.entity.base;
 
 import net.goo.armament.particle.custom.SwordBeamTrail;
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -18,6 +13,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -27,89 +23,55 @@ import static net.goo.armament.util.ModUtils.nextFloatBetweenInclusive;
 
 public class SwordBeam extends ThrowableProjectile implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private boolean shouldRandomRoll;
-    private int randomRoll, targetsHit = 0, pierceCap = 3, lifespan;
-    private String identifier;
-    private static final EntityDataAccessor<Integer> CURRENT_FRAME = SynchedEntityData.defineId(SwordBeam.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Float> DATA_DAMAGE = SynchedEntityData.defineId(SwordBeam.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Integer> DATA_PIERCE_CAP = SynchedEntityData.defineId(SwordBeam.class, EntityDataSerializers.INT);
-    private int ticksPerFrame;
-    private int totalFrames;
-    private float renderScale, damage = 7.5F;
+    private int randomRollRot, targetsHit = 0;
+//    private static EntityDataAccessor<Integer> CURRENT_FRAME = SynchedEntityData.defineId(SwordBeam.class, EntityDataSerializers.INT);
 
-    public SwordBeam(EntityType<SwordBeam> entityType, Level level, String identifier, int lifespan, boolean shouldRandomRoll, int pierceCap, float damage, int ticksPerFrame, int totalFrames, float renderScale) {
+    public SwordBeam(@NotNull EntityType<SwordBeam> entityType, Level level) {
         super(entityType, level);
-        this.identifier = identifier;
-        this.lifespan = lifespan;
-        this.shouldRandomRoll = shouldRandomRoll;
-        this.ticksPerFrame = ticksPerFrame;
-        this.totalFrames = totalFrames;
-        this.renderScale = renderScale;
         initializeRoll(level);
-        this.entityData.set(DATA_DAMAGE, damage);
-        this.entityData.set(DATA_PIERCE_CAP, pierceCap);
-        this.damage = damage;
-        this.pierceCap = pierceCap;
-
-            Minecraft.getInstance().player.sendSystemMessage(Component.literal(
-                    + this.damage + ", pierceCap: " + this.pierceCap));
-            Minecraft.getInstance().player.sendSystemMessage(Component.literal(this.lifespan + ""));
-            Minecraft.getInstance().player.sendSystemMessage(Component.literal("" + this));
-
-    }
-
-    public SwordBeam(EntityType<? extends SwordBeam> entityType, Level level) {
-        super(entityType, level);
-    }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public int getCurrentFrame() {
-        return entityData.get(CURRENT_FRAME);
     }
 
 
-    public float getRenderScale() { return this.renderScale; }
+    // RENDER
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
     }
-
+    public float getRenderScale() { return 3F; }
+    public int getRandomRollRot() {
+        return randomRollRot;
+    }
     private void initializeRoll(Level level) {
-        this.randomRoll = level.random.nextInt(361);
+        if (!shouldRandomizeRoll()) {
+            this.randomRollRot = 0;
+            return;
+        }
+        this.randomRollRot = level.random.nextInt(361);
     }
-
-    public int getRandomRoll() {
-        return randomRoll;
-    }
-
-    public float getDamage() {
-        return this.entityData.get(DATA_DAMAGE);
-    }
-
-    public void setDamage(float damage) {
-        this.entityData.set(DATA_DAMAGE, damage);
-    }
-
-    public int getPierceCap() {
-        return this.entityData.get(DATA_PIERCE_CAP);
-    }
-
-    public void setPierceCap(int pierceCap) {
-        this.entityData.set(DATA_PIERCE_CAP, pierceCap);
-    }
-
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.cache;
     }
+//    public int getCurrentFrame() {
+//        return entityData.get(CURRENT_FRAME);
+//    }
 
-    @Override
-    public float getPickRadius() {
-        return 0;
+    // DATA
+    public int getLifespan() {
+        return 60;
     }
+    public float getDamage() {
+        return 1F;
+    }
+    public int getPierceCap() {
+        return 1;
+    }
+    public boolean shouldRandomizeRoll() { return false; }
+    public float getLaunchVelocity() { return 2.5F; }
+    protected float getInertia() {
+        return 0.925F;
+    }
+
 
     @Override
     public boolean hurt(DamageSource pSource, float pAmount) {
@@ -123,32 +85,16 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
 
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
-        if (!this.level().isClientSide) { // Ensure this logic runs only on the server
+        if (this.getOwner() != null) {
             Entity target = pResult.getEntity();
-            Entity owner = this.getOwner();
-
-            // Debug message to confirm server-side execution
-            if (owner != null) {
-                ((Player) owner).sendSystemMessage(Component.literal("Server: Hit entity with damage " + this.entityData.get(DATA_DAMAGE) + " and pierce cap " + this.entityData.get(DATA_PIERCE_CAP)));
-            }
-
-            // Check if the target is valid and not the owner or another SwordBeam
-            if (target != owner && !(target instanceof SwordBeam)) {
-                // Apply damage to the target
-                target.hurt(damageSources().magic(), this.entityData.get(DATA_DAMAGE));
-
-                // Increment pierce cap and check if the beam should be discarded
+            if (pResult.getEntity() != this.getOwner() && !(pResult.getEntity() instanceof SwordBeam)) {
+                target.hurt(damageSources().playerAttack((Player) this.getOwner()), getDamage());
                 targetsHit++;
-                if (this.targetsHit > this.getPierceCap()) {
-                    this.discard(); // Discard the beam if pierce cap is reached
+                if (targetsHit >= getPierceCap()) {
+                    this.discard();
                 }
             }
         }
-    }
-
-    @Override
-    public void shootFromRotation(Entity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy) {
-        super.shootFromRotation(pShooter, pShooter.getXRot(), pShooter.getYRot(), 0.0F, pVelocity, 0.0F);
     }
 
     @Override
@@ -158,9 +104,7 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
 
     @Override
     protected void defineSynchedData() {
-        this.entityData.define(DATA_DAMAGE, 1.6F);
-        this.entityData.define(DATA_PIERCE_CAP, 2);
-        this.entityData.define(CURRENT_FRAME, 8);
+//        this.entityData.define(CURRENT_FRAME, 8);
     }
 
     @Override
@@ -185,10 +129,10 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
 
             float g = nextFloatBetweenInclusive(random, 0.75F, 1F);
             float b = nextFloatBetweenInclusive(random, 0.25F, 0.5F);
-            this.level().addParticle((new SwordBeamTrail.OrbData(0, g, b,random.nextFloat() * 0.3f,random.nextFloat() * 0.3f, this.getId(), getRandomRoll())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
+            this.level().addParticle((new SwordBeamTrail.OrbData(0, g, b,random.nextFloat() * 0.3f,random.nextFloat() * 0.3f, this.getId(), getRandomRollRot())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
             this.setPos(d0, d1, d2);
 
-            if (tickCount >= lifespan || this.getDeltaMovement().length() < 0.1) {
+            if (tickCount >= getLifespan() || this.getDeltaMovement().length() < 0.1) {
                 this.discard();
             }
 
@@ -196,8 +140,5 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
 
     }
 
-    protected float getInertia() {
-        return 0.925F;
-    }
 
 }

@@ -7,13 +7,11 @@ import net.goo.armament.client.entity.model.SwordBeamModel;
 import net.goo.armament.entity.base.SwordBeam;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
@@ -22,22 +20,22 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
         super(renderManager, new SwordBeamModel());
     }
 
-    public int getCurrentFrame() {
-        return this.getAnimatable().getCurrentFrame();
+    @Override
+    protected int getBlockLightLevel(SwordBeam pEntity, BlockPos pPos) {
+        return 15;
     }
+
+//    public int getCurrentFrame() {
+//        return this.getAnimatable().getCurrentFrame();
+//    }
 
     @Override
     public ResourceLocation getTextureLocation(SwordBeam animatable) {
-        return Armament.prefix("textures/entity/projectiles/terra_beam" + animatable.getCurrentFrame() + ".png");
+        return Armament.prefix("textures/entity/projectiles/terra_beam2.png");
     }
 
     @Override
-    public RenderType getRenderType(SwordBeam animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-        return RenderType.entityTranslucentEmissive(texture, true);
-    }
-
-    @Override
-    public void render(SwordBeam pEntity, float entityYaw, float pPartialTicks, @NotNull PoseStack pPoseStack, @NotNull MultiBufferSource bufferSource, int packedLight) {
+    public void render(SwordBeam pEntity, float entityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource bufferSource, int packedLight) {
         Player player = Minecraft.getInstance().player;
 
         if (player != null) {
@@ -52,11 +50,11 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
                 pPoseStack.translate(0.0D, 0.5D, 0.0D);
                 pPoseStack.mulPose(Axis.YP.rotationDegrees((float) Math.toDegrees(angle)));
                 pPoseStack.mulPose(Axis.ZP.rotationDegrees(((float) Math.toDegrees(pitch))));
-                pPoseStack.mulPose(Axis.XP.rotationDegrees(pEntity.getRandomRoll()));
+                pPoseStack.mulPose(Axis.XP.rotationDegrees((float) pEntity.getRandomRollRot()));
             }
         }
 
-        pPoseStack.scale(pEntity.getRenderScale(), pEntity.getRenderScale(), pEntity.getRenderScale() * 3);
+        pPoseStack.scale(pEntity.getRenderScale(), pEntity.getRenderScale(), pEntity.getRenderScale());
 
         super.render(pEntity, entityYaw, pPartialTicks, pPoseStack, bufferSource, packedLight);
 
