@@ -36,6 +36,9 @@ public class ModParticles{
     public static final RegistryObject<SimpleParticleType> POKER_CHIP_YELLOW_PARTICLE =
             PARTICLE_TYPES.register("poker_chip_yellow_particle", () -> new SimpleParticleType(true));
 
+    public static final RegistryObject<SimpleParticleType> TERRA_PARTICLE =
+            PARTICLE_TYPES.register("terra_particle", () -> new SimpleParticleType(true));
+
     public static final RegistryObject<ParticleType<ThunderboltTrail.OrbData>> THUNDERBOLT_TRAIL_PARTICLE = PARTICLE_TYPES.register("thunderbolt_trail_particle", () -> new ParticleType<ThunderboltTrail.OrbData>(false, ThunderboltTrail.OrbData.DESERIALIZER) {
         @Override
         public Codec<ThunderboltTrail.OrbData> codec() {

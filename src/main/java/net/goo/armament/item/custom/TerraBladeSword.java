@@ -7,8 +7,6 @@ import net.goo.armament.item.ArmaSwordItem;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.network.c2sSwordBeamPacket;
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -46,7 +44,6 @@ public class TerraBladeSword extends ArmaSwordItem {
         Player player = event.getEntity();
         if (player.getMainHandItem().getItem() instanceof TerraBladeSword) {
             PacketHandler.sendToServer(new c2sSwordBeamPacket(BEAM_TYPES.TERRA_BEAM, 3.5F));
-            Minecraft.getInstance().player.sendSystemMessage(Component.literal("Left clicked"));
         }
     }
 

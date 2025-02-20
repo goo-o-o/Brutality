@@ -22,13 +22,10 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
         super(renderManager, new SwordBeamModel());
     }
 
-    public int getCurrentFrame() {
-        return this.getAnimatable().getCurrentFrame();
-    }
 
     @Override
     public ResourceLocation getTextureLocation(SwordBeam animatable) {
-        return Armament.prefix("textures/entity/projectiles/terra_beam" + this.getCurrentFrame() + ".png");
+        return Armament.prefix("textures/entity/projectiles/terra_beam8.png");
     }
 
     @Override
@@ -52,11 +49,11 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
                 pPoseStack.translate(0.0D, 0.5D, 0.0D);
                 pPoseStack.mulPose(Axis.YP.rotationDegrees((float) Math.toDegrees(angle)));
                 pPoseStack.mulPose(Axis.ZP.rotationDegrees(((float) Math.toDegrees(pitch))));
-                pPoseStack.mulPose(Axis.XP.rotationDegrees(pEntity.getRandomRollRot()));
+                pPoseStack.mulPose(Axis.XP.rotationDegrees(pEntity.getRandomRoll()));
             }
         }
 
-        pPoseStack.scale(pEntity.getRenderScale(), pEntity.getRenderScale(), pEntity.getRenderScale());
+        pPoseStack.scale(pEntity.getRenderScale(), pEntity.getRenderScale(), pEntity.getRenderScale() * 5);
 
         super.render(pEntity, entityYaw, pPartialTicks, pPoseStack, bufferSource, packedLight);
 

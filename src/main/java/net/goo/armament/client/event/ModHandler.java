@@ -63,6 +63,10 @@ public class ModHandler {
         ParticleEngine.SpriteParticleRegistration<SimpleParticleType> poker_chip_blue_particle_factory = PokerChipBlueParticle.Provider::new;
         event.registerSpriteSet(ModParticles.POKER_CHIP_BLUE_PARTICLE.get(), poker_chip_blue_particle_factory);
 
+        ParticleEngine.SpriteParticleRegistration<SimpleParticleType> terra_particle_factory = TerraParticle.Provider::new;
+        event.registerSpriteSet(ModParticles.TERRA_PARTICLE.get(), terra_particle_factory);
+
+
         event.registerSpecial(ModParticles.THUNDERBOLT_TRAIL_PARTICLE.get(), new ThunderboltTrail.OrbFactory());
         event.registerSpecial(ModParticles.SWORD_BEAM_TRAIL_PARTICLE.get(), new SwordBeamTrail.OrbFactory());
 

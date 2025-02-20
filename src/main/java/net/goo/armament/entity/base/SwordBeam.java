@@ -1,9 +1,9 @@
 package net.goo.armament.entity.base;
 
 import net.goo.armament.particle.custom.SwordBeamTrail;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
+import net.goo.armament.registry.ModParticles;
+import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -16,60 +16,58 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
-import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import java.util.Objects;
+
 import static net.goo.armament.util.ModUtils.nextFloatBetweenInclusive;
 
 public class SwordBeam extends ThrowableProjectile implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private boolean shouldRandomRoll;
-    private int randomRollRot, pierceCap, lifespan, targetsHit;
-    private float damage, renderScale;
-    private String identifier;
-    private final EntityDataAccessor<Integer> CURRENT_FRAME = SynchedEntityData.defineId(SwordBeam.class, EntityDataSerializers.INT);
-    private int ticksPerFrame;
-    private int totalFrames;
+    private int randomRoll;
+    private int targetsHit = 0;
 
-    public SwordBeam(@NotNull EntityType<SwordBeam> entityType, Level level) {
+    public SwordBeam(EntityType<? extends ThrowableProjectile> entityType, Level level) {
         super(entityType, level);
-        initializeRollRot(level);
+        initializeRoll(level);
+        this.noCulling = true;
     }
-
-    public int getCurrentFrame() {
-        return entityData.get(CURRENT_FRAME);
-    }
-
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
     }
 
-    // RENDER
-    public float getRenderScale() { return 3F; }
-    public float getAlpha() { return 1F; }
-    public boolean shouldGlow() { return true; }
+    public float getRenderScale() {
+        return 2F;
+    }
+    private void initializeRoll(Level level) {
+        if (shouldInitializeRoll()) this.randomRoll = level.random.nextInt(361);
+        else this.randomRoll = 0;
+    }
+    private boolean shouldInitializeRoll() { return true; }
+    public int getRandomRoll() {
+        return this.randomRoll;
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.cache;
+    }
 
     // DATA
-    public boolean shouldRandomizeRoll() { return false; }
-    private void initializeRollRot(Level level) {
-        if (!shouldRandomizeRoll()) {
-            this.randomRollRot = 0;
-            return;
-        }
-        this.randomRollRot = level.random.nextInt(361);
+    public int getLifespan() {
+        return 60;
     }
-    public int getRandomRollRot() {
-        return randomRollRot;
+    public float getDamage() {
+        return 10F;
     }
-
-    public float getDamage() { return 1F; }
-    public int getPierceCap() { return 1; }
-    public int getLifespan() { return 40; }
-    protected float getInertia() {
+    public int getPierceCap() {
+        return 1;
+    }
+    public float getInertia() {
         return 0.925F;
     }
 
@@ -79,18 +77,6 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
 
 
 
-
-
-
-
-
-
-
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
-    }
 
     @Override
     public float getPickRadius() {
@@ -107,13 +93,21 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
         this.discard();
     }
 
+    @Override
+    protected void onHit(HitResult pResult) {
+        Vec3 hitPos = pResult.getLocation();
+//        level().sendParticle(ModParticles.TERRA_PARTICLE.get(), hitPos.x, hitPos.y, hitPos.z, 20, 0, 0, 0, 0);
+        if (this.getOwner() instanceof ServerPlayer) {
+        ((ServerPlayer) Objects.requireNonNull(this.getOwner())).connection.send(new ClientboundLevelParticlesPacket(ModParticles.TERRA_PARTICLE.get(), true, hitPos.x, hitPos.y, hitPos.z, 0, 0, 0, 0, 0));
+        }
+    }
 
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
-        if (this.getOwner() != null && !this.level().isClientSide) {
+        if (this.getOwner() != null) {
             Entity target = pResult.getEntity();
             if (pResult.getEntity() != this.getOwner() && !(pResult.getEntity() instanceof SwordBeam)) {
-                target.hurt(target.damageSources().playerAttack((Player) this.getOwner()), getDamage());
+                target.hurt(damageSources().playerAttack((Player) this.getOwner()), getDamage());
                 targetsHit++;
                 if (targetsHit >= getPierceCap()) {
                     this.discard();
@@ -122,10 +116,7 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
         }
     }
 
-    @Override
-    public void shootFromRotation(Entity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy) {
-        super.shootFromRotation(pShooter, pShooter.getXRot(), pShooter.getYRot(), 0.0F, pVelocity, 0.0F);
-    }
+
 
     @Override
     public void setSilent(boolean pIsSilent) {
@@ -134,13 +125,13 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
 
     @Override
     protected void defineSynchedData() {
-        this.entityData.define(CURRENT_FRAME, 8);
     }
+
 
     @Override
     public void tick() {
-        Entity owner = this.getOwner();
-        if (this.level().isClientSide || (owner == null || !owner.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
+        Entity entity = this.getOwner();
+        if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
             HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
 
             if (hitresult.getType() != HitResult.Type.MISS && !ForgeEventFactory.onProjectileImpact(this, hitresult)) {
@@ -159,14 +150,15 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
 
             float g = nextFloatBetweenInclusive(random, 0.75F, 1F);
             float b = nextFloatBetweenInclusive(random, 0.25F, 0.5F);
-            this.level().addParticle((new SwordBeamTrail.OrbData(0, g, b,random.nextFloat() * 0.3f,random.nextFloat() * 0.3f, this.getId(), getRandomRollRot())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
+            this.level().addParticle((new SwordBeamTrail.OrbData(0, g, b,random.nextFloat() * 0.3f,random.nextFloat() * 0.3f, this.getId(), getRandomRoll())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
             this.setPos(d0, d1, d2);
 
-            if (this.tickCount >= getLifespan() || this.getDeltaMovement().length() < 0.1) {
+            if (tickCount >= getLifespan() || this.getDeltaMovement().length() < 0.1) {
                 this.discard();
             }
 
         }
+
     }
 
 
