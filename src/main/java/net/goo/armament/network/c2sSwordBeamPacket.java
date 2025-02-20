@@ -5,6 +5,7 @@ import net.goo.armament.entity.base.SwordBeam;
 import net.goo.armament.registry.ModEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -53,12 +54,12 @@ public class c2sSwordBeamPacket {
                     default -> selectedBeam = null;
                 }
 
-                if (selectedBeam == null) return;
-                SwordBeam swordBeam = new SwordBeam(selectedBeam, level);
+//                if (selectedBeam == null) return;
+                Minecraft.getInstance().player.sendSystemMessage(Component.literal("Packet sent"));
+                SwordBeam swordBeam = new SwordBeam(ModEntities.TERRA_BEAM.get(), level);
                 swordBeam.setOwner(sender);
                 swordBeam.setPos(spawnX, spawnY - 0.25F, spawnZ);
                 swordBeam.shootFromRotation(sender, sender.getXRot(), sender.getYRot(), 0.0F, packet.velocity, 0.0F);
-
                 level.addFreshEntity(swordBeam);
             }
         });

@@ -28,7 +28,7 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
 
     @Override
     public ResourceLocation getTextureLocation(SwordBeam animatable) {
-        return Armament.prefix("textures/entity/projectiles/terra_beam" + animatable.getCurrentFrame() + ".png");
+        return Armament.prefix("textures/entity/projectiles/terra_beam" + this.getCurrentFrame() + ".png");
     }
 
     @Override
@@ -52,7 +52,7 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
                 pPoseStack.translate(0.0D, 0.5D, 0.0D);
                 pPoseStack.mulPose(Axis.YP.rotationDegrees((float) Math.toDegrees(angle)));
                 pPoseStack.mulPose(Axis.ZP.rotationDegrees(((float) Math.toDegrees(pitch))));
-                pPoseStack.mulPose(Axis.XP.rotationDegrees(pEntity.getRandomRoll()));
+                pPoseStack.mulPose(Axis.XP.rotationDegrees(pEntity.getRandomRollRot()));
             }
         }
 
