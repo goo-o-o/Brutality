@@ -11,14 +11,17 @@ import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
 public class ArmaGeoWeaponLayer<T extends Item & ArmaGeoItem> extends GeoRenderLayer<T> {
     public final GeoItemRenderer<T> geoRenderer;
+    public boolean emissive = false;
 
-    public ArmaGeoWeaponLayer(GeoItemRenderer<T> entityRendererIn) {
+    public ArmaGeoWeaponLayer(GeoItemRenderer<T> entityRendererIn, boolean emissive) {
         super(entityRendererIn);
         geoRenderer = entityRendererIn;
+        this.emissive = emissive;
     }
 
     protected RenderType getRenderTypeEyes(T animatable) {
-        return RenderType.entityTranslucentEmissive(getTextureResource(animatable));
+        if (emissive) return RenderType.entityTranslucentEmissive(getTextureResource(animatable));
+        else return RenderType.entityTranslucent(getTextureResource(animatable));
     }
 
 

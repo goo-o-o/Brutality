@@ -2,7 +2,7 @@ package net.goo.armament.client;
 
 
 import net.goo.armament.Armament;
-import net.goo.armament.entity.ArmaEffectEntity;
+import net.goo.armament.entity.helper.ArmaEffectEntity;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
 

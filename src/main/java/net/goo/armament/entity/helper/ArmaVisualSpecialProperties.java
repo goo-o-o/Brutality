@@ -3,9 +3,6 @@ package net.goo.armament.entity.helper;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.goo.armament.entity.ArmaEffectEntity;
-import net.goo.armament.entity.ArmaVisualType;
-import net.goo.armament.entity.ArmaVisualTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.util.Mth;
 

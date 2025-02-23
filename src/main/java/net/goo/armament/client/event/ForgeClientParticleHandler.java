@@ -1,8 +1,8 @@
 package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
+import net.goo.armament.entity.base.ArmaThrownTrident;
 import net.goo.armament.entity.custom.BlackHole;
-import net.goo.armament.entity.custom.ThunderboltProjectile;
 import net.goo.armament.item.custom.SupernovaSword;
 import net.goo.armament.item.custom.ThunderboltTrident;
 import net.goo.armament.registry.ModParticles;
@@ -20,6 +20,8 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ForgeClientParticleHandler {
     private static int tickCount = 0;
+    static float blackHoleParticleSpawnRadius = 6;
+    static float blackHoleParticleSpeedFactor = 0.05F;
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
@@ -29,19 +31,18 @@ public class ForgeClientParticleHandler {
         Item offHandItem = player.getOffhandItem().getItem();
 
         if (level.isClientSide()) {
-            // SUPERNOVA PARTICLE HANDLER START //
-            if (mainHandItem instanceof SupernovaSword || offHandItem instanceof SupernovaSword) {
-                if (tickCount % 4 == 0) {
+            if (tickCount % 4 == 0) {
+                // SUPERNOVA PARTICLE HANDLER START //
+                if (mainHandItem instanceof SupernovaSword || offHandItem instanceof SupernovaSword) {
                     spawnSupernovaSwordParticles(player, level);
                 }
-            }
-            // SUPERNOVA PARTICLE HANDLER END //
+                // SUPERNOVA PARTICLE HANDLER END //
 
-            // BLACK HOLE PARTICLE HANDLER START //
-            if (tickCount % 4 == 0) {
+
+                // BLACK HOLE PARTICLE HANDLER START //
                 spawnBlackHoleEntityParticles(player, level);
+                // BLACK HOLE PARTICLE HANDLER END //
             }
-            // BLACK HOLE PARTICLE HANDLER END //
 
             // ZAP PARTICLE HANDLER START
             int random = level.random.nextIntBetweenInclusive(15, 35);
@@ -49,13 +50,11 @@ public class ForgeClientParticleHandler {
                 if (mainHandItem instanceof ThunderboltTrident || offHandItem instanceof ThunderboltTrident) {
                     spawnZeusThunderboltParticle(player, level);
                 }
-                    spawnThrownThunderboltEntityParticle(player, level);
+                spawnThrownThunderboltEntityParticle(player, level);
             }
             // ZAP PARTICLE HANDLER END
         }
         tickCount++;
-        if (tickCount == 100) { tickCount = 0; };
-
     }
 
     private static void spawnZeusThunderboltParticle(Player player, Level level) {
@@ -71,11 +70,11 @@ public class ForgeClientParticleHandler {
     }
 
     private static void spawnThrownThunderboltEntityParticle(Player player, Level level) {
-        List<ThunderboltProjectile> thrownZeusThunderbolts = level.getEntitiesOfClass(ThunderboltProjectile.class, player.getBoundingBox().inflate(100));
+        List<ArmaThrownTrident> thrownZeusThunderbolts = level.getEntitiesOfClass(ArmaThrownTrident.class, player.getBoundingBox().inflate(100));
         float particleSpawnRadius = 1F;
         if (!thrownZeusThunderbolts.isEmpty()) {
 
-            for (ThunderboltProjectile thrownZeusThunderbolt : thrownZeusThunderbolts) {
+            for (ArmaThrownTrident thrownZeusThunderbolt : thrownZeusThunderbolts) {
 
                 double offsetX = (level.random.nextFloat() - 0.5) * particleSpawnRadius;
                 double offsetY = (level.random.nextFloat() - 0.5) * particleSpawnRadius;
@@ -90,18 +89,17 @@ public class ForgeClientParticleHandler {
         }
     }
 
+
     private static void spawnBlackHoleEntityParticles(Player player, Level level) {
         List<BlackHole> blackHoleEntities = level.getEntitiesOfClass(BlackHole.class, player.getBoundingBox().inflate(50));
-        float particleSpawnRadius = 6;
-        float particleSpeedFactor = 0.05F;
         for (BlackHole blackHoleEntity : blackHoleEntities) {
 
-            double offsetX = (level.random.nextFloat() - 0.5) * particleSpawnRadius;
-            double offsetY = (level.random.nextFloat() - 0.5) * particleSpawnRadius;
-            double offsetZ = (level.random.nextFloat() - 0.5) * particleSpawnRadius;
+            double offsetX = (level.random.nextFloat() - 0.5) * blackHoleParticleSpawnRadius;
+            double offsetY = (level.random.nextFloat() - 0.5) * blackHoleParticleSpawnRadius;
+            double offsetZ = (level.random.nextFloat() - 0.5) * blackHoleParticleSpawnRadius;
 
             Vec3 particlePosition = blackHoleEntity.position().add(offsetX, offsetY, offsetZ);
-            Vec3 particleDirection = (blackHoleEntity.position().subtract(particlePosition)).scale(particleSpeedFactor);
+            Vec3 particleDirection = (blackHoleEntity.position().subtract(particlePosition)).scale(blackHoleParticleSpeedFactor);
 
             level.addParticle(ModParticles.BLACK_HOLE_PARTICLE.get(),
                     particlePosition.x, particlePosition.y, particlePosition.z,

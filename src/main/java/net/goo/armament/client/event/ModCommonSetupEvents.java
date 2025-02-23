@@ -1,7 +1,7 @@
 package net.goo.armament.client.event;
 
-import net.goo.armament.entity.ArmaVisualType;
-import net.goo.armament.entity.ArmaVisualTypes;
+import net.goo.armament.entity.helper.ArmaVisualType;
+import net.goo.armament.entity.helper.ArmaVisualTypes;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.NewRegistryEvent;

@@ -1,11 +1,7 @@
 package net.goo.armament.client.entity;
 
-import net.goo.armament.client.item.ArmaGeoGlowingWeaponRenderer;
-import net.goo.armament.client.item.ArmaGeoItem;
-import net.goo.armament.client.item.ArmaGeoWeaponRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
@@ -21,41 +17,34 @@ public interface ArmaGeoEntity extends GeoEntity {
 
     String geoIdentifier();
 
-    default String model(ItemStack stack) {
+    default String model(Entity entity) {
         return geoIdentifier();
     }
 
-    default String texture(ItemStack stack) {
-        return model(stack);
+    default String texture(Entity entity) {
+        return model(entity);
     }
 
     GeoAnimatable cacheItem();
 
     @OnlyIn(Dist.CLIENT)
-    default <T extends Item & ArmaGeoItem> void initGeo(Consumer<IClientItemExtensions> consumer, int rendererID) {
-        if (rendererID == 0) {
-            consumer.accept(new IClientItemExtensions() {
-                private ArmaGeoWeaponRenderer<T> renderer;
+    default <T extends Entity & ArmaGeoEntity, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
+        consumer.accept(new IClientItemExtensions() {
+            private R renderer;
 
-                @Override
-                public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                    if (this.renderer == null) this.renderer = new ArmaGeoWeaponRenderer<>();
-                    return this.renderer;
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (this.renderer == null) {
+                    try {
+                        // Create a new instance of the renderer class using reflection
+                        this.renderer = rendererClass.getDeclaredConstructor().newInstance();
+                    } catch (Exception e) {
+                        throw new RuntimeException("Failed to instantiate renderer: " + rendererClass.getSimpleName(), e);
+                    }
                 }
-
-            });
-        } else if (rendererID == 1) {
-            consumer.accept(new IClientItemExtensions() {
-                private ArmaGeoGlowingWeaponRenderer<T> renderer;
-
-                @Override
-                public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                    if (this.renderer == null) this.renderer = new ArmaGeoGlowingWeaponRenderer<>();
-                    return this.renderer;
-                }
-
-            });
-        }
+                return this.renderer;
+            }
+        });
     }
 
     @Override
@@ -64,6 +53,5 @@ public interface ArmaGeoEntity extends GeoEntity {
                 state.setAndContinue(RawAnimation.begin().thenLoop("idle")))
         );
     }
-
 
 }

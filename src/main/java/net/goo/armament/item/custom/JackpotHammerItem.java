@@ -2,7 +2,7 @@ package net.goo.armament.item.custom;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.armament.item.ArmaHammerItem;
+import net.goo.armament.item.base.ArmaHammerItem;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.registry.ModParticles;
 import net.goo.armament.registry.ModSounds;
@@ -75,6 +75,9 @@ public class JackpotHammerItem extends ArmaHammerItem implements GeoItem {
         int damage;
         if (!level.isClientSide && player instanceof ServerPlayer) {
             if (player.getAttackStrengthScale(1.0F) == 1) {
+                stack.hurtAndBreak(1, player, (consumer) -> {
+                    consumer.broadcastBreakEvent(player.getUsedItemHand());
+                });
 
                 damage = level.random.nextInt(4, 14);
 
@@ -90,30 +93,29 @@ public class JackpotHammerItem extends ArmaHammerItem implements GeoItem {
                     int randomIndex = level.random.nextInt(ModSounds.JACKPOT_SOUNDS.size());
                     SoundEvent jackpotSound = ModSounds.JACKPOT_SOUNDS.get(randomIndex).get();
 
-                    player.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), jackpotSound, SoundSource.PLAYERS, 1F ,1F);
+                    player.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), jackpotSound, SoundSource.PLAYERS, 1F, 1F);
                     entity.playSound(jackpotSound, 1.0F, 1.0F);
 
                     ((ServerLevel) level).sendParticles(ModParticles.POKER_CHIP_GREEN_PARTICLE.get(),
-                            entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(),
-                            50, 0, 0,0, 0);
+                            entity.getX(), entity.getY() + entity.getBbHeight() / 1.5, entity.getZ(),
+                            25, 0, 0, 0, 0);
                     ((ServerLevel) level).sendParticles(ModParticles.POKER_CHIP_RED_PARTICLE.get(),
-                            entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(),
-                            50, 0, 0,0, 0);
+                            entity.getX(), entity.getY() + entity.getBbHeight() / 1.5, entity.getZ(),
+                            25, 0, 0, 0, 0);
                     ((ServerLevel) level).sendParticles(ModParticles.POKER_CHIP_BLUE_PARTICLE.get(),
-                            entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(),
-                            50, 0, 0,0, 0);
+                            entity.getX(), entity.getY() + entity.getBbHeight() / 1.5, entity.getZ(),
+                            25, 0, 0, 0, 0);
                     ((ServerLevel) level).sendParticles(ModParticles.POKER_CHIP_YELLOW_PARTICLE.get(),
-                            entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(),
-                            50, 0, 0,0, 0);
+                            entity.getX(), entity.getY() + entity.getBbHeight() / 1.5, entity.getZ(),
+                            25, 0, 0, 0, 0);
+
 
                 }
 
-            } else {
-                damage = 0;
-            }
+            } else damage = 0;
 
-        entity.hurt(entity.damageSources().playerAttack(player), damage);
 
+            entity.hurt(entity.damageSources().playerAttack(player), damage);
         }
 
         return true;

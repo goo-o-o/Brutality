@@ -1,8 +1,7 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.client.item.ArmaGeoItem;
-import net.goo.armament.item.ArmaGenericItem;
 import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.item.base.ArmaGenericItem;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -11,19 +10,16 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import static net.goo.armament.util.ModResources.DOOMFIST_GAUNTLET_COLORS;
 
@@ -79,10 +75,6 @@ public class DoomfistGauntletItem extends ArmaGenericItem implements GeoItem {
         return InteractionResultHolder.consume(pStack);
     }
 
-    @Override
-    public <T extends Item & ArmaGeoItem> void initGeo(Consumer<IClientItemExtensions> consumer, int rendererID) {
-        super.initGeo(consumer, 1);
-    }
 
     int tickCount = 0;
     @Override

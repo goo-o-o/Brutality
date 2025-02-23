@@ -1,5 +1,9 @@
 package net.goo.armament.entity.custom;
 
+import net.goo.armament.client.entity.ArmaGeoEntity;
+import net.goo.armament.client.entity.model.ArmaGeoProjectileRenderer;
+import net.goo.armament.entity.base.GenericArmaProjectile;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,23 +14,24 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
-public class BlackHole extends ThrowableProjectile implements GeoEntity {
-    private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+public class BlackHole extends GenericArmaProjectile implements ArmaGeoEntity {
     private UUID ownerUUID;
 
     public BlackHole(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
+    @Override
+    public String geoIdentifier() {
+        return "black_hole";
+    }
 
     @Override
     public CompoundTag getPersistentData() {
@@ -89,17 +94,12 @@ public class BlackHole extends ThrowableProjectile implements GeoEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
-    }
-
-    private PlayState predicate(AnimationState animationState) {
-        animationState.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
-        return PlayState.CONTINUE;
+    public GeoAnimatable cacheItem() {
+        return null;
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
+    public <T extends Entity & ArmaGeoEntity, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<ArmaGeoProjectileRenderer> rendererClass) {
+        super.initGeo(consumer, ArmaGeoProjectileRenderer.class);
     }
 }

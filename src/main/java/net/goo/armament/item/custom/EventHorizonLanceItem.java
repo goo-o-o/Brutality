@@ -1,19 +1,22 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
+import net.goo.armament.client.item.ArmaGeoGlowingWeaponRenderer;
 import net.goo.armament.client.item.ArmaGeoItem;
 import net.goo.armament.entity.custom.BlackHole;
-import net.goo.armament.item.ArmaTridentItem;
 import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.item.base.ArmaTridentItem;
 import net.goo.armament.registry.ModEntities;
-import net.goo.armament.registry.ModParticles;
-import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -70,6 +73,14 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
         }
     }
 
+    public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
+        pStack.hurtAndBreak(1, pAttacker, (livingEntity) -> {
+            livingEntity.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+        });
+        return true;
+    }
+
+
     public static Collection<ItemEntity> droppedInventory;
 
     @SubscribeEvent
@@ -85,8 +96,8 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
     }
 
     @Override
-    public <T extends Item & ArmaGeoItem> void initGeo(Consumer<IClientItemExtensions> consumer, int rendererID) {
-        super.initGeo(consumer, 1);
+    public <T extends Item & ArmaGeoItem, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
+        super.initGeo(consumer, ArmaGeoGlowingWeaponRenderer.class);
     }
 
     @SubscribeEvent
@@ -147,9 +158,13 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
                     double plX = player.getX() - (Mth.sin((float) tickCount / (8 / speed)) * spawnRadius);
                     double plY = player.getY() + (Mth.sin((float) tickCount / (4 / speed)) * 0.25);
                     double plZ = player.getZ() - (Mth.cos((float) tickCount / (8 / speed)) * spawnRadius);
-                    Vec3 plPos = new Vec3(plX, plY + 1, plZ);
+                    Vec3 plPos = new Vec3(plX, plY + 1F, plZ);
                     blackHoleEntity.setDeltaMovement(plPos.subtract(blackHoleEntity.position()));
-//                    blackHoleEntity.setDeltaMovement(0, 1, 1);
+
+                    if (tickCount % 20 == 0) pStack.hurtAndBreak(1, player, (consumer) -> {
+                        consumer.broadcastBreakEvent(player.getUsedItemHand());
+                    });
+
                 } else {
                     blackHoleEntity.discard();
                     playerBlackHoleMap.remove(player.getUUID());
@@ -158,13 +173,11 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
             }
 
             if (player.isCrouching() && pStack.getOrCreateTag().getBoolean(ACCRETION)) {
-                float suckFactor = 0.5F;
-                if (tickCount % 4 == 0) {
-                    ((ServerPlayer) player).connection.send(new ClientboundLevelParticlesPacket(ModParticles.BLACK_HOLE_PARTICLE.get(), true,
-                            player.getX(), player.getY(), player.getZ(),
-                            2, 2, 2, 10, 1));
-                }
+                player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 10, 2, false, false));
+                player.setDeltaMovement(0,0,0);
+                ((ServerPlayer) player).connection.send(new ClientboundSetEntityMotionPacket(player));
 
+                float suckFactor = 0.5F;
 
                 AABB pullBox = new AABB(player.position(), player.position()).inflate(5);
 

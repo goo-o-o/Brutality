@@ -13,7 +13,7 @@ public class ArmaGeoWeaponRenderer<T extends Item & ArmaGeoItem> extends GeoItem
     public ArmaGeoWeaponRenderer() {
         super(new ArmaGeoWeaponModel<>());
         ((ArmaGeoWeaponModel<T>) getGeoModel()).renderer = this;
-        this.addRenderLayer(new ArmaGeoWeaponLayer<>(this));
+        this.addRenderLayer(new ArmaGeoWeaponLayer<>(this, false));
     }
 
 

@@ -8,14 +8,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 public class TerraParticle extends TextureSheetParticle {
-    private final SpriteSet sprites;
-    private final boolean rollRot;
-    private int tickCount;
+    private final boolean rollingClockwise;
+    protected float initialRollSpeed = 7.5F, rollInertia = 0.95F;
 
     protected TerraParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet) {
         super(level, x, y, z, 0, 0, 0);
 
-        this.sprites = spriteSet;
         this.friction = 0.9F; // Determines particle movement slowdown
         this.lifetime = 50; // Number of ticks the particle will live
 
@@ -32,38 +30,22 @@ public class TerraParticle extends TextureSheetParticle {
         this.yd = initialVelocity * Math.cos(theta); // Upward component (Z)
         this.zd = initialVelocity * Math.sin(theta) * Math.sin(phi); // Horizontal component (Z)
 
-        this.rollRot = level.random.nextBoolean();
+        this.rollingClockwise = level.random.nextBoolean();
 
-        this.setSpriteFromAge(spriteSet); // Initial sprite based on age
+        this.pickSprite(spriteSet); // Initial sprite based on age
     }
 
-    @Override
+
     public void tick() {
         super.tick();
-        tickCount++;
 
-        // Calculate alpha for fading out
-        if (tickCount > lifetime) {
-            // Fade from 1.0 (fully visible) to 0.0 (invisible)
-            float alpha = 1.0f - (tickCount / (float) lifetime);
-            this.setAlpha(alpha);
-        } else {
-            // If lifetime exceeds, set alpha to 0
-            this.setAlpha(0.0f);
-        }
+        initialRollSpeed *= rollInertia;
+        if (rollingClockwise) this.roll = initialRollSpeed;
+        else this.roll = -initialRollSpeed;
+        this.oRoll = this.roll;
 
-        // Update the position of the particle
         this.move(this.xd, this.yd, this.zd);
-        this.pickSprite(sprites);
 
-        // Rolling clockwise
-        float rollRot = 0.1f / (tickCount + 1); // Speed of rolling
-        if (this.rollRot) {
-            this.roll += rollRot;
-        } else {
-            this.roll -= rollRot;
-        }
-        this.roll %= 360; // Keep the roll angle within 0-360 degrees
     }
 
     @Override
@@ -71,6 +53,10 @@ public class TerraParticle extends TextureSheetParticle {
         return ParticleRenderType.PARTICLE_SHEET_LIT;
     }
 
+    @Override
+    protected int getLightColor(float pPartialTick) {
+        return 15728880;
+    }
 
     @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {

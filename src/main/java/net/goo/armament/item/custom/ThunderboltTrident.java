@@ -1,22 +1,24 @@
 package net.goo.armament.item.custom;
 
-import com.google.common.collect.ImmutableMultimap;
 import net.goo.armament.Armament;
+import net.goo.armament.client.item.ArmaGeoGlowingWeaponRenderer;
 import net.goo.armament.client.item.ArmaGeoItem;
-import net.goo.armament.entity.custom.ThunderboltProjectile;
-import net.goo.armament.item.ArmaTridentItem;
+import net.goo.armament.entity.custom.ThrownThunderbolt;
 import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.item.base.ArmaTridentItem;
+import net.goo.armament.registry.ModItems;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Vanishable;
@@ -24,6 +26,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.event.GrindstoneEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -32,21 +35,23 @@ import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.Map;
-import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import static java.lang.Math.PI;
 import static net.goo.armament.util.ModResources.THUNDERBOLT_COLORS;
+import static net.goo.armament.util.ModUtils.hasInfinity;
+import static net.goo.armament.util.ModUtils.nextFloatBetweenInclusive;
 
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ThunderboltTrident extends ArmaTridentItem implements Vanishable, ArmaGeoItem {
-    private static final UUID SPEED_BOOST_UUID = UUID.fromString("f9d0a647-4999-4637-b4a0-7f768a65b5db");  // Unique UUID for speed boost modifier
+    protected final RandomSource random = RandomSource.create();
 
     public ThunderboltTrident(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
-        super(pProperties, identifier, category, rarity, abilityCount);
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(SPEED_BOOST_UUID, "Tool modifier", 2, AttributeModifier.Operation.ADDITION));
+        super(new Item.Properties().durability(1500), identifier, category, rarity, abilityCount);
         this.colors = THUNDERBOLT_COLORS;
     }
+
 
     public ModItemCategories getCategory() {
         return category;
@@ -59,13 +64,43 @@ public class ThunderboltTrident extends ArmaTridentItem implements Vanishable, A
         return stack;
     }
 
+    // CHANGE THESE
+    //==================================================================//
+
+    @Override
+    public float getLaunchVel() {
+        return 3.5F;
+    }
+
+    @Override
+    public void launchProjectile(Level pLevel, Player player, ItemStack pStack) {
+        int j = EnchantmentHelper.getRiptide(pStack);
+
+        if (j == 0) {
+            ThrownThunderbolt thrownEntity = new ThrownThunderbolt(pLevel, player, pStack);
+            thrownEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, getLaunchVel() + (float) j * 0.5F, 1.0F);
+            if (player.getAbilities().instabuild) {
+                thrownEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+            }
+
+            pLevel.addFreshEntity(thrownEntity);
+            pLevel.playSound(null, thrownEntity, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+            if (!player.getAbilities().instabuild && !hasInfinity(pStack)) {
+                player.getInventory().removeItem(pStack);
+            }
+        }
+    }
+
+    //==================================================================//
+
+
     @SubscribeEvent
     public static void onGrindstoneUse(GrindstoneEvent.OnPlaceItem event) {
         ItemStack bottomItem = event.getBottomItem();
         ItemStack topItem = event.getTopItem();
         ItemStack targetStack = bottomItem.isEmpty() ? topItem : bottomItem;
 
-        if (targetStack.getItem() == net.goo.armament.registry.ModItems.ZEUS_THUNDERBOLT_TRIDENT.get()) {
+        if (targetStack.getItem() == ModItems.THUNDERBOLT_TRIDENT.get()) {
             ItemStack resultStack = targetStack.copy();
 
             Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(resultStack);
@@ -85,10 +120,10 @@ public class ThunderboltTrident extends ArmaTridentItem implements Vanishable, A
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         if (pPlayer.isCrouching()) {
-            pPlayer.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 200, 2), pPlayer);
-            pPlayer.getCooldowns().addCooldown(itemstack.getItem(), 400);
+            performZeusWrathAttack(pPlayer, pLevel);
+            pPlayer.getCooldowns().addCooldown(itemstack.getItem(), 80);
             return InteractionResultHolder.fail(itemstack);
-        } else if (!isUnbreakable()) {
+        } else {
             if (itemstack.getDamageValue() >= itemstack.getMaxDamage() - 1) {
                 return InteractionResultHolder.fail(itemstack);
             } else if (EnchantmentHelper.getRiptide(itemstack) > 0 && !pPlayer.isInWaterOrRain()) {
@@ -97,47 +132,25 @@ public class ThunderboltTrident extends ArmaTridentItem implements Vanishable, A
                 pPlayer.startUsingItem(pHand);
                 return InteractionResultHolder.consume(itemstack);
             }
-        } else {
-            if (EnchantmentHelper.getRiptide(itemstack) > 0 && !pPlayer.isInWaterOrRain()) {
-                return InteractionResultHolder.fail(itemstack);
-            } else {
-                pPlayer.startUsingItem(pHand);
-                return InteractionResultHolder.consume(itemstack);
-            }
         }
     }
 
-    @Override
-    public boolean isInfinite() {
-        return true;
-    }
+    public void performZeusWrathAttack(Player pPlayer, Level pLevel) {
+        for (int i = 0; i < random.nextInt(5,11); i++) {
+            float distance = nextFloatBetweenInclusive(random, 5F, 10F);
+            float angle = random.nextFloat() * 2 * ((float) PI);
 
-    @Override
-    public boolean isUnbreakable() {
-        return true;
-    }
+            float xOffset = distance * ((float) Math.cos(angle));
+            float zOffset = distance * ((float) Math.sin(angle));
 
-    @Override
-    public void launchProjectile(Level pLevel, Player player, ItemStack pStack) {
-        int j = EnchantmentHelper.getRiptide(pStack);
+            LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(pLevel);
+            lightningBolt.setPos(pPlayer.getX() + xOffset, pPlayer.getY(), pPlayer.getZ() + zOffset);
+            lightningBolt.setCause(pPlayer instanceof ServerPlayer ? (ServerPlayer) pPlayer : null);
+            pLevel.addFreshEntity(lightningBolt);
 
-        pStack.hurtAndBreak(1, player, (consumer) -> {
-            consumer.broadcastBreakEvent(player.getUsedItemHand());
-        });
-        if (j == 0) {
-            ThunderboltProjectile thrownEntity = new ThunderboltProjectile(pLevel, player, pStack);
-            thrownEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, getLaunchVel() + (float) j * 0.5F, 1.0F);
-            if (player.getAbilities().instabuild) {
-                thrownEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-            }
-
-            pLevel.addFreshEntity(thrownEntity);
-            pLevel.playSound(null, thrownEntity, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
-            if (!player.getAbilities().instabuild && !isInfinite()) {
-                player.getInventory().removeItem(pStack);
-            }
         }
     }
+
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
@@ -145,4 +158,10 @@ public class ThunderboltTrident extends ArmaTridentItem implements Vanishable, A
                 state.setAndContinue(RawAnimation.begin().thenLoop("idle")))
         );
     }
+
+    @Override
+    public <T extends Item & ArmaGeoItem, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
+        super.initGeo(consumer, ArmaGeoGlowingWeaponRenderer.class);
+    }
+
 }

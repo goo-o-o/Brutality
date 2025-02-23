@@ -2,10 +2,10 @@ package net.goo.armament.network;
 
 import net.goo.armament.client.entity.BEAM_TYPES;
 import net.goo.armament.entity.base.SwordBeam;
+import net.goo.armament.entity.custom.TerraBeam;
 import net.goo.armament.registry.ModEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -46,15 +46,14 @@ public class c2sSwordBeamPacket {
                 double spawnY = senderPos.y + sender.getEyeHeight() + viewVector.y;
                 double spawnZ = senderPos.z + viewVector.z;
 
-                EntityType selectedBeam;
+                SwordBeam swordBeam = null;
 
                 switch (packet.identifier) {
-                    case TERRA_BEAM -> selectedBeam = ModEntities.TERRA_BEAM.get();
-                    default -> selectedBeam = null;
+                    case TERRA_BEAM -> {  swordBeam = new TerraBeam(ModEntities.TERRA_BEAM.get(), level); }
+                    case EXCALIBUR_BEAM -> {} // Have yet to implement excalibur beam;
+                    default -> { return; }
                 }
 
-//                if (selectedBeam == null) return;
-                SwordBeam swordBeam = new SwordBeam(ModEntities.TERRA_BEAM.get(), level);
                 swordBeam.setOwner(sender);
                 swordBeam.setPos(spawnX, spawnY - 0.25F, spawnZ);
                 swordBeam.shootFromRotation(sender, sender.getXRot(), sender.getYRot(), 0.0F, packet.velocity, 0.0F);

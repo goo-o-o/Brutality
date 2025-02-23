@@ -1,11 +1,8 @@
 package net.goo.armament.registry;
 
 import net.goo.armament.Armament;
-import net.goo.armament.entity.ArmaEffectEntity;
-import net.goo.armament.entity.base.SwordBeam;
-import net.goo.armament.entity.custom.BlackHole;
-import net.goo.armament.entity.custom.CruelSunEntity;
-import net.goo.armament.entity.custom.ThunderboltProjectile;
+import net.goo.armament.entity.custom.*;
+import net.goo.armament.entity.helper.ArmaEffectEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -21,9 +18,9 @@ public class ModEntities {
     public static final RegistryObject<EntityType<ArmaEffectEntity>> ARMA_PROJECTILE_ENTITY = ENTITY_TYPES.register("arma_projectile", () -> EntityType.Builder.of(ArmaEffectEntity::new, MobCategory.MISC)
             .sized(0.5F, 0.5F).clientTrackingRange(64).build(Armament.prefix("arma_projectile").toString()));
 
-    public static final RegistryObject<EntityType<ThunderboltProjectile>> THROWN_ZEUS_THUNDERBOLT_ENTITY =
+    public static final RegistryObject<EntityType<ThrownThunderbolt>> THROWN_THUNDERBOLT_ENTITY =
             ENTITY_TYPES.register("thrown_zeus_thunderbolt",
-                    () -> EntityType.Builder.<ThunderboltProjectile>of(ThunderboltProjectile::new, MobCategory.MISC)
+                    () -> EntityType.Builder.<ThrownThunderbolt>of(ThrownThunderbolt::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
                             .clientTrackingRange(4)
                             .setUpdateInterval(20)
@@ -35,14 +32,14 @@ public class ModEntities {
                     .sized(3.0f, 3.0f)
                     .build("cruel_sun"));
 
-    public static final RegistryObject<EntityType<SwordBeam>> TERRA_BEAM = ENTITY_TYPES.register("terra_beam", () -> EntityType.Builder.<SwordBeam>of(SwordBeam::new,
+    public static final RegistryObject<EntityType<TerraBeam>> TERRA_BEAM = ENTITY_TYPES.register("terra_beam", () -> EntityType.Builder.<TerraBeam>of(TerraBeam::new,
                     MobCategory.MISC).sized(2F, 1F).build("terra_beam"));
 
     public static final RegistryObject<EntityType<BlackHole>> BLACK_HOLE_ENTITY =
             ENTITY_TYPES.register("black_hole",
                     () -> EntityType.Builder.of(BlackHole::new, MobCategory.MISC)
                             .sized(1F, 1F)
-                            .setUpdateInterval(3)
+                            .setUpdateInterval(1)
                             .build("black_hole"));
 
     public static void register(IEventBus eventBus) {

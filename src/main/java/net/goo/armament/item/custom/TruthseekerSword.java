@@ -1,10 +1,12 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
+import net.goo.armament.client.item.ArmaGeoGlowingWeaponRenderer;
 import net.goo.armament.client.item.ArmaGeoItem;
-import net.goo.armament.item.ArmaSwordItem;
 import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.registry.ModItems;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -33,8 +35,8 @@ public class TruthseekerSword extends ArmaSwordItem {
     }
 
     @Override
-    public <T extends Item & ArmaGeoItem> void initGeo(Consumer<IClientItemExtensions> consumer, int rendererID) {
-        super.initGeo(consumer, 1);
+    public <T extends Item & ArmaGeoItem, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
+        super.initGeo(consumer, ArmaGeoGlowingWeaponRenderer.class);
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)

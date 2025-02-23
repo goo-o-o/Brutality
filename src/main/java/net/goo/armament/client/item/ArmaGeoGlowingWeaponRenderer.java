@@ -9,11 +9,10 @@ import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 import javax.annotation.Nullable;
 
 public class ArmaGeoGlowingWeaponRenderer<T extends Item & ArmaGeoItem> extends ArmaGeoWeaponRenderer<T> {
-
-    public ArmaGeoGlowingWeaponRenderer() {
+    public ArmaGeoGlowingWeaponRenderer(boolean emissive) {
         super();
         ((ArmaGeoWeaponModel<T>) getGeoModel()).renderer = this;
-        this.addRenderLayer(new ArmaGeoWeaponLayer<>(this));
+        this.addRenderLayer(new ArmaGeoWeaponLayer<>(this, true));
         this.addRenderLayer(new AutoGlowingGeoLayer<>(this));
     }
 

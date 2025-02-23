@@ -34,38 +34,30 @@ public interface ArmaGeoItem extends GeoItem {
 
     default ResourceLocation getFontFromCategory(ModItemCategories category) {
         return switch (category) {
-            case SILLY -> SILLY; // Make sure SILLY is defined somewhere
-            case SPACE -> SPACE; // Make sure SPACE is defined somewhere
-            case TECHNOLOGY -> TECHNOLOGY; // Make sure TECHNOLOGY is defined somewhere
-            case FANTASY -> FANTASY; // Make sure FANTASY is defined somewhere
+            case SILLY -> SILLY;
+            case SPACE -> SPACE;
+            case TECHNOLOGY -> TECHNOLOGY;
+            case FANTASY -> FANTASY;
         };
     }
 
     @OnlyIn(Dist.CLIENT)
-    default <T extends Item & ArmaGeoItem> void initGeo(Consumer<IClientItemExtensions> consumer, int rendererID) {
-        if (rendererID == 0) {
-            consumer.accept(new IClientItemExtensions() {
-                private ArmaGeoWeaponRenderer<T> renderer;
+    default <T extends Item & ArmaGeoItem, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
+        consumer.accept(new IClientItemExtensions() {
+            private R renderer;
 
-                @Override
-                public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                    if (this.renderer == null) this.renderer = new ArmaGeoWeaponRenderer<>();
-                    return this.renderer;
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (this.renderer == null) {
+                    try {
+                        this.renderer = rendererClass.getDeclaredConstructor().newInstance();
+                    } catch (Exception e) {
+                        throw new RuntimeException("Failed to instantiate renderer: " + rendererClass.getSimpleName(), e);
+                    }
                 }
-
-            });
-        } else if (rendererID == 1) {
-            consumer.accept(new IClientItemExtensions() {
-                private ArmaGeoGlowingWeaponRenderer<T> renderer;
-
-                @Override
-                public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                    if (this.renderer == null) this.renderer = new ArmaGeoGlowingWeaponRenderer<>();
-                    return this.renderer;
-                }
-
-            });
-        }
+                return this.renderer;
+            }
+        });
     }
 
     @Override

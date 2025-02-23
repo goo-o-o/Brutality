@@ -8,7 +8,7 @@ import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 
 public class BlackHoleModel extends DefaultedEntityGeoModel<BlackHole> {
     public BlackHoleModel() {
-        super(new ResourceLocation(Armament.MOD_ID, "black_hole_entity"));
+        super(new ResourceLocation(Armament.MOD_ID, "black_hole"));
     }
 
 

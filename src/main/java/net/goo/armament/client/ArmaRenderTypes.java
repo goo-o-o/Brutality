@@ -82,22 +82,6 @@ public class ArmaRenderTypes extends RenderType {
                 .createCompositeState(false));
     }
 
-    public static RenderType getghost(ResourceLocation texture) {
-        CompositeState renderState = CompositeState.builder()
-                .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
-                .setCullState(NO_CULL)
-                .setTextureState(new TextureStateShard(texture, false, false))
-                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                .setLightmapState(LIGHTMAP)
-                .setOverlayState(OVERLAY)
-                .setWriteMaskState(COLOR_DEPTH_WRITE)
-                .setDepthTestState(LEQUAL_DEPTH_TEST)
-                .setLayeringState(NO_LAYERING)
-                .createCompositeState(false);
-        return create("ghost", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, renderState);
-    }
-
-
     public static RenderType getPulse() {
         CompositeState renderState = CompositeState.builder()
                 .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)

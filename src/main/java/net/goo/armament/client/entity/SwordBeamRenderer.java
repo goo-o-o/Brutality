@@ -3,6 +3,7 @@ package net.goo.armament.client.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.goo.armament.Armament;
+import net.goo.armament.client.ArmaRenderTypes;
 import net.goo.armament.client.entity.model.SwordBeamModel;
 import net.goo.armament.entity.base.SwordBeam;
 import net.minecraft.client.Minecraft;
@@ -22,25 +23,27 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
         super(renderManager, new SwordBeamModel());
     }
 
+    public String getIdentifier() {
+        return getAnimatable().getIdentifier();
+    }
 
     @Override
-    public ResourceLocation getTextureLocation(SwordBeam animatable) {
-        return Armament.prefix("textures/entity/projectiles/terra_beam8.png");
+    public @NotNull ResourceLocation getTextureLocation(@NotNull SwordBeam animatable) {
+        return Armament.prefix("textures/entity/projectiles/sword_beams" + getIdentifier() + ".png");
     }
 
     @Override
     public RenderType getRenderType(SwordBeam animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-        return RenderType.entityTranslucentEmissive(texture, true);
+        return ArmaRenderTypes.getGhost(texture);
     }
 
     @Override
-    public void render(SwordBeam pEntity, float entityYaw, float pPartialTicks, @NotNull PoseStack pPoseStack, @NotNull MultiBufferSource bufferSource, int packedLight) {
+    public void render(@NotNull SwordBeam pEntity, float entityYaw, float pPartialTicks, @NotNull PoseStack pPoseStack, @NotNull MultiBufferSource bufferSource, int packedLight) {
         Player player = Minecraft.getInstance().player;
 
         if (player != null) {
             Vec3 moveVec = pEntity.getDeltaMovement();
 
-            if (moveVec.x != 0 || moveVec.y != 0 || moveVec.z != 0 ) {
                 moveVec = moveVec.normalize();
 
                 double angle = Math.atan2(-moveVec.z, moveVec.x);
@@ -50,7 +53,7 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
                 pPoseStack.mulPose(Axis.YP.rotationDegrees((float) Math.toDegrees(angle)));
                 pPoseStack.mulPose(Axis.ZP.rotationDegrees(((float) Math.toDegrees(pitch))));
                 pPoseStack.mulPose(Axis.XP.rotationDegrees(pEntity.getRandomRoll()));
-            }
+
         }
 
         pPoseStack.scale(pEntity.getRenderScale(), pEntity.getRenderScale(), pEntity.getRenderScale() * 5);

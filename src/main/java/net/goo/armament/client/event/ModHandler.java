@@ -1,8 +1,8 @@
 package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
-import net.goo.armament.entity.ArmaVisualType;
-import net.goo.armament.entity.ArmaVisualTypes;
+import net.goo.armament.entity.helper.ArmaVisualType;
+import net.goo.armament.entity.helper.ArmaVisualTypes;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.particle.custom.*;
 import net.goo.armament.particle.custom.pokerchip.PokerChipBlueParticle;

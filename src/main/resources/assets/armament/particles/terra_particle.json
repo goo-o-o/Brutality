@@ -1,6 +1,6 @@
 {
   "textures": [
-    "armament:terra_particle_1",
-    "armament:terra_particle_2"
+    "armament:terra/terra_particle_1",
+    "armament:terra/terra_particle_2"
   ]
 }

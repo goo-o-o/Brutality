@@ -25,6 +25,8 @@ public class ModSounds {
             registerSoundEvents("jackpot_sound_4")
     );
 
+    public static final RegistryObject<SoundEvent> TERRA_BLADE_USE = registerSoundEvents("terra_blade_use");
+
     private static RegistryObject<SoundEvent> registerSoundEvents(String name) {
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Armament.MOD_ID, name)));
     }

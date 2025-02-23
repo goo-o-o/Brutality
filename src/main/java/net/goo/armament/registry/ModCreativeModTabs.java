@@ -14,7 +14,7 @@ public class ModCreativeModTabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Armament.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> ARMAMENT_TAB = CREATIVE_MODE_TABS.register("armament_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.ZEUS_THUNDERBOLT_TRIDENT.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.THUNDERBOLT_TRIDENT.get()))
                     .title(Component.translatable("creativeTab.armament_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
 
@@ -31,7 +31,7 @@ public class ModCreativeModTabs {
                         output.accept(ModItems.TERRATON_HAMMER.get());
                         output.accept(ModItems.TRUTHSEEKER_SWORD.get());
                         output.accept(ModItems.VIPER_RAPIER.get());
-                        output.accept(ModItems.ZEUS_THUNDERBOLT_TRIDENT.get().getDefaultInstance());
+                        output.accept(ModItems.THUNDERBOLT_TRIDENT.get().getDefaultInstance());
 
                     })
                     .build());

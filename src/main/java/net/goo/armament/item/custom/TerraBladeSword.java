@@ -2,22 +2,22 @@ package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
 import net.goo.armament.client.entity.BEAM_TYPES;
-import net.goo.armament.client.item.ArmaGeoItem;
-import net.goo.armament.item.ArmaSwordItem;
 import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.network.PacketHandler;
+import net.goo.armament.network.c2sDamageItemPacket;
 import net.goo.armament.network.c2sSwordBeamPacket;
+import net.goo.armament.registry.ModSounds;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.core.animation.AnimatableManager;
-
-import java.util.function.Consumer;
 
 import static net.goo.armament.util.ModResources.TERRA_BLADE_COLORS;
 
@@ -34,19 +34,21 @@ public class TerraBladeSword extends ArmaSwordItem {
 
     }
 
-    @Override
-    public <T extends Item & ArmaGeoItem> void initGeo(Consumer<IClientItemExtensions> consumer, int rendererID) {
-        super.initGeo(consumer, 0);
-    }
 
     @SubscribeEvent
     public static void onLeftClick(PlayerInteractEvent.LeftClickEmpty event) {
         Player player = event.getEntity();
-        if (player.getMainHandItem().getItem() instanceof TerraBladeSword) {
-            PacketHandler.sendToServer(new c2sSwordBeamPacket(BEAM_TYPES.TERRA_BEAM, 3.5F));
+        ItemStack stack = player.getMainHandItem();
+        Item item = stack.getItem();
 
+        if (item instanceof TerraBladeSword) {
+            if (!player.getCooldowns().isOnCooldown(item)) {
+                player.getCooldowns().addCooldown(item, 20);
+                event.getLevel().playSound(player, player.getOnPos(), ModSounds.TERRA_BLADE_USE.get(), SoundSource.PLAYERS);
+                PacketHandler.sendToServer(new c2sSwordBeamPacket(BEAM_TYPES.TERRA_BEAM, 3.5F));
+                PacketHandler.sendToServer(new c2sDamageItemPacket(1, true));
+
+            }
         }
     }
-
-
 }

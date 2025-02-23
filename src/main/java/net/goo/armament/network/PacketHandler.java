@@ -33,6 +33,11 @@ public class PacketHandler {
                 .consumerMainThread(c2sSwordBeamPacket::handle)
                 .add();
 
+        NETWORK_CHANNEL.messageBuilder(c2sDamageItemPacket.class, packetId++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(c2sDamageItemPacket::encode)
+                .decoder(c2sDamageItemPacket::new)
+                .consumerMainThread(c2sDamageItemPacket::handle)
+                .add();
     }
 
     public static void sendToServer(Object msg) {

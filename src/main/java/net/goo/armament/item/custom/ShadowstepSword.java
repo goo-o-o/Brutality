@@ -1,9 +1,8 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
-import net.goo.armament.client.item.ArmaGeoItem;
-import net.goo.armament.item.ArmaSwordItem;
 import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.registry.ModParticles;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.core.BlockPos;
@@ -26,13 +25,11 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.EnumSet;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 import static net.goo.armament.util.ModResources.SHADOWSTEP_COLORS;
 
@@ -48,15 +45,10 @@ public class ShadowstepSword extends ArmaSwordItem {
 
     }
 
-    @Override
-    public <T extends Item & ArmaGeoItem> void initGeo(Consumer<IClientItemExtensions> consumer, int rendererID) {
-        super.initGeo(consumer, 0);
-    }
-
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        Entity entity = ModUtils.getEntityPlayerLookingAt(pPlayer, 35);
+        Entity entity = ModUtils.getEntityPlayerLookingAt(pPlayer, 75);
         teleportBehindEntity(pLevel, pPlayer, entity, pUsedHand);
 
         return super.use(pLevel, pPlayer, pUsedHand);

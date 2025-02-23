@@ -1,7 +1,7 @@
 package net.goo.armament.item.custom.unused;
 
 import net.goo.armament.entity.custom.CruelSunEntity;
-import net.goo.armament.item.ArmaAxeItem;
+import net.goo.armament.item.base.ArmaAxeItem;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.registry.ModEntities;
 import net.minecraft.world.InteractionHand;

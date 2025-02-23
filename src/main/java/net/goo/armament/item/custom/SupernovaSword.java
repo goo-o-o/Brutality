@@ -1,13 +1,18 @@
 package net.goo.armament.item.custom;
 
+import net.goo.armament.client.item.ArmaGeoGlowingWeaponRenderer;
 import net.goo.armament.client.item.ArmaGeoItem;
-import net.goo.armament.item.ArmaSwordItem;
 import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.registry.ModParticles;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
@@ -24,9 +29,10 @@ public class SupernovaSword extends ArmaSwordItem {
     }
 
     @Override
-    public <T extends Item & ArmaGeoItem> void initGeo(Consumer<IClientItemExtensions> consumer, int rendererID) {
-        super.initGeo(consumer, 1);
+    public <T extends Item & ArmaGeoItem, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
+        super.initGeo(consumer, ArmaGeoGlowingWeaponRenderer.class);
     }
+
 
     @Override
     public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
@@ -48,7 +54,7 @@ public class SupernovaSword extends ArmaSwordItem {
 
         // Apply damage to each nearby entity
         for (Entity entity : nearbyEntities) {
-            if (entity instanceof LivingEntity && entity != target) { // Don't damage the target itself
+            if (entity instanceof LivingEntity && entity != player) { // Don't damage the player itself
                 entity.hurt(entity.damageSources().explosion(player, entity), 7.5F); // Adjust damage as needed
             }
         }

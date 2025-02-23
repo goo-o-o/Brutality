@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.goo.armament.client.ArmaEffectEntityModel;
 import net.goo.armament.client.renderers.entity.projectile.SilencedRotationProjectileRenderer;
-import net.goo.armament.entity.ArmaEffectEntity;
+import net.goo.armament.entity.helper.ArmaEffectEntity;
 import net.goo.armament.entity.helper.ArmaVisualSpecialProperties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;

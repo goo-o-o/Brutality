@@ -1,7 +1,7 @@
 package net.goo.armament.registry;
 
 import net.goo.armament.block.ModBlocks;
-import net.goo.armament.entity.ArmaVisualTypes;
+import net.goo.armament.entity.helper.ArmaVisualTypes;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 public class ModRegistryManager {

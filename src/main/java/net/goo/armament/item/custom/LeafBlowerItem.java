@@ -1,7 +1,7 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.ArmaGenericItem;
+import net.goo.armament.item.base.ArmaGenericItem;
 import net.goo.armament.client.item.ArmaGeoItem;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.network.PacketHandler;
