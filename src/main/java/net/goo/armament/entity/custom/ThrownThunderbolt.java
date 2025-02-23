@@ -1,6 +1,7 @@
 package net.goo.armament.entity.custom;
 
 import net.goo.armament.client.entity.ArmaGeoEntity;
+import net.goo.armament.client.renderers.entity.ArmaGlowingTridentRenderer;
 import net.goo.armament.particle.custom.ThunderboltTrail;
 import net.goo.armament.registry.ModEntities;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -31,6 +32,10 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 import javax.annotation.Nullable;
@@ -267,8 +272,6 @@ public class ThrownThunderbolt extends AbstractArrow implements ArmaGeoEntity {
         return true;
     }
 
-    // GECKOLIB
-
     @Override
     public String geoIdentifier() {
         return "thrown_thunderbolt";
@@ -279,13 +282,22 @@ public class ThrownThunderbolt extends AbstractArrow implements ArmaGeoEntity {
         return null;
     }
 
+    AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return null;
+        return cache;
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, (state) ->
+                state.setAndContinue(RawAnimation.begin().thenLoop("idle")))
+        );
     }
 
     @Override
     public <T extends Entity & ArmaGeoEntity, R extends GeoEntityRenderer<T>> void initGeo(Consumer<EntityRendererProvider<T>> consumer, Class<R> rendererClass) {
-        ArmaGeoEntity.super.initGeo(consumer, rendererClass);
+        ArmaGeoEntity.super.initGeo(consumer, ArmaGlowingTridentRenderer.class);
     }
 }

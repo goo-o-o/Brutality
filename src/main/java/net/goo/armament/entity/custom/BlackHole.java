@@ -1,7 +1,7 @@
 package net.goo.armament.entity.custom;
 
 import net.goo.armament.client.entity.ArmaGeoEntity;
-import net.goo.armament.client.entity.ArmaGeoGlowingEntityRenderer;
+import net.goo.armament.client.renderers.entity.ArmaGlowingEntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -106,7 +106,7 @@ public class BlackHole extends ThrowableProjectile implements ArmaGeoEntity {
 
     @Override
     public <T extends Entity & ArmaGeoEntity, R extends GeoEntityRenderer<T>> void initGeo(Consumer<EntityRendererProvider<T>> consumer, Class<R> rendererClass) {
-        ArmaGeoEntity.super.initGeo(consumer, ArmaGeoGlowingEntityRenderer.class);
+        ArmaGeoEntity.super.initGeo(consumer, ArmaGlowingEntityRenderer.class);
     }
 
     @Override
