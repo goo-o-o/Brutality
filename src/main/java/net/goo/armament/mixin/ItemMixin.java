@@ -13,6 +13,8 @@ import java.util.function.Consumer;
 
 @Mixin(Item.class)
 public abstract class ItemMixin {
+
+
     @Inject(method = "initializeClient", at = @At("TAIL"), remap = false)
     public void initializeClient(Consumer<IClientItemExtensions> consumer, CallbackInfo ci) {
         if (this instanceof ArmaGeoItem geoItem) {

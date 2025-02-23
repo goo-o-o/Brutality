@@ -13,13 +13,11 @@ public class ArmaGeoWeaponRenderer<T extends Item & ArmaGeoItem> extends GeoItem
     public ArmaGeoWeaponRenderer() {
         super(new ArmaGeoWeaponModel<>());
         ((ArmaGeoWeaponModel<T>) getGeoModel()).renderer = this;
-        this.addRenderLayer(new ArmaGeoWeaponLayer<>(this, false));
+        this.addRenderLayer(new ArmaGeoWeaponLayer<>(this));
     }
-
 
     @Override
     public RenderType getRenderType(T animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
         return RenderType.entityTranslucent(texture);
     }
-
 }

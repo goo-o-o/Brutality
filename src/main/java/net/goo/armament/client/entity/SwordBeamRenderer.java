@@ -29,7 +29,7 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull SwordBeam animatable) {
-        return Armament.prefix("textures/entity/projectiles/sword_beams" + getIdentifier() + ".png");
+        return Armament.prefix("textures/entity/projectiles/" + getIdentifier() + ".png");
     }
 
     @Override

@@ -1,7 +1,9 @@
 package net.goo.armament.entity.custom;
 
+import net.goo.armament.client.entity.ArmaGeoEntity;
 import net.goo.armament.particle.custom.ThunderboltTrail;
 import net.goo.armament.registry.ModEntities;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -27,12 +29,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 import javax.annotation.Nullable;
 
+import java.util.function.Consumer;
+
 import static net.goo.armament.util.ModUtils.hasInfinity;
 
-public class ThrownThunderbolt extends AbstractArrow {
+public class ThrownThunderbolt extends AbstractArrow implements ArmaGeoEntity {
     public static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(ThrownThunderbolt.class, EntityDataSerializers.BYTE);
     public static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownThunderbolt.class, EntityDataSerializers.BOOLEAN);
     public ItemStack pickupItem = new ItemStack(Items.TRIDENT);
@@ -260,4 +267,25 @@ public class ThrownThunderbolt extends AbstractArrow {
         return true;
     }
 
+    // GECKOLIB
+
+    @Override
+    public String geoIdentifier() {
+        return "thrown_thunderbolt";
+    }
+
+    @Override
+    public GeoAnimatable cacheItem() {
+        return null;
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return null;
+    }
+
+    @Override
+    public <T extends Entity & ArmaGeoEntity, R extends GeoEntityRenderer<T>> void initGeo(Consumer<EntityRendererProvider<T>> consumer, Class<R> rendererClass) {
+        ArmaGeoEntity.super.initGeo(consumer, rendererClass);
+    }
 }

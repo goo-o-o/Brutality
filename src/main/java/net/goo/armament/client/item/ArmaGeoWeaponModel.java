@@ -24,5 +24,4 @@ public class ArmaGeoWeaponModel<T extends Item & ArmaGeoItem> extends GeoModel<T
         return Armament.prefix("animations/item/" + (renderer != null ? animatable.texture(renderer.getCurrentItemStack()) : animatable.geoIdentifier()) + "_handheld.animation.json");
 
     }
-
 }
