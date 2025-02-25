@@ -1,13 +1,19 @@
 package net.goo.armament.util;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -18,9 +24,43 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ModUtils {
     protected static final RandomSource random = RandomSource.create();
+
+    public static void replaceOrAddModifier(ItemStack pStack, Attribute pAttribute, UUID id, double newAmount, @javax.annotation.Nullable EquipmentSlot pSlot) {
+        // Access the existing attribute modifiers
+        ListTag attributesList = pStack.getOrCreateTag().getList("AttributeModifiers", 10);
+        boolean modifierExists = false;
+
+        // Create a new modifier
+        AttributeModifier newModifier = new AttributeModifier(id, "Tool modifier", newAmount, AttributeModifier.Operation.ADDITION);
+        CompoundTag newCompoundTag = newModifier.save();
+        newCompoundTag.putString("AttributeName", BuiltInRegistries.ATTRIBUTE.getKey(pAttribute).toString());
+        if (pSlot != null) {
+            newCompoundTag.putString("Slot", pSlot.getName());
+        }
+
+        // Iterate through the existing modifiers to check for replacements
+        for (int i = 0; i < attributesList.size(); i++) {
+            CompoundTag existingCompoundTag = attributesList.getCompound(i);
+            UUID existingUUID = existingCompoundTag.getUUID("UUID");
+
+            if (existingUUID.equals(id)) {
+                // Replace existing modifier
+                attributesList.set(i, newCompoundTag);
+                modifierExists = true;
+                break;
+            }
+        }
+
+        if (!modifierExists) {
+            attributesList.add(newCompoundTag);
+        }
+
+        pStack.getOrCreateTag().put("AttributeModifiers", attributesList);
+    }
 
     public static float nextFloatBetweenInclusive(RandomSource random, float min, float max) {
         return min + random.nextFloat() * (max - min);

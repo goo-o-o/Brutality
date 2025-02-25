@@ -33,8 +33,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> FALLEN_SCYTHE = ITEMS.register("fallen_scythe", () -> new FallenScytheItem(
             Tiers.NETHERITE,
-            0,
-            -2.6F,
+            -4,
+            -3.15F,
             new Item.Properties(),
             "jackpot",
             ModItemCategories.FANTASY,
