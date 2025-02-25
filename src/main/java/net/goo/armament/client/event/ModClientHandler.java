@@ -2,9 +2,8 @@ package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
 import net.goo.armament.client.entity.ModModelLayers;
-import net.goo.armament.client.entity.SwordBeamRenderer;
+import net.goo.armament.client.renderers.entity.SwordBeamRenderer;
 import net.goo.armament.client.entity.model.CruelSunModel;
-import net.goo.armament.client.entity.model.ThrownZeusThunderboltModel;
 import net.goo.armament.client.renderers.entity.ArmaEntityRenderer;
 import net.goo.armament.client.renderers.entity.ArmaGlowingTridentRenderer;
 import net.goo.armament.client.renderers.entity.CruelSunRenderer;
@@ -27,7 +26,6 @@ public class ModClientHandler {
 
     @SubscribeEvent
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(ModModelLayers.THROWN_ZEUS_THUNDERBOLT_ENTITY_LAYER, ThrownZeusThunderboltModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.CRUEL_SUN_ENTITY_LAYER, CruelSunModel::createBodyLayer);
     }
 

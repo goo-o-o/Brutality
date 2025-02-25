@@ -21,6 +21,7 @@ public class ModCreativeModTabs {
 //                        output.accept(ModItems.DIVINE_RHITTA_AXE.get());
                         output.accept(ModItems.DOOMFIST_GAUNTLET.get());
                         output.accept(ModItems.EVENT_HORIZON_LANCE.get());
+                        output.accept(ModItems.FALLEN_SCYTHE.get().getDefaultInstance());
                         output.accept(ModItems.JACKPOT_HAMMER.get());
                         output.accept(ModItems.LEAF_BLOWER.get());
 //                        output.accept(ModItems.QUANTUM_DRILL.get());

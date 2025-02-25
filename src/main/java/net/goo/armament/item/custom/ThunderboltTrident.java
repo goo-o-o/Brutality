@@ -60,7 +60,8 @@ public class ThunderboltTrident extends ArmaTridentItem implements Vanishable, A
     @Override
     public ItemStack getDefaultInstance() {
         ItemStack stack = new ItemStack(this);
-        EnchantmentHelper.setEnchantments(Map.of(Enchantments.LOYALTY, 5, Enchantments.INFINITY_ARROWS, 1), stack);
+        stack.enchant(Enchantments.INFINITY_ARROWS, 1);
+        stack.enchant(Enchantments.LOYALTY, 5);
         return stack;
     }
 

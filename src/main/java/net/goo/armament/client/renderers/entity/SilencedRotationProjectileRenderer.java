@@ -1,4 +1,4 @@
-package net.goo.armament.client.renderers.entity.projectile;
+package net.goo.armament.client.renderers.entity;
 
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Entity;

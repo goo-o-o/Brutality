@@ -31,6 +31,17 @@ public class ModItems {
             ModRarities.FABLED,
             2));
 
+    public static final RegistryObject<Item> FALLEN_SCYTHE = ITEMS.register("fallen_scythe", () -> new FallenScytheItem(
+            Tiers.NETHERITE,
+            0,
+            -2.6F,
+            new Item.Properties(),
+            "jackpot",
+            ModItemCategories.FANTASY,
+            ModRarities.MYTHIC,
+            1));
+
+
     public static final RegistryObject<Item> JACKPOT_HAMMER = ITEMS.register("jackpot", () -> new JackpotHammerItem(
             Tiers.DIAMOND,
             0,

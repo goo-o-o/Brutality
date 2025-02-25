@@ -1,4 +1,4 @@
-package net.goo.armament.client.entity;
+package net.goo.armament.client.renderers.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -47,7 +47,7 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
                 moveVec = moveVec.normalize();
 
                 double angle = Math.atan2(-moveVec.z, moveVec.x);
-                double pitch = Math.asin(moveVec.y); // Calculate pitch
+                double pitch = Math.asin(moveVec.y);
                 pPoseStack.pushPose();
                 pPoseStack.translate(0.0D, 0.5D, 0.0D);
                 pPoseStack.mulPose(Axis.YP.rotationDegrees((float) Math.toDegrees(angle)));
