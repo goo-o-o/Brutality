@@ -36,7 +36,7 @@ public class ModItems {
             -4,
             -3.15F,
             new Item.Properties(),
-            "jackpot",
+            "fallen_scythe",
             ModItemCategories.FANTASY,
             ModRarities.MYTHIC,
             1));

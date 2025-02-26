@@ -1,9 +1,12 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
+import net.goo.armament.client.item.ArmaGeoItem;
+import net.goo.armament.client.item.ArmaGlowingTranslucentWeaponRenderer;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.base.ArmaScytheItem;
 import net.goo.armament.util.ModResources;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -11,13 +14,17 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.core.animation.AnimatableManager;
+
+import java.util.function.Consumer;
 
 import static net.goo.armament.util.ModUtils.replaceOrAddModifier;
 
@@ -27,12 +34,17 @@ public class FallenScytheItem extends ArmaScytheItem {
 
     public FallenScytheItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity, abilityCount);
-        this.colors = ModResources.SUPERNOVA_COLORS;
+        this.colors = ModResources.FALLEN_SCYTHE_COLORS;
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 
+    }
+
+    @Override
+    public <T extends Item & ArmaGeoItem, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
+        super.initGeo(consumer, ArmaGlowingTranslucentWeaponRenderer.class);
     }
 
     @SubscribeEvent

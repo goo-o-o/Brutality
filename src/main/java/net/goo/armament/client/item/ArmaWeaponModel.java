@@ -6,7 +6,7 @@ import net.minecraft.world.item.Item;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 
-public class ArmaGeoWeaponModel<T extends Item & ArmaGeoItem> extends GeoModel<T> {
+public class ArmaWeaponModel<T extends Item & ArmaGeoItem> extends GeoModel<T> {
     public GeoItemRenderer<T> renderer;
 
     @Override

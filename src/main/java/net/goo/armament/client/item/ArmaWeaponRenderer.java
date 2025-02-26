@@ -8,12 +8,12 @@ import software.bernie.geckolib.renderer.GeoItemRenderer;
 
 import javax.annotation.Nullable;
 
-public class ArmaGeoWeaponRenderer<T extends Item & ArmaGeoItem> extends GeoItemRenderer<T> {
+public class ArmaWeaponRenderer<T extends Item & ArmaGeoItem> extends GeoItemRenderer<T> {
 
-    public ArmaGeoWeaponRenderer() {
-        super(new ArmaGeoWeaponModel<>());
-        ((ArmaGeoWeaponModel<T>) getGeoModel()).renderer = this;
-        this.addRenderLayer(new ArmaGeoWeaponLayer<>(this));
+    public ArmaWeaponRenderer() {
+        super(new ArmaWeaponModel<>());
+        ((ArmaWeaponModel<T>) getGeoModel()).renderer = this;
+        this.addRenderLayer(new ArmaWeaponLayer<>(this));
     }
 
     @Override

@@ -1,7 +1,7 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
-import net.goo.armament.client.item.ArmaGeoGlowingWeaponRenderer;
+import net.goo.armament.client.item.ArmaGlowingWeaponRenderer;
 import net.goo.armament.client.item.ArmaGeoItem;
 import net.goo.armament.entity.custom.ThrownThunderbolt;
 import net.goo.armament.item.ModItemCategories;
@@ -162,7 +162,7 @@ public class ThunderboltTrident extends ArmaTridentItem implements Vanishable, A
 
     @Override
     public <T extends Item & ArmaGeoItem, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, ArmaGeoGlowingWeaponRenderer.class);
+        super.initGeo(consumer, ArmaGlowingWeaponRenderer.class);
     }
 
 }

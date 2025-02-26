@@ -16,6 +16,7 @@ public class ModResources {
     public static final int[][] RHITTA_COLORS = new int[][] {{255, 253, 112}, {86, 73, 191}};
     public static final int[][] DOOMFIST_GAUNTLET_COLORS = new int[][]{{237, 205, 140}, {118, 118, 118}};
     public static final int[][] EVENT_HORIZON_COLORS = new int[][]{{250, 140, 20}, {50, 50, 50}};
+    public static final int[][] FALLEN_SCYTHE_COLORS = new int[][] {{60, 40, 40}, {25, 250, 250},{60, 40, 40}};
     public static final int[][] JACKPOT_COLORS = new int[][] {{0, 255, 255}, {192, 0, 15}, {225, 255, 8}, {0, 237, 36}};
     public static final int[][] LEAF_BLOWER_COLORS = new int[][] {{212, 6, 6}, {255, 255, 255}};
     public static final int[][] QUANTUM_DRILL_COLORS = new int[][] {{65, 0, 125}, {25, 25, 25}};

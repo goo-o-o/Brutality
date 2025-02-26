@@ -16,6 +16,11 @@
   "item.armament.event_horizon.ability.name.2": "Accretion",
   "item.armament.event_horizon.ability.desc.2": "Right click while shifting to draw in nearby mobs, gaining resistance while doing so. You cannot move while channeling this ability.",
 
+  "item.armament.fallen_scythe": "Scythe of the Fallen",
+  "item.armament.fallen_scythe.lore": "\"Forged in the shadows of forgotten battles, this scything blade hungers for the souls of the fallen. With each life it claims, its power grows, echoing the whispers of those it has slain.\"",
+  "item.armament.fallen_scythe.ability.name.1": "Soul Reaper",
+  "item.armament.fallen_scythe.ability.desc.1": "Gain permanent attack damage when killing a mob, max of 18 damage.",
+
   "item.armament.jackpot": "Jackpot",
   "item.armament.jackpot.lore": "\"A whimsical hammer with a slot machine for a head, the Jackpot combines luck and strength in every swing.\"",
   "item.armament.jackpot.ability.name.1": "Fortune's Favor",
