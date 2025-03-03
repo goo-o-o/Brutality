@@ -1,6 +1,7 @@
 package net.goo.armament.client.item;
 
 import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.util.ModResources;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -16,9 +17,7 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.function.Consumer;
 
-import static net.goo.armament.util.ModResources.*;
-
-public interface ArmaGeoItem extends GeoItem {
+public interface ArmaGeoItem extends GeoItem, ModResources {
 
     String geoIdentifier();
 
@@ -31,6 +30,7 @@ public interface ArmaGeoItem extends GeoItem {
     }
 
     GeoAnimatable cacheItem();
+
 
     default ResourceLocation getFontFromCategory(ModItemCategories category) {
         return switch (category) {

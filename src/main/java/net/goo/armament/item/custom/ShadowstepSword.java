@@ -31,11 +31,9 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 import java.util.EnumSet;
 import java.util.Objects;
 
-import static net.goo.armament.util.ModResources.SHADOWSTEP_COLORS;
-
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ShadowstepSword extends ArmaSwordItem {
-    public ShadowstepSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+    public ShadowstepSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity, abilityCount);
         this.colors = SHADOWSTEP_COLORS;
     }
@@ -95,7 +93,7 @@ public class ShadowstepSword extends ArmaSwordItem {
             double d0 = -Mth.sin(player.getYRot() * ((float)Math.PI / 180F));
             double d1 = Mth.cos(player.getYRot() * ((float)Math.PI / 180F));
             if (player.level() instanceof ServerLevel) {
-                ((ServerLevel)player.level()).sendParticles(ModParticles.VOID_SWEEP_PARTICLE.get(), entity.getX() + d0, entity.getY(0.5D), entity.getZ() + d1, 0, d0, 0.0D, d1, 0.0D);
+                ((ServerLevel)player.level()).sendParticles(ModParticles.SHADOW_SWEEP_PARTICLE.get(), player.getX() + d0, player.getY(0.5D), player.getZ() + d1, 0, d0, 0.0D, d1, 0.0D);
             }
             entity.hurt(entity.damageSources().playerAttack(player), baseDamage * damageMult);
         } else {

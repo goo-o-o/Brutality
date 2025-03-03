@@ -20,7 +20,7 @@ import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 public abstract class AbstractLightTrailParticle extends Particle {
 
     private Vec3[] trailPositions = new Vec3[64];
-    private int trailPointer = -1;
+    public int trailPointer = -1;
 
     public float r;
     public float g;

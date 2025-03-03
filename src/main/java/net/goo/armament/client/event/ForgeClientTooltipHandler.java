@@ -6,6 +6,7 @@ import net.goo.armament.item.custom.unused.DivineRhittaAxeItem;
 import net.goo.armament.item.custom.unused.QuantumDrillItem;
 import net.goo.armament.item.custom.unused.ResonancePickaxeItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,7 +24,8 @@ public class ForgeClientTooltipHandler {
 
     @SubscribeEvent
     public static void tooltipColorHandler(RenderTooltipEvent.Color event) {
-        @NotNull Item stack = event.getItemStack().getItem();
+        ItemStack stack = event.getItemStack();
+        @NotNull Item item = event.getItemStack().getItem();
         // Create a map to hold the item class and their respective border colors
         Map<Class<?>, int[]> borderColorMap = new HashMap<>();
 
@@ -37,6 +39,9 @@ public class ForgeClientTooltipHandler {
         borderColorMap.put(EventHorizonLanceItem.class, new int[]{
                 toARGB(EVENT_HORIZON_COLORS[0]),
                 toARGB(EVENT_HORIZON_COLORS[1])});
+        borderColorMap.put(FallenScytheItem.class, new int[]{
+                toARGB(FALLEN_SCYTHE_COLORS[0]),
+                toARGB(FALLEN_SCYTHE_COLORS[1])});
         borderColorMap.put(JackpotHammerItem.class, new int[]{
                 toARGB(JACKPOT_COLORS[0]),
                 toARGB(JACKPOT_COLORS[1])});
@@ -68,13 +73,12 @@ public class ForgeClientTooltipHandler {
                 toARGB(THUNDERBOLT_COLORS[0]),
                 toARGB(THUNDERBOLT_COLORS[1])});
 
-        // Iterate over the map to determine if the stack matches any key
         for (Map.Entry<Class<?>, int[]> entry : borderColorMap.entrySet()) {
-            if (entry.getKey().isInstance(stack)) {
+            if (entry.getKey().isInstance(item)) {
                 int[] colors = entry.getValue();
                 event.setBorderStart(colors[0]);
                 event.setBorderEnd(colors[1]);
-                break; // Exit the loop once a match is found
+                break;
             }
         }
 

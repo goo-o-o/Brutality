@@ -1,8 +1,8 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
-import net.goo.armament.client.item.ArmaGlowingWeaponRenderer;
 import net.goo.armament.client.item.ArmaGeoItem;
+import net.goo.armament.client.renderers.item.ArmaGlowingWeaponRenderer;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.registry.ModItems;
@@ -20,11 +20,9 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.function.Consumer;
 
-import static net.goo.armament.util.ModResources.TRUTHSEEKER_COLORS;
-
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class TruthseekerSword extends ArmaSwordItem {
-    public TruthseekerSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+    public TruthseekerSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity, abilityCount);
         this.colors = TRUTHSEEKER_COLORS;
     }

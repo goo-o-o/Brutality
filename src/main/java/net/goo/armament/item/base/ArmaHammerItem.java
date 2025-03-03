@@ -8,7 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -43,11 +42,7 @@ public class ArmaHammerItem extends AxeItem implements ArmaGeoItem {
         return ModUtils.tooltipHelper("item.armament." + identifier, false, getFontFromCategory(category), pLevel.getGameTime(), 0.5F, 2, colors);
     }
 
-    @Override
-    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
-        getName(pStack);
-    }
+
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {

@@ -7,7 +7,6 @@ import net.goo.armament.util.ModUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -24,7 +23,7 @@ public class ArmaAxeItem extends AxeItem implements ArmaGeoItem {
     protected int[][] colors;
     public int abilityCount;
 
-    public ArmaAxeItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+    public ArmaAxeItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
         this.category = category;
         this.identifier = identifier;
@@ -39,11 +38,6 @@ public class ArmaAxeItem extends AxeItem implements ArmaGeoItem {
         return ModUtils.tooltipHelper("item.armament." + identifier, false, getFontFromCategory(category), pLevel.getGameTime(), 0.5F, 2, colors);
     }
 
-    @Override
-    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
-        getName(pStack);
-    }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {

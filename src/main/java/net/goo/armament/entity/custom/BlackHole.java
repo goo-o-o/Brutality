@@ -15,18 +15,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
 public class BlackHole extends ThrowableProjectile implements ArmaGeoEntity {
-    private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private UUID ownerUUID;
 
     public BlackHole(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
@@ -116,6 +115,7 @@ public class BlackHole extends ThrowableProjectile implements ArmaGeoEntity {
         );
     }
 
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this, true);
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;

@@ -1,12 +1,10 @@
 package net.goo.armament.item.custom;
 
-import net.goo.armament.Armament;
-import net.goo.armament.client.item.ArmaGlowingWeaponRenderer;
 import net.goo.armament.client.item.ArmaGeoItem;
+import net.goo.armament.client.renderers.item.ArmaGlowingWeaponRenderer;
 import net.goo.armament.entity.custom.ThrownThunderbolt;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.base.ArmaTridentItem;
-import net.goo.armament.registry.ModItems;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -27,25 +25,27 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.event.GrindstoneEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 
-import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import static java.lang.Math.PI;
-import static net.goo.armament.util.ModResources.THUNDERBOLT_COLORS;
-import static net.goo.armament.util.ModUtils.hasInfinity;
-import static net.goo.armament.util.ModUtils.nextFloatBetweenInclusive;
+import static net.goo.armament.util.ModUtils.*;
 
-@Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class ThunderboltTrident extends ArmaTridentItem implements Vanishable, ArmaGeoItem {
+public class ThunderboltTrident extends ArmaTridentItem implements Vanishable {
     protected final RandomSource random = RandomSource.create();
+
+    private static final Set<Enchantment> ALLOWED_ENCHANTMENTS = Set.of(
+            Enchantments.MOB_LOOTING,
+            Enchantments.MENDING,
+            Enchantments.UNBREAKING,
+            Enchantments.LOYALTY,
+            Enchantments.INFINITY_ARROWS
+    );
 
     public ThunderboltTrident(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(new Item.Properties().durability(1500), identifier, category, rarity, abilityCount);
@@ -58,7 +58,7 @@ public class ThunderboltTrident extends ArmaTridentItem implements Vanishable, A
     }
 
     @Override
-    public ItemStack getDefaultInstance() {
+    public @NotNull ItemStack getDefaultInstance() {
         ItemStack stack = new ItemStack(this);
         stack.enchant(Enchantments.INFINITY_ARROWS, 1);
         stack.enchant(Enchantments.LOYALTY, 5);
@@ -95,33 +95,11 @@ public class ThunderboltTrident extends ArmaTridentItem implements Vanishable, A
     //==================================================================//
 
 
-    @SubscribeEvent
-    public static void onGrindstoneUse(GrindstoneEvent.OnPlaceItem event) {
-        ItemStack bottomItem = event.getBottomItem();
-        ItemStack topItem = event.getTopItem();
-        ItemStack targetStack = bottomItem.isEmpty() ? topItem : bottomItem;
-
-        if (targetStack.getItem() == ModItems.THUNDERBOLT_TRIDENT.get()) {
-            ItemStack resultStack = targetStack.copy();
-
-            Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(resultStack);
-            enchantments = enchantments.entrySet().stream().filter(entry ->
-                            entry.getKey().isCurse() || entry.getKey() == Enchantments.LOYALTY || entry.getKey() == Enchantments.INFINITY_ARROWS)
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-            enchantments.put(Enchantments.LOYALTY, 5);
-            enchantments.put(Enchantments.INFINITY_ARROWS, 1);
-            EnchantmentHelper.setEnchantments(enchantments, resultStack);
-            event.setXp(0);
-            event.setOutput(resultStack);
-        }
-    }
-
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         if (pPlayer.isCrouching()) {
-            performZeusWrathAttack(pPlayer, pLevel);
+            performZeusWrathAttack(pPlayer, pLevel, itemstack, pHand);
             pPlayer.getCooldowns().addCooldown(itemstack.getItem(), 80);
             return InteractionResultHolder.fail(itemstack);
         } else {
@@ -136,8 +114,8 @@ public class ThunderboltTrident extends ArmaTridentItem implements Vanishable, A
         }
     }
 
-    public void performZeusWrathAttack(Player pPlayer, Level pLevel) {
-        for (int i = 0; i < random.nextInt(5,11); i++) {
+    public void performZeusWrathAttack(Player pPlayer, Level pLevel, ItemStack pStack, InteractionHand pHand) {
+        for (int i = 0; i < random.nextInt(5, 11); i++) {
             float distance = nextFloatBetweenInclusive(random, 5F, 10F);
             float angle = random.nextFloat() * 2 * ((float) PI);
 
@@ -148,6 +126,7 @@ public class ThunderboltTrident extends ArmaTridentItem implements Vanishable, A
             lightningBolt.setPos(pPlayer.getX() + xOffset, pPlayer.getY(), pPlayer.getZ() + zOffset);
             lightningBolt.setCause(pPlayer instanceof ServerPlayer ? (ServerPlayer) pPlayer : null);
             pLevel.addFreshEntity(lightningBolt);
+            pStack.hurtAndBreak(1, pPlayer, player -> pPlayer.broadcastBreakEvent(pHand));
 
         }
     }
@@ -165,4 +144,13 @@ public class ThunderboltTrident extends ArmaTridentItem implements Vanishable, A
         super.initGeo(consumer, ArmaGlowingWeaponRenderer.class);
     }
 
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return ALLOWED_ENCHANTMENTS.contains(enchantment);
+    }
+
+    @Override
+    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+        return restrictEnchants(book, ALLOWED_ENCHANTMENTS);
+    }
 }

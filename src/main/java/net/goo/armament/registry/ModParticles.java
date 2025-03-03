@@ -2,6 +2,7 @@ package net.goo.armament.registry;
 
 import com.mojang.serialization.Codec;
 import net.goo.armament.Armament;
+import net.goo.armament.particle.custom.PlanetTrail;
 import net.goo.armament.particle.custom.SwordBeamTrail;
 import net.goo.armament.particle.custom.ThunderboltTrail;
 import net.minecraft.core.particles.ParticleType;
@@ -19,8 +20,7 @@ public class ModParticles{
             PARTICLE_TYPES.register("supernova_sword_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> BLACK_HOLE_PARTICLE =
             PARTICLE_TYPES.register("black_hole_entity_particle", () -> new SimpleParticleType(true));
-    public static final RegistryObject<SimpleParticleType> VOID_SWEEP_PARTICLE =
-            PARTICLE_TYPES.register("void_sweep_particle", () -> new SimpleParticleType(true));
+
     public static final RegistryObject<SimpleParticleType> ZAP_PARTICLE =
             PARTICLE_TYPES.register("zap_particle", () -> new SimpleParticleType(true));
 
@@ -39,6 +39,11 @@ public class ModParticles{
     public static final RegistryObject<SimpleParticleType> TERRA_PARTICLE =
             PARTICLE_TYPES.register("terra_particle", () -> new SimpleParticleType(true));
 
+    public static final RegistryObject<SimpleParticleType> SHADOW_SWEEP_PARTICLE =
+            PARTICLE_TYPES.register("shadow_sweep_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> SOUL_SWEEP_PARTICLE =
+            PARTICLE_TYPES.register("soul_sweep_particle", () -> new SimpleParticleType(true));
+
     public static final RegistryObject<ParticleType<ThunderboltTrail.OrbData>> THUNDERBOLT_TRAIL_PARTICLE = PARTICLE_TYPES.register("thunderbolt_trail_particle", () -> new ParticleType<ThunderboltTrail.OrbData>(false, ThunderboltTrail.OrbData.DESERIALIZER) {
         @Override
         public Codec<ThunderboltTrail.OrbData> codec() {
@@ -50,6 +55,13 @@ public class ModParticles{
         @Override
         public Codec<SwordBeamTrail.OrbData> codec() {
             return SwordBeamTrail.OrbData.CODEC(SWORD_BEAM_TRAIL_PARTICLE.get());
+        }
+    });
+
+    public static final RegistryObject<ParticleType<PlanetTrail.OrbData>> PLANET_TRAIL_PARTICLE = PARTICLE_TYPES.register("planet_trail_particle", () -> new ParticleType<PlanetTrail.OrbData>(false, PlanetTrail.OrbData.DESERIALIZER) {
+        @Override
+        public Codec<PlanetTrail.OrbData> codec() {
+            return PlanetTrail.OrbData.CODEC(PLANET_TRAIL_PARTICLE.get());
         }
     });
 

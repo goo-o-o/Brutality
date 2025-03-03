@@ -1,0 +1,16 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"falling": {
+			"loop": true,
+			"bones": {
+				"bone": {
+					"rotation": {
+						"vector": ["query.anim_time * 180", 0, "query.anim_time * 180"]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

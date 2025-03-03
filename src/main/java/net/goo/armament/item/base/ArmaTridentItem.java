@@ -14,7 +14,6 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
@@ -55,11 +54,6 @@ public class ArmaTridentItem extends TridentItem implements ArmaGeoItem {
         return ModUtils.tooltipHelper("item.armament." + identifier, false, getFontFromCategory(category), pLevel.getGameTime(), 0.5F, 2, colors);
     }
 
-    @Override
-    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
-        getName(pStack);
-    }
 
     @Override
     public int getMaxStackSize(ItemStack stack) {

@@ -33,14 +33,13 @@ public class ModItems {
 
     public static final RegistryObject<Item> FALLEN_SCYTHE = ITEMS.register("fallen_scythe", () -> new FallenScytheItem(
             Tiers.NETHERITE,
-            -4,
-            -3.15F,
+            -2,
+            -3F,
             new Item.Properties(),
             "fallen_scythe",
             ModItemCategories.FANTASY,
             ModRarities.MYTHIC,
             1));
-
 
     public static final RegistryObject<Item> JACKPOT_HAMMER = ITEMS.register("jackpot", () -> new JackpotHammerItem(
             Tiers.DIAMOND,
@@ -98,7 +97,7 @@ public class ModItems {
     public static final RegistryObject<Item> TRUTHSEEKER_SWORD = ITEMS.register("truthseeker", () -> new TruthseekerSword(
             Tiers.DIAMOND,
             0,
-            0,
+            -2.3F,
             new Item.Properties(),
             "truthseeker",
             ModItemCategories.FANTASY,

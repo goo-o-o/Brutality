@@ -1,7 +1,9 @@
 package net.goo.armament.item.custom.unused;
 
-import net.goo.armament.client.item.renderer.QuantumDrillItemRenderer;
+import net.goo.armament.client.item.ArmaGeoItem;
+import net.goo.armament.client.renderers.item.ArmaGlowingWeaponRenderer;
 import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.item.base.ArmaGenericItem;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
@@ -13,75 +15,41 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 
-import javax.annotation.Nullable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import static net.goo.armament.util.ModResources.TECHNOLOGY;
 import static net.goo.armament.util.ModUtils.LookingAtBlock;
 import static net.minecraft.core.BlockPos.withinManhattan;
 
-public class QuantumDrillItem extends Item implements GeoItem {
+public class QuantumDrillItem extends ArmaGenericItem {
     private static final String ACTIVE = "drillActive";
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private static final String SPEED = "speed";
     int[] color1 = new int[]{255, 255, 255};
     int[] color2 = new int[]{0, 120, 190};
-    private final ModItemCategories category;
 
-    public QuantumDrillItem(Properties pProperties, ModItemCategories category) {
-        super(pProperties);
-        this.category = category;
+    public QuantumDrillItem(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+        super(pProperties, identifier, category, rarity, abilityCount);
     }
-
 
     public ModItemCategories getCategory() {
         return category;
     }
 
-
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.quantum_drill.desc.1", false, null, color2));
-        pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.quantum_drill.desc.2", false, null, color1));
-        pTooltipComponents.add(ModUtils.tooltipHelper("item.armament.quantum_drill.desc.3", false, null, color2));
-
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-    }
-
-    @Override
-    public Component getName(ItemStack pStack) {
-        return ModUtils.tooltipHelper("item.armament.quantum_drill", false, TECHNOLOGY, color1, color2);
-    }
-
-
-    @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            private QuantumDrillItemRenderer renderer;
-
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                if(this.renderer == null) {
-                    renderer = new QuantumDrillItemRenderer();
-                }
-                return this.renderer;
-            }
-        });
+    public <T extends Item & ArmaGeoItem, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
+        super.initGeo(consumer, ArmaGlowingWeaponRenderer.class);
     }
 
     @Override

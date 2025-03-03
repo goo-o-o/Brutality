@@ -1,7 +1,7 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
-import net.goo.armament.client.item.ArmaGlowingWeaponRenderer;
+import net.goo.armament.client.renderers.item.ArmaGlowingWeaponRenderer;
 import net.goo.armament.client.item.ArmaGeoItem;
 import net.goo.armament.entity.custom.BlackHole;
 import net.goo.armament.item.ModItemCategories;

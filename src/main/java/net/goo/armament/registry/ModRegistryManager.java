@@ -14,5 +14,6 @@ public class ModRegistryManager {
         ModEntities.register(modEventBus);
         ModSounds.register(modEventBus);
         ModParticles.register(modEventBus);
-        ArmaVisualTypes.VISUALS.register(modEventBus);    }
+        ArmaVisualTypes.VISUALS.register(modEventBus);
+    }
 }

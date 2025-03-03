@@ -27,7 +27,7 @@ public class ModCreativeModTabs {
 //                        output.accept(ModItems.QUANTUM_DRILL.get());
 //                        output.accept(ModItems.RESONANCE_PICKAXE.get());
                         output.accept(ModItems.SHADOWSTEP_SWORD.get());
-                        output.accept(ModItems.SUPERNOVA_SWORD.get());
+                        output.accept(ModItems.SUPERNOVA_SWORD.get().getDefaultInstance());
                         output.accept(ModItems.TERRA_BLADE.get());
                         output.accept(ModItems.TERRATON_HAMMER.get());
                         output.accept(ModItems.TRUTHSEEKER_SWORD.get());
@@ -40,4 +40,6 @@ public class ModCreativeModTabs {
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);
     }
+
+
 }

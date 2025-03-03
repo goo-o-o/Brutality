@@ -14,7 +14,6 @@ import javax.annotation.Nullable;
 public class ArmaEntityRenderer<T extends Entity & ArmaGeoEntity> extends GeoEntityRenderer<T> {
     public ArmaEntityRenderer(EntityRendererProvider.Context context) {
         super(context, new ArmaGeoEntityModel<>());
-
     }
 
     @Override

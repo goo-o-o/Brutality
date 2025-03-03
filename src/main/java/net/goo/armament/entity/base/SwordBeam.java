@@ -1,5 +1,6 @@
 package net.goo.armament.entity.base;
 
+import net.goo.armament.client.entity.ArmaGeoEntity;
 import net.goo.armament.particle.custom.SwordBeamTrail;
 import net.goo.armament.registry.ModParticles;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
@@ -16,14 +17,14 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
-import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Objects;
 
-public class SwordBeam extends ThrowableProjectile implements GeoEntity {
+public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private int randomRoll;
     private int targetsHit = 0;
@@ -34,6 +35,16 @@ public class SwordBeam extends ThrowableProjectile implements GeoEntity {
         this.noCulling = true;
     }
 
+
+    @Override
+    public String geoIdentifier() {
+        return "terra_beam";
+    }
+
+    @Override
+    public GeoAnimatable cacheItem() {
+        return null;
+    }
 
     // RENDER
     @Override

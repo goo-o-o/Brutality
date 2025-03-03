@@ -20,6 +20,7 @@
   "item.armament.fallen_scythe.lore": "\"Forged in the shadows of forgotten battles, this scything blade hungers for the souls of the fallen. With each life it claims, its power grows, echoing the whispers of those it has slain.\"",
   "item.armament.fallen_scythe.ability.name.1": "Soul Reaper",
   "item.armament.fallen_scythe.ability.desc.1": "Gain permanent attack damage when killing a mob, max of 18 damage.",
+  "item.armament.fallen_scythe.souls_harvested": "Souls Harvested: ",
 
   "item.armament.jackpot": "Jackpot",
   "item.armament.jackpot.lore": "\"A whimsical hammer with a slot machine for a head, the Jackpot combines luck and strength in every swing.\"",
@@ -42,13 +43,16 @@
   "item.armament.supernova.lore": "\"Forged with the heart of a dying star, this sword hums with celestial energy. Within its hilt lay pure cosmic power, ready wreck destruction at any moment.\"",
   "item.armament.supernova.ability.name.1": "Starburst",
   "item.armament.supernova.ability.desc.1": "Does AoE damage to nearby mobs.",
+  "item.armament.supernova.ability.name.2": "Asteroid Belt",
+  "item.armament.supernova.ability.desc.2": "Right click to summon a belt of asteroids that orbit the player and deal damage when colliding with entities.",
+  "item.armament.supernova.asteroid_fail": "There must be no asteroids present",
 
   "item.armament.shadowstep": "Shadowstep",
   "item.armament.shadowstep.lore": "\"Coagulated in the depths of darkness, this blade grants its wielder the ability to meld with shadows, allowing for swift movement and surprise attacks. Its design is both elegant and deadly, perfectly balanced for precision strikes.\"",
   "item.armament.shadowstep.ability.name.1": "Shadow Dominion",
   "item.armament.shadowstep.ability.desc.1": "Right click at a target to teleport behind it, limited range.",
-  "item.armament.shadowstep.ability.name.1": "Backstab Mastery",
-  "item.armament.shadowstep.ability.desc.1": "Backstabs do 3x more damage.",
+  "item.armament.shadowstep.ability.name.2": "Backstab Mastery",
+  "item.armament.shadowstep.ability.desc.2": "Backstabs do 3x more damage.",
   "item.armament.shadowstep.invalid": "You cannot teleport there.",
 
   "item.armament.resonance_pickaxe": "Resonance Pickaxe",
@@ -65,6 +69,8 @@
   "item.armament.terraton_hammer.lore": "\"Forged from the unyielding core of an ancient golem, this colossal hammer carries the weight of forgotten eons. Each strike echoes with the power of the earth, capable of shattering stone and bone alike. Wield it wisely, for its strength demands a heavy toll.\"",
   "item.armament.terraton_hammer.ability.name.1": "Colossal Blow",
   "item.armament.terraton_hammer.ability.desc.1": "Deal massive damage at the cost of movement and attack speed.",
+  "item.armament.terraton_hammer.ability.name.2": "Cumbersome",
+  "item.armament.terraton_hammer.ability.desc.2": "Decreased attack and movement speed while in hand.",
 
   "item.armament.truthseeker": "Truthseeker",
   "item.armament.truthseeker.lore": "\"In the relentless pursuit of knowledge, its blade carves through the veil of ignorance, severing falsehoods and casting light into the darkest corners of understanding. Each swing carries the weight of unspoken truths, leaving a path of shattered illusions and unyielding clarity in its wake.\"",

@@ -28,8 +28,8 @@ public class ArmaScytheItem extends SwordItem implements ArmaGeoItem {
     public Rarity rarity;
     public int abilityCount;
 
-    public ArmaScytheItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
+    public ArmaScytheItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+        super(pTier, (int) pAttackDamageModifier, pAttackSpeedModifier, pProperties);
         this.category = category;
         this.identifier = identifier;
         this.rarity = rarity;
@@ -40,13 +40,6 @@ public class ArmaScytheItem extends SwordItem implements ArmaGeoItem {
     public Component getName(ItemStack pStack) {
         Level pLevel = Minecraft.getInstance().level;
         return ModUtils.tooltipHelper("item.armament." + identifier, false, getFontFromCategory(category), pLevel.getGameTime(), 0.5F, 2, colors);
-    }
-
-
-    @Override
-    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
-        getName(pStack);
     }
 
     @Override
@@ -91,4 +84,5 @@ public class ArmaScytheItem extends SwordItem implements ArmaGeoItem {
         stack.enchant(Enchantments.SWEEPING_EDGE, 5);
         return stack;
     }
+
 }

@@ -43,7 +43,10 @@ public class ModHandler {
         event.registerSpriteSet(ModParticles.BLACK_HOLE_PARTICLE.get(), black_hole_entity_particle_factory);
 
         ParticleEngine.SpriteParticleRegistration<SimpleParticleType> void_sweep_particle_factory = VoidSweepParticle.Provider::new;
-        event.registerSpriteSet(ModParticles.VOID_SWEEP_PARTICLE.get(), void_sweep_particle_factory);
+        event.registerSpriteSet(ModParticles.SHADOW_SWEEP_PARTICLE.get(), void_sweep_particle_factory);
+
+        ParticleEngine.SpriteParticleRegistration<SimpleParticleType> soul_sweep_particle_factory = SoulSweepParticle.Provider::new;
+        event.registerSpriteSet(ModParticles.SOUL_SWEEP_PARTICLE.get(), soul_sweep_particle_factory);
 
         ParticleEngine.SpriteParticleRegistration<SimpleParticleType> zap_particle_factory = ZapParticle.Provider::new;
         event.registerSpriteSet(ModParticles.ZAP_PARTICLE.get(), zap_particle_factory);
@@ -69,6 +72,7 @@ public class ModHandler {
 
         event.registerSpecial(ModParticles.THUNDERBOLT_TRAIL_PARTICLE.get(), new ThunderboltTrail.OrbFactory());
         event.registerSpecial(ModParticles.SWORD_BEAM_TRAIL_PARTICLE.get(), new SwordBeamTrail.OrbFactory());
+        event.registerSpecial(ModParticles.PLANET_TRAIL_PARTICLE.get(), new PlanetTrail.OrbFactory());
 
     }
 

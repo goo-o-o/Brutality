@@ -3,7 +3,6 @@ package net.goo.armament.client.renderers.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.goo.armament.Armament;
-import net.goo.armament.client.ArmaRenderTypes;
 import net.goo.armament.client.entity.model.SwordBeamModel;
 import net.goo.armament.entity.base.SwordBeam;
 import net.minecraft.client.Minecraft;
@@ -34,7 +33,7 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
 
     @Override
     public RenderType getRenderType(SwordBeam animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-        return ArmaRenderTypes.getGhost(texture);
+        return RenderType.eyes(texture);
     }
 
     @Override

@@ -16,6 +16,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.phys.AABB;
@@ -24,10 +25,27 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class ModUtils {
     protected static final RandomSource random = RandomSource.create();
+
+    public static boolean restrictEnchants(ItemStack book, Set<Enchantment> allowedEnchants) {
+        // Get all enchantments on the book
+        Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(book);
+
+        // Check if the book contains at least one allowed enchantment
+        for (Map.Entry<Enchantment, Integer> entry : enchants.entrySet()) {
+            Enchantment enchantment = entry.getKey();
+            if (allowedEnchants.contains(enchantment)) {
+                return true; // Allow the book if it contains at least one allowed enchantment
+            }
+        }
+
+        return false; // Disallow the book if it contains no allowed enchantments
+    }
 
     public static void replaceOrAddModifier(ItemStack pStack, Attribute pAttribute, UUID id, double newAmount, @javax.annotation.Nullable EquipmentSlot pSlot) {
         // Access the existing attribute modifiers
@@ -82,7 +100,7 @@ public class ModUtils {
         }
     }
 
-    public static Component tooltipHelper(String localeKey, boolean bold, ResourceLocation font, int[]... colors) {
+    public static MutableComponent tooltipHelper(String localeKey, boolean bold, ResourceLocation font, int[]... colors) {
         if (font == null) {
             if (colors.length == 1) {
                 return Component.translatable(localeKey).withStyle(Style.EMPTY.withBold(bold).withColor(rgbToInt(colors[0])));

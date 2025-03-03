@@ -19,12 +19,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
-import static net.goo.armament.util.ModResources.TERRA_BLADE_COLORS;
-
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class TerraBladeSword extends ArmaSwordItem {
 
-    public TerraBladeSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+    public TerraBladeSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity, abilityCount);
         this.colors = TERRA_BLADE_COLORS;
     }

@@ -3,8 +3,8 @@ package net.goo.armament.item.custom;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.armament.Armament;
-import net.goo.armament.item.base.ArmaHammerItem;
 import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.item.base.ArmaHammerItem;
 import net.goo.armament.registry.ModItems;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -23,8 +23,6 @@ import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.UUID;
-
-import static net.goo.armament.util.ModResources.TERRATON_HAMMER_COLORS;
 
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class TerratonHammerItem extends ArmaHammerItem implements GeoItem {
@@ -45,6 +43,8 @@ public class TerratonHammerItem extends ArmaHammerItem implements GeoItem {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
 
     }
+
+
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot equipmentSlot, ItemStack stack) {
