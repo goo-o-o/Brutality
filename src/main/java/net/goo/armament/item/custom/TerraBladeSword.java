@@ -1,21 +1,19 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
-import net.goo.armament.client.entity.BEAM_TYPES;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.base.ArmaSwordItem;
-import net.goo.armament.network.PacketHandler;
-import net.goo.armament.network.c2sDamageItemPacket;
-import net.goo.armament.network.c2sSwordBeamPacket;
+import net.goo.armament.registry.ModEntities;
 import net.goo.armament.registry.ModSounds;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
@@ -32,21 +30,18 @@ public class TerraBladeSword extends ArmaSwordItem {
 
     }
 
-
-    @SubscribeEvent
-    public static void onLeftClick(PlayerInteractEvent.LeftClickEmpty event) {
-        Player player = event.getEntity();
-        ItemStack stack = player.getMainHandItem();
-        Item item = stack.getItem();
-
-        if (item instanceof TerraBladeSword) {
+    @Override
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+        if (entity instanceof Player player && !player.level().isClientSide) {
+            Level level = player.level();
+            Item item = stack.getItem();
             if (!player.getCooldowns().isOnCooldown(item)) {
                 player.getCooldowns().addCooldown(item, 20);
-                event.getLevel().playSound(player, player.getOnPos(), ModSounds.TERRA_BLADE_USE.get(), SoundSource.PLAYERS);
-                PacketHandler.sendToServer(new c2sSwordBeamPacket(BEAM_TYPES.TERRA_BEAM, 3.5F));
-                PacketHandler.sendToServer(new c2sDamageItemPacket(1, true));
-
+                level.playSound(player, player.getOnPos(), ModSounds.TERRA_BLADE_USE.get(), SoundSource.PLAYERS);
+                shootProjectile(ModEntities.TERRA_BEAM.get(), player, level, 3.5F);
+                stack.hurtAndBreak(1, player, pPlayer -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
             }
         }
+        return super.onEntitySwing(stack, entity);
     }
 }

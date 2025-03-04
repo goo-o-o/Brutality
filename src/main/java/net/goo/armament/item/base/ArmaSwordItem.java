@@ -1,14 +1,19 @@
 package net.goo.armament.item.base;
 
 import net.goo.armament.client.item.ArmaGeoItem;
+import net.goo.armament.entity.base.SwordBeam;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.util.ModResources;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -67,6 +72,22 @@ public class ArmaSwordItem extends SwordItem implements ArmaGeoItem {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
+    }
+
+    public void shootProjectile(EntityType<? extends ThrowableProjectile> projectile, Player player, Level level, float velocity) {
+        Vec3 playerPos = player.position();
+        Vec3 viewVector = player.getViewVector(1.0F);
+
+        double spawnX = playerPos.x + viewVector.x;
+        double spawnY = playerPos.y + player.getEyeHeight() + viewVector.y;
+        double spawnZ = playerPos.z + viewVector.z;
+
+        SwordBeam swordBeam = new SwordBeam(projectile, level);
+
+        swordBeam.setOwner(player);
+        swordBeam.setPos(spawnX, spawnY - 0.25F, spawnZ);
+        swordBeam.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, velocity, 0.0F);
+        level.addFreshEntity(swordBeam);
     }
 
 }

@@ -31,10 +31,18 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
 
     public SwordBeam(EntityType<? extends ThrowableProjectile> entityType, Level level) {
         super(entityType, level);
-        initializeRoll(level);
+        initializeRoll(level, getOrigin(), getBound());
         this.noCulling = true;
     }
 
+
+    public int getOrigin() {
+        return 0;
+    }
+
+    public int getBound() {
+        return 361;
+    }
 
     @Override
     public String geoIdentifier() {
@@ -53,8 +61,8 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
     public float getRenderScale() {
         return 2F;
     }
-    private void initializeRoll(Level level) {
-        if (shouldInitializeRoll()) this.randomRoll = level.random.nextInt(361);
+    private void initializeRoll(Level level, int origin, int bound) {
+        if (shouldInitializeRoll()) this.randomRoll = level.random.nextInt(origin, bound);
         else this.randomRoll = 0;
     }
     private boolean shouldInitializeRoll() { return true; }
@@ -83,12 +91,6 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
     }
 
 
-
-
-
-
-
-
     @Override
     public float getPickRadius() {
         return 0;
@@ -112,6 +114,7 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
             if (pResult.getEntity() != this.getOwner() && !(pResult.getEntity() instanceof SwordBeam)) {
                 target.hurt(damageSources().playerAttack(((Player) this.getOwner())), getDamage());
                 targetsHit++;
+                if (getPierceCap() == 0) return;
                 if (targetsHit >= getPierceCap()) {
                     this.discard();
                 }

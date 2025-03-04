@@ -18,6 +18,7 @@ public class ModClientHandler {
         event.registerEntityRenderer(ModEntities.BLACK_HOLE_ENTITY.get(), ArmaEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.SUPERNOVA_PORTAL.get(), ArmaEndPortalEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.SUPERNOVA_ASTEROID.get(), ArmaGlowingEntityRenderer::new);
+        event.registerEntityRenderer(ModEntities.EXCALIBUR_BEAM.get(), SwordBeamRenderer::new);
 
     }
 

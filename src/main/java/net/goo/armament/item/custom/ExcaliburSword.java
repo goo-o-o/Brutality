@@ -1,0 +1,69 @@
+package net.goo.armament.item.custom;
+
+import net.goo.armament.item.ModItemCategories;
+import net.goo.armament.item.base.ArmaSwordItem;
+import net.goo.armament.registry.ModEntities;
+import net.goo.armament.registry.ModSounds;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.level.Level;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+
+public class ExcaliburSword extends ArmaSwordItem {
+    public String AURA_ACTIVE = "auraActive";
+
+    public ExcaliburSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity, abilityCount);
+        this.colors = THUNDERBOLT_COLORS;
+    }
+
+    @Override
+    public ItemStack getDefaultInstance() {
+        ItemStack stack = new ItemStack(this);
+        stack.getOrCreateTag().putBoolean(AURA_ACTIVE, false);
+        return stack;
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
+        if (!pLevel.isClientSide && pPlayer.isCrouching()) {
+            ItemStack stack = pPlayer.getItemInHand(pUsedHand);
+            CompoundTag tag = stack.getOrCreateTag();
+            tag.putBoolean(AURA_ACTIVE, !tag.getBoolean(AURA_ACTIVE));
+            if (tag.getBoolean(AURA_ACTIVE)) {
+                this.identifier = "shadowstep";
+            } else {
+                this.identifier = "supernova";
+            }
+        }
+        return super.use(pLevel, pPlayer, pUsedHand);
+    }
+
+    @Override
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+        if (entity instanceof Player player && !player.level().isClientSide) {
+            Level level = player.level();
+            Item item = stack.getItem();
+            if (!player.getCooldowns().isOnCooldown(item) && stack.getOrCreateTag().getBoolean(AURA_ACTIVE)) {
+                player.getCooldowns().addCooldown(item, 40);
+                level.playSound(player, player.getOnPos(), ModSounds.TERRA_BLADE_USE.get(), SoundSource.PLAYERS);
+                shootProjectile(ModEntities.EXCALIBUR_BEAM.get(), player, level, 3.5F);
+                stack.hurtAndBreak(1, player, pPlayer -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+            }
+        }
+        return super.onEntitySwing(stack, entity);
+    }
+}

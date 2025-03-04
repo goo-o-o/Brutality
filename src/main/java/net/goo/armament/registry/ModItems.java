@@ -31,6 +31,16 @@ public class ModItems {
             ModRarities.FABLED,
             2));
 
+    public static final RegistryObject<Item> EXCALIBUR_SWORD = ITEMS.register("excalibur", () -> new ExcaliburSword(
+            Tiers.NETHERITE,
+            3,
+            -2.2F,
+            new Item.Properties(),
+            "terra_blade",
+            ModItemCategories.FANTASY,
+            ModRarities.LEGENDARY,
+            1));
+
     public static final RegistryObject<Item> FALLEN_SCYTHE = ITEMS.register("fallen_scythe", () -> new FallenScytheItem(
             Tiers.NETHERITE,
             -2,

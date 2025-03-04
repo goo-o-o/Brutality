@@ -18,8 +18,8 @@ import java.util.Objects;
 
 import static net.goo.armament.util.ModUtils.nextFloatBetweenInclusive;
 
-public class TerraBeam extends SwordBeam {
-    public TerraBeam(EntityType<? extends ThrowableProjectile> entityType, Level level) {
+public class ExcaliburBeam extends SwordBeam {
+    public ExcaliburBeam(EntityType<? extends ThrowableProjectile> entityType, Level level) {
         super(entityType, level);
     }
 
@@ -35,22 +35,27 @@ public class TerraBeam extends SwordBeam {
 
     @Override
     public float getDamage() {
-        return 7.5F;
+        return 15F;
     }
 
     @Override
     public float getInertia() {
-        return 0.875F;
+        return 1F;
     }
 
     @Override
     public int getPierceCap() {
-        return 3;
+        return 0;
     }
 
     @Override
     public String getIdentifier() {
         return "terra_beam";
+    }
+
+    @Override
+    public float getRenderScale() {
+        return 5;
     }
 
     @Override

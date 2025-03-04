@@ -27,12 +27,6 @@ public class PacketHandler {
                 .consumerMainThread(c2sOffLeafBlowerPacket::handle)
                 .add();
 
-        NETWORK_CHANNEL.messageBuilder(c2sSwordBeamPacket.class, packetId++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(c2sSwordBeamPacket::encode)
-                .decoder(c2sSwordBeamPacket::new)
-                .consumerMainThread(c2sSwordBeamPacket::handle)
-                .add();
-
         NETWORK_CHANNEL.messageBuilder(c2sDamageItemPacket.class, packetId++, NetworkDirection.PLAY_TO_SERVER)
                 .encoder(c2sDamageItemPacket::encode)
                 .decoder(c2sDamageItemPacket::new)
