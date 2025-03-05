@@ -40,7 +40,7 @@ public class ExcaliburBeam extends SwordBeam {
 
     @Override
     public float getInertia() {
-        return 1F;
+        return 1.05F;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ExcaliburBeam extends SwordBeam {
 
     @Override
     public String getIdentifier() {
-        return "terra_beam";
+        return "excalibur_beam";
     }
 
     @Override
@@ -87,9 +87,9 @@ public class ExcaliburBeam extends SwordBeam {
             ProjectileUtil.rotateTowardsMovement(this, 0.2F);
             this.setDeltaMovement(motion.scale(inertia));
 
-            float g = nextFloatBetweenInclusive(random, 0.75F, 1F);
-            float b = nextFloatBetweenInclusive(random, 0F, 0.15F);
-            this.level().addParticle((new SwordBeamTrail.OrbData(0, g, b, 0.3f, 0.3f, this.getId(), getRandomRoll())), this.getX(), this.getY() + 10F, this.getZ(), 0, 0, 0);
+            float r = nextFloatBetweenInclusive(random, 0.75F, 1F);
+            float g = nextFloatBetweenInclusive(random, 0.5F, 0.75F);
+            this.level().addParticle((new SwordBeamTrail.OrbData(r, g, 0, 0.3f, 0.3f, this.getId(), getRandomRoll())), this.getX(), this.getY() + 10F, this.getZ(), 0, 0, 0);
             this.setPos(d0, d1, d2);
 
 

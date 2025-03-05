@@ -5,10 +5,10 @@
 			"description": {
 				"identifier": "geometry.unknown",
 				"texture_width": 26,
-				"texture_height": 64,
+				"texture_height": 80,
 				"visible_bounds_width": 2,
-				"visible_bounds_height": 4,
-				"visible_bounds_offset": [0, 1, 0]
+				"visible_bounds_height": 5,
+				"visible_bounds_offset": [0, 0.5, 0]
 			},
 			"bones": [
 				{
@@ -16,11 +16,11 @@
 					"pivot": [0, 0, 0],
 					"cubes": [
 						{
-							"origin": [-6.5, -16, 0],
-							"size": [13, 32, 0.1],
+							"origin": [-6.5, -20, 0],
+							"size": [13, 40, 0.1],
 							"uv": {
-								"north": {"uv": [0, 0], "uv_size": [26, 64]},
-								"south": {"uv": [26, 0], "uv_size": [-26, 64]}
+								"north": {"uv": [0, 0], "uv_size": [26, 80]},
+								"south": {"uv": [26, 0], "uv_size": [-26, 80]}
 							}
 						}
 					]

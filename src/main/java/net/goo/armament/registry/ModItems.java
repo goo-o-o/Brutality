@@ -33,10 +33,10 @@ public class ModItems {
 
     public static final RegistryObject<Item> EXCALIBUR_SWORD = ITEMS.register("excalibur", () -> new ExcaliburSword(
             Tiers.NETHERITE,
-            3,
+            0,
             -2.2F,
             new Item.Properties(),
-            "terra_blade",
+            "excalibur",
             ModItemCategories.FANTASY,
             ModRarities.LEGENDARY,
             1));

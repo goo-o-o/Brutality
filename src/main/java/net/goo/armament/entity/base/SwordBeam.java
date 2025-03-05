@@ -46,7 +46,7 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
 
     @Override
     public String geoIdentifier() {
-        return "terra_beam";
+        return "default";
     }
 
     @Override

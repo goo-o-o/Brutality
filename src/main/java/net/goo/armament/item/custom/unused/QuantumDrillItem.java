@@ -1,7 +1,7 @@
 package net.goo.armament.item.custom.unused;
 
 import net.goo.armament.client.item.ArmaGeoItem;
-import net.goo.armament.client.renderers.item.ArmaGlowingWeaponRenderer;
+import net.goo.armament.client.renderers.item.AutoGlowingRenderer;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.base.ArmaGenericItem;
 import net.goo.armament.util.ModUtils;
@@ -49,7 +49,7 @@ public class QuantumDrillItem extends ArmaGenericItem {
 
     @Override
     public <T extends Item & ArmaGeoItem, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, ArmaGlowingWeaponRenderer.class);
+        super.initGeo(consumer, AutoGlowingRenderer.class);
     }
 
     @Override

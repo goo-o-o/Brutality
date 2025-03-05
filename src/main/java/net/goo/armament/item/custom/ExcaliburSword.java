@@ -1,22 +1,31 @@
 package net.goo.armament.item.custom;
 
+import net.goo.armament.client.item.ArmaGeoItem;
+import net.goo.armament.client.renderers.item.GlowEntityTranslucentCull;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.registry.ModEntities;
 import net.goo.armament.registry.ModSounds;
+import net.goo.armament.util.ModUtils;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.common.ForgeMod;
 import software.bernie.geckolib.core.animation.AnimatableManager;
+
+import java.util.function.Consumer;
 
 public class ExcaliburSword extends ArmaSwordItem {
     public String AURA_ACTIVE = "auraActive";
@@ -38,15 +47,26 @@ public class ExcaliburSword extends ArmaSwordItem {
     }
 
     @Override
+    public String texture(ItemStack stack) {
+        if (stack.getOrCreateTag().getBoolean(AURA_ACTIVE)) {
+            return "excalibur_active";
+        }
+        return super.texture(stack);
+    }
+
+
+    @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         if (!pLevel.isClientSide && pPlayer.isCrouching()) {
             ItemStack stack = pPlayer.getItemInHand(pUsedHand);
             CompoundTag tag = stack.getOrCreateTag();
             tag.putBoolean(AURA_ACTIVE, !tag.getBoolean(AURA_ACTIVE));
             if (tag.getBoolean(AURA_ACTIVE)) {
-                this.identifier = "shadowstep";
+                ModUtils.replaceOrAddModifier(stack, Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_UUID, 11, EquipmentSlot.MAINHAND);
+                ModUtils.replaceOrAddModifier(stack, ForgeMod.ENTITY_REACH.get(), BASE_ENTITY_INTERACTION_RANGE_UUID, 5, EquipmentSlot.MAINHAND);
             } else {
-                this.identifier = "supernova";
+                ModUtils.removeModifier(stack, BASE_ATTACK_DAMAGE_UUID);
+                ModUtils.removeModifier(stack, BASE_ENTITY_INTERACTION_RANGE_UUID);
             }
         }
         return super.use(pLevel, pPlayer, pUsedHand);
@@ -65,5 +85,10 @@ public class ExcaliburSword extends ArmaSwordItem {
             }
         }
         return super.onEntitySwing(stack, entity);
+    }
+
+    @Override
+    public <T extends Item & ArmaGeoItem, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
+        super.initGeo(consumer, GlowEntityTranslucentCull.class);
     }
 }

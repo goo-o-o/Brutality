@@ -2,7 +2,7 @@ package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
 import net.goo.armament.client.item.ArmaGeoItem;
-import net.goo.armament.client.renderers.item.ArmaGlowingWeaponRenderer;
+import net.goo.armament.client.renderers.item.AutoGlowingRenderer;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.registry.ModItems;
@@ -34,7 +34,7 @@ public class TruthseekerSword extends ArmaSwordItem {
 
     @Override
     public <T extends Item & ArmaGeoItem, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, ArmaGlowingWeaponRenderer.class);
+        super.initGeo(consumer, AutoGlowingRenderer.class);
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)

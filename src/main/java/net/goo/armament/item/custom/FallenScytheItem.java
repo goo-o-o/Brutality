@@ -2,7 +2,7 @@ package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
 import net.goo.armament.client.item.ArmaGeoItem;
-import net.goo.armament.client.renderers.item.ArmaGlowingWeaponRenderer;
+import net.goo.armament.client.renderers.item.AutoGlowingRenderer;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.base.ArmaScytheItem;
 import net.goo.armament.util.ModResources;
@@ -92,7 +92,7 @@ public class FallenScytheItem extends ArmaScytheItem {
 
     @Override
     public <T extends Item & ArmaGeoItem, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, ArmaGlowingWeaponRenderer.class);
+        super.initGeo(consumer, AutoGlowingRenderer.class);
     }
 
     @SubscribeEvent

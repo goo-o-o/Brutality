@@ -1,8 +1,8 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
-import net.goo.armament.client.renderers.item.ArmaGlowingWeaponRenderer;
 import net.goo.armament.client.item.ArmaGeoItem;
+import net.goo.armament.client.renderers.item.AutoGlowingRenderer;
 import net.goo.armament.entity.custom.BlackHole;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.base.ArmaTridentItem;
@@ -40,8 +40,6 @@ import software.bernie.geckolib.core.object.PlayState;
 
 import java.util.*;
 import java.util.function.Consumer;
-
-import static net.goo.armament.util.ModResources.EVENT_HORIZON_COLORS;
 
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable {
@@ -97,7 +95,7 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
 
     @Override
     public <T extends Item & ArmaGeoItem, R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, ArmaGlowingWeaponRenderer.class);
+        super.initGeo(consumer, AutoGlowingRenderer.class);
     }
 
     @SubscribeEvent
