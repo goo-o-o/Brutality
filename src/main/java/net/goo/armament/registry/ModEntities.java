@@ -39,7 +39,8 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<ExcaliburBeam>> EXCALIBUR_BEAM =
             ENTITY_TYPES.register("excalibur_beam", () -> EntityType.Builder.of(ExcaliburBeam::new,
-                    MobCategory.MISC).sized(10F, 1F).build("terra_beam"));
+                    MobCategory.MISC).sized(10F, 1F).setUpdateInterval(1).setTrackingRange(128)
+                    .build("excalibur_beam"));
 
     public static final RegistryObject<EntityType<BlackHole>> BLACK_HOLE_ENTITY =
             ENTITY_TYPES.register("black_hole",

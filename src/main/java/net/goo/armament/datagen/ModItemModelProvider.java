@@ -1,22 +1,33 @@
 package net.goo.armament.datagen;
 
+import com.google.gson.JsonObject;
 import net.goo.armament.Armament;
+import net.goo.armament.client.item.ArmaGeoItem;
+import net.goo.armament.item.custom.ExcaliburSword;
+import net.goo.armament.registry.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.minecraft.world.item.armortrim.TrimMaterials;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.loaders.SeparateTransformsModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 
 public class ModItemModelProvider extends ItemModelProvider {
@@ -38,8 +49,27 @@ public class ModItemModelProvider extends ItemModelProvider {
         super(output, Armament.MOD_ID, existingFileHelper);
     }
 
+    private boolean isArmaGeoItem(RegistryObject<Item> item) {
+        return item.get() instanceof ArmaGeoItem;
+    }
+
+    private boolean isExcluded(RegistryObject<Item> item) {
+        return item.get() instanceof ExcaliburSword;
+    }
+
     @Override
     protected void registerModels() {
+        Collection<RegistryObject<Item>> items = ModItems.ITEMS.getEntries();
+
+        // Iterate through all items
+        for (RegistryObject<Item> item : items) {
+            // Check if the item is an instance of ArmaGeoItem and not excluded
+            if (isArmaGeoItem(item) && !isExcluded(item)) {
+                // Generate models for the item
+                generateArmaGeoItemModel(item, item.getId().getPath() + "_handheld", item.getId().getPath() + "_inventory");
+            }
+        }
+
     }
 
     // Shoutout to El_Redstoniano for making this
@@ -137,6 +167,68 @@ public class ModItemModelProvider extends ItemModelProvider {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
                 new ResourceLocation(Armament.MOD_ID,"block/" + item.getId().getPath()));
+    }
+
+    private void generateArmaGeoItemModel(RegistryObject<Item> item, String handheldModel, String inventoryModel) {
+        ResourceLocation handheldModelLocation = new ResourceLocation(Armament.MOD_ID, "item/" + handheldModel);
+        ResourceLocation inventoryModelLocation = new ResourceLocation(Armament.MOD_ID, "item/" + inventoryModel);
+
+        // Check if the handheld model exists
+        if (!modelExists(handheldModelLocation)) {
+            Armament.LOGGER.warn("Skipping model generation for {}: Handheld model {} does not exist", item.getId(), handheldModelLocation);
+            return;
+        }
+
+        // Check if the inventory model exists
+        if (!modelExists(inventoryModelLocation)) {
+            Armament.LOGGER.warn("Skipping model generation for {}: Inventory model {} does not exist", item.getId(), inventoryModelLocation);
+            return;
+        }
+
+        // Generate the main item JSON file
+        generateSeparateTransformsModel(item.getId().getPath(), handheldModelLocation, inventoryModelLocation);
+
+        // Generate the inventory JSON file
+        withExistingParent(item.getId().getPath() + "_inventory", mcLoc("item/handheld"))
+                .texture("layer0", inventoryModelLocation);
+    }
+
+    private void generateSeparateTransformsModel(String itemName, ResourceLocation handheldModel, ResourceLocation inventoryModel) {
+        // Create the base model (default perspective)
+        ItemModelBuilder baseModel = withExistingParent(itemName + "_base", handheldModel);
+
+        // Create the SeparateTransformsModelBuilder
+        SeparateTransformsModelBuilder<ItemModelBuilder> builder = SeparateTransformsModelBuilder.begin(
+                withExistingParent(itemName, new ResourceLocation("minecraft:item/handheld")),
+                existingFileHelper
+        ).base(baseModel);
+
+        // Add perspective-specific models
+        builder.perspective(ItemDisplayContext.GUI, withExistingParent(itemName + "_gui", inventoryModel));
+        builder.perspective(ItemDisplayContext.GROUND, withExistingParent(itemName + "_ground", handheldModel));
+        builder.perspective(ItemDisplayContext.FIXED, withExistingParent(itemName + "_fixed", inventoryModel));
+
+        // Convert the builder to a JsonObject
+        JsonObject modelJson = builder.toJson(new JsonObject());
+        modelJson.addProperty("parent", "minecraft:item/handheld");
+        // Save the JSON file
+        saveModel(itemName, modelJson);
+    }
+
+    private void saveModel(String itemName, JsonObject modelJson) {
+        Path path = this.output.getOutputFolder(PackOutput.Target.RESOURCE_PACK)
+                .resolve(Armament.MOD_ID + "/models/item/" + itemName + ".json");
+        try {
+            Files.createDirectories(path.getParent());
+            Files.write(path, modelJson.toString().getBytes(StandardCharsets.UTF_8));
+            Armament.LOGGER.info("Saved model for {} at {}", itemName, path);
+        } catch (IOException e) {
+            Armament.LOGGER.error("Failed to save model for {}", itemName, e);
+        }
+    }
+
+    private boolean modelExists(ResourceLocation modelLocation) {
+        return existingFileHelper.exists(modelLocation, PackType.CLIENT_RESOURCES, ".json", "models");
     }
 }
 

@@ -1,6 +1,7 @@
 package net.goo.armament.item.custom;
 
 import net.goo.armament.Armament;
+import net.goo.armament.entity.custom.TerraBeam;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.registry.ModEntities;
@@ -38,7 +39,7 @@ public class TerraBladeSword extends ArmaSwordItem {
             if (!player.getCooldowns().isOnCooldown(item)) {
                 player.getCooldowns().addCooldown(item, 20);
                 level.playSound(player, player.getOnPos(), ModSounds.TERRA_BLADE_USE.get(), SoundSource.PLAYERS);
-                shootProjectile(ModEntities.TERRA_BEAM.get(), player, level, 3.5F);
+                shootProjectile(() -> new TerraBeam(ModEntities.TERRA_BEAM.get(), level), player, level, 3.5F);
                 stack.hurtAndBreak(1, player, pPlayer -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
             }
         }

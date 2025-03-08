@@ -3,6 +3,7 @@ package net.goo.armament.entity.custom;
 import net.goo.armament.entity.base.SwordBeam;
 import net.goo.armament.particle.custom.SwordBeamTrail;
 import net.goo.armament.registry.ModParticles;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -13,8 +14,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
-
-import java.util.Objects;
 
 import static net.goo.armament.util.ModUtils.nextFloatBetweenInclusive;
 
@@ -54,13 +53,10 @@ public class TerraBeam extends SwordBeam {
     }
 
     @Override
-    protected void onHit(HitResult pResult) {
-        Vec3 hitPos = pResult.getLocation();
-        if (this.getOwner() instanceof ServerPlayer) {
-            ((ServerPlayer) Objects.requireNonNull(this.getOwner())).connection.send(new ClientboundLevelParticlesPacket(ModParticles.TERRA_PARTICLE.get(), true, hitPos.x, hitPos.y + getBbHeight() / 1.5F, hitPos.z, 0, 0, 0, 0, 20));
-        }
-        super.onHit(pResult);
+    public SimpleParticleType getHitParticle() {
+        return ModParticles.TERRA_PARTICLE.get();
     }
+
 
     @Override
     public void tick() {
@@ -92,12 +88,12 @@ public class TerraBeam extends SwordBeam {
                 this.discard();
             }
 
-        }
 
-        if (owner instanceof ServerPlayer) {
-
-            ((ServerPlayer) Objects.requireNonNull(owner)).connection.send(
-                    new ClientboundLevelParticlesPacket(ModParticles.TERRA_PARTICLE.get(), true, this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0.5F, 0.5F, 0.5F, 0, 1));
+            if (owner instanceof ServerPlayer player) {
+                player.connection.send(new ClientboundLevelParticlesPacket(ModParticles.TERRA_PARTICLE.get(),
+                        true, this.getX(), this.getY() + getBbHeight() / 2, this.getZ(),
+                        0.5F, 0.5F, 0.5F, 0, 1));
+            }
         }
 
     }

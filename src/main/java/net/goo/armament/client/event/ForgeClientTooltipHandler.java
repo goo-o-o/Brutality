@@ -39,6 +39,9 @@ public class ForgeClientTooltipHandler {
         borderColorMap.put(EventHorizonLanceItem.class, new int[]{
                 toARGB(EVENT_HORIZON_COLORS[0]),
                 toARGB(EVENT_HORIZON_COLORS[1])});
+        borderColorMap.put(ExcaliburSword.class, new int[]{
+                toARGB(EXCALIBUR_COLORS[0]),
+                toARGB(EXCALIBUR_COLORS[1])});
         borderColorMap.put(FallenScytheItem.class, new int[]{
                 toARGB(FALLEN_SCYTHE_COLORS[0]),
                 toARGB(FALLEN_SCYTHE_COLORS[1])});

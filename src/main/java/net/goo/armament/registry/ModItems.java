@@ -38,8 +38,8 @@ public class ModItems {
             new Item.Properties(),
             "excalibur",
             ModItemCategories.FANTASY,
-            ModRarities.LEGENDARY,
-            1));
+            ModRarities.FABLED,
+            2));
 
     public static final RegistryObject<Item> FALLEN_SCYTHE = ITEMS.register("fallen_scythe", () -> new FallenScytheItem(
             Tiers.NETHERITE,

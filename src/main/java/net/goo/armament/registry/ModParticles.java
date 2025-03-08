@@ -39,6 +39,9 @@ public class ModParticles{
     public static final RegistryObject<SimpleParticleType> TERRA_PARTICLE =
             PARTICLE_TYPES.register("terra_particle", () -> new SimpleParticleType(true));
 
+    public static final RegistryObject<SimpleParticleType> SPARKLE_PARTICLE =
+            PARTICLE_TYPES.register("sparkle_particle", () -> new SimpleParticleType(true));
+
     public static final RegistryObject<SimpleParticleType> SHADOW_SWEEP_PARTICLE =
             PARTICLE_TYPES.register("shadow_sweep_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> SOUL_SWEEP_PARTICLE =

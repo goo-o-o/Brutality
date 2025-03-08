@@ -160,7 +160,7 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
                     blackHoleEntity.setDeltaMovement(plPos.subtract(blackHoleEntity.position()));
 
                     if (tickCount % 20 == 0) pStack.hurtAndBreak(1, player, (consumer) -> {
-                        consumer.broadcastBreakEvent(player.getUsedItemHand());
+                        consumer.broadcastBreakEvent(EquipmentSlot.MAINHAND);
                     });
 
                 } else {
@@ -197,7 +197,6 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
                 }
             } else pStack.getOrCreateTag().putBoolean(ACCRETION, false);
         }
-        super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
         tickCount++;
     }
 
@@ -224,5 +223,8 @@ public class EventHorizonLanceItem extends ArmaTridentItem implements Vanishable
         controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
-
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return false;
+    }
 }

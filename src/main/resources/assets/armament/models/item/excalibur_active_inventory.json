@@ -1,24 +1,10 @@
 {
-  "parent": "minecraft:item/handheld",
+  "parent": "minecraft:item/generated",
   "loader": "forge:separate_transforms",
   "base": {
-    "parent": "armament:item/excalibur_inventory"
+    "parent": "armament:item/excalibur_active_inventory_texture"
   },
-  "overrides": [
-    {
-      "predicate": {
-        "custom_model_data": 1
-      },
-      "model": "armament:item/excalibur_active_inventory"
-    }
-  ],
   "perspectives": {
-    "gui": {
-      "parent": "armament:item/excalibur_inventory"
-    },
-    "fixed": {
-      "parent": "armament:item/excalibur_inventory"
-    },
     "ground": {
       "parent": "armament:item/excalibur_handheld"
     },

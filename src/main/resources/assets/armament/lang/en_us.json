@@ -16,6 +16,14 @@
   "item.armament.event_horizon.ability.name.2": "Accretion",
   "item.armament.event_horizon.ability.desc.2": "Right click while shifting to draw in nearby mobs, gaining resistance while doing so. You cannot move while channeling this ability.",
 
+  "item.armament.excalibur": "Excalibur",
+  "item.armament.excalibur_active": "Awakened Excalibur",
+  "item.armament.excalibur.lore": "\"The legendary blade of kings, forged in Avalon and imbued with divine light. Its power reflects the courage of its wielder, a beacon of hope and justice.\"",
+  "item.armament.excalibur.ability.name.1": "Divine Radiance",
+  "item.armament.excalibur.ability.desc.1": "Shift Right click to awaken the blade, sheathing it in a holy aura. While in this form, the wielder is capable of sending out waves of sword energy, rapidly draining durability in the process.",
+  "item.armament.excalibur.ability.name.2": "Sovereign's Domain",
+  "item.armament.excalibur.ability.desc.2": "While in the awakened form, all nearby entities are slowed down.",
+
   "item.armament.fallen_scythe": "Scythe of the Fallen",
   "item.armament.fallen_scythe.lore": "\"Forged in the shadows of forgotten battles, this scything blade hungers for the souls of the fallen. With each life it claims, its power grows, echoing the whispers of those it has slain.\"",
   "item.armament.fallen_scythe.ability.name.1": "Soul Reaper",

@@ -16,14 +16,11 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 
-import static net.goo.armament.util.ModResources.DOOMFIST_GAUNTLET_COLORS;
-
-public class DoomfistGauntletItem extends ArmaGenericItem implements GeoItem {
+public class DoomfistGauntletItem extends ArmaGenericItem {
     private static final String PUNCHING = "isPunching";
     private static int clampedTime;
 

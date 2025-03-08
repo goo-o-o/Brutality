@@ -3,11 +3,15 @@ package net.goo.armament.client.event;
 import net.goo.armament.Armament;
 import net.goo.armament.client.renderers.entity.*;
 import net.goo.armament.registry.ModEntities;
+import net.goo.armament.registry.ModItems;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModClientHandler {
@@ -30,5 +34,6 @@ public class ModClientHandler {
     public static void registerKeys(RegisterKeyMappingsEvent event) {
         event.register(Keybindings.DASH_ABILITY_KEY.get());
     }
+
 
 }

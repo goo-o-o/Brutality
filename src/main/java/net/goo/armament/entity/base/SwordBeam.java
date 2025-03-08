@@ -2,7 +2,7 @@ package net.goo.armament.entity.base;
 
 import net.goo.armament.client.entity.ArmaGeoEntity;
 import net.goo.armament.particle.custom.SwordBeamTrail;
-import net.goo.armament.registry.ModParticles;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -21,8 +21,6 @@ import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
-
-import java.util.Objects;
 
 public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -106,6 +104,27 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
         this.discard();
     }
 
+    public SimpleParticleType getHitParticle() {
+        return null;
+    }
+
+    @Override
+    protected void onHit(HitResult pResult) {
+        Vec3 hitPos = pResult.getLocation();
+
+        if (getHitParticle() != null && this.getOwner() instanceof ServerPlayer player) {
+            player.connection.send(new ClientboundLevelParticlesPacket(
+                    getHitParticle(),
+                    true,
+                    hitPos.x, hitPos.y + getBbHeight() / 2, hitPos.z,
+                    0, 0, 0,
+                    0,
+                    10
+            ));
+        }
+
+        super.onHit(pResult);
+    }
 
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
@@ -123,21 +142,17 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
     }
 
     @Override
+    protected boolean canHitEntity(Entity entity) {
+        return super.canHitEntity(entity) && entity != this.getOwner();
+    }
+
+    @Override
     public void setSilent(boolean pIsSilent) {
         super.setSilent(true);
     }
 
     @Override
     protected void defineSynchedData() {
-    }
-
-    @Override
-    protected void onHit(HitResult pResult) {
-        Vec3 hitPos = pResult.getLocation();
-        if (this.getOwner() instanceof ServerPlayer) {
-            ((ServerPlayer) Objects.requireNonNull(this.getOwner())).connection.send(new ClientboundLevelParticlesPacket(ModParticles.TERRA_PARTICLE.get(), true, hitPos.x, hitPos.y + getBbHeight() / 2, hitPos.z, 0, 0, 0, 0, 10));
-        }
-        super.onHit(pResult);
     }
 
     @Override

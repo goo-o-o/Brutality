@@ -55,7 +55,7 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
 
         }
 
-        pPoseStack.scale(pEntity.getRenderScale(), pEntity.getRenderScale(), pEntity.getRenderScale() * 5);
+        pPoseStack.scale(pEntity.getRenderScale(), pEntity.getRenderScale(), pEntity.getRenderScale());
 
         super.render(pEntity, entityYaw, pPartialTicks, pPoseStack, bufferSource, packedLight);
 
