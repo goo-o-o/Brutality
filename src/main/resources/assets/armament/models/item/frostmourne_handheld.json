@@ -1,0 +1,51 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "texture_size": [
+    64,
+    64
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -8.5,
+        2
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        -8.5,
+        2
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        0,
+        -9,
+        0
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        -9,
+        0
+      ]
+    }
+  },
+  "textures": {
+    "particle": "armament:item/frostmourne_handheld"
+  }
+}

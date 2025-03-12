@@ -100,7 +100,7 @@ public class QuantumDrillItem extends ArmaGenericItem {
                 pPlayer.displayClientMessage(Component.literal
                         (uniqueBlocks + " unique block" + (uniqueBlocks == 1 ? "" : "s") + " | ").append
                         (Component.literal(String.format("%.2f", efficiencyPercentage) + "% efficiency")
-                                .withStyle(Style.EMPTY.withColor(ModUtils.getColorFromGradient((int) efficiencyPercentage, efficiencyColor3, efficiencyColor2, efficiencyColor1)).withBold(true))),
+                                .withStyle(Style.EMPTY.withColor(ModUtils.ModTooltipHelper.getColorFromGradient((int) efficiencyPercentage, efficiencyColor3, efficiencyColor2, efficiencyColor1)).withBold(true))),
                         true);
 
                 if ((int) efficiencyPercentage < 33) {

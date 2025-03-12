@@ -30,6 +30,17 @@
   "item.armament.fallen_scythe.ability.desc.1": "Gain permanent attack damage when killing a mob, max of 18 damage.",
   "item.armament.fallen_scythe.souls_harvested": "Souls Harvested: ",
 
+  "item.armament.frostmourne": "Frostmourne",
+  "item.armament.frostmourne.lore": "\"The runeblade of the Lich King, a weapon of unimaginable power and despair. Forged in the depths of the Frozen Throne, it hungers for souls, freezing the hearts of all who stand against it.\"",
+  "item.armament.frostmourne.ability.name.1": "Soulrend",
+  "item.armament.frostmourne.ability.desc.1": "Souls stolen by Edge of Oblivion heals the wielder and gives the user Strength and Resistance based on the number of souls stolen.",
+  "item.armament.frostmourne.ability.name.2": "Edge of Oblivion",
+  "item.armament.frostmourne.ability.desc.2": "Right click to unleash a wave of icy death, stealing the souls of enemies in a 15 block radius.",
+  "item.armament.frostmourne.ability.name.3": "Lich's Army",
+  "item.armament.frostmourne.ability.desc.3": "Shift Right click summon several strays that will fight for the summoner.",
+  "item.frostmourne.stray_army.fail": "You can only spawn a maximum of 10 Strays.",
+  "entity.armament.summoned_stray": "Summoned Stray",
+
   "item.armament.jackpot": "Jackpot",
   "item.armament.jackpot.lore": "\"A whimsical hammer with a slot machine for a head, the Jackpot combines luck and strength in every swing.\"",
   "item.armament.jackpot.ability.name.1": "Fortune's Favor",

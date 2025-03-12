@@ -4,8 +4,7 @@ import net.goo.armament.entity.base.SwordBeam;
 import net.goo.armament.particle.custom.SwordBeamTrail;
 import net.goo.armament.registry.ModParticles;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -58,7 +57,7 @@ public class ExcaliburBeam extends SwordBeam {
     }
 
     @Override
-    public String getIdentifier() {
+    public String geoIdentifier() {
         return "excalibur_beam";
     }
 
@@ -129,12 +128,10 @@ public class ExcaliburBeam extends SwordBeam {
                 this.discard();
             }
 
+        }
 
-            if (owner instanceof ServerPlayer player) {
-                player.connection.send(new ClientboundLevelParticlesPacket(ModParticles.SPARKLE_PARTICLE.get(),
-                        true, this.getX(), this.getY() + getBbHeight() / 2, this.getZ(),
-                        0.5F, 0.5F, 0.5F, 0, 1));
-            }
+        if (!level().isClientSide()) {
+            ((ServerLevel) level()).sendParticles(ModParticles.SPARKLE_PARTICLE.get(), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 1, 0,0,0,0);
         }
     }
 

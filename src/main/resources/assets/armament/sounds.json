@@ -46,5 +46,11 @@
     "sounds": [
       {"name": "armament:terra_blade_use"}
     ]
+  },
+  "ice_wave": {
+    "category": "item",
+    "sounds": [
+      {"name": "armament:ice_wave"}
+    ]
   }
 }

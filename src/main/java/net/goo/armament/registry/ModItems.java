@@ -24,7 +24,7 @@ public class ModItems {
             ModRarities.LEGENDARY,
             1));
 
-    public static final RegistryObject<Item> EVENT_HORIZON_LANCE = ITEMS.register("event_horizon", () -> new EventHorizonLanceItem(
+    public static final RegistryObject<Item> EVENT_HORIZON_LANCE = ITEMS.register("event_horizon", () -> new EventHorizonLance(
             new Item.Properties(),
             "event_horizon",
             ModItemCategories.SPACE,
@@ -51,7 +51,17 @@ public class ModItems {
             ModRarities.MYTHIC,
             1));
 
-    public static final RegistryObject<Item> JACKPOT_HAMMER = ITEMS.register("jackpot", () -> new JackpotHammerItem(
+    public static final RegistryObject<Item> FROSTMOURNE = ITEMS.register("frostmourne", () -> new FrostmourneSword(
+            Tiers.NETHERITE,
+            5,
+            -3F,
+            new Item.Properties(),
+            "frostmourne",
+            ModItemCategories.FANTASY,
+            ModRarities.FABLED,
+            3));
+
+    public static final RegistryObject<Item> JACKPOT_HAMMER = ITEMS.register("jackpot", () -> new JackpotHammer(
             Tiers.DIAMOND,
             0,
             -2.6F,

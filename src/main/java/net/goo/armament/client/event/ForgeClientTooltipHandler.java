@@ -36,7 +36,7 @@ public class ForgeClientTooltipHandler {
         borderColorMap.put(DoomfistGauntletItem.class, new int[]{
                 toARGB(DOOMFIST_GAUNTLET_COLORS[0]),
                 toARGB(DOOMFIST_GAUNTLET_COLORS[0])});
-        borderColorMap.put(EventHorizonLanceItem.class, new int[]{
+        borderColorMap.put(EventHorizonLance.class, new int[]{
                 toARGB(EVENT_HORIZON_COLORS[0]),
                 toARGB(EVENT_HORIZON_COLORS[1])});
         borderColorMap.put(ExcaliburSword.class, new int[]{
@@ -45,7 +45,7 @@ public class ForgeClientTooltipHandler {
         borderColorMap.put(FallenScytheItem.class, new int[]{
                 toARGB(FALLEN_SCYTHE_COLORS[0]),
                 toARGB(FALLEN_SCYTHE_COLORS[1])});
-        borderColorMap.put(JackpotHammerItem.class, new int[]{
+        borderColorMap.put(JackpotHammer.class, new int[]{
                 toARGB(JACKPOT_COLORS[0]),
                 toARGB(JACKPOT_COLORS[1])});
         borderColorMap.put(LeafBlowerItem.class, new int[]{

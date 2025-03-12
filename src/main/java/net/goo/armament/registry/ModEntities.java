@@ -1,8 +1,10 @@
 package net.goo.armament.registry;
 
 import net.goo.armament.Armament;
+import net.goo.armament.entity.base.SwordWave;
 import net.goo.armament.entity.custom.*;
-import net.goo.armament.entity.helper.ArmaEffectEntity;
+import net.goo.armament.entity.mobs.SummonedStray;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.Level;
@@ -16,8 +18,15 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Armament.MOD_ID);
 
-    public static final RegistryObject<EntityType<ArmaEffectEntity>> ARMA_PROJECTILE_ENTITY = ENTITY_TYPES.register("arma_projectile", () -> EntityType.Builder.of(ArmaEffectEntity::new, MobCategory.MISC)
-            .sized(0.5F, 0.5F).clientTrackingRange(64).build(Armament.prefix("arma_projectile").toString()));
+    public static final RegistryObject<EntityType<SummonedStray>> SUMMONED_STRAY =
+            ENTITY_TYPES.register("summoned_stray", () -> EntityType.Builder.<SummonedStray>of(SummonedStray::new, MobCategory.MONSTER)
+                    .sized(.6f, 1.8f)
+                    .clientTrackingRange(64)
+                    .build(new ResourceLocation(Armament.MOD_ID, "summoned_stray").toString()));
+
+    public static final RegistryObject<EntityType<SwordWave>> SWORD_WAVE =
+            ENTITY_TYPES.register("sword_wave", () -> EntityType.Builder.of(SwordWave::new,
+                    MobCategory.MISC).sized(1F, 0.25F).build("sword_wave"));
 
     public static final RegistryObject<EntityType<ThrownThunderbolt>> THROWN_THUNDERBOLT_ENTITY =
             ENTITY_TYPES.register("thrown_zeus_thunderbolt",

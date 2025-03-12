@@ -70,18 +70,18 @@ public class FallenScytheItem extends ArmaScytheItem {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         int soulsHarvested = pStack.getOrCreateTag().getInt(SOULS_HARVESTED);
 
-        pTooltipComponents.add(Component.translatable("item.armament.fallen_scythe.souls_harvested").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(colors[0]))).append(ModUtils.tooltipHelper(String.valueOf(soulsHarvested), true, null, colors[1])));
+        pTooltipComponents.add(Component.translatable("item.armament.fallen_scythe.souls_harvested").withStyle(Style.EMPTY.withColor(ModUtils.ModTooltipHelper.rgbToInt(colors[0]))).append(ModUtils.ModTooltipHelper.tooltipHelper(String.valueOf(soulsHarvested), true, null, colors[1])));
         pTooltipComponents.add(Component.literal(""));
         pTooltipComponents.add(Component.translatable("item.modifiers.mainhand").withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)));
 
         pTooltipComponents.add(Component.literal(" " + baseAttackDamage + " + ").withStyle(ChatFormatting.DARK_GREEN)
-                .append(ModUtils.tooltipHelper(String.format("%.2f", Math.min(calculateAttackDamageBonus(soulsHarvested), 18 - baseAttackDamage)) + " ", true, null, colors[1])
+                .append(ModUtils.ModTooltipHelper.tooltipHelper(String.format("%.2f", Math.min(calculateAttackDamageBonus(soulsHarvested), 18 - baseAttackDamage)) + " ", true, null, colors[1])
                         .append(Component.translatable("attribute.name.generic.attack_damage").withStyle(STYLE_DARK_GREEN.withBold(false)))));
 
         pTooltipComponents.add(
                 Component.literal(" 1 + ")
                         .withStyle(ChatFormatting.DARK_GREEN)
-                        .append(ModUtils.tooltipHelper(String.format("%.2f", Math.min(calculateAttackSpeedBonus(soulsHarvested), 0.6)) + " ", true, null, colors[1]))
+                        .append(ModUtils.ModTooltipHelper.tooltipHelper(String.format("%.2f", Math.min(calculateAttackSpeedBonus(soulsHarvested), 0.6)) + " ", true, null, colors[1]))
                         .append(Component.translatable("attribute.name.generic.attack_speed").withStyle(STYLE_DARK_GREEN.withBold(false)))
         );
 

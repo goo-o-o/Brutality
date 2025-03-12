@@ -27,6 +27,11 @@ public class ModParticles{
     public static final RegistryObject<SimpleParticleType> STARBURST_PARTICLE =
             PARTICLE_TYPES.register("starburst_particle", () -> new SimpleParticleType(true));
 
+    public static final RegistryObject<SimpleParticleType> SWORD_WAVE_PARTICLE =
+            PARTICLE_TYPES.register("sword_wave_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> FROSTMOURNE_WAVE_PARTICLE =
+            PARTICLE_TYPES.register("frostmourne_wave_particle", () -> new SimpleParticleType(true));
+
     public static final RegistryObject<SimpleParticleType> POKER_CHIP_RED_PARTICLE =
             PARTICLE_TYPES.register("poker_chip_red_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> POKER_CHIP_BLUE_PARTICLE =

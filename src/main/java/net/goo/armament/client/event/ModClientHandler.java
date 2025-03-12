@@ -3,15 +3,12 @@ package net.goo.armament.client.event;
 import net.goo.armament.Armament;
 import net.goo.armament.client.renderers.entity.*;
 import net.goo.armament.registry.ModEntities;
-import net.goo.armament.registry.ModItems;
-import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.entity.StrayRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModClientHandler {
@@ -23,6 +20,8 @@ public class ModClientHandler {
         event.registerEntityRenderer(ModEntities.SUPERNOVA_PORTAL.get(), ArmaEndPortalEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.SUPERNOVA_ASTEROID.get(), ArmaGlowingEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.EXCALIBUR_BEAM.get(), SwordBeamRenderer::new);
+        event.registerEntityRenderer(ModEntities.SWORD_WAVE.get(), SwordWaveRenderer::new);
+        event.registerEntityRenderer(ModEntities.SUMMONED_STRAY.get(), StrayRenderer::new);
 
     }
 

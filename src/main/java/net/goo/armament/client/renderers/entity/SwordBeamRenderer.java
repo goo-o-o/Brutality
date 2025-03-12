@@ -23,7 +23,7 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
     }
 
     public String getIdentifier() {
-        return getAnimatable().getIdentifier();
+        return getAnimatable().geoIdentifier();
     }
 
     @Override

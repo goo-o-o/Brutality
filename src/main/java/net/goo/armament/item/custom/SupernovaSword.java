@@ -76,6 +76,17 @@ public class SupernovaSword extends ArmaSwordItem {
         }
     }
 
+    @Override
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+        if (entity.level().isClientSide()) return false;
+
+        List<SupernovaAsteroid> asteroids = SupernovaAsteroid.getAllAsteroidsOwnedBy(entity, ((ServerLevel) entity.level()))
+                .filter(asteroid -> asteroid.distanceToSqr(entity) <= 32) // Limit to a certain range
+                .toList();
+
+        entity.sendSystemMessage(Component.literal("ASTEROIDS" + asteroids));
+        return super.onEntitySwing(stack, entity);
+    }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
@@ -144,7 +155,7 @@ public class SupernovaSword extends ArmaSwordItem {
     }
 
     @SubscribeEvent
-    public void onChangeDimensionsOrDeath(PlayerEvent.PlayerChangedDimensionEvent event) {
+    public void onChangeDimensions(PlayerEvent.PlayerChangedDimensionEvent event) {
         Player player = event.getEntity();
         if (!player.level().isClientSide()) {
             clearAsteroids(player, ((ServerLevel) player.level()));

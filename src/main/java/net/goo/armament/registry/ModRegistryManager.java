@@ -1,7 +1,6 @@
 package net.goo.armament.registry;
 
 import net.goo.armament.block.ModBlocks;
-import net.goo.armament.entity.helper.ArmaVisualTypes;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 public class ModRegistryManager {
@@ -14,6 +13,5 @@ public class ModRegistryManager {
         ModEntities.register(modEventBus);
         ModSounds.register(modEventBus);
         ModParticles.register(modEventBus);
-        ArmaVisualTypes.VISUALS.register(modEventBus);
     }
 }

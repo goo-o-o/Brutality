@@ -11,14 +11,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.minecraft.world.item.armortrim.TrimMaterials;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.loaders.SeparateTransformsModelBuilder;
+import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -32,6 +31,7 @@ import java.util.LinkedHashMap;
 
 public class ModItemModelProvider extends ItemModelProvider {
     private static final LinkedHashMap<ResourceKey<TrimMaterial>, Float> trimMaterials = new LinkedHashMap<>();
+
     static {
         trimMaterials.put(TrimMaterials.QUARTZ, 0.1F);
         trimMaterials.put(TrimMaterials.IRON, 0.2F);
@@ -53,8 +53,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         return item.get() instanceof ArmaGeoItem;
     }
 
-    private boolean isExcluded(RegistryObject<Item> item) {
-        return item.get() instanceof ExcaliburSword;
+    private boolean isExcluded(ArmaGeoItem item) {
+        return item instanceof ExcaliburSword;
     }
 
     @Override
@@ -64,10 +64,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         // Iterate through all items
         for (RegistryObject<Item> item : items) {
             // Check if the item is an instance of ArmaGeoItem and not excluded
-            if (isArmaGeoItem(item) && !isExcluded(item)) {
-                // Generate models for the item
-                generateArmaGeoItemModel(item, item.getId().getPath() + "_handheld", item.getId().getPath() + "_inventory");
+            if (item.get() instanceof ArmaGeoItem armaItem) {
+                if (!isExcluded(armaItem)) {
+                    // Generate models for the item
+                    generateArmaGeoItemModel(armaItem);
+                }
             }
+
         }
 
     }
@@ -76,7 +79,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     private void trimmedArmorItem(RegistryObject<Item> itemRegistryObject) {
         final String MOD_ID = Armament.MOD_ID; // Change this to your mod id
 
-        if(itemRegistryObject.get() instanceof ArmorItem armorItem) {
+        if (itemRegistryObject.get() instanceof ArmorItem armorItem) {
             trimMaterials.entrySet().forEach(entry -> {
 
                 ResourceKey<TrimMaterial> trimMaterial = entry.getKey();
@@ -123,7 +126,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(Armament.MOD_ID,"item/" + item.getId().getPath()));
+                new ResourceLocation(Armament.MOD_ID, "item/" + item.getId().getPath()));
     }
 
     public void evenSimplerBlockItem(RegistryObject<Block> block) {
@@ -138,81 +141,97 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     public void fenceItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
         this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/fence_inventory"))
-                .texture("texture",  new ResourceLocation(Armament.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+                .texture("texture", new ResourceLocation(Armament.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
     }
 
     public void buttonItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
         this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/button_inventory"))
-                .texture("texture",  new ResourceLocation(Armament.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+                .texture("texture", new ResourceLocation(Armament.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
     }
 
     public void wallItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
         this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/wall_inventory"))
-                .texture("wall",  new ResourceLocation(Armament.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+                .texture("wall", new ResourceLocation(Armament.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
     }
 
     private ItemModelBuilder handheldItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/handheld")).texture("layer0",
-                new ResourceLocation(Armament.MOD_ID,"item/" + item.getId().getPath()));
+                new ResourceLocation(Armament.MOD_ID, "item/" + item.getId().getPath()));
     }
 
     private ItemModelBuilder simpleBlockItem(RegistryObject<Block> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(Armament.MOD_ID,"item/" + item.getId().getPath()));
+                new ResourceLocation(Armament.MOD_ID, "item/" + item.getId().getPath()));
     }
 
     private ItemModelBuilder simpleBlockItemBlockTexture(RegistryObject<Block> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(Armament.MOD_ID,"block/" + item.getId().getPath()));
+                new ResourceLocation(Armament.MOD_ID, "block/" + item.getId().getPath()));
     }
 
-    private void generateArmaGeoItemModel(RegistryObject<Item> item, String handheldModel, String inventoryModel) {
-        ResourceLocation handheldModelLocation = new ResourceLocation(Armament.MOD_ID, "item/" + handheldModel);
-        ResourceLocation inventoryModelLocation = new ResourceLocation(Armament.MOD_ID, "item/" + inventoryModel);
+    private void generateArmaGeoItemModel(ArmaGeoItem item) {
+        ResourceLocation modelLocation = new ResourceLocation(Armament.MOD_ID, "item/" + item.geoIdentifier());
 
-        // Check if the handheld model exists
-        if (!modelExists(handheldModelLocation)) {
-            Armament.LOGGER.warn("Skipping model generation for {}: Handheld model {} does not exist", item.getId(), handheldModelLocation);
-            return;
-        }
-
-        // Check if the inventory model exists
-        if (!modelExists(inventoryModelLocation)) {
-            Armament.LOGGER.warn("Skipping model generation for {}: Inventory model {} does not exist", item.getId(), inventoryModelLocation);
-            return;
-        }
-
-        // Generate the main item JSON file
-        generateSeparateTransformsModel(item.getId().getPath(), handheldModelLocation, inventoryModelLocation);
-
-        // Generate the inventory JSON file
-        withExistingParent(item.getId().getPath() + "_inventory", mcLoc("item/handheld"))
-                .texture("layer0", inventoryModelLocation);
+        // Generate the missing models
+        generateInventoryModel(item);
+        generateSeparateTransformsModel(item);
     }
 
-    private void generateSeparateTransformsModel(String itemName, ResourceLocation handheldModel, ResourceLocation inventoryModel) {
+
+    private void generateInventoryModel(ArmaGeoItem item) {
+        ResourceLocation textureLocation = new ResourceLocation(Armament.MOD_ID, "item/" + item.geoIdentifier() + "_inventory");
+        if (existingFileHelper.exists(textureLocation, ModelProvider.TEXTURE)) {
+            withExistingParent(item.geoIdentifier() + "_inventory", mcLoc("item/handheld"))
+                    .texture("layer0", textureLocation);
+        } else {
+            Armament.LOGGER.warn("Skipping inventory model generation for {}: Texture {} does not exist", item.geoIdentifier(), textureLocation);
+        }
+    }
+
+    private void generateSeparateTransformsModel(ArmaGeoItem item) {
+        String handHeldModel = new ResourceLocation(Armament.MOD_ID, "item/" + item.geoIdentifier() + "_handheld").toString();
+        String inventoryModel = new ResourceLocation(Armament.MOD_ID, "item/" + item.geoIdentifier() + "_inventory").toString();
+
         // Create the base model (default perspective)
-        ItemModelBuilder baseModel = withExistingParent(itemName + "_base", handheldModel);
+        JsonObject baseModelJson = withExistingParent(item.geoIdentifier(), mcLoc("item/handheld")).toJson();
 
-        // Create the SeparateTransformsModelBuilder
-        SeparateTransformsModelBuilder<ItemModelBuilder> builder = SeparateTransformsModelBuilder.begin(
-                withExistingParent(itemName, new ResourceLocation("minecraft:item/handheld")),
-                existingFileHelper
-        ).base(baseModel);
+        baseModelJson.addProperty("parent", handHeldModel);
 
-        // Add perspective-specific models
-        builder.perspective(ItemDisplayContext.GUI, withExistingParent(itemName + "_gui", inventoryModel));
-        builder.perspective(ItemDisplayContext.GROUND, withExistingParent(itemName + "_ground", handheldModel));
-        builder.perspective(ItemDisplayContext.FIXED, withExistingParent(itemName + "_fixed", inventoryModel));
+        // Create the perspectives object
+        JsonObject perspectives = new JsonObject();
 
-        // Convert the builder to a JsonObject
-        JsonObject modelJson = builder.toJson(new JsonObject());
+        // GUI perspective
+        JsonObject guiModelJson = new JsonObject();
+        guiModelJson.addProperty("parent", inventoryModel);
+
+        perspectives.add("gui", guiModelJson);
+
+        // Ground perspective
+        JsonObject groundModelJson = new JsonObject();
+        groundModelJson.addProperty("parent", handHeldModel);
+
+        perspectives.add("ground", groundModelJson);
+
+        // Fixed perspective
+        JsonObject fixedModelJson = new JsonObject();
+        fixedModelJson.addProperty("parent", inventoryModel);
+
+        perspectives.add("fixed", fixedModelJson);
+
+        // Create the main JSON object
+        JsonObject modelJson = new JsonObject();
         modelJson.addProperty("parent", "minecraft:item/handheld");
+        modelJson.addProperty("loader", "forge:separate_transforms");
+        modelJson.add("base", baseModelJson);
+        modelJson.add("perspectives", perspectives);
+
         // Save the JSON file
-        saveModel(itemName, modelJson);
+        saveModel(item.geoIdentifier(), modelJson);
+
+
     }
 
     private void saveModel(String itemName, JsonObject modelJson) {

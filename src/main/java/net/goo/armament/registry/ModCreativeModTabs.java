@@ -23,6 +23,7 @@ public class ModCreativeModTabs {
                         output.accept(ModItems.EVENT_HORIZON_LANCE.get());
                         output.accept(ModItems.EXCALIBUR_SWORD.get());
                         output.accept(ModItems.FALLEN_SCYTHE.get().getDefaultInstance());
+                        output.accept(ModItems.FROSTMOURNE.get());
                         output.accept(ModItems.JACKPOT_HAMMER.get());
                         output.accept(ModItems.LEAF_BLOWER.get());
 //                        output.accept(ModItems.QUANTUM_DRILL.get());
@@ -32,7 +33,7 @@ public class ModCreativeModTabs {
                         output.accept(ModItems.TERRA_BLADE.get());
                         output.accept(ModItems.TERRATON_HAMMER.get());
                         output.accept(ModItems.TRUTHSEEKER_SWORD.get());
-                        output.accept(ModItems.VIPER_RAPIER.get());
+//                        output.accept(ModItems.VIPER_RAPIER.get());
                         output.accept(ModItems.THUNDERBOLT_TRIDENT.get().getDefaultInstance());
 
                     })

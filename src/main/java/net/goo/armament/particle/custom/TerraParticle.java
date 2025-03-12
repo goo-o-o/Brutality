@@ -1,5 +1,6 @@
 package net.goo.armament.particle.custom;
 
+import net.goo.armament.util.ModUtils;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -16,7 +17,7 @@ public class TerraParticle extends TextureSheetParticle {
 
         this.friction = 0.9F; // Determines particle movement slowdown
         this.lifetime = 50; // Number of ticks the particle will live
-
+        this.quadSize *= ModUtils.nextFloatBetweenInclusive(random, 1, 3);
         // Randomize initial angle for spherical dispersion
         double theta = random.nextDouble() * Math.PI; // Polar angle from 0 to PI (zenith angle)
         double phi = random.nextDouble() * 2 * Math.PI; // Azimuthal angle from 0 to 2*PI (around the azimuth)
@@ -38,7 +39,6 @@ public class TerraParticle extends TextureSheetParticle {
 
     public void tick() {
         super.tick();
-
         initialRollSpeed *= rollInertia;
         if (rollingClockwise) this.roll = initialRollSpeed;
         else this.roll = -initialRollSpeed;
@@ -46,6 +46,9 @@ public class TerraParticle extends TextureSheetParticle {
 
         this.move(this.xd, this.yd, this.zd);
 
+        if (this.age >= this.lifetime - 60 && this.quadSize > 0.01F) {
+            this.quadSize *= 0.95F;
+        } else this.remove();
     }
 
     @Override

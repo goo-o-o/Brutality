@@ -3,7 +3,6 @@ package net.goo.armament.entity.base;
 import net.goo.armament.client.entity.ArmaGeoEntity;
 import net.goo.armament.particle.custom.SwordBeamTrail;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -67,7 +66,6 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
     public int getRandomRoll() {
         return this.randomRoll;
     }
-    public String getIdentifier() { return "default"; }
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.cache;
@@ -111,16 +109,17 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
     @Override
     protected void onHit(HitResult pResult) {
         Vec3 hitPos = pResult.getLocation();
-
         if (getHitParticle() != null && this.getOwner() instanceof ServerPlayer player) {
-            player.connection.send(new ClientboundLevelParticlesPacket(
-                    getHitParticle(),
-                    true,
-                    hitPos.x, hitPos.y + getBbHeight() / 2, hitPos.z,
-                    0, 0, 0,
-                    0,
-                    10
-            ));
+//            player.connection.send(new ClientboundLevelParticlesPacket(
+//                    getHitParticle(),
+//                    true,
+//                    hitPos.x, hitPos.y + getBbHeight() / 2, hitPos.z,
+//                    0, 0, 0,
+//                    0,
+//                    10
+//            ));
+//
+            player.serverLevel().sendParticles(getHitParticle(), hitPos.x, hitPos.y + 0.5, hitPos.z, 1,0,0,0,0);
         }
 
         super.onHit(pResult);

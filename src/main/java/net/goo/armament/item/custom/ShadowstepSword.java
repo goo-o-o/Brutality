@@ -78,7 +78,7 @@ public class ShadowstepSword extends ArmaSwordItem {
 
 
             } else {
-                pPlayer.displayClientMessage(Component.translatable("item.armament." + identifier + ".invalid").withStyle(Style.EMPTY.withColor(ModUtils.rgbToInt(new int[]{200, 50, 50}))), true);
+                pPlayer.displayClientMessage(Component.translatable("item.armament." + identifier + ".invalid").withStyle(Style.EMPTY.withColor(ModUtils.ModTooltipHelper.rgbToInt(new int[]{200, 50, 50}))), true);
             }
         }
     }
