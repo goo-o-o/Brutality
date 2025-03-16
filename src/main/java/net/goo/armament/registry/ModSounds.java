@@ -27,6 +27,7 @@ public class ModSounds {
 
     public static final RegistryObject<SoundEvent> TERRA_BLADE_USE = registerSoundEvents("terra_blade_use");
     public static final RegistryObject<SoundEvent> ICE_WAVE = registerSoundEvents("ice_wave");
+    public static final RegistryObject<SoundEvent> BIG_EXPLOSION = registerSoundEvents("big_explosion");
 
     private static RegistryObject<SoundEvent> registerSoundEvents(String name) {
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Armament.MOD_ID, name)));

@@ -8,6 +8,7 @@ import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.registry.ModEntities;
 import net.goo.armament.registry.ModParticles;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -77,18 +78,6 @@ public class SupernovaSword extends ArmaSwordItem {
     }
 
     @Override
-    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
-        if (entity.level().isClientSide()) return false;
-
-        List<SupernovaAsteroid> asteroids = SupernovaAsteroid.getAllAsteroidsOwnedBy(entity, ((ServerLevel) entity.level()))
-                .filter(asteroid -> asteroid.distanceToSqr(entity) <= 32) // Limit to a certain range
-                .toList();
-
-        entity.sendSystemMessage(Component.literal("ASTEROIDS" + asteroids));
-        return super.onEntitySwing(stack, entity);
-    }
-
-    @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
 
@@ -110,7 +99,7 @@ public class SupernovaSword extends ArmaSwordItem {
                 // Return success
             } else if (pPlayer.isCrouching()) {
                 clearAsteroids(pPlayer, serverLevel);
-            } else pPlayer.displayClientMessage(Component.translatable("item.armament.supernova.asteroid_fail"), true);
+            } else pPlayer.displayClientMessage(Component.translatable("item.armament.supernova.asteroid_fail").withStyle(ChatFormatting.RED), true);
         }
 
         return InteractionResultHolder.fail(stack);

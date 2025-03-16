@@ -33,7 +33,8 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class SummonedStray extends Stray implements ISummon {
-
+    protected LivingEntity cachedSummoner;
+    protected UUID summonerUUID;
     public SummonedStray(EntityType<? extends Stray> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         xpReward = 0;
@@ -44,9 +45,6 @@ public class SummonedStray extends Stray implements ISummon {
         setSummoner(owner);
     }
 
-    protected LivingEntity cachedSummoner;
-    protected UUID summonerUUID;
-    private int riseAnimTime = 80;
 
     @Override
     public void registerGoals() {

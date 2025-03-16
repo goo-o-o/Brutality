@@ -52,5 +52,11 @@
     "sounds": [
       {"name": "armament:ice_wave"}
     ]
+  },
+  "big_explosion": {
+    "category": "block",
+    "sounds": [
+      {"name": "armament:big_explosion"}
+    ]
   }
 }

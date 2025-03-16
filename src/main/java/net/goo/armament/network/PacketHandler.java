@@ -32,6 +32,12 @@ public class PacketHandler {
                 .decoder(c2sDamageItemPacket::new)
                 .consumerMainThread(c2sDamageItemPacket::handle)
                 .add();
+
+        NETWORK_CHANNEL.messageBuilder(s2cCustomExplosionPacket.class, packetId++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(s2cCustomExplosionPacket::write)
+                .decoder(s2cCustomExplosionPacket::new)
+                .consumerMainThread(s2cCustomExplosionPacket::handle)
+                .add();
     }
 
     public static void sendToServer(Object msg) {

@@ -53,8 +53,11 @@ public class ForgeClientParticleHandler {
                 spawnThrownThunderboltEntityParticle(player, level);
             }
             // ZAP PARTICLE HANDLER END
+
         }
         tickCount++;
+
+        if (tickCount > 1000) tickCount = 0;
     }
 
     private static void spawnZeusThunderboltParticle(Player player, Level level) {

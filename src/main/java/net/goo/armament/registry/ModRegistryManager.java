@@ -13,5 +13,6 @@ public class ModRegistryManager {
         ModEntities.register(modEventBus);
         ModSounds.register(modEventBus);
         ModParticles.register(modEventBus);
+        ModEffects.register(modEventBus);
     }
 }

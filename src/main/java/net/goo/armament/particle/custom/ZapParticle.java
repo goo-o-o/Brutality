@@ -8,12 +8,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class ZapParticle extends TextureSheetParticle {
-    private final SpriteSet sprites;
 
     protected ZapParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
 
-        this.sprites = spriteSet; // Assign the sprite set
         this.friction = 1F; // Determines particle movement slowdown
         this.xd = xSpeed;
         this.yd = ySpeed;

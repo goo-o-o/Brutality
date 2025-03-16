@@ -17,6 +17,16 @@ public class ModItems {
 //    public static final RegistryObject<Item> DIVINE_RHITTA_AXE = ITEMS.register("divine_axe_rhitta",
 //            () -> new DivineRhittaAxeItem(Tiers.NETHERITE, 8, -3.1F, new Item.Properties(), ModItemCategories.FANTASY));
 
+    public static final RegistryObject<Item> ATOMIC_JUDGEMENT_HAMMER = ITEMS.register("atomic_judgement", () -> new AtomicJudgementHammer(
+            Tiers.NETHERITE,
+            -5,
+            -3F,
+            new Item.Properties(),
+            "atomic_judgement",
+            ModItemCategories.TECHNOLOGY,
+            ModRarities.MYTHIC,
+            3));
+
     public static final RegistryObject<Item> DOOMFIST_GAUNTLET = ITEMS.register("doomfist_gauntlet", () -> new DoomfistGauntletItem(
             new Item.Properties().stacksTo(1),
             "doomfist_gauntlet",
@@ -51,7 +61,7 @@ public class ModItems {
             ModRarities.MYTHIC,
             1));
 
-    public static final RegistryObject<Item> FROSTMOURNE = ITEMS.register("frostmourne", () -> new FrostmourneSword(
+    public static final RegistryObject<Item> FROSTMOURNE_SWORD = ITEMS.register("frostmourne", () -> new FrostmourneSword(
             Tiers.NETHERITE,
             5,
             -3F,
@@ -60,6 +70,13 @@ public class ModItems {
             ModItemCategories.FANTASY,
             ModRarities.FABLED,
             3));
+
+    public static final RegistryObject<Item> GUNGNIR_TRIDENT = ITEMS.register("gungnir", () -> new GungnirTrident(
+            new Item.Properties(),
+            "gungnir",
+            ModItemCategories.FANTASY,
+            ModRarities.MYTHIC,
+            2));
 
     public static final RegistryObject<Item> JACKPOT_HAMMER = ITEMS.register("jackpot", () -> new JackpotHammer(
             Tiers.DIAMOND,

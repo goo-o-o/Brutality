@@ -29,12 +29,20 @@ public class ModEntities {
                     MobCategory.MISC).sized(1F, 0.25F).build("sword_wave"));
 
     public static final RegistryObject<EntityType<ThrownThunderbolt>> THROWN_THUNDERBOLT_ENTITY =
-            ENTITY_TYPES.register("thrown_zeus_thunderbolt",
+            ENTITY_TYPES.register("thrown_thunderbolt",
                     () -> EntityType.Builder.<ThrownThunderbolt>of(ThrownThunderbolt::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
                             .clientTrackingRange(4)
                             .setUpdateInterval(20)
-                            .build("thrown_zeus_thunderbolt"));
+                            .build("thrown_thunderbolt"));
+
+    public static final RegistryObject<EntityType<ThrownGungnir>> THROWN_GUNGNIR_ENTITY =
+            ENTITY_TYPES.register("thrown_gungnir",
+                    () -> EntityType.Builder.<ThrownGungnir>of(ThrownGungnir::new, MobCategory.MISC)
+                            .sized(0.5F, 0.5F)
+                            .clientTrackingRange(4)
+                            .setUpdateInterval(20)
+                            .build("thrown_gungnir"));
 
     public static final RegistryObject<EntityType<CruelSunEntity>> CRUEL_SUN_ENTITY =
             ENTITY_TYPES.register("cruel_sun",

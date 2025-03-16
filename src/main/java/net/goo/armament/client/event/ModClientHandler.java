@@ -15,6 +15,7 @@ public class ModClientHandler {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.THROWN_THUNDERBOLT_ENTITY.get(), ArmaGlowingTridentRenderer::new);
+        event.registerEntityRenderer(ModEntities.THROWN_GUNGNIR_ENTITY.get(), ArmaGlowingTridentRenderer::new);
         event.registerEntityRenderer(ModEntities.TERRA_BEAM.get(), SwordBeamRenderer::new);
         event.registerEntityRenderer(ModEntities.BLACK_HOLE_ENTITY.get(), ArmaEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.SUPERNOVA_PORTAL.get(), ArmaEndPortalEntityRenderer::new);

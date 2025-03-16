@@ -135,25 +135,18 @@ public class FrostmourneSword extends ArmaSwordItem {
     }
 
     @Override
-    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
-        if (entity.level().isClientSide()) return false;
-        entity.sendSystemMessage(Component.literal("STRAYS: " + PLAYER_SUMMONED_STRAYS.get(entity.getUUID()).size()));
-        return super.onEntitySwing(stack, entity);
-    }
-
-    @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
 
-        if (pLevel.isClientSide()) {
-            return InteractionResultHolder.pass(stack);
-        }
-
         if (!pPlayer.isCrouching()) {
             pPlayer.getCooldowns().addCooldown(stack.getItem(), 80);
+            pLevel.playSound(pPlayer, pPlayer.getOnPos(), ModSounds.ICE_WAVE.get(), SoundSource.PLAYERS, 1, ModUtils.nextFloatBetweenInclusive(pLevel.random, 0.65F, 1));
+            if (pLevel.isClientSide()) {
+                return InteractionResultHolder.pass(stack);
+            }
             performSoulrendAttack(pLevel, pPlayer, stack);
         }
-        else {
+        else if (!pLevel.isClientSide()){
             pPlayer.getCooldowns().addCooldown(stack.getItem(), 200);
             summonStrayArmy(pLevel, pPlayer, stack);
         }
@@ -204,7 +197,6 @@ public class FrostmourneSword extends ArmaSwordItem {
 
 
     public void performSoulrendAttack(Level level, Player player, ItemStack stack) {
-        level.playSound(player, player.getOnPos(), ModSounds.ICE_WAVE.get(), SoundSource.PLAYERS, 1, ModUtils.nextFloatBetweenInclusive(level.random, 0.65F, 1));
         if (!level.isClientSide()) {
             ((ServerLevel) level).sendParticles(ModParticles.FROSTMOURNE_WAVE_PARTICLE.get(), player.getX(), player.getY() + player.getBbHeight() / 3, player.getZ(), 1, 0, 0, 0, 0);
             player.getCooldowns().addCooldown(stack.getItem(), 80);

@@ -19,11 +19,13 @@ public class ModCreativeModTabs {
                     .displayItems((itemDisplayParameters, output) -> {
 
 //                        output.accept(ModItems.DIVINE_RHITTA_AXE.get());
+                        output.accept(ModItems.ATOMIC_JUDGEMENT_HAMMER.get());
                         output.accept(ModItems.DOOMFIST_GAUNTLET.get());
                         output.accept(ModItems.EVENT_HORIZON_LANCE.get());
                         output.accept(ModItems.EXCALIBUR_SWORD.get());
                         output.accept(ModItems.FALLEN_SCYTHE.get().getDefaultInstance());
-                        output.accept(ModItems.FROSTMOURNE.get());
+                        output.accept(ModItems.FROSTMOURNE_SWORD.get());
+                        output.accept(ModItems.GUNGNIR_TRIDENT.get());
                         output.accept(ModItems.JACKPOT_HAMMER.get());
                         output.accept(ModItems.LEAF_BLOWER.get());
 //                        output.accept(ModItems.QUANTUM_DRILL.get());

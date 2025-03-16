@@ -35,6 +35,7 @@ public class ModParticlesHandler {
                 Pair.of(ModParticles.SHADOW_SWEEP_PARTICLE.get(), VoidSweepParticle.Provider::new),
                 Pair.of(ModParticles.SOUL_SWEEP_PARTICLE.get(), SoulSweepParticle.Provider::new),
                 Pair.of(ModParticles.ZAP_PARTICLE.get(), ZapParticle.Provider::new),
+                Pair.of(ModParticles.RADIATION_PARTICLE.get(), RadiationParticle.Provider::new),
                 Pair.of(ModParticles.STARBURST_PARTICLE.get(), StarburstParticle.Provider::new),
                 Pair.of(ModParticles.POKER_CHIP_RED_PARTICLE.get(), PokerChipRedParticle.Provider::new),
                 Pair.of(ModParticles.POKER_CHIP_GREEN_PARTICLE.get(), PokerChipGreenParticle.Provider::new),
@@ -43,11 +44,12 @@ public class ModParticlesHandler {
                 Pair.of(ModParticles.TERRA_PARTICLE.get(), TerraParticle.Provider::new),
                 Pair.of(ModParticles.SPARKLE_PARTICLE.get(), SparkleParticle.Provider::new),
                 Pair.of(ModParticles.SWORD_WAVE_PARTICLE.get(), SwordWaveParticle.Provider::new),
-                Pair.of(ModParticles.FROSTMOURNE_WAVE_PARTICLE.get(), FrostmourneWave.Provider::new)
+                Pair.of(ModParticles.FROSTMOURNE_WAVE_PARTICLE.get(), FrostmourneWave.Provider::new),
+                Pair.of(ModParticles.NUCLEAR_EXPLOSION_PARTICLE.get(), NuclearExplosionParticle.Provider::new)
         );
 
-
-        event.registerSpecial(ModParticles.THUNDERBOLT_TRAIL_PARTICLE.get(), new ThunderboltTrail.OrbFactory());
+        event.registerSpecial(ModParticles.NUCLEAR_EXPLOSION_EMITTER.get(), new NuclearExplosionSeedParticle.Provider());
+        event.registerSpecial(ModParticles.THUNDERBOLT_TRAIL_PARTICLE.get(), new TridentTrail.OrbFactory());
         event.registerSpecial(ModParticles.SWORD_BEAM_TRAIL_PARTICLE.get(), new SwordBeamTrail.OrbFactory());
         event.registerSpecial(ModParticles.PLANET_TRAIL_PARTICLE.get(), new PlanetTrail.OrbFactory());
 

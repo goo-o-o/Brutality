@@ -80,7 +80,7 @@ public class ExcaliburSword extends ArmaSwordItem {
             tag.putBoolean(AURA_ACTIVE, !tag.getBoolean(AURA_ACTIVE));
             tag.putInt(CMD, tag.getBoolean(AURA_ACTIVE) ? 1 : 0);
             if (tag.getBoolean(AURA_ACTIVE)) {
-                ModUtils.replaceOrAddModifier(stack, Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_UUID, 11, EquipmentSlot.MAINHAND);
+                ModUtils.replaceOrAddModifier(stack, Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_UUID, 13, EquipmentSlot.MAINHAND);
                 ModUtils.replaceOrAddModifier(stack, ForgeMod.ENTITY_REACH.get(), BASE_ENTITY_INTERACTION_RANGE_UUID, 5, EquipmentSlot.MAINHAND);
             } else {
                 ModUtils.removeModifier(stack, BASE_ATTACK_DAMAGE_UUID);
@@ -99,7 +99,7 @@ public class ExcaliburSword extends ArmaSwordItem {
                 player.getCooldowns().addCooldown(item, 60);
                 level.playSound(player, player.getOnPos(), ModSounds.TERRA_BLADE_USE.get(), SoundSource.PLAYERS);
                 shootProjectile(() -> new ExcaliburBeam(ModEntities.EXCALIBUR_BEAM.get(), level), player, level, 0.25F);
-                stack.hurtAndBreak(1, player, pPlayer -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+                stack.hurtAndBreak(20, player, pPlayer -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
             }
         }
         return super.onEntitySwing(stack, entity);
@@ -129,7 +129,7 @@ public class ExcaliburSword extends ArmaSwordItem {
                     }
                 }
 
-                if (tickCount % 3 == 0) {
+                if (tickCount % 2 == 0) {
                     pStack.hurtAndBreak(1, player, pPlayer -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
                 }
             } else tickCount = 0;

@@ -39,7 +39,7 @@ public class ArmaTridentItem extends TridentItem implements ArmaGeoItem {
     public int abilityCount;
 
     public ArmaTridentItem(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
-        super(new Item.Properties().defaultDurability(1500));
+        super(new Item.Properties().defaultDurability(1561));
         this.category = category;
         this.identifier = identifier;
         this.rarity = rarity;

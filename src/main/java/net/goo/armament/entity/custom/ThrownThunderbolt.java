@@ -1,10 +1,8 @@
 package net.goo.armament.entity.custom;
 
 import net.goo.armament.client.entity.ArmaGeoEntity;
-import net.goo.armament.client.renderers.entity.ArmaGlowingTridentRenderer;
-import net.goo.armament.particle.custom.ThunderboltTrail;
+import net.goo.armament.particle.custom.TridentTrail;
 import net.goo.armament.registry.ModEntities;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -36,11 +34,8 @@ import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInst
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 import javax.annotation.Nullable;
-
-import java.util.function.Consumer;
 
 import static net.goo.armament.util.ModUtils.hasInfinity;
 
@@ -120,7 +115,12 @@ public class ThrownThunderbolt extends AbstractArrow implements ArmaGeoEntity {
     }
 
     public void tick() {
-        this.level().addParticle((new ThunderboltTrail.OrbData(0.85F, 0.85F, 0.15F, this.getId())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+        if (!inGround) {
+        this.level().addParticle((new TridentTrail.OrbData(0.85F, 0.85F, 0.15F, this.getId())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+
+        }
+
+
 
 
         if (this.inGroundTime > 4) {
@@ -296,8 +296,4 @@ public class ThrownThunderbolt extends AbstractArrow implements ArmaGeoEntity {
         );
     }
 
-    @Override
-    public <T extends Entity & ArmaGeoEntity, R extends GeoEntityRenderer<T>> void initGeo(Consumer<EntityRendererProvider<T>> consumer, Class<R> rendererClass) {
-        ArmaGeoEntity.super.initGeo(consumer, ArmaGlowingTridentRenderer.class);
-    }
 }

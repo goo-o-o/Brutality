@@ -48,7 +48,7 @@ public class ThunderboltTrident extends ArmaTridentItem implements Vanishable {
     );
 
     public ThunderboltTrident(Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
-        super(new Item.Properties().durability(1500), identifier, category, rarity, abilityCount);
+        super(new Item.Properties().durability(1561), identifier, category, rarity, abilityCount);
         this.colors = THUNDERBOLT_COLORS;
     }
 

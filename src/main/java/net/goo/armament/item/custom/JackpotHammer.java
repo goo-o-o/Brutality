@@ -47,7 +47,7 @@ public class JackpotHammer extends ArmaHammerItem implements GeoItem {
             }
         }
 
-        // Apply the attack speed modifier if the item is in the main hand or off hand
+        // Apply the attack speed modifier if the item is in the main hand or offhand
         if (slot == EquipmentSlot.MAINHAND) {
             builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeedModifier, AttributeModifier.Operation.ADDITION));
         }
@@ -83,7 +83,7 @@ public class JackpotHammer extends ArmaHammerItem implements GeoItem {
                     player.displayClientMessage(Component.literal(damage + " damage"), true);
 
                 } else {
-                    int msgPicker = level.random.nextInt(2);
+                    int msgPicker = level.random.nextInt(3);
 
                     player.displayClientMessage(Component.literal("\u00a7" +
                             (msgPicker == 0 ? "a\u00a7l\u00a7oCHA-CHING! " : msgPicker == 1 ? "b\u00a7l\u00a7oHUGE WIN! " : "c\u00a7l\u00a7oJACKPOT! ") + "\u00a7r" + damage + " damage"), true);

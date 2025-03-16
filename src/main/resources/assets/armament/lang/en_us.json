@@ -1,4 +1,13 @@
 {
+  "item.armament.atomic_judgement": "Atomic Judgement",
+  "item.armament.atomic_judgement.lore": "\"A hammer with a nuclear bomb attached as its head. It is extremely volatile and does not discriminate, handle with care.\"",
+  "item.armament.atomic_judgement.ability.name.1": "Critical Mass",
+  "item.armament.atomic_judgement.ability.desc.1": "Left click to strike an enemy, causing a massive explosion on impact. The explosion deals damage in a wide radius, obliterating blocks and setting the area ablaze.",
+  "item.armament.atomic_judgement.ability.name.2": "Nuclear Overload",
+  "item.armament.atomic_judgement.ability.desc.2": "Hold right click to charge the hammer, then release to launch yourself into the air. Upon landing, create a devastating shockwave that scales in power based on the distance fallen.",
+  "item.armament.atomic_judgement.ability.name.3": "Fallout",
+  "item.armament.atomic_judgement.ability.desc.3": "After each explosion, the area is saturated with ionizing radiation, damaging enemies over time. The user is immune to all types of radiation.",
+
   "item.armament.divine_axe_rhitta": "Divine Axe Rhitta",
   "item.armament.divine_axe_rhitta.lore": "\"A colossal battle axe imbued with the boundless power of the sun. Originally wielded by Lion Sin Escanor, the One who stands at the pinnacle of all races.\"",
   "item.armament.divine_axe_rhitta.ability.name.1": "Cruel Sun",
@@ -109,5 +118,7 @@
   "rarity.armament.mythic": "\u00a7dMYTHIC",
   "rarity.armament.fabled": "\u00a7cFABLED",
 
-  "creativeTab.armament_tab": "Armament"
+  "creativeTab.armament_tab": "Armament",
+
+  "effect.armament.radiation": "Radiation"
 }

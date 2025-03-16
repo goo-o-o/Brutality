@@ -23,6 +23,7 @@ public interface ModResources {
     ResourceLocation RARITY = new ResourceLocation(Armament.MOD_ID, "gamer"); // Font used: Gamer https://www.dafont.com/gamer-2.font
 
     // Colors
+    int[][] ATOMIC_JUDGEMENT_COLORS = new int[][] {{10, 155, 20}, {240, 230, 15}};
     int[][] RHITTA_COLORS = new int[][] {{255, 253, 112}, {86, 73, 191}};
     int[][] DOOMFIST_GAUNTLET_COLORS = new int[][]{{237, 205, 140}, {118, 118, 118}};
     int[][] EVENT_HORIZON_COLORS = new int[][]{{250, 140, 20}, {50, 50, 50}};
