@@ -40,7 +40,7 @@ public class ModEntities {
             ENTITY_TYPES.register("thrown_gungnir",
                     () -> EntityType.Builder.<ThrownGungnir>of(ThrownGungnir::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
-                            .clientTrackingRange(4)
+                            .clientTrackingRange(64)
                             .setUpdateInterval(20)
                             .build("thrown_gungnir"));
 

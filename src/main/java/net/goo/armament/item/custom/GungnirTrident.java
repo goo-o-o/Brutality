@@ -17,7 +17,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Vanishable;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -45,26 +44,24 @@ public class GungnirTrident extends ArmaTridentItem implements Vanishable {
 
     @Override
     public float getLaunchVel() {
-        return 3.5F;
+        return 2F;
     }
 
     @Override
     public void launchProjectile(Level pLevel, Player player, ItemStack pStack) {
-        int j = EnchantmentHelper.getRiptide(pStack);
 
-        if (j == 0) {
-            ThrownGungnir thrownEntity = new ThrownGungnir(pLevel, player, pStack);
-            thrownEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, getLaunchVel() + (float) j * 0.5F, 1.0F);
-            if (player.getAbilities().instabuild) {
-                thrownEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-            }
-
-            pLevel.addFreshEntity(thrownEntity);
-            pLevel.playSound(null, thrownEntity, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
-            if (!player.getAbilities().instabuild && !hasInfinity(pStack)) {
-                player.getInventory().removeItem(pStack);
-            }
+        ThrownGungnir thrownEntity = new ThrownGungnir(pLevel, player, pStack);
+        thrownEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, getLaunchVel(), 1.0F);
+        if (player.getAbilities().instabuild) {
+            thrownEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
         }
+
+        pLevel.addFreshEntity(thrownEntity);
+        pLevel.playSound(null, thrownEntity, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+        if (!player.getAbilities().instabuild && !hasInfinity(pStack)) {
+            player.getInventory().removeItem(pStack);
+        }
+
     }
 
     //==================================================================//
@@ -78,15 +75,12 @@ public class GungnirTrident extends ArmaTridentItem implements Vanishable {
         } else {
             if (itemstack.getDamageValue() >= itemstack.getMaxDamage() - 1) {
                 return InteractionResultHolder.fail(itemstack);
-            } else if (EnchantmentHelper.getRiptide(itemstack) > 0 && !pPlayer.isInWaterOrRain()) {
-                return InteractionResultHolder.fail(itemstack);
             } else {
                 pPlayer.startUsingItem(pHand);
                 return InteractionResultHolder.consume(itemstack);
             }
         }
     }
-
 
 
     @Override
