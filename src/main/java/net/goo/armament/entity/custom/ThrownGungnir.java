@@ -39,7 +39,6 @@ import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import javax.annotation.Nullable;
 
@@ -50,13 +49,14 @@ public class ThrownGungnir extends AbstractArrow implements ArmaGeoEntity {
     public static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownGungnir.class, EntityDataSerializers.BOOLEAN);
     public ItemStack pickupItem = new ItemStack(Items.TRIDENT);
     public boolean dealtDamage;
-    public int clientSideReturnTridentTickCount, targetsHit = 0, homingCooldown = 0, attackCount = 5;
+    public int clientSideReturnTridentTickCount, targetsHit = 0, homingCooldown = 0, attackCount = 5; // Attack count needs to be higher by 1 as I'm too lazy to change the rest of the codes logic
     public LivingEntity target;
     private boolean hasBeenShot;
     private boolean leftOwner;
     private BlockState lastState;
     private int life;
     private final IntOpenHashSet ignoredEntities = new IntOpenHashSet();
+    private boolean noTarget;
 
     public ThrownGungnir(EntityType<? extends ThrownGungnir> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -87,7 +87,7 @@ public class ThrownGungnir extends AbstractArrow implements ArmaGeoEntity {
 
 
     public float getDamage() {
-        return 8F;
+        return 6F;
     }
 
     protected float getWaterInertia() {
@@ -318,10 +318,12 @@ public class ThrownGungnir extends AbstractArrow implements ArmaGeoEntity {
             this.target = null;
         }
 
-        if (this.tickCount % 5 == 0 && this.target == null && this.targetsHit < attackCount) {
-            AABB searchArea = new AABB(this.position(), this.position()).inflate(15);
-            target = level().getNearestEntity(LivingEntity.class, TargetingConditions.DEFAULT, ((LivingEntity) this.getOwner()), this.getX(), this.getY(), this.getZ(), searchArea);
-        }
+        if (!this.inGround) {
+            if (this.tickCount % 5 == 0 && this.target == null && this.targetsHit < attackCount) {
+                AABB searchArea = new AABB(this.position(), this.position()).inflate(15);
+                target = level().getNearestEntity(LivingEntity.class, TargetingConditions.DEFAULT, ((LivingEntity) this.getOwner()), this.getX(), this.getY(), this.getZ(), searchArea);
+            }
+        } else this.noTarget = true;
 
         if (target != null && this.targetsHit < attackCount && this.homingCooldown <= 0) {
             Vec3 toTargetVec = target.getEyePosition().subtract(this.position());
@@ -336,27 +338,28 @@ public class ThrownGungnir extends AbstractArrow implements ArmaGeoEntity {
         }
 
         this.setDeltaMovement(this.getDeltaMovement().add(0.0D, getGravity(), 0.0D));  // Update the DeltaMovement
-
-        Entity entity = this.getOwner();
+        Entity owner = this.getOwner();
         int i = this.entityData.get(ID_LOYALTY);
-        if (i > 0 && (this.dealtDamage || this.isNoPhysics()) && entity != null) { // Check if hit mob or block and there is an owner
-
+        if (i > 0 && (this.dealtDamage || this.isNoPhysics() || this.noTarget) && owner != null) { // Check if hit mob or block and there is an owner
             if (!this.isAcceptibleReturnOwner()) {
                 if (!this.level().isClientSide && this.pickup == Pickup.ALLOWED) {
                     this.discard();
                 }
-
             } else {
+                // Ensure the trident returns even if it is in the ground
+                if (this.inGround) {
+                    this.inGround = false; // Reset inGround to allow movement
+                }
 
                 this.setNoPhysics(true);
-                Vec3 toOwnerVec = entity.getEyePosition().subtract(this.position());
+                Vec3 toOwnerVec = owner.getEyePosition().subtract(this.position());
                 this.setPosRaw(this.getX(), this.getY() + toOwnerVec.y * 0.015D * (double) i, this.getZ());
                 if (this.level().isClientSide) {
                     this.yOld = this.getY();
                 }
 
                 double d0 = 0.05D * (double) i;
-                this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(vec3.normalize().scale(d0))); // Base Loyalty + Loyalty level speed
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(toOwnerVec.normalize().scale(d0))); // Base Loyalty + Loyalty level speed
                 if (this.clientSideReturnTridentTickCount == 0) {
                     this.playSound(SoundEvents.TRIDENT_RETURN, 10.0F, 1.0F);
                 }
@@ -399,9 +402,9 @@ public class ThrownGungnir extends AbstractArrow implements ArmaGeoEntity {
 
         LivingEntity owner = (LivingEntity) this.getOwner();
         DamageSource damagesource = this.damageSources().trident(this, owner == null ? this : target);
+        this.targetsHit++;
         if (this.targetsHit >= attackCount) {
             this.dealtDamage = true;
-            this.setNoPhysics(true);
         }
 
         this.homingCooldown = 15;
@@ -418,8 +421,6 @@ public class ThrownGungnir extends AbstractArrow implements ArmaGeoEntity {
             }
         }
 
-        this.targetsHit++;
-        System.out.println(targetsHit);
         RandomSource random = this.level().getRandom();
         float range = 0.5F;
         this.setDeltaMovement(this.getDeltaMovement().multiply(0, -0.15, 0).add(ModUtils.nextFloatBetweenInclusive(random, -range, range), 0.3, ModUtils.nextFloatBetweenInclusive(random, -range, range)));
@@ -496,11 +497,6 @@ public class ThrownGungnir extends AbstractArrow implements ArmaGeoEntity {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
     }
 
     protected void onHitBlock(BlockHitResult pResult) {
