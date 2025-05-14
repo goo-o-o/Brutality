@@ -1,0 +1,11 @@
+{
+  "providers": [
+    {
+      "type": "ttf",
+      "file": "armament:alagard.ttf",
+      "shift": [0, 0.8],
+      "size": 34.0,
+      "oversample": 10.0
+    }
+  ]
+}

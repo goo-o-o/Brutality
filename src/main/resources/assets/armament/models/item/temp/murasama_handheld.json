@@ -1,0 +1,41 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -6,
+        2
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -6,
+        2
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        2,
+        -8,
+        -1
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        2,
+        -8,
+        -1
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        -2,
+        0
+      ]
+    }
+  }
+}

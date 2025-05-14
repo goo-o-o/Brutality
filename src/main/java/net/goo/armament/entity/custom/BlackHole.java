@@ -65,7 +65,7 @@ public class BlackHole extends ThrowableProjectile implements ArmaGeoEntity {
         Vec3 blackHolePos = this.getPosition(1.0F);
         super.tick();
         if (ownerUUID != null) {
-            List<Entity> nearbyEntities = level().getEntities(this, this.getBoundingBox().inflate(7.5),
+            List<Entity> nearbyEntities = level().getEntities(this, this.getBoundingBox().inflate(3.5),
                     e -> e instanceof LivingEntity && !(e instanceof Player && (e.isSpectator() || ((Player) e).isCreative()) ));
 
             for (Entity entity : nearbyEntities) {
@@ -73,7 +73,7 @@ public class BlackHole extends ThrowableProjectile implements ArmaGeoEntity {
                     Vec3 targetPos = entity.getPosition(1.0F);
                     Vec3 targetVector = blackHolePos.subtract(targetPos).normalize();
 
-                    entity.addDeltaMovement(targetVector.scale(0.2F));
+                    entity.addDeltaMovement(targetVector.scale(0.15F));
                     if (entity instanceof ServerPlayer player) {
                         player.connection.send(new ClientboundSetEntityMotionPacket(player));
                     }

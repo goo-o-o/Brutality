@@ -6,7 +6,7 @@
 				"identifier": "geometry.thrown_gungnir",
 				"texture_width": 64,
 				"texture_height": 32,
-				"visible_bounds_width": 2,
+				"visible_bounds_width": 3,
 				"visible_bounds_height": 4,
 				"visible_bounds_offset": [0, 1, 0]
 			},
@@ -270,6 +270,7 @@
 						{
 							"origin": [0, 6, -8],
 							"size": [0, 16, 16],
+							"inflate": 0.01,
 							"uv": {
 								"east": {"uv": [45, 0], "uv_size": [-16, 16]},
 								"west": {"uv": [29, 0], "uv_size": [16, 16]}

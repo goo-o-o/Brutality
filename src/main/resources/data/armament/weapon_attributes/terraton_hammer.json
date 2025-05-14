@@ -1,0 +1,6 @@
+{
+  "parent": "bettercombat:hammer",
+  "attributes": {
+    "upswing" : 0.3
+  }
+}

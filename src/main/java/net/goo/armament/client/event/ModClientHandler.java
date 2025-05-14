@@ -18,11 +18,14 @@ public class ModClientHandler {
         event.registerEntityRenderer(ModEntities.THROWN_GUNGNIR_ENTITY.get(), ArmaGlowingTridentRenderer::new);
         event.registerEntityRenderer(ModEntities.TERRA_BEAM.get(), SwordBeamRenderer::new);
         event.registerEntityRenderer(ModEntities.BLACK_HOLE_ENTITY.get(), ArmaEntityRenderer::new);
+        event.registerEntityRenderer(ModEntities.EXPLOSION_RAY.get(), ArmaRayRenderer::new);
+        event.registerEntityRenderer(ModEntities.MAGIC_EXPLOSION.get(), ArmaFullbrightEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.SUPERNOVA_PORTAL.get(), ArmaEndPortalEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.SUPERNOVA_ASTEROID.get(), ArmaGlowingEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.EXCALIBUR_BEAM.get(), SwordBeamRenderer::new);
         event.registerEntityRenderer(ModEntities.SWORD_WAVE.get(), SwordWaveRenderer::new);
         event.registerEntityRenderer(ModEntities.SUMMONED_STRAY.get(), StrayRenderer::new);
+        event.registerEntityRenderer(ModEntities.LIGHT_ARROW.get(), ArmaGlowingArrowRenderer::new);
 
     }
 

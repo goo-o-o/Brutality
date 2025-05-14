@@ -1,11 +1,12 @@
 package net.goo.armament.particle.custom;
 
-import net.goo.armament.util.ModResources;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.entity.player.Player;
+
+import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
 
 public class RadiationParticle extends TextureSheetParticle {
     float direction;
@@ -49,7 +50,7 @@ public class RadiationParticle extends TextureSheetParticle {
 
     @Override
     protected int getLightColor(float pPartialTick) {
-        return ModResources.MAX_LIGHT;
+        return FULL_BRIGHT;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

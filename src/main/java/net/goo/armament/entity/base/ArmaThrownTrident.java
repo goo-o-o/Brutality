@@ -33,7 +33,7 @@ public class ArmaThrownTrident extends AbstractArrow {
     public boolean dealtDamage;
     public int clientSideReturnTridentTickCount;
 
-    public ArmaThrownTrident(EntityType<? extends ArmaThrownTrident> pEntityType, Level pLevel) {
+    public ArmaThrownTrident(EntityType<? extends ArmaThrownTrident> pEntityType, LivingEntity pShooter, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
@@ -43,6 +43,7 @@ public class ArmaThrownTrident extends AbstractArrow {
         this.entityData.set(ID_LOYALTY, (byte) EnchantmentHelper.getLoyalty(pStack));
         this.entityData.set(ID_FOIL, pStack.hasFoil());
     }
+
 
     // CHANGE THESE
     public int getLifespan() {

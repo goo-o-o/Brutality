@@ -7,6 +7,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
+import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
+
 public class SparkleParticle extends TextureSheetParticle {
     private final boolean rollingClockwise;
     protected float initialRollSpeed = 7.5F, rollInertia = 0.95F;
@@ -57,7 +59,7 @@ public class SparkleParticle extends TextureSheetParticle {
 
     @Override
     protected int getLightColor(float pPartialTick) {
-        return 15728880;
+        return FULL_BRIGHT;
     }
 
     @OnlyIn(Dist.CLIENT)

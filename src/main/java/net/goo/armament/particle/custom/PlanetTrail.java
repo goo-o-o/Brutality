@@ -21,7 +21,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Locale;
 
-public class PlanetTrail extends AbstractLightTrailParticleHorizontal {
+public class PlanetTrail extends AbstractCameraAlignedParticleHorizontal {
 
     private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(Armament.MOD_ID, "textures/particle/planet_trail_particle.png");
 

@@ -1,6 +1,6 @@
 package net.goo.armament.mob_effect;
 
-import net.goo.armament.item.custom.AtomicJudgementHammer;
+import net.goo.armament.item.weapon.custom.AtomicJudgementHammer;
 import net.goo.armament.registry.ModParticles;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;

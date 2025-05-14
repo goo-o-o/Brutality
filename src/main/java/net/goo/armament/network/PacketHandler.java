@@ -38,6 +38,24 @@ public class PacketHandler {
                 .decoder(s2cCustomExplosionPacket::new)
                 .consumerMainThread(s2cCustomExplosionPacket::handle)
                 .add();
+
+        NETWORK_CHANNEL.messageBuilder(s2cEnhancedExactParticlePacket.class, packetId++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(s2cEnhancedExactParticlePacket::write)
+                .decoder(s2cEnhancedExactParticlePacket::new)
+                .consumerMainThread(s2cEnhancedExactParticlePacket::handle)
+                .add();
+
+        NETWORK_CHANNEL.messageBuilder(c2sSwordBeamPacket.class, packetId++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(c2sSwordBeamPacket::write)
+                .decoder(c2sSwordBeamPacket::new)
+                .consumerMainThread(c2sSwordBeamPacket::handle)
+                .add();
+
+        NETWORK_CHANNEL.messageBuilder(c2sChangeNBTPacket.class, packetId++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(c2sChangeNBTPacket::write)
+                .decoder(c2sChangeNBTPacket::new)
+                .consumerMainThread(c2sChangeNBTPacket::handle)
+                .add();
     }
 
     public static void sendToServer(Object msg) {

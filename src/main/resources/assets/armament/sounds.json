@@ -58,5 +58,35 @@
     "sounds": [
       {"name": "armament:big_explosion"}
     ]
+  },
+  "bigger_explosion": {
+    "category": "block",
+    "sounds": [
+      {"name": "armament:bigger_explosion"}
+    ]
+  },
+  "wings_flap": {
+    "category": "item",
+    "sounds": [
+      {"name": "armament:wings_flap"}
+    ]
+  },
+  "murasama_1": {
+    "category": "player",
+    "sounds": [
+      {"name": "armament:murasama_1"}
+    ]
+  },
+  "murasama_2": {
+    "category": "player",
+    "sounds": [
+      {"name": "armament:murasama_2"}
+    ]
+  },
+  "murasama_3": {
+    "category": "player",
+    "sounds": [
+      {"name": "armament:murasama_3"}
+    ]
   }
 }

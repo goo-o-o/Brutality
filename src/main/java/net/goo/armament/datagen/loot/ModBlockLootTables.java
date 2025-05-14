@@ -1,6 +1,6 @@
 package net.goo.armament.datagen.loot;
 
-import net.goo.armament.block.ModBlocks;
+import net.goo.armament.registry.ModBlocks;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;

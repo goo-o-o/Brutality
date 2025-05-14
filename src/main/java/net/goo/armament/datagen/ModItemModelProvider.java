@@ -1,9 +1,12 @@
 package net.goo.armament.datagen;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.goo.armament.Armament;
-import net.goo.armament.client.item.ArmaGeoItem;
-import net.goo.armament.item.custom.ExcaliburSword;
+import net.goo.armament.item.ArmaGeoItem;
+import net.goo.armament.item.ArmaArmorItem;
+import net.goo.armament.item.weapon.base.ArmaBowItem;
+import net.goo.armament.item.weapon.custom.ExcaliburSword;
 import net.goo.armament.registry.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
@@ -23,7 +26,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
@@ -47,10 +49,6 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, Armament.MOD_ID, existingFileHelper);
-    }
-
-    private boolean isArmaGeoItem(RegistryObject<Item> item) {
-        return item.get() instanceof ArmaGeoItem;
     }
 
     private boolean isExcluded(ArmaGeoItem item) {
@@ -173,65 +171,139 @@ public class ModItemModelProvider extends ItemModelProvider {
     }
 
     private void generateArmaGeoItemModel(ArmaGeoItem item) {
-        ResourceLocation modelLocation = new ResourceLocation(Armament.MOD_ID, "item/" + item.geoIdentifier());
 
         // Generate the missing models
         generateInventoryModel(item);
-        generateSeparateTransformsModel(item);
+        if (!(item instanceof ArmaArmorItem))
+            generateSeparateTransformsModel(item);
     }
 
 
     private void generateInventoryModel(ArmaGeoItem item) {
-        ResourceLocation textureLocation = new ResourceLocation(Armament.MOD_ID, "item/" + item.geoIdentifier() + "_inventory");
+
+
+        ResourceLocation textureLocation = new ResourceLocation(Armament.MOD_ID,
+                        "item/" + item.getCategoryAsString().toLowerCase() + "/"
+                                + (item instanceof ArmaArmorItem ? "" : (item.geoIdentifier() + "/")) + item.geoIdentifier() + "_inventory");
+
         if (existingFileHelper.exists(textureLocation, ModelProvider.TEXTURE)) {
-            withExistingParent(item.geoIdentifier() + "_inventory", mcLoc("item/handheld"))
+
+            withExistingParent(item.geoIdentifier() + (item instanceof ArmaArmorItem ? "" : "_inventory"), mcLoc("item/generated"))
                     .texture("layer0", textureLocation);
         } else {
             Armament.LOGGER.warn("Skipping inventory model generation for {}: Texture {} does not exist", item.geoIdentifier(), textureLocation);
         }
     }
 
+    private void generateInventoryModel(ArmaGeoItem item, int i) {
+        ResourceLocation textureLocation = new ResourceLocation(Armament.MOD_ID, "item/" + item.getCategoryAsString().toLowerCase() + "/" + item.geoIdentifier() + "/" + item.geoIdentifier() + "_inventory");
+        if (existingFileHelper.exists(textureLocation, ModelProvider.TEXTURE)) {
+            withExistingParent(item.geoIdentifier() + "_inventory_pull_texture_" + i, mcLoc("item/generated"))
+                    .texture("layer0", textureLocation + "_pull_" + i);
+        } else {
+            Armament.LOGGER.warn("Skipping inventory model generation for {}: Texture {} does not exist", item.geoIdentifier(), textureLocation);
+        }
+    }
+
     private void generateSeparateTransformsModel(ArmaGeoItem item) {
-        String handHeldModel = new ResourceLocation(Armament.MOD_ID, "item/" + item.geoIdentifier() + "_handheld").toString();
-        String inventoryModel = new ResourceLocation(Armament.MOD_ID, "item/" + item.geoIdentifier() + "_inventory").toString();
+        String handHeldModel = new ResourceLocation(Armament.MOD_ID, "item/" + item.getCategoryAsString() + "/" + item.geoIdentifier() + "_handheld").toString();
+        String baseInventoryModel = new ResourceLocation(Armament.MOD_ID, "item/" + item.geoIdentifier() + "_inventory").toString();
 
-        // Create the base model (default perspective)
+        // Create base model JSON
         JsonObject baseModelJson = withExistingParent(item.geoIdentifier(), mcLoc("item/handheld")).toJson();
-
         baseModelJson.addProperty("parent", handHeldModel);
 
-        // Create the perspectives object
-        JsonObject perspectives = new JsonObject();
+        if (item instanceof ArmaBowItem) {
+            JsonArray overrides = new JsonArray();
+            float[] pullValues = {0.0F, 0.65F, 0.9F};
 
-        // GUI perspective
-        JsonObject guiModelJson = new JsonObject();
-        guiModelJson.addProperty("parent", inventoryModel);
+            for (int i = 0; i < 3; i++) {
+                // Create pulling variant model
+                String variantModelName = item.geoIdentifier() + "_inventory_pull_" + i;
+                String variantTextureName = item.geoIdentifier() + "_inventory_pull_texture_" + i;
+                String variantTexturePath = new ResourceLocation(Armament.MOD_ID, "item/" + item.getCategoryAsString().toLowerCase() + "/" + item.geoIdentifier() + "/" + variantTextureName).toString();
 
-        perspectives.add("gui", guiModelJson);
+                // Create variant model JSON
+                JsonObject variantModelJson = new JsonObject();
+                variantModelJson.addProperty("parent", "minecraft:item/generated");
+                variantModelJson.addProperty("loader", "forge:separate_transforms");
+                variantModelJson.add("base", baseModelJson);
 
-        // Ground perspective
-        JsonObject groundModelJson = new JsonObject();
-        groundModelJson.addProperty("parent", handHeldModel);
+                // Create variant perspectives
+                JsonObject variantPerspectives = new JsonObject();
 
-        perspectives.add("ground", groundModelJson);
+                JsonObject guiPerspective = new JsonObject();
+                guiPerspective.addProperty("parent", variantTexturePath);
+                variantPerspectives.add("gui", guiPerspective);
 
-        // Fixed perspective
-        JsonObject fixedModelJson = new JsonObject();
-        fixedModelJson.addProperty("parent", inventoryModel);
+                JsonObject fixedPerspective = new JsonObject();
+                fixedPerspective.addProperty("parent", variantTexturePath);
+                variantPerspectives.add("fixed", fixedPerspective);
 
-        perspectives.add("fixed", fixedModelJson);
+                variantModelJson.add("perspectives", variantPerspectives);
 
-        // Create the main JSON object
-        JsonObject modelJson = new JsonObject();
-        modelJson.addProperty("parent", "minecraft:item/handheld");
-        modelJson.addProperty("loader", "forge:separate_transforms");
-        modelJson.add("base", baseModelJson);
-        modelJson.add("perspectives", perspectives);
+                // Save the variant model
+                withExistingParent(variantModelName, mcLoc("item/generated"));
+                saveModel(variantModelName, variantModelJson);
 
-        // Save the JSON file
-        saveModel(item.geoIdentifier(), modelJson);
+                // Generate inventory model (textures)
+                generateInventoryModel(item, i);
+
+                // Add to overrides
+                JsonObject overrideEntry = new JsonObject();
+                JsonObject predicate = new JsonObject();
+                predicate.addProperty("pulling", 1);
+                predicate.addProperty("pull", pullValues[i]);
+                overrideEntry.add("predicate", predicate);
+                overrideEntry.addProperty("model", Armament.MOD_ID + ":item/" + variantModelName);
+                overrides.add(overrideEntry);
+            }
+
+            // Create main model JSON
+            JsonObject mainModelJson = new JsonObject();
+            mainModelJson.addProperty("parent", "minecraft:item/generated");
+            mainModelJson.addProperty("loader", "forge:separate_transforms");
+            mainModelJson.add("base", baseModelJson);
+
+            // Add default perspectives (for non-pulling state)
+            JsonObject mainPerspectives = new JsonObject();
+            JsonObject mainGui = new JsonObject();
+            mainGui.addProperty("parent", baseInventoryModel);
+            mainPerspectives.add("gui", mainGui);
+
+            JsonObject mainFixed = new JsonObject();
+            mainFixed.addProperty("parent", baseInventoryModel);
+            mainPerspectives.add("fixed", mainFixed);
+
+            mainModelJson.add("perspectives", mainPerspectives);
+            mainModelJson.add("overrides", overrides);
+
+            // Save main model
+            saveModel(item.geoIdentifier(), mainModelJson);
+        } else {
+            // Non-bow item handling
 
 
+            JsonObject modelJson = new JsonObject();
+            modelJson.addProperty("parent", "minecraft:item/generated");
+            modelJson.addProperty("loader", "forge:separate_transforms");
+            modelJson.add("base", baseModelJson);
+
+
+            JsonObject perspectives = new JsonObject();
+            JsonObject gui = new JsonObject();
+            gui.addProperty("parent", baseInventoryModel);
+            perspectives.add("gui", gui);
+
+            JsonObject fixed = new JsonObject();
+            fixed.addProperty("parent", baseInventoryModel);
+            perspectives.add("fixed", fixed);
+
+            modelJson.add("perspectives", perspectives);
+
+            saveModel(item.geoIdentifier(), modelJson);
+
+        }
     }
 
     private void saveModel(String itemName, JsonObject modelJson) {
@@ -239,16 +311,13 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .resolve(Armament.MOD_ID + "/models/item/" + itemName + ".json");
         try {
             Files.createDirectories(path.getParent());
-            Files.write(path, modelJson.toString().getBytes(StandardCharsets.UTF_8));
+            Files.writeString(path, modelJson.toString());
             Armament.LOGGER.info("Saved model for {} at {}", itemName, path);
         } catch (IOException e) {
             Armament.LOGGER.error("Failed to save model for {}", itemName, e);
         }
     }
 
-    private boolean modelExists(ResourceLocation modelLocation) {
-        return existingFileHelper.exists(modelLocation, PackType.CLIENT_RESOURCES, ".json", "models");
-    }
 }
 
 

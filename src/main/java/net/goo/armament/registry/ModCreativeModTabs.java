@@ -28,12 +28,33 @@ public class ModCreativeModTabs {
                         output.accept(ModItems.GUNGNIR_TRIDENT.get());
                         output.accept(ModItems.JACKPOT_HAMMER.get());
                         output.accept(ModItems.LEAF_BLOWER.get());
+                        output.accept(ModItems.FIRST_EXPLOSION_STAFF.get().getDefaultInstance());
+                        output.accept(ModItems.MURASAMA_SWORD.get());
+                        output.accept(ModItems.PROVIDENCE_BOW.get());
 //                        output.accept(ModItems.QUANTUM_DRILL.get());
 //                        output.accept(ModItems.RESONANCE_PICKAXE.get());
-                        output.accept(ModItems.SHADOWSTEP_SWORD.get());
-                        output.accept(ModItems.SUPERNOVA_SWORD.get().getDefaultInstance());
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                        output.accept(ModItems.TERRA_HELMET.get());
+                        output.accept(ModItems.TERRA_CHESTPLATE.get());
+                        output.accept(ModItems.TERRA_LEGGINGS.get());
+                        output.accept(ModItems.TERRA_BOOTS.get());
                         output.accept(ModItems.TERRA_BLADE.get());
                         output.accept(ModItems.TERRATON_HAMMER.get());
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                        output.accept(ModItems.NOIR_HELMET.get());
+                        output.accept(ModItems.NOIR_CHESTPLATE.get());
+                        output.accept(ModItems.NOIR_LEGGINGS.get());
+                        output.accept(ModItems.NOIR_BOOTS.get());
+                        output.accept(ModItems.CANOPY_OF_SHADOWS.get());
+                        output.accept(ModItems.SHADOWSTEP_SWORD.get());
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                        output.accept(ModItems.SUPERNOVA_SWORD.get().getDefaultInstance());
                         output.accept(ModItems.TRUTHSEEKER_SWORD.get());
 //                        output.accept(ModItems.VIPER_RAPIER.get());
                         output.accept(ModItems.THUNDERBOLT_TRIDENT.get().getDefaultInstance());
@@ -45,5 +66,5 @@ public class ModCreativeModTabs {
         CREATIVE_MODE_TABS.register(eventBus);
     }
 
-
 }
+

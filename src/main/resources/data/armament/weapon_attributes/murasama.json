@@ -1,0 +1,16 @@
+{
+  "parent": "bettercombat:katana",
+  "attributes": {
+    "attacks": [
+      {
+        "swing_sound" : { "id" : "armament:murasama_1"}
+      },
+      {
+        "swing_sound" : { "id" : "armament:murasama_2"}
+      },
+      {
+        "swing_sound" : { "id" : "armament:murasama_3"}
+      }
+    ]
+  }
+}

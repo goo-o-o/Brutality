@@ -1,8 +1,14 @@
 package net.goo.armament.registry;
 
 import net.goo.armament.Armament;
+import net.goo.armament.entity.base.ArmaArrow;
 import net.goo.armament.entity.base.SwordWave;
 import net.goo.armament.entity.custom.*;
+import net.goo.armament.entity.custom.arrow.LightArrow;
+import net.goo.armament.entity.custom.beam.ExcaliburBeam;
+import net.goo.armament.entity.custom.beam.TerraBeam;
+import net.goo.armament.entity.custom.trident.ThrownGungnir;
+import net.goo.armament.entity.custom.trident.ThrownThunderbolt;
 import net.goo.armament.entity.mobs.SummonedStray;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -32,7 +38,7 @@ public class ModEntities {
             ENTITY_TYPES.register("thrown_thunderbolt",
                     () -> EntityType.Builder.<ThrownThunderbolt>of(ThrownThunderbolt::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
-                            .clientTrackingRange(4)
+                            .clientTrackingRange(64)
                             .setUpdateInterval(20)
                             .build("thrown_thunderbolt"));
 
@@ -66,6 +72,16 @@ public class ModEntities {
                             .setUpdateInterval(1)
                             .build("black_hole"));
 
+    public static final RegistryObject<EntityType<ExplosionRay>> EXPLOSION_RAY =
+            ENTITY_TYPES.register("explosion_ray",
+                    () -> EntityType.Builder.of(ExplosionRay::new,
+                            MobCategory.MISC).sized(1, 1).build("explosion_ray"));
+
+    public static final RegistryObject<EntityType<MagicExplosion>> MAGIC_EXPLOSION =
+            ENTITY_TYPES.register("magic_explosion",
+                    () -> EntityType.Builder.of(MagicExplosion::new,
+                            MobCategory.MISC).sized(1, 1).build("magic_explosion"));
+
     public static final RegistryObject<EntityType<SupernovaPortal>> SUPERNOVA_PORTAL =
             ENTITY_TYPES.register("supernova_portal",
                     () -> EntityType.Builder.of(SupernovaPortal::new,
@@ -76,6 +92,14 @@ public class ModEntities {
                     () -> EntityType.Builder.of((EntityType<SupernovaAsteroid> pEntityType, Level pLevel) -> new SupernovaAsteroid(pEntityType, pLevel, 0),
                             MobCategory.MISC).sized(1F, 1F)
                             .setUpdateInterval(1).build("supernova_asteroid"));
+
+    public static final RegistryObject<EntityType<? extends ArmaArrow>> LIGHT_ARROW =
+            ENTITY_TYPES.register("light_arrow",
+                    () -> EntityType.Builder.of((EntityType<LightArrow> pEntityType, Level pLevel) -> new LightArrow(pEntityType, pLevel), MobCategory.MISC)
+                            .sized(0.5F, 0.5F)
+                            .clientTrackingRange(4)
+                            .setUpdateInterval(20)
+                            .build("light_arrow"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

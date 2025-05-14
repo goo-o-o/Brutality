@@ -30,6 +30,8 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
         super(entityType, level);
         initializeRoll(level, getOrigin(), getBound());
         this.noCulling = true;
+        this.level().addParticle((new SwordBeamTrail.OrbData(1F, 1F, 1F, random.nextFloat() * 0.3f, random.nextFloat() * 0.3f, this.getId(), 0, 0, getRandomRollRadians())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+
     }
 
 
@@ -55,17 +57,28 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
     }
+
     public float getRenderScale() {
         return 2F;
     }
+
     private void initializeRoll(Level level, int origin, int bound) {
         if (shouldInitializeRoll()) this.randomRoll = level.random.nextInt(origin, bound);
         else this.randomRoll = 0;
     }
-    private boolean shouldInitializeRoll() { return true; }
+
+    private boolean shouldInitializeRoll() {
+        return true;
+    }
+
     public int getRandomRoll() {
         return this.randomRoll;
     }
+
+    public float getRandomRollRadians() {
+        return ((float) Math.toRadians(this.randomRoll));
+    }
+
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.cache;
@@ -76,12 +89,15 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
     public int getLifespan() {
         return 60;
     }
+
     public float getDamage() {
         return 10F;
     }
+
     public int getPierceCap() {
         return 1;
     }
+
     public float getInertia() {
         return 0.925F;
     }
@@ -119,7 +135,7 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
 //                    10
 //            ));
 //
-            player.serverLevel().sendParticles(getHitParticle(), hitPos.x, hitPos.y + 0.5, hitPos.z, 1,0,0,0,0);
+            player.serverLevel().sendParticles(getHitParticle(), hitPos.x, hitPos.y + 0.5, hitPos.z, 1, 0, 0, 0, 0);
         }
 
         super.onHit(pResult);
@@ -174,7 +190,6 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
             ProjectileUtil.rotateTowardsMovement(this, 0.2F);
             this.setDeltaMovement(motion.scale(inertia));
 
-            this.level().addParticle((new SwordBeamTrail.OrbData(1F, 1F, 1F, random.nextFloat() * 0.3f, random.nextFloat() * 0.3f, this.getId(), getRandomRoll())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
             this.setPos(d0, d1, d2);
 
             if (tickCount >= getLifespan() || this.getDeltaMovement().length() < 0.1) {

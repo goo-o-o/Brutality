@@ -46,8 +46,8 @@ public class ArmaRenderTypes extends RenderType {
                 .createCompositeState(false));
     }
 
-    public static RenderType getFlickering(ResourceLocation p_228652_0_, float lightLevel) {
-        TextureStateShard renderstate$texturestate = new TextureStateShard(p_228652_0_, false, false);
+    public static RenderType getFlickering(ResourceLocation resourceLocation, float lightLevel) {
+        TextureStateShard renderstate$texturestate = new TextureStateShard(resourceLocation, false, false);
         return create("flickering", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, CompositeState
                 .builder()
                 .setTextureState(renderstate$texturestate)
@@ -58,15 +58,46 @@ public class ArmaRenderTypes extends RenderType {
                 .createCompositeState(false));
     }
 
+    public static RenderType getEntityTranslucentNoCull(ResourceLocation texture) {
+        TextureStateShard textureState = new TextureStateShard(texture, false, false);
+
+        return RenderType.create("custom_translucent_no_cull",
+                DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true,
+                RenderType.CompositeState.builder()
+                        .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_CUTOUT_NO_CULL_SHADER)
+                        .setTextureState(textureState)
+                        .setCullState(RenderStateShard.NO_CULL)
+                        .setLightmapState(RenderStateShard.LIGHTMAP)
+                        .setOverlayState(RenderStateShard.OVERLAY)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST) // keep depth testing
+                        .setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true, false)) // this line is key
+                        .createCompositeState(true)
+        );
+    }
+
     public static RenderType getfullBright(ResourceLocation locationIn) {
         TextureStateShard renderstate$texturestate = new TextureStateShard(locationIn, false, false);
         return create("full_bright", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, CompositeState
                 .builder()
                 .setTextureState(renderstate$texturestate)
-                .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
+                .setShaderState(RENDERTYPE_EYES_SHADER)
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                 .setCullState(NO_CULL)
                 .setLightmapState(LIGHTMAP)
+                .setOverlayState(OVERLAY)
+                .createCompositeState(false));
+    }
+
+    public static RenderType getfullBrightCull(ResourceLocation locationIn) {
+        TextureStateShard renderstate$texturestate = new TextureStateShard(locationIn, false, false);
+        return create("full_bright", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, CompositeState
+                .builder()
+                .setTextureState(renderstate$texturestate)
+                .setShaderState(RENDERTYPE_EYES_SHADER)
+                .setTransparencyState(ADDITIVE_TRANSPARENCY)
+                .setCullState(CULL)
+                .setLightmapState(NO_LIGHTMAP)
                 .setOverlayState(OVERLAY)
                 .createCompositeState(false));
     }
@@ -184,6 +215,25 @@ public class ArmaRenderTypes extends RenderType {
     }
 
 
+
+    public static ParticleRenderType PARTICLE_SHEET_TRANSLUCENT_NO_CULL = new ParticleRenderType() {
+        public void begin(BufferBuilder p_217600_1_, TextureManager p_217600_2_) {
+            RenderSystem.depthMask(false);
+            RenderSystem.disableCull();
+            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+            RenderSystem.enableBlend();
+//            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            p_217600_1_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        }
+
+        public void end(Tesselator p_217599_1_) {
+            p_217599_1_.end();
+        }
+
+        public String toString() {
+            return "PARTICLE_SHEET_TRANSLUCENT_NO_CULL";
+        }
+    };
 
 
     public static ParticleRenderType PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH = new ParticleRenderType() {

@@ -1,6 +1,7 @@
 package net.goo.armament;
 
 import com.mojang.logging.LogUtils;
+import net.goo.armament.client.event.ModParticlesHandler;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.registry.ModRegistryManager;
 import net.minecraft.resources.ResourceLocation;
@@ -35,7 +36,10 @@ public class Armament {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
+    @SubscribeEvent
+    public void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(PacketHandler::register);
+        event.enqueueWork(ModParticlesHandler::init);
         LOGGER.info("Armament: Performing common setup");
     }
 
@@ -47,5 +51,6 @@ public class Armament {
     public static ResourceLocation prefix(String path) {
         return new ResourceLocation(MOD_ID, path.toLowerCase(Locale.ROOT));
     }
+
 
 }

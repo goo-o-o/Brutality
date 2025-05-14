@@ -6,11 +6,17 @@
   "mixins": [
     "InfinityEnchantmentMixin",
     "ItemMixin",
+    "ItemStackMixin",
+    "LivingEntityMixin",
     "PlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
+    "BiomeMixin",
+    "CameraLockMixin",
+    "HumanoidModelMixin",
+    "MixinItemProperties"
   ]
 }

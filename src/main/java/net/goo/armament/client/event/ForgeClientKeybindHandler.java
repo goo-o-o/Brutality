@@ -1,7 +1,7 @@
 package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.custom.ViperRapierItem;
+import net.goo.armament.item.weapon.unused.ViperRapierItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;

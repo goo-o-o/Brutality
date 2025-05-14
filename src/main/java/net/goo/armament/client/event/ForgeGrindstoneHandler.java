@@ -1,7 +1,7 @@
 package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.base.ArmaScytheItem;
+import net.goo.armament.item.weapon.base.ArmaScytheItem;
 import net.goo.armament.registry.ModItems;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;

@@ -1,7 +1,7 @@
 package net.goo.armament.mixin;
 
-import net.goo.armament.item.custom.ThunderboltTrident;
-import net.goo.armament.util.EnchantmentHelper;
+import net.goo.armament.item.weapon.custom.ThunderboltTrident;
+import net.goo.armament.util.helpers.EnchantmentHelper;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ArrowInfiniteEnchantment;

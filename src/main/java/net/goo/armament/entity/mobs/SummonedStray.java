@@ -6,7 +6,7 @@ import net.goo.armament.entity.capabilities.GenericOwnerHurtByTargetGoal;
 import net.goo.armament.entity.capabilities.GenericOwnerHurtTargetGoal;
 import net.goo.armament.entity.capabilities.goals.GenericFollowOwnerGoal;
 import net.goo.armament.registry.ModEntities;
-import net.goo.armament.util.OwnerHelper;
+import net.goo.armament.util.helpers.OwnerHelper;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;

@@ -2,7 +2,8 @@ package net.goo.armament.network;
 
 import com.google.common.collect.Lists;
 import net.goo.armament.entity.explosion.ArmaExplosion;
-import net.goo.armament.util.ModExplosionHelper;
+import net.goo.armament.util.ModResources;
+import net.goo.armament.util.helpers.ModExplosionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -24,18 +25,16 @@ public class s2cCustomExplosionPacket {
     private final float knockbackX;
     private final float knockbackY;
     private final float knockbackZ;
-    private final Minecraft minecraft;
-    private final ModExplosionHelper.ExplosionType explosionType; // Add the explosion type
+    private final ModResources.EXPLOSION_TYPES explosionType; // Add the explosion type
 
 
 
-    public s2cCustomExplosionPacket(double pX, double pY, double pZ, float pPower, List<BlockPos> pToBlow, @Nullable Vec3 pKnockback, ModExplosionHelper.ExplosionType explosionType) {
+    public s2cCustomExplosionPacket(double pX, double pY, double pZ, float pPower, List<BlockPos> pToBlow, @Nullable Vec3 pKnockback, ModResources.EXPLOSION_TYPES explosionType) {
         this.x = pX;
         this.y = pY;
         this.z = pZ;
         this.power = pPower;
         this.toBlow = Lists.newArrayList(pToBlow);
-        this.minecraft = Minecraft.getInstance();
         if (pKnockback != null) {
             this.knockbackX = (float) pKnockback.x;
             this.knockbackY = (float) pKnockback.y;
@@ -64,11 +63,10 @@ public class s2cCustomExplosionPacket {
             int j1 = buf.readByte() + k;
             return new BlockPos(l, i1, j1);
         });
-        this.minecraft = Minecraft.getInstance();
         this.knockbackX = pBuffer.readFloat();
         this.knockbackY = pBuffer.readFloat();
         this.knockbackZ = pBuffer.readFloat();
-        this.explosionType = pBuffer.readEnum(ModExplosionHelper.ExplosionType.class);
+        this.explosionType = pBuffer.readEnum(ModResources.EXPLOSION_TYPES.class);
     }
 
     public void write(FriendlyByteBuf pBuffer) {
@@ -106,9 +104,9 @@ public class s2cCustomExplosionPacket {
                 // Apply knockback to the player
                 Minecraft.getInstance().player.setDeltaMovement(
                         Minecraft.getInstance().player.getDeltaMovement().add(
-                                (double) this.knockbackX,
-                                (double) this.knockbackY,
-                                (double) this.knockbackZ
+                                this.knockbackX,
+                                this.knockbackY,
+                                this.knockbackZ
                         )
                 );
             }
