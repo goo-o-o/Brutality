@@ -1,7 +1,7 @@
 package net.goo.armament.item.weapon.unused;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.weapon.base.ArmaSwordItem;
+import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.item.ModItemCategories;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;

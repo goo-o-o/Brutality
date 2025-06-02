@@ -40,7 +40,7 @@ public class s2cEnhancedExactParticlePacket {
         this.particle = readParticle(pBuffer, type);
     }
 
-    public void write(FriendlyByteBuf pBuffer) {
+    public void encode(FriendlyByteBuf pBuffer) {
         writeParticleType(pBuffer, particle.getType());
         pBuffer.writeDouble(this.x);
         pBuffer.writeDouble(this.y);

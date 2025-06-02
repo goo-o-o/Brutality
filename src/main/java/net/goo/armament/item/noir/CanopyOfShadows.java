@@ -1,6 +1,6 @@
 package net.goo.armament.item.noir;
 
-import net.goo.armament.item.ArmaGenericItem;
+import net.goo.armament.item.base.ArmaGenericItem;
 import net.goo.armament.item.ModItemCategories;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;

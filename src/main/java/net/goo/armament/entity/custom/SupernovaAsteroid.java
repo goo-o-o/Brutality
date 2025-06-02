@@ -1,18 +1,18 @@
 package net.goo.armament.entity.custom;
 
 import net.goo.armament.client.entity.ArmaGeoEntity;
-import net.goo.armament.client.renderers.entity.ArmaGlowingEntityRenderer;
+import net.goo.armament.particle.base.AbstractWorldAlignedTrailParticle;
 import net.goo.armament.registry.ModParticles;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
+import net.goo.armament.util.ModUtils;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -20,27 +20,19 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 public class SupernovaAsteroid extends ThrowableProjectile implements ArmaGeoEntity {
-    private final float angleOffset;
+    public static final EntityDataAccessor<Integer> ANGLE_OFFSET = SynchedEntityData.defineId(SupernovaAsteroid.class, EntityDataSerializers.INT);
 
-    public SupernovaAsteroid(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel, float angleOffset) {
+    public SupernovaAsteroid(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel, int angleOffset) {
         super(pEntityType, pLevel);
-        this.angleOffset = angleOffset;
+        this.entityData.set(ANGLE_OFFSET, angleOffset);
     }
 
 
@@ -56,7 +48,7 @@ public class SupernovaAsteroid extends ThrowableProjectile implements ArmaGeoEnt
 
     @Override
     protected void defineSynchedData() {
-
+        this.entityData.define(ANGLE_OFFSET, 0);
     }
 
     AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this, true);
@@ -67,13 +59,7 @@ public class SupernovaAsteroid extends ThrowableProjectile implements ArmaGeoEnt
     }
 
     @Override
-    public <T extends Entity & ArmaGeoEntity, R extends GeoEntityRenderer<T>> void initGeo(Consumer<EntityRendererProvider<T>> consumer, Class<R> rendererClass) {
-        ArmaGeoEntity.super.initGeo(consumer, ArmaGlowingEntityRenderer.class);
-    }
-
-    @Override
-    protected void onHit(HitResult pResult) {
-        Vec3 hitPos = pResult.getLocation();
+    protected void onHit(@NotNull HitResult pResult) {
         if (!level().isClientSide) {
 
             if (pResult.getType() == HitResult.Type.ENTITY) {
@@ -81,79 +67,79 @@ public class SupernovaAsteroid extends ThrowableProjectile implements ArmaGeoEnt
 
                 if (target != this.getOwner() || target instanceof SupernovaAsteroid) {
                     target.hurt(target.damageSources().playerAttack((Player) this.getOwner()), 7.5F);
-                    this.discard();
+                    explode();
 
-                    level().playSound(((Player) this.getOwner()), hitPos.x, hitPos.y, hitPos.z, SoundEvents.GENERIC_EXPLODE, SoundSource.NEUTRAL, 1F, 1F);
-                    ((ServerLevel) level()).sendParticles(ModParticles.STARBURST_PARTICLE.get(), hitPos.x, hitPos.y + 0.5F, hitPos.z, 1, 0.5F, 0.5F, 0.5F, 0);
-
-                    ((ServerPlayer) this.getOwner()).connection.send(new ClientboundSoundEntityPacket(ForgeRegistries.SOUND_EVENTS.getHolder(SoundEvents.GENERIC_EXPLODE).orElseThrow() , SoundSource.PLAYERS, this.getOwner(), 1F, 1F, 1));
                 }
             }
 
             if (pResult.getType() == HitResult.Type.BLOCK) {
-                ((ServerPlayer) Objects.requireNonNull(this.getOwner())).connection.send(new ClientboundSoundEntityPacket(ForgeRegistries.SOUND_EVENTS.getHolder(SoundEvents.GENERIC_EXPLODE).orElseThrow() , SoundSource.PLAYERS, this.getOwner(), 1F, 1F, 1));
-
-                level().playSound(((Player) this.getOwner()), hitPos.x, hitPos.y, hitPos.z, SoundEvents.GENERIC_EXPLODE, SoundSource.NEUTRAL, 1F, 1F);
-                ((ServerLevel) level()).sendParticles(ModParticles.STARBURST_PARTICLE.get(), hitPos.x, hitPos.y + 0.5F, hitPos.z, 1, 0.5F, 0.5F, 0.5F, 0);
-                this.discard();
+                explode();
             }
         }
 
     }
 
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, (state) ->
-                state.setAndContinue(RawAnimation.begin().thenLoop("falling")))
-        );
-    }
+    float ORBIT_RADIUS = 6F;
+    double FOLLOW_SPEED = 0.3; // Adjust for responsiveness
+    boolean trailSpawned = false;
 
     @Override
     public void tick() {
-        super.tick();
-//        this.level().addParticle((new PlanetTrail.OrbData(0.6F, 0.15F, 0.6F, this.getId())), this.getX(), this.getY() + this.getBbHeight() / 2, this.getZ(), 0, 0, 0);
+        float orbitSpeed = 0.1f;
 
+        super.tick();
+        if (!this.trailSpawned) {
+            this.level().addParticle((new AbstractWorldAlignedTrailParticle.OrbData(0.35F, 0, 0.5F, this.getBbWidth() / 2, this.getId(), 0, 0, 0, "circle", 10)), this.getX(), this.getY() + this.getBbHeight() / 2, this.getZ(), 0, 0, 0);
+            this.trailSpawned = true;
+        }
 
         if (getOwner() != null) {
-            // Orbit the owner
-            float spawnRadius = 3F;
-            float speed = 1.25F;
-            double plX = getOwner().getX() - (Mth.sin((float) tickCount / (8 / speed) + angleOffset) * spawnRadius);
-            double plY = getOwner().getY() + (Mth.sin((float) tickCount / (4 / speed)) * 0.25);
-            double plZ = getOwner().getZ() - (Mth.cos((float) tickCount / (8 / speed) + angleOffset) * spawnRadius);
-            Vec3 plPos = new Vec3(plX, plY + 1F, plZ);
-            this.setDeltaMovement(plPos.subtract(this.position()));
+            // Orbit parameters
+            float heightOffset = getOwner().getBbHeight() / 2;
 
-            // Handle interactions (e.g., explode on projectile collision)
+            // Calculate target orbit position
+            double targetX = getOwner().getX() + Mth.cos(this.tickCount * orbitSpeed + this.entityData.get(ANGLE_OFFSET)) * ORBIT_RADIUS;
+            double targetZ = getOwner().getZ() + Mth.sin(this.tickCount * orbitSpeed + this.entityData.get(ANGLE_OFFSET)) * ORBIT_RADIUS;
+            double targetY = getOwner().getY() + heightOffset;
+
+            // Calculate movement vector (target - current position)
+            Vec3 movement = new Vec3(targetX, targetY, targetZ).subtract(this.position());
+
+            // Apply scaled movement for smooth following
+            this.setDeltaMovement(movement.scale(FOLLOW_SPEED));
+
             List<Projectile> projectiles = level().getEntitiesOfClass(Projectile.class, this.getBoundingBox())
                     .stream()
                     .filter(projectile -> projectile.getOwner() != getOwner())
                     .toList();
+
             if (!projectiles.isEmpty()) {
                 for (Projectile projectile : projectiles) {
                     projectile.remove(RemovalReason.DISCARDED);
                     explode(); // Custom method to handle explosion
                 }
             }
+
         } else {
             remove(RemovalReason.DISCARDED); // Remove if the owner is null
         }
     }
 
-    public static Stream<SupernovaAsteroid> getAllAsteroidsOwnedBy(LivingEntity owner, ServerLevel level) {
-        return StreamSupport.stream(level.getAllEntities().spliterator(), false)
-                .filter(entity -> entity instanceof SupernovaAsteroid)
-                .map(SupernovaAsteroid.class::cast)
-                .filter(asteroid -> asteroid.getOwner() == owner);
-    }
+
 
     public void explode() {
         // Handle explosion logic (e.g., damage entities, play effects)
-        if (!level().isClientSide) {
+        if (level() instanceof ServerLevel serverLevel) {
             level().playSound(null, getX(), getY(), getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.NEUTRAL, 1F, 1F);
-            ((ServerLevel) level()).sendParticles(ModParticles.STARBURST_PARTICLE.get(), getX(), getY() + 0.5F, getZ(), 1, 0.5F, 0.5F, 0.5F, 0);
+
+            for (int i = 0; i < serverLevel.random.nextInt(25); i++) {
+                serverLevel.sendParticles(ModUtils.getRandomParticle(ModParticles.SUPERNOVA_PARTICLE), this.getX(),
+                        this.getY() + this.getBbHeight() / 2, this.getZ(), 1,
+                        0, 0, 0, 100);
+            }
         }
+
         discard(); // Remove the asteroid after exploding
+
     }
 }

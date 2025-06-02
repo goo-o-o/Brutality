@@ -48,7 +48,7 @@ public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
                 double angle = Math.atan2(-moveVec.z, moveVec.x);
                 double pitch = Math.asin(moveVec.y);
                 pPoseStack.pushPose();
-                pPoseStack.translate(0.0D, 0.5D, 0.0D);
+                pPoseStack.translate(0.0D, pEntity.getBbHeight() / 2, 0.0D);
                 pPoseStack.mulPose(Axis.YP.rotationDegrees((float) Math.toDegrees(angle)));
                 pPoseStack.mulPose(Axis.ZP.rotationDegrees(((float) Math.toDegrees(pitch))));
                 pPoseStack.mulPose(Axis.XP.rotationDegrees(pEntity.getRandomRoll()));

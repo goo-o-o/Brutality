@@ -5,47 +5,55 @@
     "thirdperson_righthand": {
       "translation": [
         0,
-        -6.75,
-        1.25
-      ],
-      "scale": [
-        1.5,
-        1.5,
+        -2.5,
         1.5
       ]
     },
     "thirdperson_lefthand": {
       "translation": [
         0,
-        -6.75,
-        1.25
-      ],
-      "scale": [
-        1.5,
-        1.5,
+        -2.5,
         1.5
       ]
     },
     "firstperson_righthand": {
+      "rotation": [
+        15,
+        0,
+        0
+      ],
       "translation": [
         0,
-        -4,
-        0
+        -3.5,
+        -3
       ]
     },
     "firstperson_lefthand": {
+      "rotation": [
+        15,
+        0,
+        0
+      ],
       "translation": [
         0,
-        -4,
-        0
+        -3.5,
+        -3
       ]
     },
-    "gui": {
+    "ground": {
       "rotation": [
-        90,
         45,
-        -90
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -18
       ]
     }
+  },
+  "textures": {
+    "particle": "armament:item/supernova_handheld"
   }
 }

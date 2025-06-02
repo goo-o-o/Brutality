@@ -1,7 +1,7 @@
 package net.goo.armament.entity.base;
 
 import net.goo.armament.client.entity.ArmaGeoEntity;
-import net.goo.armament.particle.custom.SwordBeamTrail;
+import net.goo.armament.particle.base.AbstractWorldAlignedTrailParticle;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -25,22 +25,15 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private int randomRoll;
     private int targetsHit = 0;
+    protected boolean shouldNoClip = false;
 
-    public SwordBeam(EntityType<? extends ThrowableProjectile> entityType, Level level) {
+
+    public SwordBeam(EntityType<? extends ThrowableProjectile> entityType, Level level, int origin, int bound) {
         super(entityType, level);
-        initializeRoll(level, getOrigin(), getBound());
+        initializeRoll(level, origin, bound);
         this.noCulling = true;
-        this.level().addParticle((new SwordBeamTrail.OrbData(1F, 1F, 1F, random.nextFloat() * 0.3f, random.nextFloat() * 0.3f, this.getId(), 0, 0, getRandomRollRadians())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
-
-    }
-
-
-    public int getOrigin() {
-        return 0;
-    }
-
-    public int getBound() {
-        return 361;
+        this.level().addParticle((new AbstractWorldAlignedTrailParticle.OrbData(1F, 1F, 1F, getBbWidth(), this.getId(), 0, 0, getRandomRollRadians(), "sword", 5)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
+        this.setNoGravity(true);
     }
 
     @Override
@@ -115,7 +108,9 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
 
     @Override
     protected void onHitBlock(BlockHitResult pResult) {
-        this.discard();
+        if (!this.shouldNoClip) {
+            this.discard();
+        }
     }
 
     public SimpleParticleType getHitParticle() {
@@ -126,15 +121,6 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
     protected void onHit(HitResult pResult) {
         Vec3 hitPos = pResult.getLocation();
         if (getHitParticle() != null && this.getOwner() instanceof ServerPlayer player) {
-//            player.connection.send(new ClientboundLevelParticlesPacket(
-//                    getHitParticle(),
-//                    true,
-//                    hitPos.x, hitPos.y + getBbHeight() / 2, hitPos.z,
-//                    0, 0, 0,
-//                    0,
-//                    10
-//            ));
-//
             player.serverLevel().sendParticles(getHitParticle(), hitPos.x, hitPos.y + 0.5, hitPos.z, 1, 0, 0, 0, 0);
         }
 

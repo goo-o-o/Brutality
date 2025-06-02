@@ -67,7 +67,7 @@
   "item.armament.leaf_blower.off": "Leaf blower deactivated",
 
   "item.armament.murasama": "High-Frequency Murasama",
-  "item.armament.murasama.lore": "A blade forged from the culmination cutting-edge technology and ancient craftsmanship, its edge vibrates at ultrasonic frequencies, allowing it to slice through even the toughest materials with terrifying ease. The sword hums with a deadly resonance.",
+  "item.armament.murasama.lore": "THERE WILL BE BLOODSHED.",
   "item.armament.murasama.ability.name.1": "Crimson Full Moon",
   "item.armament.murasama.ability.desc.1": "Hold right-click to perform a rapid 360° slash, range increases with time held. Consumes the user's lifeforce as payment.",
   "item.armament.murasama.ability.name.2": "Supersonic Vibration",
@@ -121,7 +121,7 @@
   "item.armament.shadowstep.ability.desc.2": "Backstabs do 3x more damage.",
   "item.armament.shadowstep.invalid": "You cannot teleport there.",
 
-  "item.armament.noir_helmet": "The Gentleman’s Eclipse",
+  "item.armament.noir_helmet": "The Gentleman's Eclipse",
   "item.armament.noir_helmet.lore": "A mask and hat worn by those who speak with silence. Beneath the brim, no face is ever seen—only intent. Part of the Noir Regalia set.",
   "item.armament.noir_helmet.ability.name.1": "Full Set Bonus",
   "item.armament.noir_helmet.ability.desc.1": "Conceals the wearer's nametag from others. Massively reduced detection range from regular mobs.",
@@ -201,9 +201,9 @@
   "item.armament.thunderbolt.ability.name.3": "Torrent",
   "item.armament.thunderbolt.ability.desc.3": "Multiple thunderbolts can be launched at once",
 
-  "rarity.armament.legendary": "\u00a76LEGENDARY",
-  "rarity.armament.mythic": "\u00a7dMYTHIC",
-  "rarity.armament.fabled": "\u00a7cFABLED",
+  "rarity.legendary.name": "\u00a76LEGENDARY",
+  "rarity.mythic.name": "\u00a7dMYTHIC",
+  "rarity.fabled.name": "\u00a7cFABLED",
 
   "creativeTab.armament_tab": "Armament",
 

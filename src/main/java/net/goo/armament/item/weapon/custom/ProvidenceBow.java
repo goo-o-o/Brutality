@@ -5,7 +5,7 @@ import net.goo.armament.client.renderers.item.ArmaAutoGlowingItemRenderer;
 import net.goo.armament.entity.base.ArmaArrow;
 import net.goo.armament.entity.custom.arrow.LightArrow;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.weapon.base.ArmaBowItem;
+import net.goo.armament.item.base.ArmaBowItem;
 import net.goo.armament.registry.ModParticles;
 import net.goo.armament.registry.ModSounds;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;

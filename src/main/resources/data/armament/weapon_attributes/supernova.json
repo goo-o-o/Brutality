@@ -1,3 +1,16 @@
 {
-  "parent": "bettercombat:claymore"
+  "parent": "bettercombat:claymore",
+  "attributes": {
+    "attacks": [
+      {
+        "swing_sound" : { "id" : "armament:supernova_1"}
+      },
+      {
+        "swing_sound" : { "id" : "armament:supernova_2"}
+      },
+      {
+        "swing_sound" : { "id" : "armament:supernova_3"}
+      }
+    ]
+  }
 }

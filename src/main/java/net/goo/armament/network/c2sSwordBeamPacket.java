@@ -23,7 +23,7 @@ public class c2sSwordBeamPacket {
         this.beamType = pBuffer.readEnum(ModResources.BEAM_TYPES.class);
     }
 
-    public void write(FriendlyByteBuf pBuffer) {
+    public void encode(FriendlyByteBuf pBuffer) {
         pBuffer.writeEnum(this.beamType);
     }
 

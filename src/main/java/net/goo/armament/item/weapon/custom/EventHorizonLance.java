@@ -4,7 +4,7 @@ import net.goo.armament.Armament;
 import net.goo.armament.client.renderers.item.ArmaAutoGlowingItemRenderer;
 import net.goo.armament.entity.custom.BlackHole;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.weapon.base.ArmaTridentItem;
+import net.goo.armament.item.base.ArmaTridentItem;
 import net.goo.armament.registry.ModEntities;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.server.level.ServerPlayer;

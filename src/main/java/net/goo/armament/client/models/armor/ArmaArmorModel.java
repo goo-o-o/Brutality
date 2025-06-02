@@ -1,7 +1,7 @@
 package net.goo.armament.client.models.armor;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.ArmaGeoItem;
+import net.goo.armament.item.base.ArmaGeoItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
 import software.bernie.geckolib.model.GeoModel;

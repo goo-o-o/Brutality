@@ -1,18 +1,21 @@
 package net.goo.armament.item.weapon.custom;
 
 import net.goo.armament.Armament;
-import net.goo.armament.client.renderers.item.ArmaAutoGlowingItemRenderer;
+import net.goo.armament.client.renderers.item.ArmaAutoFullbrightItemRenderer;
 import net.goo.armament.entity.custom.SupernovaAsteroid;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.weapon.base.ArmaSwordItem;
+import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.registry.ModEntities;
 import net.goo.armament.registry.ModParticles;
+import net.goo.armament.registry.ModSounds;
+import net.goo.armament.util.ModUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -28,26 +31,35 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.NotNull;
+import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class SupernovaSword extends ArmaSwordItem {
+    private final RandomSource random = RandomSource.create();
 
     public SupernovaSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity, abilityCount);
+        SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }
 
     @Override
     public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, ArmaAutoGlowingItemRenderer.class);
+        super.initGeo(consumer, ArmaAutoFullbrightItemRenderer.class);
     }
 
 
     @Override
-    public ItemStack getDefaultInstance() {
+    public @NotNull ItemStack getDefaultInstance() {
         ItemStack stack = new ItemStack(this);
         stack.enchant(Enchantments.KNOCKBACK, 3);
         return stack;
@@ -58,7 +70,16 @@ public class SupernovaSword extends ArmaSwordItem {
         Level level = pAttacker.level();
 
         causeStarburstExplosion(pTarget, (Player) pAttacker);
-        spawnStarburstExplosionParticles(pAttacker, pTarget, level);
+
+        if (level instanceof ServerLevel serverLevel) {
+            for (int i = 0; i < pAttacker.level().random.nextInt(25); i++) {
+
+                serverLevel.sendParticles(ModUtils.getRandomParticle(ModParticles.SUPERNOVA_PARTICLE), pTarget.getX(),
+                        pTarget.getY() + pTarget.getBbHeight() / 2, pTarget.getZ(), 1,
+                        0, 0, 0, 100);
+            }
+        }
+
 
         return super.hurtEnemy(pStack, pTarget, pAttacker);
 
@@ -74,18 +95,23 @@ public class SupernovaSword extends ArmaSwordItem {
         }
     }
 
+    public static Stream<SupernovaAsteroid> getAllAsteroidsOwnedBy(LivingEntity owner, ServerLevel level) {
+        return StreamSupport.stream(level.getAllEntities().spliterator(), false)
+                .filter(entity -> entity instanceof SupernovaAsteroid)
+                .map(SupernovaAsteroid.class::cast)
+                .filter(asteroid -> asteroid.getOwner() == owner);
+    }
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
 
         if (pLevel instanceof ServerLevel serverLevel) {
-            List<SupernovaAsteroid> asteroids = SupernovaAsteroid.getAllAsteroidsOwnedBy(pPlayer, serverLevel)
-                    .filter(asteroid -> asteroid.distanceToSqr(pPlayer) <= 32) // Limit to a certain range
-                    .toList();
+            Stream<SupernovaAsteroid> asteroids = getAllAsteroidsOwnedBy(pPlayer, serverLevel);
 
-            if (asteroids.isEmpty()) {
+            if (asteroids.findAny().isEmpty()) {
                 for (int i = 1; i <= 6; i++) {
-                    float angleOffset = (float) Math.toRadians(60 * i); // 60, 120, 180, 240, 300, 360 degrees
+                    int angleOffset = (int) Math.toRadians(60 * i); // 60, 120, 180, 240, 300, 360 degrees
                     SupernovaAsteroid meteor = new SupernovaAsteroid(ModEntities.SUPERNOVA_ASTEROID.get(), pLevel, angleOffset);
                     meteor.setOwner(pPlayer);
                     meteor.setPos(pPlayer.getX(), pPlayer.getY() + 2, pPlayer.getZ());
@@ -96,7 +122,8 @@ public class SupernovaSword extends ArmaSwordItem {
                 // Return success
             } else if (pPlayer.isCrouching()) {
                 clearAsteroids(pPlayer, serverLevel);
-            } else pPlayer.displayClientMessage(Component.translatable("item.armament.supernova.asteroid_fail").withStyle(ChatFormatting.RED), true);
+            } else
+                pPlayer.displayClientMessage(Component.translatable("item.armament.supernova.asteroid_fail").withStyle(ChatFormatting.RED), true);
         }
 
         return InteractionResultHolder.fail(stack);
@@ -113,19 +140,12 @@ public class SupernovaSword extends ArmaSwordItem {
                 entity.hurt(entity.damageSources().explosion(player, entity), 2.5F);
             }
         }
-    }
 
-    private void spawnStarburstExplosionParticles(LivingEntity player, LivingEntity pTarget, Level level) {
-        ((ServerLevel) level).sendParticles(ModParticles.STARBURST_PARTICLE.get(),
-                pTarget.getX(), pTarget.getY() + pTarget.getBbHeight() / 2, pTarget.getZ(),
-                0,
-                level.random.nextFloat() * pTarget.getBbWidth(),
-                level.random.nextFloat() * pTarget.getBbHeight(),
-                level.random.nextFloat() * pTarget.getBbWidth(), 0);
+
     }
 
     private void clearAsteroids(Player player, ServerLevel level) {
-        Stream<SupernovaAsteroid> asteroidStream = SupernovaAsteroid.getAllAsteroidsOwnedBy(player, level);
+        Stream<SupernovaAsteroid> asteroidStream = getAllAsteroidsOwnedBy(player, level);
         asteroidStream.forEach(asteroid -> {
             if (asteroid != null) {
                 asteroid.discard();
@@ -154,5 +174,25 @@ public class SupernovaSword extends ArmaSwordItem {
         if (!player.level().isClientSide()) {
             clearAsteroids(player, ((ServerLevel) player.level()));
         }
+    }
+
+    @Override
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+        if (entity instanceof Player player) {
+            player.level().playSound(null, player.getOnPos(), ModUtils.getRandomSound(ModSounds.SUPERNOVA), SoundSource.PLAYERS, 1, ModUtils.nextFloatBetweenInclusive(random, 0.8F, 1F));
+            if (player.level() instanceof ServerLevel serverLevel)
+                triggerAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "controller", "swing");
+        }
+        return super.onEntitySwing(stack, entity);
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "controller", state -> state.
+                setAndContinue(RawAnimation.begin().thenPlay("idle")))
+                .triggerableAnim("swing", RawAnimation.begin().thenPlay("swing"))
+                .triggerableAnim("stab", RawAnimation.begin().thenPlay("stab"))
+        );
+
     }
 }

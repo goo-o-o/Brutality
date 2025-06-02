@@ -1,11 +1,9 @@
 package net.goo.armament.entity.custom.beam;
 
 import net.goo.armament.entity.base.SwordBeam;
-import net.goo.armament.particle.custom.SwordBeamTrail;
+import net.goo.armament.particle.base.AbstractWorldAlignedTrailParticle;
 import net.goo.armament.registry.ModParticles;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -16,17 +14,8 @@ import net.minecraftforge.event.ForgeEventFactory;
 
 public class TerraBeam extends SwordBeam {
     public TerraBeam(EntityType<? extends ThrowableProjectile> entityType, Level level) {
-        super(entityType, level);
-    }
-
-    @Override
-    public int getOrigin() {
-        return 70;
-    }
-
-    @Override
-    public int getBound() {
-        return 110;
+        super(entityType, level, -15, 15);
+        this.shouldNoClip = true;
     }
 
     @Override
@@ -55,37 +44,33 @@ public class TerraBeam extends SwordBeam {
     }
 
 
+    private boolean trailSpawned = false;
+
     @Override
     public void tick() {
-        Entity owner = this.getOwner();
-        if (this.level().isClientSide || (owner == null || !owner.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
+            if (!trailSpawned) {
+                Vec3 moveVec = this.getDeltaMovement();
+
+                moveVec = moveVec.normalize();
+
+                float yaw = (float) Math.atan2(-moveVec.z, moveVec.x);
+                float pitch = (float) Math.asin(moveVec.y);
+
+                this.level().addParticle((new AbstractWorldAlignedTrailParticle.OrbData(0, 0.8F, 0.6F, this.getBbHeight(), this.getId(), pitch, yaw, getRandomRollRadians(), "sword", 5)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
+                trailSpawned = true;
+            }
+
+
             HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
 
             if (hitresult.getType() != HitResult.Type.MISS && !ForgeEventFactory.onProjectileImpact(this, hitresult)) {
                 this.onHit(hitresult);
             }
 
-            Vec3 motion = this.getDeltaMovement();
-
-            float inertia = this.getInertia();
-            this.checkInsideBlocks();
-            double d0 = this.getX() + motion.x;
-            double d1 = this.getY() + motion.y;
-            double d2 = this.getZ() + motion.z;
-            ProjectileUtil.rotateTowardsMovement(this, 0.2F);
-            this.setDeltaMovement(motion.scale(inertia));
-
-            this.level().addParticle((new SwordBeamTrail.OrbData(0, 0.75F, 0.15F, 2, 0.3f, this.getId(), 0 ,0, getRandomRollRadians())), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
-            this.setPos(d0, d1, d2);
-
-
-            if (tickCount >= getLifespan() || this.getDeltaMovement().length() < 0.1) {
+            if (this.getDeltaMovement().length() < 0.1) {
                 this.discard();
             }
 
+            super.tick();
         }
-        if (!level().isClientSide()) {
-            ((ServerLevel) level()).sendParticles(ModParticles.TERRA_PARTICLE.get(), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 1, 0,0,0,0);
-        }
-    }
 }

@@ -5,7 +5,7 @@ import com.google.common.collect.Multimap;
 import net.goo.armament.Armament;
 import net.goo.armament.entity.custom.ExplosionRay;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.ArmaGenericItem;
+import net.goo.armament.item.base.ArmaGenericItem;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.network.s2cEnhancedExactParticlePacket;
 import net.goo.armament.particle.custom.ExplosionAmbientParticle;

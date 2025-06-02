@@ -3,7 +3,7 @@ package net.goo.armament.item.weapon.unused;
 import net.goo.armament.Armament;
 import net.goo.armament.client.renderers.item.ArmaAutoGlowingItemRenderer;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.weapon.base.ArmaPickaxeItem;
+import net.goo.armament.item.base.ArmaPickaxeItem;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

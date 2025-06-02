@@ -3,7 +3,7 @@ package net.goo.armament.item.weapon.custom;
 import net.goo.armament.Armament;
 import net.goo.armament.client.renderers.item.ArmaAutoGlowingItemRenderer;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.weapon.base.ArmaHammerItem;
+import net.goo.armament.item.base.ArmaHammerItem;
 import net.goo.armament.util.helpers.ModExplosionHelper;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;

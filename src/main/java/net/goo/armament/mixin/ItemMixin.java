@@ -2,8 +2,8 @@ package net.goo.armament.mixin;
 
 import net.goo.armament.client.renderers.armor.ArmaArmorRenderer;
 import net.goo.armament.client.renderers.item.ArmaItemRenderer;
-import net.goo.armament.item.ArmaArmorItem;
-import net.goo.armament.item.ArmaGeoItem;
+import net.goo.armament.item.base.ArmaArmorItem;
+import net.goo.armament.item.base.ArmaGeoItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.spongepowered.asm.mixin.Mixin;

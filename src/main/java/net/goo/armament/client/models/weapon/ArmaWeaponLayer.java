@@ -2,7 +2,7 @@ package net.goo.armament.client.models.weapon;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.goo.armament.item.ArmaGeoItem;
+import net.goo.armament.item.base.ArmaGeoItem;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.Item;

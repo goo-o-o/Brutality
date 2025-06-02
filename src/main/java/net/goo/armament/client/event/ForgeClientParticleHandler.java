@@ -6,6 +6,7 @@ import net.goo.armament.entity.custom.BlackHole;
 import net.goo.armament.item.weapon.custom.SupernovaSword;
 import net.goo.armament.item.weapon.custom.ThunderboltTrident;
 import net.goo.armament.registry.ModParticles;
+import net.goo.armament.util.ModUtils;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
@@ -31,10 +32,14 @@ public class ForgeClientParticleHandler {
         Item offHandItem = player.getOffhandItem().getItem();
 
         if (level.isClientSide()) {
-            if (tickCount % 4 == 0) {
+            if (tickCount % 10 == 0) {
                 // SUPERNOVA PARTICLE HANDLER START //
                 if (mainHandItem instanceof SupernovaSword || offHandItem instanceof SupernovaSword) {
-                    spawnSupernovaSwordParticles(player, level);
+                    level.addParticle(ModUtils.getRandomParticle(ModParticles.SUPERNOVA_PARTICLE),
+                            player.getRandomX(0.5), player.getRandomY(), player.getRandomZ(0.5),
+                            0,0,0
+                            );
+
                 }
                 // SUPERNOVA PARTICLE HANDLER END //
 
@@ -109,23 +114,4 @@ public class ForgeClientParticleHandler {
                     particleDirection.x, particleDirection.y, particleDirection.z);
         }
     }
-
-    private static void spawnSupernovaSwordParticles(Player player, Level level) {
-        Vec3 bodyDirection = player.getForward();
-        Vec3 perpendicularDirection = bodyDirection.cross(new Vec3(0, 1, 0)).normalize();
-
-        double offsetX = (level.random.nextFloat() - 0.5) * 3.0;
-        double offsetY = (level.random.nextFloat()) * 3.0;
-        double offsetZ = (level.random.nextFloat() - 0.5) * 3.0;
-
-        Vec3 particlePosition = player.position().add(offsetX, offsetY, offsetZ);
-        double velocityScale = 0.3;
-        Vec3 velocity = perpendicularDirection.scale((level.random.nextFloat() - 0.5) * velocityScale);
-
-        level.addParticle(ModParticles.SUPERNOVA_SWORD_PARTICLE.get(),
-                particlePosition.x, particlePosition.y, particlePosition.z,
-                velocity.x, velocity.y, velocity.z);
     }
-
-
-}

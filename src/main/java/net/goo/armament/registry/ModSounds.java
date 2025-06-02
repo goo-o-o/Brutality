@@ -31,6 +31,12 @@ public class ModSounds {
             registerSoundEvents("murasama_3")
     );
 
+    public static final List<RegistryObject<SoundEvent>> SUPERNOVA = List.of(
+            registerSoundEvents("supernova_1"),
+            registerSoundEvents("supernova_2"),
+            registerSoundEvents("supernova_3")
+    );
+
     public static final RegistryObject<SoundEvent> TERRA_BLADE_USE = registerSoundEvents("terra_blade_use");
     public static final RegistryObject<SoundEvent> ICE_WAVE = registerSoundEvents("ice_wave");
     public static final RegistryObject<SoundEvent> BIG_EXPLOSION = registerSoundEvents("big_explosion");

@@ -1,7 +1,7 @@
 package net.goo.armament.item.weapon.custom;
 
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.ArmaGenericItem;
+import net.goo.armament.item.base.ArmaGenericItem;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;

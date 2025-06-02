@@ -42,9 +42,11 @@ minecraft {
             }
         }
 
+
         client {
             property 'forge.enabledGameTestNamespaces', mod_id
             arg '-mixin.config=' + mod_id + '.mixins.json'
+            args '--username', project.findProperty('minecraftUsername') ?: 'Dev'
         }
 
         server {
@@ -124,6 +126,7 @@ dependencies {
     implementation(fg.deobf("me.shedaniel.cloth:cloth-config-forge:11.1.136"))
     implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${player_anim_version}")
     implementation fg.deobf('maven.modrinth:better-combat:1.8.6+1.20.1-forge')
+    implementation fg.deobf(files("libs/dummmmmmy-1.20-2.0.6.jar"))
 
 //    implementation fg.deobf("curse.maven:in-game-account-switcher-232676:5457030")
 }
@@ -142,6 +145,7 @@ tasks.named('processResources', ProcessResources).configure {
             mod_authors: mod_authors,
             mod_description: mod_description,
     ]
+
     inputs.properties replaceProperties
     duplicatesStrategy = DuplicatesStrategy.WARN
 

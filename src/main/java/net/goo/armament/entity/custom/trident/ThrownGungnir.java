@@ -2,7 +2,6 @@ package net.goo.armament.entity.custom.trident;
 
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.goo.armament.client.entity.ArmaGeoEntity;
-import net.goo.armament.particle.custom.GenericTridentTrail;
 import net.goo.armament.registry.ModEntities;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.core.BlockPos;
@@ -279,7 +278,7 @@ public class ThrownGungnir extends AbstractArrow implements ArmaGeoEntity {
                 f = this.getWaterInertia();
             }
 
-            this.setDeltaMovement(vec3.scale((double) f));
+            this.setDeltaMovement(vec3.scale(f));
             if (!this.isNoGravity() && !flag) {
                 Vec3 vec34 = this.getDeltaMovement();
                 this.setDeltaMovement(vec34.x, vec34.y - (double) 0.05F, vec34.z);
@@ -289,10 +288,6 @@ public class ThrownGungnir extends AbstractArrow implements ArmaGeoEntity {
             this.checkInsideBlocks();
         }
         ////////
-
-        if (!inGround) {
-            this.level().addParticle((new GenericTridentTrail.OrbData(1, 0, 0, this.getId())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
-        }
 
         if (this.homingCooldown >= 0) {
             this.homingCooldown--;

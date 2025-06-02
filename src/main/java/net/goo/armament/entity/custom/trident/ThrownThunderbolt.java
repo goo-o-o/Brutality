@@ -1,7 +1,7 @@
 package net.goo.armament.entity.custom.trident;
 
 import net.goo.armament.client.entity.ArmaGeoEntity;
-import net.goo.armament.particle.custom.ThunderboltTrail;
+import net.goo.armament.particle.base.GenericTridentTrailParticle;
 import net.goo.armament.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -114,12 +114,14 @@ public class ThrownThunderbolt extends AbstractArrow implements ArmaGeoEntity {
         return true;
     }
 
-    public void tick() {
-        if (!inGround) {
-        this.level().addParticle((new ThunderboltTrail.OrbData(0.85F, 0.85F, 0.15F, this.getId())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+    private boolean trailSpawned = false;
 
+    public void tick() {
+        if (!trailSpawned) {
+            this.level().addParticle((new GenericTridentTrailParticle.OrbData(0.8F, 0.8F, 0.0F, this.getBbHeight() * 0.75F, this.getId(), 0,0,0, "circle", 10)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
+            trailSpawned = true;
         }
-        
+
         if (this.inGroundTime > 4) {
             this.dealtDamage = true;
         }

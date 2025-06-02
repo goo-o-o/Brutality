@@ -58,11 +58,11 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<TerraBeam>> TERRA_BEAM =
             ENTITY_TYPES.register("terra_beam", () -> EntityType.Builder.of(TerraBeam::new,
-                    MobCategory.MISC).sized(2F, 1F).build("terra_beam"));
+                    MobCategory.MISC).sized(1F, 3F).build("terra_beam"));
 
     public static final RegistryObject<EntityType<ExcaliburBeam>> EXCALIBUR_BEAM =
             ENTITY_TYPES.register("excalibur_beam", () -> EntityType.Builder.of(ExcaliburBeam::new,
-                    MobCategory.MISC).sized(10F, 1F).setUpdateInterval(1).setTrackingRange(128)
+                    MobCategory.MISC).sized(9F, 1F).setUpdateInterval(1).setTrackingRange(128)
                     .build("excalibur_beam"));
 
     public static final RegistryObject<EntityType<BlackHole>> BLACK_HOLE_ENTITY =

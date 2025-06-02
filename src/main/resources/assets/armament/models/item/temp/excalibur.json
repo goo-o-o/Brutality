@@ -2,22 +2,22 @@
   "parent": "minecraft:item/handheld",
   "loader": "forge:separate_transforms",
   "base": {
-    "parent": "armament:item/excalibur_handheld"
+    "parent": "armament:item/temp/excalibur_handheld"
   },
   "overrides": [
     {
       "predicate": {
         "custom_model_data": 1
       },
-      "model": "armament:item/excalibur_active_inventory"
+      "model": "armament:item/temp/excalibur_active_inventory"
     }
   ],
   "perspectives": {
     "gui": {
-      "parent": "armament:item/excalibur_inventory"
+      "parent": "armament:item/temp/excalibur_inventory"
     },
     "fixed": {
-      "parent": "armament:item/excalibur_inventory"
+      "parent": "armament:item/temp/excalibur_inventory"
     }
   }
 }

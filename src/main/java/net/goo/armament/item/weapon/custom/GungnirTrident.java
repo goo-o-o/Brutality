@@ -3,7 +3,7 @@ package net.goo.armament.item.weapon.custom;
 import net.goo.armament.client.renderers.item.ArmaAutoGlowingItemRenderer;
 import net.goo.armament.entity.custom.trident.ThrownGungnir;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.weapon.base.ArmaTridentItem;
+import net.goo.armament.item.base.ArmaTridentItem;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;

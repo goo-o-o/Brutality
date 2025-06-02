@@ -3,11 +3,11 @@ package net.goo.armament.util;
 import net.goo.armament.Armament;
 import net.goo.armament.item.noir.CanopyOfShadows;
 import net.goo.armament.item.noir.NoirArmorItem;
-import net.goo.armament.item.noir.ShadowstepSword;
+import net.goo.armament.item.noir.ShadowstepDagger;
 import net.goo.armament.item.terra.TerraArmorItem;
 import net.goo.armament.item.terra.TerraBladeSword;
 import net.goo.armament.item.terra.TerratonHammer;
-import net.goo.armament.item.weapon.base.ArmaTridentItem;
+import net.goo.armament.item.base.ArmaTridentItem;
 import net.goo.armament.item.weapon.custom.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModList;
@@ -44,6 +44,7 @@ public interface ModResources {
     int[][] JACKPOT_COLORS = new int[][] {{0, 255, 255}, {192, 0, 15}, {225, 255, 8}, {0, 237, 36}};
     int[][] LEAF_BLOWER_COLORS = new int[][] {{212, 6, 6}, {255, 255, 255}};
     int[][] MURASAMA_COLORS = new int[][] {{255, 0, 0}, {150, 0, 0}};
+    int[][] MURAMASA_COLORS = new int[][] {{0, 0, 255}, {0, 0, 150}};
     int[][] MAGIC_ROD_COLORS = new int[][] {{190, 115, 60}, {170, 0, 50}, {190, 115, 60}};
     int[][] PROVIDENCE_COLORS = new int[][] {{255, 254, 232}, {157, 110, 64}};
     int[][] QUANTUM_DRILL_COLORS = new int[][] {{65, 0, 125}, {25, 25, 25}};
@@ -71,7 +72,10 @@ public interface ModResources {
             Map.entry(JackpotHammer.class, JACKPOT_COLORS),
             Map.entry(LeafBlowerItem.class, LEAF_BLOWER_COLORS),
             Map.entry(FirstExplosionStaff.class, MAGIC_ROD_COLORS),
+
             Map.entry(MurasamaSword.class, MURASAMA_COLORS),
+            Map.entry(MuramasaSword.class, MURAMASA_COLORS),
+
             Map.entry(ProvidenceBow.class, PROVIDENCE_COLORS),
             Map.entry(SupernovaSword.class, SUPERNOVA_COLORS),
             Map.entry(TruthseekerSword.class, TRUTHSEEKER_COLORS),
@@ -82,9 +86,10 @@ public interface ModResources {
             Map.entry(TerratonHammer.class, TERRA_COLORS),
             Map.entry(TerraArmorItem.class, TERRA_COLORS),
 
-            Map.entry(ShadowstepSword.class, NOIR_COLORS),
+            Map.entry(ShadowstepDagger.class, NOIR_COLORS),
             Map.entry(NoirArmorItem.class, NOIR_COLORS),
-            Map.entry(CanopyOfShadows.class, NOIR_COLORS)
+            Map.entry(CanopyOfShadows.class, NOIR_COLORS),
+            Map.entry(DullKnifeDagger.class, NOIR_COLORS)
 
     );
 

@@ -69,7 +69,7 @@ public class s2cCustomExplosionPacket {
         this.explosionType = pBuffer.readEnum(ModResources.EXPLOSION_TYPES.class);
     }
 
-    public void write(FriendlyByteBuf pBuffer) {
+    public void encode(FriendlyByteBuf pBuffer) {
         pBuffer.writeDouble(this.x);
         pBuffer.writeDouble(this.y);
         pBuffer.writeDouble(this.z);

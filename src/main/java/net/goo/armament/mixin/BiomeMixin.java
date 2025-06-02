@@ -29,60 +29,36 @@ public abstract class BiomeMixin {
     @Shadow
     protected abstract int getFoliageColorFromTexture();
 
-    /**
-     * @author
-     * @reason
-     */
     @Overwrite
     public int getSkyColor() {
         int color = EnvironmentColorManager.getColorOverride(net.goo.armament.util.helpers.EnvironmentColorManager.ColorType.SKY);
         return color == -1 ? this.specialEffects.getSkyColor() : color;
     }
 
-    /**
-     * @author
-     * @reason
-     */
     @Overwrite
     public int getWaterColor() {
         int color = EnvironmentColorManager.getColorOverride(net.goo.armament.util.helpers.EnvironmentColorManager.ColorType.WATER);
         return color == -1 ? this.specialEffects.getWaterColor() : color;
     }
 
-    /**
-     * @author
-     * @reason
-     */
     @Overwrite
     public int getWaterFogColor() {
         int color = EnvironmentColorManager.getColorOverride(net.goo.armament.util.helpers.EnvironmentColorManager.ColorType.WATER_FOG);
         return color == -1 ? this.specialEffects.getWaterFogColor() : color;
     }
 
-    /**
-     * @author
-     * @reason
-     */
     @Overwrite
     public int getFogColor() {
         int color = net.goo.armament.util.helpers.EnvironmentColorManager.getColorOverride(EnvironmentColorManager.ColorType.FOG);
         return color == -1 ? this.specialEffects.getFogColor() : color;
     }
 
-    /**
-     * @author
-     * @reason
-     */
     @Overwrite
     public int getFoliageColor() {
         int color = net.goo.armament.util.helpers.EnvironmentColorManager.getColorOverride(EnvironmentColorManager.ColorType.FOLIAGE);
         return color == -1 ? this.specialEffects.getFoliageColorOverride().orElseGet(this::getFoliageColorFromTexture) : color;
     }
 
-    /**
-     * @author
-     * @reason
-     */
     @Overwrite
     public int getGrassColor(double posX, double posY) {
         int color = EnvironmentColorManager.getColorOverride(EnvironmentColorManager.ColorType.GRASS);

@@ -1,11 +1,14 @@
 package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
+import net.goo.armament.item.noir.ShadowstepDagger;
 import net.goo.armament.item.weapon.custom.FallenScythe;
 import net.goo.armament.item.weapon.custom.MurasamaSword;
-import net.goo.armament.item.noir.ShadowstepSword;
+import net.goo.armament.item.weapon.custom.SupernovaSword;
+import net.goo.armament.particle.base.AbstractWorldAlignedTrailParticle;
 import net.goo.armament.particle.base.FlatParticle;
 import net.goo.armament.particle.base.GenericMagicCircleParticle;
+import net.goo.armament.particle.base.GenericTridentTrailParticle;
 import net.goo.armament.particle.custom.*;
 import net.goo.armament.particle.custom.flat.ExplosionMagicCircleParticle;
 import net.goo.armament.particle.custom.flat.MurasamaSlash;
@@ -42,7 +45,11 @@ public class ModParticlesHandler {
     public static void registerParticleFactories(final RegisterParticleProvidersEvent event) {
         // Register sprite-based particles
         registerSpriteParticles(event,
-                Pair.of(ModParticles.SUPERNOVA_SWORD_PARTICLE.get(), SupernovaSwordParticle.Provider::new),
+                Pair.of(ModParticles.SUPERNOVA_PARTICLE.get(1).get(), SupernovaParticle.Provider::new),
+                Pair.of(ModParticles.SUPERNOVA_PARTICLE.get(0).get(), SupernovaParticle.Provider::new),
+                Pair.of(ModParticles.SUPERNOVA_SWEEP_PARTICLE.get(), SupernovaSweepParticle.Provider::new),
+
+
                 Pair.of(ModParticles.BLACK_HOLE_PARTICLE.get(), BlackholeEntityParticle.Provider::new),
                 Pair.of(ModParticles.SHADOW_SWEEP_PARTICLE.get(), VoidSweepParticle.Provider::new),
                 Pair.of(ModParticles.SOUL_SWEEP_PARTICLE.get(), SoulSweepParticle.Provider::new),
@@ -64,10 +71,9 @@ public class ModParticlesHandler {
         );
 
         event.registerSpecial(ModParticles.NUCLEAR_EXPLOSION_EMITTER.get(), new NuclearExplosionSeedParticle.Provider());
-        event.registerSpecial(ModParticles.GENERIC_TRIDENT_TRAIL_PARTICLE.get(), new GenericTridentTrail.OrbFactory());
-        event.registerSpecial(ModParticles.THUNDERBOLT_TRAIL_PARTICLE.get(), new ThunderboltTrail.OrbFactory());
-        event.registerSpecial(ModParticles.SWORD_BEAM_TRAIL_PARTICLE.get(), new SwordBeamTrail.OrbFactory());
-        event.registerSpecial(ModParticles.PLANET_TRAIL_PARTICLE.get(), new PlanetTrail.OrbFactory());
+        event.registerSpecial(ModParticles.GENERIC_TRAIL_PARTICLE.get(), new AbstractWorldAlignedTrailParticle.OrbFactory());
+        event.registerSpecial(ModParticles.GENERIC_TRIDENT_TRAIL_PARTICLE.get(), new GenericTridentTrailParticle.OrbFactory());
+
         event.registerSpriteSet(ModParticles.GENERIC_MAGIC_CIRCLE_PARTICLE.get(), GenericMagicCircleParticle.Provider::new);
         event.registerSpriteSet(ModParticles.EXPLOSION_MAGIC_CIRCLE_PARTICLE.get(), ExplosionMagicCircleParticle.Provider::new);
         event.registerSpriteSet(ModParticles.EXPLOSION_AMBIENT_PARTICLE.get(), ExplosionAmbientParticle.Provider::new);
@@ -75,6 +81,7 @@ public class ModParticlesHandler {
     }
 
     // For standard SimpleParticleType particles
+    @SafeVarargs
     private static void registerSpriteParticles(RegisterParticleProvidersEvent event,
                                                 Pair<SimpleParticleType, ParticleEngine.SpriteParticleRegistration<SimpleParticleType>>... particles) {
         for (var pair : particles) {
@@ -90,8 +97,9 @@ public class ModParticlesHandler {
     public static void init() {
         PARTICLE_SUPPLIERS = Map.of(
                 FallenScythe.class, ModParticles.SOUL_SWEEP_PARTICLE::get,
-                ShadowstepSword.class, ModParticles.SHADOW_SWEEP_PARTICLE::get,
-                MurasamaSword.class, ModParticles.MURASAMA_SWEEP_PARTICLE::get
+                ShadowstepDagger.class, ModParticles.SHADOW_SWEEP_PARTICLE::get,
+                MurasamaSword.class, ModParticles.MURASAMA_SWEEP_PARTICLE::get,
+                SupernovaSword.class, ModParticles.SUPERNOVA_SWEEP_PARTICLE::get
         );
     }
 

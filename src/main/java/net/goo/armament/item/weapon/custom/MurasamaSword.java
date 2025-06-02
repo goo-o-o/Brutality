@@ -3,7 +3,7 @@ package net.goo.armament.item.weapon.custom;
 import net.goo.armament.Armament;
 import net.goo.armament.client.renderers.item.ArmaAutoFullbrightItemRenderer;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.weapon.base.ArmaSwordItem;
+import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.network.s2cEnhancedExactParticlePacket;
 import net.goo.armament.particle.custom.flat.MurasamaSlash;
@@ -12,7 +12,6 @@ import net.goo.armament.registry.ModSounds;
 import net.goo.armament.util.ModUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -34,6 +33,7 @@ import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = Armament.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class MurasamaSword extends ArmaSwordItem {
+    private final RandomSource random = RandomSource.create();
 
     public MurasamaSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, ModItemCategories category, Rarity rarity, int abilityCount) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, category, rarity, abilityCount);
@@ -97,7 +97,7 @@ public class MurasamaSword extends ArmaSwordItem {
         }
 
 
-        playSlashSound(pPlayer);
+        pPlayer.level().playSound(null, pPlayer.getOnPos(), ModUtils.getRandomSound(ModSounds.MURASAMA), SoundSource.PLAYERS, 1, ModUtils.nextFloatBetweenInclusive(random, 0.8F, 1F));
 
         PacketHandler.sendToAllClients(new s2cEnhancedExactParticlePacket(
                 pPlayer.getX(),
@@ -142,19 +142,11 @@ public class MurasamaSword extends ArmaSwordItem {
     }
 
 
-
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+
         if (entity instanceof Player player)
-            playSlashSound(player);
+            player.level().playSound(null, player.getOnPos(), ModUtils.getRandomSound(ModSounds.MURASAMA), SoundSource.PLAYERS, 1, ModUtils.nextFloatBetweenInclusive(random, 0.8F, 1F));
         return super.onEntitySwing(stack, entity);
-    }
-
-    private void playSlashSound(Player player) {
-        RandomSource random = player.getRandom();
-        int randomIndex = random.nextInt(ModSounds.MURASAMA.size());
-        SoundEvent sliceSound = ModSounds.MURASAMA.get(randomIndex).get();
-        player.level().playSound(null, player.getOnPos(), sliceSound, SoundSource.PLAYERS, 1, ModUtils.nextFloatBetweenInclusive(random, 0.8F, 1F));
-
     }
 }

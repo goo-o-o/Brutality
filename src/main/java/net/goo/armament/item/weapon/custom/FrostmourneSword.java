@@ -3,7 +3,7 @@ package net.goo.armament.item.weapon.custom;
 import net.goo.armament.Armament;
 import net.goo.armament.entity.mobs.SummonedStray;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.weapon.base.ArmaSwordItem;
+import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.registry.ModParticles;
 import net.goo.armament.registry.ModSounds;
 import net.goo.armament.util.ModUtils;

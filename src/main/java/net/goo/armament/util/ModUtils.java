@@ -1,6 +1,8 @@
 package net.goo.armament.util;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,13 +14,19 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 
 public class ModUtils {
 
+    public static SimpleParticleType getRandomParticle(List<RegistryObject<SimpleParticleType>> particleType) {
+        return particleType.get(random.nextInt(particleType.size())).get();
+    }
 
-
+    public static SoundEvent getRandomSound(List<RegistryObject<SoundEvent>> soundEvent) {
+        return soundEvent.get(random.nextInt(soundEvent.size())).get();
+    }
 
 
     protected static final RandomSource random = RandomSource.create();

@@ -17,6 +17,7 @@
     "BiomeMixin",
     "CameraLockMixin",
     "HumanoidModelMixin",
-    "MixinItemProperties"
+    "ItemPropertiesMixin",
+    "ItemEntityRendererMixin"
   ]
 }

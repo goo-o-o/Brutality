@@ -4,7 +4,7 @@ import net.goo.armament.Armament;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.item.noir.CanopyOfShadows;
 import net.goo.armament.item.noir.NoirArmorItem;
-import net.goo.armament.item.noir.ShadowstepSword;
+import net.goo.armament.item.noir.ShadowstepDagger;
 import net.goo.armament.item.terra.TerraArmorItem;
 import net.goo.armament.item.terra.TerraBladeSword;
 import net.goo.armament.item.terra.TerratonHammer;
@@ -118,6 +118,16 @@ public class ModItems {
             ModRarities.MYTHIC,
             2));
 
+    public static final RegistryObject<Item> MURAMASA_SWORD = ITEMS.register("muramasa", () -> new MuramasaSword(
+            Tiers.NETHERITE,
+            3,
+            -2F,
+            new Item.Properties(),
+            "muramasa",
+            ModItemCategories.TEMP,
+            ModRarities.MYTHIC,
+            2));
+
 
     public static final RegistryObject<Item> PROVIDENCE_BOW = ITEMS.register("providence", () -> new ProvidenceBow(
             new Item.Properties(),
@@ -215,7 +225,7 @@ public class ModItems {
             ModItemCategories.NOIR,
             ModRarities.MYTHIC,
             1));
-    public static final RegistryObject<Item> SHADOWSTEP_SWORD = ITEMS.register("shadowstep", () -> new ShadowstepSword(
+    public static final RegistryObject<Item> SHADOWSTEP_SWORD = ITEMS.register("shadowstep", () -> new ShadowstepDagger(
             Tiers.NETHERITE,
             -2,
             -2.6F,
@@ -232,13 +242,23 @@ public class ModItems {
     public static final RegistryObject<Item> SUPERNOVA_SWORD = ITEMS.register("supernova", () -> new SupernovaSword(
             Tiers.NETHERITE,
             5,
-            -2.6F,
+            -3.1F,
             new Item.Properties().rarity(ModRarities.LEGENDARY),
             "supernova",
             ModItemCategories.TEMP,
             ModRarities.MYTHIC,
             2));
 
+
+    public static final RegistryObject<Item> DULL_KNIFE_DAGGER = ITEMS.register("dull_knife", () -> new DullKnifeDagger(
+            Tiers.NETHERITE,
+            2,
+            -2F,
+            new Item.Properties().rarity(ModRarities.LEGENDARY),
+            "dull_knife",
+            ModItemCategories.TEMP,
+            ModRarities.LEGENDARY,
+            2));
 
 
     public static final RegistryObject<Item> TRUTHSEEKER_SWORD = ITEMS.register("truthseeker", () -> new TruthseekerSword(

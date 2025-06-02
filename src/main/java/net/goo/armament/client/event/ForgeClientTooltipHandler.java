@@ -1,7 +1,7 @@
 package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.ArmaGeoItem;
+import net.goo.armament.item.base.ArmaGeoItem;
 import net.goo.armament.registry.ModItems;
 import net.goo.armament.util.helpers.ModTooltipHelper;
 import net.minecraft.client.renderer.item.ItemProperties;

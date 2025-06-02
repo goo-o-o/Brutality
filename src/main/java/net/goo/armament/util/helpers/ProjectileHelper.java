@@ -13,7 +13,7 @@ public class ProjectileHelper {
         Vec3 viewVector = player.getViewVector(1.0F);
 
         double spawnX = playerPos.x + viewVector.x;
-        double spawnY = playerPos.y + player.getEyeHeight() + viewVector.y;
+        double spawnY = playerPos.y + viewVector.y + player.getBbHeight() / 2;
         double spawnZ = playerPos.z + viewVector.z;
 
         SwordBeam swordBeam = projectileSupplier.get();

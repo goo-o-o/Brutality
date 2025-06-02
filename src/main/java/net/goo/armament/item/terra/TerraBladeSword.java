@@ -3,7 +3,7 @@ package net.goo.armament.item.terra;
 import net.goo.armament.Armament;
 import net.goo.armament.entity.custom.beam.TerraBeam;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.weapon.base.ArmaSwordItem;
+import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.network.c2sSwordBeamPacket;
 import net.goo.armament.registry.ModEntities;
@@ -47,18 +47,20 @@ public class TerraBladeSword extends ArmaSwordItem {
     }
 
 
+
+
     public void performTerraBeam(ItemStack stack, Player player) {
         Level level = player.level();
         Item item = stack.getItem();
-        level.playSound(player, player.getOnPos(), ModSounds.TERRA_BLADE_USE.get(), SoundSource.PLAYERS);
-        if (!player.getCooldowns().isOnCooldown(item)) {
-            player.getCooldowns().addCooldown(item, 20);
+//        if (!player.getCooldowns().isOnCooldown(item)) {
+            level.playSound(player, player.getOnPos(), ModSounds.TERRA_BLADE_USE.get(), SoundSource.PLAYERS);
+//            player.getCooldowns().addCooldown(item, 20);
             if (level.isClientSide()) {
                 PacketHandler.sendToServer(new c2sSwordBeamPacket(BEAM_TYPES.TERRA));
             } else {
                 ProjectileHelper.shootProjectile(() -> new TerraBeam(ModEntities.TERRA_BEAM.get(), level), player, level, 3.5F);
             }
-        }
+//        }
     }
 
 

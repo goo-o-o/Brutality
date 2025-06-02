@@ -1,7 +1,7 @@
 package net.goo.armament.client.event;
 
 import net.goo.armament.Armament;
-import net.goo.armament.item.noir.ShadowstepSword;
+import net.goo.armament.item.noir.ShadowstepDagger;
 import net.goo.armament.item.weapon.custom.MurasamaSword;
 import net.goo.armament.registry.ModEffects;
 import net.goo.armament.util.ModUtils;
@@ -26,7 +26,7 @@ public class LivingEntityEventHandler {
         Entity victim = event.getEntity();
 
         if (event.getEntity().getLastAttacker() instanceof Player player) {
-            if (player.getMainHandItem().getItem() instanceof ShadowstepSword) {
+            if (player.getMainHandItem().getItem() instanceof ShadowstepDagger) {
                 if (ModUtils.isPlayerBehind(player, event.getEntity(), 30)) {
                     event.setAmount(event.getAmount() * 5);
                 }

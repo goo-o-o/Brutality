@@ -3,7 +3,7 @@ package net.goo.armament.item.weapon.custom;
 import net.goo.armament.client.renderers.item.ArmaAutoFullbrightItemRenderer;
 import net.goo.armament.entity.custom.beam.ExcaliburBeam;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.weapon.base.ArmaSwordItem;
+import net.goo.armament.item.base.ArmaSwordItem;
 import net.goo.armament.network.PacketHandler;
 import net.goo.armament.network.c2sSwordBeamPacket;
 import net.goo.armament.registry.ModEntities;
@@ -130,7 +130,7 @@ public class ExcaliburSword extends ArmaSwordItem {
         return super.onEntitySwing(stack, entity);
     }
 
-    public static void performExcaliburBeam(ItemStack stack, Player player) {
+    public void performExcaliburBeam(ItemStack stack, Player player) {
         Level level = player.level();
         Item item = stack.getItem();
         if (!player.getCooldowns().isOnCooldown(item) && stack.getOrCreateTag().getBoolean(AURA_ACTIVE)) {

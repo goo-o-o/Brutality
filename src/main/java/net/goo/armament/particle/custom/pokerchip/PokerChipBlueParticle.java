@@ -17,7 +17,7 @@ public class PokerChipBlueParticle extends TextureSheetParticle {
         this.sprites = spriteSet;
         this.friction = 1F; // Determines particle movement slowdown
         this.lifetime = 100; // Number of ticks the particle will live
-
+        this.gravity = 0.1F;
         // Randomize initial angle for spherical dispersion
         double theta = random.nextDouble() * Math.PI; // Polar angle from 0 to PI (zenith angle)
         double phi = random.nextDouble() * 2 * Math.PI; // Azimuthal angle from 0 to 2*PI (around the azimuth)
@@ -37,13 +37,13 @@ public class PokerChipBlueParticle extends TextureSheetParticle {
     public void tick() {
         super.tick();
 
-        time += 0.4; // Increment time, adjust increment for control over animation speed
-
-        // Update velocities influenced by gravity for Y direction
-        this.yd = this.yd - (0.04 * time); // Apply gravity over time
-
-        // Apply movement based on computed velocities
-        this.move(this.xd, this.yd, this.zd);
+//        time += 0.4; // Increment time, adjust increment for control over animation speed
+//
+//        // Update velocities influenced by gravity for Y direction
+//        this.yd = this.yd - (0.04 * time); // Apply gravity over time
+//
+//        // Apply movement based on computed velocities
+//        this.move(this.xd, this.yd, this.zd);
         this.setSpriteFromAge(sprites);
     }
 

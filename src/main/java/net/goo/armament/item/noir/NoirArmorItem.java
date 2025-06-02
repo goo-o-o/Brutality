@@ -2,7 +2,7 @@ package net.goo.armament.item.noir;
 
 import net.goo.armament.Armament;
 import net.goo.armament.client.renderers.armor.ArmaAutoFullbrightArmorRenderer;
-import net.goo.armament.item.ArmaArmorItem;
+import net.goo.armament.item.base.ArmaArmorItem;
 import net.goo.armament.item.ModArmorMaterials;
 import net.goo.armament.item.ModItemCategories;
 import net.goo.armament.util.ModUtils;

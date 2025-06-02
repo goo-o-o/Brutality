@@ -3,7 +3,7 @@ package net.goo.armament.item.weapon.custom;
 import net.goo.armament.Armament;
 import net.goo.armament.client.renderers.item.ArmaAutoFullbrightItemRenderer;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.weapon.base.ArmaScytheItem;
+import net.goo.armament.item.base.ArmaScytheItem;
 import net.goo.armament.util.helpers.ModTooltipHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;

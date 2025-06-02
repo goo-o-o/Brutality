@@ -23,7 +23,7 @@ public class c2sChangeNBTPacket {
         this.isMainHand = buf.readBoolean();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    public void encode(FriendlyByteBuf buf) {
         buf.writeNbt(modifications);
         buf.writeBoolean(isMainHand);
     }

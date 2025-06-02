@@ -88,5 +88,23 @@
     "sounds": [
       {"name": "armament:murasama_3"}
     ]
+  },
+  "supernova_1": {
+    "category": "player",
+    "sounds": [
+      {"name": "armament:supernova_1"}
+    ]
+  },
+  "supernova_2": {
+    "category": "player",
+    "sounds": [
+      {"name": "armament:supernova_2"}
+    ]
+  },
+  "supernova_3": {
+    "category": "player",
+    "sounds": [
+      {"name": "armament:supernova_3"}
+    ]
   }
 }

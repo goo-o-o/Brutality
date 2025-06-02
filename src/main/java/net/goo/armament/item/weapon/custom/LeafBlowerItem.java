@@ -2,9 +2,7 @@ package net.goo.armament.item.weapon.custom;
 
 import net.goo.armament.Armament;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.ArmaGenericItem;
-import net.goo.armament.network.PacketHandler;
-import net.goo.armament.network.c2sOffLeafBlowerPacket;
+import net.goo.armament.item.base.ArmaGenericItem;
 import net.goo.armament.registry.ModSounds;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -86,7 +84,6 @@ public class LeafBlowerItem extends ArmaGenericItem {
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {
          if (pLivingEntity instanceof Player pPlayer) {
                 pPlayer.playSound(ModSounds.LEAF_BLOWER_OFF.get(), 0.25F, 1);
-                PacketHandler.sendToServer(new c2sOffLeafBlowerPacket());
              tickCounter = 0;
             }
     }

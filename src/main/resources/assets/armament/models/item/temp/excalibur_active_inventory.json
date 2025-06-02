@@ -2,23 +2,23 @@
   "parent": "minecraft:item/generated",
   "loader": "forge:separate_transforms",
   "base": {
-    "parent": "armament:item/excalibur_active_inventory_texture"
+    "parent": "armament:item/temp/excalibur_active_inventory_texture"
   },
   "perspectives": {
     "ground": {
-      "parent": "armament:item/excalibur_handheld"
+      "parent": "armament:item/temp/excalibur_handheld"
     },
     "thirdperson_lefthand": {
-      "parent": "armament:item/excalibur_handheld"
+      "parent": "armament:item/temp/excalibur_handheld"
     },
     "thirdperson_righthand": {
-      "parent": "armament:item/excalibur_handheld"
+      "parent": "armament:item/temp/excalibur_handheld"
     },
     "firstperson_lefthand": {
-      "parent": "armament:item/excalibur_handheld"
+      "parent": "armament:item/temp/excalibur_handheld"
     },
     "firstperson_righthand": {
-      "parent": "armament:item/excalibur_handheld"
+      "parent": "armament:item/temp/excalibur_handheld"
     }
   }
 }

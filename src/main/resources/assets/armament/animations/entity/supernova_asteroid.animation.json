@@ -1,12 +1,15 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"falling": {
-			"loop": true,
+		"idle": {
+			"loop": "hold_on_last_frame",
 			"bones": {
 				"bone": {
 					"rotation": {
-						"vector": ["query.anim_time * 180", 0, "query.anim_time * 180"]
+						"vector": ["math.sin(query.anim_time * 120) * 6 + query.anim_time * 30", 0, "math.cos(query.anim_time * 100) * 4 + query.anim_time * 30"]
+					},
+					"position": {
+						"vector": [0, "math.sin(query.anim_time * 90) * 1", 0]
 					}
 				}
 			}

@@ -3,7 +3,7 @@ package net.goo.armament.item.weapon.custom;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.weapon.base.ArmaHammerItem;
+import net.goo.armament.item.base.ArmaHammerItem;
 import net.goo.armament.registry.ModParticles;
 import net.goo.armament.registry.ModSounds;
 import net.goo.armament.util.helpers.ModTooltipHelper;

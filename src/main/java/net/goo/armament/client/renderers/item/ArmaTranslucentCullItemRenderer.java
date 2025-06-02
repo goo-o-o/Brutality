@@ -1,6 +1,6 @@
 package net.goo.armament.client.renderers.item;
 
-import net.goo.armament.item.ArmaGeoItem;
+import net.goo.armament.item.base.ArmaGeoItem;
 import net.goo.armament.client.models.weapon.ArmaWeaponLayer;
 import net.goo.armament.client.models.weapon.ArmaWeaponModel;
 import net.minecraft.client.renderer.MultiBufferSource;

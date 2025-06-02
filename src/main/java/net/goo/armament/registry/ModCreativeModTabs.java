@@ -30,6 +30,7 @@ public class ModCreativeModTabs {
                         output.accept(ModItems.LEAF_BLOWER.get());
                         output.accept(ModItems.FIRST_EXPLOSION_STAFF.get().getDefaultInstance());
                         output.accept(ModItems.MURASAMA_SWORD.get());
+                        output.accept(ModItems.MURAMASA_SWORD.get());
                         output.accept(ModItems.PROVIDENCE_BOW.get());
 //                        output.accept(ModItems.QUANTUM_DRILL.get());
 //                        output.accept(ModItems.RESONANCE_PICKAXE.get());
@@ -55,6 +56,7 @@ public class ModCreativeModTabs {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                         output.accept(ModItems.SUPERNOVA_SWORD.get().getDefaultInstance());
+                        output.accept(ModItems.DULL_KNIFE_DAGGER.get().getDefaultInstance());
                         output.accept(ModItems.TRUTHSEEKER_SWORD.get());
 //                        output.accept(ModItems.VIPER_RAPIER.get());
                         output.accept(ModItems.THUNDERBOLT_TRIDENT.get().getDefaultInstance());

@@ -2,7 +2,7 @@ package net.goo.armament.item.weapon.unused;
 
 import net.goo.armament.client.renderers.item.ArmaAutoGlowingItemRenderer;
 import net.goo.armament.item.ModItemCategories;
-import net.goo.armament.item.ArmaGenericItem;
+import net.goo.armament.item.base.ArmaGenericItem;
 import net.goo.armament.util.helpers.ModTooltipHelper;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
