@@ -1,0 +1,66 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"no_chef": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"chefs": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"no_carving": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"carving": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"no_bread": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"bread": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"no_cleaver": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"cleaver": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"no_fork": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"fork": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"no_axe": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"axe": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

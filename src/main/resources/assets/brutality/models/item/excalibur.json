@@ -1,0 +1,23 @@
+{
+  "parent": "minecraft:item/generated",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "brutality:item/sword/excalibur_handheld"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "custom_model_data": 1
+      },
+      "model": "brutality:item/excalibur_active_inventory"
+    }
+  ],
+  "perspectives": {
+    "gui": {
+      "parent": "brutality:item/excalibur_inventory"
+    },
+    "fixed": {
+      "parent": "brutality:item/excalibur_inventory"
+    }
+  }
+}

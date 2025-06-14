@@ -1,0 +1,27 @@
+{
+  "parent": "minecraft:item/generated",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "minecraft:item/generated",
+    "textures": {
+      "layer0": "brutality:item/sword/dull_knife/dull_knife_neutral_inventory"
+    }
+  },
+  "perspectives": {
+    "ground": {
+      "parent": "brutality:item/sword/dull_knife_handheld"
+    },
+    "thirdperson_lefthand": {
+      "parent": "brutality:item/sword/dull_knife_handheld"
+    },
+    "thirdperson_righthand": {
+      "parent": "brutality:item/sword/dull_knife_handheld"
+    },
+    "firstperson_lefthand": {
+      "parent": "brutality:item/sword/dull_knife_handheld"
+    },
+    "firstperson_righthand": {
+      "parent": "brutality:item/sword/dull_knife_handheld"
+    }
+  }
+}

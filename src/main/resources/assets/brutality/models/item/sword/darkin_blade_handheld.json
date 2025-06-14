@@ -1,0 +1,49 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -14.25,
+        2.5
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -14.25,
+        2.5
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        2,
+        -18,
+        -4
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        2,
+        -18,
+        -4
+      ]
+    },
+    "ground": {
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -32
+      ]
+    }
+  },
+  "textures": {
+    "particle": "brutality:item/darkin_blade_handheld_spritesheet"
+  }
+}

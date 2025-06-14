@@ -1,0 +1,17 @@
+{
+  "parent": "bettercombat:claymore",
+  "attributes": {
+    "attack_range": 4,
+    "attacks": [
+      {
+        "swing_sound" : { "id" : "brutality:supernova_1"}
+      },
+      {
+        "swing_sound" : { "id" : "brutality:supernova_2"}
+      },
+      {
+        "swing_sound" : { "id" : "brutality:supernova_3"}
+      }
+    ]
+  }
+}

@@ -74,49 +74,49 @@ sourceSets.main.resources {
 mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
     config "${mod_id}.mixins.json"
-    debug.export = true
-    debug.verbose = true
-    quiet = false
 }
 
 repositories {
-    repositories {
-        // Main repositories
-
-        exclusiveContent {
-            forRepository {
-                maven {
-                    url "https://cursemaven.com"
-                }
-            }
-            filter {
-                includeGroup "curse.maven"
-            }
-        }
-
-        maven { url 'https://maven.minecraftforge.net/' }
-        maven { url 'https://maven.parchmentmc.org' }
-        maven { url 'https://repo.spongepowered.org/repository/maven-public/' }
-        maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
-
-        // Modrinth for Better Combat
-        maven { url 'https://api.modrinth.com/maven' }
-
-        // Cloth Config
-        maven { url 'https://maven.shedaniel.me/' }
-
-        // playerAnimator
-        maven { url 'https://maven.kosmx.dev/' }
+    // Main repositories
+    maven {
+        name = "Illusive Soulworks maven"
+        url = "https://maven.theillusivec4.top/"
     }
 
+    maven {
+        url "https://cursemaven.com"
+    }
+
+    maven { url 'https://maven.minecraftforge.net/' }
+    maven { url 'https://maven.parchmentmc.org' }
+    maven { url 'https://repo.spongepowered.org/repository/maven-public/' }
+    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+
+    // Modrinth for Better Combat
+    maven { url 'https://api.modrinth.com/maven' }
+
+    // Cloth Config
+    maven { url 'https://maven.shedaniel.me/' }
+
+    // playerAnimator
+    maven { url 'https://maven.kosmx.dev/' }
+
+    maven {
+        // location of the maven that hosts JEI files since January 2023
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
+
+
 }
+
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     // Mixin
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
+    compileOnly("io.github.llamalad7:mixinextras-common:0.4.1")
     implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.1")) {
         jarJar.ranged(it, "[0.4.1,)")
     }
@@ -126,24 +126,98 @@ dependencies {
     implementation(fg.deobf("me.shedaniel.cloth:cloth-config-forge:11.1.136"))
     implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${player_anim_version}")
     implementation fg.deobf('maven.modrinth:better-combat:1.8.6+1.20.1-forge')
-    implementation fg.deobf(files("libs/dummmmmmy-1.20-2.0.6.jar"))
+    
+    implementation fg.deobf("curse.maven:crafttweaker-239197:6256146")
+
+    implementation fg.deobf("curse.maven:mmmmmmmmmmmm-225738:6237015")
+    implementation fg.deobf("curse.maven:selene-499980:6507197")
+    implementation fg.deobf("curse.maven:embeddium-908741:5681725")
+//    implementation fg.deobf("curse.maven:shoulder-surfing-reloaded-243190:6499361")
+//    implementation fg.deobf("curse.maven:worldedit-225608:4586218")
+//    implementation fg.deobf("curse.maven:architectury-api-419699:5137938")
+//    implementation fg.deobf("curse.maven:skinchanger-378549:5848572")
+//    implementation fg.deobf("curse.maven:mouse-tweaks-60089:5338457")
+//    implementation fg.deobf("curse.maven:jade-324717:6271651")
+//    implementation fg.deobf("curse.maven:item-highlighter-521590:4985588")
+//    implementation fg.deobf("curse.maven:inventory-sorter-240633:5979609")
+//    implementation fg.deobf("curse.maven:explosive-enhancement-reforged-1036246:5960819")
+//    implementation fg.deobf("curse.maven:item-borders-513769:5903326")
+//    implementation fg.deobf("curse.maven:oculus-581495:6020952")
+//    implementation fg.deobf("curse.maven:cosmetic-armor-reworked-237307:4600191")
+//    implementation fg.deobf("curse.maven:cupboard-326652:5470032")
+//    implementation fg.deobf("curse.maven:fix-gpu-memory-leak-882495:4884976")
+//    implementation fg.deobf("curse.maven:stitch-841890:5176879")
+//    implementation fg.deobf("curse.maven:puzzles-lib-495476:6387081")
+//    implementation fg.deobf("curse.maven:overflowing-bars-852662:5763974")
+    implementation fg.deobf("curse.maven:configured-457570:5180900")
+//    implementation fg.deobf("curse.maven:prism-lib-638111:4650325")
+//    implementation fg.deobf("curse.maven:iceberg-520110:5838149")
+//    implementation fg.deobf("curse.maven:kotlin-for-forge-351264:5402061")
+//    implementation fg.deobf("curse.maven:resourcify-870076:6255667")
+//    implementation fg.deobf("curse.maven:octo-lib-916747:6274623")
+//    implementation fg.deobf("curse.maven:immersive-ui-1021685:6023593")
+//    implementation fg.deobf("curse.maven:appleskin-248787:4770828")
+//    implementation fg.deobf("curse.maven:particle-core-985426:6427560")
+//    implementation fg.deobf("curse.maven:presence-footsteps-forge-433068:5015286")
+//    implementation fg.deobf("curse.maven:model-gap-fix-676136:5200949")
+//    implementation fg.deobf("curse.maven:loot-journal-700723:5813449")
+//    implementation fg.deobf("curse.maven:loot-beams-506757:5548970")
+//    implementation fg.deobf("curse.maven:chat-heads-407206:6483021")
+//    implementation fg.deobf("curse.maven:perception-1112793:6451454")
+//    implementation fg.deobf("curse.maven:fzzy-config-1005914:6582106")
+//    implementation fg.deobf("curse.maven:just-enough-effect-descriptions-jeed-532286:6172935")
+    implementation fg.deobf("curse.maven:free-cam-557076:4643128")
+//    implementation fg.deobf("curse.maven:legendary-tooltips-532127:4662781")
+
+    // Terramity thingamajigs
+    implementation fg.deobf("curse.maven:terramity-1084134:6054971")
+    implementation fg.deobf("curse.maven:patchouli-306770:6164575")
+    implementation fg.deobf("curse.maven:curios-309927:6418456")
+    implementation fg.deobf("curse.maven:caelus-308989:5281700")
+
+    // compile against the JEI API but do not include it at runtime
+    compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
+    compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
+    // at runtime, use the full JEI jar for Forge
+    runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
+
+    // Compile against only the API artifact
+    compileOnly "top.theillusivec4.curios:curios-forge:${curios_version}:api"
+    // Use the full Curios API jar at runtime
+//    runtimeOnly "top.theillusivec4.curios:curios-forge:${curios_version}"
+
+    // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
+    // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
+    // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
+    // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
+    // runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
+
+    // Example mod dependency using a mod jar from ./libs with a flat dir repository
+    // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
+    // The group id is ignored when searching -- in this case, it is "blank"
+    // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
+
+    // For more info:
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
 
 //    implementation fg.deobf("curse.maven:in-game-account-switcher-232676:5457030")
 }
 
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
-            minecraft_version: minecraft_version,
+            minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
-            forge_version: forge_version,
-            forge_version_range: forge_version_range,
-            loader_version_range: loader_version_range,
-            mod_id: mod_id,
-            mod_name: mod_name,
-            mod_license: mod_license,
-            mod_version: mod_version,
-            mod_authors: mod_authors,
-            mod_description: mod_description,
+            forge_version          : forge_version,
+            forge_version_range    : forge_version_range,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description,
     ]
 
     inputs.properties replaceProperties

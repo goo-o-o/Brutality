@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "package": "net.goo.brutality.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "brutality.refmap.json",
+  "mixins": [
+    "AbstractArrowMixin",
+    "InfinityEnchantmentMixin",
+    "ItemMixin",
+    "ItemStackMixin",
+    "LivingEntityMixin",
+    "PlayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "BiomeMixin",
+    "CameraLockMixin",
+    "HumanoidModelMixin",
+    "ItemEntityRendererMixin",
+    "ItemPropertiesMixin"
+  ]
+}

@@ -1,0 +1,350 @@
+{
+  "leaf_blower_on": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "brutality:leaf_blower_on",
+        "stream": true
+      }
+    ]
+  },
+  "leaf_blower_active": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "brutality:leaf_blower_active",
+        "stream": true
+      }
+    ]
+  },
+  "leaf_blower_off": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "brutality:leaf_blower_off",
+        "stream": true
+      }
+    ]
+  },
+  "jackpot_sound_1": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "brutality:jackpot_sound_1"
+      }
+    ]
+  },
+  "jackpot_sound_2": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "brutality:jackpot_sound_2"
+      }
+    ]
+  },
+  "jackpot_sound_3": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "brutality:jackpot_sound_3"
+      }
+    ]
+  },
+  "jackpot_sound_4": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "brutality:jackpot_sound_4"
+      }
+    ]
+  },
+  "terra_blade_use": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "brutality:terra_blade_use"
+      }
+    ]
+  },
+  "ice_wave": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "brutality:ice_wave"
+      }
+    ]
+  },
+  "big_explosion": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "brutality:big_explosion"
+      }
+    ]
+  },
+  "bigger_explosion": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "brutality:bigger_explosion"
+      }
+    ]
+  },
+  "wings_flap": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "brutality:wings_flap"
+      }
+    ]
+  },
+  "murasama_1": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:murasama_1"
+      }
+    ]
+  },
+  "murasama_2": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:murasama_2"
+      }
+    ]
+  },
+  "murasama_3": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:murasama_3"
+      }
+    ]
+  },
+  "supernova_1": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:supernova_1"
+      }
+    ]
+  },
+  "supernova_2": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:supernova_2"
+      }
+    ]
+  },
+  "supernova_3": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:supernova_3"
+      }
+    ]
+  },
+  "dull_knife_swing": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:dull_knife_swing"
+      }
+    ]
+  },
+  "dull_knife_stab": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:dull_knife_stab"
+      }
+    ]
+  },
+  "dull_knife_ability": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:dull_knife_ability"
+      }
+    ]
+  },
+  "dull_knife_crit": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:dull_knife_crit"
+      }
+    ]
+  },
+  "bass_boom": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:bass_boom"
+      }
+    ]
+  },
+  "epic_punch_1": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:epic_punch_1"
+      }
+    ]
+  },
+  "epic_punch_2": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:epic_punch_2"
+      }
+    ]
+  },
+  "epic_punch_3": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:epic_punch_3"
+      }
+    ]
+  },
+  "frying_pan_hit": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:frying_pan_hit"
+      }
+    ]
+  },
+  "spatula_flip_1": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:spatula_flip_1"
+      }
+    ]
+  },
+  "spatula_flip_2": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:spatula_flip_2"
+      }
+    ]
+  },
+  "spatula_flip_3": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:spatula_flip_3"
+      }
+    ]
+  },
+  "spatula_flip_4": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:spatula_flip_4"
+      }
+    ]
+  },
+  "spatula_flip_5": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:spatula_flip_5"
+      }
+    ]
+  },
+  "squelch": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:squelch"
+      }
+    ]
+  },
+  "knife_block": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:knife_block"
+      }
+    ]
+  },
+  "event_horizon_dislodge": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:event_horizon_dislodge"
+      }
+    ]
+  },
+  "event_horizon_return": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:event_horizon_return"
+      }
+    ]
+  },
+  "deathbringer_stance_ready": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:deathbringer_stance_ready"
+      }
+    ]
+  },
+
+  "deathbringer_stance_hit": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:deathbringer_stance_hit"
+      }
+    ]
+  },
+  "darkin_blade_1": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:darkin_blade_1"
+      }
+    ]
+  },
+  "darkin_blade_2": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:darkin_blade_2"
+      }
+    ]
+  },
+  "darkin_blade_3": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:darkin_blade_3"
+      }
+    ]
+  },
+  "umbral_dash_1": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:umbral_dash_1"
+      }
+    ]
+  },
+  "umbral_dash_2": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:umbral_dash_2"
+      }
+    ]
+  }
+}

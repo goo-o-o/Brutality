@@ -1,0 +1,49 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -7.5,
+        3.25
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -7.5,
+        3.25
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        0,
+        -12,
+        0
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        0,
+        -12,
+        0
+      ]
+    },
+    "ground": {
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -14
+      ]
+    }
+  },
+  "textures": {
+    "particle": "armament:item/frying_pan_handheld"
+  }
+}

@@ -28,7 +28,21 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="geckolib"
 mandatory=true
-versionRange="[4.7,)"
+versionRange="[4.7.1.2,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="bettercombat"
+mandatory=false
+versionRange="[1.8.6,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="terramity"
+mandatory=true
+versionRange="[0.9.8,)"
 ordering="AFTER"
 side="BOTH"
 

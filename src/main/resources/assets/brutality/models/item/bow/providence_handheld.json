@@ -1,0 +1,73 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "texture_size": [
+    64,
+    64
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -31.5,
+        4
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -31.5,
+        4
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        15,
+        0,
+        0
+      ],
+      "translation": [
+        8,
+        -20,
+        -15
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        15,
+        0,
+        0
+      ],
+      "translation": [
+        8,
+        -20,
+        -15
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -24
+      ]
+    }
+  },
+  "textures": {
+    "particle": "armament:item/providence_handheld"
+  }
+}

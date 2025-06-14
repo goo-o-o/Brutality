@@ -1,0 +1,49 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -22,
+        2
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -22,
+        2
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        8,
+        -32,
+        -8
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        8,
+        -32,
+        -8
+      ]
+    },
+    "ground": {
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -80
+      ]
+    }
+  },
+  "textures": {
+    "particle": "armament:item/royal_guardian_sword_handheld"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -16,
+        3
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -16,
+        3
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        5,
+        -24,
+        0
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        5,
+        -24,
+        0
+      ]
+    },
+    "ground": {
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -20
+      ]
+    }
+  },
+  "textures": {
+    "particle": "brutality:item/shadow_assasin_scythe"
+  }
+}

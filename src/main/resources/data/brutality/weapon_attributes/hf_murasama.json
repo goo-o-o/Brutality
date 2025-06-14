@@ -1,0 +1,40 @@
+{
+  "attributes": {
+    "attack_range": 5,
+    "pose": "bettercombat:pose_two_handed_katana",
+    "two_handed": true,
+    "category": "katana",
+    "attacks": [
+      {
+        "hitbox": "VERTICAL_PLANE",
+        "damage_multiplier": 1.2,
+        "angle": 120,
+        "upswing": 0.5,
+        "animation": "brutality:cross_cut",
+        "swing_sound": {
+          "id": "brutality:murasama_1"
+        }
+      },
+      {
+        "hitbox": "HORIZONTAL_PLANE",
+        "damage_multiplier": 1.2,
+        "angle": 120,
+        "upswing": 0.5,
+        "animation": "brutality:slide_swipe",
+        "swing_sound": {
+          "id": "brutality:murasama_2"
+        }
+      },
+      {
+        "hitbox": "FORWARD_BOX",
+        "damage_multiplier": 0.2,
+        "angle": 120,
+        "upswing": 0.5,
+        "animation": "brutality:front_kick",
+        "swing_sound": {
+          "id": "brutality:murasama_3"
+        }
+      }
+    ]
+  }
+}

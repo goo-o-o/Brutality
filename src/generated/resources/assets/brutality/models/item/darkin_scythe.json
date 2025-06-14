@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "brutality:item/scythe/darkin_scythe_handheld"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "brutality:item/scythe/darkin_scythe/darkin_scythe_inventory"
+      }
+    },
+    "fixed": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "brutality:item/scythe/darkin_scythe/darkin_scythe_inventory"
+      }
+    }
+  }
+}
