@@ -1,0 +1,65 @@
+{
+  "credit": "Made with Blockbench",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -7,
+        0
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -7,
+        0
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        4,
+        -20,
+        -2
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        4,
+        -20,
+        -2
+      ]
+    },
+    "ground": {
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -28
+      ]
+    },
+    "gui": {
+      "rotation": [
+        90,
+        45,
+        -90
+      ],
+      "translation": [
+        -7,
+        -7,
+        0
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.3
+      ]
+    }
+  },
+  "textures": {
+    "particle": "brutality:item/wooden_ruler_handheld"
+  }
+}

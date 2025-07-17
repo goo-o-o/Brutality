@@ -1,0 +1,48 @@
+{
+  "credit": "Made with Blockbench",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -15,
+        2.5
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -15,
+        2.5
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        4,
+        -18,
+        -6
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        4,
+        -18,
+        -6
+      ]
+    },
+    "ground": {
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -22
+      ]
+    }
+  },
+  "textures": {
+    "particle": "brutality:item/seventh_star_handheld_spritesheet"
+  }
+}

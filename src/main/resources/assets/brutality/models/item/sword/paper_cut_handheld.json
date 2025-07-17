@@ -1,0 +1,49 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -7,
+        2
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -7,
+        2
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        0,
+        -7,
+        2
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        0,
+        -7,
+        2
+      ]
+    },
+    "ground": {
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -15
+      ]
+    }
+  },
+  "textures": {
+    "particle": "brutality:item/paper_cut_handheld"
+  }
+}

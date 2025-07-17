@@ -1,0 +1,137 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"use": {
+			"loop": true,
+			"bones": {
+				"bone": {
+					"scale": {
+						"vector": [
+							"Math.min(query.anim_time * query.anim_time * query.anim_time, 1)",
+							"query.anim_time * query.anim_time",
+							"Math.min(query.anim_time * query.anim_time * query.anim_time, 1)"
+						]
+					}
+				},
+				"bone2": {
+					"rotation": {
+						"vector": [0, "query.anim_time <= 10 ? math.pow(query.anim_time, 2) * 45 : query.anim_time * 45 * 20", 0]
+					},
+					"scale": {
+						"vector": [
+							"Math.min(query.anim_time * query.anim_time * query.anim_time, 1)",
+							"Math.min(query.anim_time * query.anim_time * query.anim_time, 1)",
+							"Math.min(query.anim_time * query.anim_time * query.anim_time, 1)"
+						]
+					}
+				},
+				"bone3": {
+					"rotation": {
+						"vector": ["math.max(45 + query.anim_time * -25, -2.5)", 0, 0]
+					},
+					"scale": {
+						"vector": [
+							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
+							"query.anim_time * query.anim_time * 2",
+							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
+						]
+					}
+				},
+				"bone4": {
+					"rotation": {
+						"vector": ["math.min(-45 + query.anim_time * 25, 2.5)", 0, 0]
+					},
+					"scale": {
+						"vector": [
+							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
+							"query.anim_time * query.anim_time * 2",
+							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
+						]
+					}
+				},
+				"bone5": {
+					"rotation": {
+						"vector": [0, 0, "Math.max(45 + query.anim_time * -25, -2,5)"]
+					},
+					"scale": {
+						"vector": [
+							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
+							"query.anim_time * query.anim_time * 2",
+							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
+						]
+					}
+				},
+				"bone6": {
+					"rotation": {
+						"vector": ["math.max(45 + query.anim_time * -25, -2.5)", 0, "math.min(-45 + query.anim_time * 25, 2.5)"]
+					},
+					"scale": {
+						"vector": [
+							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
+							"query.anim_time * query.anim_time * 2",
+							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
+						]
+					}
+				},
+				"bone7": {
+					"rotation": {
+						"vector": [0, 0, "math.min(-45 + query.anim_time * 25, 2.5)"]
+					},
+					"scale": {
+						"vector": [
+							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
+							"query.anim_time * query.anim_time * 2",
+							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
+						]
+					}
+				},
+				"bone8": {
+					"rotation": {
+						"vector": ["math.min(-45 + query.anim_time * 25, 2.5)", 0, "math.min(-45 + query.anim_time * 25, 2.5)"]
+					},
+					"scale": {
+						"vector": [
+							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
+							"query.anim_time * query.anim_time * 2",
+							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
+						]
+					}
+				},
+				"bone9": {
+					"rotation": {
+						"vector": ["math.min(-45 + query.anim_time * 25, 2.5)", 0, "math.max(45 + query.anim_time * -25, -2.5)"]
+					},
+					"scale": {
+						"vector": [
+							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
+							"query.anim_time * query.anim_time * 2",
+							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
+						]
+					}
+				},
+				"bone10": {
+					"rotation": {
+						"vector": ["math.max(45 + query.anim_time * -25, -2.5)", 0, "math.max(45 + query.anim_time * -25, -2.5)"]
+					},
+					"scale": {
+						"vector": [
+							"query.anim_time <= 3 ? 1 : Math.max(0, 1 - query.anim_time * 0.2)",
+							"query.anim_time * query.anim_time * 2",
+							"query.anim_time <= 3 ? 1 : Math.max(0, 1 - query.anim_time * 0.2)"
+						]
+					}
+				}
+			}
+		},
+		"idle": {
+			"loop": true,
+			"bones": {
+				"bone2": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,76 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -16.75,
+        0
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -16.75,
+        0
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        -22.5,
+        0,
+        0
+      ],
+      "translation": [
+        8,
+        -24,
+        2
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        -22.5,
+        0,
+        0
+      ],
+      "translation": [
+        8,
+        -24,
+        2
+      ]
+    },
+    "ground": {
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -42
+      ]
+    },
+    "gui": {
+      "rotation": [
+        90,
+        60,
+        -90
+      ],
+      "translation": [
+        -8,
+        -9,
+        0
+      ],
+      "scale": [
+        0.25,
+        0.25,
+        0.25
+      ]
+    }
+  },
+  "textures": {
+    "particle": "brutality:item/exoblade_inventory"
+  }
+}

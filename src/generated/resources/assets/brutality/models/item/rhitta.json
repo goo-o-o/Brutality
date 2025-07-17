@@ -1,1 +1,0 @@
-{"parent":"minecraft:item/handheld","loader":"forge:separate_transforms","base":{"parent":"brutality:item/axe/rhitta_handheld"},"perspectives":{"gui":{"parent":"minecraft:item/generated","textures":{"layer0":"brutality:item/axe/rhitta/rhitta_inventory"}},"fixed":{"parent":"minecraft:item/generated","textures":{"layer0":"brutality:item/axe/rhitta/rhitta_inventory"}}}}

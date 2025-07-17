@@ -1,0 +1,49 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -11,
+        0
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -11,
+        0
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        3.5,
+        -13,
+        -4.5
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        3.5,
+        -13,
+        -4.5
+      ]
+    },
+    "ground": {
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -24
+      ]
+    }
+  },
+  "textures": {
+    "particle": "brutality:item/terratomere_handheld"
+  }
+}

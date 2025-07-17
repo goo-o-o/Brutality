@@ -1,0 +1,59 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -16,
+        1
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -16,
+        1
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        -12.25,
+        0,
+        0
+      ],
+      "translation": [
+        2,
+        -28,
+        6
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        -12.25,
+        0,
+        0
+      ],
+      "translation": [
+        2,
+        -28,
+        6
+      ]
+    },
+    "ground": {
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -24
+      ]
+    }
+  },
+  "textures": {
+    "particle": "brutality:item/iron_knife_handheld"
+  }
+}

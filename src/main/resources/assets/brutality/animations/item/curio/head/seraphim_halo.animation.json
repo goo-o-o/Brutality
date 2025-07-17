@@ -1,0 +1,29 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"idle": {
+			"loop": true,
+			"bones": {
+				"armorHead": {
+					"rotation": {
+						"vector": ["Math.cos(query.anim_time * 15) * 5", 0, "Math.sin(query.anim_time * 15) * 2.5"]
+					},
+					"position": {
+						"vector": ["Math.sin(query.anim_time) * 0.5", "Math.cos(query.anim_time) * 0.5", "Math.sin(query.anim_time) * 0.5"]
+					}
+				},
+				"big": {
+					"rotation": {
+						"vector": [0, "query.anim_time * 5", 0]
+					}
+				},
+				"small": {
+					"rotation": {
+						"vector": [0, "-query.anim_time * 5", 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

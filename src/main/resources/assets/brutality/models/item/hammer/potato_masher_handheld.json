@@ -1,0 +1,48 @@
+{
+  "credit": "Made with Blockbench",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -18,
+        2
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -18,
+        2
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        0,
+        -18,
+        2
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        0,
+        -18,
+        2
+      ]
+    },
+    "ground": {
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -20
+      ]
+    }
+  },
+  "textures": {
+    "particle": "brutality:item/potato_masher_handheld"
+  }
+}

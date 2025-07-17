@@ -1,0 +1,49 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        -2.5,
+        -16,
+        0
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        -2.5,
+        -16,
+        0
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        6,
+        -16,
+        0
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        6,
+        -16,
+        0
+      ]
+    },
+    "ground": {
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        -18
+      ]
+    }
+  },
+  "textures": {
+    "particle": "brutality:item/old_gpu_handheld"
+  }
+}

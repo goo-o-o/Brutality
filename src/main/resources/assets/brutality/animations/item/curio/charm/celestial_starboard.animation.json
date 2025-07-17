@@ -1,0 +1,26 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"hide": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"celestial_starboard": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"spin": {
+			"loop": true,
+			"bones": {
+				"celestial_starboard": {
+					"rotation": {
+						"vector": [0, "query.anim_time * 270", 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/generic/the_cloud/the_cloud_inventory"
+  }
+}

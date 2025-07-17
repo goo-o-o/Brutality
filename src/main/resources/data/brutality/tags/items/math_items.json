@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "brutality:spatula",
+    "brutality:frying_pan",
+    "brutality:cabbage",
+    "brutality:wintermelon",
+    "brutality:knife_block",
+    "brutality:hot_sauce_charm",
+    "brutality:pepper_shaker_charm",
+    "brutality:salt_shaker_charm",
+    "brutality:iron_knife",
+    "brutality:gold_knife",
+    "brutality:diamond_knife",
+    "brutality:void_knife"
+  ]
+}

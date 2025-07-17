@@ -1,0 +1,41 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "texture_size": [
+    32,
+    32
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -5,
+        2
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -5,
+        2
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        0,
+        -8,
+        0
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        0,
+        -8,
+        0
+      ]
+    }
+  },
+  "textures": {
+    "particle": "brutality:item/chopsticks_handheld"
+  }
+}

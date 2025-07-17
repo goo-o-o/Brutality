@@ -1,0 +1,16 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"idle": {
+			"loop": true,
+			"bones": {
+				"bone": {
+					"scale": {
+						"vector": ["math.random(0.993, 1.003)", "math.random(0.993, 1.003)", "math.random(0.993, 1.003)"]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:presets/bludgeon",
+  "attributes": {
+    "attack_range": 4.25
+  }
+}

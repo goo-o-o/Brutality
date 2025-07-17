@@ -1,0 +1,41 @@
+{
+  "parent": "minecraft:item/generated",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "brutality:item/sword/dull_knife_handheld"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "custom_model_data": 0
+      },
+      "model": "brutality:item/dull_knife_neutral_inventory"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1
+      },
+      "model": "brutality:item/dull_knife_happy_inventory"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 2
+      },
+      "model": "brutality:item/dull_knife_sad_inventory"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 3
+      },
+      "model": "brutality:item/dull_knife_angry_inventory"
+    }
+  ],
+  "perspectives": {
+    "gui": {
+      "parent": "brutality:item/dull_knife_neutral_inventory"
+    },
+    "fixed": {
+      "parent": "brutality:item/dull_knife_neutral_inventory"
+    }
+  }
+}

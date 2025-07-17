@@ -1,0 +1,50 @@
+{
+  "credit": "Made with Blockbench",
+  "texture_size": [
+    48,
+    64
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -4,
+        0
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -4,
+        0
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        90,
+        -80
+      ],
+      "translation": [
+        -9,
+        0,
+        6
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        90,
+        -80
+      ],
+      "translation": [
+        -9,
+        0,
+        6
+      ]
+    }
+  },
+  "textures": {
+    "particle": "brutality:item/last_prism_handheld"
+  }
+}
