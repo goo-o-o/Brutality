@@ -1,0 +1,34 @@
+package net.goo.brutality.item.curios;
+
+import net.goo.brutality.item.BrutalityCategories;
+import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.registry.BrutalityModItems;
+import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotContext;
+
+import java.util.List;
+
+public class SubtractionCharm extends BrutalityCurioItem {
+
+
+    public SubtractionCharm(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(rarity, descriptionComponents);
+    }
+
+    @Override
+    public boolean canEquip(SlotContext slotContext, ItemStack stack) {
+        return CuriosApi.getCuriosInventory(slotContext.entity())
+                .map(handler ->
+                        handler.findFirstCurio(BrutalityModItems.SCIENTIFIC_CALCULATOR_BELT.get()).isPresent()
+                )
+                .orElse(false);
+    }
+
+    @Override
+    public BrutalityCategories category() {
+        return BrutalityCategories.CurioType.CHARM;
+    }
+}

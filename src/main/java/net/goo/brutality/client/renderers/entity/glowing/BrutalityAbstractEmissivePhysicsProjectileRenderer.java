@@ -1,12 +1,13 @@
-package net.goo.brutality.client.renderers.entity;
+package net.goo.brutality.client.renderers.entity.glowing;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
+import net.goo.brutality.client.renderers.entity.BrutalityAbstractPhysicsProjectileRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Entity;
 import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
-public class BrutalityAbstractGlowingPhysicsProjectileRenderer<T extends Entity & BrutalityGeoEntity> extends BrutalityAbstractPhysicsProjectileRenderer<T>{
-    public BrutalityAbstractGlowingPhysicsProjectileRenderer(EntityRendererProvider.Context context) {
+public class BrutalityAbstractEmissivePhysicsProjectileRenderer<T extends Entity & BrutalityGeoEntity> extends BrutalityAbstractPhysicsProjectileRenderer<T> {
+    public BrutalityAbstractEmissivePhysicsProjectileRenderer(EntityRendererProvider.Context context) {
         super(context);
         this.addRenderLayer(new AutoGlowingGeoLayer<>(this));
     }

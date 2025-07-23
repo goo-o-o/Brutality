@@ -16,7 +16,7 @@ import static com.mojang.blaze3d.platform.GlStateManager.DestFactor.ONE_MINUS_SR
 import static com.mojang.blaze3d.platform.GlStateManager.SourceFactor.ONE;
 import static com.mojang.blaze3d.platform.GlStateManager.SourceFactor.SRC_ALPHA;
 
-public class BrutalityAutoFullbrightNoDepthTexture extends AutoGlowingTexture {
+public class BrutalityAutoRGBTexture extends AutoGlowingTexture {
     private static final RenderStateShard.ShaderStateShard SHADER_STATE = new RenderStateShard.ShaderStateShard(GameRenderer::getRendertypeEyesShader);
     private static final RenderStateShard.TransparencyStateShard TRANSPARENCY_STATE = new RenderStateShard.TransparencyStateShard("translucent_transparency", () -> {
         RenderSystem.enableBlend();
@@ -29,13 +29,13 @@ public class BrutalityAutoFullbrightNoDepthTexture extends AutoGlowingTexture {
     private static final RenderStateShard.WriteMaskStateShard WRITE_MASK = new RenderStateShard.WriteMaskStateShard(true, false);
     protected static final RenderStateShard.CullStateShard CULL = new RenderStateShard.CullStateShard(true);
 
-    public BrutalityAutoFullbrightNoDepthTexture(ResourceLocation originalLocation, ResourceLocation location) {
+    public BrutalityAutoRGBTexture(ResourceLocation originalLocation, ResourceLocation location) {
         super(originalLocation, location);
     }
 
     private static final Function<ResourceLocation, RenderType> RENDER_TYPE_FUNCTION = Util.memoize((texture) -> {
         RenderStateShard.TextureStateShard textureState = new RenderStateShard.TextureStateShard(texture, false, false);
-        return RenderType.create("arma_fullbright_no_depth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder().setShaderState(SHADER_STATE).setCullState(CULL).setTextureState(textureState).setTransparencyState(TRANSPARENCY_STATE).setWriteMaskState(WRITE_MASK).createCompositeState(false));
+        return RenderType.create("arma_fullbright_no_depth_rgb", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder().setShaderState(SHADER_STATE).setCullState(CULL).setTextureState(textureState).setTransparencyState(TRANSPARENCY_STATE).setWriteMaskState(WRITE_MASK).createCompositeState(false));
     });
 
     public static RenderType getRenderType(ResourceLocation texture) {
@@ -43,7 +43,7 @@ public class BrutalityAutoFullbrightNoDepthTexture extends AutoGlowingTexture {
     }
 
     private static ResourceLocation getEmissiveResource(ResourceLocation baseResource) {
-        ResourceLocation path = appendToPath(baseResource, "_fbnd");
+        ResourceLocation path = appendToPath(baseResource, "_fbndrgb");
         generateTexture(path, (textureManager) -> {
             textureManager.register(path, new AutoGlowingTexture(baseResource, path));
         });

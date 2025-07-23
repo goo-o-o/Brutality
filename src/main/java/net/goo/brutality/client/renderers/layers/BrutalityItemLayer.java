@@ -18,6 +18,7 @@ public class BrutalityItemLayer<T extends Item & BrutalityGeoItem> extends GeoRe
         geoRenderer = entityRendererIn;
     }
 
+
     protected RenderType getRenderType(T animatable) {
         return RenderType.entityCutoutNoCullZOffset(getTextureResource(animatable));
     }

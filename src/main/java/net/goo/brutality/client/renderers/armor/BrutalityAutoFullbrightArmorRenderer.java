@@ -1,15 +1,15 @@
 package net.goo.brutality.client.renderers.armor;
 
-import net.goo.brutality.client.models.armor.BrutalityArmorModel;
+import net.goo.brutality.client.models.BrutalityArmorModel;
 import net.goo.brutality.client.renderers.layers.BrutalityAutoFullbrightNoDepthLayer;
 import net.goo.brutality.item.base.BrutalityGeoItem;
 import net.minecraft.world.item.ArmorItem;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
-public class ArmaAutoFullbrightArmorRenderer<T extends ArmorItem & BrutalityGeoItem> extends ArmaArmorRenderer<T> {
+public class BrutalityAutoFullbrightArmorRenderer<T extends ArmorItem & BrutalityGeoItem> extends BrutalityArmorRenderer<T> {
     public GeoArmorRenderer<T> renderer;
 
-    public ArmaAutoFullbrightArmorRenderer() {
+    public BrutalityAutoFullbrightArmorRenderer() {
         super();
         ((BrutalityArmorModel<T>) getGeoModel()).renderer = this;
         this.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer(this));

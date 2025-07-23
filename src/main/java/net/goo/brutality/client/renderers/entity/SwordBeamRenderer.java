@@ -2,63 +2,42 @@ package net.goo.brutality.client.renderers.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.goo.brutality.Brutality;
-import net.goo.brutality.client.entity.model.SwordBeamModel;
+import net.goo.brutality.client.entity.BrutalityGeoEntityModel;
 import net.goo.brutality.entity.base.SwordBeam;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 public class SwordBeamRenderer extends GeoEntityRenderer<SwordBeam> {
 
     public SwordBeamRenderer(EntityRendererProvider.Context renderManager) {
-        super(renderManager, new SwordBeamModel());
-    }
-
-    public String getIdentifier() {
-        return getAnimatable().geoIdentifier();
-    }
-
-    @Override
-    public @NotNull ResourceLocation getTextureLocation(@NotNull SwordBeam animatable) {
-        return Brutality.prefix("textures/entity/projectiles/" + getIdentifier() + ".png");
+        super(renderManager, new BrutalityGeoEntityModel<>());
     }
 
     @Override
     public RenderType getRenderType(SwordBeam animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-        return RenderType.eyes(texture);
+        return RenderType.entityCutoutNoCull(texture);
     }
 
     @Override
-    public void render(@NotNull SwordBeam pEntity, float entityYaw, float pPartialTicks, @NotNull PoseStack pPoseStack, @NotNull MultiBufferSource bufferSource, int packedLight) {
-        Player player = Minecraft.getInstance().player;
+    protected void applyRotations(SwordBeam animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick) {
+        Vec3 moveVec = animatable.getDeltaMovement();
 
-        if (player != null) {
-            Vec3 moveVec = pEntity.getDeltaMovement();
+        moveVec = moveVec.normalize();
 
-                moveVec = moveVec.normalize();
+        double angle = Math.atan2(-moveVec.z, moveVec.x);
+        double pitch = Math.asin(moveVec.y);
+        poseStack.translate(0.0D, animatable.getBbHeight() / 2, 0.0D);
+        poseStack.mulPose(Axis.YP.rotationDegrees((float) Math.toDegrees(angle)));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(((float) Math.toDegrees(pitch))));
+        poseStack.mulPose(Axis.XP.rotationDegrees(animatable.getRandomRoll()));
 
-                double angle = Math.atan2(-moveVec.z, moveVec.x);
-                double pitch = Math.asin(moveVec.y);
-                pPoseStack.pushPose();
-                pPoseStack.translate(0.0D, pEntity.getBbHeight() / 2, 0.0D);
-                pPoseStack.mulPose(Axis.YP.rotationDegrees((float) Math.toDegrees(angle)));
-                pPoseStack.mulPose(Axis.ZP.rotationDegrees(((float) Math.toDegrees(pitch))));
-                pPoseStack.mulPose(Axis.XP.rotationDegrees(pEntity.getRandomRoll()));
+        poseStack.scale(animatable.getRenderScale(), animatable.getRenderScale(), animatable.getRenderScale());
 
-        }
-
-        pPoseStack.scale(pEntity.getRenderScale(), pEntity.getRenderScale(), pEntity.getRenderScale());
-
-        super.render(pEntity, entityYaw, pPartialTicks, pPoseStack, bufferSource, packedLight);
-
-        pPoseStack.popPose();
+        super.applyRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick);
     }
 }

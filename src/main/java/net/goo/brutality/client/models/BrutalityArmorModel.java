@@ -1,4 +1,4 @@
-package net.goo.brutality.client.models.armor;
+package net.goo.brutality.client.models;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalityGeoItem;
@@ -7,23 +7,28 @@ import net.minecraft.world.item.ArmorItem;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
+import java.util.Locale;
+
 public class BrutalityArmorModel<T extends ArmorItem & BrutalityGeoItem> extends GeoModel<T> {
     public GeoArmorRenderer<T> renderer;
 
 
     @Override
     public ResourceLocation getModelResource(T animatable) {
-        return Brutality.prefix("geo/armor/" + animatable.getMaterial() + "_armor.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(
+                Brutality.MOD_ID, "geo/armor/" + animatable.getMaterial().toString().toLowerCase(Locale.ROOT) + "_armor.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(T animatable) {
-        return Brutality.prefix("textures/armor/" + animatable.getMaterial() + "_armor.png");
+        return ResourceLocation.fromNamespaceAndPath(
+                Brutality.MOD_ID, "textures/armor/" + animatable.getMaterial().toString().toLowerCase(Locale.ROOT) + "_armor.png");
     }
 
 
     public ResourceLocation getAnimationResource(T animatable) {
-        return Brutality.prefix("animations/armor/" + animatable.getMaterial() + "_armor.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(
+                Brutality.MOD_ID, "animations/armor/" + animatable.getMaterial().toString().toLowerCase(Locale.ROOT) + "_armor.animation.json");
 
     }
 }

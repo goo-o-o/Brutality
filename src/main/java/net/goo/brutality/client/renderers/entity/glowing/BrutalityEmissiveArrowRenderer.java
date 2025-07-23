@@ -8,8 +8,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.util.Mth;
 
-public class BrutalityGlowingArrowRenderer<T extends BrutalityArrow & BrutalityGeoEntity> extends BrutalityGlowingEntityRenderer<T> {
-    public BrutalityGlowingArrowRenderer(EntityRendererProvider.Context context) {
+public class BrutalityEmissiveArrowRenderer<T extends BrutalityArrow & BrutalityGeoEntity> extends BrutalityEmissiveEntityRenderer<T> {
+    public BrutalityEmissiveArrowRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
 

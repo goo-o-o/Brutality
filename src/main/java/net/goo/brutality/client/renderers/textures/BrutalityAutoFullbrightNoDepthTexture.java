@@ -18,8 +18,7 @@ import static com.mojang.blaze3d.platform.GlStateManager.SourceFactor.SRC_ALPHA;
 
 public class BrutalityAutoFullbrightNoDepthTexture extends AutoGlowingTexture {
     private static final RenderStateShard.ShaderStateShard SHADER_STATE = new RenderStateShard.ShaderStateShard(GameRenderer::getRendertypeEyesShader);
-    private static final RenderStateShard.TransparencyStateShard TRANSPARENCY_STATE = new RenderStateShard.TransparencyStateShard(
-            "translucent_transparency", () -> {
+    private static final RenderStateShard.TransparencyStateShard TRANSPARENCY_STATE = new RenderStateShard.TransparencyStateShard("translucent_transparency", () -> {
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE_MINUS_SRC_ALPHA);
 
@@ -36,10 +35,7 @@ public class BrutalityAutoFullbrightNoDepthTexture extends AutoGlowingTexture {
 
     private static final Function<ResourceLocation, RenderType> RENDER_TYPE_FUNCTION = Util.memoize((texture) -> {
         RenderStateShard.TextureStateShard textureState = new RenderStateShard.TextureStateShard(texture, false, false);
-        return RenderType.create("arma_fullbright_layer",
-                DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true,
-                RenderType.CompositeState.builder().setShaderState(SHADER_STATE).setCullState(CULL).setTextureState(textureState).
-                        setTransparencyState(TRANSPARENCY_STATE).setWriteMaskState(WRITE_MASK).createCompositeState(false));
+        return RenderType.create("arma_fullbright_no_depth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder().setShaderState(SHADER_STATE).setCullState(CULL).setTextureState(textureState).setTransparencyState(TRANSPARENCY_STATE).setWriteMaskState(WRITE_MASK).createCompositeState(false));
     });
 
     public static RenderType getRenderType(ResourceLocation texture) {
