@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "terramity:virentium_alloy_ingot"
+    },
+    "%": {
+      "item": "terramity:gaianite_cluster"
+    },
+    "@": {
+      "item": "brutality:terra_blade"
+    }
+  },
+  "pattern": [
+    "%#%",
+    "#@#",
+    "%#%"
+  ],
+  "result": {
+    "item": "brutality:terratomere"
+  },
+  "show_notification": true
+}

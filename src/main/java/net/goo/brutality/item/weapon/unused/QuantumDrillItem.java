@@ -1,9 +1,7 @@
 package net.goo.brutality.item.weapon.unused;
 
-import net.goo.brutality.client.renderers.item.BrutalityEmissiveItemRenderer;
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -15,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
@@ -25,7 +22,6 @@ import software.bernie.geckolib.core.object.PlayState;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import static net.goo.brutality.util.ModUtils.lookingAtBlock;
 import static net.minecraft.core.BlockPos.withinManhattan;
@@ -37,16 +33,16 @@ public class QuantumDrillItem extends BrutalityGenericItem {
     int[] color1 = new int[]{255, 255, 255};
     int[] color2 = new int[]{0, 120, 190};
 
-    public QuantumDrillItem(Properties pProperties, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pProperties, identifier, rarity, descriptionComponents);
+    public QuantumDrillItem(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(rarity, descriptionComponents);
     }
 
 
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityEmissiveItemRenderer.class);
-    }
-
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer));
+//    }
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack pStack = pPlayer.getItemInHand(pUsedHand);

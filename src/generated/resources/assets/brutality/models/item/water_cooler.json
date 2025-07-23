@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:block/water_cooler_handheld",
+  "textures": {
+    "layer0": "brutality:block/water_cooler"
+  }
+}

@@ -5,6 +5,8 @@ import net.goo.brutality.client.renderers.entity.BrutalityArrowRenderer;
 import net.goo.brutality.client.renderers.layers.BrutalityAutoFullbrightNoDepthLayer;
 import net.goo.brutality.entity.base.BrutalityArrow;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BrutalityFullbrightNoDepthArrowRenderer<T extends BrutalityArrow & BrutalityGeoEntity> extends BrutalityArrowRenderer<T> {
     public BrutalityFullbrightNoDepthArrowRenderer(EntityRendererProvider.Context context) {

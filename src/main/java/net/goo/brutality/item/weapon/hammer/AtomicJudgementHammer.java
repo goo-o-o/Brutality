@@ -1,11 +1,11 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.hammer;
 
-import net.goo.brutality.client.renderers.item.BrutalityAutoFullbrightItemRenderer;
+import net.bettercombat.utils.MathHelper;
+import net.goo.brutality.Brutality;
 import net.goo.brutality.config.BrutalityCommonConfig;
 import net.goo.brutality.item.base.BrutalityHammerItem;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.ModExplosionHelper;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -18,7 +18,6 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -26,23 +25,23 @@ import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 
 public class AtomicJudgementHammer extends BrutalityHammerItem {
 
 
-    public AtomicJudgementHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public AtomicJudgementHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
 
     }
 
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityAutoFullbrightItemRenderer.class);
-    }
 
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
+//    }
 
     @Override
     public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
@@ -54,18 +53,38 @@ public class AtomicJudgementHammer extends BrutalityHammerItem {
     }
 
 
-    public static void doCustomExplosion(Level level, LivingEntity pTarget, LivingEntity pAttacker, ItemStack pStack) {
-        if (!level.isClientSide() && pAttacker instanceof Player player) {
-            System.out.println("explode");
-            ModExplosionHelper.sendCustomExplode(EXPLOSION_TYPES.NUCLEAR, level, player,
-                    pTarget.getX(), pTarget.getY() + pTarget.getBbHeight() / 5, pTarget.getZ(),
-                    player.getAttackStrengthScale(1F) * 10, false,
-                    BrutalityCommonConfig.ATOMIC_JUDGEMENT_GRIEFING.get() ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE,
-//                    Level.ExplosionInteraction.BLOCK,
+    public static void doCustomExplosion(Level level, LivingEntity target, LivingEntity attacker, ItemStack stack) {
+        if (level.isClientSide() || !(attacker instanceof Player player)) return;
 
-                    true);
-            pStack.hurtAndBreak(5, pTarget, e -> pTarget.broadcastBreakEvent(InteractionHand.MAIN_HAND));
+        if (target == null || stack.isEmpty()) {
+            return;
+        }
 
+        try {
+            float basePower = (float) (player.getAttackStrengthScale(1F) * 10 * BrutalityCommonConfig.ATOMIC_JUDGEMENT_MULT.get());
+            float radius = MathHelper.clamp(basePower, 1f, 100f); // Prevent extreme values
+
+            ModExplosionHelper.sendCustomExplode(
+                    EXPLOSION_TYPES.NUCLEAR,
+                    level,
+                    player,
+                    target.getX(),
+                    target.getY() + target.getBbHeight() / 5,
+                    target.getZ(),
+                    radius,
+                    false,
+                    BrutalityCommonConfig.ATOMIC_JUDGEMENT_GRIEFING.get() ?
+                            Level.ExplosionInteraction.BLOCK :
+                            Level.ExplosionInteraction.NONE,
+                    true
+            );
+
+            int damage = Math.min(5, stack.getMaxDamage() - stack.getDamageValue());
+            if (damage > 0) {
+                stack.hurtAndBreak(damage, target, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
+            }
+        } catch (Exception e) {
+            Brutality.LOGGER.error("Failed to execute atomic judgement explosion", e);
         }
     }
 

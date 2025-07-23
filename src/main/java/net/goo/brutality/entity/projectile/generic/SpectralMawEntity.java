@@ -1,10 +1,10 @@
-package net.goo.brutality.entity.custom.projectile.generic;
+package net.goo.brutality.entity.projectile.generic;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.particle.base.CameraAlignedOrbitingTrailParticle;
 import net.goo.brutality.particle.custom.RuinedParticle;
 import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -79,7 +79,7 @@ public class SpectralMawEntity extends ThrowableProjectile implements BrutalityG
 
     @Override
     public void onAddedToWorld() {
-        this.level().playSound(this, this.getOnPos(), ModSounds.SPECTRAL_MAW.get(), SoundSource.HOSTILE, 10, Mth.nextFloat(level().random, 0.5F, 1.5F));
+        this.level().playSound(this, this.getOnPos(), BrutalityModSounds.SPECTRAL_MAW.get(), SoundSource.HOSTILE, 10, Mth.nextFloat(level().random, 0.5F, 1.5F));
         super.onAddedToWorld();
     }
 

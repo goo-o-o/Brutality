@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:stick"
+    },
+    "#": {
+      "item": "minecraft:apple"
+    },
+    "@": {
+      "item": "terramity:daemonium_chunk"
+    }
+  },
+  "pattern": [
+    " @#",
+    "##@",
+    "!# "
+  ],
+  "result": {
+    "item": "brutality:apple_core"
+  },
+  "show_notification": true
+}

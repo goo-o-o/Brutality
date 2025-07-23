@@ -11,7 +11,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
 
-@OnlyIn(Dist.CLIENT)
 public class SoulSweepParticle extends ArmaSweepParticle {
 
     public SoulSweepParticle(ClientLevel pLevel, double pX, double pY, double pZ, double pQuadSizeMultiplier, SpriteSet pSprites) {
@@ -26,8 +25,6 @@ public class SoulSweepParticle extends ArmaSweepParticle {
     }
 
 
-
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;
 

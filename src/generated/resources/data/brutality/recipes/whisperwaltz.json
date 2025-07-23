@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "terramity:reverium"
+    },
+    "$": {
+      "item": "terramity:reverium_sword"
+    },
+    "@": {
+      "item": "terramity:iridescent_shard"
+    }
+  },
+  "pattern": [
+    " @#",
+    "@#@",
+    "$@ "
+  ],
+  "result": {
+    "item": "brutality:whisperwaltz"
+  },
+  "show_notification": true
+}

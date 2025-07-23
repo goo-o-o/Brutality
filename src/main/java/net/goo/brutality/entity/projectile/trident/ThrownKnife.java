@@ -1,8 +1,8 @@
-package net.goo.brutality.entity.custom.projectile.trident;
+package net.goo.brutality.entity.projectile.trident;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractTrident;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -77,7 +77,7 @@ public class ThrownKnife extends BrutalityAbstractTrident implements BrutalityGe
 
     @Override
     protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
-        return ModSounds.KNIFE_BLOCK.get();
+        return BrutalityModSounds.KNIFE_BLOCK.get();
     }
 
     @Override

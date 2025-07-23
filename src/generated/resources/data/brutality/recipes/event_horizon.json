@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:black_matter"
+    },
+    "#": {
+      "item": "terramity:void_alloy"
+    },
+    "$": {
+      "item": "brutality:pocket_black_hole"
+    },
+    "%": {
+      "item": "minecraft:netherite_shovel"
+    },
+    "@": {
+      "item": "terramity:profanum"
+    }
+  },
+  "pattern": [
+    " #!",
+    "@$#",
+    "%@ "
+  ],
+  "result": {
+    "item": "brutality:event_horizon"
+  },
+  "show_notification": true
+}

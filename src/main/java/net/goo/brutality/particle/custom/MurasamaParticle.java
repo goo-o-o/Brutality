@@ -1,15 +1,14 @@
 package net.goo.brutality.particle.custom;
 
-import net.goo.brutality.util.ModUtils;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
 
-@OnlyIn(Dist.CLIENT)
 public class MurasamaParticle extends TextureSheetParticle {
     SpriteSet spriteSet;
 
@@ -17,9 +16,9 @@ public class MurasamaParticle extends TextureSheetParticle {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
 
         this.friction = 0.75F; // Determines particle movement slowdown
-        this.xd = ModUtils.nextFloatBetweenInclusive(level.random, 0.75F, -0.75F);
-        this.yd = ModUtils.nextFloatBetweenInclusive(level.random, 0.75F, -0.75F);
-        this.zd = ModUtils.nextFloatBetweenInclusive(level.random, 0.75F, -0.75F);
+        this.xd = Mth.nextFloat(level.random, 0.75F, -0.75F);
+        this.yd = Mth.nextFloat(level.random, 0.75F, -0.75F);
+        this.zd = Mth.nextFloat(level.random, 0.75F, -0.75F);
         this.lifetime = level.random.nextIntBetweenInclusive(10, 15);
         this.spriteSet = spriteSet;
         this.setSpriteFromAge(spriteSet);

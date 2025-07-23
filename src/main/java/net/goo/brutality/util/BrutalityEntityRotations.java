@@ -1,6 +1,6 @@
-package net.goo.brutality.mixin;
+package net.goo.brutality.util;
 
-interface BrutalityEntityRotations {
+public interface BrutalityEntityRotations {
     float brutality$getBrutalityRoll();
 
     float brutality$getBrutalityPrevRoll();

@@ -10,14 +10,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class EntityEffectsCapProvider implements ICapabilitySerializable<CompoundTag> {
-    private final IEntityCapabilities instance;
-    private final LazyOptional<IEntityCapabilities> optional;
+    private final EntityCapabilities.EntityEffectCap instance;
+    private final LazyOptional<EntityCapabilities.EntityEffectCap> optional;
 
     public EntityEffectsCapProvider() {
-        this(new EntityCapabilities());
+        this(new EntityCapabilities.EntityEffectCap());
     }
 
-    public EntityEffectsCapProvider(IEntityCapabilities instance) {
+    public EntityEffectsCapProvider(EntityCapabilities.EntityEffectCap instance) {
         this.instance = instance;
         this.optional = LazyOptional.of(() -> this.instance);
     }

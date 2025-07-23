@@ -32,11 +32,8 @@ public class RadiationParticle extends TextureSheetParticle {
 
         double oscillation = Math.cos(this.age * this.direction) * 0.1; // Adjust the multiplier for speed/amplitude
 
-        double leftX = -forwardZ; // X component of left direction
-        double leftZ = forwardX;  // Z component of left direction
-
-        double motionX = leftX * oscillation; // Left/right motion (x-axis)
-        double motionZ = leftZ * oscillation; // Left/right motion (z-axis)
+        double motionX = -forwardZ * oscillation; // Left/right motion (x-axis)
+        double motionZ = forwardX * oscillation; // Left/right motion (z-axis)
 
         double motionY = 0.08; // Adjust for upward speed
         this.move(motionX, motionY, motionZ);

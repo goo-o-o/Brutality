@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "brutality:high_frequency_alloy"
+    },
+    "$": {
+      "item": "terramity:hellspec_sword"
+    },
+    "%": {
+      "item": "terramity:murasama"
+    }
+  },
+  "pattern": [
+    " ##",
+    "#$#",
+    "%# "
+  ],
+  "result": {
+    "item": "brutality:hf_murasama"
+  },
+  "show_notification": true
+}

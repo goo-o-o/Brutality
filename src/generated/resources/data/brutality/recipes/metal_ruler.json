@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:iron_ingot"
+    },
+    "#": {
+      "item": "terramity:daemonium"
+    },
+    "@": {
+      "item": "minecraft:iron_sword"
+    }
+  },
+  "pattern": [
+    "  #",
+    " ! ",
+    "@  "
+  ],
+  "result": {
+    "item": "brutality:metal_ruler"
+  },
+  "show_notification": true
+}

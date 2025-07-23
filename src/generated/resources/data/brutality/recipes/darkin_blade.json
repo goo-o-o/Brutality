@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:spiteful_soul"
+    },
+    "#": {
+      "item": "terramity:chthonian_void"
+    },
+    "$": {
+      "item": "terramity:hellspec_sword"
+    },
+    "@": {
+      "item": "minecraft:basalt"
+    }
+  },
+  "pattern": [
+    " #@",
+    "!@#",
+    "$! "
+  ],
+  "result": {
+    "item": "brutality:darkin_blade"
+  },
+  "show_notification": true
+}

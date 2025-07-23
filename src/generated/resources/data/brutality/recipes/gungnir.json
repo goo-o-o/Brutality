@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:unholy_lance"
+    },
+    "#": {
+      "item": "terramity:hellspec_alloy"
+    },
+    "$": {
+      "item": "terramity:archangel_halo"
+    },
+    "%": {
+      "item": "terramity:stratus_storm_ruler"
+    }
+  },
+  "pattern": [
+    " #!",
+    " $#",
+    "%  "
+  ],
+  "result": {
+    "item": "brutality:gungnir"
+  },
+  "show_notification": true
+}

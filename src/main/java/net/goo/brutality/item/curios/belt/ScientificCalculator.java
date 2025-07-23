@@ -1,4 +1,4 @@
-package net.goo.brutality.item.curios;
+package net.goo.brutality.item.curios.belt;
 
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
@@ -18,10 +18,10 @@ import top.theillusivec4.curios.api.SlotResult;
 
 import java.util.List;
 
-public class ScientificCalculatorBelt extends BrutalityCurioItem {
+public class ScientificCalculator extends BrutalityCurioItem {
 
 
-    public ScientificCalculatorBelt(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public ScientificCalculator(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

@@ -1,4 +1,4 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.generic;
 
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -24,8 +24,8 @@ public class DoomfistGauntletItem extends BrutalityGenericItem {
     private static final String PUNCHING = "isPunching";
     private static int clampedTime;
 
-    public DoomfistGauntletItem(String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(identifier, rarity, descriptionComponents);
+    public DoomfistGauntletItem(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(rarity, descriptionComponents);
     }
 
 

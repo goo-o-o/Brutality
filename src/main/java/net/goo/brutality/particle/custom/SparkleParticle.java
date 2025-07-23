@@ -62,7 +62,6 @@ public class SparkleParticle extends TextureSheetParticle {
         return FULL_BRIGHT;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 

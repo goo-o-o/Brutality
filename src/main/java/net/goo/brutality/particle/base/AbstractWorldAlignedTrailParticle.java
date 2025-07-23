@@ -7,7 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.registry.ModParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -82,14 +82,6 @@ public class AbstractWorldAlignedTrailParticle extends AbstractCameraAlignedTrai
 
 
 
-    public Vec3 getEntityCenter() {
-        Entity from = this.getFromEntity();
-        if (from != null) {
-            // Get center position of the entity's hitbox
-            return from.position().add(0, from.getBbHeight() / 2, 0);
-        }
-        return new Vec3(this.x, this.y, this.z);
-    }
 
     @Override
     public void render(@NotNull VertexConsumer consumer, @NotNull Camera camera, float partialTick) {
@@ -154,18 +146,11 @@ public class AbstractWorldAlignedTrailParticle extends AbstractCameraAlignedTrai
         }
     }
 
-    public Entity getFromEntity() {
-        return entityId == -1 ? null : level.getEntity(entityId);
-    }
 
     public void tick() {
         super.tick();
         float fade = 1F - age / (float) lifetime;
         this.trailA = fade * 2F;
-        Vec3 vec3 = getEntityCenter();
-        this.x = vec3.x;
-        this.y = vec3.y;
-        this.z = vec3.z;
 
         Entity from = this.getFromEntity();
         if (from == null) {
@@ -184,7 +169,6 @@ public class AbstractWorldAlignedTrailParticle extends AbstractCameraAlignedTrai
         return new ResourceLocation(Brutality.MOD_ID, "textures/particle/" + texture + "_trail_particle.png");
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static final class OrbFactory implements ParticleProvider<AbstractWorldAlignedTrailParticle.OrbData> {
 
         @Override
@@ -260,73 +244,61 @@ public class AbstractWorldAlignedTrailParticle extends AbstractCameraAlignedTrai
 
             @Override
             public ParticleType<OrbData> getType() {
-                return ModParticles.GENERIC_WORLD_ALIGNED_TRAIL_PARTICLE.get();
+                return BrutalityModParticles.GENERIC_WORLD_ALIGNED_TRAIL_PARTICLE.get();
             }
 
-            @Override
-            @OnlyIn(Dist.CLIENT)
-            public float r() {
+        @Override
+        public float r() {
                 return this.r;
             }
 
-            @Override
-            @OnlyIn(Dist.CLIENT)
-            public float g() {
+        @Override
+        public float g() {
                 return this.g;
             }
 
-            @Override
-            @OnlyIn(Dist.CLIENT)
-            public float b() {
+        @Override
+        public float b() {
                 return this.b;
             }
 
-            @Override
-            @OnlyIn(Dist.CLIENT)
-            public float width() {
+        @Override
+        public float width() {
                 return this.width;
             }
 
-            @Override
-            @OnlyIn(Dist.CLIENT)
-            public int entityID() {
+        @Override
+        public int entityID() {
                 return this.entityID;
             }
 
-            @Override
-            @OnlyIn(Dist.CLIENT)
-            public float pitch() {
+        @Override
+        public float pitch() {
                 return this.pitch;
             }
 
-            @Override
-            @OnlyIn(Dist.CLIENT)
-            public float yaw() {
+        @Override
+        public float yaw() {
                 return this.yaw;
             }
 
-            @Override
-            @OnlyIn(Dist.CLIENT)
-            public float roll() {
+        @Override
+        public float roll() {
                 return this.roll;
             }
 
-            @Override
-            @OnlyIn(Dist.CLIENT)
-            public String texture() {
+        @Override
+        public String texture() {
                 return this.texture;
             }
 
-            @Override
-            @OnlyIn(Dist.CLIENT)
-            public int sampleCount() {
+        @Override
+        public int sampleCount() {
                 return this.sampleCount;
             }
 
 
-
-            @OnlyIn(Dist.CLIENT)
-            public Entity getOwner() {
+        public Entity getOwner() {
                 return this.getOwner();
             }
 

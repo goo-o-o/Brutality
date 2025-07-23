@@ -1,14 +1,13 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.trident;
 
-import net.goo.brutality.client.renderers.item.BrutalityEmissiveItemRenderer;
-import net.goo.brutality.entity.custom.projectile.trident.ThrownThunderbolt;
+import net.goo.brutality.entity.projectile.trident.ThrownThunderbolt;
 import net.goo.brutality.item.base.BrutalityTridentItem;
-import net.goo.brutality.registry.ModEntities;
+import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -22,16 +21,13 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import static java.lang.Math.PI;
-import static net.goo.brutality.util.ModUtils.nextFloatBetweenInclusive;
 
 public class ThunderboltTrident extends BrutalityTridentItem {
     protected final RandomSource random = RandomSource.create();
@@ -44,8 +40,8 @@ public class ThunderboltTrident extends BrutalityTridentItem {
             Enchantments.INFINITY_ARROWS
     );
 
-    public ThunderboltTrident(float attackDamageModifier, float attackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(attackDamageModifier, attackSpeedModifier, identifier, rarity, descriptionComponents);
+    public ThunderboltTrident(float attackDamageModifier, float attackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(attackDamageModifier, attackSpeedModifier, rarity, descriptionComponents);
     }
 
 
@@ -70,7 +66,7 @@ public class ThunderboltTrident extends BrutalityTridentItem {
         int j = EnchantmentHelper.getRiptide(pStack);
 
         if (j == 0) {
-            ThrownThunderbolt thrownThunderbolt = new ThrownThunderbolt(pLevel, player, pStack, ModEntities.THROWN_THUNDERBOLT_ENTITY.get());
+            ThrownThunderbolt thrownThunderbolt = new ThrownThunderbolt(pLevel, player, pStack, BrutalityModEntities.THROWN_THUNDERBOLT_ENTITY.get());
             thrownThunderbolt.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, getLaunchVel() + (float) j * 0.5F, 1.0F);
             if (player.getAbilities().instabuild) {
                 thrownThunderbolt.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
@@ -91,7 +87,7 @@ public class ThunderboltTrident extends BrutalityTridentItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
-        if (pPlayer.isCrouching()) {
+        if (pPlayer.isShiftKeyDown()) {
             performZeusWrathAttack(pPlayer, pLevel, itemstack, pHand);
             pPlayer.getCooldowns().addCooldown(itemstack.getItem(), 80);
             return InteractionResultHolder.fail(itemstack);
@@ -109,7 +105,7 @@ public class ThunderboltTrident extends BrutalityTridentItem {
 
     public void performZeusWrathAttack(Player pPlayer, Level pLevel, ItemStack pStack, InteractionHand pHand) {
         for (int i = 0; i < random.nextInt(5, 11); i++) {
-            float distance = nextFloatBetweenInclusive(random, 5F, 10F);
+            float distance = Mth.nextFloat(random, 5F, 10F);
             float angle = random.nextFloat() * 2 * ((float) PI);
 
             float xOffset = distance * ((float) Math.cos(angle));
@@ -125,12 +121,13 @@ public class ThunderboltTrident extends BrutalityTridentItem {
         }
     }
 
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer));
+//    }
 
 
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityEmissiveItemRenderer.class);
-    }
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {

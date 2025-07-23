@@ -1,6 +1,23 @@
 {
-  "parent": "bettercombat:sword",
+  "parent": "bettercombat:claymore",
   "attributes": {
-    "attack_range": 4
+    "attack_range": 4,
+    "attacks": [
+      {
+        "swing_sound": {
+          "id": "brutality:squelch"
+        }
+      },
+      {
+        "swing_sound": {
+          "id": "brutality:squelch"
+        }
+      },
+      {
+        "swing_sound": {
+          "id": "brutality:squelch"
+        }
+      }
+    ]
   }
 }

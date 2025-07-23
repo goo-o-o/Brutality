@@ -1,11 +1,11 @@
 package net.goo.brutality.entity.mobs;
 
-import net.goo.brutality.entity.capabilities.GenericCopyOwnerTargetGoal;
-import net.goo.brutality.entity.capabilities.GenericHurtByTargetGoal;
-import net.goo.brutality.entity.capabilities.GenericOwnerHurtByTargetGoal;
-import net.goo.brutality.entity.capabilities.GenericOwnerHurtTargetGoal;
+import net.goo.brutality.entity.capabilities.goals.GenericCopyOwnerTargetGoal;
+import net.goo.brutality.entity.capabilities.goals.GenericHurtByTargetGoal;
+import net.goo.brutality.entity.capabilities.goals.GenericOwnerHurtByTargetGoal;
+import net.goo.brutality.entity.capabilities.goals.GenericOwnerHurtTargetGoal;
 import net.goo.brutality.entity.capabilities.goals.GenericFollowOwnerGoal;
-import net.goo.brutality.registry.ModEntities;
+import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.helpers.OwnerHelper;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -41,7 +41,7 @@ public class SummonedStray extends Stray implements ISummon {
     }
 
     public SummonedStray(Level level, LivingEntity owner, boolean playRiseAnimation) {
-        this(ModEntities.SUMMONED_STRAY.get(), level);
+        this(BrutalityModEntities.SUMMONED_STRAY.get(), level);
         setSummoner(owner);
     }
 

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:yellow_concrete"
+    },
+    "#": {
+      "item": "minecraft:iron_trapdoor"
+    },
+    "$": {
+      "item": "minecraft:milk_bucket"
+    },
+    "@": {
+      "item": "minecraft:honey_bottle"
+    }
+  },
+  "pattern": [
+    " # ",
+    "!@!",
+    "!$!"
+  ],
+  "result": {
+    "item": "brutality:cheese_sauce_charm"
+  },
+  "show_notification": true
+}

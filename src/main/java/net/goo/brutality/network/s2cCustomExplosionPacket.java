@@ -101,7 +101,6 @@ public class s2cCustomExplosionPacket {
 
                 explosion.finalizeExplosion(true);
 
-                // Apply knockback to the player
                 Minecraft.getInstance().player.setDeltaMovement(
                         Minecraft.getInstance().player.getDeltaMovement().add(
                                 this.knockbackX,
@@ -115,18 +114,6 @@ public class s2cCustomExplosionPacket {
         ctx.get().setPacketHandled(true);
     }
 
-
-    public float getKnockbackX() {
-        return this.knockbackX;
-    }
-
-    public float getKnockbackY() {
-        return this.knockbackY;
-    }
-
-    public float getKnockbackZ() {
-        return this.knockbackZ;
-    }
 
     public double getX() {
         return this.x;

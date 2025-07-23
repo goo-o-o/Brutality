@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "terramity:topaz"
+    },
+    "$": {
+      "item": "minecraft:nether_star"
+    },
+    "@": {
+      "item": "terramity:reverium"
+    }
+  },
+  "pattern": [
+    "#@#",
+    "@$@",
+    "#@#"
+  ],
+  "result": {
+    "item": "brutality:celestial_starboard"
+  },
+  "show_notification": true
+}

@@ -1,14 +1,12 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.sword;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.renderers.item.BrutalityAutoFullbrightItemRenderer;
 import net.goo.brutality.item.base.BrutalitySwordItem;
-import net.goo.brutality.registry.ModSounds;
-import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -20,19 +18,17 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class MuramasaSword extends BrutalitySwordItem {
 
 
-    public MuramasaSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public MuramasaSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
     @Override
@@ -40,10 +36,11 @@ public class MuramasaSword extends BrutalitySwordItem {
 
     }
 
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityAutoFullbrightItemRenderer.class);
-    }
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
+//    }
 
     @Override
     public UseAnim getUseAnimation(ItemStack pStack) {
@@ -85,9 +82,9 @@ public class MuramasaSword extends BrutalitySwordItem {
 
     private void playSlashSound(Player player) {
         RandomSource random = player.getRandom();
-        int randomIndex = random.nextInt(ModSounds.MURASAMA.size());
-        SoundEvent sliceSound = ModSounds.MURASAMA.get(randomIndex).get();
-        player.level().playSound(null, player.getOnPos(), sliceSound, SoundSource.PLAYERS, 1, ModUtils.nextFloatBetweenInclusive(random, 0.8F, 1F));
+        int randomIndex = random.nextInt(BrutalityModSounds.MURASAMA.size());
+        SoundEvent sliceSound = BrutalityModSounds.MURASAMA.get(randomIndex).get();
+        player.level().playSound(null, player.getOnPos(), sliceSound, SoundSource.PLAYERS, 1, Mth.nextFloat(random, 0.8F, 1F));
 
     }
 }

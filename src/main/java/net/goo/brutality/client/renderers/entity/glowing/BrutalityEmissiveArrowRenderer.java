@@ -7,6 +7,8 @@ import net.goo.brutality.entity.base.BrutalityArrow;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.util.Mth;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BrutalityEmissiveArrowRenderer<T extends BrutalityArrow & BrutalityGeoEntity> extends BrutalityEmissiveEntityRenderer<T> {
     public BrutalityEmissiveArrowRenderer(EntityRendererProvider.Context context) {

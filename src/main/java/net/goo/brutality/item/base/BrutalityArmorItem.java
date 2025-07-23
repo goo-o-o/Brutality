@@ -1,6 +1,7 @@
 package net.goo.brutality.item.base;
 
-import net.goo.brutality.item.BrutalityItemCategories;
+import net.goo.brutality.client.renderers.armor.BrutalityArmorRenderer;
+import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.network.chat.Component;
@@ -8,6 +9,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,15 +25,18 @@ import java.util.function.Consumer;
 public class BrutalityArmorItem extends ArmorItem implements BrutalityGeoItem {
     private final List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents;
     public String identifier;
-    public BrutalityItemCategories category;
     public Rarity rarity;
 
-    public BrutalityArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties, String identifier,
+    public BrutalityArmorItem(ArmorMaterial pMaterial, Type pType,
                               Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pMaterial, pType, pProperties);
-        this.identifier = identifier;
+        super(pMaterial, pType, new Item.Properties());
         this.rarity = rarity;
         this.descriptionComponents = descriptionComponents;
+    }
+
+    @Override
+    public boolean isDamageable(ItemStack stack) {
+        return true;
     }
 
     @Override
@@ -40,24 +46,19 @@ public class BrutalityArmorItem extends ArmorItem implements BrutalityGeoItem {
 
     @Override
     public @NotNull Component getName(ItemStack pStack) {
-        return brutalityNameHandler(pStack, identifier);
+        return brutalityNameHandler(pStack);
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityHoverTextHandler(pStack, pTooltipComponents, descriptionComponents, rarity, identifier);
+        brutalityHoverTextHandler(pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
 
     @Override
-    public String geoIdentifier() {
-        return this.identifier;
-    }
-
-    @Override
-    public BrutalityItemCategories category() {
-        return BrutalityItemCategories.ARMOR;
+    public BrutalityCategories category() {
+        return BrutalityCategories.ItemType.ARMOR;
     }
 
     @Override
@@ -72,25 +73,29 @@ public class BrutalityArmorItem extends ArmorItem implements BrutalityGeoItem {
         return cache;
     }
 
-    public <R extends GeoArmorRenderer<?>> void initGeoArmor(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
+    @Override
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new IClientItemExtensions() {
             private GeoArmorRenderer<?> renderer;
 
             @Override
-            public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
+            public @NotNull HumanoidModel<?> getHumanoidArmorModel(
+                    LivingEntity livingEntity,
+                    ItemStack itemStack,
+                    EquipmentSlot equipmentSlot,
+                    HumanoidModel<?> original) {
+
                 if (this.renderer == null) {
                     try {
-                        this.renderer = rendererClass.getDeclaredConstructor().newInstance();
+                        this.renderer = new BrutalityArmorRenderer<>();
                     } catch (Exception e) {
                         throw new RuntimeException("Failed to instantiate GeoArmorRenderer: " + e);
                     }
                 }
-                // This prepares our GeoArmorRenderer for the current render frame.
-                // These parameters may be null however, so we don't do anything further with them
                 this.renderer.prepForRender(livingEntity, itemStack, equipmentSlot, original);
-
                 return this.renderer;
             }
         });
     }
+
 }

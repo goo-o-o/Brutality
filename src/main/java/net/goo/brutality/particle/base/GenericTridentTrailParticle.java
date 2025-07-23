@@ -4,7 +4,7 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.goo.brutality.registry.ModParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -51,7 +51,6 @@ public class GenericTridentTrailParticle extends AbstractWorldAlignedTrailPartic
     }
 
 
-    @OnlyIn(Dist.CLIENT)
     public static final class OrbFactory implements ParticleProvider<GenericTridentTrailParticle.OrbData> {
 
         @Override
@@ -127,72 +126,60 @@ public class GenericTridentTrailParticle extends AbstractWorldAlignedTrailPartic
 
         @Override
         public ParticleType<GenericTridentTrailParticle.OrbData> getType() {
-            return ModParticles.GENERIC_TRIDENT_TRAIL_PARTICLE.get();
+            return BrutalityModParticles.GENERIC_TRIDENT_TRAIL_PARTICLE.get();
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public float r() {
             return this.r;
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public float g() {
             return this.g;
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public float b() {
             return this.b;
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public float width() {
             return this.width;
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public int entityID() {
             return this.entityID;
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public float pitch() {
             return this.pitch;
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public float yaw() {
             return this.yaw;
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public float roll() {
             return this.roll;
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public String texture() {
             return this.texture;
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public int sampleCount() {
             return this.sampleCount;
         }
 
 
-
-        @OnlyIn(Dist.CLIENT)
         public Entity getOwner() {
             return this.getOwner();
         }

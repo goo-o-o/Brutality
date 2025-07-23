@@ -15,7 +15,7 @@
 				},
 				"bone2": {
 					"rotation": {
-						"vector": [0, "query.anim_time <= 10 ? math.pow(query.anim_time, 2) * 45 : query.anim_time * 45 * 20", 0]
+						"vector": [0, "query.anim_time < 10 ? math.pow(query.anim_time, 2) * 45 : query.anim_time * 45 * 20", 0]
 					},
 					"scale": {
 						"vector": [
@@ -31,9 +31,9 @@
 					},
 					"scale": {
 						"vector": [
-							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
+							"query.anim_time < 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
 							"query.anim_time * query.anim_time * 2",
-							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
+							"query.anim_time < 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
 						]
 					}
 				},
@@ -43,9 +43,9 @@
 					},
 					"scale": {
 						"vector": [
-							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
+							"query.anim_time < 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
 							"query.anim_time * query.anim_time * 2",
-							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
+							"query.anim_time < 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
 						]
 					}
 				},
@@ -55,9 +55,9 @@
 					},
 					"scale": {
 						"vector": [
-							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
+							"query.anim_time < 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
 							"query.anim_time * query.anim_time * 2",
-							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
+							"query.anim_time < 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
 						]
 					}
 				},
@@ -67,9 +67,9 @@
 					},
 					"scale": {
 						"vector": [
-							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
+							"query.anim_time < 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
 							"query.anim_time * query.anim_time * 2",
-							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
+							"query.anim_time < 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
 						]
 					}
 				},
@@ -79,9 +79,9 @@
 					},
 					"scale": {
 						"vector": [
-							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
+							"query.anim_time < 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
 							"query.anim_time * query.anim_time * 2",
-							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
+							"query.anim_time < 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
 						]
 					}
 				},
@@ -91,9 +91,9 @@
 					},
 					"scale": {
 						"vector": [
-							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
+							"query.anim_time < 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
 							"query.anim_time * query.anim_time * 2",
-							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
+							"query.anim_time < 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
 						]
 					}
 				},
@@ -103,9 +103,9 @@
 					},
 					"scale": {
 						"vector": [
-							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
+							"query.anim_time < 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)",
 							"query.anim_time * query.anim_time * 2",
-							"query.anim_time <= 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
+							"query.anim_time < 3 ? 1 : Math.max(0, 2 - query.anim_time * 0.4)"
 						]
 					}
 				},
@@ -115,9 +115,9 @@
 					},
 					"scale": {
 						"vector": [
-							"query.anim_time <= 3 ? 1 : Math.max(0, 1 - query.anim_time * 0.2)",
+							"query.anim_time < 3 ? 1 : Math.max(0, 1 - query.anim_time * 0.2)",
 							"query.anim_time * query.anim_time * 2",
-							"query.anim_time <= 3 ? 1 : Math.max(0, 1 - query.anim_time * 0.2)"
+							"query.anim_time < 3 ? 1 : Math.max(0, 1 - query.anim_time * 0.2)"
 						]
 					}
 				}

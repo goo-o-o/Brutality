@@ -1,0 +1,8 @@
+{
+  "parent": "bettercombat:battlestaff",
+  "attributes": {
+    "two_handed": true,
+    "attack_range": 4.5,
+    "pose": "brutality:pose_pillar_behind"
+  }
+}

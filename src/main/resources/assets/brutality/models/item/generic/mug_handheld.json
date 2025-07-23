@@ -1,0 +1,21 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        25,
+        45,
+        0
+      ],
+      "translation": [
+        -2,
+        -2.75,
+        -2
+      ]
+    }
+  },
+  "textures": {
+    "particle": "brutality:item/mug_coffee_handheld"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "brutality:add_item",
+  "conditions": [
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "predicate": {
+        "type": "terramity:trial_guardian"
+      }
+    },
+    {
+      "chance": 0.75,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": "brutality:trial_guardian_hands"
+}

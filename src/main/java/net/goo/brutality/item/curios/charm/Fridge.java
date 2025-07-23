@@ -1,4 +1,4 @@
-package net.goo.brutality.item.curios;
+package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
@@ -7,8 +7,8 @@ import net.minecraft.world.item.Rarity;
 
 import java.util.List;
 
-public class FridgeCharm extends BrutalityCurioItem {
-    public FridgeCharm(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+public class Fridge extends BrutalityCurioItem {
+    public Fridge(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

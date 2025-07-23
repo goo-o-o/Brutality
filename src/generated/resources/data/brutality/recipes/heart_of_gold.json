@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:gold_block"
+    },
+    "@": {
+      "item": "terramity:crystal_heart"
+    }
+  },
+  "pattern": [
+    "###",
+    "#@#",
+    "###"
+  ],
+  "result": {
+    "item": "brutality:heart_of_gold"
+  },
+  "show_notification": true
+}

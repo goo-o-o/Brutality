@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:netherite_axe"
+    },
+    "#": {
+      "item": "minecraft:tide_armor_trim_smithing_template"
+    },
+    "%": {
+      "item": "minecraft:kelp"
+    },
+    "@": {
+      "item": "minecraft:trident"
+    },
+    "^": {
+      "item": "minecraft:rotten_flesh"
+    }
+  },
+  "pattern": [
+    " ^#",
+    "%@^",
+    "!% "
+  ],
+  "result": {
+    "item": "brutality:depth_crusher"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/heart/heart_of_gold/heart_of_gold_inventory"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brutality:blade_of_the_ruined_king"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_warden_soul": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "terramity:warden_soul"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_warden_soul",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brutality:blade_of_the_ruined_king"
+    ]
+  },
+  "sends_telemetry_event": false
+}

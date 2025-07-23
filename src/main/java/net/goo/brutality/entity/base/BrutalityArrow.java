@@ -1,6 +1,6 @@
 package net.goo.brutality.entity.base;
 
-import net.goo.brutality.client.entity.ArmaGeoEntity;
+import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.entity.EntityType;
@@ -8,7 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
 
-public abstract class BrutalityArrow extends AbstractArrow implements ArmaGeoEntity {
+public abstract class BrutalityArrow extends AbstractArrow implements BrutalityGeoEntity {
     protected BrutalityArrow(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }

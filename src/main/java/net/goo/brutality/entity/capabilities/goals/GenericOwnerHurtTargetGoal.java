@@ -1,6 +1,5 @@
-package net.goo.brutality.entity.capabilities;
+package net.goo.brutality.entity.capabilities.goals;
 
-import net.goo.brutality.entity.capabilities.goals.OwnerGetter;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;

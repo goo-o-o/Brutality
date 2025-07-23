@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:lapis_block"
+    },
+    "#": {
+      "item": "minecraft:emerald_block"
+    },
+    "$": {
+      "item": "terramity:slot_machine"
+    },
+    "%": {
+      "item": "minecraft:redstone_block"
+    },
+    "&": {
+      "item": "terramity:stratus_storm_ruler"
+    },
+    "*": {
+      "item": "minecraft:gold_block"
+    },
+    "@": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "pattern": [
+    " @*",
+    "#$!",
+    "&% "
+  ],
+  "result": {
+    "item": "brutality:double_down"
+  },
+  "show_notification": true
+}

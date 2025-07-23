@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "terramity:exodium_superalloy"
+    },
+    "$": {
+      "item": "brutality:marianas_trench"
+    },
+    "%": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "pattern": [
+    "  #",
+    "%# ",
+    "$% "
+  ],
+  "result": {
+    "item": "brutality:challenger_deep"
+  },
+  "show_notification": true
+}

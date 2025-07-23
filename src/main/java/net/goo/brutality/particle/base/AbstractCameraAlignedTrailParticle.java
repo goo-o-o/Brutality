@@ -8,7 +8,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.BrutalityRenderTypes;
-import net.goo.brutality.registry.ModParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -22,6 +22,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -37,7 +38,7 @@ import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 public class AbstractCameraAlignedTrailParticle extends Particle {
 
     private final Vec3[] trailPositions = new Vec3[64];
-    private int entityId;
+    private final int entityId;
     public int trailPointer = -1;
     public int sampleCount;
 
@@ -55,6 +56,19 @@ public class AbstractCameraAlignedTrailParticle extends Particle {
         this.sampleCount = sampleCount;
     }
 
+    public Entity getFromEntity() {
+        return entityId == -1 ? null : level.getEntity(entityId);
+    }
+
+
+    public Vec3 getEntityCenter() {
+        Entity from = this.getFromEntity();
+        if (from != null) {
+            // Get center position of the entity's hitbox
+            return from.position().add(0, from.getBbHeight() / 2, 0);
+        }
+        return new Vec3(this.x, this.y, this.z);
+    }
 
 
     @Override
@@ -63,20 +77,21 @@ public class AbstractCameraAlignedTrailParticle extends Particle {
     }
 
     public void tick() {
+        super.tick();
         tickTrail();
-        this.xo = this.x;
-        this.yo = this.y;
-        this.zo = this.z;
-        this.xd *= 0.99;
-        this.yd *= 0.99;
-        this.zd *= 0.99;
-        if (this.age++ >= this.lifetime) {
-            this.remove();
-        } else {
-            this.move(this.xd, this.yd, this.zd);
-            this.yd -= this.gravity;
+//        float fade = 1F - age / (float) lifetime;
+//        this.trailA = fade * 2F;
+        Vec3 vec3 = getEntityCenter();
+        this.x = vec3.x;
+        this.y = vec3.y;
+        this.z = vec3.z;
+
+        Entity from = this.getFromEntity();
+        if (from == null) {
+            remove();
         }
     }
+
 
     public void tickTrail() {
 
@@ -141,7 +156,7 @@ public class AbstractCameraAlignedTrailParticle extends Particle {
     }
 
     protected ResourceLocation getTrailTexture() {
-        return new ResourceLocation(Brutality.MOD_ID, "textures/particle/circle_trail_particle.png");
+        return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/particle/circle_trail_particle.png");
     }
 
     public float getTrailRot(Camera camera) {
@@ -176,7 +191,7 @@ public class AbstractCameraAlignedTrailParticle extends Particle {
         return ParticleRenderType.CUSTOM;
     }
 
-    @OnlyIn(Dist.CLIENT)
+
     public static final class OrbFactory implements ParticleProvider<AbstractCameraAlignedTrailParticle.OrbData> {
 
         @Override
@@ -241,35 +256,30 @@ public class AbstractCameraAlignedTrailParticle extends Particle {
 
         @Override
         public ParticleType<AbstractCameraAlignedTrailParticle.OrbData> getType() {
-            return ModParticles.GENERIC_CAMERA_ALIGNED_TRAIL_PARTICLE.get();
+            return BrutalityModParticles.GENERIC_CAMERA_ALIGNED_TRAIL_PARTICLE.get();
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public float r() {
             return this.r;
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public float g() {
             return this.g;
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public float b() {
             return this.b;
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public float width() {
             return this.width;
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
         public int entityID() {
             return this.entityID;
         }

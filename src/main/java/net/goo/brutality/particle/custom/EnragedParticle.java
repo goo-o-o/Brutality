@@ -9,19 +9,18 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class OiledParticle extends RotatingParticle {
-    protected OiledParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
+public class EnragedParticle extends RotatingParticle {
+    protected EnragedParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
-        this.gravity = 0.35F;
+        this.gravity = 0;
         this.setParticleSpeed(
-                0.05 * (level.random.nextFloat() - 0.5),
-                0.05 * (level.random.nextFloat() - 0.5),
-                0.05 * (level.random.nextFloat() - 0.5)
+                0.025 * (level.random.nextFloat() - 0.5),
+                0.025 * (level.random.nextFloat() - 0.5),
+                0.025 * (level.random.nextFloat() - 0.5)
         );
         this.pickSprite(spriteSet);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;
 
@@ -33,7 +32,7 @@ public class OiledParticle extends RotatingParticle {
         public Particle createParticle(SimpleParticleType type, ClientLevel level,
                                        double x, double y, double z,
                                        double xSpeed, double ySpeed, double zSpeed) {
-            RotatingParticle particle = new OiledParticle(level, x, y, z,
+            RotatingParticle particle = new EnragedParticle(level, x, y, z,
                     xSpeed, ySpeed, zSpeed, this.sprites);
             particle.pickSprite(this.sprites);
             return particle;

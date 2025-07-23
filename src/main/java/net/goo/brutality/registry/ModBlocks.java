@@ -1,9 +1,13 @@
 package net.goo.brutality.registry;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.block.custom.CoffeeMachineBlock;
+import net.goo.brutality.block.custom.WaterCoolerBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -16,7 +20,7 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, Brutality.MOD_ID);
 
 
-    // Block item registration moved to ModItems (better organization)
+    // Block item registration moved to BrutalityModItems (better organization)
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);
     }
@@ -24,8 +28,20 @@ public class ModBlocks {
     // Helper method if you need to register multiple similar blocks
     private static RegistryObject<Block> registerGlassVariant(String name, Supplier<Block> blockSupplier) {
         RegistryObject<Block> block = BLOCKS.register(name, blockSupplier);
-        ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        BrutalityModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
         return block;
     }
+
+    public static final RegistryObject<Block> WATER_COOLER_BLOCK =
+            BLOCKS.register("water_cooler", () ->
+                    new WaterCoolerBlock(BlockBehaviour.Properties
+                            .copy(Blocks.IRON_BLOCK)
+                            ));
+
+    public static final RegistryObject<Block> COFFEE_MACHINE_BLOCK =
+            BLOCKS.register("coffee_machine", () ->
+                    new CoffeeMachineBlock(BlockBehaviour.Properties
+                            .copy(Blocks.IRON_BLOCK)
+                            ));
 
 }

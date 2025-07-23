@@ -1,4 +1,4 @@
-package net.goo.brutality.item.curios;
+package net.goo.brutality.item.curios.hands;
 
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
@@ -7,9 +7,9 @@ import net.minecraft.world.item.Rarity;
 
 import java.util.List;
 
-public class ButterGauntletsHands extends BrutalityCurioItem {
+public class ButterGauntlets extends BrutalityCurioItem {
 
-    public ButterGauntletsHands(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public ButterGauntlets(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

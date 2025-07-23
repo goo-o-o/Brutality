@@ -1,11 +1,12 @@
 package net.goo.brutality.item.base;
 
 import net.goo.brutality.entity.base.BrutalityArrow;
-import net.goo.brutality.entity.custom.arrow.LightArrow;
-import net.goo.brutality.item.BrutalityItemCategories;
-import net.goo.brutality.registry.ModEntities;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.entity.projectile.arrow.LightArrow;
+import net.goo.brutality.item.BrutalityCategories;
+import net.goo.brutality.registry.BrutalityModEntities;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -19,6 +20,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,17 +29,24 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 
 import java.util.List;
+import java.util.function.Consumer;
+
+import static net.goo.brutality.client.renderers.item.BrutalityItemRenderer.createRenderer;
 
 public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
     public String identifier;
     public Rarity rarity;
     private final List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents;
 
-    public BrutalityBowItem(Properties pProperties, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pProperties.stacksTo(1));
-        this.identifier = identifier;
+    public BrutalityBowItem(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(new Item.Properties().stacksTo(1));
         this.rarity = rarity;
         this.descriptionComponents = descriptionComponents;
+    }
+
+    @Override
+    public boolean isDamageable(ItemStack stack) {
+        return true;
     }
 
     @Override
@@ -47,17 +56,13 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
 
     @Override
     public @NotNull Component getName(ItemStack pStack) {
-        return brutalityNameHandler(pStack, identifier);
+        return brutalityNameHandler(pStack);
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityHoverTextHandler(pStack, pTooltipComponents, descriptionComponents, rarity, identifier);
+        brutalityHoverTextHandler(pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-    }
-    @Override
-    public String geoIdentifier() {
-        return this.identifier;
     }
 
     @Override
@@ -66,8 +71,8 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
     }
 
     @Override
-    public BrutalityItemCategories category() {
-        return BrutalityItemCategories.BOW;
+    public BrutalityCategories category() {
+        return BrutalityCategories.ItemType.BOW;
     }
 
     AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
@@ -90,7 +95,6 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
     }
 
 
-
     protected float getPowerMultiplier() {
         return 3;
     }
@@ -104,6 +108,16 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
         }
 
         return f;
+    }
+
+    @Override
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                return createRenderer();
+            }
+        });
     }
 
     @Override
@@ -127,11 +141,10 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
                 float drawPower = getPowerForTime(chargeTime, getFullDrawTicks());
                 if (drawPower >= 0.1F) {
                     boolean isInfiniteArrow = player.getAbilities().instabuild
-                            || (arrowStack.getItem() instanceof ArrowItem
-                            && ((ArrowItem) arrowStack.getItem()).isInfinite(arrowStack, bowStack, player));
+                            || (arrowStack.getItem() instanceof ArrowItem && ((ArrowItem) arrowStack.getItem()).isInfinite(arrowStack, bowStack, player));
 
                     if (!world.isClientSide) {
-                        AbstractArrow arrowEntity = new LightArrow(ModEntities.LIGHT_ARROW.get(), player, world);
+                        AbstractArrow arrowEntity = new LightArrow(BrutalityModEntities.LIGHT_ARROW.get(), player, world);
                         arrowEntity.setOwner(player);
                         arrowEntity.setBaseDamage(getArrowBaseDamage());
                         arrowEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, drawPower * getPowerMultiplier(), 0F);
@@ -177,7 +190,7 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
                     }
 
                     world.playSound(null, player.getX(), player.getY(), player.getZ(),
-                            ModSounds.WINGS_FLAP.get(), SoundSource.PLAYERS, 1.0F,
+                            BrutalityModSounds.WINGS_FLAP.get(), SoundSource.PLAYERS, 1.0F,
                             1.0F / (world.getRandom().nextFloat() * 0.4F + 1.2F) + drawPower * 0.5F);
 
                     if (!isInfiniteArrow && !player.getAbilities().instabuild) {
@@ -192,7 +205,6 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
             }
         }
     }
-
 
 
 }

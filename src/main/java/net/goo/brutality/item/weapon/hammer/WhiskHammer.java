@@ -13,10 +13,10 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 
-public class PotatoMasherHammer extends BrutalityHammerItem implements BrutalityGeoItem {
+public class WhiskHammer extends BrutalityHammerItem implements BrutalityGeoItem {
 
 
-    public PotatoMasherHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public WhiskHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
@@ -26,7 +26,7 @@ public class PotatoMasherHammer extends BrutalityHammerItem implements Brutality
 
     @Override
     public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
-        pTarget.addEffect(new MobEffectInstance(BrutalityModMobEffects.MASHED.get(), 100, 2, false, true));
+        pTarget.addEffect(new MobEffectInstance(BrutalityModMobEffects.MASHED.get(), 200, 0, false, true));
 
         return super.hurtEnemy(pStack, pTarget, pAttacker);
     }

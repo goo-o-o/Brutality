@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "terramity:spectral_soul"
+    },
+    "$": {
+      "item": "terramity:accursed_soul"
+    },
+    "%": {
+      "item": "minecraft:netherite_sword"
+    },
+    "@": {
+      "item": "terramity:lost_soul"
+    },
+    "^": {
+      "item": "terramity:spiteful_soul"
+    }
+  },
+  "pattern": [
+    " # ",
+    "$%@",
+    " ^ "
+  ],
+  "result": {
+    "item": "brutality:dull_knife"
+  },
+  "show_notification": true
+}

@@ -8,6 +8,8 @@ import net.goo.brutality.entity.projectile.ray.LastPrismRay;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BrutalityLastPrismRayRenderer<T extends LastPrismRay & BrutalityGeoEntity> extends BrutalityFullbrightDepthNoDepthEntityRenderer<T> {
     public BrutalityLastPrismRayRenderer(EntityRendererProvider.Context context) {

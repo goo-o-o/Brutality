@@ -1,4 +1,4 @@
-package net.goo.brutality.item.curios;
+package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
@@ -15,8 +15,8 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class PortableMiningRigCharm extends BrutalityCurioItem {
-    public PortableMiningRigCharm(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+public class PortableMiningRig extends BrutalityCurioItem {
+    public PortableMiningRig(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

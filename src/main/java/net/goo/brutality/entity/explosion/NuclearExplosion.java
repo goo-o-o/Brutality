@@ -4,9 +4,9 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.goo.brutality.registry.ModMobEffects;
-import net.goo.brutality.registry.ModParticles;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModMobEffects;
+import net.goo.brutality.registry.BrutalityModParticles;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -174,7 +174,7 @@ public class NuclearExplosion extends BrutalityExplosion {
                         entity.hurt(this.getDamageSource(), (float)((int)((d10 * d10 + d10) / 2.0D * 7.0D * (double)f2 + 1.0D)) * getDamageScale());
                         double d11;
                         if (entity instanceof LivingEntity livingEntity) {
-                            livingEntity.addEffect(new MobEffectInstance(ModMobEffects.RADIATION.get(), 50, 2, true, true));
+                            livingEntity.addEffect(new MobEffectInstance(BrutalityModMobEffects.RADIATION.get(), 50, 2, true, true));
                             d11 = ProtectionEnchantment.getExplosionKnockbackAfterDampener(livingEntity, d10);
                         } else {
                             d11 = d10;
@@ -208,15 +208,15 @@ public class NuclearExplosion extends BrutalityExplosion {
      */
     public void finalizeExplosion(boolean pSpawnParticles) {
         if (this.level.isClientSide) {
-            this.level.playLocalSound(this.x, this.y, this.z, ModSounds.BIG_EXPLOSION.get(), SoundSource.BLOCKS, 100.0F, (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F, false);
+            this.level.playLocalSound(this.x, this.y, this.z, BrutalityModSounds.BIG_EXPLOSION.get(), SoundSource.BLOCKS, 100.0F, (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F, false);
         }
 
         boolean flag = this.interactsWithBlocks();
         if (pSpawnParticles) {
             if (!(this.radius < 2.0F) && flag) {
-                this.level.addParticle(ModParticles.NUCLEAR_EXPLOSION_EMITTER.get(), this.x, this.y, this.z, 1.0D, 0.0D, 0.0D);
+                this.level.addParticle(BrutalityModParticles.NUCLEAR_EXPLOSION_EMITTER.get(), this.x, this.y, this.z, 1.0D, 0.0D, 0.0D);
             } else {
-                this.level.addParticle(ModParticles.NUCLEAR_EXPLOSION_PARTICLE.get(), this.x, this.y, this.z, 1.0D, 0.0D, 0.0D);
+                this.level.addParticle(BrutalityModParticles.NUCLEAR_EXPLOSION_PARTICLE.get(), this.x, this.y, this.z, 1.0D, 0.0D, 0.0D);
             }
         }
 

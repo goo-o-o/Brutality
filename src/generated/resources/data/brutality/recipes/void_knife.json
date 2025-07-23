@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "brutality:diamond_knife"
+    },
+    "#": {
+      "item": "terramity:void_alloy"
+    }
+  },
+  "pattern": [
+    " ##",
+    "###",
+    "!# "
+  ],
+  "result": {
+    "item": "brutality:void_knife"
+  },
+  "show_notification": true
+}

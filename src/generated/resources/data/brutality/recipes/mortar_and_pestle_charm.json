@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:daemonium_bricks"
+    },
+    "#": {
+      "item": "minecraft:netherite_shovel"
+    },
+    "@": {
+      "item": "minecraft:bowl"
+    }
+  },
+  "pattern": [
+    " # ",
+    "!@!",
+    "!!!"
+  ],
+  "result": {
+    "item": "brutality:mortar_and_pestle_charm"
+  },
+  "show_notification": true
+}

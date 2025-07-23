@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "terramity:prismatic_jewel"
+    },
+    "$": {
+      "item": "minecraft:white_wool"
+    },
+    "@": {
+      "item": "terramity:iridescent_shard"
+    }
+  },
+  "pattern": [
+    " # ",
+    "@$@",
+    " # "
+  ],
+  "result": {
+    "item": "brutality:the_cloud"
+  },
+  "show_notification": true
+}

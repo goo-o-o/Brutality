@@ -1,8 +1,8 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.sword;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalitySwordItem;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.sounds.SoundSource;
@@ -24,8 +24,8 @@ import java.util.WeakHashMap;
 public class DarkinBladeSword extends BrutalitySwordItem {
 
 
-    public DarkinBladeSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public DarkinBladeSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class DarkinBladeSword extends BrutalitySwordItem {
                 level.playSound(
                         null,
                         entity.getOnPos(),
-                        ModSounds.DEATHBRINGER_STANCE_READY.get(),
+                        BrutalityModSounds.DEATHBRINGER_STANCE_READY.get(),
                         SoundSource.PLAYERS,
                         1.0F,
                         Mth.nextFloat(level.random, 0.75F, 1F)
@@ -70,7 +70,7 @@ public class DarkinBladeSword extends BrutalitySwordItem {
             pTarget.hurt(pAttacker.damageSources().indirectMagic(pAttacker, pAttacker), damage);
             pAttacker.heal(damage);
             if (pAttacker instanceof Player player)
-                player.level().playSound(null, player.getOnPos(), ModSounds.DEATHBRINGER_STANCE_HIT.get(),
+                player.level().playSound(null, player.getOnPos(), BrutalityModSounds.DEATHBRINGER_STANCE_HIT.get(),
                         SoundSource.PLAYERS, 1.0F, Mth.nextFloat(player.level().random, 0.75F, 1F));
             data.passiveCD = 100;
             data.soundPlayed = false;
@@ -80,7 +80,7 @@ public class DarkinBladeSword extends BrutalitySwordItem {
 
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
-        entity.level().playSound(null, entity.blockPosition(), ModUtils.getRandomSound(ModSounds.DARKIN_BLADE), SoundSource.PLAYERS, 1, Mth.nextFloat(entity.level().getRandom(), 0.5F, 1.25F));
+        entity.level().playSound(null, entity.blockPosition(), ModUtils.getRandomSound(BrutalityModSounds.DARKIN_BLADE), SoundSource.PLAYERS, 1, Mth.nextFloat(entity.level().getRandom(), 0.5F, 1.25F));
 
 
         return super.onEntitySwing(stack, entity);

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/charm/mechanical_aorta/mechanical_aorta_inventory"
+  }
+}

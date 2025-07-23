@@ -1,7 +1,7 @@
 {
   "parent": "brutality:presets/bludgeon",
   "attributes": {
-    "attack_range": 4.25
+    "attack_range": 6
   },
   "two_handed": true
 }

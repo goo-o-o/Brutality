@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:glass"
+    },
+    "#": {
+      "item": "minecraft:iron_trapdoor"
+    },
+    "@": {
+      "item": "terramity:fairy_dust"
+    }
+  },
+  "pattern": [
+    " # ",
+    "!@!",
+    "!!!"
+  ],
+  "result": {
+    "item": "brutality:salt_shaker_charm"
+  },
+  "show_notification": true
+}

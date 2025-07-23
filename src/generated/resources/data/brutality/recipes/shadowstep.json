@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:ender_pearl"
+    },
+    "$": {
+      "item": "minecraft:netherite_sword"
+    },
+    "@": {
+      "item": "terramity:black_matter"
+    }
+  },
+  "pattern": [
+    "#@#",
+    "@$@",
+    "#@#"
+  ],
+  "result": {
+    "item": "brutality:shadowstep"
+  },
+  "show_notification": true
+}

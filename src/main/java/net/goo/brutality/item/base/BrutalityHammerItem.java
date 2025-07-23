@@ -1,7 +1,8 @@
 package net.goo.brutality.item.base;
 
-import net.goo.brutality.item.BrutalityItemCategories;
+import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -9,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.common.ToolAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,6 +19,9 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 
 import java.util.List;
+import java.util.function.Consumer;
+
+import static net.goo.brutality.client.renderers.item.BrutalityItemRenderer.createRenderer;
 
 public class BrutalityHammerItem extends AxeItem implements BrutalityGeoItem {
     public String identifier;
@@ -24,11 +29,15 @@ public class BrutalityHammerItem extends AxeItem implements BrutalityGeoItem {
 
     protected List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents;
 
-    public BrutalityHammerItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
-        this.identifier = identifier;
+    public BrutalityHammerItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, new Item.Properties());
         this.rarity = rarity;
         this.descriptionComponents = descriptionComponents;
+    }
+
+    @Override
+    public boolean isDamageable(ItemStack stack) {
+        return true;
     }
 
     @Override
@@ -38,19 +47,25 @@ public class BrutalityHammerItem extends AxeItem implements BrutalityGeoItem {
 
     @Override
     public @NotNull Component getName(ItemStack pStack) {
-        return brutalityNameHandler(pStack, identifier);
+        return brutalityNameHandler(pStack);
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityHoverTextHandler(pStack, pTooltipComponents, descriptionComponents, rarity, identifier);
+        brutalityHoverTextHandler(pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
     @Override
-    public String geoIdentifier() {
-        return this.identifier;
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                return createRenderer();
+            }
+        });
     }
+
 
     @Override
     public GeoAnimatable cacheItem() {
@@ -58,8 +73,8 @@ public class BrutalityHammerItem extends AxeItem implements BrutalityGeoItem {
     }
 
     @Override
-    public BrutalityItemCategories category() {
-        return BrutalityItemCategories.HAMMER;
+    public BrutalityCategories category() {
+        return BrutalityCategories.ItemType.HAMMER;
     }
 
     @Override

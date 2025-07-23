@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "terramity:conductite"
+    },
+    "$": {
+      "item": "terramity:hellrok_gigaton_hammer"
+    },
+    "%": {
+      "item": "terramity:virentium_rocket"
+    },
+    "@": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "pattern": [
+    " #%",
+    "#@#",
+    "$# "
+  ],
+  "result": {
+    "item": "brutality:atomic_judgement"
+  },
+  "show_notification": true
+}

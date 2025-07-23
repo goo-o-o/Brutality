@@ -2,40 +2,34 @@
   "parent": "minecraft:item/generated",
   "loader": "forge:separate_transforms",
   "base": {
-    "parent": "brutality:item/sword/dull_knife_handheld"
+    "parent": "brutality:item/scythe/darkin_scythe_handheld"
   },
   "overrides": [
     {
       "predicate": {
-        "custom_model_data": 0
+        "texture": 0
       },
-      "model": "brutality:item/dull_knife_neutral_inventory"
+      "model": "brutality:item/darkin_scythe_inventory"
     },
     {
       "predicate": {
-        "custom_model_data": 1
+        "texture": 1
       },
-      "model": "brutality:item/dull_knife_happy_inventory"
+      "model": "brutality:item/darkin_scythe_shadow_assassin_inventory"
     },
     {
       "predicate": {
-        "custom_model_data": 2
+        "texture": 2
       },
-      "model": "brutality:item/dull_knife_sad_inventory"
-    },
-    {
-      "predicate": {
-        "custom_model_data": 3
-      },
-      "model": "brutality:item/dull_knife_angry_inventory"
+      "model": "brutality:item/darkin_scythe_rhaast_inventory"
     }
   ],
   "perspectives": {
     "gui": {
-      "parent": "brutality:item/dull_knife_neutral_inventory"
+      "parent": "brutality:item/darkin_scythe_inventory"
     },
     "fixed": {
-      "parent": "brutality:item/dull_knife_neutral_inventory"
+      "parent": "brutality:item/darkin_scythe_inventory"
     }
   }
 }

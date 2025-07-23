@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "terramity:virentium_alloy_ingot"
+    },
+    "%": {
+      "item": "terramity:prismatic_jewel"
+    },
+    "@": {
+      "item": "terramity:nyxium"
+    }
+  },
+  "pattern": [
+    "#@#",
+    "@%@",
+    "#@#"
+  ],
+  "result": {
+    "item": "brutality:biomech_reactor"
+  },
+  "show_notification": true
+}

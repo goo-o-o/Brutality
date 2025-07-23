@@ -10,10 +10,11 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 
-public class ModSounds {
+public class BrutalityModSounds {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS =
             DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Brutality.MOD_ID);
     public static final RegistryObject<SoundEvent> METAL_PIPE = registerSoundEvents("metal_pipe");
+    public static final RegistryObject<SoundEvent> TREASURE_CHEST_LOCK = registerSoundEvents("treasure_chest_lock");
 
     public static final RegistryObject<SoundEvent> LEAF_BLOWER_ON = registerSoundEvents("leaf_blower_on");
     public static final RegistryObject<SoundEvent> LEAF_BLOWER_ACTIVE = registerSoundEvents("leaf_blower_active");
@@ -75,6 +76,7 @@ public class ModSounds {
     );
 
     public static final RegistryObject<SoundEvent> SHURIKEN_IMPACT = registerSoundEvents("shuriken_impact");
+    public static final RegistryObject<SoundEvent> STYROFOAM_IMPACT = registerSoundEvents("styrofoam_impact");
 
 
     public static final RegistryObject<SoundEvent> DEATHBRINGER_STANCE_READY = registerSoundEvents("deathbringer_stance_ready");
@@ -121,4 +123,5 @@ public class ModSounds {
     public static void register(IEventBus eventBus) {
         SOUND_EVENTS.register(eventBus);
     }
+
 }

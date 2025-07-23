@@ -1,20 +1,19 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.sword;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.renderers.item.BrutalityAutoFullbrightItemRenderer;
-import net.goo.brutality.entity.custom.SupernovaAsteroid;
+import net.goo.brutality.entity.projectile.generic.SupernovaAsteroid;
 import net.goo.brutality.item.base.BrutalitySwordItem;
-import net.goo.brutality.registry.ModEntities;
-import net.goo.brutality.registry.ModParticles;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModEntities;
+import net.goo.brutality.registry.BrutalityModParticles;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -26,7 +25,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -39,7 +37,6 @@ import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -47,17 +44,16 @@ import java.util.stream.StreamSupport;
 public class SupernovaSword extends BrutalitySwordItem {
     private final RandomSource random = RandomSource.create();
 
-    public SupernovaSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public SupernovaSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }
 
-
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityAutoFullbrightItemRenderer.class);
-    }
-
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
+//    }
 
     @Override
     public @NotNull ItemStack getDefaultInstance() {
@@ -77,7 +73,7 @@ public class SupernovaSword extends BrutalitySwordItem {
         if (level instanceof ServerLevel serverLevel) {
             for (int i = 0; i < pAttacker.level().random.nextInt(50); i++) {
 
-                serverLevel.sendParticles(ModUtils.getRandomParticle(ModParticles.SUPERNOVA_PARTICLE), pTarget.getX(),
+                serverLevel.sendParticles(ModUtils.getRandomParticle(BrutalityModParticles.SUPERNOVA_PARTICLE), pTarget.getX(),
                         pTarget.getY() + pTarget.getBbHeight() / 2, pTarget.getZ(), 1,
                         0, 0, 0, 100);
             }
@@ -113,7 +109,7 @@ public class SupernovaSword extends BrutalitySwordItem {
             if (asteroids.findAny().isEmpty()) {
                 for (int i = 1; i <= 6; i++) {
                     int angleOffset = (int) Math.toRadians(60 * i);
-                    SupernovaAsteroid meteor = new SupernovaAsteroid(ModEntities.SUPERNOVA_ASTEROID.get(), pLevel, angleOffset);
+                    SupernovaAsteroid meteor = new SupernovaAsteroid(BrutalityModEntities.SUPERNOVA_ASTEROID.get(), pLevel, angleOffset);
                     meteor.setOwner(pPlayer);
                     meteor.setPos(pPlayer.getX(), pPlayer.getY() + 2, pPlayer.getZ());
                     pLevel.addFreshEntity(meteor);
@@ -179,7 +175,7 @@ public class SupernovaSword extends BrutalitySwordItem {
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
         if (entity instanceof Player player) {
-            player.level().playSound(null, player.getOnPos(), ModUtils.getRandomSound(ModSounds.SUPERNOVA), SoundSource.PLAYERS, 1, ModUtils.nextFloatBetweenInclusive(random, 0.8F, 1F));
+            player.level().playSound(null, player.getOnPos(), ModUtils.getRandomSound(BrutalityModSounds.SUPERNOVA), SoundSource.PLAYERS, 1, Mth.nextFloat(random, 0.8F, 1F));
             if (player.level() instanceof ServerLevel serverLevel)
                 triggerAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "controller", "swing");
         }

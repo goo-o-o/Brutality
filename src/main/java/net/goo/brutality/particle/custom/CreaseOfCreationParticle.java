@@ -10,7 +10,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.BrutalityRenderTypes;
 import net.goo.brutality.particle.base.AbstractCameraAlignedTrailParticle;
-import net.goo.brutality.registry.ModParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -25,7 +25,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -46,7 +45,6 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
     private final boolean reverseOrbit;
 
     public final ResourceLocation CENTER_TEXTURE = new ResourceLocation(Brutality.MOD_ID, "textures/particle/generic_square_particle.png");
-    private boolean hasTarget = false;
 
     public CreaseOfCreationParticle(ClientLevel world, double x, double y, double z, float r, float g, float b, float width, int entityId, int sampleCount) {
         super(world, x, y, z, r, g, b, width, entityId, sampleCount);
@@ -118,9 +116,23 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
     }
 
     public void tick() {
+        this.tickTrail();
+        this.xo = this.x;
+        this.yo = this.y;
+        this.zo = this.z;
+        this.xd *= 0.99;
+        this.yd *= 0.99;
+        this.zd *= 0.99;
+        if (this.age++ >= this.lifetime) {
+            this.remove();
+        } else {
+            this.move(this.xd, this.yd, this.zd);
+            this.yd -= this.gravity;
+        }
+
+        
         this.oRoll = this.roll;
         this.roll = (float) ((float) Math.PI * Math.sin(age * 0.6F) * 0.3F);
-        super.tick();
         this.trailA = 0.2F * Mth.clamp(age / (float) this.lifetime * 32.0F, 0.0F, 1.0F);
 
         if (entityId != -1) {
@@ -130,14 +142,12 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
                 Vec3 entityPos;
                 Vec3 targetOrbitPos = getOrbitPos(age * 50 + offset);
                 Entity target = ModUtils.getEntityPlayerLookingAt((Player) owner, 25);
-                if (target instanceof LivingEntity) {
+                if (target != null) {
                     this.setColor(1F, 0,0);
-                    this.hasTarget = true;
                     entityPos = new Vec3(target.getX(), target.getY() + target.getBbHeight() / 2, target.getZ());
                 } else {
                     entityPos = new Vec3(owner.getX(), owner.getY() + owner.getBbHeight() / 2, owner.getZ());
                     this.setColor(0.5F, 0.3F,1F);
-                    this.hasTarget = false;
                 }
 
 
@@ -170,7 +180,6 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
         return Math.min(10, lifetime - age);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static final class OrbFactory implements ParticleProvider<CreaseOfCreationParticle.OrbData> {
 
         @Override
@@ -235,7 +244,7 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
 
         @Override
         public ParticleType<CreaseOfCreationParticle.OrbData> getType() {
-            return ModParticles.CREASE_OF_CREATION_PARTICLE.get();
+            return BrutalityModParticles.CREASE_OF_CREATION_PARTICLE.get();
         }
 
 

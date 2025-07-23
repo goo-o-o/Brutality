@@ -1,14 +1,19 @@
 {
+  "minVersion": "0.8.5",
   "required": true,
   "package": "net.goo.brutality.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "brutality.refmap.json",
   "mixins": [
     "AbstractArrowMixin",
+    "AnvilMenuMixin",
+    "DigDurabilityEnchantmentMixin",
+    "EntityMixin",
+    "ExperienceOrbMixin",
     "InfinityEnchantmentMixin",
-    "ItemMixin",
     "ItemStackMixin",
     "LivingEntityMixin",
+    "MobEffectInstanceMixin",
     "PlayerMixin"
   ],
   "injectors": {
@@ -16,9 +21,10 @@
   },
   "client": [
     "BiomeMixin",
-    "CameraLockMixin",
+    "HierarchicalModelMixin",
     "HumanoidModelMixin",
-    "ItemEntityRendererMixin",
-    "ItemPropertiesMixin"
+    "KeyboardInputMixin",
+    "MouseHandlerMixin",
+    "QuadrupedModelMixin"
   ]
 }

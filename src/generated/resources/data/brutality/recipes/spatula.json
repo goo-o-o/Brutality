@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:stick"
+    },
+    "#": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    " ##",
+    " ##",
+    "!  "
+  ],
+  "result": {
+    "item": "brutality:spatula"
+  },
+  "show_notification": true
+}

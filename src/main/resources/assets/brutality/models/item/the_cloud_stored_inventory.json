@@ -1,14 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/generic/the_cloud/the_cloud_inventory"
-  },
-  "overrides": [
-    {
-      "predicate": {
-        "custom_model_data": 0
-      },
-      "model": "brutality:item/the_cloud_stored_inventory"
-    }
-  ]
+    "layer0": "brutality:item/generic/the_cloud/the_cloud_stored_inventory"
+  }
 }

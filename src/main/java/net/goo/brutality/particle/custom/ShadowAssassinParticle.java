@@ -12,22 +12,18 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
 
-@OnlyIn(Dist.CLIENT)
-public class ShadowAssasinParticle extends TextureSheetParticle {
+public class ShadowAssassinParticle extends TextureSheetParticle {
     private final SpriteSet spriteSet;
     private float angularVelocity;
     private final float angularAcceleration;
 
-    public static ShadowAssasinParticleProvider provider(SpriteSet spriteSet) {
-        return new ShadowAssasinParticleProvider(spriteSet);
-    }
 
-    protected ShadowAssasinParticle(ClientLevel world, double x, double y, double z, double vx, double vy, double vz, SpriteSet spriteSet) {
+    protected ShadowAssassinParticle(ClientLevel world, double x, double y, double z, double vx, double vy, double vz, SpriteSet spriteSet) {
         super(world, x, y, z);
         this.spriteSet = spriteSet;
-        this.setSize(0.2F, 0.2F);
-        this.quadSize *= 1.6F;
-        this.lifetime = Math.max(1, 24 + (this.random.nextInt(6) - 3));
+        this.quadSize *= level.random.nextIntBetweenInclusive(2, 8);
+        this.setSize(quadSize, quadSize);
+        this.lifetime = level.random.nextIntBetweenInclusive(20, 35);
         this.xd = vx;
         this.yd = vy;
         this.zd = vz;
@@ -56,15 +52,15 @@ public class ShadowAssasinParticle extends TextureSheetParticle {
         }
     }
 
-    public static class ShadowAssasinParticleProvider implements ParticleProvider<SimpleParticleType> {
+    public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public ShadowAssasinParticleProvider(SpriteSet spriteSet) {
+        public Provider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new ShadowAssasinParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+            return new ShadowAssassinParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 }

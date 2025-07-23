@@ -1,4 +1,4 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.sword;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalitySwordItem;
@@ -23,6 +23,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fml.common.Mod;
@@ -36,8 +37,8 @@ import java.util.Objects;
 public class ShadowstepSword extends BrutalitySwordItem {
 
 
-    public ShadowstepSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public ShadowstepSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
     @Override
@@ -48,8 +49,12 @@ public class ShadowstepSword extends BrutalitySwordItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        Entity entity = ModUtils.getEntityPlayerLookingAt(pPlayer, 75);
-        teleportBehindEntity(pLevel, pPlayer, entity, pUsedHand);
+        List<LivingEntity> targets = ModUtils.getEntitiesInRay(LivingEntity.class, pPlayer, 75, ClipContext.Fluid.NONE, net.minecraft.world.level.ClipContext.Block.OUTLINE, 0.25F, e -> e != pPlayer, 1, null).entityList();
+
+        Entity target = targets.isEmpty() ? null : targets.get(0);
+
+        if (target != null)
+            teleportBehindEntity(pLevel, pPlayer, target, pUsedHand);
 
         return super.use(pLevel, pPlayer, pUsedHand);
     }
@@ -82,7 +87,7 @@ public class ShadowstepSword extends BrutalitySwordItem {
                     pPlayer.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 5, 0), pPlayer);
                 }
             } else {
-                pPlayer.displayClientMessage(Component.translatable("item."+ Brutality.MOD_ID + "." + identifier + ".invalid").withStyle(Style.EMPTY.withColor(BrutalityTooltipHelper.rgbToInt(new int[]{200, 50, 50}))), true);
+                pPlayer.displayClientMessage(Component.translatable("item." + Brutality.MOD_ID + "." + getRegistryName() + ".invalid").withStyle(Style.EMPTY.withColor(BrutalityTooltipHelper.rgbToInt(new int[]{200, 50, 50}))), true);
             }
         }
     }

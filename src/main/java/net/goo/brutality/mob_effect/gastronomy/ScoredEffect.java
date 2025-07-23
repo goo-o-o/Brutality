@@ -1,4 +1,4 @@
-package net.goo.brutality.mob_effect;
+package net.goo.brutality.mob_effect.gastronomy;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;

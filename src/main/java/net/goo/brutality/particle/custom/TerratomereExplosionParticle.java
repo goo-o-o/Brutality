@@ -1,40 +1,55 @@
 package net.goo.brutality.particle.custom;
 
-import net.goo.brutality.particle.base.ArmaSweepParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
 
-@OnlyIn(Dist.CLIENT)
-public class SupernovaSweepParticle extends ArmaSweepParticle {
+public class TerratomereExplosionParticle extends TextureSheetParticle {
+    SpriteSet spriteSet;
 
-    SupernovaSweepParticle(ClientLevel pLevel, double pX, double pY, double pZ, double pQuadSizeMultiplier, SpriteSet pSprites) {
-        super(pLevel, pX, pY, pZ,0.0D, pSprites);
-        this.lifetime = 4;
-        this.quadSize = 2.25F - (float)pQuadSizeMultiplier * 0.5F;
-        this.setSpriteFromAge(pSprites);
+    protected TerratomereExplosionParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet) {
+        super(level, x, y, z, 0, 0, 0);
+        this.setSpriteFromAge(spriteSet);
+        this.spriteSet = spriteSet;
+        this.lifetime = 24;
+        this.quadSize *= 15;
+        this.friction = 0;
     }
 
-    public int getLightColor(float pPartialTick) {
+
+    public void tick() {
+        super.tick();
+        this.setSpriteFromAge(spriteSet);
+    }
+
+    @Override
+    public @NotNull ParticleRenderType getRenderType() {
+        return ParticleRenderType.PARTICLE_SHEET_LIT;
+    }
+
+    @Override
+    protected int getLightColor(float pPartialTick) {
         return FULL_BRIGHT;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
+        private final SpriteSet spriteSet;
 
-        public Provider(SpriteSet pSprites) {
-            this.sprites = pSprites;
+        public Provider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
         }
 
-        public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, double pX, double pY, double pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
-            return new SupernovaSweepParticle(pLevel, pX, pY, pZ, pXSpeed, this.sprites);
+        @Override
+        public Particle createParticle(SimpleParticleType type, ClientLevel level,
+                                       double x, double y, double z,
+                                       double xSpeed, double ySpeed, double zSpeed) {
+            return new TerratomereExplosionParticle(level, x, y, z, this.spriteSet);
         }
     }
+
 }

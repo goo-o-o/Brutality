@@ -1,17 +1,17 @@
 {
   "replace": false,
   "values": [
-    "brutality:spatula",
-    "brutality:frying_pan",
-    "brutality:cabbage",
-    "brutality:wintermelon",
-    "brutality:knife_block",
-    "brutality:hot_sauce_charm",
-    "brutality:pepper_shaker_charm",
-    "brutality:salt_shaker_charm",
-    "brutality:iron_knife",
-    "brutality:gold_knife",
-    "brutality:diamond_knife",
-    "brutality:void_knife"
-  ]
+    "brutality:scientific_calculator_belt",
+    "brutality:pi_charm",
+    "brutality:exponential_charm",
+    "brutality:sine_charm",
+    "brutality:cosine_charm",
+    "brutality:addition_charm",
+    "brutality:subtraction_charm",
+    "brutality:multiplication_charm",
+    "brutality:division_charm",
+    "brutality:sum_charm",
+    "brutality:metal_ruler",
+    "brutality:wooden_ruler"
+    ]
 }

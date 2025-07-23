@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_decayed_bedrock_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "terramity:decayed_bedrock_dust"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brutality:pepper_shaker_charm"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_decayed_bedrock_dust",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brutality:pepper_shaker_charm"
+    ]
+  },
+  "sends_telemetry_event": false
+}

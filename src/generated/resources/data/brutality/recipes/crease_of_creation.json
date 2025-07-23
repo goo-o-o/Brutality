@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "terramity:cosmilite_ingot"
+    },
+    "@": {
+      "item": "terramity:gravity_gauntlet"
+    }
+  },
+  "pattern": [
+    " # ",
+    "#@#",
+    " # "
+  ],
+  "result": {
+    "item": "brutality:crease_of_creation"
+  },
+  "show_notification": true
+}

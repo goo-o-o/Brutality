@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/belt/scientific_calculator_belt/scientific_calculator_belt_inventory"
+  }
+}

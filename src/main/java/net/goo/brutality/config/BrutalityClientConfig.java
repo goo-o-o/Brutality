@@ -6,10 +6,10 @@
 package net.goo.brutality.config;
 
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
-@OnlyIn(Dist.CLIENT)
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber (value = Dist.CLIENT)
 public class BrutalityClientConfig {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;

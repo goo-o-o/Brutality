@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:gold_necklace"
+    },
+    "#": {
+      "item": "terramity:onyx"
+    },
+    "%": {
+      "item": "minecraft:heart_of_the_sea"
+    },
+    "@": {
+      "item": "minecraft:kelp"
+    }
+  },
+  "pattern": [
+    "#@#",
+    "@!@",
+    " % "
+  ],
+  "result": {
+    "item": "brutality:abyssal_necklace"
+  },
+  "show_notification": true
+}

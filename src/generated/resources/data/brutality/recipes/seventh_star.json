@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "#": {
+      "item": "terramity:cosmilite_sword"
+    },
+    "$": {
+      "item": "minecraft:nether_star"
+    },
+    "%": {
+      "item": "terramity:gold_necklace"
+    },
+    "@": {
+      "item": "terramity:topaz"
+    }
+  },
+  "pattern": [
+    " @#",
+    "@$!",
+    "%! "
+  ],
+  "result": {
+    "item": "brutality:seventh_star"
+  },
+  "show_notification": true
+}

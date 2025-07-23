@@ -1,6 +1,6 @@
 package net.goo.brutality.entity.base;
 
-import net.goo.brutality.client.entity.ArmaGeoEntity;
+import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -11,7 +11,7 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class SwordWave extends Entity implements ArmaGeoEntity {
+public class SwordWave extends Entity implements BrutalityGeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private float blocksPerSecond = 1;
     private float renderScale = 1;
@@ -19,11 +19,6 @@ public class SwordWave extends Entity implements ArmaGeoEntity {
     public SwordWave(EntityType<?> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.noCulling = true;
-    }
-
-    @Override
-    public String geoIdentifier() {
-        return "sword_wave";
     }
 
     public float getRenderScale() {

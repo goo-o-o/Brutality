@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:stick"
+    },
+    "#": {
+      "item": "minecraft:diamond"
+    },
+    "@": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "pattern": [
+    "  #",
+    " @ ",
+    "!  "
+  ],
+  "result": {
+    "item": "brutality:diamond_knife"
+  },
+  "show_notification": true
+}

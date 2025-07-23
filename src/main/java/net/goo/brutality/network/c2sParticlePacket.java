@@ -1,48 +1,94 @@
 package net.goo.brutality.network;
 
-import net.goo.brutality.entity.custom.projectile.beam.ExcaliburBeam;
-import net.goo.brutality.entity.custom.projectile.beam.TerraBeam;
-import net.goo.brutality.registry.ModEntities;
-import net.goo.brutality.util.ModResources;
-import net.goo.brutality.util.helpers.ProjectileHelper;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
-public class c2sSwordBeamPacket {
-    private final ModResources.BEAM_TYPES beamType; // Add the explosion type
+public class c2sParticlePacket {
+    private final double x, y, z, xDelta, yDelta, zDelta;
+    private final ParticleOptions particle;
+    private final int count;
+    private final float speed;
 
-    public c2sSwordBeamPacket(ModResources.BEAM_TYPES beamType) {
-        this.beamType = beamType;
+    public c2sParticlePacket(double pX, double pY, double pZ, double xDelta, double yDelta, double zDelta, ParticleOptions particle, int count, float speed) {
+        this.x = pX;
+        this.y = pY;
+        this.z = pZ;
+        this.xDelta = xDelta;
+        this.yDelta = yDelta;
+        this.zDelta = zDelta;
+        this.particle = particle;
+        this.count = count;
+        this.speed = speed;
     }
 
-    public c2sSwordBeamPacket(FriendlyByteBuf pBuffer) {
-        this.beamType = pBuffer.readEnum(ModResources.BEAM_TYPES.class);
+    public c2sParticlePacket(FriendlyByteBuf pBuffer) {
+        ParticleType<?> type = readParticleType(pBuffer);
+        this.x = pBuffer.readDouble();
+        this.y = pBuffer.readDouble();
+        this.z = pBuffer.readDouble();
+        this.xDelta = pBuffer.readDouble();
+        this.yDelta = pBuffer.readDouble();
+        this.zDelta = pBuffer.readDouble();
+        this.particle = readParticle(pBuffer, type);
+        this.count = pBuffer.readInt();
+        this.speed = pBuffer.readFloat();
     }
 
     public void encode(FriendlyByteBuf pBuffer) {
-        pBuffer.writeEnum(this.beamType);
+        writeParticleType(pBuffer, particle.getType());
+        pBuffer.writeDouble(this.x);
+        pBuffer.writeDouble(this.y);
+        pBuffer.writeDouble(this.z);
+        pBuffer.writeDouble(this.xDelta);
+        pBuffer.writeDouble(this.yDelta);
+        pBuffer.writeDouble(this.zDelta);
+        this.particle.writeToNetwork(pBuffer);
+        pBuffer.writeInt(this.count);
+        pBuffer.writeFloat(this.speed);
+
     }
 
+    private <T extends ParticleOptions> T readParticle(FriendlyByteBuf pBuffer, ParticleType<T> pParticleType) {
+        return pParticleType.getDeserializer().fromNetwork(pParticleType, pBuffer);
+    }
 
-    public static void handle(c2sSwordBeamPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    private static void writeParticleType(FriendlyByteBuf buf, ParticleType<?> type) {
+        buf.writeResourceLocation(Objects.requireNonNull(ForgeRegistries.PARTICLE_TYPES.getKey(type)));
+    }
+
+    private static ParticleType<?> readParticleType(FriendlyByteBuf buf) {
+        ResourceLocation id = buf.readResourceLocation();
+
+        ParticleType<?> type = ForgeRegistries.PARTICLE_TYPES.getValue(id);
+        if (type != null) return type;
+
+        type = BuiltInRegistries.PARTICLE_TYPE.get(id);
+        if (type != null) return type;
+
+        return ParticleTypes.EXPLOSION;
+    }
+
+    public static void handle(c2sParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            ServerPlayer sender = ctx.get().getSender();
-            if (sender == null) return;
-
-            Level level = sender.level();
-
-            switch (packet.beamType) {
-                case TERRA ->
-                        ProjectileHelper.shootProjectile(() -> new TerraBeam(ModEntities.TERRA_BEAM.get(), level), sender, level, 3.5F);
-                case EXCALIBUR ->
-                        ProjectileHelper.shootProjectile(() -> new ExcaliburBeam(ModEntities.EXCALIBUR_BEAM.get(), level), sender, level, 0.25F);
+            Player sender = ctx.get().getSender();
+            assert sender != null;
+            if (sender.level() instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(packet.particle, packet.x, packet.y, packet.z, packet.count, packet.xDelta, packet.yDelta, packet.zDelta, packet.speed);
             }
-
         });
+
         ctx.get().setPacketHandled(true);
     }
+
 }

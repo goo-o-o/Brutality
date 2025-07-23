@@ -9,22 +9,28 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.BrutalityRenderTypes;
+import net.goo.brutality.network.PacketHandler;
+import net.goo.brutality.network.c2sDamageEntityPacket;
 import net.goo.brutality.particle.base.AbstractCameraAlignedTrailParticle;
-import net.goo.brutality.registry.ModParticles;
-import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.registry.BrutalityModSounds;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -38,24 +44,20 @@ import java.util.Locale;
 
 import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
-public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle {
+public class TerratomereParticle extends AbstractCameraAlignedTrailParticle {
 
     private final int entityId;
-    private final float offset, radius;
-    private final boolean reverseOrbit;
 
-    public final ResourceLocation CENTER_TEXTURE = new ResourceLocation(Brutality.MOD_ID, "textures/particle/generic_square_particle.png");
+    public final ResourceLocation CENTER_TEXTURE = new ResourceLocation(Brutality.MOD_ID, "textures/particle/generic_circle_particle.png");
 
-    public CreaseOfCreationParticle(ClientLevel world, double x, double y, double z, float r, float g, float b, float width, int entityId, int sampleCount) {
+    public TerratomereParticle(ClientLevel world, double x, double y, double z, float r, float g, float b, float width, int entityId, int sampleCount) {
         super(world, x, y, z, r, g, b, width, entityId, sampleCount);
         this.xd = 0;
         this.yd = 0;
         this.zd = 0;
         this.alpha = 0.5F;
         this.entityId = entityId;
-        this.offset = world.getRandom().nextIntBetweenInclusive(0, 360);
         this.hasPhysics = false;
-        this.reverseOrbit = random.nextBoolean();
 
         this.xo = x;
         this.yo = y;
@@ -63,8 +65,12 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
         this.rCol = r;
         this.gCol = g;
         this.bCol = b;
-        this.radius = world.getRandom().nextFloat() * 5;
         this.lifetime = 200;
+
+        this.setParticleSpeed(
+                Mth.nextFloat(this.level.random, -0.25F, 0.25F),
+                Mth.nextFloat(this.level.random, -0.25F, 0.25F),
+                Mth.nextFloat(this.level.random, -0.25F, 0.25F));
     }
 
 
@@ -116,63 +122,76 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
     }
 
     public void tick() {
+
+        this.tickTrail();
+        this.xo = this.x;
+        this.yo = this.y;
+        this.zo = this.z;
+        this.xd *= 0.99;
+        this.yd *= 0.99;
+        this.zd *= 0.99;
+        if (this.age++ >= this.lifetime) {
+            this.remove();
+        } else {
+            this.move(this.xd, this.yd, this.zd);
+            this.yd -= this.gravity;
+        }
+
+
         this.oRoll = this.roll;
         this.roll = (float) ((float) Math.PI * Math.sin(age * 0.6F) * 0.3F);
-        super.tick();
         this.trailA = 0.2F * Mth.clamp(age / (float) this.lifetime * 32.0F, 0.0F, 1.0F);
 
         if (entityId != -1) {
             Entity owner = level.getEntity(entityId);
 
-            if (owner instanceof Player) {
-                Vec3 entityPos;
-                Vec3 targetOrbitPos = getOrbitPos(age * 50 + offset);
-                Entity target = ModUtils.getEntityPlayerLookingAt((Player) owner, 25);
-                if (target != null) {
-                    this.setColor(1F, 0,0);
-                    entityPos = new Vec3(target.getX(), target.getY() + target.getBbHeight() / 2, target.getZ());
-                } else {
-                    entityPos = new Vec3(owner.getX(), owner.getY() + owner.getBbHeight() / 2, owner.getZ());
-                    this.setColor(0.5F, 0.3F,1F);
+            if (owner instanceof Player player) {
+
+                LivingEntity nearestEntity = level.getNearestEntity(LivingEntity.class, TargetingConditions.DEFAULT.ignoreLineOfSight(), player,
+                        this.getPos().x, this.getPos().y, this.getPos().z, this.getBoundingBox().inflate(10F));
+
+                if (nearestEntity != null) {
+
+                    float lerpFactor = .35f;
+
+                    double newX = Mth.lerp(lerpFactor, this.x, nearestEntity.position().x);
+                    double newY = Mth.lerp(lerpFactor, this.y, nearestEntity.position().y + nearestEntity.getBbHeight() / 2);
+                    double newZ = Mth.lerp(lerpFactor, this.z, nearestEntity.position().z);
+
+                    this.setPos(newX, newY, newZ);
+
+                    if (nearestEntity.distanceToSqr(this.getPos()) < 3.5) {
+                        if (!hit) {
+                            PacketHandler.sendToServer(new c2sDamageEntityPacket(nearestEntity.getId(), 18, nearestEntity.damageSources().playerAttack(player)));
+                            level.addParticle(BrutalityModParticles.TERRATOMERE_EXPLOSION.get(), true, this.x, this.y, this.z, 0, 0, 0);
+                            level.playLocalSound(BlockPos.containing(this.getPos()), BrutalityModSounds.VORTEX_EXPLOSION.get(), SoundSource.AMBIENT,
+                                    1, Mth.nextFloat(this.level.getRandom(), 0.5F, 1.2F), false);
+                            hit = true;
+                        }
+
+                        tickCount++;
+                        if (tickCount > 20)
+                            this.remove();
+                    }
                 }
-
-
-                Vec3 targetPos = targetOrbitPos.add(entityPos);
-
-                float lerpFactor = 0.2f;
-
-                double newX = Mth.lerp(lerpFactor, this.x, targetPos.x);
-                double newY = Mth.lerp(lerpFactor, this.y, targetPos.y);
-                double newZ = Mth.lerp(lerpFactor, this.z, targetPos.z);
-
-//            this.setPos(targetPos.x, targetPos.y, targetPos.z);
-
-                this.setPos(newX, newY, newZ);
             }
         }
     }
 
-    public Vec3 getOrbitPos(float angle) {
-        float yOrbit = reverseOrbit ? angle : -angle;
-        double x = Mth.cos(angle) * radius;
-        double y = Mth.sin(yOrbit) * level.getEntity(entityId).getBbHeight() * (radius / 2);
-        double z = Mth.sin(angle) * radius;
-
-        return new Vec3(x, y, z);
-    }
+    private boolean hit = false;
+    private int tickCount = 0;
 
     @Override
     public int sampleCount() {
         return Math.min(10, lifetime - age);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static final class OrbFactory implements ParticleProvider<CreaseOfCreationParticle.OrbData> {
+    public static final class OrbFactory implements ParticleProvider<TerratomereParticle.OrbData> {
 
         @Override
-        public Particle createParticle(CreaseOfCreationParticle.OrbData typeIn, @NotNull ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            CreaseOfCreationParticle particle;
-            particle = new CreaseOfCreationParticle(worldIn, x, y, z, typeIn.r(), typeIn.g(), typeIn.b(), typeIn.width(),
+        public Particle createParticle(TerratomereParticle.OrbData typeIn, @NotNull ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            TerratomereParticle particle;
+            particle = new TerratomereParticle(worldIn, x, y, z, typeIn.r(), typeIn.g(), typeIn.b(), typeIn.width(),
                     typeIn.entityID(), typeIn.sampleCount());
 
             return particle;
@@ -184,8 +203,8 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
 
     public record OrbData(float r, float g, float b, float width, int entityID, int sampleCount)
             implements ParticleOptions {
-        public static final ParticleOptions.Deserializer<CreaseOfCreationParticle.OrbData> DESERIALIZER = new ParticleOptions.Deserializer<>() {
-            public CreaseOfCreationParticle.@NotNull OrbData fromCommand(@NotNull ParticleType<CreaseOfCreationParticle.OrbData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
+        public static final Deserializer<TerratomereParticle.OrbData> DESERIALIZER = new Deserializer<>() {
+            public TerratomereParticle.@NotNull OrbData fromCommand(@NotNull ParticleType<TerratomereParticle.OrbData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
                 reader.expect(' ');
                 float r = reader.readFloat();
                 reader.expect(' ');
@@ -198,11 +217,11 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
                 int EntityId = reader.readInt();
                 reader.expect(' ');
                 int sampleCount = reader.readInt();
-                return new CreaseOfCreationParticle.OrbData(r, g, b, width, EntityId, sampleCount);
+                return new TerratomereParticle.OrbData(r, g, b, width, EntityId, sampleCount);
             }
 
-            public CreaseOfCreationParticle.OrbData fromNetwork(ParticleType<CreaseOfCreationParticle.OrbData> particleTypeIn, FriendlyByteBuf buffer) {
-                return new CreaseOfCreationParticle.OrbData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(),
+            public TerratomereParticle.OrbData fromNetwork(ParticleType<TerratomereParticle.OrbData> particleTypeIn, FriendlyByteBuf buffer) {
+                return new TerratomereParticle.OrbData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(),
                         buffer.readFloat(), buffer.readInt(), buffer.readInt());
             }
         };
@@ -230,21 +249,20 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
         }
 
         @Override
-        public ParticleType<CreaseOfCreationParticle.OrbData> getType() {
-            return ModParticles.CREASE_OF_CREATION_PARTICLE.get();
+        public ParticleType<TerratomereParticle.OrbData> getType() {
+            return BrutalityModParticles.TERRATOMERE_PARTICLE.get();
         }
 
 
-
-        public static Codec<CreaseOfCreationParticle.OrbData> CODEC(ParticleType<CreaseOfCreationParticle.OrbData> particleType) {
+        public static Codec<TerratomereParticle.OrbData> CODEC(ParticleType<TerratomereParticle.OrbData> particleType) {
             return RecordCodecBuilder.create((codecBuilder) -> codecBuilder.group(
-                            Codec.FLOAT.fieldOf("r").forGetter(CreaseOfCreationParticle.OrbData::r),
-                            Codec.FLOAT.fieldOf("g").forGetter(CreaseOfCreationParticle.OrbData::g),
-                            Codec.FLOAT.fieldOf("b").forGetter(CreaseOfCreationParticle.OrbData::b),
-                            Codec.FLOAT.fieldOf("width").forGetter(CreaseOfCreationParticle.OrbData::width),
-                            Codec.INT.fieldOf("entityID").forGetter(CreaseOfCreationParticle.OrbData::entityID),
-                            Codec.INT.fieldOf("sampleCount").forGetter(CreaseOfCreationParticle.OrbData::sampleCount)
-                    ).apply(codecBuilder, CreaseOfCreationParticle.OrbData::new)
+                            Codec.FLOAT.fieldOf("r").forGetter(TerratomereParticle.OrbData::r),
+                            Codec.FLOAT.fieldOf("g").forGetter(TerratomereParticle.OrbData::g),
+                            Codec.FLOAT.fieldOf("b").forGetter(TerratomereParticle.OrbData::b),
+                            Codec.FLOAT.fieldOf("width").forGetter(TerratomereParticle.OrbData::width),
+                            Codec.INT.fieldOf("entityID").forGetter(TerratomereParticle.OrbData::entityID),
+                            Codec.INT.fieldOf("sampleCount").forGetter(TerratomereParticle.OrbData::sampleCount)
+                    ).apply(codecBuilder, TerratomereParticle.OrbData::new)
             );
         }
     }

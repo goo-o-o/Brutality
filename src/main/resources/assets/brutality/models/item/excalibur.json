@@ -7,7 +7,7 @@
   "overrides": [
     {
       "predicate": {
-        "custom_model_data": 1
+        "texture": 1
       },
       "model": "brutality:item/excalibur_active_inventory"
     }

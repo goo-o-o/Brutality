@@ -1,16 +1,15 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.scythe;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.renderers.item.BrutalityAutoFullbrightItemRenderer;
 import net.goo.brutality.item.base.BrutalityScytheItem;
-import net.goo.brutality.registry.ModParticles;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModParticles;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -26,26 +25,25 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
 public class DarkinScythe extends BrutalityScytheItem {
-    protected String[] types = new String[]{"", "_shadow_assasin", "_rhaast"};
+    protected String[] types = new String[]{"", "_shadow_assassin", "_rhaast"};
     private final UUID DARKIN_SCYTHE_MS_UUID = UUID.fromString("c0aa6baf-16a7-45e1-a65c-cfb82a65ff4c");
     private final UUID DARKIN_SCYTHE_AS_UUID = UUID.fromString("5386a75c-a1df-4b83-a62d-04dcb0fce7ff");
     private final UUID DARKIN_SCYTHE_AD_UUID = UUID.fromString("57b3f5d9-9f58-45d0-80f5-11ad07675bc6");
 
-    public DarkinScythe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public DarkinScythe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
 
@@ -55,27 +53,56 @@ public class DarkinScythe extends BrutalityScytheItem {
     }
 
     @Override
-    public ItemStack getDefaultInstance() {
-        return new ItemStack(this);
-    }
-
-    @Override
     public String texture(ItemStack stack) {
-        return "darkin_scythe" + types[ModUtils.getCustomModelData(stack)];
+        return "darkin_scythe" + types[ModUtils.getTextureIdx(stack)];
     }
 
     @Override
     public String model(ItemStack stack) {
-        return "darkin_scythe" + types[ModUtils.getCustomModelData(stack)];
+        return "darkin_scythe" + types[ModUtils.getTextureIdx(stack)];
     }
 
+
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
+//    }
 
     @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityAutoFullbrightItemRenderer.class);
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        int index = ModUtils.getTextureIdx(pStack);
+
+        pTooltipComponents.add(Component.translatable("brutality.description.type.on_shift_right_click"));
+        pTooltipComponents.add(Component.translatable("item.brutality.darkin_scythe.on_shift_right_click.1"));
+        pTooltipComponents.add(Component.translatable("item.brutality.darkin_scythe.on_shift_right_click.2"));
+        pTooltipComponents.add(Component.empty());
+
+        if (index == 1) {
+            pTooltipComponents.add(Component.translatable("item.brutality.darkin_scythe.shadow_assasin"));
+            pTooltipComponents.add(Component.empty());
+            pTooltipComponents.add(Component.translatable("brutality.description.type.on_hit"));
+            pTooltipComponents.add(Component.translatable("item.brutality.darkin_scythe.on_hit.1"));
+            pTooltipComponents.add(Component.empty());
+            pTooltipComponents.add(Component.translatable("brutality.description.type.on_right_click"));
+            pTooltipComponents.add(Component.translatable("item.brutality.darkin_scythe.on_right_click.1"));
+            pTooltipComponents.add(Component.empty());
+            pTooltipComponents.add(Component.translatable("brutality.description.type.passive"));
+            pTooltipComponents.add(Component.translatable("item.brutality.darkin_scythe.passive.1"));
+        }
+
+        if (index == 2) {
+            pTooltipComponents.add(Component.translatable("item.brutality.darkin_scythe.darkin"));
+            pTooltipComponents.add(Component.empty());
+            pTooltipComponents.add(Component.translatable("brutality.description.type.on_hit"));
+            pTooltipComponents.add(Component.translatable("item.brutality.darkin_scythe.on_hit.2"));
+            pTooltipComponents.add(Component.empty());
+            pTooltipComponents.add(Component.translatable("brutality.description.type.on_right_click"));
+            pTooltipComponents.add(Component.translatable("item.brutality.darkin_scythe.on_right_click.2"));
+        }
+
+
     }
-
-
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
@@ -83,9 +110,9 @@ public class DarkinScythe extends BrutalityScytheItem {
 
         if (slot == EquipmentSlot.MAINHAND) {
             float attackSpeed, attackDamage;
+            int index = ModUtils.getTextureIdx(stack);
 
-
-            switch (ModUtils.getCustomModelData(stack)) {
+            switch (index) {
                 case 1 -> {
                     attackSpeed = -0F;
                     attackDamage = 6;
@@ -101,34 +128,14 @@ public class DarkinScythe extends BrutalityScytheItem {
 
             }
 
-            modifiers.put(
-                    Attributes.ATTACK_DAMAGE,
-                    new AttributeModifier(
-                            DARKIN_SCYTHE_AD_UUID,
-                            "Weapon damage",
-                            attackDamage,
-                            AttributeModifier.Operation.ADDITION
-                    )
-            );
-            modifiers.put(
-                    Attributes.ATTACK_SPEED,
-                    new AttributeModifier(
-                            DARKIN_SCYTHE_AS_UUID,
-                            "Weapon speed",
-                            attackSpeed,
-                            AttributeModifier.Operation.ADDITION
-                    )
-            );
+            modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(DARKIN_SCYTHE_AD_UUID,
+                    "Weapon damage", attackDamage, AttributeModifier.Operation.ADDITION));
 
-            modifiers.put(
-                    Attributes.MOVEMENT_SPEED,
-                    new AttributeModifier(
-                            DARKIN_SCYTHE_MS_UUID,
-                            "Move speed",
-                            (ModUtils.getCustomModelData(stack) == 1) ? .4 : 0,
-                            AttributeModifier.Operation.MULTIPLY_TOTAL
-                    )
-            );
+            modifiers.put(Attributes.ATTACK_SPEED, new AttributeModifier(DARKIN_SCYTHE_AS_UUID,
+                    "Weapon speed", attackSpeed, AttributeModifier.Operation.ADDITION));
+
+            modifiers.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(DARKIN_SCYTHE_MS_UUID,
+                    "Move speed", (index == 1) ? .4 : 0, AttributeModifier.Operation.MULTIPLY_TOTAL));
         }
         return modifiers;
     }
@@ -138,40 +145,21 @@ public class DarkinScythe extends BrutalityScytheItem {
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
         if (pUsedHand == InteractionHand.OFF_HAND) return InteractionResultHolder.fail(stack);
-        int customModelData = (ModUtils.getCustomModelData(stack) + 1) % 3;
+        int index = (ModUtils.getTextureIdx(stack) + 1) % 3;
 
         if (pPlayer.isCrouching()) {
-
-
-            stack.getOrCreateTag().putInt(CUSTOM_MODEL_DATA, (customModelData));
-            pLevel.playSound(null, pPlayer.getOnPos(), ModSounds.DARKIN_SCYTHE_TRANSFORM.get(customModelData).get(), SoundSource.PLAYERS);
-
+            ModUtils.setTextureIdx(stack, index);
+            pLevel.playSound(null, pPlayer.getOnPos(), BrutalityModSounds.DARKIN_SCYTHE_TRANSFORM.get(index).get(), SoundSource.PLAYERS);
             pPlayer.getCooldowns().addCooldown(stack.getItem(), 80);
 
         } else {
-            double length = (customModelData == 1) ? 7 : 5;
-            double halfWidth = 0.5;
+            float length = (index == 1) ? 14 : 10;
+            List<LivingEntity> entities = ModUtils.getEntitiesInRay(LivingEntity.class, pPlayer, length, ClipContext.Fluid.NONE, ClipContext.Block.OUTLINE, 1, e -> e != pPlayer, 100, null).entityList();
 
-            Vec3 lookDir = pPlayer.getLookAngle();
-            AABB hitbox = pPlayer.getBoundingBox()
-                    .expandTowards(lookDir.x * length, lookDir.y * length, lookDir.z * length)
-                    .inflate(halfWidth, halfWidth, halfWidth);
-
-            List<LivingEntity> entities = pLevel.getEntitiesOfClass(
-                    LivingEntity.class,
-                    hitbox,
-                    e -> e != pPlayer && e.isAlive()
-            );
-
-            customModelData = ModUtils.getCustomModelData(stack);
-
-
-            if (customModelData == 1) {
-                if (pLevel instanceof ClientLevel clientLevel)
-                    for (LivingEntity entity : entities)
-                        for (int i = 0; i < 3; i++)
-                            clientLevel.addParticle(ModParticles.SHADOW_ASSASIN_PARTICLE.get(), entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(),
-                                    clientLevel.random.nextFloat() - 0.5, clientLevel.random.nextFloat() - 0.5, clientLevel.random.nextFloat() - 0.5);
+            if (index == 1) {
+                if (pLevel instanceof ClientLevel clientLevel) for (LivingEntity entity : entities)
+                    for (int i = 0; i < 3; i++)
+                        clientLevel.addParticle(BrutalityModParticles.SHADOW_ASSASIN_PARTICLE.get(), entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(), clientLevel.random.nextFloat() - 0.5, clientLevel.random.nextFloat() - 0.5, clientLevel.random.nextFloat() - 0.5);
 
                 for (LivingEntity entity : entities) {
                     entity.hurt(pPlayer.damageSources().indirectMagic(pPlayer, pPlayer), 6);
@@ -179,17 +167,14 @@ public class DarkinScythe extends BrutalityScytheItem {
                 }
 
                 pPlayer.getCooldowns().addCooldown(stack.getItem(), 30);
-                pLevel.playSound(pPlayer, pPlayer.getOnPos(),
-                        ModSounds.GROUND_IMPACT.get(), SoundSource.PLAYERS, 1.0F, Mth.nextFloat(pLevel.random, 0.75F, 1F));
+                pLevel.playSound(pPlayer, pPlayer.getOnPos(), BrutalityModSounds.GROUND_IMPACT.get(), SoundSource.PLAYERS, 1.0F, Mth.nextFloat(pLevel.random, 0.75F, 1F));
                 return InteractionResultHolder.consume(stack);
 
 
-            } else if (customModelData == 2) {
-                if (pLevel instanceof ClientLevel clientLevel)
-                    for (LivingEntity entity : entities)
-                        for (int i = 0; i < 3; i++)
-                            clientLevel.addParticle(ModParticles.RHAAST_PARTICLE.get(), entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(),
-                                    clientLevel.random.nextFloat() - 0.5, clientLevel.random.nextFloat() - 0.5, clientLevel.random.nextFloat() - 0.5);
+            } else if (index == 2) {
+                if (pLevel instanceof ClientLevel clientLevel) for (LivingEntity entity : entities)
+                    for (int i = 0; i < 3; i++)
+                        clientLevel.addParticle(BrutalityModParticles.RHAAST_PARTICLE.get(), entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(), clientLevel.random.nextFloat() - 0.5, clientLevel.random.nextFloat() - 0.5, clientLevel.random.nextFloat() - 0.5);
 
                 for (LivingEntity entity : entities) {
                     entity.hurt(pPlayer.damageSources().playerAttack(pPlayer), 8);
@@ -198,8 +183,7 @@ public class DarkinScythe extends BrutalityScytheItem {
                 }
 
                 pPlayer.getCooldowns().addCooldown(stack.getItem(), 30);
-                pLevel.playSound(pPlayer, pPlayer.getOnPos(),
-                        ModSounds.GROUND_IMPACT.get(), SoundSource.PLAYERS, 1.0F, Mth.nextFloat(pLevel.random, 0.75F, 1F));
+                pLevel.playSound(pPlayer, pPlayer.getOnPos(), BrutalityModSounds.GROUND_IMPACT.get(), SoundSource.PLAYERS, 1.0F, Mth.nextFloat(pLevel.random, 0.75F, 1F));
 
                 return InteractionResultHolder.consume(stack);
             }
@@ -207,8 +191,6 @@ public class DarkinScythe extends BrutalityScytheItem {
         }
         return super.use(pLevel, pPlayer, pUsedHand);
     }
-
-
 
 
 }

@@ -1,12 +1,12 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.sword;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.entity.custom.projectile.trident.ExobladeBeam;
+import net.goo.brutality.entity.projectile.trident.ExobladeBeam;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.c2sShootProjectilePacket;
-import net.goo.brutality.registry.ModEntities;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModEntities;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.ProjectileHelper;
@@ -29,8 +29,8 @@ import java.util.List;
 public class ExobladeSword extends BrutalitySwordItem {
 
 
-    public ExobladeSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public ExobladeSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ExobladeSword extends BrutalitySwordItem {
         if (entity instanceof Player player && !player.level().isClientSide && !ModList.get().isLoaded("bettercombat")) {
             performExobladeBeam(stack, player);
         }
-        entity.level().playSound(null, entity.blockPosition(), ModUtils.getRandomSound(ModSounds.EXOBLADE), SoundSource.PLAYERS, 1, Mth.nextFloat(entity.level().getRandom(), 0.5F, 1.25F));
+        entity.level().playSound(null, entity.blockPosition(), ModUtils.getRandomSound(BrutalityModSounds.EXOBLADE), SoundSource.PLAYERS, 1, Mth.nextFloat(entity.level().getRandom(), 0.5F, 1.25F));
 
         return super.onEntitySwing(stack, entity);
     }
@@ -61,10 +61,10 @@ public class ExobladeSword extends BrutalitySwordItem {
             player.getCooldowns().addCooldown(item, 5);
             if (level.isClientSide()) {
                 for (int i = 0; i < 4; i++)
-                    PacketHandler.sendToServer(new c2sShootProjectilePacket(ModEntities.EXOBLADE_BEAM.getId(), 2F, true, 1.5F));
+                    PacketHandler.sendToServer(new c2sShootProjectilePacket(BrutalityModEntities.EXOBLADE_BEAM.getId(), 2F, true, 1.5F, 0));
             } else {
                 for (int i = 0; i < 4; i++)
-                    ProjectileHelper.shootProjectile(() -> new ExobladeBeam(ModEntities.EXOBLADE_BEAM.get(), level), player, level, 2F, true, 1.5F);
+                    ProjectileHelper.shootProjectile(() -> new ExobladeBeam(BrutalityModEntities.EXOBLADE_BEAM.get(), level), player, level, 2F, true, 1.5F, 0);
             }
         }
     }

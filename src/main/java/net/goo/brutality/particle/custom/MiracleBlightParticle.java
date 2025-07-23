@@ -3,33 +3,40 @@ package net.goo.brutality.particle.custom;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class BlackholeEntityParticle extends TextureSheetParticle {
-    protected BlackholeEntityParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
+import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
+
+public class MiracleBlightParticle extends TextureSheetParticle {
+    protected MiracleBlightParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
 
-        this.friction = 1.5F; // Determines particle movement slowdown
+        this.friction = 1.5F;
         this.xd = xSpeed;
         this.yd = ySpeed;
         this.zd = zSpeed;
-        this.quadSize *= (level.random.nextFloat() * 2); // Adjust particle size
-        this.lifetime = 5; // Number of ticks the particle will live
+        this.quadSize *= (level.random.nextFloat() * 0.75F);
+        this.lifetime = 5;
         this.setSpriteFromAge(spriteSet);
-        this.rCol = 0;
-        this.gCol = 0;
-        this.bCol = 0;
+        this.rCol = Mth.nextFloat(level.random, 0.75F, 1F);
+        this.gCol = Mth.nextFloat(level.random, 0.75F, 1F);
+        this.bCol = Mth.nextFloat(level.random, 0.75F, 1F);
 
     }
 
 
     @Override
     public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT; // Translucent particles
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Override
+    protected int getLightColor(float pPartialTick) {
+        return FULL_BRIGHT;
+    }
+
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
@@ -41,7 +48,7 @@ public class BlackholeEntityParticle extends TextureSheetParticle {
         public Particle createParticle(SimpleParticleType type, ClientLevel level,
                                        double x, double y, double z,
                                        double xSpeed, double ySpeed, double zSpeed) {
-            return new BlackholeEntityParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+            return new MiracleBlightParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 

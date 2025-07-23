@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "%": {
+      "item": "terramity:analeptic_amphora"
+    },
+    "@": {
+      "item": "terramity:crystal_heart"
+    },
+    "^": {
+      "item": "terramity:stygian_blood_bucket"
+    }
+  },
+  "pattern": [
+    "   ",
+    "%@^",
+    "   "
+  ],
+  "result": {
+    "item": "brutality:second_heart"
+  },
+  "show_notification": true
+}

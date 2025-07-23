@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:gilded_feather"
+    },
+    "#": {
+      "item": "terramity:sapphire"
+    },
+    "@": {
+      "item": "terramity:rush_ring_plus"
+    }
+  },
+  "pattern": [
+    "#@#",
+    "@!@",
+    "#@#"
+  ],
+  "result": {
+    "item": "brutality:road_runners_ring"
+  },
+  "show_notification": true
+}

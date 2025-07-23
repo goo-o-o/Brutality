@@ -1,11 +1,9 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.trident;
 
-import net.goo.brutality.client.renderers.item.BrutalityEmissiveItemRenderer;
-import net.goo.brutality.entity.custom.projectile.trident.ThrownGungnir;
+import net.goo.brutality.entity.projectile.trident.ThrownGungnir;
 import net.goo.brutality.item.base.BrutalityTridentItem;
-import net.goo.brutality.registry.ModEntities;
+import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -18,12 +16,10 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import static net.goo.brutality.util.helpers.EnchantmentHelper.hasInfinity;
 import static net.goo.brutality.util.helpers.EnchantmentHelper.restrictEnchants;
@@ -40,8 +36,8 @@ public class GungnirTrident extends BrutalityTridentItem {
             Enchantments.LOYALTY
     );
 
-    public GungnirTrident(float attackDamageModifier, float attackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(attackDamageModifier, attackSpeedModifier, identifier, rarity, descriptionComponents);
+    public GungnirTrident(float attackDamageModifier, float attackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(attackDamageModifier, attackSpeedModifier, rarity, descriptionComponents);
     }
 
 
@@ -73,7 +69,7 @@ public class GungnirTrident extends BrutalityTridentItem {
     @Override
     public void launchProjectile(Level pLevel, Player player, ItemStack pStack) {
 
-        ThrownGungnir thrownEntity = new ThrownGungnir(pLevel, player, pStack, ModEntities.THROWN_GUNGNIR_ENTITY.get());
+        ThrownGungnir thrownEntity = new ThrownGungnir(pLevel, player, pStack, BrutalityModEntities.THROWN_GUNGNIR_ENTITY.get());
         thrownEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, getLaunchVel(), 1.0F);
         if (player.getAbilities().instabuild) {
             thrownEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
@@ -99,9 +95,9 @@ public class GungnirTrident extends BrutalityTridentItem {
 
     }
 
-
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityEmissiveItemRenderer.class);
-    }
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer));
+//    }
 }

@@ -1,14 +1,14 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.sword;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.entity.custom.projectile.beam.TerraBeam;
+import net.goo.brutality.entity.projectile.beam.TerraBeam;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.c2sParticlePacket;
 import net.goo.brutality.network.c2sShootProjectilePacket;
 import net.goo.brutality.particle.custom.TerratomereParticle;
-import net.goo.brutality.registry.ModEntities;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModEntities;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.ProjectileHelper;
@@ -32,8 +32,8 @@ import java.util.List;
 public class TerratomereSword extends BrutalitySwordItem {
 
 
-    public TerratomereSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public TerratomereSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class TerratomereSword extends BrutalitySwordItem {
                 performTerraBeam(stack, player);
             }
             player.level().playSound(null, player.getOnPos(),
-                    ModUtils.getRandomSound(ModSounds.TERRATOMERE_SWING.get(), ModSounds.GENERIC_SLICE.get()), SoundSource.PLAYERS, 2, Mth.nextFloat(player.level().getRandom(), 0.6F, 1.2F));
+                    ModUtils.getRandomSound(BrutalityModSounds.TERRATOMERE_SWING.get(), BrutalityModSounds.GENERIC_SLICE.get()), SoundSource.PLAYERS, 2, Mth.nextFloat(player.level().getRandom(), 0.6F, 1.2F));
         }
         return super.onEntitySwing(stack, entity);
     }
@@ -66,7 +66,7 @@ public class TerratomereSword extends BrutalitySwordItem {
         if (!player.getCooldowns().isOnCooldown(item)) {
             player.getCooldowns().addCooldown(item, 5);
             if (level.isClientSide()) {
-                PacketHandler.sendToServer(new c2sShootProjectilePacket(ModEntities.TERRA_BEAM.getId(), 0.45F, false, 0F));
+                PacketHandler.sendToServer(new c2sShootProjectilePacket(BrutalityModEntities.TERRA_BEAM.getId(), 0.45F, false, 0F, 0));
 //                PacketHandler.sendToServer(new c2sParticlePacket(
 //                        player.getX(), player.getY(), player.getZ(), 0.3f, 0.75f, 0.5f, 3, player.getId(), 15, 4, 0));
                 PacketHandler.sendToServer(new c2sParticlePacket(player.getX(), player.getY() + player.getBbHeight() / 2, player.getZ(), 2, 2, 2,
@@ -76,7 +76,7 @@ public class TerratomereSword extends BrutalitySwordItem {
 //                PacketHandler.sendToServer(new c2sParticlePacket());
 
             } else {
-                ProjectileHelper.shootProjectile(() -> new TerraBeam(ModEntities.TERRA_BEAM.get(), level), player, level, 0.5F, false, 0F);
+                ProjectileHelper.shootProjectile(() -> new TerraBeam(BrutalityModEntities.TERRA_BEAM.get(), level), player, level, 0.5F, false, 0F, 0);
                 ((ServerLevel) player.level()).sendParticles(new TerratomereParticle.OrbData(0.3F, 0.75F, 0.5F, 3, player.getId(), 15)
                         , player.getX(), player.getY() + player.getBbHeight() / 2 ,  player.getZ(), 5, 2, 2, 2, 0);
             }

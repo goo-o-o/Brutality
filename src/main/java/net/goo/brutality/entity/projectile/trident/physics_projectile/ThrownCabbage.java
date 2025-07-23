@@ -1,10 +1,9 @@
-package net.goo.brutality.entity.custom.projectile.trident.physics_projectile;
+package net.goo.brutality.entity.projectile.trident.physics_projectile;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractPhysicsProjectile;
 import net.goo.brutality.entity.base.BrutalityAbstractTrident;
-import net.goo.brutality.registry.ModItems;
-import net.goo.brutality.registry.BrutalityParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
@@ -30,8 +29,8 @@ public class ThrownCabbage extends BrutalityAbstractPhysicsProjectile implements
     }
 
     @Override
-    protected ItemStack getPickupItem() {
-        return new ItemStack(ModItems.CABBAGE_TRIDENT.get());
+    protected @NotNull ItemStack getPickupItem() {
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -39,8 +38,8 @@ public class ThrownCabbage extends BrutalityAbstractPhysicsProjectile implements
         return level().getRandom().nextBoolean() ? SoundEvents.MOSS_FALL : SoundEvents.MOSS_HIT;
     }
 
-    @Override
-    protected SoundEvent getHitEntitySoundEvent() {
+
+    public SoundEvent getHitEntitySound() {
         return level().getRandom().nextBoolean() ? SoundEvents.MOSS_FALL : SoundEvents.MOSS_HIT;
     }
 
@@ -48,7 +47,7 @@ public class ThrownCabbage extends BrutalityAbstractPhysicsProjectile implements
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
         for (int i = 0; i < 16; i++) {
-            this.level().addParticle(BrutalityParticles.CABBAGE_PARTICLE.get(),
+            this.level().addParticle(BrutalityModParticles.CABBAGE_PARTICLE.get(),
                     pResult.getLocation().x, pResult.getLocation().y + pResult.getEntity().getBbHeight() / 2, pResult.getLocation().z,
                     (random.nextDouble() - 0.5) * 0.3,
                     random.nextDouble() * 0.2,

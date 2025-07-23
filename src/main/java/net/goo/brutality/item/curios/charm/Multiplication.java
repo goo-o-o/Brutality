@@ -1,4 +1,4 @@
-package net.goo.brutality.item.curios;
+package net.goo.brutality.item.curios.charm;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -17,12 +17,12 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class MultiplicationCharm extends BrutalityCurioItem {
+public class Multiplication extends BrutalityCurioItem {
 
 
     UUID MULTIPLICATION_CHARM_AD_UUID = UUID.fromString("f1c08e32-8553-4509-a864-00c92f5a7631");
 
-    public MultiplicationCharm(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public Multiplication(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

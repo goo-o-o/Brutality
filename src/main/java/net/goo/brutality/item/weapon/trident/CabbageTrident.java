@@ -1,8 +1,8 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.trident;
 
-import net.goo.brutality.entity.custom.projectile.trident.physics_projectile.ThrownCabbage;
+import net.goo.brutality.entity.projectile.trident.physics_projectile.ThrownCabbage;
 import net.goo.brutality.item.base.BrutalityTridentItem;
-import net.goo.brutality.registry.ModEntities;
+import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -30,8 +30,8 @@ public class CabbageTrident extends BrutalityTridentItem {
     private static final Set<Enchantment> ALLOWED_ENCHANTMENTS = Set.of(
     );
 
-    public CabbageTrident(float attackDamageModifier, float attackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(attackDamageModifier, attackSpeedModifier, identifier, rarity, descriptionComponents);
+    public CabbageTrident(float attackDamageModifier, float attackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(attackDamageModifier, attackSpeedModifier, rarity, descriptionComponents);
     }
 
 
@@ -68,7 +68,7 @@ public class CabbageTrident extends BrutalityTridentItem {
     @Override
     public void launchProjectile(Level pLevel, Player player, ItemStack pStack) {
 
-        ThrownCabbage thrownEntity = new ThrownCabbage(pLevel, player, pStack, ModEntities.THROWN_CABBAGE_ENTITY.get());
+        ThrownCabbage thrownEntity = new ThrownCabbage(pLevel, player, pStack, BrutalityModEntities.THROWN_CABBAGE_ENTITY.get());
         thrownEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, getLaunchVel(), 1.0F);
         if (player.getAbilities().instabuild) {
             thrownEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;

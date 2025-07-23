@@ -1,12 +1,12 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.sword;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.entity.custom.projectile.beam.TerraBeam;
+import net.goo.brutality.entity.projectile.beam.TerraBeam;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.c2sShootProjectilePacket;
-import net.goo.brutality.registry.ModEntities;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModEntities;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.ProjectileHelper;
 import net.minecraft.sounds.SoundSource;
@@ -27,8 +27,8 @@ import java.util.List;
 public class TerraBladeSword extends BrutalitySwordItem {
 
 
-    public TerraBladeSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public TerraBladeSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
     @Override
@@ -57,12 +57,12 @@ public class TerraBladeSword extends BrutalitySwordItem {
         Level level = player.level();
         Item item = stack.getItem();
         if (!player.getCooldowns().isOnCooldown(item)) {
-            level.playSound(player, player.getOnPos(), ModSounds.TERRA_BLADE_USE.get(), SoundSource.PLAYERS);
+            level.playSound(player, player.getOnPos(), BrutalityModSounds.TERRA_BLADE_USE.get(), SoundSource.PLAYERS);
             player.getCooldowns().addCooldown(item, 5);
             if (level.isClientSide()) {
-                PacketHandler.sendToServer(new c2sShootProjectilePacket(ModEntities.TERRA_BEAM.getId(), 2.5F, false, 0F));
+                PacketHandler.sendToServer(new c2sShootProjectilePacket(BrutalityModEntities.TERRA_BEAM.getId(), 2.5F, false, 0F, 0));
             } else {
-                ProjectileHelper.shootProjectile(() -> new TerraBeam(ModEntities.TERRA_BEAM.get(), level), player, level, 3.5F, false, 0F);
+                ProjectileHelper.shootProjectile(() -> new TerraBeam(BrutalityModEntities.TERRA_BEAM.get(), level), player, level, 3.5F, false, 0F, 0);
             }
         }
     }

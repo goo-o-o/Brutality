@@ -1,4 +1,4 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.hammer;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -25,8 +25,8 @@ import java.util.UUID;
 public class TerratonHammer extends BrutalityHammerItem implements GeoItem {
     private static final UUID TERRATON_MS_UUID = UUID.fromString("81895fda-102b-45bc-8ffe-10ac74a89e9a");
 
-    public TerratonHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public TerratonHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
 
@@ -39,11 +39,10 @@ public class TerratonHammer extends BrutalityHammerItem implements GeoItem {
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.putAll(super.getAttributeModifiers(slot, stack));
-        builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(TERRATON_MS_UUID, "Speed debuff", 0.25, AttributeModifier.Operation.MULTIPLY_TOTAL));
+        if (slot == EquipmentSlot.MAINHAND)
+            builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(TERRATON_MS_UUID, "Speed debuff", 0.25, AttributeModifier.Operation.MULTIPLY_TOTAL));
         return builder.build();
     }
-
 
 
     @Override

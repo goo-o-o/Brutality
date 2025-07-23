@@ -1,9 +1,9 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.trident;
 
-import net.goo.brutality.entity.custom.projectile.trident.physics_projectile.ThrownWintermelon;
+import net.goo.brutality.entity.projectile.trident.physics_projectile.ThrownWintermelon;
 import net.goo.brutality.item.base.BrutalityTridentItem;
-import net.goo.brutality.registry.ModEntities;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModEntities;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -29,8 +29,8 @@ public class WintermelonTrident extends BrutalityTridentItem {
     private static final Set<Enchantment> ALLOWED_ENCHANTMENTS = Set.of(
     );
 
-    public WintermelonTrident(float attackDamageModifier, float attackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(attackDamageModifier, attackSpeedModifier, identifier, rarity, descriptionComponents);
+    public WintermelonTrident(float attackDamageModifier, float attackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(attackDamageModifier, attackSpeedModifier, rarity, descriptionComponents);
     }
 
 
@@ -67,14 +67,14 @@ public class WintermelonTrident extends BrutalityTridentItem {
     @Override
     public void launchProjectile(Level pLevel, Player player, ItemStack pStack) {
 
-        ThrownWintermelon thrownEntity = new ThrownWintermelon(pLevel, player, pStack, ModEntities.THROWN_WINTERMELON_ENTITY.get());
+        ThrownWintermelon thrownEntity = new ThrownWintermelon(pLevel, player, pStack, BrutalityModEntities.THROWN_WINTERMELON_ENTITY.get());
         thrownEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, getLaunchVel(), 1.0F);
         if (player.getAbilities().instabuild) {
             thrownEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
         }
 
         pLevel.addFreshEntity(thrownEntity);
-        pLevel.playSound(null, thrownEntity, ModSounds.SQUELCH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        pLevel.playSound(null, thrownEntity, BrutalityModSounds.SQUELCH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
 

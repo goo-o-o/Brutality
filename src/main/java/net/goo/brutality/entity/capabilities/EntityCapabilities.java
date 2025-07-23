@@ -1,45 +1,173 @@
 package net.goo.brutality.entity.capabilities;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraftforge.common.capabilities.AutoRegisterCapability;
+import net.minecraftforge.common.util.INBTSerializable;
 
-public class EntityCapabilities implements IEntityCapabilities {
-    private boolean miracleBlighted = false;
-    private int starCount;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
-    @Override
-    public boolean isMiracleBlighted() {
-        return this.miracleBlighted;
+public class EntityCapabilities {
+    private static final String MIRACLE_BLIGHTED = "isMiracleBlighted", SHOULD_ROTATE = "shouldRotate", RAGE_VALUE = "rageValue", MANA_VALUE = "manaValue";
+
+    @AutoRegisterCapability
+    public static class EntityEffectCap implements INBTSerializable<CompoundTag> {
+        private boolean miracleBlighted = false;
+
+        public boolean isMiracleBlighted() {
+            return this.miracleBlighted;
+        }
+
+        public void setMiracleBlighted(boolean active) {
+            this.miracleBlighted = active;
+        }
+
+        public CompoundTag serializeNBT() {
+            CompoundTag tag = new CompoundTag();
+            tag.putBoolean(MIRACLE_BLIGHTED, isMiracleBlighted());
+            return tag;
+        }
+
+
+        public void deserializeNBT(CompoundTag nbt) {
+            setMiracleBlighted(nbt.getBoolean(MIRACLE_BLIGHTED));
+        }
     }
 
-    @Override
-    public void setMiracleBlighted(boolean active) {
-        this.miracleBlighted = active;
+    @AutoRegisterCapability
+    public static class EntityShouldRotateCap implements INBTSerializable<CompoundTag> {
+        private boolean shouldRotate = false;
+
+        public boolean isShouldRotate() {
+            return this.shouldRotate;
+        }
+
+        public void setShouldRotate(boolean active) {
+            this.shouldRotate = active;
+        }
+
+        public CompoundTag serializeNBT() {
+            CompoundTag tag = new CompoundTag();
+            tag.putBoolean(SHOULD_ROTATE, isShouldRotate());
+            return tag;
+        }
+
+
+        public void deserializeNBT(CompoundTag nbt) {
+            setShouldRotate(nbt.getBoolean(SHOULD_ROTATE));
+        }
     }
 
-    @Override
-    public int starCount() {
-        return this.starCount;
+
+    @AutoRegisterCapability
+    public static class EntityStarCountCap implements INBTSerializable<CompoundTag> {
+        private final Map<UUID, Integer> playerStarCounts = new HashMap<>();
+
+        public CompoundTag serializeNBT() {
+            CompoundTag tag = new CompoundTag();
+            playerStarCounts.forEach((uuid, count) -> tag.putInt(uuid.toString(), count));
+            return tag;
+        }
+
+        public void deserializeNBT(CompoundTag nbt) {
+            playerStarCounts.clear();
+            for (String key : nbt.getAllKeys()) {
+                try {
+                    UUID uuid = UUID.fromString(key);
+                    playerStarCounts.put(uuid, nbt.getInt(key));
+                } catch (IllegalArgumentException ignored) {
+
+                }
+            }
+
+        }
+
+        public Map<UUID, Integer> getAllStarCounts() {
+            return playerStarCounts;
+        }
+
+        public int getStarCount(UUID playerId) {
+            return this.playerStarCounts.getOrDefault(playerId, 0);
+        }
+
+        public void incrementStarCount(UUID playerId) {
+            setStarCount(playerId, getStarCount(playerId) + 1);
+        }
+
+
+        public void setStarCount(UUID playerId, int count) {
+            playerStarCounts.put(playerId, count);
+        }
+
+        public void clearStarCount(UUID playerId) {
+            playerStarCounts.remove(playerId);
+        }
     }
 
-    @Override
-    public void setStarCount(int count) {
-        this.starCount = count;
+    @AutoRegisterCapability
+    public static class PlayerRageCap implements INBTSerializable<CompoundTag> {
+        private float rageValue = 0;
+
+        public float rageValue() {
+            return this.rageValue;
+        }
+
+        public void setRageValue(float rageValue) {
+            this.rageValue = rageValue;
+        }
+
+        public void incrementRage(float amount) {
+            this.rageValue = rageValue() + amount;
+        }
+
+        public void decrementRage(float amount) {
+            this.rageValue = rageValue() - amount;
+        }
+
+        public CompoundTag serializeNBT() {
+            CompoundTag tag = new CompoundTag();
+            tag.putFloat(RAGE_VALUE, rageValue());
+            return tag;
+        }
+
+
+        public void deserializeNBT(CompoundTag nbt) {
+            setRageValue(nbt.getInt(RAGE_VALUE));
+        }
     }
 
-    private final String SALTED = "isSalted", PEPPERED = "isPeppered", MIRACLE_BLIGHTED = "isMiracleBlighted";
-    private final String HAS_STARS = "hasStars";
+    @AutoRegisterCapability
+    public static class PlayerManaCap implements INBTSerializable<CompoundTag> {
+        private float manaValue = 0;
 
-    @Override
-    public CompoundTag serializeNBT() {
-        CompoundTag tag = new CompoundTag();
-        tag.putBoolean(MIRACLE_BLIGHTED, isMiracleBlighted());
-        tag.putInt(HAS_STARS, starCount());
-        return tag;
+        public float manaValue() {
+            return this.manaValue;
+        }
+
+        public void setManaValue(float manaValue) {
+            this.manaValue = manaValue;
+        }
+
+        public void incrementMana(float amount) {
+            this.manaValue = manaValue() + amount;
+        }
+
+        public void decrementMana(float amount) {
+            this.manaValue = manaValue() - amount;
+        }
+
+        public CompoundTag serializeNBT() {
+            CompoundTag tag = new CompoundTag();
+            tag.putFloat(MANA_VALUE, manaValue());
+            return tag;
+        }
+
+
+        public void deserializeNBT(CompoundTag nbt) {
+            setManaValue(nbt.getInt(MANA_VALUE));
+        }
     }
 
-    @Override
-    public void deserializeNBT(CompoundTag nbt) {
-        setMiracleBlighted(nbt.getBoolean(MIRACLE_BLIGHTED));
-        setStarCount(nbt.getInt(HAS_STARS));
-    }
+
 }

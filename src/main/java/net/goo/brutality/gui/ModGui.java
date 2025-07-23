@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
 
-import static net.goo.brutality.item.curios.SumCharm.SUM_DAMAGE;
+import static net.goo.brutality.item.curios.charm.Sum.SUM_DAMAGE;
 
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
@@ -86,17 +86,22 @@ public class ModGui {
         currentPhase = currentTick * 0.1f;
     }
 
+    private static Font FONT;
+
     @SubscribeEvent
     public static void onRender(RenderGuiEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
+        if (FONT == null) FONT = mc.font;
         if (shouldSkipRender(player)) return;
         GuiGraphics gui = event.getGuiGraphics();
 
         Window window = event.getWindow();
         windowWidth = window.getGuiScaledWidth();
         windowHeight = window.getGuiScaledHeight();
+
+        renderManaBar(gui, player);
 
         CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
             if (handler.isEquipped(BrutalityModItems.SCIENTIFIC_CALCULATOR_BELT.get())) {
@@ -128,6 +133,13 @@ public class ModGui {
 
     }
 
+    private static void renderManaBar(GuiGraphics gui, Player player) {
+        player.getCapability(BrutalityCapabilities.PLAYER_MANA_CAP).ifPresent(cap -> {
+            gui.drawString(FONT, String.valueOf(cap.manaValue()), 40, 40, COSINE_COLOR);
+        });
+
+    }
+
 
     private static final ResourceLocation RAGE_BAR_ICON = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/rage_bar_icon.png");
     private static final ResourceLocation RAGE_BAR = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/rage_bar.png");
@@ -149,18 +161,18 @@ public class ModGui {
                         0, 0
                 );
 
-                if (cap.rageValue() > 0 && cap.rageValue() < maxRage.getValue()) {
+                if (cap.rageValue() > 0 && cap.rageValue() <= maxRage.getValue()) {
                     gui.blitNineSliced(
                             RAGE_BAR_METER,
                             x + 3, y + 3,
-                            ((int) cap.rageValue()) + 3, 8,
+                            ((int) cap.rageValue()) + 4, 8,
                             1, 4, 2, 4,
                             256, 256,
                             3, 3
                     );
                 }
 
-                gui.blit(RAGE_BAR_ICON, x - 16, y - 18, 1, 0, 0, 32, 36, 16, 18);
+                gui.blit(RAGE_BAR_ICON, x - 16, y - 18, 1, 0, 0, 32, 36, 32, 36);
 
 
             });
@@ -171,17 +183,15 @@ public class ModGui {
 
 
     private static void renderSumDamageStored(GuiGraphics gui, SlotResult slot) {
-        Font font = Minecraft.getInstance().font;
         float damageStored = slot.stack().getOrCreateTag().getFloat(SUM_DAMAGE);
 
-        gui.drawCenteredString(font, String.valueOf(damageStored).formatted(".2f"), screenLeft + font.width("15") + GRAPH_PADDING, screenBottom - font.lineHeight - GRAPH_PADDING, SCREEN_COLOR);
+        gui.drawCenteredString(FONT, String.valueOf(damageStored).formatted(".2f"), screenLeft + FONT.width("15") + GRAPH_PADDING, screenBottom - FONT.lineHeight - GRAPH_PADDING, SCREEN_COLOR);
     }
 
     private static final ResourceLocation calcSprite = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/scientific_calculator.png");
 
     private static void renderComboCount(GuiGraphics gui, Player player) {
         LivingEntityEventHandler.AttackCombo attackCombo = LivingEntityEventHandler.attackCombos.get(player.getUUID());
-        Font font = Minecraft.getInstance().font;
 
         int currentCombo = 0;
         if (attackCombo != null) {
@@ -191,7 +201,7 @@ public class ModGui {
             }
         }
 
-        gui.drawCenteredString(font, String.valueOf(currentCombo), screenRight - font.width("15") - GRAPH_PADDING, screenBottom - font.lineHeight - GRAPH_PADDING, SCREEN_COLOR);
+        gui.drawCenteredString(FONT, String.valueOf(currentCombo), screenRight - FONT.width("15") - GRAPH_PADDING, screenBottom - FONT.lineHeight - GRAPH_PADDING, SCREEN_COLOR);
     }
 
     private static void renderAxesAndTexture(GuiGraphics gui) {

@@ -11,27 +11,29 @@ import org.jetbrains.annotations.NotNull;
 
 import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
 
-public class ExobladeFlashParticle extends TextureSheetParticle {
-
-    protected ExobladeFlashParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet) {
+public class BiomechReactorParticle extends TextureSheetParticle {
+SpriteSet spriteSet;
+    protected BiomechReactorParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet) {
         super(level, x, y, z, 0, 0, 0);
-        this.pickSprite(spriteSet);
+        this.setSpriteFromAge(spriteSet);
+        this.spriteSet = spriteSet;
         RandomSource random = level.random;
-        this.lifetime = 10;
-        this.quadSize = 0.3F;
+        this.lifetime = 28;
+        this.quadSize *= 100F;
         this.friction = 0;
         this.roll = Mth.randomBetweenInclusive(random, 0, 180);
         this.oRoll = this.roll;
-        this.setAlpha(1);
-        this.setColor(Mth.nextFloat(random, 0.5F, 1F),
-                Mth.nextFloat(random, 0.5F, 1F),
-                Mth.nextFloat(random, 0.5F, 1F));
     }
 
-
+    @Override
     public void tick() {
         super.tick();
-        this.quadSize += (lifetime - age) * 0.1F;
+        this.setSpriteFromAge(spriteSet);
+    }
+
+    @Override
+    public boolean shouldCull() {
+        return false;
     }
 
     @Override
@@ -44,7 +46,6 @@ public class ExobladeFlashParticle extends TextureSheetParticle {
         return FULL_BRIGHT;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
@@ -56,7 +57,7 @@ public class ExobladeFlashParticle extends TextureSheetParticle {
         public Particle createParticle(SimpleParticleType type, ClientLevel level,
                                        double x, double y, double z,
                                        double xSpeed, double ySpeed, double zSpeed) {
-            return new ExobladeFlashParticle(level, x, y, z, this.spriteSet);
+            return new BiomechReactorParticle(level, x, y, z, this.spriteSet);
         }
     }
 

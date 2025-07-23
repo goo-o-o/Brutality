@@ -11,6 +11,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 // Thanks to Pierce Arrows mod
 public abstract class LivingStuckInBodyLayer <T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M> {

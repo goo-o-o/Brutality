@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:leather_chestplate"
+    },
+    "$": {
+      "item": "minecraft:black_dye"
+    },
+    "@": {
+      "item": "terramity:black_matter"
+    }
+  },
+  "pattern": [
+    "###",
+    "#@#",
+    "$$$"
+  ],
+  "result": {
+    "item": "brutality:noir_chestplate"
+  },
+  "show_notification": true
+}

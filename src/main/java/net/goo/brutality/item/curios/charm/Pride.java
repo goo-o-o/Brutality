@@ -1,4 +1,4 @@
-package net.goo.brutality.item.curios;
+package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
@@ -15,14 +15,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 import java.util.UUID;
 
 public class Pride extends BrutalityCurioItem {
-
-
     public Pride(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
@@ -31,6 +31,7 @@ public class Pride extends BrutalityCurioItem {
     public BrutalityCategories category() {
         return BrutalityCategories.CurioType.CHARM;
     }
+
 
     private static float getCurrentBonus() {
         LocalPlayer player = Minecraft.getInstance().player;

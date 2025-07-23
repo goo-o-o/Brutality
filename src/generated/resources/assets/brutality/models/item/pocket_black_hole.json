@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "brutality:item/pocket_black_hole_inventory"
+  }
+}

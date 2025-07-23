@@ -7,25 +7,25 @@
   "overrides": [
     {
       "predicate": {
-        "custom_model_data": 0
+        "texture": 0
       },
       "model": "brutality:item/dull_knife_neutral_inventory"
     },
     {
       "predicate": {
-        "custom_model_data": 1
+        "texture": 1
       },
       "model": "brutality:item/dull_knife_happy_inventory"
     },
     {
       "predicate": {
-        "custom_model_data": 2
+        "texture": 2
       },
       "model": "brutality:item/dull_knife_sad_inventory"
     },
     {
       "predicate": {
-        "custom_model_data": 3
+        "texture": 3
       },
       "model": "brutality:item/dull_knife_angry_inventory"
     }

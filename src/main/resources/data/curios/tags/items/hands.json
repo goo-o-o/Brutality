@@ -1,13 +1,11 @@
 {
   "replace": false,
   "values": [
-    "brutality:pi_charm",
-    "brutality:euler_charm",
-    "brutality:sine_charm",
-    "brutality:cosine_charm",
-    "brutality:resplendent_feather_charm",
-    "brutality:pepper_shaker_charm",
-    "brutality:salt_shaker_charm",
-    "brutality:hot_sauce_charm"
+    "brutality:nanomachines_hands",
+    "brutality:dueling_glove_hands",
+    "brutality:butter_gauntlets_hands",
+    "brutality:good_book",
+    "brutality:anger_management",
+    "brutality:blood_pulse_gauntlets"
   ]
 }

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:glowstone"
+    },
+    "$": {
+      "item": "terramity:archangel_halo"
+    },
+    "@": {
+      "item": "terramity:topaz"
+    }
+  },
+  "pattern": [
+    "#@#",
+    "@$@",
+    "#@#"
+  ],
+  "result": {
+    "item": "brutality:seraphim_halo"
+  },
+  "show_notification": true
+}

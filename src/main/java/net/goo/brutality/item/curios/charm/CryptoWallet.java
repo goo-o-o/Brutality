@@ -1,4 +1,4 @@
-package net.goo.brutality.item.curios;
+package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
@@ -19,11 +19,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-import static net.goo.brutality.item.curios.PortableMiningRigCharm.END_COIN;
-import static net.goo.brutality.item.curios.PortableMiningRigCharm.NETHER_COIN;
+import static net.goo.brutality.item.curios.charm.PortableMiningRig.END_COIN;
+import static net.goo.brutality.item.curios.charm.PortableMiningRig.NETHER_COIN;
 
-public class CryptoWalletCharm extends BrutalityCurioItem {
-    public CryptoWalletCharm(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+public class CryptoWallet extends BrutalityCurioItem {
+    public CryptoWallet(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

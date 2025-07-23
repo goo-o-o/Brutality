@@ -1,4 +1,4 @@
-package net.goo.brutality.item.curios;
+package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
@@ -7,10 +7,10 @@ import net.minecraft.world.item.Rarity;
 
 import java.util.List;
 
-public class OliveOilCharm extends BrutalityCurioItem {
+public class OliveOil extends BrutalityCurioItem {
 
 
-    public OliveOilCharm(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public OliveOil(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

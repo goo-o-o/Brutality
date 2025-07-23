@@ -45,17 +45,19 @@ public class BrutalityCurioRenderer<I extends BrutalityCurioItem> extends GeoArm
             float netHeadYaw,
             float headPitch
     ) {
+        poseStack.pushPose();
 
-        if (stack.getItem() instanceof BrutalityCurioItem curioItem) {
-            if (!curioItem.followBodyRotations()) {
-                float bodyYaw = Mth.lerp(partialTicks, slotContext.entity().yBodyRotO, slotContext.entity().yBodyRot);
-                poseStack.mulPose(Axis.YP.rotationDegrees(-bodyYaw));
-            }
+        if (stack.getItem() instanceof BrutalityCurioItem curioItem && !curioItem.followBodyRotations()) {
+            float bodyYaw = Mth.lerp(partialTicks, slotContext.entity().yBodyRotO, slotContext.entity().yBodyRot);
+            poseStack.mulPose(Axis.YP.rotationDegrees(-bodyYaw));
+
         }
 
         this.prepForRender(slotContext.entity(), stack, EquipmentSlot.HEAD, (HumanoidModel<?>) renderLayerParent.getModel());
         VertexConsumer consumer = renderTypeBuffer.getBuffer(RenderType.armorCutoutNoCull(this.getTextureLocation((I) stack.getItem())));
         this.renderToBuffer(poseStack, consumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+
+        poseStack.popPose();
     }
 
 

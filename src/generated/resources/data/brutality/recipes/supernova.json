@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:gold_block"
+    },
+    "$": {
+      "item": "terramity:cosmilite_sword"
+    },
+    "%": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "@": {
+      "item": "terramity:neutron_star"
+    }
+  },
+  "pattern": [
+    " #%",
+    "#@#",
+    "$# "
+  ],
+  "result": {
+    "item": "brutality:supernova"
+  },
+  "show_notification": true
+}

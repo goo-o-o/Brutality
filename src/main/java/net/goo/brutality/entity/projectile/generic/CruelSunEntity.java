@@ -1,4 +1,4 @@
-package net.goo.brutality.entity.custom;
+package net.goo.brutality.entity.projectile.generic;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.minecraft.world.entity.Entity;

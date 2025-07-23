@@ -6,6 +6,8 @@ import net.goo.brutality.client.renderers.layers.BrutalityAutoFullbrightLayer;
 import net.goo.brutality.client.renderers.layers.BrutalityAutoFullbrightNoDepthLayer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Entity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BrutalityFullbrightDepthNoDepthEntityRenderer<T extends Entity & BrutalityGeoEntity> extends BrutalityEntityRenderer<T> {
     public BrutalityFullbrightDepthNoDepthEntityRenderer(EntityRendererProvider.Context context) {

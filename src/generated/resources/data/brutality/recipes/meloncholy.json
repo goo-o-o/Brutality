@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:stick"
+    },
+    "#": {
+      "item": "minecraft:melon"
+    },
+    "&": {
+      "item": "minecraft:melon_slice"
+    },
+    "@": {
+      "item": "terramity:daemonium_chunk"
+    }
+  },
+  "pattern": [
+    " @#",
+    "&#@",
+    "!& "
+  ],
+  "result": {
+    "item": "brutality:meloncholy"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "terramity:conductite"
+    },
+    "@": {
+      "item": "terramity:conductite_upgrade_smithing_template"
+    }
+  },
+  "pattern": [
+    "# #",
+    " @ ",
+    "# #"
+  ],
+  "result": {
+    "item": "brutality:multiplication_charm"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:topaz"
+    },
+    "#": {
+      "item": "terramity:topaz_block"
+    },
+    "$": {
+      "item": "minecraft:gold_ingot"
+    },
+    "&": {
+      "item": "terramity:topaz_shovel"
+    },
+    "@": {
+      "item": "terramity:profanum"
+    }
+  },
+  "pattern": [
+    " #!",
+    "$@#",
+    "&$ "
+  ],
+  "result": {
+    "item": "brutality:the_golden_spatula"
+  },
+  "show_notification": true
+}

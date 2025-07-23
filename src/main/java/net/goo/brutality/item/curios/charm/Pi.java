@@ -1,11 +1,11 @@
-package net.goo.brutality.item.curios;
+package net.goo.brutality.item.curios.charm;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.entity.projectile.generic.PiEntity;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
-import net.goo.brutality.registry.ModEntities;
+import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,10 +21,10 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class PiCharm extends BrutalityCurioItem {
+public class Pi extends BrutalityCurioItem {
 
 
-    public PiCharm(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public Pi(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
@@ -62,7 +62,7 @@ public class PiCharm extends BrutalityCurioItem {
             for (int i = 0; i < 3; i++) {
                 int angleOffset = (int) Math.toRadians(120 * i);
 
-                PiEntity pi = new PiEntity(ModEntities.PI_ENTITY.get(), owner.level(), angleOffset);
+                PiEntity pi = new PiEntity(BrutalityModEntities.PI_ENTITY.get(), owner.level(), angleOffset);
                 pi.setPos(owner.getPosition(1));
                 pi.setOwner(owner);
                 owner.level().addFreshEntity(pi);

@@ -1,11 +1,10 @@
-package net.goo.brutality.entity.custom.projectile.trident.physics_projectile;
+package net.goo.brutality.entity.projectile.trident.physics_projectile;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractPhysicsProjectile;
 import net.goo.brutality.entity.base.BrutalityAbstractTrident;
-import net.goo.brutality.registry.ModItems;
-import net.goo.brutality.registry.BrutalityParticles;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModSounds;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -30,17 +29,17 @@ public class ThrownWintermelon extends BrutalityAbstractPhysicsProjectile implem
 
     @Override
     protected ItemStack getPickupItem() {
-        return new ItemStack(ModItems.WINTERMELON_TRIDENT.get());
+        return ItemStack.EMPTY;
     }
 
     @Override
     protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
-        return ModSounds.SQUELCH.get();
+        return BrutalityModSounds.SQUELCH.get();
     }
 
     @Override
-    protected SoundEvent getHitEntitySoundEvent() {
-        return ModSounds.SQUELCH.get();
+    public SoundEvent getHitEntitySound() {
+        return BrutalityModSounds.SQUELCH.get();
     }
 
     @Override
@@ -49,7 +48,7 @@ public class ThrownWintermelon extends BrutalityAbstractPhysicsProjectile implem
         Entity hitEntity = pResult.getEntity();
         Vec3 location = pResult.getLocation();
         for (int i = 0; i < 16; i++) {
-            this.level().addParticle(BrutalityParticles.WINTERMELON_PARTICLE.get(),
+            this.level().addParticle(BrutalityModParticles.WINTERMELON_PARTICLE.get(),
                     location.x, location.y + hitEntity.getBbHeight() / 2, location.z,
                     (random.nextDouble() - 0.5) * 0.3,
                     random.nextDouble() * 0.2,

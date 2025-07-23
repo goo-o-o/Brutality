@@ -2,7 +2,7 @@
   "parent": "bettercombat:claymore",
   "attributes": {
     "attack_range": 14,
-    "pose": "bettercombat:pose_two_handed_draggable",
+    "pose": "brutality:pose_two_handed_draggable",
     "attacks": [
       {
         "hitbox": "HORIZONTAL_PLANE",
@@ -28,7 +28,7 @@
       {
         "hitbox": "FORWARD_BOX",
         "damage_multiplier": 1.4,
-        "angle": 360,
+        "angle": 180,
         "upswing": 0.5,
         "animation": "bettercombat:dual_handed_stab",
         "swing_sound": {

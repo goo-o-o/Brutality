@@ -4,7 +4,7 @@
   "base": {
     "parent": "minecraft:item/generated",
     "textures": {
-      "layer0": "brutality:item/scythe/darkin_scythe/darkin_scythe_inventory"
+      "layer0": "brutality:item/scythe/darkin_scythe/darkin_scythe_rhaast_inventory"
     }
   },
   "perspectives": {

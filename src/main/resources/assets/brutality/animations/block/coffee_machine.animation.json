@@ -1,0 +1,115 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"right_click": {
+			"animation_length": 0.5,
+			"bones": {
+				"front_square": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [180, 0, 0],
+							"easing": "easeInElastic"
+						}
+					}
+				},
+				"side_square": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [0, 0, -180],
+							"easing": "easeInElastic"
+						}
+					}
+				},
+				"cup_left": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.1667": {
+							"vector": [0, 22.5, 0],
+							"easing": "easeInElastic"
+						},
+						"0.3333": {
+							"vector": [0, -22.5, 0],
+							"easing": "easeInElastic"
+						},
+						"0.5": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"lever": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [0, 0, -67.5],
+							"easing": "easeInElastic"
+						},
+						"0.5": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"root": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.125": {
+							"vector": [0, 0, "math.sin(query.anim_time * 2160) * 2"]
+						},
+						"0.375": {
+							"vector": [0, 0, "math.sin(query.anim_time * 2160) * 2"]
+						},
+						"0.5": {
+							"vector": [0, 0, 0]
+						}
+					},
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.125": {
+							"vector": [1.05, 1.05, 1.05],
+							"easing": "easeInElastic"
+						},
+						"0.25": {
+							"vector": [1, 1, 1],
+							"easing": "easeInElastic"
+						}
+					}
+				}
+			}
+		},
+		"eeffoc": {
+			"loop": true,
+			"animation_length": 0.5,
+			"bones": {
+				"root": {
+					"rotation": {
+						"vector": [0, "math.random_integer(0, 1) > 0 ? math.random(-45, 45) : 0", 0]
+					},
+					"position": {
+						"vector": [
+                          "math.random_integer(0, 1) > 0 ? math.random(-4, 4) : 0",
+                          "math.random_integer(0, 1) > 0 ? math.random(-4, 4) : 0",
+                          "math.random_integer(0, 1) > 0 ? math.random(-4, 4) : 0"
+						]
+					},
+					"scale": {
+						"vector": ["math.random(0.95, 1.05)", "math.random(0.95, 1.05)", "math.random(0.95, 1.05)"]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

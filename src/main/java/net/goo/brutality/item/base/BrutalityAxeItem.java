@@ -1,10 +1,12 @@
 package net.goo.brutality.item.base;
 
-import net.goo.brutality.item.BrutalityItemCategories;
+import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
@@ -12,18 +14,34 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 
 import java.util.List;
+import java.util.function.Consumer;
+
+import static net.goo.brutality.client.renderers.item.BrutalityItemRenderer.createRenderer;
 
 public class BrutalityAxeItem extends AxeItem implements BrutalityGeoItem {
     private final List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents;
     public String identifier;
     public Rarity rarity;
 
-    public BrutalityAxeItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier
-            , String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public BrutalityAxeItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, new Item.Properties());
-        this.identifier = identifier;
         this.rarity = rarity;
         this.descriptionComponents = descriptionComponents;
+    }
+
+    @Override
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                return createRenderer();
+            }
+        });
+    }
+
+    @Override
+    public boolean isDamageable(ItemStack stack) {
+        return true;
     }
 
     @Override
@@ -33,23 +51,19 @@ public class BrutalityAxeItem extends AxeItem implements BrutalityGeoItem {
 
     @Override
     public @NotNull Component getName(ItemStack pStack) {
-        return brutalityNameHandler(pStack, identifier);
+        return brutalityNameHandler(pStack);
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityHoverTextHandler(pStack, pTooltipComponents, descriptionComponents, rarity, identifier);
+        brutalityHoverTextHandler(pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
-    @Override
-    public String geoIdentifier() {
-        return this.identifier;
-    }
 
     @Override
-    public BrutalityItemCategories category() {
-        return BrutalityItemCategories.AXE;
+    public BrutalityCategories category() {
+        return BrutalityCategories.ItemType.AXE;
     }
 
     @Override
@@ -58,6 +72,7 @@ public class BrutalityAxeItem extends AxeItem implements BrutalityGeoItem {
     }
 
     AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;

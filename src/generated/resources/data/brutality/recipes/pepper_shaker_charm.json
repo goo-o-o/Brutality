@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:glass"
+    },
+    "#": {
+      "item": "minecraft:iron_trapdoor"
+    },
+    "@": {
+      "item": "terramity:decayed_bedrock_dust"
+    }
+  },
+  "pattern": [
+    " # ",
+    "!@!",
+    "!!!"
+  ],
+  "result": {
+    "item": "brutality:pepper_shaker_charm"
+  },
+  "show_notification": true
+}

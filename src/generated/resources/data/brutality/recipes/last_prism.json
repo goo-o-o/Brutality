@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:iridescent_shard"
+    },
+    "#": {
+      "item": "terramity:nyxium_glass"
+    },
+    "%": {
+      "item": "terramity:prismatic_jewel"
+    },
+    "@": {
+      "item": "terramity:prismatic_crystal_cluster"
+    }
+  },
+  "pattern": [
+    " @ ",
+    "#!#",
+    "#%#"
+  ],
+  "result": {
+    "item": "brutality:last_prism"
+  },
+  "show_notification": true
+}

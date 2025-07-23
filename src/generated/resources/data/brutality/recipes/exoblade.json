@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "brutality:terratomere"
+    },
+    "#": {
+      "item": "terramity:exodium_superalloy"
+    },
+    "@": {
+      "item": "terramity:prismatic_jewel"
+    },
+    "^": {
+      "item": "terramity:nyxium_greatsword"
+    }
+  },
+  "pattern": [
+    " @@",
+    "#!@",
+    "^# "
+  ],
+  "result": {
+    "item": "brutality:exoblade"
+  },
+  "show_notification": true
+}

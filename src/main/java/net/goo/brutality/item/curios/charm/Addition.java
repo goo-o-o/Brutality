@@ -17,12 +17,12 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class AdditionCharm extends BrutalityCurioItem {
+public class Addition extends BrutalityCurioItem {
 
 
     UUID ADDITION_CHARM_AD_UUID = UUID.fromString("f1c08e32-8553-4509-a864-00c92f5a7631");
 
-    public AdditionCharm(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public Addition(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

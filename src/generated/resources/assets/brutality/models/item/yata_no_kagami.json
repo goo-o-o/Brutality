@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/charm/yata_no_kagami/yata_no_kagami_inventory"
+  }
+}

@@ -1,15 +1,19 @@
 package net.goo.brutality.util.helpers;
 
 import net.goo.brutality.registry.ModRarities;
-import net.goo.brutality.util.ModResources;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Rarity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 
 import java.awt.*;
+
+import static net.minecraft.util.CommonColors.WHITE;
 
 public class BrutalityTooltipHelper {
 
@@ -24,14 +28,7 @@ public class BrutalityTooltipHelper {
     public static Component getRarityName(String translationKey, Rarity rarity) {
         assert Minecraft.getInstance().player != null;
         ModRarities.RarityData rarityData = ModRarities.getGradientForRarity(rarity);
-        return BrutalityTooltipHelper.tooltipHelper(
-                translationKey,
-                rarityData.bold,
-                null,
-                rarityData.waveSpeed,
-                rarityData.spread,
-                rarityData.colors
-        );
+        return BrutalityTooltipHelper.tooltipHelper(translationKey, rarityData.bold, null, rarityData.waveSpeed, rarityData.spread, rarityData.colors);
     }
 
     public static Component tooltipHelper(String localeKey, boolean bold, ResourceLocation font, float waveSpeed, float spreadMultiplier, int[]... colors) {
@@ -79,11 +76,7 @@ public class BrutalityTooltipHelper {
 
         // Convert back to RGB
         int rgbInt = Color.HSBtoRGB(hsv[0], hsv[1], hsv[2]);
-        return new int[]{
-                (rgbInt >> 16) & 0xFF,
-                (rgbInt >> 8) & 0xFF,
-                rgbInt & 0xFF
-        };
+        return new int[]{(rgbInt >> 16) & 0xFF, (rgbInt >> 8) & 0xFF, rgbInt & 0xFF};
     }
 
     public static int getColorFromGradient(int percentage, int[]... rgbColors) {
@@ -112,15 +105,16 @@ public class BrutalityTooltipHelper {
         return (r << 16) | (g << 8) | b; // Return the final color
     }
 
-    // Method to add color gradient text with individual RGB color parameters
     public static MutableComponent addColorGradientText(Component text, float speed, float spreadMultiplier, int[]... rgbColors) {
         MutableComponent gradientTextComponent = Component.empty();
         String string = text.getString();
         int length = string.length();
         int numColors = rgbColors.length;
-        int tickCount;
-        assert Minecraft.getInstance().player != null;
-        tickCount = Minecraft.getInstance().player.tickCount;
+
+        int tickCount = DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
+            if (Minecraft.getInstance().player != null) return Minecraft.getInstance().player.tickCount;
+            return ((int) (System.currentTimeMillis() / 50L));
+        });
 
         // Handle edge cases for empty input
         if (numColors == 0 || length == 0) {
@@ -155,8 +149,7 @@ public class BrutalityTooltipHelper {
             int color = getColorFromGradient(percentage, adjustedColors);
 
             // Create the colored component for the current character
-            Component letterComponent = Component.literal(String.valueOf(string.charAt(i)))
-                    .withStyle(Style.EMPTY.withColor(color));
+            Component letterComponent = Component.literal(String.valueOf(string.charAt(i))).withStyle(Style.EMPTY.withColor(color));
 
             gradientTextComponent = gradientTextComponent.append(letterComponent);
         }
@@ -165,15 +158,14 @@ public class BrutalityTooltipHelper {
     }
 
     public static MutableComponent addColorGradientText(Component text, int[]... rgbColors) {
-        // Create a component to hold all the parts of the gradient text
         MutableComponent gradientTextComponent = Component.empty();
 
         String string = text.getString();
         int length = string.length();
-        int numColors = rgbColors.length; // Number of color stops
+        int numColors = rgbColors.length;
 
         if (numColors == 0 || length == 0) {
-            return gradientTextComponent; // Return empty component if no colors or no text
+            return gradientTextComponent;
         }
 
         for (int i = 0; i < length; i++) {
@@ -184,8 +176,7 @@ public class BrutalityTooltipHelper {
             int color = getColorFromGradient(percentage, rgbColors);
 
             // Create a component for the letter with the computed color
-            Component letterComponent = Component.literal(String.valueOf(string.charAt(i)))
-                    .withStyle(Style.EMPTY.withColor(color));
+            Component letterComponent = Component.literal(String.valueOf(string.charAt(i))).withStyle(Style.EMPTY.withColor(color));
 
             // Append the letter component to the main gradient text component
             gradientTextComponent = gradientTextComponent.append(letterComponent);
@@ -196,14 +187,18 @@ public class BrutalityTooltipHelper {
     }
 
 
-    // Example RGB conversion method
     public static int rgbToInt(int[] rgb) {
-        return (rgb[0] << 16) | (rgb[1] << 8) | rgb[2]; // Assume RGB value is in the range [0, 255]
+        return (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
     }
 
     public static int rgbToInt(int r, int g, int b) {
-        return (r << 16) | (g << 8) | b; // Assume RGB value is in the range [0, 255]
+        return (r << 16) | (g << 8) | b;
     }
+
+    public static int[] intToRgb(int color) {
+        return new int[]{color >> 16 & 0xFF, color >> 8 & 0xFF, color & 0xFF};
+    }
+
 
     public static int argbToInt(int[] rgb, int... alpha) {
         int a = alpha.length > 0 ? alpha[0] : 255;
@@ -213,36 +208,45 @@ public class BrutalityTooltipHelper {
         return (a << 24) | (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
     }
 
+    public static int argbToInt(int r, int g, int b, int a) {
+        r = Math.max(0, Math.min(255, r));
+        g = Math.max(0, Math.min(255, g));
+        b = Math.max(0, Math.min(255, b));
+        return (a << 24) | (r << 16) | (g << 8) | b;
+    }
+
     public static int[] argbToRgb(int argb) {
-        return new int[]{
-                (argb >> 16) & 0xFF, // Red component
+        return new int[]{(argb >> 16) & 0xFF, // Red component
                 (argb >> 8) & 0xFF,  // Green component
                 argb & 0xFF          // Blue component
         };
     }
 
-    public static int[][] getLoreColors(Class<?> itemClass) {
-        return ModResources.LORE_COLOR_CACHE.computeIfAbsent(itemClass, cls -> {
-            int[][] baseColors = ModResources.BASE_COLOR_MAP.get(cls);
-            if (baseColors == null || baseColors.length < 2) return null;
 
-            return new int[][] {
-                    ensureVisible(baseColors[0]),
-                    ensureVisible(baseColors[1])
-            };
+    public static int getCyclingColors(float speed, int[]... rgbColors) {
+        int tickCount = DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
+            if (Minecraft.getInstance().player != null) return Minecraft.getInstance().player.tickCount;
+            return ((int) (System.currentTimeMillis() / 50L));
         });
-    }
 
-    public static int[][] getBackgroundColors(Class<?> itemClass) {
-        return ModResources.DARKENED_COLOR_CACHE.computeIfAbsent(itemClass, cls -> {
-            int[][] baseColors = ModResources.BASE_COLOR_MAP.get(cls);
-            if (baseColors == null || baseColors.length < 2) return null;
 
-            return new int[][] {
-                    changeBrightness(baseColors[0], 0.4f),
-                    changeBrightness(baseColors[1], 0.4f)
-            };
-        });
+        if (rgbColors.length == 0) return WHITE;
+
+
+        int[][] gradientColors;
+        if (rgbColors.length > 1) {
+            gradientColors = new int[rgbColors.length + 1][];
+            System.arraycopy(rgbColors, 0, gradientColors, 0, rgbColors.length);
+            gradientColors[rgbColors.length] = rgbColors[0]; // Close the loop
+        } else {
+            gradientColors = rgbColors; // Single color (no interpolation)
+        }
+
+        float progress = tickCount % (100 * speed) / 100f; // Normalized to [0, 1)
+
+        int percentage = (int) (progress * 100);
+
+        return getColorFromGradient(percentage, gradientColors);
     }
 
     public static int[] getCyclingColorFromGradient(float speed, int[]... rgbColors) {
@@ -269,21 +273,11 @@ public class BrutalityTooltipHelper {
     }
 
 
-    public record DescriptionComponent(DescriptionComponents type, int lines) {}
+    public record DescriptionComponent(DescriptionComponents type, int lines) {
+    }
 
 
     public enum DescriptionComponents {
-        ACTIVE,
-        PASSIVE,
-        FULL_SET_PASSIVE,
-        FULL_SET_ACTIVE,
-        ON_HIT,
-        ON_SWING,
-        ON_RIGHT_CLICK,
-        ON_SHIFT_RIGHT_CLICK,
-        LORE,
-        ON_KILL,
-        ON_SHOOT,
-        ON_HOLD_RIGHT_CLICK
+        ACTIVE, PASSIVE, FULL_SET_PASSIVE, FULL_SET_ACTIVE, ON_HIT, WHEN_THROWN, ON_SWING, ON_RIGHT_CLICK, ON_SHIFT_RIGHT_CLICK, LORE, ON_KILL, ON_SHOOT, ON_HOLD_RIGHT_CLICK, CHARM, DASH_ABILITY
     }
 }

@@ -1,8 +1,8 @@
-package net.goo.brutality.entity.custom.projectile.beam;
+package net.goo.brutality.entity.projectile.beam;
 
 import net.goo.brutality.entity.base.SwordBeam;
 import net.goo.brutality.particle.base.AbstractWorldAlignedTrailParticle;
-import net.goo.brutality.registry.BrutalityParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
@@ -35,7 +35,7 @@ public class TerraBeam extends SwordBeam {
 
     @Override
     public SimpleParticleType getHitParticle() {
-        return BrutalityParticles.TERRA_PARTICLE.get();
+        return BrutalityModParticles.TERRA_PARTICLE.get();
     }
 
     private boolean trailSpawned = false;

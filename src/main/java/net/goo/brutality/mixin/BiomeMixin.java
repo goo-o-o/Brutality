@@ -29,36 +29,60 @@ public abstract class BiomeMixin {
     @Shadow
     protected abstract int getFoliageColorFromTexture();
 
+    /**
+     * @author goo
+     * @reason changes sky color
+     */
     @Overwrite
     public int getSkyColor() {
         int color = EnvironmentColorManager.getColorOverride(net.goo.brutality.util.helpers.EnvironmentColorManager.ColorType.SKY);
         return color == -1 ? this.specialEffects.getSkyColor() : color;
     }
 
+    /**
+     * @author goo
+     * @reason changes water color
+     */
     @Overwrite
     public int getWaterColor() {
         int color = EnvironmentColorManager.getColorOverride(net.goo.brutality.util.helpers.EnvironmentColorManager.ColorType.WATER);
         return color == -1 ? this.specialEffects.getWaterColor() : color;
     }
 
+    /**
+     * @author goo
+     * @reason changes water fog color
+     */
     @Overwrite
     public int getWaterFogColor() {
         int color = EnvironmentColorManager.getColorOverride(net.goo.brutality.util.helpers.EnvironmentColorManager.ColorType.WATER_FOG);
         return color == -1 ? this.specialEffects.getWaterFogColor() : color;
     }
 
+    /**
+     * @author goo
+     * @reason changes fog color
+     */
     @Overwrite
     public int getFogColor() {
         int color = net.goo.brutality.util.helpers.EnvironmentColorManager.getColorOverride(EnvironmentColorManager.ColorType.FOG);
         return color == -1 ? this.specialEffects.getFogColor() : color;
     }
 
+    /**
+     * @author goo
+     * @reason changes foliage color
+     */
     @Overwrite
     public int getFoliageColor() {
         int color = net.goo.brutality.util.helpers.EnvironmentColorManager.getColorOverride(EnvironmentColorManager.ColorType.FOLIAGE);
         return color == -1 ? this.specialEffects.getFoliageColorOverride().orElseGet(this::getFoliageColorFromTexture) : color;
     }
 
+    /**
+     * @author goo
+     * @reason changes grass color
+     */
     @Overwrite
     public int getGrassColor(double posX, double posY) {
         int color = EnvironmentColorManager.getColorOverride(EnvironmentColorManager.ColorType.GRASS);

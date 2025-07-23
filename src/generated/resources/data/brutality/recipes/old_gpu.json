@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:copper_ingot"
+    },
+    "#": {
+      "item": "terramity:conductite"
+    },
+    "$": {
+      "item": "minecraft:gold_ingot"
+    },
+    "@": {
+      "item": "terramity:conductite_upgrade_smithing_template"
+    }
+  },
+  "pattern": [
+    "!@#",
+    " @#",
+    "$@#"
+  ],
+  "result": {
+    "item": "brutality:old_gpu"
+  },
+  "show_notification": true
+}

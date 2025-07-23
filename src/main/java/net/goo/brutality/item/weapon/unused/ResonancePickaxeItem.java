@@ -1,11 +1,8 @@
 package net.goo.brutality.item.weapon.unused;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.renderers.item.BrutalityEmissiveItemRenderer;
-import net.goo.brutality.item.BrutalityItemCategories;
 import net.goo.brutality.item.base.BrutalityPickaxeItem;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -21,7 +18,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -30,7 +26,6 @@ import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInst
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ResonancePickaxeItem extends BrutalityPickaxeItem implements GeoItem {
@@ -40,8 +35,8 @@ public class ResonancePickaxeItem extends BrutalityPickaxeItem implements GeoIte
     int[] color3 = new int[]{0, 0, 255};
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
-    public ResonancePickaxeItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties, String identifier, BrutalityItemCategories category, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties, identifier, rarity, descriptionComponents);
+    public ResonancePickaxeItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
     }
 
 
@@ -98,8 +93,10 @@ public class ResonancePickaxeItem extends BrutalityPickaxeItem implements GeoIte
         return cache;
     }
 
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityEmissiveItemRenderer.class);
-    }
+
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer));
+//    }
 }

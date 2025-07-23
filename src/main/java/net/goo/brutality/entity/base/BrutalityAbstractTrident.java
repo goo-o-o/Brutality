@@ -1,7 +1,7 @@
 package net.goo.brutality.entity.base;
 
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import net.goo.brutality.client.entity.ArmaGeoEntity;
+import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -39,7 +39,7 @@ import javax.annotation.Nullable;
 
 import static net.goo.brutality.util.helpers.EnchantmentHelper.hasInfinity;
 
-public class BrutalityAbstractTrident extends AbstractArrow implements ArmaGeoEntity {
+public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements BrutalityGeoEntity {
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(BrutalityAbstractTrident.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(BrutalityAbstractTrident.class, EntityDataSerializers.BOOLEAN);
     private ItemStack pickupItem = new ItemStack(Items.TRIDENT);
@@ -63,17 +63,8 @@ public class BrutalityAbstractTrident extends AbstractArrow implements ArmaGeoEn
     // CHANGE THESE
     //==================================================================//
 
-    public int getLifespan() {
+    public int getInGroundLifespan() {
         return 1200;
-    }
-
-    public double getGravity() {
-        return 0.05D;
-    }
-
-    @Override
-    public String geoIdentifier() {
-        return "thrown_gungnir";
     }
 
     public void collideWithBlocks(boolean collideWithBlocks) {
@@ -90,10 +81,6 @@ public class BrutalityAbstractTrident extends AbstractArrow implements ArmaGeoEn
 
     protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
         return SoundEvents.TRIDENT_HIT_GROUND;
-    }
-
-    protected SoundEvent getHitEntitySoundEvent() {
-        return SoundEvents.TRIDENT_HIT;
     }
 
     protected SoundEvent getChannelingLightningSoundEvent() {
@@ -207,11 +194,13 @@ public class BrutalityAbstractTrident extends AbstractArrow implements ArmaGeoEn
             this.clearFire();
         }
 
+        if (!this.level().isClientSide && !noPhysics) {
+            this.tickDespawn();
+        }
+
         if (this.inGround && !noPhysics) {
             if (this.lastState != blockstate && this.shouldFall()) {
                 this.startFalling();
-            } else if (!this.level().isClientSide) {
-                this.tickDespawn();
             }
             ++this.inGroundTime;
         } else {
@@ -376,13 +365,11 @@ public class BrutalityAbstractTrident extends AbstractArrow implements ArmaGeoEn
 
     }
 
+    @Override
     public void tickDespawn() {
         int i = this.entityData.get(ID_LOYALTY);
         if (this.pickup != Pickup.ALLOWED || i <= 0) {
-            ++this.life;
-            if (this.life >= getLifespan()) {
-                this.discard();
-            }
+            super.tickDespawn();
         }
     }
 
@@ -421,7 +408,6 @@ public class BrutalityAbstractTrident extends AbstractArrow implements ArmaGeoEn
         if (this.targetsHit < getHitQuota() - 1) {
             this.targetsHit += 1;
         } else this.dealtDamage = true;
-        SoundEvent soundevent = getHitEntitySoundEvent();
         if (target.hurt(damagesource, f)) {
             if (target.getType() == EntityType.ENDERMAN) {
                 return;
@@ -444,37 +430,12 @@ public class BrutalityAbstractTrident extends AbstractArrow implements ArmaGeoEn
                     lightningbolt.moveTo(Vec3.atBottomCenterOf(blockpos));
                     lightningbolt.setCause(owner instanceof ServerPlayer ? (ServerPlayer) owner : null);
                     this.level().addFreshEntity(lightningbolt);
-                    soundevent = getChannelingLightningSoundEvent();
-                    f1 = 5.0F;
+                    this.playSound(getChannelingLightningSoundEvent(), 5F, 1);
                 }
             }
         }
 
-        this.playSound(soundevent, f1, 1.0F);
     }
 
 
-    private boolean checkLeftOwner() {
-        Entity entity = this.getOwner();
-        if (entity != null) {
-            for (Entity entity1 : this.level().getEntities(this, this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0D), (p_37272_) -> !p_37272_.isSpectator() && p_37272_.isPickable())) {
-                if (entity1.getRootVehicle() == entity.getRootVehicle()) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    private boolean shouldFall() {
-        return this.inGround && this.level().noCollision((new AABB(this.position(), this.position())).inflate(0.06D));
-    }
-
-    private void startFalling() {
-        this.inGround = false;
-        Vec3 vec3 = this.getDeltaMovement();
-        this.setDeltaMovement(vec3.multiply(this.random.nextFloat() * 0.2F, this.random.nextFloat() * 0.2F, (double) (this.random.nextFloat() * 0.2F)));
-        this.life = 0;
-    }
 }

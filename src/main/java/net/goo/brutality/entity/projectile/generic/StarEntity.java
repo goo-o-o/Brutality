@@ -1,4 +1,4 @@
-package net.goo.brutality.entity.custom.projectile.generic;
+package net.goo.brutality.entity.projectile.generic;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractArrow;
@@ -6,8 +6,8 @@ import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.s2cSyncCapabilitiesPacket;
 import net.goo.brutality.particle.base.AbstractCameraAlignedTrailParticle;
 import net.goo.brutality.registry.BrutalityCapabilities;
-import net.goo.brutality.registry.BrutalityParticles;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModSounds;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -47,12 +47,12 @@ public class StarEntity extends BrutalityAbstractArrow implements BrutalityGeoEn
 
     @Override
     public SoundEvent getHitEntitySound() {
-        return ModSounds.SQUELCH.get();
+        return BrutalityModSounds.SQUELCH.get();
     }
 
     @Override
-    protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return ModSounds.SHURIKEN_IMPACT.get();
+    protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
+        return BrutalityModSounds.SHURIKEN_IMPACT.get();
     }
 
     @Override
@@ -128,7 +128,7 @@ public class StarEntity extends BrutalityAbstractArrow implements BrutalityGeoEn
         Vec3 loc = pResult.getLocation();
         if (level() instanceof ServerLevel serverLevel) {
 //            sendSystemMessage(Component.literal("spawned"));
-            serverLevel.sendParticles(BrutalityParticles.STAR_PARTICLE.get(),
+            serverLevel.sendParticles(BrutalityModParticles.STAR_PARTICLE.get(),
                     loc.x, loc.y, loc.z, 10, 0.5, 0.5, 0.5, 0);
         }
 
@@ -140,7 +140,7 @@ public class StarEntity extends BrutalityAbstractArrow implements BrutalityGeoEn
         Vec3 loc = pResult.getLocation();
 
         if (level() instanceof ServerLevel serverLevel)
-            serverLevel.sendParticles(BrutalityParticles.STAR_PARTICLE.get(),
+            serverLevel.sendParticles(BrutalityModParticles.STAR_PARTICLE.get(),
                     loc.x, loc.y, loc.z, 10, 0.5, 0.5, 0.5, 0);
 
         super.onHitBlock(pResult);

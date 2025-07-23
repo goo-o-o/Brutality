@@ -5,7 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.goo.brutality.particle.base.FlatParticleWithData;
-import net.goo.brutality.registry.ModParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -99,7 +99,7 @@ public class MurasamaSlash extends FlatParticleWithData {
 
         @Override
         public ParticleType<ParticleData> getType() {
-            return ModParticles.MURASAMA_SLASH_PARTICLE.get();
+            return BrutalityModParticles.MURASAMA_SLASH_PARTICLE.get();
         }
 
         public static Codec<ParticleData> CODEC(ParticleType<ParticleData> type) {
@@ -119,7 +119,6 @@ public class MurasamaSlash extends FlatParticleWithData {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<ParticleData> {
         private final SpriteSet spriteSet;
 

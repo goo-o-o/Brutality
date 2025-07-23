@@ -1,11 +1,9 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.sword;
 
 import com.google.common.collect.Multimap;
-import net.goo.brutality.client.renderers.item.BrutalityTranslucentCullItemRenderer;
 import net.goo.brutality.item.base.BrutalitySwordItem;
-import net.goo.brutality.registry.ModItems;
+import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -18,18 +16,16 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 public class DoubleDownSword extends BrutalitySwordItem {
 
 
-    public DoubleDownSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public DoubleDownSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
     @Override
@@ -70,10 +66,12 @@ public class DoubleDownSword extends BrutalitySwordItem {
 
     }
 
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityTranslucentCullItemRenderer.class);
-    }
+
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new BrutalityAutoAlphaLayer<>(renderer));
+//    }
 
     private Map<Item, Double> calculateSwordRarity(Player player) {
         int luckAmplifier = player.hasEffect(MobEffects.LUCK)
@@ -83,7 +81,7 @@ public class DoubleDownSword extends BrutalitySwordItem {
 
         List<SwordData> swordData = getSortedSwordData();
         if (swordData.isEmpty()) {
-            return Map.of(ModItems.DOUBLE_DOWN_SWORD.get(), 100.0);
+            return Map.of(BrutalityModItems.DOUBLE_DOWN_SWORD.get(), 100.0);
         }
 
         double[] baseWeights = swordData.stream()
@@ -106,7 +104,7 @@ public class DoubleDownSword extends BrutalitySwordItem {
         }
 
 //        normalizePercentages(rarityMap);
-        System.out.println(rarityMap);
+//        System.out.println(rarityMap);
         return rarityMap;
     }
 
@@ -141,22 +139,7 @@ public class DoubleDownSword extends BrutalitySwordItem {
         return new SwordData(sword, eDps);
     }
 
-
     private record SwordData(Item item, double eDps) {
-    }
-
-    private void normalizePercentages(Map<Item, Double> rarityMap) {
-        double total = rarityMap.values().stream().mapToDouble(Double::doubleValue).sum();
-
-        if (Math.abs(total - 100) < 0.001) return;
-
-        if (total != 100.0) {
-            double difference = 100.0 - total;
-            Map.Entry<Item, Double> mostCommon = rarityMap.entrySet().stream()
-                    .max(Map.Entry.comparingByValue())
-                    .orElseThrow();
-            rarityMap.put(mostCommon.getKey(), mostCommon.getValue() + difference);
-        }
     }
 
     public ItemStack getRandomSword(Player player) {

@@ -1,4 +1,4 @@
-package net.goo.brutality.item.curios;
+package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
@@ -16,10 +16,10 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class SumCharm extends BrutalityCurioItem {
+public class Sum extends BrutalityCurioItem {
     public static String SUM_DAMAGE = "sumDamage";
 
-    public SumCharm(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public Sum(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

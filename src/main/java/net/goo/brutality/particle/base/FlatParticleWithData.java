@@ -5,7 +5,7 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.goo.brutality.registry.ModParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -58,19 +58,16 @@ public class FlatParticleWithData extends FlatParticle {
         float y = (float)(Mth.lerp(partialTicks, this.yo, this.y) - cameraPos.y());
         float z = (float)(Mth.lerp(partialTicks, this.zo, this.z) - cameraPos.z());
 
-        // Create individual rotation quaternions (from radians to deg)
         Quaternionf pitchRot = new Quaternionf().rotationX((float) (this.rotX * (Math.PI / 180))); // X-axis (pitch)
         Quaternionf yawRot = new Quaternionf().rotationY((float) (this.rotY * (Math.PI / 180)));   // Y-axis (yaw)
         Quaternionf rollRot = new Quaternionf().rotationZ((float) (this.rotZ * (Math.PI / 180)));  // Z-axis (roll)
 
-        // Combine rotations (order matters: yaw -> pitch -> roll -> custom QUATERNION)
         Quaternionf combinedRot = new Quaternionf();
         combinedRot.mul(yawRot)
                 .mul(pitchRot)
                 .mul(rollRot)
                 .mul(QUATERNION);
 
-        // Base quad vertices (before transformations)
         Vector3f[] baseVertices = new Vector3f[]{
                 new Vector3f(-1.0F, -1.0F, 0.0F),
                 new Vector3f(-1.0F, 1.0F, 0.0F),
@@ -81,7 +78,6 @@ public class FlatParticleWithData extends FlatParticle {
         float size = this.getQuadSize(partialTicks);
         Vector3f[] transformedVertices = new Vector3f[4];
 
-        // Transform each vertex
         for (int i = 0; i < 4; i++) {
             transformedVertices[i] = new Vector3f(baseVertices[i]);
             transformedVertices[i].rotate(combinedRot);  // Apply combined rotation
@@ -89,14 +85,12 @@ public class FlatParticleWithData extends FlatParticle {
             transformedVertices[i].add(x, y, z);        // Apply position offset
         }
 
-        // Get UV coordinates and light value
         float u0 = this.getU0();
         float u1 = this.getU1();
         float v0 = this.getV0();
         float v1 = this.getV1();
         int light = this.getLightColor(partialTicks);
 
-        // Render top face (counter-clockwise winding)
         buffer.vertex(transformedVertices[0].x(), transformedVertices[0].y(), transformedVertices[0].z())
                 .uv(u1, v1).color(rCol, gCol, bCol, alpha).uv2(light).endVertex();
         buffer.vertex(transformedVertices[1].x(), transformedVertices[1].y(), transformedVertices[1].z())
@@ -106,7 +100,6 @@ public class FlatParticleWithData extends FlatParticle {
         buffer.vertex(transformedVertices[3].x(), transformedVertices[3].y(), transformedVertices[3].z())
                 .uv(u0, v1).color(rCol, gCol, bCol, alpha).uv2(light).endVertex();
 
-        // Render bottom face (clockwise winding)
         buffer.vertex(transformedVertices[3].x(), transformedVertices[3].y(), transformedVertices[3].z())
                 .uv(u0, v1).color(rCol, gCol, bCol, alpha).uv2(light).endVertex();
         buffer.vertex(transformedVertices[2].x(), transformedVertices[2].y(), transformedVertices[2].z())
@@ -150,12 +143,12 @@ public class FlatParticleWithData extends FlatParticle {
 
         @Override
         public String writeToString() {
-            return String.format(Locale.ROOT, "%s %d %.2f", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()), entityId, size, rotX, rotY, rotZ);
+            return String.format(Locale.ROOT, "%s %d %.2f %.2f %.2f", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()), entityId, size, rotX, rotY, rotZ);
         }
 
         @Override
         public ParticleType<ParticleData> getType() {
-            return ModParticles.FLAT_PARTICLE_WITH_DATA.get();
+            return BrutalityModParticles.FLAT_PARTICLE_WITH_DATA.get();
         }
 
         public static Codec<ParticleData> CODEC(ParticleType<ParticleData> type) {
@@ -163,7 +156,6 @@ public class FlatParticleWithData extends FlatParticle {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<ParticleData> {
         private final SpriteSet spriteSet;
 

@@ -15,7 +15,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 
-public class BrutalityParticles {
+public class BrutalityModParticles {
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
             DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, Brutality.MOD_ID);
 
@@ -49,8 +49,8 @@ public class BrutalityParticles {
             PARTICLE_TYPES.register("slicked_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> OILED_PARTICLE =
             PARTICLE_TYPES.register("oiled_particle", () -> new SimpleParticleType(true));
-    public static final RegistryObject<SimpleParticleType> STEAMED_PARTICLE =
-            PARTICLE_TYPES.register("steamed_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> STEAM_PARTICLE =
+            PARTICLE_TYPES.register("steam_particle", () -> new SimpleParticleType(true));
 
     public static final RegistryObject<SimpleParticleType> RHAAST_PARTICLE =
             PARTICLE_TYPES.register("rhaast_particle", () -> new SimpleParticleType(true));

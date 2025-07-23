@@ -4,21 +4,21 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.goo.brutality.registry.ModParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
-@OnlyIn(Dist.CLIENT)
 public class GenericMagicCircleParticle extends FlatParticleWithData {
     public int EntityId;
     public float rotX, rotY, rotZ, growthProgress = 0, growthSpeed = 1, growthDuration = 0.5F;
@@ -66,15 +66,15 @@ public class GenericMagicCircleParticle extends FlatParticleWithData {
         }
 
         @Override
-        public String writeToString() {
+        public @NotNull String writeToString() {
             return String.format(Locale.ROOT, "%s %d %.2f",
-                    BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
+                    ForgeRegistries.PARTICLE_TYPES.getKey(this.getType()),
                     entityId, size, rotX, rotY, rotZ);
         }
 
         @Override
         public ParticleType<ParticleData> getType() {
-            return ModParticles.GENERIC_MAGIC_CIRCLE_PARTICLE.get();
+            return BrutalityModParticles.GENERIC_MAGIC_CIRCLE_PARTICLE.get();
         }
 
         public static Codec<ParticleData> CODEC(ParticleType<ParticleData> type) {
@@ -90,7 +90,6 @@ public class GenericMagicCircleParticle extends FlatParticleWithData {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<ParticleData> {
         private final SpriteSet spriteSet;
 

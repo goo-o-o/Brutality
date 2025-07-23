@@ -1,10 +1,8 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.bow;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.renderers.item.BrutalityFullbrightNoDepthEmissiveItemRenderer;
 import net.goo.brutality.item.base.BrutalityBowItem;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -14,23 +12,28 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
 public class ProvidenceBow extends BrutalityBowItem {
 
 
-    public ProvidenceBow(String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(identifier, rarity, descriptionComponents);
+    public ProvidenceBow(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(rarity, descriptionComponents);
+        SingletonGeoAnimatable.registerSyncedAnimatable(this);
+    }
+
+    @Override
+    public int getMaxDamage(ItemStack stack) {
+        return 1000;
     }
 
     @Override
@@ -104,10 +107,12 @@ public class ProvidenceBow extends BrutalityBowItem {
         return InteractionResultHolder.fail(bowStack);
     }
 
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityFullbrightNoDepthEmissiveItemRenderer.class);
-    }
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer));
+//        renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
+//    }
 
     @Override
     public void releaseUsing(ItemStack bowStack, Level level, LivingEntity shooter, int timeLeft) {

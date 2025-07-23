@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "terramity:decayed_bedrock_dust"
+    },
+    "$": {
+      "item": "terramity:black_matter"
+    },
+    "%": {
+      "item": "terramity:band_of_drifting"
+    },
+    "@": {
+      "item": "minecraft:iron_pickaxe"
+    }
+  },
+  "pattern": [
+    " # ",
+    "$%#",
+    "@$ "
+  ],
+  "result": {
+    "item": "brutality:canopy_of_shadows"
+  },
+  "show_notification": true
+}

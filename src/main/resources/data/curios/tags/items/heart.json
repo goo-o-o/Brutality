@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "brutality:dragonheart",
+    "brutality:uvogre_heart",
+    "brutality:zombie_heart",
+    "brutality:frozen_heart",
+    "brutality:second_heart",
+    "brutality:heart_of_wrath",
+    "brutality:heart_of_gold",
+    "terramity:crystal_heart"
+  ]
+}

@@ -1,7 +1,7 @@
 package net.goo.brutality.mob_effect;
 
-import net.goo.brutality.item.weapon.custom.AtomicJudgementHammer;
-import net.goo.brutality.registry.ModParticles;
+import net.goo.brutality.item.weapon.hammer.AtomicJudgementHammer;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -20,7 +20,7 @@ public class RadiationEffect extends MobEffect {
         if (!level.isClientSide()) {
             if (!(pLivingEntity.getMainHandItem().getItem() instanceof AtomicJudgementHammer || pLivingEntity.getOffhandItem().getItem() instanceof AtomicJudgementHammer))  {
                 pLivingEntity.hurt(pLivingEntity.damageSources().magic(), 1.0F);
-                ((ServerLevel) level).sendParticles(ModParticles.RADIATION_PARTICLE.get(), pLivingEntity.getX(), pLivingEntity.getY() + pLivingEntity.getBbHeight() / 2, pLivingEntity.getZ(), 5, 0.5, 0.5 ,0.5, 0);
+                ((ServerLevel) level).sendParticles(BrutalityModParticles.RADIATION_PARTICLE.get(), pLivingEntity.getX(), pLivingEntity.getY() + pLivingEntity.getBbHeight() / 2, pLivingEntity.getZ(), 5, 0.5, 0.5 ,0.5, 0);
 
             }
         }

@@ -1,6 +1,6 @@
 package net.goo.brutality.entity.base;
 
-import net.goo.brutality.client.entity.ArmaGeoEntity;
+import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,7 +12,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
-public class BrutalityAbstractPhysicsProjectile extends BrutalityAbstractTrident implements ArmaGeoEntity {
+public class BrutalityAbstractPhysicsProjectile extends BrutalityAbstractTrident implements BrutalityGeoEntity {
 
     protected int bounceCount = 0;
     public float prevRoll;
@@ -30,11 +30,6 @@ public class BrutalityAbstractPhysicsProjectile extends BrutalityAbstractTrident
         super(pEntityType, pLevel);
     }
 
-    @Override
-    public String geoIdentifier() {
-        return "thrown_cabbage";
-    }
-
 
     @Override
     public void tick() {
@@ -48,11 +43,34 @@ public class BrutalityAbstractPhysicsProjectile extends BrutalityAbstractTrident
         // Calculate current rotation values
         Vec3 motion = this.getDeltaMovement();
         float speed = (float) motion.length();
-        if (speed > 0.1) {
-            this.roll += speed * 30f; // Adjust multiplier for rotation speed
-            this.yaw = (float) Math.atan2(motion.z, motion.x) * Mth.RAD_TO_DEG - 90.0f;
-            this.pitch = (float) Math.atan2(motion.y, Math.sqrt(motion.x * motion.x + motion.z * motion.z)) * Mth.RAD_TO_DEG;
+        if (speed > 0.1 && !inGround) {
+            if (!lockRoll())
+                this.roll += speed * getRotationSpeed(); // Adjust multiplier for rotation speed
+            if (!lockYaw())
+                this.yaw = (float) Math.atan2(motion.z, motion.x) * Mth.RAD_TO_DEG - 90.0f;
+            if (!lockPitch())
+                this.pitch = (float) Math.atan2(motion.y, Math.sqrt(motion.x * motion.x + motion.z * motion.z)) * Mth.RAD_TO_DEG;
         }
+    }
+
+    protected float getRotationSpeed() {
+        return 30;
+    }
+
+    protected boolean lockRoll() {
+        return false;
+    }
+
+    protected boolean lockYaw() {
+        return false;
+    }
+
+    protected boolean lockPitch() {
+        return false;
+    }
+
+    protected int getBounceCount() {
+        return 5;
     }
 
     @Override
@@ -64,17 +82,18 @@ public class BrutalityAbstractPhysicsProjectile extends BrutalityAbstractTrident
         }
 
         // Play impact effects
-        this.playSound(this.getHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
+        this.playSound(this.getDefaultHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
         this.shakeTime = 7;
 
         // Check bounce limit BEFORE physics
         this.bounceCount++;
-        if (this.bounceCount > 5) {
+        if (this.bounceCount > getBounceCount()) {
             this.inGround = true;
             super.onHitBlock(hitResult); // Final stick to ground
             return;
         }
 
+        if (this.inGround) return;
         // Bounce physics
         Vec3 normal = Vec3.atLowerCornerOf(hitResult.getDirection().getNormal());
         Vec3 incoming = this.getDeltaMovement();
@@ -88,7 +107,7 @@ public class BrutalityAbstractPhysicsProjectile extends BrutalityAbstractTrident
 
         // Reduce piercing
         if (this.getPierceLevel() > 0) {
-            this.setPierceLevel((byte)(this.getPierceLevel() - 1));
+            this.setPierceLevel((byte) (this.getPierceLevel() - 1));
         }
     }
 
@@ -101,11 +120,12 @@ public class BrutalityAbstractPhysicsProjectile extends BrutalityAbstractTrident
         if (this.inGround) return; // Critical: Skip if already grounded
 
         if (hitResult.getType() == HitResult.Type.BLOCK) {
-            this.onHitBlock((BlockHitResult)hitResult);
+            this.onHitBlock((BlockHitResult) hitResult);
         } else {
             super.onHit(hitResult);
         }
     }
+
     protected boolean shouldDiscard() {
         return false;
     }

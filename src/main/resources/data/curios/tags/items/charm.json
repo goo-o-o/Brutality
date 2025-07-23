@@ -1,6 +1,60 @@
 {
   "replace": false,
   "values": [
-    "brutality:pi_charm"
+    "brutality:plunder_chest_charm",
+    "brutality:resplendent_feather_charm",
+    "brutality:celestial_starboard",
+    "brutality:yata_no_kagami",
+
+    "brutality:blood_stone",
+    "brutality:rage_stone",
+    "brutality:pain_catalyst",
+    "brutality:grudge_totem",
+    "brutality:rampage_clock",
+    "brutality:spite_shard",
+    "brutality:mechanical_aorta",
+    "brutality:hate_sigil",
+    "brutality:wrath",
+
+    "brutality:pride",
+    "brutality:envy",
+    "brutality:gluttony",
+    "brutality:lust",
+    "brutality:sloth",
+    "brutality:greed",
+
+    "brutality:pepper_shaker_charm",
+    "brutality:salt_shaker_charm",
+    "brutality:hot_sauce_charm",
+    "brutality:tomato_sauce_charm",
+    "brutality:cheese_sauce_charm",
+    "brutality:pizza_slop_charm",
+    "brutality:olive_oil_charm",
+    "brutality:extra_virgin_olive_oil_charm",
+    "brutality:salt_and_pepper_charm",
+    "brutality:fridge_charm",
+    "brutality:smart_fridge_charm",
+    "brutality:mortar_and_pestle_charm",
+    "brutality:the_smokehouse",
+    "brutality:rainbow_sprinkles",
+    "brutality:smoke_stone",
+    "brutality:sugar_glaze",
+    "brutality:bamboo_steamer",
+    "brutality:seared_sugar_brooch",
+    "brutality:dunked_donut",
+    "brutality:lollipop_of_eternity",
+
+    "brutality:pi_charm",
+    "brutality:exponential_charm",
+    "brutality:sine_charm",
+    "brutality:cosine_charm",
+    "brutality:addition_charm",
+    "brutality:subtraction_charm",
+    "brutality:multiplication_charm",
+    "brutality:division_charm",
+    "brutality:sum_charm",
+
+    "brutality:crypto_wallet_charm",
+    "brutality:portable_mining_rig_charm"
   ]
 }

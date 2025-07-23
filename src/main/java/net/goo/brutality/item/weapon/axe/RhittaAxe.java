@@ -1,12 +1,10 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.axe;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.renderers.item.BrutalityItemRenderer;
-import net.goo.brutality.entity.custom.CruelSunEntity;
+import net.goo.brutality.entity.projectile.generic.CruelSunEntity;
 import net.goo.brutality.item.base.BrutalityAxeItem;
-import net.goo.brutality.registry.ModEntities;
+import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -18,26 +16,18 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class RhittaAxe extends BrutalityAxeItem {
 
 
-    public RhittaAxe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public RhittaAxe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
-
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityItemRenderer.class);
-    }
-
 
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeLeft) {
         if (pLivingEntity instanceof Player player) {
@@ -52,7 +42,7 @@ public class RhittaAxe extends BrutalityAxeItem {
     }
 
     public void spawnCruelSun(Player player, ItemStack pStack) {
-        CruelSunEntity cruelSun = new CruelSunEntity(ModEntities.CRUEL_SUN_ENTITY.get(), player.level());
+        CruelSunEntity cruelSun = new CruelSunEntity(BrutalityModEntities.CRUEL_SUN_ENTITY.get(), player.level());
         cruelSun.setOwner(player);
         cruelSun.setPos(player.getPosition(1f).add(0, 10, 0));
         player.level().addFreshEntity(cruelSun);

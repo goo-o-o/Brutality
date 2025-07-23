@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:leather_helmet"
+    },
+    "$": {
+      "item": "minecraft:black_wool"
+    },
+    "%": {
+      "item": "minecraft:black_dye"
+    },
+    "@": {
+      "item": "terramity:black_matter"
+    }
+  },
+  "pattern": [
+    "###",
+    "%@%",
+    "$$$"
+  ],
+  "result": {
+    "item": "brutality:noir_boots"
+  },
+  "show_notification": true
+}

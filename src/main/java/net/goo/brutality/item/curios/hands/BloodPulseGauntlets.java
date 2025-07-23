@@ -1,4 +1,4 @@
-package net.goo.brutality.item.curios;
+package net.goo.brutality.item.curios.hands;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;

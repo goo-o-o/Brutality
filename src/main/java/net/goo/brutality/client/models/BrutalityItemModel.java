@@ -7,6 +7,8 @@ import net.goo.brutality.item.base.BrutalityCurioItem;
 import net.goo.brutality.item.base.BrutalityGeoItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import software.bernie.geckolib.model.GeoModel;
 
 public class BrutalityItemModel<T extends Item & BrutalityGeoItem> extends GeoModel<T> {

@@ -1,6 +1,6 @@
 package net.goo.brutality.entity.base;
 
-import net.goo.brutality.client.entity.ArmaGeoEntity;
+import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.particle.base.AbstractWorldAlignedTrailParticle;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,7 +21,7 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
+public class SwordBeam extends ThrowableProjectile implements BrutalityGeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private int randomRoll;
     private int targetsHit = 0;
@@ -34,11 +34,6 @@ public class SwordBeam extends ThrowableProjectile implements ArmaGeoEntity {
         this.noCulling = true;
         this.level().addParticle((new AbstractWorldAlignedTrailParticle.OrbData(1F, 1F, 1F, getBbWidth(), this.getId(), 0, 0, getRandomRollRadians(), "sword", 5)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
         this.setNoGravity(true);
-    }
-
-    @Override
-    public String geoIdentifier() {
-        return "default";
     }
 
     @Override

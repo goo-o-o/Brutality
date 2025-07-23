@@ -14,10 +14,12 @@ public class PulverizedEffect extends MobEffect {
 
     @Override
     public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
+
+        pLivingEntity.invulnerableTime = 0;
         if (pLivingEntity.getLastAttacker() instanceof Player attacker) {
-            pLivingEntity.hurt(pLivingEntity.damageSources().playerAttack(attacker), 5 * 5);
+            pLivingEntity.hurt(pLivingEntity.damageSources().playerAttack(attacker), pAmplifier);
         } else {
-            pLivingEntity.hurt(pLivingEntity.damageSources().mobAttack(pLivingEntity.getLastAttacker()), 5 * 5);
+            pLivingEntity.hurt(pLivingEntity.damageSources().mobAttack(pLivingEntity.getLastAttacker()), pAmplifier);
         }
     }
 

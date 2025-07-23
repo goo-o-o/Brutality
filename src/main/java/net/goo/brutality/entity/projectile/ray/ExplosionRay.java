@@ -1,7 +1,7 @@
-package net.goo.brutality.entity.custom;
+package net.goo.brutality.entity.projectile.ray;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -145,7 +145,7 @@ public class ExplosionRay extends Entity implements BrutalityGeoEntity {
                 float volume = (syncedCount * 3) + 2;
                 this.level().playLocalSound(
                         this.getX(), this.getY(), this.getZ(), // More precise than getOnPos()
-                        ModSounds.BIGGER_EXPLOSION.get(),
+                        BrutalityModSounds.BIGGER_EXPLOSION.get(),
                         SoundSource.BLOCKS,
                         volume,
                         1.0F,

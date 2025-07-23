@@ -1,13 +1,12 @@
 package net.goo.brutality.network;
 
-import net.minecraft.client.Minecraft;
+import net.goo.brutality.client.ClientAccess;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -15,8 +14,13 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 public class s2cEnhancedExactParticlePacket {
-    private final double x, y, z, xSpeed, ySpeed, zSpeed;
-    private final ParticleOptions particle;
+    public final double x;
+    public final double y;
+    public final double z;
+    public final double xSpeed;
+    public final double ySpeed;
+    public final double zSpeed;
+    public final ParticleOptions particle;
 
 
     public s2cEnhancedExactParticlePacket(double pX, double pY, double pZ, double xSpeed, double ySpeed, double zSpeed, ParticleOptions particle) {
@@ -74,12 +78,10 @@ public class s2cEnhancedExactParticlePacket {
 
     public static void handle(s2cEnhancedExactParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            if (Minecraft.getInstance().level != null && Minecraft.getInstance().player != null) {
-                Level level = Minecraft.getInstance().level;
-                level.addParticle(packet.particle, true, packet.x, packet.y, packet.z, packet.xSpeed, packet.ySpeed, packet.zSpeed);
+            if (ctx.get().getDirection().getReceptionSide().isClient()) {
+                ClientAccess.spawnParticle(packet);
             }
         });
-
         ctx.get().setPacketHandled(true);
     }
 

@@ -28,7 +28,6 @@ public class FlatParticle extends TextureSheetParticle {
         this.setSpriteFromAge(sprites);
     }
 
-
     @Override
     public boolean shouldCull() {
         return false;
@@ -37,7 +36,6 @@ public class FlatParticle extends TextureSheetParticle {
     @Override
     public void render(VertexConsumer buffer, Camera camera, float ticks) {
 
-        // Rest of the render logic
         Vec3 vec3 = camera.getPosition();
         float x = (float) (Mth.lerp(ticks, this.xo, this.x) - vec3.x());
         float y = (float) (Mth.lerp(ticks, this.yo, this.y) - vec3.y());
@@ -66,13 +64,11 @@ public class FlatParticle extends TextureSheetParticle {
         float f6 = this.getV1();
         int light = this.getLightColor(ticks);
 
-        // Render the top faces
         buffer.vertex(vector3fs[0].x(), vector3fs[0].y(), vector3fs[0].z()).uv(f8, f6).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light).endVertex();
         buffer.vertex(vector3fs[1].x(), vector3fs[1].y(), vector3fs[1].z()).uv(f8, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light).endVertex();
         buffer.vertex(vector3fs[2].x(), vector3fs[2].y(), vector3fs[2].z()).uv(f7, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light).endVertex();
         buffer.vertex(vector3fs[3].x(), vector3fs[3].y(), vector3fs[3].z()).uv(f7, f6).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light).endVertex();
 
-        // Render the underside faces
         buffer.vertex(vector3fs[3].x(), vector3fs[3].y(), vector3fs[3].z()).uv(f7, f6).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light).endVertex();
         buffer.vertex(vector3fs[2].x(), vector3fs[2].y(), vector3fs[2].z()).uv(f7, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light).endVertex();
         buffer.vertex(vector3fs[1].x(), vector3fs[1].y(), vector3fs[1].z()).uv(f8, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light).endVertex();
@@ -95,7 +91,6 @@ public class FlatParticle extends TextureSheetParticle {
         return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;
 

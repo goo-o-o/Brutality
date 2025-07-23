@@ -18,7 +18,7 @@
       {
         "hitbox": "HORIZONTAL_PLANE",
         "damage_multiplier": 1.2,
-        "angle": 120,
+        "angle": 360,
         "upswing": 0.5,
         "animation": "brutality:slide_swipe",
         "swing_sound": {

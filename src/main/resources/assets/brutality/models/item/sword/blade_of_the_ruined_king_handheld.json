@@ -1,28 +1,19 @@
 {
   "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
   "display": {
     "thirdperson_righthand": {
       "translation": [
         0,
-        -18.75,
+        -18,
         1.5
-      ],
-      "scale": [
-        2,
-        1,
-        1
       ]
     },
     "thirdperson_lefthand": {
       "translation": [
         0,
-        -18.75,
+        -18,
         1.5
-      ],
-      "scale": [
-        2,
-        1,
-        1
       ]
     },
     "firstperson_righthand": {

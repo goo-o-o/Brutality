@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brutality:atomic_judgement"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_virentium_rocket": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "terramity:virentium_rocket"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_virentium_rocket",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brutality:atomic_judgement"
+    ]
+  },
+  "sends_telemetry_event": false
+}

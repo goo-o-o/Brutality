@@ -1,0 +1,10 @@
+{
+  "replace": true,
+  "slotName": "heart",
+  "size": 1,
+  "operation": "SET",
+  "order": 510,
+  "icon": "brutality:slot/empty_heart_slot",
+  "render_toggle": true,
+  "drop_rule": "DEFAULT"
+}

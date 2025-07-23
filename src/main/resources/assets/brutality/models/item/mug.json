@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:item/generated",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "brutality:item/generic/mug_handheld"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "texture": 0
+      },
+      "model": "brutality:item/mug_inventory"
+    },
+    {
+      "predicate": {
+        "texture": 1
+      },
+      "model": "brutality:item/mug_coffee_inventory"
+    },
+    {
+      "predicate": {
+        "texture": 2
+      },
+      "model": "brutality:item/mug_eeffoc_inventory"
+    }
+  ],
+  "perspectives": {
+    "gui": {
+      "parent": "brutality:item/mug_inventory"
+    },
+    "fixed": {
+      "parent": "brutality:item/mug_inventory"
+    }
+  }
+}

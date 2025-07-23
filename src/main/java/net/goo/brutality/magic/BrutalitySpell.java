@@ -1,30 +1,35 @@
 package net.goo.brutality.magic;
 
-import net.minecraft.network.chat.Component;
 
-
-// Daemonic Spells
-public enum DaemonicSpell implements IBrutalitySpell {
-    PICKAXE(Component.translatable("spells.brutality.daemonium.pickaxe"), 40, 5, SpellType.UTIL, 100);
-
-    private final Component name;
-    private final int manaCost;
-    private final int damage;
+public abstract class BrutalitySpell implements IBrutalitySpell {
+    private final MagicSchool school;
     private final SpellType type;
-    private final int cooldown;
+    private final String name;
+    private final int baseManaCost;
+    private final float baseDamage;
+    private final int baseCooldown;
 
-    DaemonicSpell(Component name, int manaCost, int damage, SpellType type, int cooldown) {
-        this.name = name;
-        this.manaCost = manaCost;
-        this.damage = damage;
+    protected BrutalitySpell(MagicSchool school, SpellType type, String name,
+                             int baseManaCost, float baseDamage, int baseCooldown) {
+        this.school = school;
         this.type = type;
-        this.cooldown = cooldown;
+        this.name = name;
+        this.baseManaCost = baseManaCost;
+        this.baseDamage = baseDamage;
+        this.baseCooldown = baseCooldown;
     }
 
     @Override
     public MagicSchool getSchool() {
-        return MagicSchool.DAEMONIC;
+        return school;
     }
+
+
+    @Override
+    public String getSpellName() {
+        return name;
+    }
+
 
     @Override
     public SpellType getType() {
@@ -32,23 +37,18 @@ public enum DaemonicSpell implements IBrutalitySpell {
     }
 
     @Override
-    public Component getName() {
-        return name;
+    public float getBaseDamage() {
+        return baseDamage;
     }
 
     @Override
-    public int getManaCost() {
-        return manaCost;
+    public int getBaseCooldown() {
+        return baseCooldown;
     }
 
     @Override
-    public int getCooldown() {
-        return cooldown;
-    }
-
-    @Override
-    public int getBaseDamage() {
-        return damage;
+    public int getBaseManaCost() {
+        return baseManaCost;
     }
 
 }

@@ -22,7 +22,6 @@ public class FrostmourneWave extends WaveParticle {
     }
 
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;
 

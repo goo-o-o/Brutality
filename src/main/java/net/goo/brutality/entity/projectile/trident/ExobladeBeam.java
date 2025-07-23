@@ -1,16 +1,15 @@
-package net.goo.brutality.entity.custom.projectile.trident;
+package net.goo.brutality.entity.projectile.trident;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractTrident;
 import net.goo.brutality.particle.custom.RainbowTrailParticle;
 import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.BrutalityParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -126,12 +125,6 @@ public class ExobladeBeam extends BrutalityAbstractTrident implements BrutalityG
     }
 
     @Override
-    protected SoundEvent getHitEntitySoundEvent() {
-        return super.getHitEntitySoundEvent();
-    }
-
-
-    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
     }
 
@@ -139,7 +132,7 @@ public class ExobladeBeam extends BrutalityAbstractTrident implements BrutalityG
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
         if (pResult.getEntity() instanceof LivingEntity livingEntity && livingEntity.level() instanceof ServerLevel serverLevel && serverLevel.random.nextBoolean())  {
-            serverLevel.sendParticles(BrutalityParticles.EXOBLADE_FLASH_PARTICLE.get(), pResult.getLocation().x, pResult.getLocation().y, pResult.getLocation().z,
+            serverLevel.sendParticles(BrutalityModParticles.EXOBLADE_FLASH_PARTICLE.get(), pResult.getLocation().x, pResult.getLocation().y, pResult.getLocation().z,
                     1, 0.5, 0.5, 0.5, 0);
             livingEntity.addEffect(new MobEffectInstance(BrutalityModMobEffects.MIRACLE_BLIGHT.get(), 80, 0, false, false));
 

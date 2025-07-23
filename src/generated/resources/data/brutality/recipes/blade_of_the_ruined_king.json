@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:lost_soul"
+    },
+    "#": {
+      "item": "minecraft:echo_shard"
+    },
+    "$": {
+      "item": "terramity:dimlite_sword"
+    },
+    "%": {
+      "item": "terramity:dimlite_ingot"
+    },
+    "@": {
+      "item": "terramity:warden_soul"
+    }
+  },
+  "pattern": [
+    " #%",
+    "!@#",
+    "$! "
+  ],
+  "result": {
+    "item": "brutality:blade_of_the_ruined_king"
+  },
+  "show_notification": true
+}

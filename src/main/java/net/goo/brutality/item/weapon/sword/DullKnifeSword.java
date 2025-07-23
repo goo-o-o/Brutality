@@ -1,19 +1,19 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.sword;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.renderers.item.BrutalityAutoFullbrightItemRenderer;
 import net.goo.brutality.item.base.BrutalitySwordItem;
-import net.goo.brutality.registry.ModItems;
+import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.EnvironmentColorManager;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffect;
@@ -27,7 +27,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
@@ -35,20 +34,20 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.Locale;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
-public class DullKnifeDagger extends BrutalitySwordItem {
+public class DullKnifeSword extends BrutalitySwordItem {
 
 
-    public DullKnifeDagger(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public DullKnifeSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
     @Override
     public @NotNull ItemStack getDefaultInstance() {
         ItemStack stack = new ItemStack(this);
-        stack.getOrCreateTag().putInt(CUSTOM_MODEL_DATA, 0);
+        ModUtils.setTextureIdx(stack, 0);
         return stack;
     }
 
@@ -58,28 +57,54 @@ public class DullKnifeDagger extends BrutalitySwordItem {
 
     }
 
-    int[][][] colors = new int[][][]{{{255, 255, 255}, {34, 34, 34}}, {{255, 226, 0}, {255, 48, 251}}, {{0, 26, 127}, {0, 242, 255}}, {{255, 201, 0}, {215, 0, 0}}};
+    enum EmotionColor {
+        NEUTRAL(new int[]{255, 255, 255}, new int[]{34, 34, 34}, BrutalityModMobEffects.NEUTRAL.get()),
+        HAPPY(new int[]{255, 226, 0}, new int[]{255, 48, 251}, BrutalityModMobEffects.HAPPY.get()),
+        SAD(new int[]{0, 26, 127}, new int[]{0, 242, 255}, BrutalityModMobEffects.SAD.get()),
+        ANGRY(new int[]{255, 201, 0}, new int[]{215, 0, 0}, BrutalityModMobEffects.ANGRY.get());
+
+        private final int[] primaryColor;
+        private final int[] secondaryColor;
+        private final MobEffect effect;
+
+        EmotionColor(int[] primaryColor, int[] secondaryColor, MobEffect effect) {
+            this.primaryColor = primaryColor;
+            this.secondaryColor = secondaryColor;
+            this.effect = effect;
+        }
+
+        public static EmotionColor byId(int id) {
+            return values()[Mth.clamp(id, 0, values().length - 1)];
+        }
+    }
 
     @Override
     public @NotNull Component getName(ItemStack pStack) {
-        return BrutalityTooltipHelper.tooltipHelper("item." + Brutality.MOD_ID + "." + identifier, false, null, 0.5F, 2, colors[pStack.getOrCreateTag().getInt(CUSTOM_MODEL_DATA)]);
+        String identifier = getRegistryName();
+        EmotionColor emotionColor = EmotionColor.byId(ModUtils.getTextureIdx(pStack));
+
+        return BrutalityTooltipHelper.tooltipHelper(
+                "item." + Brutality.MOD_ID + "." + identifier, false, null, 0.5F, 2, emotionColor.primaryColor, emotionColor.secondaryColor);
     }
 
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityAutoFullbrightItemRenderer.class);
-    }
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
+//    }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         pTooltipComponents.add(Component.empty());
 
-        for (int i = 0; i < emotions.length; i++) {
-            pTooltipComponents.add(BrutalityTooltipHelper.tooltipHelper("item." + Brutality.MOD_ID + ".dull_knife." + emotions[i], true, null, colors[i][0], colors[i][1]));
+        for (EmotionColor emotion : EmotionColor.values()) {
+            String emotionKey = emotion.name().toLowerCase(Locale.ROOT);
+
+            pTooltipComponents.add(BrutalityTooltipHelper.tooltipHelper("item." + Brutality.MOD_ID + ".dull_knife." + emotionKey, true, null, emotion.primaryColor, emotion.secondaryColor));
 
             for (int j = 1; j <= 3; j++) {
-                MutableComponent component = Component.translatable("item." + Brutality.MOD_ID + ".dull_knife." + emotions[i] + ".desc." + j);
+                MutableComponent component = Component.translatable("item." + Brutality.MOD_ID + ".dull_knife." + emotionKey + ".desc." + j);
 
                 if (!component.getString().isBlank()) {
                     pTooltipComponents.add(component.withStyle(ChatFormatting.BLUE));
@@ -91,13 +116,12 @@ public class DullKnifeDagger extends BrutalitySwordItem {
 
     }
 
-    String[] emotions = new String[]{"neutral", "happy", "sad", "angry"};
 
     @Override
     public String texture(ItemStack stack) {
-        int currentMode = ModUtils.getCustomModelData(stack);
+        int currentMode = ModUtils.getTextureIdx(stack);
 
-        return "dull_knife_" + emotions[currentMode];
+        return "dull_knife_" + EmotionColor.values()[currentMode].toString().toLowerCase(Locale.ROOT);
     }
 
     @Override
@@ -105,58 +129,44 @@ public class DullKnifeDagger extends BrutalitySwordItem {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
         if (pUsedHand == InteractionHand.OFF_HAND) return InteractionResultHolder.fail(stack);
 
-        int customModelData = ModUtils.getCustomModelData(stack);
-        customModelData = (customModelData + 1) % 4;
+        int emotionIndex = ModUtils.getTextureIdx(stack);
+        emotionIndex = (emotionIndex + 1) % 4;
 
 
-        stack.getOrCreateTag().putInt(CUSTOM_MODEL_DATA, (customModelData));
+        ModUtils.setTextureIdx(stack, emotionIndex);
         pPlayer.getCooldowns().addCooldown(stack.getItem(), 20);
 
 
-        pLevel.playSound(pPlayer, pPlayer.getOnPos(), ModSounds.DULL_KNIFE_ABILITY.get(), SoundSource.PLAYERS);
+        pLevel.playSound(pPlayer, pPlayer.getOnPos(), BrutalityModSounds.DULL_KNIFE_ABILITY.get(), SoundSource.PLAYERS);
 
         if (pLevel.isClientSide) {
 
-            if (pPlayer.getOffhandItem().is(ModItems.DULL_KNIFE_DAGGER.get())) {
-                pPlayer.getOffhandItem().getOrCreateTag().putInt(CUSTOM_MODEL_DATA, customModelData);
+            if (stack.is(BrutalityModItems.DULL_KNIFE_DAGGER.get())) {
+                ModUtils.setTextureIdx(stack, emotionIndex);
             }
 
-            int[] color1 = new int[]{colors[customModelData][0][0], colors[customModelData][0][1], colors[customModelData][0][2]};
-            int[] color2 = new int[]{colors[customModelData][1][0], colors[customModelData][1][1], colors[customModelData][1][2]};
-
-            EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.SKY, color1);
-            EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.FOG, color2);
+            EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.SKY, EmotionColor.byId(emotionIndex).primaryColor);
+            EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.FOG, EmotionColor.byId(emotionIndex).secondaryColor);
         }
 
 
         return super.use(pLevel, pPlayer, pUsedHand);
     }
 
-    List<MobEffect> emotionEffects = List.of(
-            BrutalityModMobEffects.NEUTRAL.get(),
-            BrutalityModMobEffects.HAPPY.get(),
-            BrutalityModMobEffects.SAD.get(),
-            BrutalityModMobEffects.ANGRY.get()
-    );
-
     @Override
     public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
         if (pAttacker instanceof Player player)
-            pAttacker.level().playSound(player, player.getOnPos(), ModSounds.DULL_KNIFE_STAB.get(), SoundSource.PLAYERS);
+            pAttacker.level().playSound(player, player.getOnPos(), BrutalityModSounds.DULL_KNIFE_STAB.get(), SoundSource.PLAYERS);
 
         return super.hurtEnemy(pStack, pTarget, pAttacker);
     }
 
-    @Override
-    public void onDeselected(Player player) {
-        EnvironmentColorManager.resetAllColors();
-        shouldChangeSky = true;
-    }
 
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
         if (!ModList.get().isLoaded("bettercombat") && entity instanceof Player player) {
-            player.level().playSound(player, player.getOnPos(), ModSounds.DULL_KNIFE_SWING.get(), SoundSource.PLAYERS, 1F, ModUtils.nextFloatBetweenInclusive(player.getRandom(), 0.5F, 1F));
+            player.level().playSound(player, player.getOnPos(), BrutalityModSounds.DULL_KNIFE_SWING.get(), SoundSource.PLAYERS,
+                    1F, Mth.nextFloat(player.getRandom(), 0.5F, 1F));
         }
 
         return super.onEntitySwing(stack, entity);
@@ -167,28 +177,24 @@ public class DullKnifeDagger extends BrutalitySwordItem {
         return super.onEntityItemUpdate(stack, entity);
     }
 
-    boolean shouldChangeSky = true;
+
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-
-        if (pEntity instanceof LivingEntity entity) {
-            if (entity.getMainHandItem().is(ModItems.DULL_KNIFE_DAGGER.get())) {
-                int customModelData = entity.getMainHandItem().getOrCreateTag().getInt(CUSTOM_MODEL_DATA);
-                entity.addEffect(new MobEffectInstance(emotionEffects.get(customModelData), 1, 0, false, true));
+        if (!(pEntity instanceof LivingEntity entity)) return;
+        CompoundTag tag = pStack.getOrCreateTag();
 
 
-                if (shouldChangeSky) {
+        int emotionIndex = ModUtils.getTextureIdx(pStack);
+        EmotionColor emotion = EmotionColor.byId(emotionIndex);
+        boolean wasSelected = tag.getBoolean("was_selected");
 
-                    int[] color1 = new int[]{colors[customModelData][0][0], colors[customModelData][0][1], colors[customModelData][0][2]};
-                    int[] color2 = new int[]{colors[customModelData][1][0], colors[customModelData][1][1], colors[customModelData][1][2]};
+        if (pIsSelected) {
+            entity.addEffect(new MobEffectInstance(emotion.effect, 1, 0, false, true));
+            if (pLevel.isClientSide() && !wasSelected) {
+                EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.SKY, emotion.primaryColor);
+                EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.FOG, emotion.secondaryColor);
 
-                    EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.SKY, color1);
-                    EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.FOG, color2);
-                    shouldChangeSky = false;
-
-                    System.out.println("Changed Sky and shouldChangeSky = " + shouldChangeSky);
-                }
-
+                tag.putBoolean("was_selected", pIsSelected);
             }
         }
     }
@@ -198,4 +204,10 @@ public class DullKnifeDagger extends BrutalitySwordItem {
         EnvironmentColorManager.resetAllColors();
         return super.onDroppedByPlayer(item, player);
     }
+
+    @Override
+    public void onDeselected(Player player) {
+        EnvironmentColorManager.resetAllColors();
+    }
+
 }

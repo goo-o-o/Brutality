@@ -7,6 +7,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -18,7 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.rgbToInt;
-@Mod.EventBusSubscriber (modid = Brutality.MOD_ID)
+
+@Mod.EventBusSubscriber(modid = Brutality.MOD_ID, value = Dist.CLIENT)
 public class EnvironmentColorManager {
     // Color type definitions
     public enum ColorType {
@@ -48,10 +51,11 @@ public class EnvironmentColorManager {
 
     /**
      * Set a color override
+     *
      * @param type The color type to modify
-     * @param r red component
-     * @param g green component
-     * @param b blue component
+     * @param r    red component
+     * @param g    green component
+     * @param b    blue component
      */
     public static void setColor(ColorType type, int r, int g, int b) {
         int rgbColor = rgbToInt(r, g, b);
@@ -118,6 +122,7 @@ public class EnvironmentColorManager {
 
     /**
      * Get the current override for a color type
+     *
      * @return The override color or -1 if not set
      */
     public static int getColorOverride(ColorType type) {

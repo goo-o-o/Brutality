@@ -4,6 +4,8 @@ import net.goo.brutality.client.renderers.textures.BrutalityAutoAlphaTexture;
 import net.goo.brutality.item.base.BrutalityGeoItem;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 

@@ -1,3 +1,6 @@
 {
-  "parent": "brutality:presets/bludgeon"
+  "parent": "bettercombat:sword",
+  "attributes": {
+    "attack_range": 4
+  }
 }

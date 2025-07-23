@@ -1,0 +1,91 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"idle": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"mercury": {
+					"rotation": {
+						"vector": [0, "-query.anim_time * 36 * 4.15", 0]
+					}
+				},
+				"venus": {
+					"rotation": {
+						"vector": [0, "-query.anim_time * 36 * 1.63", 0]
+					}
+				},
+				"earth": {
+					"rotation": {
+						"vector": [0, "-query.anim_time * 36", 0]
+					}
+				},
+				"mars": {
+					"rotation": {
+						"vector": [0, "-query.anim_time * 36 * 0.53", 0]
+					}
+				},
+				"jupiter": {
+					"rotation": {
+						"vector": [0, "-query.anim_time * 36 * 0.4", 0]
+					}
+				},
+				"saturn": {
+					"rotation": {
+						"vector": [0, "-query.anim_time * 36 * 0.3", 0]
+					}
+				},
+				"uranus": {
+					"rotation": {
+						"vector": [0, "-query.anim_time * 36 * 0.2", 0]
+					}
+				},
+				"neptune": {
+					"rotation": {
+						"vector": [0, "-query.anim_time * 36 * 0.1", 0]
+					}
+				},
+				"bone": {
+					"rotation": {
+						"vector": [0, "query.anim_time * 72", 0]
+					}
+				},
+				"bone2": {
+					"rotation": {
+						"vector": [0, "query.anim_time * 72 / 243", 0]
+					}
+				},
+				"bone3": {
+					"rotation": {
+						"vector": [0, "query.anim_time * 72 / 58.6", 0]
+					}
+				},
+				"bone4": {
+					"rotation": {
+						"vector": [0, "query.anim_time * 72", 0]
+					}
+				},
+				"bone5": {
+					"rotation": {
+						"vector": [0, "query.anim_time * 72 * 1.5", 0]
+					}
+				},
+				"bone6": {
+					"rotation": {
+						"vector": [0, "query.anim_time * 72", 0]
+					}
+				},
+				"bone7": {
+					"rotation": {
+						"vector": [0, "query.anim_time * 72 * 1.4", 0]
+					}
+				},
+				"bone9": {
+					"rotation": {
+						"vector": [0, "query.anim_time * 36", 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

@@ -1,4 +1,4 @@
-package net.goo.brutality.event;
+package net.goo.brutality.event.mod;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.mobs.SummonedStray;
@@ -32,6 +32,18 @@ public class BrutalityModEvents {
 
         if (!event.has(EntityType.PLAYER, RAGE_LEVEL.get()))
             event.add(EntityType.PLAYER, RAGE_LEVEL.get());
+
+        if (!event.has(EntityType.PLAYER, MANA_COST.get()))
+            event.add(EntityType.PLAYER, MANA_COST.get());
+
+        if (!event.has(EntityType.PLAYER, MANA_REGEN.get()))
+            event.add(EntityType.PLAYER, MANA_REGEN.get());
+
+        if (!event.has(EntityType.PLAYER, MAX_MANA.get()))
+            event.add(EntityType.PLAYER, MAX_MANA.get());
+
+        if (!event.has(EntityType.PLAYER, SPELL_COOLDOWN_REDUCTION.get()))
+            event.add(EntityType.PLAYER, SPELL_COOLDOWN_REDUCTION.get());
 
     }
 

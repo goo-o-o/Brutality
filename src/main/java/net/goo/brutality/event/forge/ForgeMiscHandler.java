@@ -1,13 +1,9 @@
-package net.goo.brutality.event;
+package net.goo.brutality.event.forge;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.item.weapon.generic.LastPrismItem;
 import net.goo.brutality.registry.BrutalityModItems;
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.TickTask;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -37,14 +33,6 @@ public class ForgeMiscHandler {
     }
 
 
-    @SubscribeEvent
-    public static void onRenderHand(RenderHandEvent event) {
-        Player player = Minecraft.getInstance().player;
-        if (player != null && player.getMainHandItem().getItem() instanceof LastPrismItem) {
-            if (event.getHand() == InteractionHand.OFF_HAND)
-                event.setCanceled(true);
-        }
-    }
 
 
 }

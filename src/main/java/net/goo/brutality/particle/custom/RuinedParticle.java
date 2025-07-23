@@ -10,8 +10,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.BrutalityRenderTypes;
 import net.goo.brutality.particle.base.AbstractCameraAlignedTrailParticle;
-import net.goo.brutality.registry.ModParticles;
-import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -24,8 +23,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -38,33 +35,32 @@ import java.util.Locale;
 
 import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
-public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle {
+public class RuinedParticle extends AbstractCameraAlignedTrailParticle {
 
-    private final int entityId;
-    private final float offset, radius;
-    private final boolean reverseOrbit;
 
-    public final ResourceLocation CENTER_TEXTURE = new ResourceLocation(Brutality.MOD_ID, "textures/particle/generic_square_particle.png");
+    public final ResourceLocation CENTER_TEXTURE = new ResourceLocation(Brutality.MOD_ID, "textures/particle/ruined_particle.png");
+    private float directionX;
+    private float directionY;
+    private float directionZ;
 
-    public CreaseOfCreationParticle(ClientLevel world, double x, double y, double z, float r, float g, float b, float width, int entityId, int sampleCount) {
-        super(world, x, y, z, r, g, b, width, entityId, sampleCount);
+    public RuinedParticle(ClientLevel level, double x, double y, double z, float r, float g, float b, int sampleCount) {
+        super(level, x, y, z, r, g, b, Mth.nextFloat(level.random, 0.05F, 0.1F), -1, sampleCount);
         this.xd = 0;
         this.yd = 0;
         this.zd = 0;
         this.alpha = 0.5F;
-        this.entityId = entityId;
-        this.offset = world.getRandom().nextIntBetweenInclusive(0, 360);
         this.hasPhysics = false;
-        this.reverseOrbit = random.nextBoolean();
-
         this.xo = x;
         this.yo = y;
         this.zo = z;
         this.rCol = r;
         this.gCol = g;
         this.bCol = b;
-        this.radius = world.getRandom().nextFloat() * 5;
-        this.lifetime = 200;
+        this.lifetime = 60;
+
+        this.directionX = (level.random.nextFloat() - 0.5F) * 0.02F;
+        this.directionY = (level.random.nextFloat() - 0.5F) * 0.02F;
+        this.directionZ = (level.random.nextFloat() - 0.5F) * 0.02F;
     }
 
 
@@ -87,10 +83,10 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
         VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(BrutalityRenderTypes.itemEntityTranslucentCull(CENTER_TEXTURE));
 
         Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F);
-        vector3f1.mul(getTrailWidth() / 5);
+        vector3f1.mul(getTrailWidth());
         vector3f1.rotate(quaternion);
         Vector3f[] avector3f = new Vector3f[]{new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, 1.0F, 0.0F), new Vector3f(1.0F, 1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F)};
-        float f4 = getTrailWidth() / 10;
+        float f4 = getTrailWidth();
 
         for (int i = 0; i < 4; ++i) {
             Vector3f vector3f = avector3f[i];
@@ -107,58 +103,31 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
         PoseStack posestack = new PoseStack();
         PoseStack.Pose posestack$pose = posestack.last();
         Matrix3f matrix3f = posestack$pose.normal();
+
         vertexconsumer.vertex(avector3f[0].x(), avector3f[0].y(), avector3f[0].z()).color(this.rCol, this.gCol, this.bCol, alpha).uv(f8, f6).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
         vertexconsumer.vertex(avector3f[1].x(), avector3f[1].y(), avector3f[1].z()).color(this.rCol, this.gCol, this.bCol, alpha).uv(f8, f5).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
         vertexconsumer.vertex(avector3f[2].x(), avector3f[2].y(), avector3f[2].z()).color(this.rCol, this.gCol, this.bCol, alpha).uv(f7, f5).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
         vertexconsumer.vertex(avector3f[3].x(), avector3f[3].y(), avector3f[3].z()).color(this.rCol, this.gCol, this.bCol, alpha).uv(f7, f6).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+
         multibuffersource$buffersource.endBatch();
         super.render(vertexConsumer, camera, partialTick);
     }
 
+
+    @Override
     public void tick() {
-        this.oRoll = this.roll;
-        this.roll = (float) ((float) Math.PI * Math.sin(age * 0.6F) * 0.3F);
         super.tick();
-        this.trailA = 0.2F * Mth.clamp(age / (float) this.lifetime * 32.0F, 0.0F, 1.0F);
 
-        if (entityId != -1) {
-            Entity owner = level.getEntity(entityId);
+        // Slowly interpolate direction for smoother wandering
+        float changeRate = 0.01f; // Smaller = smoother
+        directionX += (this.level.random.nextFloat() - 0.5f) * changeRate;
+        directionY += (this.level.random.nextFloat() - 0.5f) * changeRate;
+        directionZ += (this.level.random.nextFloat() - 0.5f) * changeRate;
 
-            if (owner instanceof Player) {
-                Vec3 entityPos;
-                Vec3 targetOrbitPos = getOrbitPos(age * 50 + offset);
-                Entity target = ModUtils.getEntityPlayerLookingAt((Player) owner, 25);
-                if (target != null) {
-                    this.setColor(1F, 0,0);
-                    entityPos = new Vec3(target.getX(), target.getY() + target.getBbHeight() / 2, target.getZ());
-                } else {
-                    entityPos = new Vec3(owner.getX(), owner.getY() + owner.getBbHeight() / 2, owner.getZ());
-                    this.setColor(0.5F, 0.3F,1F);
-                }
-
-
-                Vec3 targetPos = targetOrbitPos.add(entityPos);
-
-                float lerpFactor = 0.2f;
-
-                double newX = Mth.lerp(lerpFactor, this.x, targetPos.x);
-                double newY = Mth.lerp(lerpFactor, this.y, targetPos.y);
-                double newZ = Mth.lerp(lerpFactor, this.z, targetPos.z);
-
-//            this.setPos(targetPos.x, targetPos.y, targetPos.z);
-
-                this.setPos(newX, newY, newZ);
-            }
-        }
-    }
-
-    public Vec3 getOrbitPos(float angle) {
-        float yOrbit = reverseOrbit ? angle : -angle;
-        double x = Mth.cos(angle) * radius;
-        double y = Mth.sin(yOrbit) * level.getEntity(entityId).getBbHeight() * (radius / 2);
-        double z = Mth.sin(angle) * radius;
-
-        return new Vec3(x, y, z);
+        // Apply motion
+        this.x += directionX;
+        this.y += directionY;
+        this.z += directionZ;
     }
 
     @Override
@@ -166,14 +135,12 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
         return Math.min(10, lifetime - age);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static final class OrbFactory implements ParticleProvider<CreaseOfCreationParticle.OrbData> {
+    public static final class OrbFactory implements ParticleProvider<RuinedParticle.OrbData> {
 
         @Override
-        public Particle createParticle(CreaseOfCreationParticle.OrbData typeIn, @NotNull ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            CreaseOfCreationParticle particle;
-            particle = new CreaseOfCreationParticle(worldIn, x, y, z, typeIn.r(), typeIn.g(), typeIn.b(), typeIn.width(),
-                    typeIn.entityID(), typeIn.sampleCount());
+        public Particle createParticle(RuinedParticle.OrbData typeIn, @NotNull ClientLevel levelIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            RuinedParticle particle;
+            particle = new RuinedParticle(levelIn, x, y, z, typeIn.r(), typeIn.g(), typeIn.b(), typeIn.sampleCount());
 
             return particle;
         }
@@ -182,10 +149,10 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
     }
 
 
-    public record OrbData(float r, float g, float b, float width, int entityID, int sampleCount)
+    public record OrbData(float r, float g, float b, int sampleCount)
             implements ParticleOptions {
-        public static final ParticleOptions.Deserializer<CreaseOfCreationParticle.OrbData> DESERIALIZER = new ParticleOptions.Deserializer<>() {
-            public CreaseOfCreationParticle.@NotNull OrbData fromCommand(@NotNull ParticleType<CreaseOfCreationParticle.OrbData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
+        public static final Deserializer<RuinedParticle.OrbData> DESERIALIZER = new Deserializer<>() {
+            public RuinedParticle.@NotNull OrbData fromCommand(@NotNull ParticleType<RuinedParticle.OrbData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
                 reader.expect(' ');
                 float r = reader.readFloat();
                 reader.expect(' ');
@@ -193,17 +160,12 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
                 reader.expect(' ');
                 float b = reader.readFloat();
                 reader.expect(' ');
-                float width = reader.readFloat();
-                reader.expect(' ');
-                int EntityId = reader.readInt();
-                reader.expect(' ');
                 int sampleCount = reader.readInt();
-                return new CreaseOfCreationParticle.OrbData(r, g, b, width, EntityId, sampleCount);
+                return new RuinedParticle.OrbData(r, g, b, sampleCount);
             }
 
-            public CreaseOfCreationParticle.OrbData fromNetwork(ParticleType<CreaseOfCreationParticle.OrbData> particleTypeIn, FriendlyByteBuf buffer) {
-                return new CreaseOfCreationParticle.OrbData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(),
-                        buffer.readFloat(), buffer.readInt(), buffer.readInt());
+            public RuinedParticle.OrbData fromNetwork(ParticleType<RuinedParticle.OrbData> particleTypeIn, FriendlyByteBuf buffer) {
+                return new RuinedParticle.OrbData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readInt());
             }
         };
 
@@ -212,39 +174,32 @@ public class CreaseOfCreationParticle extends AbstractCameraAlignedTrailParticle
             buffer.writeFloat(this.r);
             buffer.writeFloat(this.g);
             buffer.writeFloat(this.b);
-            buffer.writeFloat(this.width);
-            buffer.writeInt(this.entityID);
             buffer.writeInt(this.sampleCount);
 
         }
 
         @Override
         public String writeToString() {
-            return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f %d  %d",
+            return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %d",
                     BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
                     this.r, this.g, this.b,
-                    this.width,
-                    this.entityID,
                     this.sampleCount
             );
         }
 
         @Override
-        public ParticleType<CreaseOfCreationParticle.OrbData> getType() {
-            return ModParticles.CREASE_OF_CREATION_PARTICLE.get();
+        public ParticleType<RuinedParticle.OrbData> getType() {
+            return BrutalityModParticles.RUINED_PARTICLE.get();
         }
 
 
-
-        public static Codec<CreaseOfCreationParticle.OrbData> CODEC(ParticleType<CreaseOfCreationParticle.OrbData> particleType) {
+        public static Codec<RuinedParticle.OrbData> CODEC(ParticleType<RuinedParticle.OrbData> particleType) {
             return RecordCodecBuilder.create((codecBuilder) -> codecBuilder.group(
-                            Codec.FLOAT.fieldOf("r").forGetter(CreaseOfCreationParticle.OrbData::r),
-                            Codec.FLOAT.fieldOf("g").forGetter(CreaseOfCreationParticle.OrbData::g),
-                            Codec.FLOAT.fieldOf("b").forGetter(CreaseOfCreationParticle.OrbData::b),
-                            Codec.FLOAT.fieldOf("width").forGetter(CreaseOfCreationParticle.OrbData::width),
-                            Codec.INT.fieldOf("entityID").forGetter(CreaseOfCreationParticle.OrbData::entityID),
-                            Codec.INT.fieldOf("sampleCount").forGetter(CreaseOfCreationParticle.OrbData::sampleCount)
-                    ).apply(codecBuilder, CreaseOfCreationParticle.OrbData::new)
+                            Codec.FLOAT.fieldOf("r").forGetter(RuinedParticle.OrbData::r),
+                            Codec.FLOAT.fieldOf("g").forGetter(RuinedParticle.OrbData::g),
+                            Codec.FLOAT.fieldOf("b").forGetter(RuinedParticle.OrbData::b),
+                            Codec.INT.fieldOf("sampleCount").forGetter(RuinedParticle.OrbData::sampleCount)
+                    ).apply(codecBuilder, RuinedParticle.OrbData::new)
             );
         }
     }

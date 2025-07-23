@@ -1,47 +1,67 @@
 package net.goo.brutality.network;
 
-import net.goo.brutality.entity.capabilities.EntityCapabilities;
+import net.goo.brutality.client.ClientAccess;
 import net.goo.brutality.registry.BrutalityCapabilities;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.network.NetworkEvent;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
-public class s2cSyncEntityEffectsPacket {
+public class s2cSyncCapabilitiesPacket {
     private final int entityId;
-    private final CompoundTag effectsData;
+    private final Map<String, CompoundTag> data;
 
-    public s2cSyncEntityEffectsPacket(int entityId, EntityCapabilities.EntityEffectCap effects) {
+    public s2cSyncCapabilitiesPacket(int entityId, Entity entity) {
         this.entityId = entityId;
-        this.effectsData = effects.serializeNBT();
-//        System.out.println("Creating packet for entity " + entityId + " with data: " + effectsData); // Debug
+        this.data = new HashMap<>();
 
+        for (Map.Entry<String, Capability<? extends INBTSerializable<CompoundTag>>> entry : BrutalityCapabilities.CapabilitySyncRegistry.getAll().entrySet()) {
+            String key = entry.getKey();
+            Capability<?> cap = entry.getValue();
+
+            entity.getCapability(cap).ifPresent(inst -> {
+                CompoundTag tag = ((INBTSerializable<CompoundTag>) inst).serializeNBT();
+                data.put(key, tag);
+            });
+        }
     }
 
-    public s2cSyncEntityEffectsPacket(FriendlyByteBuf buf) {
+
+    public s2cSyncCapabilitiesPacket(FriendlyByteBuf buf) {
         this.entityId = buf.readInt();
-        this.effectsData = buf.readNbt();
+        int count = buf.readInt();
+        this.data = new HashMap<>();
+
+        for (int i = 0; i < count; i++) {
+            String key = buf.readUtf();
+            CompoundTag tag = buf.readNbt();
+            data.put(key, tag);
+        }
     }
 
     public void encode(FriendlyByteBuf buf) {
         buf.writeInt(entityId);
-        buf.writeNbt(effectsData);
+        buf.writeInt(data.size());
+        data.forEach((key, tag) -> {
+                    buf.writeUtf(key);
+                    buf.writeNbt(tag);
+
+                }
+
+        );
+
     }
 
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            Level level = Minecraft.getInstance().level;
-            if (level != null) {
-                Entity entity = level.getEntity(entityId);
-                if (entity != null) {
-//                    System.out.println("Received packet for entity " + entityId + " with data: " + effectsData); // Debug
-                    entity.getCapability(BrutalityCapabilities.ENTITY_EFFECT_CAP)
-                            .ifPresent(cap -> cap.deserializeNBT(effectsData));
-                }
+            if (ctx.get().getDirection().getReceptionSide().isClient()) {
+                ClientAccess.syncCapabilities(entityId, data);
             }
         });
         ctx.get().setPacketHandled(true);

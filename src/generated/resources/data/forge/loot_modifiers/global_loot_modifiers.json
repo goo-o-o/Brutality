@@ -1,0 +1,10 @@
+{
+  "entries": [
+    "brutality:zombie_drops_zombie_heart",
+    "brutality:uvogre_drops_uvogre_heart",
+    "brutality:trial_guardian_drops_trial_guardian_eyebrows",
+    "brutality:trial_guardian_drops_trial_guardian_hands",
+    "brutality:ender_dragon_drops_dragonheart"
+  ],
+  "replace": false
+}

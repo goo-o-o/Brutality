@@ -1,4 +1,4 @@
-package net.goo.brutality.entity.custom.projectile.trident;
+package net.goo.brutality.entity.projectile.trident;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractTrident;

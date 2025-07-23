@@ -1,4 +1,4 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.hammer;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalityHammerItem;
@@ -13,8 +13,9 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
 public class WoodenRulerHammer extends BrutalityHammerItem {
 
-    public WoodenRulerHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+
+    public WoodenRulerHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package net.goo.brutality.event.mod;
+package net.goo.brutality.event.mod.client;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.weapon.scythe.FallenScythe;

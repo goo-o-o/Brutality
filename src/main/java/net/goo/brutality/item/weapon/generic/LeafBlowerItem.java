@@ -1,8 +1,8 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.generic;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalityGenericItem;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,8 +34,8 @@ public class LeafBlowerItem extends BrutalityGenericItem {
     private static final String ACTIVE_KEY = "LeafBlowerActive";
     private int tickCounter;
 
-    public LeafBlowerItem(String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(identifier, rarity, descriptionComponents);
+    public LeafBlowerItem(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(rarity, descriptionComponents);
     }
 
 
@@ -72,7 +72,7 @@ public class LeafBlowerItem extends BrutalityGenericItem {
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         if (pLevel.isClientSide) {
             pPlayer.startUsingItem(pUsedHand);
-            pPlayer.playSound(ModSounds.LEAF_BLOWER_ON.get(), 0.25F, 1);
+            pPlayer.playSound(BrutalityModSounds.LEAF_BLOWER_ON.get(), 0.25F, 1);
         }
         if (!pLevel.isClientSide) {
             setActive(pPlayer.getItemInHand(pUsedHand), true);
@@ -83,7 +83,7 @@ public class LeafBlowerItem extends BrutalityGenericItem {
     @Override
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {
          if (pLivingEntity instanceof Player pPlayer) {
-                pPlayer.playSound(ModSounds.LEAF_BLOWER_OFF.get(), 0.25F, 1);
+                pPlayer.playSound(BrutalityModSounds.LEAF_BLOWER_OFF.get(), 0.25F, 1);
              tickCounter = 0;
             }
     }
@@ -95,7 +95,7 @@ public class LeafBlowerItem extends BrutalityGenericItem {
             if (pLevel.isClientSide && pEntity instanceof Player pPlayer) {
                 tickCounter++;
                 if (tickCounter >= 28 && tickCounter % 5 == 0) {
-                    pPlayer.playSound(ModSounds.LEAF_BLOWER_ACTIVE.get(), 0.25F, 1);
+                    pPlayer.playSound(BrutalityModSounds.LEAF_BLOWER_ACTIVE.get(), 0.25F, 1);
                 }
             }
 

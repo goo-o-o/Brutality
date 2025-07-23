@@ -3,13 +3,9 @@ package net.goo.brutality.util.helpers;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.explosion.BrutalityExplosion;
 import net.goo.brutality.entity.explosion.NuclearExplosion;
-import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.s2cCustomExplosionPacket;
 import net.goo.brutality.util.ModResources;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -40,9 +36,10 @@ public class ModExplosionHelper {
     }
 
 
-    public static Explosion sendCustomExplode(ModResources.EXPLOSION_TYPES explosionType, Level pLevel, @Nullable Entity pSource, double pX, double pY, double pZ, float pRadius, boolean pFire, Level.ExplosionInteraction pExplosionInteraction, boolean pSpawnParticles) {
+    public static void sendCustomExplode(ModResources.EXPLOSION_TYPES explosionType, Level pLevel, @Nullable Entity pSource, double pX, double pY, double pZ, float pRadius, boolean pFire, Level.ExplosionInteraction pExplosionInteraction, boolean pSpawnParticles) {
+        if (pLevel.isClientSide()) return;
 
-        Explosion.BlockInteraction explosion$blockinteraction1 = switch (pExplosionInteraction) {
+        Explosion.BlockInteraction blockInteraction = switch (pExplosionInteraction) {
             case NONE -> Explosion.BlockInteraction.KEEP;
             case BLOCK -> getDestroyType(pLevel, GameRules.RULE_BLOCK_EXPLOSION_DROP_DECAY);
             case MOB ->
@@ -50,22 +47,24 @@ public class ModExplosionHelper {
             case TNT -> getDestroyType(pLevel, GameRules.RULE_TNT_EXPLOSION_DROP_DECAY);
         };
 
-        BrutalityExplosion explosion = ModExplosionHelper.customExplode(createExplosion(explosionType, pLevel, pSource, pX, pY, pZ, pRadius, pFire, explosion$blockinteraction1), pLevel, pSpawnParticles);
+        BrutalityExplosion explosion = ModExplosionHelper.customExplode(
+                createExplosion(explosionType, pLevel, pSource, pX, pY, pZ, pRadius, pFire, blockInteraction), pLevel, pSpawnParticles);
+
         if (!explosion.interactsWithBlocks()) {
             explosion.clearToBlow();
         }
 
         Vec3 pos = explosion.getPosition();
-        for (Player player : pLevel.players()) {
-            if (player instanceof ServerPlayer serverPlayer) {
-                if (serverPlayer.distanceToSqr(pos.x, pos.y, pos.z) < 4096.0D) {
-                    PacketHandler.sendToPlayer(new s2cCustomExplosionPacket(pos.x, pos.y, pos.z, explosion.getRadius(), explosion.getToBlow(), explosion.getHitPlayers().get(serverPlayer), explosionType), serverPlayer);
-                }
-            }
+//
+//        for (Player player : pLevel.players()) {
+//            if (player instanceof ServerPlayer serverPlayer) {
+//                if (serverPlayer.distanceToSqr(pos.x, pos.y, pos.z) < 4096.0D) {
+//                    PacketHandler.sendToPlayer(new s2cCustomExplosionPacket(pos.x, pos.y, pos.z, explosion.getRadius(), explosion.getToBlow(), explosion.getHitPlayers().get(serverPlayer), explosionType), serverPlayer);
+//                }
+//            }
+//
+//        }
 
-        }
-
-        return explosion;
     }
 
 
@@ -90,7 +89,8 @@ public class ModExplosionHelper {
         private final BlockPos center;
         private final float maxRadius;
         private float currentRadius = 0;
-        private int ticksSinceLastLayer = 0, layersPerTick;
+        private int ticksSinceLastLayer = 0;
+        private final int layersPerTick;
         private int tickDelay = 4; // Delay between layers (in ticks)
 
         public ProgressiveExplosion(Level level, Entity owner, BlockPos center, float maxRadius, int layersPerTick) {

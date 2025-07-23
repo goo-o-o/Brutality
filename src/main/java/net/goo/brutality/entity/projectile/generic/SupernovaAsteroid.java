@@ -1,8 +1,8 @@
-package net.goo.brutality.entity.custom;
+package net.goo.brutality.entity.projectile.generic;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.particle.base.AbstractWorldAlignedTrailParticle;
-import net.goo.brutality.registry.BrutalityParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -126,7 +126,7 @@ public class SupernovaAsteroid extends ThrowableProjectile implements BrutalityG
             level().playSound(null, getX(), getY(), getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.NEUTRAL, 1F, 1F);
 
             for (int i = 0; i < serverLevel.random.nextInt(50); i++) {
-                serverLevel.sendParticles(ModUtils.getRandomParticle(BrutalityParticles.SUPERNOVA_PARTICLE), this.getX(),
+                serverLevel.sendParticles(ModUtils.getRandomParticle(BrutalityModParticles.SUPERNOVA_PARTICLE), this.getX(),
                         this.getY() + this.getBbHeight() / 2, this.getZ(), 1,
                         0, 0, 0, 100);
             }

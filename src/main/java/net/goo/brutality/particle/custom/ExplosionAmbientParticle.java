@@ -6,8 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.goo.brutality.client.BrutalityRenderTypes;
 import net.goo.brutality.particle.base.GenericParticleWithData;
-import net.goo.brutality.registry.ModParticles;
-import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -17,6 +16,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -54,7 +54,7 @@ public class ExplosionAmbientParticle extends GenericParticleWithData {
         if (this.isAlive()) {
             float timeScale = 1 - (float) this.age / this.lifetime;
             // Apply scale with flicker effect
-            this.quadSize = initialSize * ModUtils.nextFloatBetweenInclusive(level.random, 0.9F, 1.1F) * timeScale;
+            this.quadSize = initialSize * Mth.nextFloat(level.random, 0.9F, 1.1F) * timeScale;
 
         }
     }
@@ -96,7 +96,7 @@ public class ExplosionAmbientParticle extends GenericParticleWithData {
 
         @Override
         public ParticleType<ParticleData> getType() {
-            return ModParticles.EXPLOSION_AMBIENT_PARTICLE.get();
+            return BrutalityModParticles.EXPLOSION_AMBIENT_PARTICLE.get();
         }
 
         public static Codec<ParticleData> CODEC(ParticleType<ParticleData> type) {
@@ -107,7 +107,6 @@ public class ExplosionAmbientParticle extends GenericParticleWithData {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<ParticleData> {
         private final SpriteSet spriteSet;
 

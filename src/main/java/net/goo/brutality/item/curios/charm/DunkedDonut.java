@@ -1,4 +1,4 @@
-package net.goo.brutality.item.curios.necklace;
+package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
@@ -7,14 +7,14 @@ import net.minecraft.world.item.Rarity;
 
 import java.util.List;
 
-public class CaramelCrunchMedallion extends BrutalityCurioItem {
+public class DunkedDonut extends BrutalityCurioItem {
 
-    public CaramelCrunchMedallion(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public DunkedDonut(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
     @Override
     public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.NECKLACE;
+        return BrutalityCategories.CurioType.CHARM;
     }
 }

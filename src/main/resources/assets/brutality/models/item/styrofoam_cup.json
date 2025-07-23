@@ -1,0 +1,29 @@
+{
+  "parent": "minecraft:item/generated",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "brutality:item/generic/styrofoam_cup_handheld"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "texture": 0
+      },
+      "model": "brutality:item/styrofoam_cup_inventory"
+    },
+    {
+      "predicate": {
+        "texture": 1
+      },
+      "model": "brutality:item/styrofoam_cup_water_inventory"
+    }
+  ],
+  "perspectives": {
+    "gui": {
+      "parent": "brutality:item/styrofoam_cup_inventory"
+    },
+    "fixed": {
+      "parent": "brutality:item/styrofoam_cup_inventory"
+    }
+  }
+}

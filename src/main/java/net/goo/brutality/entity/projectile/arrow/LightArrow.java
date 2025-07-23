@@ -1,8 +1,8 @@
-package net.goo.brutality.entity.custom.projectile.arrow;
+package net.goo.brutality.entity.projectile.arrow;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityArrow;
-import net.goo.brutality.registry.BrutalityParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -71,7 +71,7 @@ public class LightArrow extends BrutalityArrow implements BrutalityGeoEntity {
 
     @Override
     public SimpleParticleType getCritParticle() {
-        return BrutalityParticles.SPARKLE_PARTICLE.get();
+        return BrutalityModParticles.SPARKLE_PARTICLE.get();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package net.goo.brutality.event;
+package net.goo.brutality.event.forge.client;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.projectile.generic.BlackHole;

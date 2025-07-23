@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:sapphire"
+    },
+    "#": {
+      "item": "terramity:daemonium"
+    },
+    "$": {
+      "item": "terramity:spectral_soul"
+    },
+    "%": {
+      "item": "minecraft:netherite_sword"
+    },
+    "@": {
+      "item": "minecraft:blue_ice"
+    }
+  },
+  "pattern": [
+    " #!",
+    "@$#",
+    "%@ "
+  ],
+  "result": {
+    "item": "brutality:frostmourne"
+  },
+  "show_notification": true
+}

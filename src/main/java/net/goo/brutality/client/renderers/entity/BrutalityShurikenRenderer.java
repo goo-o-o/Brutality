@@ -7,6 +7,8 @@ import net.goo.brutality.entity.projectile.generic.StarEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BrutalityShurikenRenderer<T extends Entity & BrutalityGeoEntity> extends BrutalityEntityRenderer<T> {
     public BrutalityShurikenRenderer(EntityRendererProvider.Context context) {

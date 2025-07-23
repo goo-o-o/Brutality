@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:gilded_feather"
+    },
+    "#": {
+      "item": "terramity:angel_feather"
+    },
+    "$": {
+      "item": "minecraft:bow"
+    },
+    "%": {
+      "item": "terramity:archangel_halo"
+    },
+    "@": {
+      "item": "terramity:topaz"
+    }
+  },
+  "pattern": [
+    "%@#",
+    "@$!",
+    "#! "
+  ],
+  "result": {
+    "item": "brutality:providence"
+  },
+  "show_notification": true
+}

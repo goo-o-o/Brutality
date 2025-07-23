@@ -1,4 +1,4 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.sword;
 
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.registry.BrutalityModMobEffects;
@@ -14,8 +14,9 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 import java.util.List;
 
 public class WhisperwaltzSword extends BrutalitySwordItem {
-    public WhisperwaltzSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+
+    public WhisperwaltzSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
     @Override
@@ -26,7 +27,7 @@ public class WhisperwaltzSword extends BrutalitySwordItem {
     public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
         MobEffect pulverized = BrutalityModMobEffects.PULVERIZED.get();
         pTarget.invulnerableTime = 0;
-        pTarget.addEffect(new MobEffectInstance(pulverized, 2, 0));
+        pTarget.addEffect(new MobEffectInstance(pulverized, 2, 1));
         return super.hurtEnemy(pStack, pTarget, pAttacker);
     }
 }

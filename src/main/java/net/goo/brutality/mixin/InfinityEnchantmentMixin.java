@@ -1,6 +1,6 @@
 package net.goo.brutality.mixin;
 
-import net.goo.brutality.item.weapon.custom.ThunderboltTrident;
+import net.goo.brutality.item.weapon.trident.ThunderboltTrident;
 import net.goo.brutality.util.helpers.EnchantmentHelper;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;

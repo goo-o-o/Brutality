@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/charm/mortar_and_pestle_charm/mortar_and_pestle_charm_inventory"
+  }
+}

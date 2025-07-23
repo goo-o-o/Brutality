@@ -1,0 +1,27 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "minecraft:item/generated",
+    "textures": {
+      "layer0": "brutality:item/generic/last_prism/last_prism_inventory"
+    }
+  },
+  "perspectives": {
+    "ground": {
+      "parent": "brutality:item/generic/last_prism_handheld"
+    },
+    "thirdperson_lefthand": {
+      "parent": "brutality:item/generic/last_prism_handheld"
+    },
+    "thirdperson_righthand": {
+      "parent": "brutality:item/generic/last_prism_handheld"
+    },
+    "firstperson_lefthand": {
+      "parent": "brutality:item/generic/last_prism_handheld"
+    },
+    "firstperson_righthand": {
+      "parent": "brutality:item/generic/last_prism_handheld"
+    }
+  }
+}

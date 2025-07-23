@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:block/coffee_machine_handheld",
+  "textures": {
+    "layer0": "brutality:block/coffee_machine"
+  }
+}

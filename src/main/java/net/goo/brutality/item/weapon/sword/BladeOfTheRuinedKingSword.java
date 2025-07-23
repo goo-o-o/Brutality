@@ -1,12 +1,10 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.sword;
 
-import net.goo.brutality.client.renderers.item.BrutalityAutoFullbrightItemNoDepthRenderer;
-import net.goo.brutality.entity.custom.projectile.generic.SpectralMawEntity;
+import net.goo.brutality.entity.projectile.generic.SpectralMawEntity;
 import net.goo.brutality.item.base.BrutalitySwordItem;
+import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.ModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -18,27 +16,26 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 public class BladeOfTheRuinedKingSword extends BrutalitySwordItem {
 
 
-    public BladeOfTheRuinedKingSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public BladeOfTheRuinedKingSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
     }
 
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityAutoFullbrightItemNoDepthRenderer.class);
-    }
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
+//    }
 
     @Override
     public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
@@ -91,7 +88,7 @@ public class BladeOfTheRuinedKingSword extends BrutalitySwordItem {
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {
 
         if (!pLevel.isClientSide) {
-            SpectralMawEntity spectralMaw = new SpectralMawEntity(ModEntities.SPECTRAL_MAW.get(), pLivingEntity, pLevel, 72000 - pTimeCharged);
+            SpectralMawEntity spectralMaw = new SpectralMawEntity(BrutalityModEntities.SPECTRAL_MAW_ENTITY.get(), pLivingEntity, pLevel, 72000 - pTimeCharged);
             spectralMaw.shootFromRotation(pLivingEntity, pLivingEntity.getXRot(), pLivingEntity.getYRot(), 0.0F, 1, 1.0F);
             pLevel.addFreshEntity(spectralMaw);
         }

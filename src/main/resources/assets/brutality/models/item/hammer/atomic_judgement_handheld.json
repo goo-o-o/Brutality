@@ -80,8 +80,5 @@
         0.5
       ]
     }
-  },
-  "textures": {
-    "particle": "armament:item/atomic_judgement_handle_handheld"
   }
 }

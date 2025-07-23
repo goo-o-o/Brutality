@@ -1,4 +1,4 @@
-package net.goo.brutality.item.curios;
+package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
@@ -11,10 +11,10 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class SubtractionCharm extends BrutalityCurioItem {
+public class Subtraction extends BrutalityCurioItem {
 
 
-    public SubtractionCharm(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public Subtraction(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

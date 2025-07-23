@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "brutality:item/high_frequency_alloy_inventory"
+  }
+}

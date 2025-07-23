@@ -1,12 +1,9 @@
-package net.goo.brutality.event;
+package net.goo.brutality.event.mod.client;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.renderers.block.BrutalityBlockRenderer;
 import net.goo.brutality.client.renderers.curio.BrutalityCurioRenderer;
 import net.goo.brutality.client.renderers.layers.BrutalityAutoFullbrightAlphaLayer;
 import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.registry.ModBlockEntities;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -35,7 +32,6 @@ public class BrutalityModCurioRenderManager {
         CuriosRendererRegistry.register(BrutalityModItems.TRIAL_GUARDIAN_EYEBROWS.get(), BrutalityCurioRenderer::new);
         CuriosRendererRegistry.register(BrutalityModItems.TRIAL_GUARDIAN_HANDS.get(), BrutalityCurioRenderer::new);
 
-        BlockEntityRenderers.register(ModBlockEntities.WATER_COOLER_BLOCK_ENTITY.get(), BrutalityBlockRenderer::new);
 
     }
 }

@@ -1,4 +1,4 @@
-package net.goo.brutality.event;
+package net.goo.brutality.event.mod.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.goo.brutality.Brutality;

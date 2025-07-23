@@ -1,4 +1,4 @@
-package net.goo.brutality.event;
+package net.goo.brutality.event.forge.client;
 
 import net.goo.brutality.item.base.BrutalityGeoItem;
 import net.goo.brutality.registry.ModRarities;

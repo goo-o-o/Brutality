@@ -80,7 +80,7 @@ public class AttributeHelper {
     }
 
     public static String ATTACK_SPEED_BONUS = "AttackSpeedBonus";
-    public static void setAttackSpeedBonusDisplay(ItemStack stack, float speed) {
+    public static void setAttackSpeedBonus(ItemStack stack, float speed) {
         stack.getOrCreateTag().putFloat(ATTACK_SPEED_BONUS, speed);
     }
 }

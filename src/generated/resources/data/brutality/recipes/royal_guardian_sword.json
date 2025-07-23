@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:reverium_sword"
+    },
+    "#": {
+      "item": "terramity:nyxium_greatsword"
+    },
+    "@": {
+      "item": "terramity:exodium_sword"
+    },
+    "^": {
+      "item": "terramity:decayed_bedrock"
+    }
+  },
+  "pattern": [
+    "  #",
+    "^@ ",
+    "!^ "
+  ],
+  "result": {
+    "item": "brutality:royal_guardian_sword"
+  },
+  "show_notification": true
+}

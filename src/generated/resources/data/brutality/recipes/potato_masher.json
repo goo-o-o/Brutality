@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:stick"
+    },
+    "#": {
+      "item": "minecraft:iron_bars"
+    },
+    "@": {
+      "item": "minecraft:iron_trapdoor"
+    }
+  },
+  "pattern": [
+    " #@",
+    " ##",
+    "!  "
+  ],
+  "result": {
+    "item": "brutality:potato_masher"
+  },
+  "show_notification": true
+}

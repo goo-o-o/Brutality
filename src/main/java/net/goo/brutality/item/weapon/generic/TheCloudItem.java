@@ -1,4 +1,4 @@
-package net.goo.brutality.item.tool;
+package net.goo.brutality.item.weapon.generic;
 
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;

@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:diamond"
+    },
+    "$": {
+      "item": "terramity:fateful_coin"
+    },
+    "%": {
+      "item": "terramity:poker_chip_bracelets"
+    },
+    "&": {
+      "item": "terramity:slot_machine"
+    },
+    "@": {
+      "item": "minecraft:golden_axe"
+    },
+    "^": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "pattern": [
+    " #&",
+    "$%^",
+    "@$ "
+  ],
+  "result": {
+    "item": "brutality:jackpot"
+  },
+  "show_notification": true
+}

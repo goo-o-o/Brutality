@@ -1,6 +1,6 @@
 package net.goo.brutality.particle.custom;
 
-import net.goo.brutality.registry.ModParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
 import net.minecraft.client.particle.Particle;
@@ -9,7 +9,6 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class NuclearExplosionSeedParticle extends NoRenderParticle {
     private int life;
     private final int lifeTime = 8;
@@ -23,7 +22,7 @@ public class NuclearExplosionSeedParticle extends NoRenderParticle {
             double d0 = this.x + (this.random.nextDouble() - this.random.nextDouble()) * 4.0D;
             double d1 = this.y + (this.random.nextDouble() - this.random.nextDouble()) * 4.0D;
             double d2 = this.z + (this.random.nextDouble() - this.random.nextDouble()) * 4.0D;
-            this.level.addParticle(ModParticles.NUCLEAR_EXPLOSION_PARTICLE.get(), d0, d1, d2, (double)((float)this.life / (float)this.lifeTime), 0.0D, 0.0D);
+            this.level.addParticle(BrutalityModParticles.NUCLEAR_EXPLOSION_PARTICLE.get(), d0, d1, d2, (double)((float)this.life / (float)this.lifeTime), 0.0D, 0.0D);
         }
 
         ++this.life;
@@ -33,7 +32,6 @@ public class NuclearExplosionSeedParticle extends NoRenderParticle {
 
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, double pX, double pY, double pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
             return new NuclearExplosionSeedParticle(pLevel, pX, pY, pZ);

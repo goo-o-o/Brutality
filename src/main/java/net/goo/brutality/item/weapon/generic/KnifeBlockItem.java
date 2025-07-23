@@ -1,9 +1,9 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.generic;
 
-import net.goo.brutality.entity.custom.projectile.trident.ThrownKnife;
+import net.goo.brutality.entity.projectile.trident.ThrownKnife;
 import net.goo.brutality.item.base.BrutalityGenericItem;
-import net.goo.brutality.registry.ModEntities;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModEntities;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -30,10 +30,9 @@ import static net.goo.brutality.util.helpers.EnchantmentHelper.restrictEnchants;
 public class KnifeBlockItem extends BrutalityGenericItem {
     private final String CHEF = "chef", CARVING = "carving", BREAD = "bread", CLEAVER = "cleaver", FORK = "fork", AXE = "axe";
 
-    public KnifeBlockItem(String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(identifier, rarity, descriptionComponents);
+    public KnifeBlockItem(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(rarity, descriptionComponents);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
-
     }
 
 
@@ -86,7 +85,7 @@ public class KnifeBlockItem extends BrutalityGenericItem {
                 triggerAnim(pPlayer, GeoItem.getOrAssignId(stack, serverLevel), "no_" + randomKnife, "no_" + randomKnife);
                 stack.getOrCreateTag().remove(randomKnife);
                 launchProjectile(pLevel, pPlayer, stack, randomKnife);
-                pLevel.playSound(null, pPlayer.getOnPos(), ModSounds.KNIFE_BLOCK.get(), SoundSource.PLAYERS);
+                pLevel.playSound(null, pPlayer.getOnPos(), BrutalityModSounds.KNIFE_BLOCK.get(), SoundSource.PLAYERS);
             } else {
                 pPlayer.getCooldowns().addCooldown(stack.getItem(), 30);
                 pLevel.playSound(null, pPlayer.getOnPos(), SoundEvents.DISPENSER_FAIL, SoundSource.PLAYERS);
@@ -103,7 +102,7 @@ public class KnifeBlockItem extends BrutalityGenericItem {
 
     public void launchProjectile(Level pLevel, Player player, ItemStack pStack, String knifeType) {
 
-        ThrownKnife thrownKnife = new ThrownKnife(pLevel, player, pStack, ModEntities.THROWN_KNIFE_ENTITY.get(), knifeType);
+        ThrownKnife thrownKnife = new ThrownKnife(pLevel, player, pStack, BrutalityModEntities.THROWN_KNIFE_ENTITY.get(), knifeType);
         thrownKnife.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3, 1.0F);
         thrownKnife.pickup = AbstractArrow.Pickup.DISALLOWED;
 

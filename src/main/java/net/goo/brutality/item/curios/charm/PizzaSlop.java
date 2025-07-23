@@ -1,4 +1,4 @@
-package net.goo.brutality.item.curios;
+package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
@@ -7,10 +7,10 @@ import net.minecraft.world.item.Rarity;
 
 import java.util.List;
 
-public class PizzaSlopCharm extends BrutalityCurioItem {
+public class PizzaSlop extends BrutalityCurioItem {
 
 
-    public PizzaSlopCharm(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public PizzaSlop(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

@@ -24,7 +24,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 
-public class ModEntities {
+public class BrutalityModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Brutality.MOD_ID);
 
@@ -32,7 +32,7 @@ public class ModEntities {
             ENTITY_TYPES.register("summoned_stray", () -> EntityType.Builder.<SummonedStray>of(SummonedStray::new, MobCategory.MONSTER)
                     .sized(.6f, 1.8f)
                     .clientTrackingRange(64)
-                    .build(new ResourceLocation(Brutality.MOD_ID, "summoned_stray").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "summoned_stray").toString()));
 
 //    public static final RegistryObject<EntityType<SwordWave>> SWORD_WAVE =
 //            ENTITY_TYPES.register("sword_wave", () -> EntityType.Builder.of(SwordWave::new,
@@ -82,6 +82,14 @@ public class ModEntities {
                             .clientTrackingRange(64)
                             .setUpdateInterval(20)
                             .build("thrown_knife"));
+
+    public static final RegistryObject<EntityType<ThrownStyrofoamCup>> THROWN_STYROFOAM_CUP =
+            ENTITY_TYPES.register("thrown_styrofoam_cup",
+                    () -> EntityType.Builder.<ThrownStyrofoamCup>of(ThrownStyrofoamCup::new, MobCategory.MISC)
+                            .sized(0.5F, 0.5F)
+                            .clientTrackingRange(64)
+                            .setUpdateInterval(20)
+                            .build("thrown_styrofoam_cup"));
 
     public static final RegistryObject<EntityType<ThrownCabbage>> THROWN_CABBAGE_ENTITY =
             ENTITY_TYPES.register("thrown_cabbage",

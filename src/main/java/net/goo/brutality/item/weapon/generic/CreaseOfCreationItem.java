@@ -1,12 +1,14 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.generic;
 
-import net.goo.brutality.client.renderers.item.BrutalityAutoFullbrightItemRenderer;
+import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.base.BrutalityGenericItem;
+import net.goo.brutality.network.PacketHandler;
+import net.goo.brutality.network.s2cSyncCapabilitiesPacket;
 import net.goo.brutality.particle.custom.CreaseOfCreationParticle;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityCapabilities;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,11 +24,12 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
@@ -34,15 +37,16 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import static net.goo.brutality.util.helpers.EnchantmentHelper.restrictEnchants;
 
 public class CreaseOfCreationItem extends BrutalityGenericItem {
 
 
-    public CreaseOfCreationItem(String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(identifier, rarity, descriptionComponents);
+    public CreaseOfCreationItem(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(rarity, descriptionComponents);
+        SingletonGeoAnimatable.registerSyncedAnimatable(this);
+
     }
 
     @Override
@@ -71,11 +75,11 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
         return ALLOWED_ENCHANTMENTS.contains(enchantment);
     }
 
-
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityAutoFullbrightItemRenderer.class);
-    }
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
+//    }
 
     @Override
     public int getUseDuration(ItemStack pStack) {
@@ -89,26 +93,28 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        pPlayer.startUsingItem(pUsedHand);
-
-
-        ItemStack stack = pPlayer.getItemInHand(pUsedHand);
-        Entity target = ModUtils.getEntityPlayerLookingAt(pPlayer, 25);
-
         if (pLevel instanceof ServerLevel serverLevel) {
+            pPlayer.startUsingItem(pUsedHand);
+            ItemStack stack = pPlayer.getItemInHand(pUsedHand);
+
+            List<Entity> targets = ModUtils.getEntitiesInRay(Entity.class, pPlayer, 30, ClipContext.Fluid.NONE, ClipContext.Block.OUTLINE,
+                    1F, entity -> entity != pPlayer, 10, null).entityList();
+
+            Entity target = targets.isEmpty() ? null : targets.get(0);
+
             triggerAnim(pPlayer, GeoItem.getOrAssignId(stack, serverLevel), "controller_2", "use");
-        }
 
-        if (target != null) {
-            if (target instanceof Player player) {
-                if (player.isHolding(this)) {
-                    return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
+            if (target != null) {
+                if (target instanceof Player player) {
+                    if (player.isHolding(this)) {
+                        return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
+                    }
                 }
+                stack.getOrCreateTag().putInt("target", target.getId());
             }
-            stack.getOrCreateTag().putInt("target", target.getId());
-        }
 
-        return InteractionResultHolder.success(pPlayer.getItemInHand(pUsedHand));
+        }
+        return InteractionResultHolder.pass(pPlayer.getItemInHand(pUsedHand));
     }
 
     @Override
@@ -141,34 +147,54 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
 
     @Override
     public boolean onDroppedByPlayer(ItemStack item, Player player) {
-        item.getOrCreateTag().remove("target");
-        if (player.level() instanceof ServerLevel serverLevel)
+        if (player.level() instanceof ServerLevel serverLevel) {
             stopTriggeredAnim(player, GeoItem.getOrAssignId(item, serverLevel), "controller_2", "use");
+
+            int targetId = item.getOrCreateTag().getInt("target");
+            Entity target = serverLevel.getEntity(targetId);
+
+            if (target != null) {
+                target.getCapability(BrutalityCapabilities.ENTITY_SHOULD_ROTATE_CAP).ifPresent(cap -> {
+                    cap.setShouldRotate(false);
+                    PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(targetId, target));
+                });
+            }
+            item.getOrCreateTag().remove("target");
+        }
         return true;
     }
 
     @Override
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {
+
         if (pLevel instanceof ServerLevel serverLevel) {
+            int targetId = pStack.getOrCreateTag().getInt("target");
+            Entity target = pLevel.getEntity(targetId);
+            pStack.getOrCreateTag().remove("target");
             stopTriggeredAnim(pLivingEntity, GeoItem.getOrAssignId(pStack, serverLevel), "controller_2", "use");
+
+            if (target != null) {
+
+                DelayedTaskScheduler.queueServerWork(30, () ->
+                        target.getCapability(BrutalityCapabilities.ENTITY_SHOULD_ROTATE_CAP).ifPresent(cap -> {
+                            cap.setShouldRotate(false);
+                            PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(targetId, target));
+                        }));
+
+                if (!pLivingEntity.isShiftKeyDown()) return;
+
+                Vec3 lookAng = pLivingEntity.getLookAngle().scale(2);
+
+                target.push(lookAng.x, lookAng.y, lookAng.z);
+
+                if (target instanceof ServerPlayer playerTarget)
+                    playerTarget.connection.send(new ClientboundSetEntityMotionPacket(playerTarget));
+
+                if (pLivingEntity instanceof Player)
+                    pLevel.playSound(((Player) pLivingEntity), pLivingEntity.getOnPos(), BrutalityModSounds.BASS_BOOM.get(), SoundSource.AMBIENT);
+            }
         }
-        if (!pLivingEntity.isCrouching()) return;
-        int entityId = pStack.getOrCreateTag().getInt("target");
-        pStack.getOrCreateTag().remove("target");
-        Entity target = pLevel.getEntity(entityId);
 
-
-        if (target == null) return;
-
-        Vec3 lookAng = pLivingEntity.getLookAngle().scale(2);
-
-        target.push(lookAng.x, lookAng.y, lookAng.z);
-
-        if (target instanceof ServerPlayer playerTarget)
-            playerTarget.connection.send(new ClientboundSetEntityMotionPacket(playerTarget));
-
-        if (pLivingEntity instanceof Player)
-            pLevel.playSound(((Player) pLivingEntity), pLivingEntity.getOnPos(), ModSounds.BASS_BOOM.get(), SoundSource.AMBIENT);
     }
 
     @Override
@@ -179,16 +205,27 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
     @Override
     public void onUseTick(Level level, LivingEntity player, ItemStack stack, int remainingUseDuration) {
         if (!(player instanceof Player)) return;
+        if (level.isClientSide()) return;
 
-        int entityId = stack.getOrCreateTag().getInt("target");
+        int targetId = stack.getOrCreateTag().getInt("target");
 
-        Entity target = level.getEntity(entityId);
+        Entity target = level.getEntity(targetId);
         if (target == null) return;
+
+
+        target.getCapability(BrutalityCapabilities.ENTITY_SHOULD_ROTATE_CAP).ifPresent(cap -> {
+            if (!cap.isShouldRotate()) {
+                cap.setShouldRotate(true);
+//                System.out.println("set should rotate");
+                PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(targetId, target));
+            }
+        });
+
 
         Vec3 lookVec = player.getViewVector(1.0F);
         Vec3 holdPos = player.getEyePosition().add(lookVec.scale(7));
 
-        Vec3 direction = holdPos.subtract(target.position().x, target.getY(), target.position().z);
+        Vec3 direction = holdPos.subtract(target.position().x, target.position().y + target.getBbHeight() / 2, target.position().z);
 
         double distance = direction.length();
         float normalized = (float) (Math.min(distance, 25) / 25);
@@ -203,10 +240,10 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
                 Mth.lerp(lerpFactor, currentMotion.z, force.z)
         );
 
-        stack.hurtAndBreak(1, player, entity -> entity.broadcastBreakEvent(Objects.requireNonNull(stack.getEquipmentSlot())));
-
+        target.hasImpulse = true;
         target.setDeltaMovement(newMotion);
 
+        stack.hurtAndBreak(1, player, entity -> entity.broadcastBreakEvent(Objects.requireNonNull(stack.getEquipmentSlot())));
         if (target instanceof LivingEntity) {
             if ((target.horizontalCollision || target.verticalCollision) && target.getDeltaMovement().lengthSqr() > 0.25) {
                 target.hurt(player.damageSources().flyIntoWall(), ((float) target.getDeltaMovement().lengthSqr() * 10));
@@ -220,15 +257,31 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
 
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (pIsSelected && pLevel instanceof ServerLevel serverLevel) {
-            if (serverLevel.getGameTime() % 20 == 0) {
+        if (pLevel instanceof ServerLevel serverLevel)
+            if (pIsSelected) {
+                if (serverLevel.getGameTime() % 20 == 0) {
 
 
-                Vec3 viewVec = pEntity.getViewVector(1F).normalize().scale(1.5F);
+                    Vec3 viewVec = pEntity.getViewVector(1F).normalize().scale(1.5F);
 
-                serverLevel.sendParticles((new CreaseOfCreationParticle.OrbData(0.5F, 0.3F, 1f, 0.5F, pEntity.getId(), 20)), pEntity.getX() - viewVec.x, pEntity.getY() + pEntity.getBbHeight() / 2, pEntity.getZ() - viewVec.y, 1, 0.5, 0.5, 0.5, 0);
+                    serverLevel.sendParticles((new CreaseOfCreationParticle.OrbData(0.5F, 0.3F, 1f, 0.5F, pEntity.getId(), 20)), pEntity.getX() - viewVec.x, pEntity.getY() + pEntity.getBbHeight() / 2, pEntity.getZ() - viewVec.y, 1, 0.5, 0.5, 0.5, 0);
+                }
+            } else {
+                if (pStack.getOrCreateTag().contains("target")) {
+
+                    int targetId = pStack.getOrCreateTag().getInt("target");
+                    pStack.getOrCreateTag().remove("target");
+
+                    Entity target = pLevel.getEntity(targetId);
+                    if (target == null) return;
+
+                    DelayedTaskScheduler.queueServerWork(30, () ->
+                            target.getCapability(BrutalityCapabilities.ENTITY_SHOULD_ROTATE_CAP).ifPresent(cap -> {
+                                cap.setShouldRotate(false);
+                                PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(targetId, target));
+                            }));
+                }
             }
-        }
     }
 }
 

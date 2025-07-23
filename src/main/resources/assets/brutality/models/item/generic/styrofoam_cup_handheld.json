@@ -1,0 +1,33 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        15,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        -3,
+        -2.5
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        15,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        -3,
+        -2.5
+      ]
+    }
+  },
+  "textures": {
+    "particle": "brutality:item/styrofoam_cup_handheld"
+  }
+}

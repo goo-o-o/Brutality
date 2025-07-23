@@ -1,21 +1,18 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.generic;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.entity.custom.ExplosionRay;
+import net.goo.brutality.entity.projectile.ray.ExplosionRay;
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.s2cEnhancedExactParticlePacket;
 import net.goo.brutality.particle.custom.ExplosionAmbientParticle;
 import net.goo.brutality.particle.custom.flat.ExplosionMagicCircleParticle;
-import net.goo.brutality.registry.ModEntities;
-import net.goo.brutality.util.ModResources;
+import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.ModExplosionHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -26,7 +23,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -34,8 +30,8 @@ import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
@@ -52,8 +48,9 @@ public class FirstExplosionStaff extends BrutalityGenericItem {
     private BlockPos targetBlockPos;
     private static final String SUCCESSFUL = "Successful";
 
-    public FirstExplosionStaff(String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(identifier, rarity, descriptionComponents);
+    public FirstExplosionStaff(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(rarity, descriptionComponents);
+        SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }
 
 
@@ -64,20 +61,7 @@ public class FirstExplosionStaff extends BrutalityGenericItem {
         return stack;
     }
 
-    @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        int[][] colors = BrutalityTooltipHelper.getLoreColors(this.getClass());
-        pTooltipComponents.add(Component.translatable("rarity." + Brutality.MOD_ID + "." + rarity).withStyle(Style.EMPTY.withFont(ModResources.RARITY_FONT)));
-        for (int i = 1; i <= 3; i++) {
-            pTooltipComponents.add(BrutalityTooltipHelper.tooltipHelper("item." + Brutality.MOD_ID + "." + identifier + ".lore." + i, false, null, colors[1]));
-        }
 
-        assert Minecraft.getInstance().level != null;
-        pTooltipComponents.add(BrutalityTooltipHelper.tooltipHelper("item." + Brutality.MOD_ID + "." + identifier + ".lore.4", false, ALAGARD_LARGE, 0.25F, 4, new int[][]{{203,53,61}, {237,98,64}, {249,182,78}}));
-
-        pTooltipComponents.add(Component.literal(""));
-        if (pStack.isEnchanted()) pTooltipComponents.add(Component.literal(""));
-    }
 
     @SubscribeEvent
     public static void onFOVModifier(ComputeFovModifierEvent event) {
@@ -171,6 +155,8 @@ public class FirstExplosionStaff extends BrutalityGenericItem {
     @Override
     public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
         int useDuration = getUseDuration(pStack) - pRemainingUseDuration;
+        String identifier = pStack.getDescriptionId();
+
         if (!pLevel.isClientSide()) {
 
             if (useDuration % 20 == 0) {
@@ -223,7 +209,7 @@ public class FirstExplosionStaff extends BrutalityGenericItem {
                     ));
 
 
-                    ExplosionRay explosionRay = new ExplosionRay(ModEntities.EXPLOSION_RAY.get(), pLevel);
+                    ExplosionRay explosionRay = new ExplosionRay(BrutalityModEntities.EXPLOSION_RAY.get(), pLevel);
                     explosionRay.setOwner(pPlayer.getUUID());
                     explosionRay.setPitch(randPitch);
                     explosionRay.setYaw(randYaw);

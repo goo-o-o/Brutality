@@ -1,22 +1,23 @@
-package net.goo.brutality.item.weapon.trident;
+package net.goo.brutality.item.weapon.lance;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.renderers.item.BrutalityAutoFullbrightItemNoDepthRenderer;
 import net.goo.brutality.entity.projectile.generic.BlackHole;
-import net.goo.brutality.item.base.BrutalityTridentItem;
+import net.goo.brutality.item.base.BrutalityLanceItem;
+import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModSounds;
-import net.goo.brutality.registry.ModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
@@ -25,23 +26,41 @@ import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class EventHorizonTrident extends BrutalityTridentItem {
+public class EventHorizonLance extends BrutalityLanceItem {
 
 
-    public EventHorizonTrident(float attackDamageModifier, float attackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(attackDamageModifier, attackSpeedModifier, rarity, descriptionComponents);
+    public EventHorizonLance(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
+
+    }
+
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
+//    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
+        ItemStack itemstack = pPlayer.getItemInHand(pUsedHand);
+
+        pPlayer.startUsingItem(pUsedHand);
+        return InteractionResultHolder.consume(itemstack);
+
     }
 
     @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityAutoFullbrightItemNoDepthRenderer.class);
+    public UseAnim getUseAnimation(ItemStack pStack) {
+        return UseAnim.BOW;
     }
 
-
+    @Override
+    public int getUseDuration(ItemStack pStack) {
+        return 72000;
+    }
 
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeLeft) {
         if (pLivingEntity instanceof Player player) {
@@ -59,7 +78,7 @@ public class EventHorizonTrident extends BrutalityTridentItem {
         if (player.level() instanceof ServerLevel serverLevel) {
             serverLevel.playSound(null, player.getOnPos(), BrutalityModSounds.EVENT_HORIZON_DISLODGE.get(), SoundSource.AMBIENT);
 
-            BlackHole blackHole = new BlackHole(ModEntities.BLACK_HOLE_ENTITY.get(), serverLevel);
+            BlackHole blackHole = new BlackHole(BrutalityModEntities.BLACK_HOLE_ENTITY.get(), serverLevel);
             blackHole.setOwner(player);
             blackHole.setPos(player.getPosition(1f).add(0, 2, 0));
             serverLevel.addFreshEntity(blackHole);

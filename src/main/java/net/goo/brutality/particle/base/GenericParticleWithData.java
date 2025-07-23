@@ -4,7 +4,7 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.goo.brutality.registry.ModParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.ParticleOptions;
@@ -90,7 +90,7 @@ public class GenericParticleWithData extends TextureSheetParticle {
 
         @Override
         public ParticleType<ParticleData> getType() {
-            return ModParticles.GENERIC_PARTICLE_WITH_DATA.get();
+            return BrutalityModParticles.GENERIC_PARTICLE_WITH_DATA.get();
         }
 
         public static Codec<ParticleData> CODEC(ParticleType<ParticleData> type) {
@@ -101,7 +101,6 @@ public class GenericParticleWithData extends TextureSheetParticle {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<ParticleData> {
         private final SpriteSet spriteSet;
 

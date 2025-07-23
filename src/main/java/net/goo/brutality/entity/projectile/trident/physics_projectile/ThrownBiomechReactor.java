@@ -1,12 +1,12 @@
-package net.goo.brutality.entity.custom.projectile.trident.physics_projectile;
+package net.goo.brutality.entity.projectile.trident.physics_projectile;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractPhysicsProjectile;
 import net.goo.brutality.entity.base.BrutalityAbstractTrident;
 import net.goo.brutality.particle.custom.RainbowTrailParticle;
 import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.BrutalityParticles;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModParticles;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -106,7 +106,7 @@ public class ThrownBiomechReactor extends BrutalityAbstractPhysicsProjectile imp
 
                 if (nearestMob != null) {
                     this.entityData.set(HOMING_TARGET_ID, nearestMob.getId());
-                    this.level().playLocalSound(this.getOnPos(), ModSounds.TARGET_FOUND.get(), SoundSource.AMBIENT, 4F, Mth.nextFloat(level().random, 0.8F, 1.2F), false);
+                    this.level().playLocalSound(this.getOnPos(), BrutalityModSounds.TARGET_FOUND.get(), SoundSource.AMBIENT, 4F, Mth.nextFloat(level().random, 0.8F, 1.2F), false);
                 }
 
             } else {
@@ -159,7 +159,7 @@ public class ThrownBiomechReactor extends BrutalityAbstractPhysicsProjectile imp
 
         }
 
-        this.playSound(ModSounds.BIOMECH_REACTOR_BOOM.get(), 5F, Mth.nextFloat(this.random, 0.8F, 1.2F));
+        this.playSound(BrutalityModSounds.BIOMECH_REACTOR_BOOM.get(), 5F, Mth.nextFloat(this.random, 0.8F, 1.2F));
         this.discard();
     }
 
@@ -169,7 +169,7 @@ public class ThrownBiomechReactor extends BrutalityAbstractPhysicsProjectile imp
         super.onHitBlock(hitResult);
         Vec3 location = hitResult.getLocation();
         if (this.level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(BrutalityParticles.BIOMECH_REACTOR_PARTICLE.get(),
+            serverLevel.sendParticles(BrutalityModParticles.BIOMECH_REACTOR_PARTICLE.get(),
                     location.x, location.y, location.z, 1, 0, 0, 0, 0);
         }
     }
@@ -181,7 +181,7 @@ public class ThrownBiomechReactor extends BrutalityAbstractPhysicsProjectile imp
         Vec3 location = hitResult.getLocation();
 
         if (hitEntity instanceof LivingEntity livingEntity && livingEntity.level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(BrutalityParticles.BIOMECH_REACTOR_PARTICLE.get(),
+            serverLevel.sendParticles(BrutalityModParticles.BIOMECH_REACTOR_PARTICLE.get(),
                     location.x, location.y + hitEntity.getBbHeight() / 2, location.z, 1, 0, 0, 0, 0);
 
         }

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:blue_ice"
+    },
+    "@": {
+      "item": "terramity:crystal_heart"
+    }
+  },
+  "pattern": [
+    "###",
+    "#@#",
+    "###"
+  ],
+  "result": {
+    "item": "brutality:frozen_heart"
+  },
+  "show_notification": true
+}

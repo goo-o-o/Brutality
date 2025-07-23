@@ -1,51 +1,63 @@
 package net.goo.brutality.network;
 
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.NetworkEvent;
-import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 
 import java.util.function.Supplier;
 
-public class c2sTriggerAnimPacket {
-    private final ItemStack stack;
-    private final String controllerName, animationName;
-    private final long id;
+public class c2sDamageEntityPacket {
+    private final int entityId;
+    private final float damage;
+    private final ResourceKey<DamageType> damageTypeKey;
 
-    public c2sTriggerAnimPacket(ItemStack stack, long id, String controllerName, String animationName) {
-        this.stack = stack;
-        this.id = id;
-        this.controllerName = controllerName;
-        this.animationName = animationName;
+    public c2sDamageEntityPacket(int entityId, float damage, DamageSource damageSource) {
+        this.entityId = entityId;
+        this.damage = damage;
+        this.damageTypeKey = damageSource.typeHolder().unwrapKey()
+                .orElseThrow(() -> new IllegalArgumentException("Unregistered damage type"));
     }
 
-    public c2sTriggerAnimPacket(FriendlyByteBuf buf) {
-        this.stack = buf.readItem();
-        this.id = buf.readLong();
-        this.controllerName = buf.readUtf();
-        this.animationName = buf.readUtf();
+    public c2sDamageEntityPacket(FriendlyByteBuf buf) {
+        this.entityId = buf.readVarInt();
+        this.damage = buf.readFloat();
+        this.damageTypeKey = ResourceKey.create(
+                Registries.DAMAGE_TYPE,
+                buf.readResourceLocation()
+        );
     }
 
     public void encode(FriendlyByteBuf buf) {
-        buf.writeItem(stack);
-        buf.writeLong(id);
-        buf.writeUtf(controllerName);
-        buf.writeUtf(animationName);
+        buf.writeVarInt(entityId);
+        buf.writeFloat(damage);
+        buf.writeResourceLocation(damageTypeKey.location());
     }
 
-    public static void handle(c2sTriggerAnimPacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            Player sender = ctx.get().getSender();
-            assert sender != null;
-            if (sender.level() instanceof ServerLevel) {
+    public DamageSource createDamageSource(RegistryAccess registryAccess) {
+        return new DamageSource(registryAccess.registryOrThrow(Registries.DAMAGE_TYPE)
+                .getHolderOrThrow(damageTypeKey));
+    }
 
-                ((SingletonGeoAnimatable) sender.getMainHandItem().getItem()).triggerAnim(sender, GeoItem.getOrAssignId(sender.getMainHandItem(), ((ServerLevel) sender.level())), packet.controllerName, packet.animationName);
-            }
+    public static void handle(c2sDamageEntityPacket packet, Supplier<NetworkEvent.Context> ctx) {
+        NetworkEvent.Context context = ctx.get();
+        context.enqueueWork(() -> {
+            ServerPlayer sender = context.getSender();
+            if (sender == null) return;
+
+            ServerLevel level = sender.serverLevel();
+            Entity target = level.getEntity(packet.entityId);
+
+            if (target == null || !target.isAlive()) return;
+            DamageSource source = packet.createDamageSource(level.registryAccess());
+            target.hurt(source, packet.damage);
         });
-
-        ctx.get().setPacketHandled(true);
+        context.setPacketHandled(true);
     }
 }

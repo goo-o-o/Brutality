@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:stripped_oak_log"
+    },
+    "#": {
+      "item": "terramity:cardboard"
+    },
+    "@": {
+      "item": "minecraft:wooden_sword"
+    }
+  },
+  "pattern": [
+    "  #",
+    " ! ",
+    "@  "
+  ],
+  "result": {
+    "item": "brutality:wooden_ruler"
+  },
+  "show_notification": true
+}

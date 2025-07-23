@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/heart/zombie_heart/zombie_heart_inventory"
+  }
+}

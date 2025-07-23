@@ -1,18 +1,17 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.sword;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.renderers.item.BrutalityEmissiveItemRenderer;
 import net.goo.brutality.entity.mobs.SummonedStray;
 import net.goo.brutality.item.base.BrutalitySwordItem;
-import net.goo.brutality.registry.ModParticles;
-import net.goo.brutality.registry.ModSounds;
+import net.goo.brutality.registry.BrutalityModParticles;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -28,7 +27,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -41,14 +39,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber (modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class FrostmourneSword extends BrutalitySwordItem {
     private static final Map<UUID, Set<UUID>> PLAYER_SUMMONED_STRAYS = new ConcurrentHashMap<>();
 
-    public FrostmourneSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public FrostmourneSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
 
@@ -130,19 +127,14 @@ public class FrostmourneSword extends BrutalitySwordItem {
         despawnStraysForPlayer(event.getEntity());
     }
 
-
-    @Override
-    public Component getName(ItemStack pStack) {
-        return BrutalityTooltipHelper.tooltipHelper("item." + Brutality.MOD_ID + "." + identifier, false, null, 0.25F, 5, BASE_COLOR_MAP.get(this.getClass()));
-    }
-
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
 
-        if (!pPlayer.isCrouching()) {
+        if (!pPlayer.isShiftKeyDown()) {
             pPlayer.getCooldowns().addCooldown(stack.getItem(), 80);
-            pLevel.playSound(pPlayer, pPlayer.getOnPos(), ModSounds.ICE_WAVE.get(), SoundSource.PLAYERS, 1, ModUtils.nextFloatBetweenInclusive(pLevel.random, 0.65F, 1));
+            pLevel.playSound(pPlayer, pPlayer.getOnPos(), BrutalityModSounds.ICE_WAVE.get(), SoundSource.PLAYERS, 1,
+                    Mth.nextFloat(pLevel.random, 0.65F, 1));
             if (pLevel.isClientSide()) {
                 return InteractionResultHolder.pass(stack);
             }
@@ -197,14 +189,15 @@ public class FrostmourneSword extends BrutalitySwordItem {
         }
     }
 
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityEmissiveItemRenderer.class);
-    }
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer));
+//    }
 
     public void performSoulrendAttack(Level level, Player player, ItemStack stack) {
         if (!level.isClientSide()) {
-            ((ServerLevel) level).sendParticles(ModParticles.FROSTMOURNE_WAVE_PARTICLE.get(), player.getX(), player.getY() + player.getBbHeight() / 3, player.getZ(), 1, 0, 0, 0, 0);
+            ((ServerLevel) level).sendParticles(BrutalityModParticles.FROSTMOURNE_WAVE_PARTICLE.get(), player.getX(), player.getY() + player.getBbHeight() / 3, player.getZ(), 1, 0, 0, 0, 0);
             player.getCooldowns().addCooldown(stack.getItem(), 80);
             // Get nearby entities within the shockwave radius
 

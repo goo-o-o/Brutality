@@ -1,11 +1,8 @@
 package net.goo.brutality.util;
 
 import net.bettercombat.api.client.BetterCombatClientEvents;
-import net.goo.brutality.item.weapon.custom.TerraBladeSword;
-import net.goo.brutality.item.weapon.custom.AtomicJudgementHammer;
-import net.goo.brutality.item.weapon.custom.ExcaliburSword;
-import net.goo.brutality.item.weapon.custom.HFMurasamaSword;
-import net.goo.brutality.item.weapon.custom.SupernovaSword;
+import net.goo.brutality.item.weapon.hammer.AtomicJudgementHammer;
+import net.goo.brutality.item.weapon.sword.*;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.c2sTriggerAnimPacket;
 import net.goo.brutality.network.s2cEnhancedExactParticlePacket;
@@ -13,23 +10,33 @@ import net.goo.brutality.particle.custom.flat.MurasamaSlash;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.ModList;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.animatable.GeoItem;
 
+@Mod.EventBusSubscriber (value = Dist.CLIENT)
 public class BetterCombatIntegration {
-
-
     public static void register() {
-        if (ModList.get().isLoaded("bettercombat")) {
             BetterCombatClientEvents.ATTACK_START.register((player, hand) -> {
+                if (!player.level().isClientSide()) return;
                 ItemStack stack = player.getMainHandItem();
                 Item item = stack.getItem();
                 if (item instanceof TerraBladeSword terraBladeSword) {
                     terraBladeSword.performTerraBeam(stack, player);
-                } else if (item instanceof ExcaliburSword excaliburSword) {
-                    excaliburSword.performExcaliburBeam(stack, player);
+                } else if (item instanceof TerratomereSword terratomereSword) {
+                    terratomereSword.performTerraBeam(stack, player);
+//                } else if (item instanceof ExcaliburSword excaliburSword) {
+//                    excaliburSword.performExcaliburBeam(stack, player);
+                } else if (item instanceof ExobladeSword exobladeSword) {
+                    exobladeSword.performExobladeBeam(stack, player);
+                } else if (item instanceof SeventhStarSword seventhStarSword) {
+                    seventhStarSword.shootTriStar(player);
+                } else if (item instanceof MarianasTrenchSword marianasTrenchSword) {
+                    marianasTrenchSword.performMarianasTrenchAttack(stack, player);
+                } else if (item instanceof ChallengerDeepSword challengerDeepSword) {
+                    challengerDeepSword.performChallengerDeepAttack(stack, player);
                 } else if (item instanceof SupernovaSword) {
-                    if (hand.combo().current() == 2) { // You can get hella info from the event player and hand
+                    if (hand.combo().current() == 2) {
                         PacketHandler.sendToServer(new c2sTriggerAnimPacket(stack, GeoItem.getId(stack), "controller", "stab"));
 //                        ((SupernovaSword) item).triggerAnim(player, GeoItem.getId(stack), "controller", "stab");
 //                        System.out.println(GeoItem.getId(stack));
@@ -38,14 +45,14 @@ public class BetterCombatIntegration {
 //                        ((SupernovaSword) item).triggerAnim(player, GeoItem.getId(stack), "controller", "swing");
 //                        System.out.println(GeoItem.getId(stack));
                     }
-                } else if (item instanceof HFMurasamaSword) {
+                } else if (item instanceof MurasamaSword) {
                     if (hand.combo().current() == 1)
                         PacketHandler.sendToAllClients(new s2cEnhancedExactParticlePacket(
                                 player.getX(),
-                                player.getY() + player.getBbHeight() / 2 ,
+                                player.getY() + player.getBbHeight() / 2,
                                 player.getZ(),
                                 0, 0, 0,
-                                new MurasamaSlash.ParticleData( true,
+                                new MurasamaSlash.ParticleData(true,
                                         0, player.getBbHeight() / 2, 0,
                                         player.getId(),
                                         7.0f,
@@ -58,10 +65,10 @@ public class BetterCombatIntegration {
                     if (hand.combo().current() == 2)
                         PacketHandler.sendToAllClients(new s2cEnhancedExactParticlePacket(
                                 player.getX(),
-                                player.getY() + player.getBbHeight() / 2 ,
+                                player.getY() + player.getBbHeight() / 2,
                                 player.getZ(),
                                 0, 0, 0,
-                                new MurasamaSlash.ParticleData( true,
+                                new MurasamaSlash.ParticleData(true,
                                         0, player.getBbHeight() / 1.5F, 0,
                                         player.getId(),
                                         7.0f,
@@ -76,7 +83,6 @@ public class BetterCombatIntegration {
 
             });
         }
-    }
 
     public static float remapYaw(float playerYaw) {
         return ((-playerYaw + 180f) % 360f + 360f) % 360f - 180f;

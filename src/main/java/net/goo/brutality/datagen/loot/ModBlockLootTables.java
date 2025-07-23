@@ -22,14 +22,16 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
+        this.add(ModBlocks.WATER_COOLER_BLOCK.get(), block -> this.createNameableBlockEntityTable(ModBlocks.WATER_COOLER_BLOCK.get()));
+        this.add(ModBlocks.COFFEE_MACHINE_BLOCK.get(), block -> this.createNameableBlockEntityTable(ModBlocks.COFFEE_MACHINE_BLOCK.get()));
     }
 
 
     protected LootTable.Builder createCopperLikeOreDrops(Block pBlock, Item item) {
         return createSilkTouchDispatchTable(pBlock, this.applyExplosionDecay(pBlock,
                 LootItem.lootTableItem(item)
-                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 5.0F)))
-                .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 5.0F)))
+                        .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
     }
 
     @Override

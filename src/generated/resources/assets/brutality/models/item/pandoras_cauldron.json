@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:item/trident/pandoras_cauldron_handheld",
+  "textures": {
+    "layer0": "brutality:item/trident/pandoras_cauldron/pandoras_cauldron_handheld"
+  }
+}

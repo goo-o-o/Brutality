@@ -1,13 +1,10 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.scythe;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.renderers.item.BrutalityAutoFullbrightItemNoDepthRenderer;
 import net.goo.brutality.item.base.BrutalityScytheItem;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -19,24 +16,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 import static net.goo.brutality.util.helpers.AttributeHelper.replaceOrAddModifier;
 import static net.goo.brutality.util.helpers.EnchantmentHelper.restrictEnchants;
@@ -57,8 +48,8 @@ public class FallenScythe extends BrutalityScytheItem {
             Enchantments.UNBREAKING
     );
 
-    public FallenScythe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
+    public FallenScythe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
 
@@ -72,38 +63,39 @@ public class FallenScythe extends BrutalityScytheItem {
         return 2;
     }
 
-    @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-        int soulsHarvested = pStack.getOrCreateTag().getInt(SOULS_HARVESTED);
+//    @Override
+//    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+//        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+//        int soulsHarvested = pStack.getOrCreateTag().getInt(SOULS_HARVESTED);
+//
+//        int[][] colors = BrutalityTooltipHelper.getLoreColors(this.getClass());
+//        pTooltipComponents.add(Component.translatable("item.armament.fallen_scythe.souls_harvested").withStyle(Style.EMPTY.withColor(BrutalityTooltipHelper.rgbToInt(colors[0]))).append(BrutalityTooltipHelper.tooltipHelper(String.valueOf(soulsHarvested), true, null, colors[1])));
+//        pTooltipComponents.add(Component.literal(""));
+//        pTooltipComponents.add(Component.translatable("item.modifiers.mainhand").withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)));
+//
+//        pTooltipComponents.add(Component.literal(" " + baseAttackDamage + " + ").withStyle(ChatFormatting.DARK_GREEN)
+//                .append(BrutalityTooltipHelper.tooltipHelper(String.format("%.2f", Math.min(calculateAttackDamageBonus(soulsHarvested), 18 - baseAttackDamage)) + " ", true, null, colors[1])
+//                        .append(Component.translatable("attribute.name.generic.attack_damage").withStyle(STYLE_DARK_GREEN.withBold(false)))));
+//
+//        pTooltipComponents.add(
+//                Component.literal(" 1 + ")
+//                        .withStyle(ChatFormatting.DARK_GREEN)
+//                        .append(BrutalityTooltipHelper.tooltipHelper(String.format("%.2f", Math.min(calculateAttackSpeedBonus(soulsHarvested), 0.6)) + " ", true, null, colors[1]))
+//                        .append(Component.translatable("attribute.name.generic.attack_speed").withStyle(STYLE_DARK_GREEN.withBold(false)))
+//        );
+//
+//        if (!ModList.get().isLoaded("bettercombat")) {
+//            pTooltipComponents.add(Component.literal("+" + entityReachBonus + " ").withStyle(ChatFormatting.BLUE).append(Component.translatable("forge.entity_reach")));
+//        }
+//            pTooltipComponents.add(Component.literal(""));
+//
+//    }
 
-        int[][] colors = BrutalityTooltipHelper.getLoreColors(this.getClass());
-        pTooltipComponents.add(Component.translatable("item.armament.fallen_scythe.souls_harvested").withStyle(Style.EMPTY.withColor(BrutalityTooltipHelper.rgbToInt(colors[0]))).append(BrutalityTooltipHelper.tooltipHelper(String.valueOf(soulsHarvested), true, null, colors[1])));
-        pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.modifiers.mainhand").withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)));
-
-        pTooltipComponents.add(Component.literal(" " + baseAttackDamage + " + ").withStyle(ChatFormatting.DARK_GREEN)
-                .append(BrutalityTooltipHelper.tooltipHelper(String.format("%.2f", Math.min(calculateAttackDamageBonus(soulsHarvested), 18 - baseAttackDamage)) + " ", true, null, colors[1])
-                        .append(Component.translatable("attribute.name.generic.attack_damage").withStyle(STYLE_DARK_GREEN.withBold(false)))));
-
-        pTooltipComponents.add(
-                Component.literal(" 1 + ")
-                        .withStyle(ChatFormatting.DARK_GREEN)
-                        .append(BrutalityTooltipHelper.tooltipHelper(String.format("%.2f", Math.min(calculateAttackSpeedBonus(soulsHarvested), 0.6)) + " ", true, null, colors[1]))
-                        .append(Component.translatable("attribute.name.generic.attack_speed").withStyle(STYLE_DARK_GREEN.withBold(false)))
-        );
-
-        if (!ModList.get().isLoaded("bettercombat")) {
-            pTooltipComponents.add(Component.literal("+" + entityReachBonus + " ").withStyle(ChatFormatting.BLUE).append(Component.translatable("forge.entity_reach")));
-        }
-            pTooltipComponents.add(Component.literal(""));
-
-    }
-
-    @Override
-    public <R extends BlockEntityWithoutLevelRenderer> void initGeo(Consumer<IClientItemExtensions> consumer, Class<R> rendererClass) {
-        super.initGeo(consumer, BrutalityAutoFullbrightItemNoDepthRenderer.class);
-    }
+//    @Override
+//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
+//        super.configureLayers(renderer);
+//        renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
+//    }
 
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {

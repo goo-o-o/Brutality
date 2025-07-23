@@ -1,4 +1,4 @@
-package net.goo.brutality.item.weapon.custom;
+package net.goo.brutality.item.weapon.generic;
 
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -13,11 +13,11 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 
-public class CanopyOfShadows extends BrutalityGenericItem {
+public class CanopyOfShadowsItem extends BrutalityGenericItem {
 
 
-    public CanopyOfShadows(String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
-        super(identifier, rarity, descriptionComponents);
+    public CanopyOfShadowsItem(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+        super(rarity, descriptionComponents);
     }
 
     @Override

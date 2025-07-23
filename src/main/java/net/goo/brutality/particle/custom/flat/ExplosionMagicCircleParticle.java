@@ -6,9 +6,9 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.goo.brutality.client.BrutalityRenderTypes;
-import net.goo.brutality.item.weapon.custom.FirstExplosionStaff;
+import net.goo.brutality.item.weapon.generic.FirstExplosionStaff;
 import net.goo.brutality.particle.base.GenericMagicCircleParticle;
-import net.goo.brutality.registry.ModParticles;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -33,7 +33,6 @@ import java.util.Locale;
 
 import static net.goo.brutality.particle.base.WaveParticle.MILIS_TO_SECONDS;
 
-@OnlyIn(Dist.CLIENT)
 public class ExplosionMagicCircleParticle extends GenericMagicCircleParticle {
     private final int localRotationSpeed;
     protected boolean shouldDespawn = false, shouldFollowPlayer = false;
@@ -246,7 +245,7 @@ public class ExplosionMagicCircleParticle extends GenericMagicCircleParticle {
 
         @Override
         public ParticleType<ParticleData> getType() {
-            return ModParticles.EXPLOSION_MAGIC_CIRCLE_PARTICLE.get();
+            return BrutalityModParticles.EXPLOSION_MAGIC_CIRCLE_PARTICLE.get();
         }
 
         public static Codec<ParticleData> CODEC(ParticleType<ParticleData> type) {
@@ -264,7 +263,6 @@ public class ExplosionMagicCircleParticle extends GenericMagicCircleParticle {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<ParticleData> {
         private final SpriteSet spriteSet;
 
