@@ -14,8 +14,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
@@ -216,7 +215,7 @@ public class BrutalityRenderTypes extends RenderType {
 
 
     public static ParticleRenderType PARTICLE_SHEET_TRANSLUCENT_NO_CULL = new ParticleRenderType() {
-        public void begin(BufferBuilder p_217600_1_, TextureManager p_217600_2_) {
+        public void begin(BufferBuilder p_217600_1_, @NotNull TextureManager textureManager) {
             RenderSystem.depthMask(false);
             RenderSystem.disableCull();
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);

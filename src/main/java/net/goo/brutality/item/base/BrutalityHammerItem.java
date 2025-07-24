@@ -2,7 +2,6 @@ package net.goo.brutality.item.base;
 
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,7 +9,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.common.ToolAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,9 +17,6 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 
 import java.util.List;
-import java.util.function.Consumer;
-
-import static net.goo.brutality.client.renderers.item.BrutalityItemRenderer.createRenderer;
 
 public class BrutalityHammerItem extends AxeItem implements BrutalityGeoItem {
     public String identifier;
@@ -56,15 +51,15 @@ public class BrutalityHammerItem extends AxeItem implements BrutalityGeoItem {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
-    @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                return createRenderer();
-            }
-        });
-    }
+//    @Override
+//    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+//        consumer.accept(new IClientItemExtensions() {
+//            @Override
+//            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+//                return createRenderer();
+//            }
+//        });
+//    }
 
 
     @Override

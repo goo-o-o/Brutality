@@ -1,13 +1,11 @@
 //package net.goo.brutality.event.mod.client;
 //
 //import net.goo.brutality.Brutality;
-//import net.goo.brutality.client.renderers.block.BrutalityBlockRenderer;
 //import net.goo.brutality.client.renderers.entity.*;
 //import net.goo.brutality.client.renderers.entity.fullbright.*;
 //import net.goo.brutality.client.renderers.entity.glowing.BrutalityAbstractEmissivePhysicsProjectileRenderer;
 //import net.goo.brutality.client.renderers.entity.glowing.BrutalityEmissiveTridentRenderer;
 //import net.goo.brutality.registry.BrutalityModEntities;
-//import net.goo.brutality.registry.ModBlockEntities;
 //import net.minecraft.client.renderer.entity.StrayRenderer;
 //import net.minecraftforge.api.distmarker.Dist;
 //import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -37,8 +35,10 @@
 //        event.registerEntityRenderer(BrutalityModEntities.THROWN_KNIFE_ENTITY.get(), BrutalityTridentRenderer::new);
 //        event.registerEntityRenderer(BrutalityModEntities.STAR_ENTITY.get(), BrutalityEmissiveShurikenRenderer::new);
 //
+//
 //        event.registerEntityRenderer(BrutalityModEntities.PI_ENTITY.get(), BrutalityEntityRenderer::new);
 //        event.registerEntityRenderer(BrutalityModEntities.DEPTH_CRUSHER_PROJECTILE.get(), BrutalityEntityRenderer::new);
+//
 //
 //        event.registerEntityRenderer(BrutalityModEntities.TERRA_BEAM.get(), SwordBeamRenderer::new);
 //        event.registerEntityRenderer(BrutalityModEntities.BLACK_HOLE_ENTITY.get(), BrutalityFullbrightNoDepthEntityRenderer::new);
@@ -57,9 +57,6 @@
 //        event.registerEntityRenderer(BrutalityModEntities.SUMMONED_STRAY.get(), StrayRenderer::new);
 //        event.registerEntityRenderer(BrutalityModEntities.LIGHT_ARROW.get(), BrutalityFullbrightNoDepthArrowRenderer::new);
 //
-//
-//        event.registerBlockEntityRenderer(ModBlockEntities.COFFEE_MACHINE_BLOCK_ENTITY.get(), BrutalityBlockRenderer::new);
-//        event.registerBlockEntityRenderer(ModBlockEntities.WATER_COOLER_BLOCK_ENTITY.get(), BrutalityBlockRenderer::new);
 //    }
 //
 //

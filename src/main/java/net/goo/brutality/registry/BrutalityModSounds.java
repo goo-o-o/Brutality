@@ -117,7 +117,7 @@ public class BrutalityModSounds {
     public static final RegistryObject<SoundEvent> WINGS_FLAP = registerSoundEvents("wings_flap");
 
     private static RegistryObject<SoundEvent> registerSoundEvents(String name) {
-        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Brutality.MOD_ID, name)));
+        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, name)));
     }
 
     public static void register(IEventBus eventBus) {

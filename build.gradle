@@ -128,14 +128,14 @@ dependencies {
     }
     // GeckoLib
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
-    implementation("com.eliotlash.mclib:mclib:20")
-    implementation(fg.deobf("me.shedaniel.cloth:cloth-config-forge:11.1.136"))
-    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${player_anim_version}")
-    implementation fg.deobf('maven.modrinth:better-combat:1.8.6+1.20.1-forge')
-    implementation fg.deobf("curse.maven:crafttweaker-239197:6256146")
+//    implementation("com.eliotlash.mclib:mclib:20")
+//    implementation(fg.deobf("me.shedaniel.cloth:cloth-config-forge:11.1.136"))
+//    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${player_anim_version}")
+//    implementation fg.deobf('maven.modrinth:better-combat:1.8.6+1.20.1-forge')
+//    implementation fg.deobf("curse.maven:crafttweaker-239197:6256146")
 
-    implementation fg.deobf("curse.maven:mmmmmmmmmmmm-225738:6237015")
-    implementation fg.deobf("curse.maven:selene-499980:6507197")
+//    implementation fg.deobf("curse.maven:mmmmmmmmmmmm-225738:6237015")
+//    implementation fg.deobf("curse.maven:selene-499980:6507197")
 //    implementation fg.deobf("curse.maven:embeddium-908741:5681725")
 //    implementation fg.deobf("curse.maven:shoulder-surfing-reloaded-243190:6499361")
 //    implementation fg.deobf("curse.maven:worldedit-225608:4586218")
@@ -154,7 +154,7 @@ dependencies {
 //    implementation fg.deobf("curse.maven:stitch-841890:5176879")
 //    implementation fg.deobf("curse.maven:puzzles-lib-495476:6387081")
 //    implementation fg.deobf("curse.maven:overflowing-bars-852662:5763974")
-    implementation fg.deobf("curse.maven:configured-457570:5180900")
+//    implementation fg.deobf("curse.maven:configured-457570:5180900")
 //    implementation fg.deobf("curse.maven:ob-aquamirae-536254:4616373")
 //    implementation fg.deobf("curse.maven:obscure-api-638417:4616364")
 //    implementation fg.deobf("curse.maven:prism-lib-638111:4650325")
@@ -182,7 +182,7 @@ dependencies {
     implementation fg.deobf("curse.maven:patchouli-306770:6164575")
     implementation fg.deobf("curse.maven:curios-309927:6418456")
     implementation fg.deobf("curse.maven:caelus-308989:5281700")
-    implementation fg.deobf("curse.maven:lethality-a-terramity-addon-1282036:6766042")
+//    implementation fg.deobf("curse.maven:lethality-a-terramity-addon-1282036:6766042")
 
     // compile against the JEI API but do not include it at runtime
 //    compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))

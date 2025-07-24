@@ -27,7 +27,7 @@ public class PacketHandler {
         NETWORK_CHANNEL.registerMessage(id++, c2sDamageEntityPacket.class, c2sDamageEntityPacket::encode, c2sDamageEntityPacket::new, c2sDamageEntityPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, c2sParticlePacket.class, c2sParticlePacket::encode, c2sParticlePacket::new, c2sParticlePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, s2cSyncCapabilitiesPacket.class, s2cSyncCapabilitiesPacket::encode, s2cSyncCapabilitiesPacket::new, s2cSyncCapabilitiesPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, c2sActivateRagePacket.class, c2sActivateRagePacket::encode, c2sActivateRagePacket::new, c2sActivateRagePacket::handle);
+//        NETWORK_CHANNEL.registerMessage(id++, c2sActivateRagePacket.class, c2sActivateRagePacket::encode, c2sActivateRagePacket::new, c2sActivateRagePacket::handle);
     }
 
     public static void sendToServer(Object msg) {
