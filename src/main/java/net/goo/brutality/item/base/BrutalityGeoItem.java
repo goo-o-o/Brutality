@@ -38,6 +38,8 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
         return null;
     }
 
+    default String animation(ItemStack stack) { return null; }
+
     default String getCategoryAsString() {
         return category().toString().toLowerCase(Locale.ROOT);
     }
@@ -59,17 +61,17 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
     }
 
 
-    default void brutalityHoverTextHandler(List<Component> pTooltipComponents, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents, Rarity rarity) {
+    default void brutalityHoverTextHandler(List<Component> pTooltipComponents, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents, Rarity rarity) {
         String identifier = getRegistryName();
 
         if (!ModList.get().isLoaded("obscuria_tooltips"))
             pTooltipComponents.add(Component.translatable("rarity." + rarity.toString().toLowerCase(Locale.ROOT) + ".name").withStyle(Style.EMPTY.withFont(ModResources.RARITY_FONT)));
 
-        if (descriptionComponents.contains(BrutalityTooltipHelper.DescriptionComponents.LORE))
+        if (descriptionComponents.contains(BrutalityTooltipHelper.ItemDescriptionComponents.LORE))
             pTooltipComponents.add(Component.translatable("item." + Brutality.MOD_ID + "." + identifier + "." + "lore"));
 
-        for (BrutalityTooltipHelper.DescriptionComponent descriptionComponent : descriptionComponents) {
-            boolean isLore = descriptionComponent.type().equals(BrutalityTooltipHelper.DescriptionComponents.LORE);
+        for (BrutalityTooltipHelper.ItemDescriptionComponent descriptionComponent : descriptionComponents) {
+            boolean isLore = descriptionComponent.type().equals(BrutalityTooltipHelper.ItemDescriptionComponents.LORE);
 
             String componentLower = descriptionComponent.type().toString().toLowerCase(Locale.ROOT);
             if (!isLore) {
@@ -91,14 +93,14 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
 
     }
 
-
-
     @Override
     default void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, (state) ->
                 state.setAndContinue(RawAnimation.begin().thenLoop("idle")))
         );
     }
+
+
 
     default void onDeselected(Player player) {
     }

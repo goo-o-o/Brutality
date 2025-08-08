@@ -1,0 +1,8 @@
+{
+  "message_id": "dematerialize",
+  "scaling": "never",
+  "bypasses_armor": true,
+  "bypass_invul": true,
+  "exhaustion": 0.1,
+  "effects": "none"
+}

@@ -8,7 +8,7 @@ import net.minecraft.world.item.Rarity;
 import java.util.List;
 
 public class MortarAndPestle extends BrutalityCurioItem {
-    public MortarAndPestle(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public MortarAndPestle(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

@@ -12,7 +12,7 @@ public class CheeseSauce extends BrutalityCurioItem {
     public BrutalityCategories category() {
         return BrutalityCategories.CurioType.CHARM;
     }
-    public CheeseSauce(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public CheeseSauce(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 }

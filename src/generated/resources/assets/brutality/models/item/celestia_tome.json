@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:item/tome/celestia_tome_handheld",
+  "textures": {
+    "layer0": "brutality:item/tome/celestia_tome/celestia_tome_handheld"
+  }
+}

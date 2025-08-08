@@ -10,7 +10,7 @@ import java.util.List;
 public class SaltShaker extends BrutalityCurioItem {
 
 
-    public SaltShaker(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public SaltShaker(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

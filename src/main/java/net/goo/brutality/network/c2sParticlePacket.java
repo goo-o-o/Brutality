@@ -3,7 +3,6 @@ package net.goo.brutality.network;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -71,9 +70,6 @@ public class c2sParticlePacket {
         ResourceLocation id = buf.readResourceLocation();
 
         ParticleType<?> type = ForgeRegistries.PARTICLE_TYPES.getValue(id);
-        if (type != null) return type;
-
-        type = BuiltInRegistries.PARTICLE_TYPE.get(id);
         if (type != null) return type;
 
         return ParticleTypes.EXPLOSION;

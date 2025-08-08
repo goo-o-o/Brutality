@@ -10,7 +10,7 @@ import java.util.List;
 public class SugarGlaze extends BrutalityCurioItem {
 
 
-    public SugarGlaze(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public SugarGlaze(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

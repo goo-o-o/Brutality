@@ -48,7 +48,7 @@ public class FallenScythe extends BrutalityScytheItem {
             Enchantments.UNBREAKING
     );
 
-    public FallenScythe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public FallenScythe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
@@ -91,11 +91,7 @@ public class FallenScythe extends BrutalityScytheItem {
 //
 //    }
 
-//    @Override
-//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
-//        super.configureLayers(renderer);
-//        renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
-//    }
+
 
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {

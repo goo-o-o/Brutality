@@ -9,7 +9,7 @@ import java.util.List;
 
 public class LollipopOfEternity extends BrutalityCurioItem {
 
-    public LollipopOfEternity(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public LollipopOfEternity(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

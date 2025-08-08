@@ -26,7 +26,7 @@
 //import net.minecraft.world.item.ItemStack;
 //import net.minecraft.world.item.Rarity;
 //import net.minecraft.world.item.Tier;
-//import net.minecraft.world.level.Level;
+//import net.minecraft.world.spellLevel.Level;
 //import net.minecraftforge.common.ForgeMod;
 //import net.minecraftforge.fml.ModList;
 //import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -42,7 +42,7 @@
 //
 //    private final UUID EXCALIBUR_INTERACTION_RANGE_UUID = UUID.fromString("a9505c16-a23b-4dd5-801f-e0a43ba23e38");
 //
-//    public ExcaliburSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+//    public ExcaliburSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
 //        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
 //    }
 //
@@ -115,21 +115,21 @@
 //
 //    @Override
 //    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
-//        if (entity instanceof Player player && !player.level().isClientSide && !ModList.get().isLoaded("bettercombat")) {
+//        if (entity instanceof Player player && !player.spellLevel().isClientSide && !ModList.get().isLoaded("bettercombat")) {
 //            performExcaliburBeam(stack, player);
 //        }
 //        return super.onEntitySwing(stack, entity);
 //    }
 //
 //    public void performExcaliburBeam(ItemStack stack, Player player) {
-//        Level level = player.level();
+//        Level spellLevel = player.spellLevel();
 //        Item item = stack.getItem();
 //        if (!player.getCooldowns().isOnCooldown(item) && stack.getOrCreateTag().getBoolean(AURA_ACTIVE)) {
 //            player.getCooldowns().addCooldown(item, 60);
-//            if (level.isClientSide()) {
+//            if (spellLevel.isClientSide()) {
 //                PacketHandler.sendToServer(new c2sShootProjectilePacket(BrutalityModEntities.EXCALIBUR_BEAM.getId(), 0.25F, false, 0F, 0));
 //            } else {
-//                ProjectileHelper.shootProjectile(() -> new ExcaliburBeam(BrutalityModEntities.EXCALIBUR_BEAM.get(), level), player, level, 0.25F, false, 0F, 0);
+//                ProjectileHelper.shootProjectile(() -> new ExcaliburBeam(BrutalityModEntities.EXCALIBUR_BEAM.get(), spellLevel), player, spellLevel, 0.25F, false, 0F, 0);
 //            }
 //        }
 //    }

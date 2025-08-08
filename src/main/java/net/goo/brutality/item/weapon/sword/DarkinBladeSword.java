@@ -24,7 +24,7 @@ import java.util.WeakHashMap;
 public class DarkinBladeSword extends BrutalitySwordItem {
 
 
-    public DarkinBladeSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public DarkinBladeSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
@@ -67,7 +67,7 @@ public class DarkinBladeSword extends BrutalitySwordItem {
         if (data != null && data.passiveCD <= 0) {
             float damage = pTarget.getMaxHealth() * 0.05F;
             pTarget.invulnerableTime = 0;
-            pTarget.hurt(pAttacker.damageSources().indirectMagic(pAttacker, pAttacker), damage);
+            pTarget.hurt(pAttacker.damageSources().indirectMagic(pAttacker, null), damage);
             pAttacker.heal(damage);
             if (pAttacker instanceof Player player)
                 player.level().playSound(null, player.getOnPos(), BrutalityModSounds.DEATHBRINGER_STANCE_HIT.get(),

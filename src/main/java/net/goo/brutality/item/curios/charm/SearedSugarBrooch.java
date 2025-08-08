@@ -10,7 +10,7 @@ import java.util.List;
 public class SearedSugarBrooch extends BrutalityCurioItem {
 
 
-    public SearedSugarBrooch(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public SearedSugarBrooch(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

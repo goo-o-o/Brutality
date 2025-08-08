@@ -16,7 +16,7 @@ import java.util.List;
 public class CanopyOfShadowsItem extends BrutalityGenericItem {
 
 
-    public CanopyOfShadowsItem(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public CanopyOfShadowsItem(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

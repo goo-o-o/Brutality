@@ -8,7 +8,7 @@ import net.minecraft.world.item.Rarity;
 import java.util.List;
 
 public class PainCatalyst extends BrutalityCurioItem {
-    public PainCatalyst(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public PainCatalyst(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

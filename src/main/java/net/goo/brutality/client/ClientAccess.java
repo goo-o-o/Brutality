@@ -1,6 +1,5 @@
 package net.goo.brutality.client;
 
-import net.goo.brutality.network.s2cEnhancedExactParticlePacket;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -15,11 +14,6 @@ import java.util.Map;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientAccess {
-
-    public static void spawnParticle(s2cEnhancedExactParticlePacket packet) {
-        if (Minecraft.getInstance().level != null)
-            Minecraft.getInstance().level.addParticle(packet.particle, true, packet.x, packet.y, packet.z, packet.xSpeed, packet.ySpeed, packet.zSpeed);
-    }
 
     public static void syncCapabilities(int entityId, Map<String, CompoundTag> data) {
         Level level = Minecraft.getInstance().level;

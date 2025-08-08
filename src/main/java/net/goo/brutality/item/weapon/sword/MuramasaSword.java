@@ -27,7 +27,7 @@ import java.util.List;
 public class MuramasaSword extends BrutalitySwordItem {
 
 
-    public MuramasaSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public MuramasaSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
@@ -36,11 +36,7 @@ public class MuramasaSword extends BrutalitySwordItem {
 
     }
 
-//    @Override
-//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
-//        super.configureLayers(renderer);
-//        renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
-//    }
+
 
     @Override
     public UseAnim getUseAnimation(ItemStack pStack) {

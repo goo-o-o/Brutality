@@ -165,6 +165,9 @@
   "item.brutality.void_knife.on_hit.2": "§e -Maximum of 4 stacks",
   "item.brutality.void_knife.on_hit.3": "§e -Inflicts §7Pulverized III§e for 3 ticks",
 
+  "item.brutality.suspicious_slot_machine": "Suspicious Slot Machine",
+  "item.brutality.suspicious_slot_machine.lore.1": "Can it be trusted?",
+
 
   "item.brutality.salt_shaker_charm": "Salt Shaker",
   "item.brutality.salt_shaker_charm.passive.1": "§e -True melee hits inflict §fSalted I§e for 3 seconds",
@@ -416,7 +419,7 @@
   "item.brutality.sloth": "Sin of Sloth",
   "item.brutality.sloth.passive.1": "§e -True melee hits inflict §8Weakness I, §7Slowness I§e and §fMining Fatigue I§e for 1 second",
   "item.brutality.envy": "Sin of Envy",
-  "item.brutality.envy.passive.1": "§e -Currently does nothing",
+  "item.brutality.envy.passive.1": "§e -Grants half the Health difference between you and the nearest player",
   "item.brutality.lust": "Sin of Lust",
   "item.brutality.lust.passive.1": "§e -Currently does nothing",
   "item.brutality.gluttony": "Sin of Gluttony",
@@ -602,11 +605,64 @@
   "item.brutality.thunderbolt.passive.1": "§e -Multiple Thunderbolts can be thrown at the same time",
   "item.brutality.thunderbolt.passive.2": "§e -Does not consume ammo",
 
+  "item.brutality.daemonic_tome": "Daemonic Tome",
+  "item.brutality.evergreen_tome": "Evergreen Tome",
+  "item.brutality.darkist_tome": "Darkist Tome",
+  "item.brutality.cosmic_tome": "Cosmic Tome",
+  "item.brutality.void_tome": "Void Tome",
+  "item.brutality.brimwielder_tome": "Brimwielder Tome",
+  "item.brutality.celestia_tome": "Celestia Tome",
+  "item.brutality.exodic_tome": "Exodic Tome",
+  "item.brutality.umbral_tome": "Umbral Tome",
+
+
   "block.brutality.water_cooler": "Water Cooler",
   "block.brutality.coffee_machine": "Coffee Machine",
   "block.brutality.eeffoc_machine": "Eeffoc Machine",
+  "block.brutality.super_sniffer_figure": "Super Sniffer Figurine",
 
-  "spell.brutality.daemonic_pickaxe": "Daemonic Pickaxe",
+  "spell.brutality.empty": "§8No available spells",
+
+  "spell.brutality.void_walk": "Void Walk",
+  "spell.brutality.void_walk.description.1": "§8Blink instantly to a targeted location within range",
+
+  "spell.brutality.spatial_rupture": "Spatial Rupture",
+  "spell.brutality.spatial_rupture.description.1": "§8Conjure a ripple in space, knocking back nearby mobs and damaging them",
+
+  "spell.brutality.gravitic_implosion": "Gravitic Implosion",
+  "spell.brutality.gravitic_implosion.description.1": "§8Throw a collapsing singularity that draws in nearby mobs and deals AoE damage",
+
+  "spell.brutality.intangible": "Intangible",
+  "spell.brutality.intangible.description.1": "§8Grants §5Phasing§8",
+
+  "spell.brutality.dematerialize": "Dematerialize",
+  "spell.brutality.dematerialize.description.1": "§8Deletes the targeted mob, only if their Health is below the threshold (Deletes all drops)",
+  "spell.brutality.dematerialize.no_target_found": "§cNo target found!",
+  "spell.brutality.dematerialize.too_much_health": "§cTarget has too much health!",
+  "spell.brutality.dematerialize.invalid_target": "§cInvalid target!",
+
+  "spell.brutality.edge_of_oblivion": "Edge of Oblivion",
+  "spell.brutality.edge_of_oblivion.description.1": "§8Materialize a disc of antimatter, and launches it forward, shredding through mobs",
+
+
+
+  "spell.brutality.heavenly_flight": "Heavenly Flight",
+  "spell.brutality.heavenly_flight.description.1": "§8Grants §eMortal Flight",
+
+  "spell.brutality.holy_mantle": "Holy Mantle",
+  "spell.brutality.holy_mantle.description.1": "§8Grants §eGrace§8 nullifying the next instance of damage you take, scales with level",
+
+  "spell.brutality.sacrifice": "Sacrifice",
+  "spell.brutality.sacrifice.description.1": "§cHeals§8 nearby players, including the caster, healing is distributed evenly and any excess is transferred to the next lowest player. Prioritizes the caster",
+
+  "spell.brutality.sacred_oath": "Sacred Oath",
+  "spell.brutality.sacred_oath.description.1": "§8Materialize a disc of antimatter, and launches it forward, shredding through mobs",
+
+  "spell.brutality.divine_retribution": "Divine Retribution",
+  "spell.brutality.divine_retribution.description.1": "§8Call down God's judgement at the targeted location",
+
+  "spell.brutality.light_binding": "Light Binding",
+  "spell.brutality.light_binding.description.1": "§8Bind the target in shackles of light, halting their movement",
 
 
   "message.brutality.no_mana": "Insufficient Mana!",
@@ -676,10 +732,26 @@
   "creativeTab.brutality_gastronomy_tab": "Brutality Gastronomy Items",
   "creativeTab.brutality_material_tab": "Brutality Materials",
 
-  "attribute.name.generic.rage_time_multiplier": "Rage Time",
-  "attribute.name.generic.rage_level": "Rage Level",
-  "attribute.name.generic.rage_gain": "Rage Gain",
-  "attribute.name.generic.max_rage": "Max Rage",
+  "attribute.name.generic.rage_time_multiplier": "§f⭕§r Rage Time",
+  "attribute.name.generic.rage_level": "§f🔴§r Rage Level",
+  "attribute.name.generic.rage_gain": "§f💢§r Rage Gain",
+  "attribute.name.generic.max_rage": "§f😡§r Max Rage",
+
+  "attribute.name.generic.max_mana": "§f🔵§r Max Mana",
+  "attribute.name.generic.mana_regen": "§f💦§r Mana Regen",
+  "attribute.name.generic.mana_cost": "§f🔹§r Mana Cost",
+
+  "attribute.name.generic.daemonic_school_level": "§f💀§r Daemonic School Level",
+  "attribute.name.generic.darkist_school_level": "§f🔊§r Darkist School Level",
+  "attribute.name.generic.evergreen_school_level": "§f🍃§r Evergreen School Level",
+  "attribute.name.generic.cosmic_school_level": "§f🪐§r Cosmic School Level",
+  "attribute.name.generic.celestia_school_level": "§f👼§r Celestia School Level",
+  "attribute.name.generic.umbrancy_school_level": "§f🌙§r Umbrancy School Level",
+  "attribute.name.generic.exodic_school_level": "§f✖§r Exodic School Level",
+  "attribute.name.generic.brimwielder_school_level": "§f☠§r Brimwielder School Level",
+  "attribute.name.generic.voidwalker_school_level": "§f⚫§r Voidwalker School Level",
+
+
 
   "effect.brutality.neutral": "Neutral",
   "effect.brutality.happy": "Happy",
@@ -703,6 +775,7 @@
   "effect.brutality.candied": "§dCandied",
   "effect.brutality.caramelized": "§6Caramelized",
   "effect.brutality.glazed": "§fGlazed",
+  "effect.brutality.grace": "Grace",
 
   "brutality.description.type.active": "§6Active Ability:",
   "brutality.description.type.passive": "§6Passive Effect:",
@@ -745,8 +818,9 @@
   "entity.brutality.thrown_gungnir": "Thrown Gungnir",
   "entity.brutality.thrown_knife": "Thrown Knife",
   "entity.brutality.thrown_thunderbolt": "Thrown Thunderbolt",
-  "entity.brutality.thrown_wintermelon": "Thrown Wintermelon"
+  "entity.brutality.thrown_wintermelon": "Thrown Wintermelon",
 
 
-
+  "death.attack.dematerialize": "%1$s was dematerialized",
+  "death.attack.dematerialize.player": "%1$s had their atoms revoked by %2$s"
 }

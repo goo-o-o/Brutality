@@ -19,7 +19,7 @@ public class EnchantmentHelper {
     }
 
     public static boolean hasInfinity(ItemStack pStack) {
-        return net.minecraft.world.item.enchantment.EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, pStack) > 0;
+        return pStack.getEnchantmentLevel(Enchantments.INFINITY_ARROWS) > 0;
     }
 
     public static boolean restrictEnchants(ItemStack book, Set<Enchantment> allowedEnchants) {

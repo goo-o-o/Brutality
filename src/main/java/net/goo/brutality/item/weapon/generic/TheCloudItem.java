@@ -30,7 +30,7 @@ public class TheCloudItem extends BrutalityGenericItem {
             OXYGEN = "oxygen",
             EFFECTS = "effects";
 
-    public TheCloudItem(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public TheCloudItem(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

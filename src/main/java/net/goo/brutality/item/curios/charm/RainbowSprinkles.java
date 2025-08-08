@@ -10,7 +10,7 @@ import java.util.List;
 public class RainbowSprinkles extends BrutalityCurioItem {
 
 
-    public RainbowSprinkles(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public RainbowSprinkles(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

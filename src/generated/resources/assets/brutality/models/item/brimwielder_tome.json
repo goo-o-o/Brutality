@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:item/tome/brimwielder_tome_handheld",
+  "textures": {
+    "layer0": "brutality:item/tome/brimwielder_tome/brimwielder_tome_handheld"
+  }
+}

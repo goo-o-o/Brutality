@@ -10,7 +10,7 @@ import java.util.List;
 public class Lust extends BrutalityCurioItem {
 
 
-    public Lust(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public Lust(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

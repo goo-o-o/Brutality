@@ -16,7 +16,7 @@ import java.util.List;
 public class ResplendentFeather extends BrutalityCurioItem {
 
 
-    public ResplendentFeather(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public ResplendentFeather(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

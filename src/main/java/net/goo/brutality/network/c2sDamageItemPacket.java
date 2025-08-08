@@ -10,8 +10,8 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class c2sDamageItemPacket {
-    private int damage;
-    private boolean isMainHand;
+    private final int damage;
+    private final boolean isMainHand;
 
     public c2sDamageItemPacket(int damage, boolean isMainHand) {
         this.damage = damage;

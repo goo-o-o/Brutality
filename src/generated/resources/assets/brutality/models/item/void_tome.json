@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:item/tome/void_tome_handheld",
+  "textures": {
+    "layer0": "brutality:item/tome/void_tome/void_tome_handheld"
+  }
+}

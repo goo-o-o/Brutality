@@ -10,7 +10,7 @@ import java.util.List;
 public class TheSmokehouse extends BrutalityCurioItem {
 
 
-    public TheSmokehouse(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public TheSmokehouse(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

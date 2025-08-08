@@ -5,9 +5,18 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "brutality.refmap.json",
   "mixins": [
+    "AbstractArrowMixin",
     "AnvilMenuMixin",
+    "CombatTrackerMixin",
     "DigDurabilityEnchantmentMixin",
-    "ExperienceOrbMixin"
+    "EntityMixin",
+    "ExperienceOrbMixin",
+    "InfinityEnchantmentMixin",
+    "ItemStackMixin",
+    "LivingEntityMixin",
+    "MobEffectInstanceMixin",
+    "PlayerMixin",
+    "ServerPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -15,6 +24,10 @@
   "client": [
     "BiomeMixin",
     "HierarchicalModelMixin",
+    "HumanoidModelMixin",
+    "KeyboardInputMixin",
+    "LivingEntityRendererMixin",
+    "MouseHandlerMixin",
     "QuadrupedModelMixin"
   ]
 }

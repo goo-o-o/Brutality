@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DunkedDonut extends BrutalityCurioItem {
 
-    public DunkedDonut(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public DunkedDonut(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

@@ -1,0 +1,29 @@
+package net.goo.brutality.client.renderers.layers;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.goo.brutality.entity.capabilities.EntityCapabilities;
+import net.goo.brutality.registry.BrutalityCapabilities;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.world.entity.LivingEntity;
+
+import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
+
+public class TheVoidLayer<T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M> {
+    public TheVoidLayer(LivingEntityRenderer<T, M> pRenderer) {
+        super(pRenderer);
+    }
+
+    @Override
+    public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+        if (pLivingEntity.getCapability(BrutalityCapabilities.ENTITY_EFFECT_CAP).map(EntityCapabilities.EntityEffectCap::isTheVoid).orElse(false)) {
+            VertexConsumer vertexConsumer = pBuffer.getBuffer(RenderType.entityTranslucent(getTextureLocation(pLivingEntity)));
+            getParentModel().renderToBuffer(pPoseStack, vertexConsumer, FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0F, 0F, 0F, 1F);
+        }
+    }
+}

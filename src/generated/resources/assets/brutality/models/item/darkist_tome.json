@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:item/tome/darkist_tome_handheld",
+  "textures": {
+    "layer0": "brutality:item/tome/darkist_tome/darkist_tome_handheld"
+  }
+}

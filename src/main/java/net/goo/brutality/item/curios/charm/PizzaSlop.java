@@ -10,7 +10,7 @@ import java.util.List;
 public class PizzaSlop extends BrutalityCurioItem {
 
 
-    public PizzaSlop(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public PizzaSlop(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

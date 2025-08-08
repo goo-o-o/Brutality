@@ -3,9 +3,11 @@ package net.goo.brutality;
 import com.mojang.logging.LogUtils;
 import net.goo.brutality.config.BrutalityClientConfig;
 import net.goo.brutality.config.BrutalityCommonConfig;
+import net.goo.brutality.magic.SpellCommands;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.registry.CommonRegistry;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -53,6 +55,11 @@ public class Brutality {
     public void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(PacketHandler::register);
         LOGGER.info("Brutality: Performing common setup");
+    }
+
+    @SubscribeEvent
+    public void onRegisterCommands(RegisterCommandsEvent event) {
+        SpellCommands.register(event.getDispatcher());
     }
 
     @SubscribeEvent

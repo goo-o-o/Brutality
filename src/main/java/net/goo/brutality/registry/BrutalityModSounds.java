@@ -114,6 +114,7 @@ public class BrutalityModSounds {
     public static final RegistryObject<SoundEvent> ICE_WAVE = registerSoundEvents("ice_wave");
     public static final RegistryObject<SoundEvent> BIG_EXPLOSION = registerSoundEvents("big_explosion");
     public static final RegistryObject<SoundEvent> BIGGER_EXPLOSION = registerSoundEvents("bigger_explosion");
+    public static final RegistryObject<SoundEvent> SPACE_EXPLOSION = registerSoundEvents("space_explosion");
     public static final RegistryObject<SoundEvent> WINGS_FLAP = registerSoundEvents("wings_flap");
 
     private static RegistryObject<SoundEvent> registerSoundEvents(String name) {

@@ -10,28 +10,64 @@ import java.util.UUID;
 
 public class EntityCapabilities {
     private static final String MIRACLE_BLIGHTED = "isMiracleBlighted", SHOULD_ROTATE = "shouldRotate", RAGE_VALUE = "rageValue", MANA_VALUE = "manaValue";
+    private static final String IS_RAGE = "isRage", IS_THE_VOID = "isTheVoid", IS_LIGHT_BOUND = "isBound";
+    private static final String HIT_COUNT = "hitCount", LAST_HIT_TIME = "lastHitTime", LAST_VICTIM_ID = "lastVictimId";
 
     @AutoRegisterCapability
     public static class EntityEffectCap implements INBTSerializable<CompoundTag> {
         private boolean miracleBlighted = false;
+        private boolean isRage = false;
+        private boolean isTheVoid = false;
+        private boolean isLightBound = false;
 
         public boolean isMiracleBlighted() {
             return this.miracleBlighted;
+        }
+
+        public boolean isRage() {
+            return this.isRage;
+        }
+
+        public boolean isTheVoid() {
+            return this.isTheVoid;
+        }
+
+        public boolean isLightBound() {
+            return this.isLightBound;
+        }
+
+        public void setLightBound(boolean lightBound) {
+            this.isLightBound = lightBound;
         }
 
         public void setMiracleBlighted(boolean active) {
             this.miracleBlighted = active;
         }
 
+        public void setRage(boolean active) {
+            this.isRage = active;
+        }
+
+        public void setTheVoid(boolean active) {
+            this.isTheVoid = active;
+        }
+
+
         public CompoundTag serializeNBT() {
             CompoundTag tag = new CompoundTag();
             tag.putBoolean(MIRACLE_BLIGHTED, isMiracleBlighted());
+            tag.putBoolean(IS_RAGE, isRage());
+            tag.putBoolean(IS_THE_VOID, isTheVoid());
+            tag.putBoolean(IS_LIGHT_BOUND, isLightBound());
             return tag;
         }
 
 
         public void deserializeNBT(CompoundTag nbt) {
             setMiracleBlighted(nbt.getBoolean(MIRACLE_BLIGHTED));
+            setRage(nbt.getBoolean(IS_RAGE));
+            setTheVoid(nbt.getBoolean(IS_THE_VOID));
+            setLightBound(nbt.getBoolean(IS_LIGHT_BOUND));
         }
     }
 
@@ -170,4 +206,54 @@ public class EntityCapabilities {
     }
 
 
+    @AutoRegisterCapability
+    public static class PlayerComboCap implements INBTSerializable<CompoundTag> {
+        private int lastVictimId;
+        private int hitCount;
+        private long lastHitTime;
+
+        public void resetAll() {
+            lastVictimId = -10;
+            hitCount = 0;
+            lastHitTime = 0;
+        }
+
+        public int lastVictimId() {
+            return lastVictimId;
+        }
+
+        public void setLastVictimId(int lastVictimId) {
+            this.lastVictimId = lastVictimId;
+        }
+
+        public int hitCount() {
+            return hitCount;
+        }
+
+        public void setHitCount(int hitCount) {
+            this.hitCount = hitCount;
+        }
+
+        public long lastHitTime() {
+            return lastHitTime;
+        }
+
+        public void setLastHitTime(long lastHitTime) {
+            this.lastHitTime = lastHitTime;
+        }
+
+        public CompoundTag serializeNBT() {
+            CompoundTag tag = new CompoundTag();
+            tag.putInt("LastVictim", lastVictimId);
+            tag.putInt("HitCount", hitCount);
+            tag.putLong("LastHitTime", lastHitTime);
+            return tag;
+        }
+
+        public void deserializeNBT(CompoundTag nbt) {
+            setHitCount(nbt.getInt(HIT_COUNT));
+            setLastHitTime(nbt.getLong(LAST_HIT_TIME));
+            setLastVictimId(nbt.getInt(LAST_VICTIM_ID));
+        }
+    }
 }

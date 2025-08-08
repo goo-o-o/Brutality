@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:item/tome/cosmic_tome_handheld",
+  "textures": {
+    "layer0": "brutality:item/tome/cosmic_tome/cosmic_tome_handheld"
+  }
+}

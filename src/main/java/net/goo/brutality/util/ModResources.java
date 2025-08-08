@@ -5,12 +5,12 @@ import net.minecraft.resources.ResourceLocation;
 
 public interface ModResources {
     // Fonts
-    ResourceLocation ALAGARD = new ResourceLocation(Brutality.MOD_ID, "alagard"); // Font used: Alagard https://www.dafont.com/alagard.font
-    ResourceLocation ALAGARD_LARGE = new ResourceLocation(Brutality.MOD_ID, "alagard_large"); // Font used: Alagard https://www.dafont.com/alagard.font
-    ResourceLocation DAYDREAM = new ResourceLocation(Brutality.MOD_ID, "daydream"); // Font used: Daydream https://www.dafont.com/daydream-3.font
-    ResourceLocation B2BSPORTY = new ResourceLocation(Brutality.MOD_ID, "b2bsporty"); // Font used: b2bSporty https://www.dafont.com/born2bsporty-fs.font
-    ResourceLocation COSMICALIEN = new ResourceLocation(Brutality.MOD_ID, "cosmicalien"); // Font used: Cosmic Alien https://www.dafont.com/cosmic-alien.font?
-    ResourceLocation RARITY_FONT = new ResourceLocation(Brutality.MOD_ID, "gamer"); // Font used: Gamer https://www.dafont.com/gamer-2.font
+    ResourceLocation ALAGARD = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "alagard"); // Font used: Alagard https://www.dafont.com/alagard.font
+    ResourceLocation ALAGARD_LARGE = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "alagard_large"); // Font used: Alagard https://www.dafont.com/alagard.font
+    ResourceLocation DAYDREAM = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "daydream"); // Font used: Daydream https://www.dafont.com/daydream-3.font
+    ResourceLocation B2BSPORTY = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "b2bsporty"); // Font used: b2bSporty https://www.dafont.com/born2bsporty-fs.font
+    ResourceLocation COSMICALIEN = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "cosmicalien"); // Font used: Cosmic Alien https://www.dafont.com/cosmic-alien.font?
+    ResourceLocation RARITY_FONT = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "gamer"); // Font used: Gamer https://www.dafont.com/gamer-2.font
 
 
     // Values

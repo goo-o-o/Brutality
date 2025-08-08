@@ -8,7 +8,7 @@ import net.minecraft.world.item.Rarity;
 import java.util.List;
 
 public class BloodStone extends BrutalityCurioItem {
-    public BloodStone(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public BloodStone(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

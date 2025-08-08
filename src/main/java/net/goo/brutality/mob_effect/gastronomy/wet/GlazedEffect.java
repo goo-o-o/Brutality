@@ -24,7 +24,7 @@ public class GlazedEffect extends MobEffect implements IGastronomyEffect {
     public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
         super.applyEffectTick(pLivingEntity, pAmplifier);
 
-//        if (pLivingEntity.level() instanceof ServerLevel serverLevel) {
+//        if (pLivingEntity.spellLevel() instanceof ServerLevel serverLevel) {
 //            serverLevel.sendParticles(ParticleTypes.LARGE_SMOKE,
 //                    pLivingEntity.getX(), pLivingEntity.getY() + pLivingEntity.getBbHeight() / 2, pLivingEntity.getZ(), 1,
 //                    0.5, 0.5, 0.5

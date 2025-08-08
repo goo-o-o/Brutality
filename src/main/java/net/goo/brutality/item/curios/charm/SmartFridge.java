@@ -8,7 +8,7 @@ import net.minecraft.world.item.Rarity;
 import java.util.List;
 
 public class SmartFridge extends BrutalityCurioItem {
-    public SmartFridge(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public SmartFridge(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

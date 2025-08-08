@@ -272,11 +272,35 @@ public class BrutalityTooltipHelper {
     }
 
 
-    public record DescriptionComponent(DescriptionComponents type, int lines) {
+    public record ItemDescriptionComponent(ItemDescriptionComponents type, int lines) {
     }
 
-
-    public enum DescriptionComponents {
+    public enum ItemDescriptionComponents {
         ACTIVE, PASSIVE, FULL_SET_PASSIVE, FULL_SET_ACTIVE, ON_HIT, WHEN_THROWN, ON_SWING, ON_RIGHT_CLICK, ON_SHIFT_RIGHT_CLICK, LORE, ON_KILL, ON_SHOOT, ON_HOLD_RIGHT_CLICK, CHARM, DASH_ABILITY
     }
+
+    public record SpellStatComponent(SpellStatComponents type, int base, int levelDelta, Integer min, Integer max) {
+        public int base() { return base; }
+        public int levelDelta() { return levelDelta; }
+        public Integer min() { return min; }
+        public Integer max() { return max; }
+    }
+
+    public enum SpellStatComponents {
+        RANGE("📏"," 🟫"),
+        SIZE("📏"," 🟫"),
+        DURATION("🕒", "s"),
+        DEFENSE("🦺", " 🛡"),
+        HEALING("⛨", " ❤");
+
+        public final String icon;
+        public final String unit;
+
+        SpellStatComponents(String icon, String unit) {
+            this.icon = icon;
+            this.unit = unit;
+        }
+
+    }
+
 }

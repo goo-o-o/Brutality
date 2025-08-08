@@ -34,7 +34,7 @@ public class LeafBlowerItem extends BrutalityGenericItem {
     private static final String ACTIVE_KEY = "LeafBlowerActive";
     private int tickCounter;
 
-    public LeafBlowerItem(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public LeafBlowerItem(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

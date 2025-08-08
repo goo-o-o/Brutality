@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PlunderChest extends BrutalityCurioItem {
 
-    public PlunderChest(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public PlunderChest(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

@@ -1,13 +1,16 @@
 package net.goo.brutality.item.base;
 
+import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
@@ -15,28 +18,29 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class BrutalityScytheItem extends SwordItem implements BrutalityGeoItem {
     protected String identifier;
     protected Rarity rarity;
-    protected List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents;
+    protected List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents;
 
-    public BrutalityScytheItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public BrutalityScytheItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(pTier, (int) pAttackDamageModifier, pAttackSpeedModifier, new Item.Properties());
         this.rarity = rarity;
         this.descriptionComponents = descriptionComponents;
 
     }
 
-//    @Override
-//    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-//        consumer.accept(new IClientItemExtensions() {
-//            @Override
-//            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-//                return createRenderer();
-//            }
-//        });
-//    }
+    @Override
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                return BrutalityModItemRenderManager.createRenderer(BrutalityScytheItem.this);
+            }
+        });
+    }
 
     @Override
     public @NotNull Rarity getRarity(@NotNull ItemStack pStack) {

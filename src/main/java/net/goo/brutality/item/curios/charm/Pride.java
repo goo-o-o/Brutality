@@ -4,8 +4,7 @@ import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -21,7 +20,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class Pride extends BrutalityCurioItem {
-    public Pride(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    private static final String CURRENT_BONUS = "current_bonus";
+
+    public Pride(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
@@ -31,11 +32,15 @@ public class Pride extends BrutalityCurioItem {
     }
 
 
-    private static float getCurrentBonus() {
-        LocalPlayer player = Minecraft.getInstance().player;
-        if (player != null) {
-            return player.getHealth() / player.getMaxHealth() * 40;
-        } else return 0;
+    private static boolean updateCurrentBonus(Player player, ItemStack stack) {
+        CompoundTag tag = stack.getOrCreateTag();
+        float currentBonus = tag.getFloat(CURRENT_BONUS);
+        float newBonus = player.getHealth() / player.getMaxHealth() * 40;
+        if (currentBonus == newBonus) return false;
+        else {
+            tag.putFloat(CURRENT_BONUS, newBonus);
+            return true;
+        }
     }
 
     UUID PRIDE_AD_UUID = UUID.fromString("81d46a1b-a3aa-4cb8-8999-d60df56c0cb7");
@@ -45,18 +50,17 @@ public class Pride extends BrutalityCurioItem {
         if (slotContext.entity() instanceof Player player) {
             AttributeInstance attackDamage = player.getAttribute(Attributes.ATTACK_DAMAGE);
             if (attackDamage != null) {
-                // Remove old modifier (if exists)
-                attackDamage.removeModifier(PRIDE_AD_UUID);
-
-                // Add new modifier with dynamic value
-                attackDamage.addTransientModifier(
-                        new AttributeModifier(
-                                PRIDE_AD_UUID,
-                                "Pride AD Bonus",
-                                getCurrentBonus() * 0.01,
-                                AttributeModifier.Operation.MULTIPLY_TOTAL
-                        )
-                );
+                if (updateCurrentBonus(player, stack)) {
+                    attackDamage.removeModifier(PRIDE_AD_UUID);
+                    attackDamage.addTransientModifier(
+                            new AttributeModifier(
+                                    PRIDE_AD_UUID,
+                                    "Pride AD Bonus",
+                                    stack.getOrCreateTag().getFloat(CURRENT_BONUS) * 0.01,
+                                    AttributeModifier.Operation.MULTIPLY_TOTAL
+                            )
+                    );
+                }
             }
         }
     }
@@ -76,7 +80,7 @@ public class Pride extends BrutalityCurioItem {
     public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, world, tooltip, flag);
         tooltip.add(Component.empty());
-        float value = getCurrentBonus();
+        float value = stack.getOrCreateTag().getFloat("current_bonus");
 
         String formattedValue = value % 1 == 0 ?
                 String.format("%.0f", value) :

@@ -1,16 +1,16 @@
 package net.goo.brutality.magic;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.magic.spells.daemonium.DaemonicPickaxeSpell;
+import net.goo.brutality.magic.spells.celestia.*;
+import net.goo.brutality.magic.spells.voidwalker.*;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 public class SpellRegistry {
-    private static final Map<ResourceLocation, IBrutalitySpell> SPELLS = new HashMap<>();
+    public static final Map<ResourceLocation, IBrutalitySpell> SPELLS = new HashMap<>();
 
     public static void register(IBrutalitySpell spell) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, spell.getSpellName().toLowerCase(Locale.ROOT));
@@ -21,11 +21,17 @@ public class SpellRegistry {
         return SPELLS.get(id);
     }
 
-    public static Collection<IBrutalitySpell> getAllSpells() {
-        return SPELLS.values();
-    }
-
     public static void register() {
-        register(new DaemonicPickaxeSpell());
+        register(new VoidWalkSpell());
+        register(new GraviticImplosionSpell());
+        register(new SpatialRuptureSpell());
+        register(new IntangibleSpell());
+        register(new DematerializeSpell());
+
+        register(new HeavenlyFlightSpell());
+        register(new DivineRetributionSpell());
+        register(new HolyMantleSpell());
+        register(new SacrificeSpell());
+        register(new LightBindingSpell());
     }
 }

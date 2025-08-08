@@ -24,7 +24,7 @@ public class DoomfistGauntletItem extends BrutalityGenericItem {
     private static final String PUNCHING = "isPunching";
     private static int clampedTime;
 
-    public DoomfistGauntletItem(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public DoomfistGauntletItem(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

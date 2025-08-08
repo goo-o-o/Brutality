@@ -9,7 +9,7 @@ import java.util.List;
 
 public class YataNoKagami extends BrutalityCurioItem {
 
-    public YataNoKagami(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public YataNoKagami(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

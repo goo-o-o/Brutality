@@ -14,9 +14,9 @@ public class MurasamaParticle extends TextureSheetParticle {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
 
         this.friction = 0.75F; // Determines particle movement slowdown
-        this.xd = Mth.nextFloat(level.random, 0.75F, -0.75F);
-        this.yd = Mth.nextFloat(level.random, 0.75F, -0.75F);
-        this.zd = Mth.nextFloat(level.random, 0.75F, -0.75F);
+        this.xd = Mth.nextFloat(level.random, -0.75F, 0.75F);
+        this.yd = Mth.nextFloat(level.random, -0.75F, 0.75F);
+        this.zd = Mth.nextFloat(level.random, -0.75F, 0.75F);
         this.lifetime = level.random.nextIntBetweenInclusive(10, 15);
         this.spriteSet = spriteSet;
         this.setSpriteFromAge(spriteSet);

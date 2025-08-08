@@ -10,7 +10,7 @@ import java.util.List;
 public class Sloth extends BrutalityCurioItem {
 
 
-    public Sloth(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public Sloth(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

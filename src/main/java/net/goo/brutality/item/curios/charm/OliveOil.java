@@ -10,7 +10,7 @@ import java.util.List;
 public class OliveOil extends BrutalityCurioItem {
 
 
-    public OliveOil(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public OliveOil(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class RageStone extends BrutalityCurioItem {
-    public RageStone(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public RageStone(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

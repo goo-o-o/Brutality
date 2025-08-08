@@ -19,6 +19,7 @@ public class BrutalityCapabilities {
     public static final Capability<EntityCapabilities.EntityShouldRotateCap> ENTITY_SHOULD_ROTATE_CAP = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<EntityCapabilities.PlayerRageCap> PLAYER_RAGE_CAP = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<EntityCapabilities.PlayerManaCap> PLAYER_MANA_CAP = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<EntityCapabilities.PlayerComboCap> PLAYER_COMBO_CAP = CapabilityManager.get(new CapabilityToken<>(){});
 
     static {
         CapabilitySyncRegistry.register("effect", ENTITY_EFFECT_CAP);
@@ -26,6 +27,7 @@ public class BrutalityCapabilities {
         CapabilitySyncRegistry.register("should_rotate", ENTITY_SHOULD_ROTATE_CAP);
         CapabilitySyncRegistry.register("rage_value", PLAYER_RAGE_CAP);
         CapabilitySyncRegistry.register("mana_value", PLAYER_MANA_CAP);
+        CapabilitySyncRegistry.register("combo", PLAYER_COMBO_CAP);
     }
 
     public static class CapabilitySyncRegistry {

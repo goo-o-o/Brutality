@@ -10,7 +10,7 @@ import java.util.List;
 public class RockCandyRing extends BrutalityCurioItem {
 
 
-    public RockCandyRing(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public RockCandyRing(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:block/super_sniffer_figure_handheld",
+  "textures": {
+    "layer0": "brutality:block/super_sniffer_figure"
+  }
+}

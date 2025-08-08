@@ -20,7 +20,7 @@ import java.util.UUID;
 public class HateSigil extends BrutalityCurioItem {
 
 
-    public HateSigil(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public HateSigil(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

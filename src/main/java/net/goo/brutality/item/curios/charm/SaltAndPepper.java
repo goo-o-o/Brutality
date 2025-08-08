@@ -10,7 +10,7 @@ import java.util.List;
 public class SaltAndPepper extends BrutalityCurioItem {
 
 
-    public SaltAndPepper(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public SaltAndPepper(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

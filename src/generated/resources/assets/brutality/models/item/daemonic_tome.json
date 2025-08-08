@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:item/tome/daemonic_tome_handheld",
+  "textures": {
+    "layer0": "brutality:item/tome/daemonic_tome/daemonic_tome_handheld"
+  }
+}

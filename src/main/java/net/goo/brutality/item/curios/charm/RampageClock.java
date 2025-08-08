@@ -20,7 +20,7 @@ import java.util.UUID;
 public class RampageClock extends BrutalityCurioItem {
 
 
-    public RampageClock(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public RampageClock(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

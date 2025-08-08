@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
@@ -115,7 +114,7 @@ public class BrutalityRenderTypes extends RenderType {
         CompositeState renderState = CompositeState.builder()
                 .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
                 .setCullState(NO_CULL)
-                .setTextureState(new TextureStateShard(new ResourceLocation(Brutality.MOD_ID,"textures/particle/em_pulse.png"), true, true))
+                .setTextureState(new TextureStateShard(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID,"textures/particle/em_pulse.png"), true, true))
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                 .setLightmapState(LIGHTMAP)
                 .setOverlayState(OVERLAY)
@@ -201,7 +200,7 @@ public class BrutalityRenderTypes extends RenderType {
         CompositeState renderState = CompositeState.builder()
                 .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
                 .setCullState(NO_CULL)
-                .setTextureState(new TextureStateShard(new ResourceLocation(Brutality.MOD_ID,"textures/particle/shock_wave.png"), true, true))
+                .setTextureState(new TextureStateShard(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID,"textures/particle/shock_wave.png"), true, true))
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                 .setLightmapState(LIGHTMAP)
                 .setOverlayState(OVERLAY)
@@ -215,7 +214,7 @@ public class BrutalityRenderTypes extends RenderType {
 
 
     public static ParticleRenderType PARTICLE_SHEET_TRANSLUCENT_NO_CULL = new ParticleRenderType() {
-        public void begin(BufferBuilder p_217600_1_, @NotNull TextureManager textureManager) {
+        public void begin(BufferBuilder p_217600_1_, TextureManager p_217600_2_) {
             RenderSystem.depthMask(false);
             RenderSystem.disableCull();
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);

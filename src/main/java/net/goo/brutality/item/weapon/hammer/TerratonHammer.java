@@ -25,7 +25,7 @@ import java.util.UUID;
 public class TerratonHammer extends BrutalityHammerItem implements GeoItem {
     private static final UUID TERRATON_MS_UUID = UUID.fromString("81895fda-102b-45bc-8ffe-10ac74a89e9a");
 
-    public TerratonHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public TerratonHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 

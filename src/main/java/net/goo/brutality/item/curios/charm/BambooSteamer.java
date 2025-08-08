@@ -10,7 +10,7 @@ import java.util.List;
 public class BambooSteamer extends BrutalityCurioItem {
 
 
-    public BambooSteamer(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public BambooSteamer(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

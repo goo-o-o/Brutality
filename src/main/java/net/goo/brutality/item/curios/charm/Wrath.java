@@ -20,7 +20,7 @@ import java.util.UUID;
 public class Wrath extends BrutalityCurioItem {
 
 
-    public Wrath(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public Wrath(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

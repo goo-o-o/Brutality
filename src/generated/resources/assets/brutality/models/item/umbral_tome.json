@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:item/tome/umbral_tome_handheld",
+  "textures": {
+    "layer0": "brutality:item/tome/umbral_tome/umbral_tome_handheld"
+  }
+}

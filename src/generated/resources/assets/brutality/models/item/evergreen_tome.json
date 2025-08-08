@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:item/tome/evergreen_tome_handheld",
+  "textures": {
+    "layer0": "brutality:item/tome/evergreen_tome/evergreen_tome_handheld"
+  }
+}

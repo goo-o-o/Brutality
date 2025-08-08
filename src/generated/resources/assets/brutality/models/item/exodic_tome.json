@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:item/tome/exodic_tome_handheld",
+  "textures": {
+    "layer0": "brutality:item/tome/exodic_tome/exodic_tome_handheld"
+  }
+}

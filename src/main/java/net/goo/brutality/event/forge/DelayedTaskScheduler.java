@@ -24,7 +24,7 @@ public class DelayedTaskScheduler {
     }
 
     @SubscribeEvent
-    public static void tick(TickEvent.ServerTickEvent event) {
+    public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             List<AbstractMap.SimpleEntry<Runnable, Integer>> actions = new ArrayList<>();
             workQueue.forEach((work) -> {
@@ -37,6 +37,7 @@ public class DelayedTaskScheduler {
             actions.forEach((e) -> e.getKey().run());
             workQueue.removeAll(actions);
         }
+
 
     }
 }

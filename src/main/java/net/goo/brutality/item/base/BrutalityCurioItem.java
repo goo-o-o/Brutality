@@ -8,7 +8,7 @@ import java.util.List;
 
 public class BrutalityCurioItem extends BrutalityGenericItem implements ICurioItem {
 
-    public BrutalityCurioItem(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public BrutalityCurioItem(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

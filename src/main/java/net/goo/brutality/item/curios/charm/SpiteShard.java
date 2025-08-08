@@ -25,7 +25,7 @@ import java.util.UUID;
 public class SpiteShard extends BrutalityCurioItem {
 
 
-    public SpiteShard(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public SpiteShard(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

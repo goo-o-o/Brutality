@@ -1,0 +1,119 @@
+package net.goo.brutality.magic.spells.celestia;
+
+import net.goo.brutality.magic.BrutalitySpell;
+import net.goo.brutality.particle.providers.WaveParticleData;
+import net.goo.brutality.registry.BrutalityModParticles;
+import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.RANGE;
+
+public class SacrificeSpell extends BrutalitySpell {
+
+
+    public SacrificeSpell() {
+        super(MagicSchool.CELESTIA, SpellType.SINGLETON_SELF_BUFF, "sacrifice",
+                80, 0, 600, 1, List.of(
+                        new BrutalityTooltipHelper.SpellStatComponent(BrutalityTooltipHelper.SpellStatComponents.HEALING, 10, 2, null, null),
+                        new BrutalityTooltipHelper.SpellStatComponent(BrutalityTooltipHelper.SpellStatComponents.RANGE, 5, 1, null, 25)
+                ));
+    }
+
+    @Override
+    public float getDamageLevelScaling() {
+        return 0;
+    }
+
+    @Override
+    public int getManaCostLevelScaling() {
+        return 10;
+    }
+
+    @Override
+    public int getCooldownLevelScaling() {
+        return -5;
+    }
+
+    @Override
+    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+        BrutalityTooltipHelper.SpellStatComponent healthStat = getStat(BrutalityTooltipHelper.SpellStatComponents.HEALING);
+        float healPool = getFinalStat(spellLevel, healthStat);
+
+        if (player.level() instanceof ServerLevel serverLevel) {
+            WaveParticleData waveParticleData = new WaveParticleData(BrutalityModParticles.HEAL_WAVE.get(), getFinalStat(spellLevel, getStat(RANGE)), 20);
+
+            serverLevel.sendParticles(
+                    waveParticleData,
+                    player.getX(),
+                    player.getY(0.1),
+                    player.getZ(),
+                    1,
+                    0, 0, 0,
+                    0
+            );
+        }
+
+        List<Player> nearbyPlayers = ModUtils.getEntitiesInSphere(Player.class, player, p -> p != player, getFinalStat(spellLevel, getStat(BrutalityTooltipHelper.SpellStatComponents.RANGE)));
+
+        float casterMissingHealth = player.getMaxHealth() - player.getHealth();
+        float casterHealAmount = Math.min(casterMissingHealth, healPool);
+        player.heal(casterHealAmount);
+        healPool -= casterHealAmount;
+
+        if (healPool < 0) return true;
+
+        float excessHealing = 0f;
+
+        if (!nearbyPlayers.isEmpty()) {
+            float healingPerPlayer = healPool / nearbyPlayers.size();
+            for (Player receiver : nearbyPlayers) {
+                float requiredHealing = receiver.getMaxHealth() - receiver.getHealth();
+                if (requiredHealing < healingPerPlayer) {
+                    receiver.heal(requiredHealing);
+                    excessHealing += healingPerPlayer - requiredHealing;
+                } else {
+                    receiver.heal(healingPerPlayer);
+                }
+            }
+        } else {
+            return true;
+        }
+
+        if (excessHealing > 0) {
+            List<Player> eligiblePlayers = new ArrayList<>(nearbyPlayers);
+            while (excessHealing > 0 && !eligiblePlayers.isEmpty()) {
+                // Find player with the lowest health percentage
+                Player lowestHealthPlayer = eligiblePlayers.stream()
+                        .min(Comparator.comparingDouble(p -> p.getHealth() / p.getMaxHealth()))
+                        .orElse(null);
+
+                float requiredHealing = lowestHealthPlayer.getMaxHealth() - lowestHealthPlayer.getHealth();
+                if (requiredHealing <= 0.001f) {
+                    // Remove fully healed player
+                    eligiblePlayers.remove(lowestHealthPlayer);
+                    continue;
+                }
+
+                if (requiredHealing < excessHealing) {
+                    lowestHealthPlayer.heal(requiredHealing);
+                    excessHealing -= requiredHealing;
+                    eligiblePlayers.remove(lowestHealthPlayer); // No more healing needed
+                } else {
+                    lowestHealthPlayer.heal(excessHealing);
+                    break;
+                }
+            }
+        }
+
+
+
+        return true;
+    }
+}
