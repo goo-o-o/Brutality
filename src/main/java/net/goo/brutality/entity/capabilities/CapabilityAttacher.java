@@ -45,13 +45,19 @@ public class CapabilityAttacher {
                         ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "mana_value"),
                         new PlayerManaCapProvider()
                 );
+            if (!event.getObject().getCapability(BrutalityCapabilities.PLAYER_COMBO_CAP).isPresent())
+                event.addCapability(
+                        ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "combo"),
+                        new PlayerComboCapProvider()
+                );
+
         }
     }
 
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
         if (event.isWasDeath()) {
-            Player original  = event.getOriginal();
+            Player original = event.getOriginal();
 
             original.getCapability(BrutalityCapabilities.ENTITY_SHOULD_ROTATE_CAP)
                     .ifPresent(oldCap -> {
@@ -135,6 +141,21 @@ public class CapabilityAttacher {
                         Player player = event.getEntity();
 
                         player.getCapability(BrutalityCapabilities.ENTITY_STAR_COUNT_CAP)
+                                .ifPresent(newCap -> {
+                                    // Copy all states
+                                    CompoundTag tag = oldCap.serializeNBT();
+                                    newCap.deserializeNBT(tag);
+
+                                });
+
+
+                    });
+
+            original.getCapability(BrutalityCapabilities.PLAYER_COMBO_CAP)
+                    .ifPresent(oldCap -> {
+                        Player player = event.getEntity();
+
+                        player.getCapability(BrutalityCapabilities.PLAYER_COMBO_CAP)
                                 .ifPresent(newCap -> {
                                     // Copy all states
                                     CompoundTag tag = oldCap.serializeNBT();

@@ -1,7 +1,6 @@
 package net.goo.brutality.entity.base;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.particle.base.AbstractWorldAlignedTrailParticle;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -31,7 +30,7 @@ public class SwordBeam extends ThrowableProjectile implements BrutalityGeoEntity
         super(entityType, level);
         initializeRoll(level, origin, bound);
         this.noCulling = true;
-        this.level().addParticle((new AbstractWorldAlignedTrailParticle.OrbData(1F, 1F, 1F, getBbWidth(), this.getId(), 0, 0, getRandomRollRadians(), "sword", 5)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
+//        this.level().addParticle((new AbstractWorldAlignedTrailParticle.OrbData(1F, 1F, 1F, getBbWidth(), this.getId(), 0, 0, getRandomRollRadians(), "sword", 5)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
         this.setNoGravity(true);
     }
 

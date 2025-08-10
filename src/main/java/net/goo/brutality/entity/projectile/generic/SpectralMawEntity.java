@@ -1,9 +1,9 @@
 package net.goo.brutality.entity.projectile.generic;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.particle.base.CameraAlignedOrbitingTrailParticle;
-import net.goo.brutality.particle.custom.RuinedParticle;
+import net.goo.brutality.particle.providers.TrailParticleData;
 import net.goo.brutality.registry.BrutalityModMobEffects;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -82,8 +82,8 @@ public class SpectralMawEntity extends ThrowableProjectile implements BrutalityG
 
         if (!trailSpawned && this.level().isClientSide()) {
             for (int i = 0; i < 4; i++)
-                this.level().addParticle((new CameraAlignedOrbitingTrailParticle.OrbData(0.18F, 0.47F, 0.44F,
-                                this.getBbHeight() * 0.75F, this.getId(), 10)), this.getRandomX(2),
+                this.level().addParticle(new TrailParticleData(BrutalityModParticles.RUINED_PARTICLE.get(), 0.18F, 0.47F, 0.44F, 1,
+                                this.getBbHeight() * 0.75F, this.getId(), 10), this.getRandomX(2),
                         this.getRandomY() - this.getBbHeight() / 2, this.getRandomZ(2), 0, 0, 0);
             trailSpawned = true;
 
@@ -99,8 +99,8 @@ public class SpectralMawEntity extends ThrowableProjectile implements BrutalityG
     protected void onHitEntity(EntityHitResult pResult) {
         if (pResult.getEntity() instanceof LivingEntity entity && level() instanceof ServerLevel serverLevel) {
             entity.addEffect(new MobEffectInstance(BrutalityModMobEffects.STUNNED.get(), 3, 0));
-                serverLevel.sendParticles(new RuinedParticle.OrbData(
-                                0.18F, 0.47F, 0.44F, 10),
+                serverLevel.sendParticles(new TrailParticleData(BrutalityModParticles.RUINED_PARTICLE.get(), 0.18F, 0.47F, 0.44F, 1,
+                                this.getBbHeight() * 0.75F, this.getId(), 10),
                         entity.getX(), entity.getY(), entity.getZ(), 10,
                         0, 0, 0, 0);
         }

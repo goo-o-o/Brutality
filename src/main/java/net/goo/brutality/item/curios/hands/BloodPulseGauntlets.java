@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class BloodPulseGauntlets extends BrutalityCurioItem {
-    public BloodPulseGauntlets(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public BloodPulseGauntlets(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

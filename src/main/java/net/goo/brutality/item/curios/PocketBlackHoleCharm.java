@@ -19,7 +19,7 @@ import java.util.UUID;
 public class PocketBlackHoleCharm extends BrutalityCurioItem {
 
 
-    public PocketBlackHoleCharm(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public PocketBlackHoleCharm(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

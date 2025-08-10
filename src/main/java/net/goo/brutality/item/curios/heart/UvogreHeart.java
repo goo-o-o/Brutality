@@ -14,7 +14,7 @@ import java.util.List;
 
 public class UvogreHeart extends BrutalityCurioItem {
 
-    public UvogreHeart(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public UvogreHeart(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

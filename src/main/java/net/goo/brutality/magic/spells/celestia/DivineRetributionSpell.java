@@ -11,14 +11,18 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
+import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.AOE;
+import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.CHANNELING;
 import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.RANGE;
 
 public class DivineRetributionSpell extends BrutalitySpell {
 
 
     public DivineRetributionSpell() {
-        super(MagicSchool.CELESTIA, SpellType.SINGLETON_SELF_BUFF, "divine_retribution",
-                50, 0, 20 * 40, 1, List.of(
+        super(MagicSchool.CELESTIA,
+                List.of(CHANNELING, AOE),
+                "divine_retribution",
+                50, 0, 20 * 40, 140, 1, List.of(
                         new BrutalityTooltipHelper.SpellStatComponent(RANGE, 15, 5, null, null)
                 ));
     }
@@ -36,6 +40,11 @@ public class DivineRetributionSpell extends BrutalitySpell {
     @Override
     public int getCooldownLevelScaling() {
         return -20;
+    }
+
+    @Override
+    public int getCastTimeLevelScaling() {
+        return -10;
     }
 
     @Override

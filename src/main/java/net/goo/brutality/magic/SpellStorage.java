@@ -41,7 +41,7 @@ public class SpellStorage {
         return spells;
     }
 
-    public static SpellEntry getCurrentSpell(ItemStack stack) {
+    public static SpellEntry getCurrentSpellEntry(ItemStack stack) {
         List<SpellEntry> spells = getSpells(stack);
         if (spells.isEmpty()) return null;
 

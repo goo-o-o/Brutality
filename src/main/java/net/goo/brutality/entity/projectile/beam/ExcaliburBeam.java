@@ -1,7 +1,6 @@
 package net.goo.brutality.entity.projectile.beam;
 
 import net.goo.brutality.entity.base.SwordBeam;
-import net.goo.brutality.particle.base.AbstractWorldAlignedTrailParticle;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.entity.Entity;
@@ -80,7 +79,7 @@ public class ExcaliburBeam extends SwordBeam {
             float yaw = (float) Math.atan2(-moveVec.z, moveVec.x);
             float pitch = (float) Math.asin(moveVec.y);
 
-            this.level().addParticle((new AbstractWorldAlignedTrailParticle.OrbData(1F, 1F, 0, this.getBbWidth(), this.getId(), pitch, yaw, getRandomRollRadians(), "sword", 5)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
+//            this.level().addParticle((new AbstractWorldAlignedTrailParticle.OrbData(1F, 1F, 0, this.getBbWidth(), this.getId(), pitch, yaw, getRandomRollRadians(), "sword", 5)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
             trailSpawned = true;
         }
 

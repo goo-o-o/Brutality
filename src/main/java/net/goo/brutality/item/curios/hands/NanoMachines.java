@@ -10,7 +10,7 @@ import java.util.List;
 public class NanoMachines extends BrutalityCurioItem {
 
 
-    public NanoMachines(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public NanoMachines(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

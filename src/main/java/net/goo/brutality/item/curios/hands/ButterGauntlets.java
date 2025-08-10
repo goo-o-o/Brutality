@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ButterGauntlets extends BrutalityCurioItem {
 
-    public ButterGauntlets(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public ButterGauntlets(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

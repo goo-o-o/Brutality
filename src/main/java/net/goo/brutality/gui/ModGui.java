@@ -19,6 +19,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
@@ -53,7 +54,7 @@ public class ModGui {
     private static final float COSINE_AMPLITUDE = 1 * AMPLITUDE_SCALE;
     private static final int SINE_COLOR = BrutalityTooltipHelper.rgbToInt(67, 74, 172);
     private static final int COSINE_COLOR = BrutalityTooltipHelper.rgbToInt(182, 87, 103);
-    private static final int GUI_WHITE = BrutalityTooltipHelper.rgbToInt(250, 252, 255);
+    private static final int GUI_WHITE = FastColor.ARGB32.color(255, 250, 252, 255);
     private static final int GUI_BLACK = BrutalityTooltipHelper.rgbToInt(25, 25, 25);
     private static int calcLeft;
     private static int calcTop;
@@ -120,13 +121,14 @@ public class ModGui {
         windowWidth = window.getGuiScaledWidth();
         windowHeight = window.getGuiScaledHeight();
 
-        renderManaBar(gui, player);
 
-
-        if (mainHand.getItem() instanceof BaseMagicTome)
+        if (mainHand.getItem() instanceof BaseMagicTome) {
+            renderManaAndProgressBar(gui, player, mainHand);
             renderSpellSelection(gui, player, mainHand);
-        else if (offHand.getItem() instanceof BaseMagicTome)
+        } else if (offHand.getItem() instanceof BaseMagicTome) {
+            renderManaAndProgressBar(gui, player, offHand);
             renderSpellSelection(gui, player, offHand);
+        }
 
         CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
             if (handler.isEquipped(BrutalityModItems.SCIENTIFIC_CALCULATOR_BELT.get())) {
@@ -165,7 +167,7 @@ public class ModGui {
     private static final ResourceLocation MANA_BAR_BACKGROUND_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/mana_bar_bg.png");
 
-    private static void renderManaBar(GuiGraphics gui, Player player) {
+    private static void renderManaAndProgressBar(GuiGraphics gui, Player player, ItemStack tome) {
         // Get mana values
         float manaValue = player.getCapability(BrutalityCapabilities.PLAYER_MANA_CAP)
                 .map(EntityCapabilities.PlayerManaCap::manaValue)
@@ -174,9 +176,8 @@ public class ModGui {
         float manaPercent = maxMana != null ? manaValue / (float) maxMana.getValue() : 0;
         manaPercent = Mth.clamp(manaPercent, 0, 1); // Ensure between 0-1
 
-        float scale = 2;
-        int radius = 32;
-        int diameter = (int) (radius * scale);
+        int diameter = 70;
+        int radius = diameter / 2;
 
         // Calculate visible portion
         int visibleHeight = (int) (diameter * manaPercent);
@@ -208,6 +209,12 @@ public class ModGui {
                 0,
                 diameter, diameter,
                 diameter, diameter);
+
+        if (SpellCastingHandler.currentlyChannellingSpell(player, tome)) {
+            float channelProgress = SpellCastingHandler.getChannellingProgress(player, tome);
+            RadialProgressBarRenderer.renderProgressBar(tome, gui, magicCenterX, magicCenterY, 0, channelProgress);
+
+        }
     }
 
     private static final ResourceLocation SPELL_CONTAINER_CD_TEXTURE =
@@ -216,13 +223,15 @@ public class ModGui {
     private static void renderSpellSelection(GuiGraphics gui, Player player, ItemStack tome) {
         List<SpellStorage.SpellEntry> spellEntries = SpellStorage.getSpells(tome);
         float angleOffset = 0;
-        int distanceFromCenter = 64;
-        SpellStorage.SpellEntry selectedSpell = SpellStorage.getCurrentSpell(tome);
+        int distanceFromCenter = 68;
+        SpellStorage.SpellEntry selectedSpell = SpellStorage.getCurrentSpellEntry(tome);
 
-        final float baseDiameter = 36f;
+        final float containerDiameter = 48F;
+        final float iconDiameter = 36F;
         final float baseMiniDiameter = 16f;
         final float baseMiniRadius = baseMiniDiameter / 2f;
-        final float baseRadius = baseDiameter / 2f;
+        final float baseContainerRadius = containerDiameter / 2f;
+        final float baseIconRadius = iconDiameter / 2F;
 
         for (SpellStorage.SpellEntry spellEntry : spellEntries) {
             boolean isSelected = selectedSpell != null &&
@@ -243,36 +252,36 @@ public class ModGui {
             IBrutalitySpell.MagicSchool school = spellEntry.spell().getSchool();
 
             gui.blit(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/spells/" + school + "/spell_container/bg.png"),
-                    (int) (xComponent - baseRadius), (int) (yComponent - baseRadius),
-                    0, 0, (int) baseDiameter, (int) baseDiameter, (int) baseDiameter, (int) baseDiameter);
+                    (int) (xComponent - baseContainerRadius), (int) (yComponent - baseContainerRadius),
+                    0, 0, (int) containerDiameter, (int) containerDiameter, (int) containerDiameter, (int) containerDiameter);
 
             gui.blit(spellEntry.spell().getIcon(),
-                    (int) (xComponent - baseRadius), (int) (yComponent - baseRadius),
-                    0, 0, (int) baseDiameter, (int) baseDiameter, (int) baseDiameter, (int) baseDiameter);
+                    (int) (xComponent - baseIconRadius), (int) (yComponent - baseIconRadius),
+                    0, 0, (int) iconDiameter, (int) iconDiameter, (int) iconDiameter, (int) iconDiameter);
 
             float progress = SpellCooldownTracker.getCooldownProgress(player, spellEntry.spell());
             if (progress > 0) {
-                int visibleHeight = Math.round(baseDiameter * progress);
+                int visibleHeight = Math.round(iconDiameter * progress);
                 gui.blit(SPELL_CONTAINER_CD_TEXTURE,
-                        (int) (xComponent - baseRadius),
-                        (int) (yComponent + (baseDiameter - visibleHeight) - baseRadius),
+                        (int) (xComponent - baseIconRadius),
+                        (int) (yComponent + (iconDiameter - visibleHeight) - baseIconRadius),
                         0,
-                        (int) baseDiameter - visibleHeight,
-                        (int) baseDiameter,
+                        (int) iconDiameter - visibleHeight,
+                        (int) iconDiameter,
                         visibleHeight,
-                        (int) baseDiameter, (int) baseDiameter);
+                        (int) iconDiameter, (int) iconDiameter);
             }
 
             gui.blit(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/spells/" + school + "/spell_container/fg.png"),
-                    (int) (xComponent - baseRadius), (int) (yComponent - baseRadius),
-                    0, 0, (int) baseDiameter, (int) baseDiameter, (int) baseDiameter, (int) baseDiameter);
+                    (int) (xComponent - baseContainerRadius), (int) (yComponent - baseContainerRadius),
+                    0, 0, (int) containerDiameter, (int) containerDiameter, (int) containerDiameter, (int) containerDiameter);
 
             gui.blit(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/spells/" + school + "/spell_container/mini.png"),
                     (int) (xComponent - baseMiniRadius),
-                    (int) (yComponent - baseRadius - baseMiniRadius / 2),
+                    (int) (yComponent - baseIconRadius - baseMiniRadius / 2),
                     0, 0, (int) baseMiniDiameter, (int) baseMiniDiameter, (int) baseMiniDiameter, (int) baseMiniDiameter);
 
-            String spellLevel = String.valueOf(SpellCastingHandler.getCorrectSpellLevel(player, spellEntry.spell(), spellEntry.level() + 1));
+            String spellLevel = String.valueOf(IBrutalitySpell.getActualSpellLevel(player, spellEntry.spell(), spellEntry.level()));
             int textWidth = FONT.width(spellLevel);
             float targetWidth = 8;
             float textScale = Math.min(1f, targetWidth / textWidth);
@@ -283,7 +292,7 @@ public class ModGui {
                 gui.pose().pushPose();
                 gui.pose().translate(
                         xComponent + 0.5F,
-                        yComponent - baseRadius + verticalOffset, // Center vertically
+                        yComponent - baseIconRadius + verticalOffset, // Center vertically
                         0
                 );
 

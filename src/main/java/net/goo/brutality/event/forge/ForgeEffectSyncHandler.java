@@ -1,70 +1,87 @@
-//package net.goo.brutality.event.forge;
-//
-//import net.goo.brutality.Brutality;
-//import net.goo.brutality.network.PacketHandler;
-//import net.goo.brutality.network.s2cSyncCapabilitiesPacket;
-//import net.goo.brutality.registry.BrutalityCapabilities;
-//import net.goo.brutality.registry.BrutalityModMobEffects;
-//import net.minecraft.server.level.ServerLevel;
-//import net.minecraft.world.entity.LivingEntity;
-//import net.minecraftforge.event.entity.living.MobEffectEvent;
-//import net.minecraftforge.eventbus.api.SubscribeEvent;
-//import net.minecraftforge.fml.common.Mod;
-//
-//@Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
-//public class ForgeEffectSyncHandler {
-//    @SubscribeEvent
-//    public static void onAddEffect(MobEffectEvent.Added event) {
-//        LivingEntity entity = event.getEntity();
-//
-//        if (entity.level() instanceof ServerLevel serverLevel) {
-//            if (event.getEffectInstance().getEffect() == BrutalityModMobEffects.MIRACLE_BLIGHT.get()) {
-//                entity.getCapability(BrutalityCapabilities.ENTITY_EFFECT_CAP).ifPresent(cap -> {
-//                    cap.setMiracleBlighted(true);
-//                    PacketHandler.sendToNearbyClients((serverLevel),
-//                            entity.getX(), entity.getY(), entity.getZ(),
-//                            96, new s2cSyncCapabilitiesPacket(entity.getId(), entity));
-//                });
-//            }
-//        }
-//    }
-//    @SubscribeEvent
-//    public static void onRemoveEffect(MobEffectEvent.Remove event) {
-//        LivingEntity entity = event.getEntity();
-////        System.out.println(event.getEffect() + " REMOVED");
-//        if (entity.level() instanceof ServerLevel serverLevel) {
-//            if (event.getEffect() == BrutalityModMobEffects.MIRACLE_BLIGHT.get()) {
-//                entity.getCapability(BrutalityCapabilities.ENTITY_EFFECT_CAP).ifPresent(cap -> {
-////                    System.out.println("miracle blighted = false from removed");
-//
-//
-//                    cap.setMiracleBlighted(false);
-//                    PacketHandler.sendToNearbyClients((serverLevel),
-//                            entity.getX(), entity.getY(), entity.getZ(),
-//                            96, new s2cSyncCapabilitiesPacket(entity.getId(), entity));
-//                });
-//            }
-//        }
-//    }
-//    @SubscribeEvent
-//    public static void onExpiredEffect(MobEffectEvent.Expired event) {
-//        LivingEntity entity = event.getEntity();
-////        System.out.println(event.getEffectInstance().getEffect() + " EXPIRED");
-//
-//        if (entity.level() instanceof ServerLevel serverLevel) {
-//            if (event.getEffectInstance().getEffect() == BrutalityModMobEffects.MIRACLE_BLIGHT.get()) {
-//                entity.getCapability(BrutalityCapabilities.ENTITY_EFFECT_CAP).ifPresent(cap -> {
-//
-////                    System.out.println("miracle blighted = false from expired");
-//                    cap.setMiracleBlighted(false);
-//                    PacketHandler.sendToNearbyClients((serverLevel),
-//                            entity.getX(), entity.getY(), entity.getZ(),
-//                            96, new s2cSyncCapabilitiesPacket(entity.getId(), entity));
-//                });
-//            }
-//        }
-//    }
-//
-//
-//
-//}
+package net.goo.brutality.event.forge;
+
+import net.goo.brutality.Brutality;
+import net.goo.brutality.network.PacketHandler;
+import net.goo.brutality.network.s2cSyncCapabilitiesPacket;
+import net.goo.brutality.registry.BrutalityCapabilities;
+import net.goo.brutality.registry.BrutalityModMobEffects;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+@Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
+public class ForgeEffectSyncHandler {
+    @SubscribeEvent
+    public static void onAddEffect(MobEffectEvent.Added event) {
+        LivingEntity entity = event.getEntity();
+        MobEffectInstance instance = event.getEffectInstance();
+        MobEffect effect = instance.getEffect();
+        if (entity.level() instanceof ServerLevel) {
+            entity.getCapability(BrutalityCapabilities.ENTITY_EFFECT_CAP).ifPresent(cap -> {
+                if (effect == BrutalityModMobEffects.MIRACLE_BLIGHT.get()) {
+                    cap.setMiracleBlighted(true);
+                } else if (effect == BrutalityModMobEffects.ENRAGED.get()) {
+                    cap.setRage(true);
+                } else if (effect == BrutalityModMobEffects.THE_VOID.get()) {
+                    cap.setTheVoid(true);
+                } else if (effect == BrutalityModMobEffects.LIGHT_BOUND.get()) {
+                    cap.setLightBound(true);
+                }
+                PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(entity.getId(), entity));
+            });
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRemoveEffect(MobEffectEvent.Remove event) {
+        LivingEntity entity = event.getEntity();
+        MobEffectInstance instance = event.getEffectInstance();
+        if (instance == null) return;
+        ;
+        MobEffect effect = instance.getEffect();
+
+        if (entity.level() instanceof ServerLevel) {
+            entity.getCapability(BrutalityCapabilities.ENTITY_EFFECT_CAP).ifPresent(cap -> {
+                if (effect == BrutalityModMobEffects.MIRACLE_BLIGHT.get()) {
+                    cap.setMiracleBlighted(false);
+                } else if (effect == BrutalityModMobEffects.ENRAGED.get()) {
+                    cap.setRage(false);
+                } else if (effect == BrutalityModMobEffects.THE_VOID.get()) {
+                    cap.setTheVoid(false);
+                } else if (effect == BrutalityModMobEffects.LIGHT_BOUND.get()) {
+                    cap.setLightBound(false);
+                }
+                PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(entity.getId(), entity));
+            });
+        }
+    }
+
+    @SubscribeEvent
+    public static void onExpiredEffect(MobEffectEvent.Expired event) {
+        LivingEntity entity = event.getEntity();
+        MobEffectInstance instance = event.getEffectInstance();
+        if (instance == null) return;
+        MobEffect effect = instance.getEffect();
+
+        if (entity.level() instanceof ServerLevel) {
+            entity.getCapability(BrutalityCapabilities.ENTITY_EFFECT_CAP).ifPresent(cap -> {
+                if (effect == BrutalityModMobEffects.MIRACLE_BLIGHT.get()) {
+                    cap.setMiracleBlighted(false);
+                } else if (effect == BrutalityModMobEffects.ENRAGED.get()) {
+                    cap.setRage(false);
+                } else if (effect == BrutalityModMobEffects.THE_VOID.get()) {
+                    cap.setTheVoid(false);
+                } else if (effect == BrutalityModMobEffects.LIGHT_BOUND.get()) {
+                    cap.setLightBound(false);
+                }
+                PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(entity.getId(), entity));
+            });
+        }
+    }
+
+
+}

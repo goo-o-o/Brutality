@@ -10,7 +10,7 @@ import java.util.List;
 public class EyeForViolence extends BrutalityCurioItem {
 
 
-    public EyeForViolence(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public EyeForViolence(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

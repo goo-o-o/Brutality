@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CaramelCrunchMedallion extends BrutalityCurioItem {
 
-    public CaramelCrunchMedallion(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public CaramelCrunchMedallion(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

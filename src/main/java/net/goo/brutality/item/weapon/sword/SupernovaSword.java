@@ -73,7 +73,7 @@ public class SupernovaSword extends BrutalitySwordItem {
         if (level instanceof ServerLevel serverLevel) {
             for (int i = 0; i < pAttacker.level().random.nextInt(50); i++) {
 
-                serverLevel.sendParticles(ModUtils.getRandomParticle(BrutalityModParticles.SUPERNOVA_PARTICLE), pTarget.getX(),
+                serverLevel.sendParticles(ModUtils.getRandomParticle(BrutalityModParticles.COSMIC_PARTICLE), pTarget.getX(),
                         pTarget.getY() + pTarget.getBbHeight() / 2, pTarget.getZ(), 1,
                         0, 0, 0, 100);
             }

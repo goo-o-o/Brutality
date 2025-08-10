@@ -1,10 +1,12 @@
 package net.goo.brutality.event.mod.client;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.particle.base.*;
+import net.goo.brutality.particle.base.FlatParticle;
+import net.goo.brutality.particle.base.GenericMagicCircleParticle;
 import net.goo.brutality.particle.custom.*;
 import net.goo.brutality.particle.custom.flat.ExplosionMagicCircleParticle;
 import net.goo.brutality.particle.custom.flat.MurasamaSlash;
+import net.goo.brutality.particle.providers.TrailParticleData;
 import net.goo.brutality.particle.providers.WaveParticleData;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,8 +19,8 @@ public class BrutalityModParticleFactories {
     @SubscribeEvent
     public static void registerParticleFactories(final RegisterParticleProvidersEvent event) {
         // Register sprite-based particles
-        event.registerSpriteSet(BrutalityModParticles.SUPERNOVA_PARTICLE.get(1).get(), SupernovaParticle.Provider::new);
-        event.registerSpriteSet(BrutalityModParticles.SUPERNOVA_PARTICLE.get(0).get(), SupernovaParticle.Provider::new);
+        event.registerSpriteSet(BrutalityModParticles.COSMIC_PARTICLE.get(1).get(), CosmicParticle.Provider::new);
+        event.registerSpriteSet(BrutalityModParticles.COSMIC_PARTICLE.get(0).get(), CosmicParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.SUPERNOVA_SWEEP_PARTICLE.get(), SupernovaSweepParticle.Provider::new);
 
         event.registerSpriteSet(BrutalityModParticles.STAR_PARTICLE.get(), StarParticle.Provider::new);
@@ -62,17 +64,25 @@ public class BrutalityModParticleFactories {
         event.registerSpriteSet(BrutalityModParticles.COSMIC_WAVE.get(), WaveParticleData.WaveParticleProvider::new);
         event.registerSpriteSet(BrutalityModParticles.ANTIMATTER_WAVE.get(), WaveParticleData.WaveParticleProvider::new);
 
+        event.registerSpriteSet(BrutalityModParticles.TRAIL_PARTICLE.get(),
+                TrailParticleData.TrailParticleProvider::new);
+        event.registerSpriteSet(BrutalityModParticles.RAINBOW_TRAIL_PARTICLE.get(),
+                TrailParticleData.TrailParticleProvider::new);
+        event.registerSpriteSet(BrutalityModParticles.CELESTIAL_STARBOARD_PARTICLE.get(),
+                TrailParticleData.TrailParticleProvider::new);
+        event.registerSpriteSet(BrutalityModParticles.RUINED_PARTICLE.get(),
+                TrailParticleData.TrailParticleProvider::new);
+        event.registerSpriteSet(BrutalityModParticles.CREASE_OF_CREATION_PARTICLE.get(),
+                TrailParticleData.TrailParticleProvider::new);
+        event.registerSpriteSet(BrutalityModParticles.TERRATOMERE_PARTICLE.get(),
+                TrailParticleData.TrailParticleProvider::new);
 
         event.registerSpecial(BrutalityModParticles.NUCLEAR_EXPLOSION_EMITTER.get(), new NuclearExplosionSeedParticle.Provider());
-        event.registerSpecial(BrutalityModParticles.GENERIC_WORLD_ALIGNED_TRAIL_PARTICLE.get(), new AbstractWorldAlignedTrailParticle.OrbFactory());
-        event.registerSpecial(BrutalityModParticles.GENERIC_CAMERA_ALIGNED_TRAIL_PARTICLE.get(), new AbstractCameraAlignedTrailParticle.OrbFactory());
-        event.registerSpecial(BrutalityModParticles.CAMERA_ALIGNED_ORBITING_TRAIL_PARTICLE.get(), new CameraAlignedOrbitingTrailParticle.OrbFactory());
-        event.registerSpecial(BrutalityModParticles.GENERIC_TRIDENT_TRAIL_PARTICLE.get(), new GenericTridentTrailParticle.OrbFactory());
-        event.registerSpecial(BrutalityModParticles.RAINBOW_TRAIL_PARTICLE.get(), new RainbowTrailParticle.OrbFactory());
-        event.registerSpecial(BrutalityModParticles.CELESTIAL_STARBOARD_PARTICLE.get(), new CelestialStarboardParticle.OrbFactory());
-        event.registerSpecial(BrutalityModParticles.CREASE_OF_CREATION_PARTICLE.get(), new CreaseOfCreationParticle.OrbFactory());
-        event.registerSpecial(BrutalityModParticles.RUINED_PARTICLE.get(), new RuinedParticle.OrbFactory());
-        event.registerSpecial(BrutalityModParticles.TERRATOMERE_PARTICLE.get(), new TerratomereParticle.OrbFactory());
+//        event.registerSpecial(BrutalityModParticles.GENERIC_WORLD_ALIGNED_TRAIL_PARTICLE.get(), new AbstractWorldAlignedTrailParticle.OrbFactory());
+//        event.registerSpecial(BrutalityModParticles.CAMERA_ALIGNED_ORBITING_TRAIL_PARTICLE.get(), new CameraAlignedOrbitingTrailParticle.OrbFactory());
+//        event.registerSpecial(BrutalityModParticles.GENERIC_TRIDENT_TRAIL_PARTICLE.get(), new GenericTridentTrailParticle.OrbFactory());
+//        event.registerSpecial(BrutalityModParticles.CREASE_OF_CREATION_PARTICLE.get(), new CreaseOfCreationParticle.OrbFactory());
+//        event.registerSpecial(BrutalityModParticles.TERRATOMERE_PARTICLE.get(), new TerratomereParticle.OrbFactory());
 
         event.registerSpriteSet(BrutalityModParticles.GENERIC_MAGIC_CIRCLE_PARTICLE.get(), GenericMagicCircleParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.EXPLOSION_MAGIC_CIRCLE_PARTICLE.get(), ExplosionMagicCircleParticle.Provider::new);

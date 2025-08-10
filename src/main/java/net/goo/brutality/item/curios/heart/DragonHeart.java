@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DragonHeart extends BrutalityCurioItem {
 
-    public DragonHeart(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public DragonHeart(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

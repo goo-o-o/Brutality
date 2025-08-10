@@ -5,14 +5,20 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
 public interface IBrutalitySpellEntity {
+
     String SPELL_LEVEL = "spell_level";
+    String DAMAGE = "damage";
 
-    int getSpellLevel();
 
-    float getSizeScaling();
+    void setDamage(float damage);
+    float getDamage();
 
     void setSpellLevel(int spellLevel);
+    int getSpellLevel();
 
+
+
+    float getSizeScaling();
     BrutalitySpell getSpell();
 
 

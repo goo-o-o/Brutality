@@ -3,7 +3,7 @@ package net.goo.brutality.entity.projectile.trident.physics_projectile;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractPhysicsTrident;
 import net.goo.brutality.entity.base.BrutalityAbstractTrident;
-import net.goo.brutality.particle.custom.RainbowTrailParticle;
+import net.goo.brutality.particle.providers.TrailParticleData;
 import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
@@ -75,7 +75,6 @@ public class ThrownBiomechReactor extends BrutalityAbstractPhysicsTrident implem
         pCompound.putInt("HomingCooldown", this.entityData.get(HOMING_COOLDOWN));
     }
 
-    boolean trailSpawned = false;
 
 
 
@@ -114,9 +113,10 @@ public class ThrownBiomechReactor extends BrutalityAbstractPhysicsTrident implem
 
             } else {
 
-                if (!trailSpawned && level().isClientSide) {
-                    this.level().addParticle((new RainbowTrailParticle.OrbData(this.getBbHeight() * 0.75F, this.getId(), 10)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
-                    trailSpawned = true;
+                if (firstTick && level().isClientSide) {
+                    this.level().addParticle((new TrailParticleData(BrutalityModParticles.RAINBOW_TRAIL_PARTICLE.get(),
+                            1, 1, 1, 1,this.getBbHeight() * 0.75F, this.getId(), 10)),
+                            this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
                 }
 
                 Entity target = level().getEntity(this.entityData.get(HOMING_TARGET_ID));

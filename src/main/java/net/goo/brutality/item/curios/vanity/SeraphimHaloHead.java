@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SeraphimHaloHead extends BrutalityCurioItem {
 
-    public SeraphimHaloHead(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public SeraphimHaloHead(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

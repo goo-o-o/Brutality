@@ -48,9 +48,10 @@ public class CelestiaTome extends BaseMagicTome {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", (state) ->
+        super.registerControllers(controllers);
+
+        controllers.add(new AnimationController<>(this, null, (state) ->
                 state.setAndContinue(RawAnimation.begin().thenLoop("idle")))
-                .triggerableAnim("cast", RawAnimation.begin().thenPlay("cast"))
         );
     }
 }

@@ -3,7 +3,6 @@ package net.goo.brutality.entity.projectile.trident;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.config.BrutalityCommonConfig;
 import net.goo.brutality.entity.base.BrutalityAbstractTrident;
-import net.goo.brutality.particle.base.GenericTridentTrailParticle;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -80,7 +79,7 @@ public class ThrownGungnir extends BrutalityAbstractTrident implements Brutality
     @Override
     public void tick() {
         if (!trailSpawned && level().isClientSide()) {
-            this.level().addParticle((new GenericTridentTrailParticle.OrbData(1F, 0F, 0F, this.getBbHeight() * 0.75F, this.getId(), 0, 0, 0, "circle", 10)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
+//            this.level().addParticle((new GenericTridentTrailParticle.OrbData(1F, 0F, 0F, this.getBbHeight() * 0.75F, this.getId(), 0, 0, 0, "circle", 10)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
             trailSpawned = true;
         }
 

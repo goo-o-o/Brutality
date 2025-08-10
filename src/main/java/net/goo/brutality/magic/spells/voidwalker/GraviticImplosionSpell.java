@@ -14,8 +14,10 @@ public class GraviticImplosionSpell extends BrutalitySpell {
 
 
     public GraviticImplosionSpell() {
-        super(MagicSchool.VOIDWALKER, SpellType.SINGLETON_AOE, "gravitic_implosion",
-                30, 5, 80, 1, List.of(
+        super(MagicSchool.VOIDWALKER,
+                List.of(SpellCategory.INSTANT, SpellCategory.AOE),
+                "gravitic_implosion",
+                30, 5, 80, 0, 1, List.of(
                         new BrutalityTooltipHelper.SpellStatComponent(BrutalityTooltipHelper.SpellStatComponents.SIZE, 3, 1, 3, 50)
                 ));
     }

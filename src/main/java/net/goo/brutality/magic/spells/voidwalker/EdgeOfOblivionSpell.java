@@ -13,7 +13,6 @@ import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -28,8 +27,10 @@ import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatCom
 public class EdgeOfOblivionSpell extends BrutalitySpell {
 
     public EdgeOfOblivionSpell() {
-        super(MagicSchool.VOIDWALKER, SpellType.SINGLETON_AOE, "edge_of_oblivion",
-                30, 2, 80, 1, List.of(
+        super(MagicSchool.VOIDWALKER,
+                List.of(SpellCategory.INSTANT, SpellCategory.AOE),
+                "edge_of_oblivion",
+                30, 2, 80, 0, 1, List.of(
                         new BrutalityTooltipHelper.SpellStatComponent(RANGE, 3, 1, 0, 100)
                 ));
     }
@@ -48,10 +49,7 @@ public class EdgeOfOblivionSpell extends BrutalitySpell {
 
     @Override
     public boolean onCast(Player player, ItemStack stack, int spellLevel) {
-        BrutalityTooltipHelper.SpellStatComponent range = getStat(RANGE);
-
-        int radius = Mth.clamp(range.base() + (range.levelDelta() * spellLevel), range.min(), range.max());
-
+        float radius = getFinalStat(spellLevel, getStat(RANGE));
 
         if (player.level() instanceof ServerLevel serverLevel) {
             double playerX = player.getX(), playerY = player.getY(), playerZ = player.getZ();

@@ -19,7 +19,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -46,6 +45,16 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
     }
 
     @Override
+    protected boolean tryPickup(Player pPlayer) {
+        return false;
+    }
+
+    @Override
+    public boolean fireImmune() {
+        return true;
+    }
+
+    @Override
     public float getSizeScaling() {
         return 16F / 32F;
     }
@@ -69,6 +78,15 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(SPELL_LEVEL_DATA, 1);
+    }
+
+    @Override
+    public void setDamage(float damage) {
+    }
+
+    @Override
+    public float getDamage() {
+        return 0;
     }
 
     @Override
@@ -109,6 +127,8 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
             lockRoll();
             lockYaw();
         }
+
+        if (this.inGroundTime > 20) discard();
     }
 
     @Override
@@ -117,7 +137,8 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
         triggerAnim("controller", "impact");
         int spellLevel = getSpellLevel();
 
-        DelayedTaskScheduler.queueServerWork(6, () -> playSound(BrutalityModSounds.SPACE_EXPLOSION.get(), spellLevel, Mth.nextFloat(random, 0.8F, 1.2F)));
+        DelayedTaskScheduler.queueServerWork(6, () -> playSound(BrutalityModSounds.SPACE_EXPLOSION.get(), Math.min(spellLevel, 50),
+                1.5F - (spellLevel / 50F)));
 
         DelayedTaskScheduler.queueServerWork(15, () -> {
 
@@ -158,7 +179,6 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
 
             }
 
-            DelayedTaskScheduler.queueServerWork(5, this::discard);
         });
 
 

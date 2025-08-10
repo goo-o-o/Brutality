@@ -70,7 +70,7 @@ public class SpellCooldownTracker {
 
     public static void setCooldown(Player player, IBrutalitySpell spell, int spellLevel) {
         if (!player.level().isClientSide()) {
-            int cooldownTicks = SpellCastingHandler.getActualCooldown(player, spell, spellLevel);
+            int cooldownTicks = IBrutalitySpell.getActualCooldown(player, spell, spellLevel);
             if (cooldownTicks <= 0) return;
 
             ResourceLocation spellId = getSpellId(spell);

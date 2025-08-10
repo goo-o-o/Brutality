@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SolarSystem extends BrutalityCurioItem {
 
-    public SolarSystem(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public SolarSystem(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

@@ -15,8 +15,10 @@ public class HeavenlyFlightSpell extends BrutalitySpell {
 
 
     public HeavenlyFlightSpell() {
-        super(MagicSchool.CELESTIA, SpellType.SINGLETON_SELF_BUFF, "heavenly_flight",
-                50, 0, 200, 1, List.of(
+        super(MagicSchool.CELESTIA,
+                List.of(SpellCategory.INSTANT, SpellCategory.SELF, SpellCategory.BUFF),
+                "heavenly_flight",
+                50, 0, 200, 0, 1, List.of(
                         new BrutalityTooltipHelper.SpellStatComponent(BrutalityTooltipHelper.SpellStatComponents.DURATION, 200, 100, null, null)
                 ));
     }
@@ -38,8 +40,8 @@ public class HeavenlyFlightSpell extends BrutalitySpell {
 
     @Override
     public boolean onCast(Player player, ItemStack stack, int spellLevel) {
-        BrutalityTooltipHelper.SpellStatComponent durationStat = getStat(BrutalityTooltipHelper.SpellStatComponents.DURATION);
-        player.addEffect(new MobEffectInstance(TerramityModMobEffects.MORTAL_FLIGHT.get(), durationStat.base() + spellLevel * durationStat.levelDelta()));
+        float duration = getFinalStat(spellLevel, getStat(BrutalityTooltipHelper.SpellStatComponents.DURATION));
+        player.addEffect(new MobEffectInstance(TerramityModMobEffects.MORTAL_FLIGHT.get(), (int) duration));
         player.playSound(BrutalityModSounds.WINGS_FLAP.get(), 1, Mth.nextFloat(player.getRandom(), 0.8F, 1.2F));
         return true;
     }

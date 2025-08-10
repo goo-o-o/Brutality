@@ -1,0 +1,26 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"idle": {
+			"loop": true,
+			"bones": {
+				"big": {
+					"rotation": {
+						"vector": ["query.anim_time * 135", 0, "query.anim_time * 135"]
+					}
+				}
+			}
+		},
+		"ground": {
+			"loop": true,
+			"bones": {
+				"big": {
+					"rotation": {
+						"vector": [0, 45, -45]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

@@ -668,6 +668,7 @@
   "message.brutality.no_mana": "Insufficient Mana!",
   "message.brutality.on_cooldown": "Spell is on Cooldown! You may cast in ",
   "message.brutality.seconds": " seconds",
+  "message.brutality.cast_failed": "Cast Failed!",
 
   "key.brutality.rage_activate_key" : "Activate Rage",
   "key.categories.brutality" : "Brutality",

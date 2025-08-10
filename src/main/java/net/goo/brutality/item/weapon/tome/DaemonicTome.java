@@ -1,46 +1,46 @@
 package net.goo.brutality.item.weapon.tome;
 
-import net.goo.brutality.magic.SpellCastingHandler;
-import net.goo.brutality.magic.SpellStorage;
-import net.goo.brutality.magic.spells.daemonium.DaemonicPickaxeSpell;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
+import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.UUID;
 
 public class DaemonicTome extends BaseMagicTome {
 
-    public DaemonicTome(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public DaemonicTome(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
-    @Override
-    public @NotNull ItemStack getDefaultInstance() {
-        ItemStack stack = new ItemStack(this);
-        SpellStorage.addSpell(stack, new DaemonicPickaxeSpell(), 3);
-        return stack;
-    }
+    UUID DAEMONIC_SCHOOL_BOOST_UUID = UUID.fromString("c9e41989-b8f4-47da-b858-92c5682e5b8c");
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack stack = player.getItemInHand(hand);
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        Multimap<Attribute, AttributeModifier> modifiers = super.getAttributeModifiers(slot, stack);
 
-        if (!level.isClientSide) {
-            List<SpellStorage.SpellEntry> spells = SpellStorage.getSpells(stack);
-            if (!spells.isEmpty()) {
-                // For simplicity, cast the first spell
-                SpellStorage.SpellEntry spellEntry = spells.get(0);
-                SpellCastingHandler.tryCastSpell(player, stack, spellEntry.spell(), spellEntry.level());
-            }
+        if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) {
+            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+            builder.putAll(modifiers);
+            builder.put(
+                    ModAttributes.DAEMONIC_SCHOOL_LEVEL.get(),
+                    new AttributeModifier(
+                            DAEMONIC_SCHOOL_BOOST_UUID,
+                            "Daemonic School bonus",
+                            1,
+                            AttributeModifier.Operation.ADDITION
+                    )
+            );
+
+            return builder.build();
         }
-
-        return InteractionResultHolder.success(stack);
+        return modifiers;
     }
 
 }

@@ -10,7 +10,7 @@ import java.util.List;
 public class AngerManagement extends BrutalityCurioItem {
 
 
-    public AngerManagement(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public AngerManagement(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

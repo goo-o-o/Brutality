@@ -20,7 +20,7 @@ import java.util.UUID;
 public class FuryBand extends BrutalityCurioItem {
 
 
-    public FuryBand(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public FuryBand(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

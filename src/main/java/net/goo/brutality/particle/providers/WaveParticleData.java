@@ -13,6 +13,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 public class WaveParticleData implements ParticleOptions {
     public static final Codec<WaveParticleData> CODEC = RecordCodecBuilder.create(instance ->
@@ -43,7 +44,7 @@ public class WaveParticleData implements ParticleOptions {
     }
 
     @Override
-    public ParticleType<WaveParticleData> getType() {
+    public @NotNull ParticleType<WaveParticleData> getType() {
         return type;
     }
 
@@ -54,13 +55,13 @@ public class WaveParticleData implements ParticleOptions {
     }
 
     @Override
-    public String writeToString() {
+    public @NotNull String writeToString() {
         return String.format("%s %.2f %d", ForgeRegistries.PARTICLE_TYPES.getKey(getType()), radius, growthDuration);
     }
 
     public static final ParticleOptions.Deserializer<WaveParticleData> DESERIALIZER = new ParticleOptions.Deserializer<>() {
         @Override
-        public WaveParticleData fromCommand(ParticleType<WaveParticleData> type, StringReader reader) throws CommandSyntaxException {
+        public @NotNull WaveParticleData fromCommand(ParticleType<WaveParticleData> type, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             float radius = reader.readFloat();
             reader.expect(' ');
@@ -69,7 +70,7 @@ public class WaveParticleData implements ParticleOptions {
         }
 
         @Override
-        public WaveParticleData fromNetwork(ParticleType<WaveParticleData> type, FriendlyByteBuf buf) {
+        public @NotNull WaveParticleData fromNetwork(@NotNull ParticleType<WaveParticleData> type, FriendlyByteBuf buf) {
             return new WaveParticleData(type, buf.readFloat(), buf.readInt());
         }
     };
@@ -82,7 +83,7 @@ public class WaveParticleData implements ParticleOptions {
         }
 
         @Override
-        public Particle createParticle(WaveParticleData data, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle createParticle(@NotNull WaveParticleData data, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             WaveParticle particle = new WaveParticle(level, x, y, z, data, sprites);
             particle.pickSprite(sprites);
             return particle;

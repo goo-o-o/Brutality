@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static net.goo.brutality.util.ModUtils.lookingAtBlock;
+import static net.goo.brutality.util.ModUtils.getBlockLookingAt;
 import static net.minecraft.core.BlockPos.withinManhattan;
 
 public class QuantumDrillItem extends BrutalityGenericItem {
@@ -33,7 +33,7 @@ public class QuantumDrillItem extends BrutalityGenericItem {
     int[] color1 = new int[]{255, 255, 255};
     int[] color2 = new int[]{0, 120, 190};
 
-    public QuantumDrillItem(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public QuantumDrillItem(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
@@ -106,7 +106,7 @@ public class QuantumDrillItem extends BrutalityGenericItem {
             }
 
 
-            BlockPos blockPos = lookingAtBlock(pPlayer, false, 8F);
+            BlockPos blockPos = getBlockLookingAt(pPlayer, false, 8F);
             if (blockPos != null) {
                 BlockState block = pLevel.getBlockState(blockPos);
                 float breakSpeed = block.getDestroyProgress(pPlayer, pLevel, blockPos);

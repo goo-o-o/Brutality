@@ -2,25 +2,15 @@ package net.goo.brutality.particle.custom;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.math.Axis;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.BrutalityRenderTypes;
-import net.goo.brutality.particle.base.AbstractCameraAlignedTrailParticle;
-import net.goo.brutality.registry.BrutalityModParticles;
+import net.goo.brutality.particle.base.TrailParticle;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
@@ -29,11 +19,9 @@ import org.joml.Matrix3f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import java.util.Locale;
-
 import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
-public class RuinedParticle extends AbstractCameraAlignedTrailParticle {
+public class RuinedParticle extends TrailParticle {
 
 
     public final ResourceLocation CENTER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/particle/ruined_particle.png");
@@ -41,8 +29,8 @@ public class RuinedParticle extends AbstractCameraAlignedTrailParticle {
     private float directionY;
     private float directionZ;
 
-    public RuinedParticle(ClientLevel level, double x, double y, double z, float r, float g, float b, int sampleCount) {
-        super(level, x, y, z, r, g, b, Mth.nextFloat(level.random, 0.05F, 0.1F), -1, sampleCount);
+    public RuinedParticle(ClientLevel world, double x, double y, double z, float r, float g, float b, float a, float width, int entityId, int sampleCount, SpriteSet sprite) {
+        super(world, x, y, z, r, g, b, a, width, entityId, sampleCount, sprite);
         this.xd = 0;
         this.yd = 0;
         this.zd = 0;
@@ -62,7 +50,7 @@ public class RuinedParticle extends AbstractCameraAlignedTrailParticle {
     }
 
 
-    public void render(VertexConsumer vertexConsumer, Camera camera, float partialTick) {
+    public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float partialTick) {
 
         Vec3 vec3 = camera.getPosition();
         float f = (float) (Mth.lerp(partialTick, this.xo, this.x) - vec3.x());
@@ -81,15 +69,14 @@ public class RuinedParticle extends AbstractCameraAlignedTrailParticle {
         VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(BrutalityRenderTypes.itemEntityTranslucentCull(CENTER_TEXTURE));
 
         Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F);
-        vector3f1.mul(getTrailWidth());
+        vector3f1.mul(width);
         vector3f1.rotate(quaternion);
         Vector3f[] avector3f = new Vector3f[]{new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, 1.0F, 0.0F), new Vector3f(1.0F, 1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F)};
-        float f4 = getTrailWidth();
 
         for (int i = 0; i < 4; ++i) {
             Vector3f vector3f = avector3f[i];
             vector3f.rotate(quaternion);
-            vector3f.mul(f4);
+            vector3f.mul(width);
             vector3f.add(f, f1, f2);
         }
         float f7 = 0;
@@ -128,77 +115,4 @@ public class RuinedParticle extends AbstractCameraAlignedTrailParticle {
         this.z += directionZ;
     }
 
-    @Override
-    public int sampleCount() {
-        return Math.min(10, lifetime - age);
-    }
-
-    public static final class OrbFactory implements ParticleProvider<RuinedParticle.OrbData> {
-
-        @Override
-        public Particle createParticle(RuinedParticle.OrbData typeIn, @NotNull ClientLevel levelIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            RuinedParticle particle;
-            particle = new RuinedParticle(levelIn, x, y, z, typeIn.r(), typeIn.g(), typeIn.b(), typeIn.sampleCount());
-
-            return particle;
-        }
-
-
-    }
-
-
-    public record OrbData(float r, float g, float b, int sampleCount)
-            implements ParticleOptions {
-        public static final Deserializer<RuinedParticle.OrbData> DESERIALIZER = new Deserializer<>() {
-            public RuinedParticle.@NotNull OrbData fromCommand(@NotNull ParticleType<RuinedParticle.OrbData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
-                reader.expect(' ');
-                float r = reader.readFloat();
-                reader.expect(' ');
-                float g = reader.readFloat();
-                reader.expect(' ');
-                float b = reader.readFloat();
-                reader.expect(' ');
-                int sampleCount = reader.readInt();
-                return new RuinedParticle.OrbData(r, g, b, sampleCount);
-            }
-
-            public RuinedParticle.OrbData fromNetwork(ParticleType<RuinedParticle.OrbData> particleTypeIn, FriendlyByteBuf buffer) {
-                return new RuinedParticle.OrbData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readInt());
-            }
-        };
-
-        @Override
-        public void writeToNetwork(FriendlyByteBuf buffer) {
-            buffer.writeFloat(this.r);
-            buffer.writeFloat(this.g);
-            buffer.writeFloat(this.b);
-            buffer.writeInt(this.sampleCount);
-
-        }
-
-        @Override
-        public String writeToString() {
-            return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %d",
-                    BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                    this.r, this.g, this.b,
-                    this.sampleCount
-            );
-        }
-
-        @Override
-        public ParticleType<RuinedParticle.OrbData> getType() {
-            return BrutalityModParticles.RUINED_PARTICLE.get();
-        }
-
-
-        public static Codec<RuinedParticle.OrbData> CODEC(ParticleType<RuinedParticle.OrbData> particleType) {
-            return RecordCodecBuilder.create((codecBuilder) -> codecBuilder.group(
-                            Codec.FLOAT.fieldOf("r").forGetter(RuinedParticle.OrbData::r),
-                            Codec.FLOAT.fieldOf("g").forGetter(RuinedParticle.OrbData::g),
-                            Codec.FLOAT.fieldOf("b").forGetter(RuinedParticle.OrbData::b),
-                            Codec.INT.fieldOf("sampleCount").forGetter(RuinedParticle.OrbData::sampleCount)
-                    ).apply(codecBuilder, RuinedParticle.OrbData::new)
-            );
-        }
-    }
 }

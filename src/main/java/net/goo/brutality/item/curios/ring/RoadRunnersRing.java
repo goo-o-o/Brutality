@@ -24,7 +24,7 @@ public class RoadRunnersRing extends BrutalityCurioItem {
 
     private float xOld, zOld;
 
-    public RoadRunnersRing(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public RoadRunnersRing(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

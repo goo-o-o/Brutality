@@ -6,6 +6,7 @@ import net.goo.brutality.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.item.weapon.generic.CreaseOfCreationItem;
 import net.goo.brutality.item.weapon.lance.EventHorizonLance;
 import net.goo.brutality.item.weapon.sword.SupernovaSword;
+import net.goo.brutality.item.weapon.tome.BaseMagicTome;
 import net.goo.brutality.mob_effect.EnragedEffect;
 import net.goo.brutality.mob_effect.TheVoidEffect;
 import net.goo.brutality.network.PacketHandler;
@@ -193,7 +194,7 @@ public class ForgePlayerStateHandler {
 
     @SubscribeEvent
     public static void onPlaceInItemFrame(PlayerInteractEvent.EntityInteractSpecific event) {
-        if (!(event.getLevel() instanceof ServerLevel)) return;
+        if (!(event.getLevel() instanceof ServerLevel serverLevel)) return;
 
         Entity target = event.getTarget();
         Player player = event.getEntity();
@@ -207,6 +208,9 @@ public class ForgePlayerStateHandler {
                 }
                 if (heldItem.getItem() instanceof RhittaAxe rhittaAxe) {
                     rhittaAxe.despawnCruelSun(player, heldItem);
+                }
+                if (heldItem.getItem() instanceof BaseMagicTome tome) {
+                    tome.closeBook(itemFrame.getBlockX(), itemFrame.getBlockY(), itemFrame.getBlockZ(), player, heldItem, serverLevel);
                 }
             }
         }

@@ -20,7 +20,7 @@ import java.util.List;
 
 public class TrialGuardianEyebrows extends BrutalityCurioItem {
 
-    public TrialGuardianEyebrows(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public TrialGuardianEyebrows(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }
@@ -82,8 +82,8 @@ public class TrialGuardianEyebrows extends BrutalityCurioItem {
 //            Brutality.LOGGER.debug("Changing expression to: {}", expressions[next]);
 //
 //            // Trigger animation
-//            if (!player.level().isClientSide()) {
-//                ServerLevel serverLevel = (ServerLevel) player.level();
+//            if (!player.spellLevel().isClientSide()) {
+//                ServerLevel serverLevel = (ServerLevel) player.spellLevel();
 //                long geoId = GeoItem.getOrAssignId(stack, serverLevel);
 //                System.out.println("Trying to play anim with geoID: " + geoId);
 //

@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public class SecondHeart extends BrutalityCurioItem {
 
-    public SecondHeart(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public SecondHeart(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

@@ -19,8 +19,10 @@ public class SacrificeSpell extends BrutalitySpell {
 
 
     public SacrificeSpell() {
-        super(MagicSchool.CELESTIA, SpellType.SINGLETON_SELF_BUFF, "sacrifice",
-                80, 0, 600, 1, List.of(
+        super(MagicSchool.CELESTIA,
+                List.of(SpellCategory.INSTANT, SpellCategory.AOE, SpellCategory.BUFF),
+                "sacrifice",
+                80, 0, 600, 0, 1, List.of(
                         new BrutalityTooltipHelper.SpellStatComponent(BrutalityTooltipHelper.SpellStatComponents.HEALING, 10, 2, null, null),
                         new BrutalityTooltipHelper.SpellStatComponent(BrutalityTooltipHelper.SpellStatComponents.RANGE, 5, 1, null, 25)
                 ));

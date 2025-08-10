@@ -1,12 +1,18 @@
 package net.goo.brutality.registry;
 
+import com.google.common.collect.ImmutableMap;
 import net.goo.brutality.Brutality;
+import net.goo.brutality.magic.IBrutalitySpell;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.Map;
+import java.util.function.Supplier;
+
 public class ModAttributes {
     public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, Brutality.MOD_ID);
 
@@ -34,6 +40,9 @@ public class ModAttributes {
 
     public static final RegistryObject<Attribute> SPELL_COOLDOWN_REDUCTION = ATTRIBUTES.register("spell_cooldown_reduction",
             () -> new RangedAttribute("attribute.name.generic.spell_cooldown_reduction", 0.0, 0.0F, 1F).setSyncable(true));
+
+    public static final RegistryObject<Attribute> CAST_TIME_REDUCTION = ATTRIBUTES.register("cast_time_reduction",
+            () -> new RangedAttribute("attribute.name.generic.cast_time_reduction", 0.0, 0.0F, 1F).setSyncable(true));
 
     public static final RegistryObject<Attribute> DAEMONIC_SCHOOL_LEVEL = ATTRIBUTES.register("daemonic_school_level",
             () -> new RangedAttribute("attribute.name.generic.daemonic_school_level", 0.0, -1024F, 1024F).setSyncable(true));
@@ -66,6 +75,26 @@ public class ModAttributes {
             () -> new RangedAttribute("attribute.name.generic.voidwalker_school_level", 0.0, -1024F, 1024F).setSyncable(true));
 
 
+    private static final Supplier<Map<IBrutalitySpell.MagicSchool, Attribute>> SPELL_SCHOOL_ATTRIBUTE_MAP_SUPPLIER = () -> ImmutableMap.of(
+            IBrutalitySpell.MagicSchool.DAEMONIC, ModAttributes.DAEMONIC_SCHOOL_LEVEL.get(),
+            IBrutalitySpell.MagicSchool.DARKIST, ModAttributes.DARKIST_SCHOOL_LEVEL.get(),
+            IBrutalitySpell.MagicSchool.EVERGREEN, ModAttributes.EVERGREEN_SCHOOL_LEVEL.get(),
+            IBrutalitySpell.MagicSchool.VOLTWEAVER, ModAttributes.VOLTWEAVER_SCHOOL_LEVEL.get(),
+            IBrutalitySpell.MagicSchool.COSMIC, ModAttributes.COSMIC_SCHOOL_LEVEL.get(),
+            IBrutalitySpell.MagicSchool.CELESTIA, ModAttributes.CELESTIA_SCHOOL_LEVEL.get(),
+            IBrutalitySpell.MagicSchool.EXODIC, ModAttributes.EXODIC_SCHOOL_LEVEL.get(),
+            IBrutalitySpell.MagicSchool.BRIMWIELDER, ModAttributes.BRIMWIELDER_SCHOOL_LEVEL.get(),
+            IBrutalitySpell.MagicSchool.VOIDWALKER, ModAttributes.VOIDWALKER_SCHOOL_LEVEL.get()
+    );
+
+    private static Map<IBrutalitySpell.MagicSchool, Attribute> SPELL_SCHOOL_ATTRIBUTE_MAP;
+
+    public static Map<IBrutalitySpell.MagicSchool, Attribute> getSpellSchoolAttributeMap() {
+        if (SPELL_SCHOOL_ATTRIBUTE_MAP == null) {
+            SPELL_SCHOOL_ATTRIBUTE_MAP = SPELL_SCHOOL_ATTRIBUTE_MAP_SUPPLIER.get();
+        }
+        return SPELL_SCHOOL_ATTRIBUTE_MAP;
+    }
 
     public static void register(IEventBus eventBus) {
         ATTRIBUTES.register(eventBus);

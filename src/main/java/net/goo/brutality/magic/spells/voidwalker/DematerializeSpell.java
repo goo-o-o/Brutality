@@ -21,8 +21,10 @@ public class DematerializeSpell extends BrutalitySpell {
 
 
     public DematerializeSpell() {
-        super(MagicSchool.VOIDWALKER, SpellType.SINGLETON_TARGET, "dematerialize",
-                40, 7, 120, 1, List.of(
+        super(MagicSchool.VOIDWALKER,
+                List.of(SpellCategory.INSTANT, SpellCategory.TARGET),
+                "dematerialize",
+                40, 7, 120, 0, 1, List.of(
                         new BrutalityTooltipHelper.SpellStatComponent(RANGE, 10, 2, 0, 50)
                 ));
     }
@@ -45,9 +47,8 @@ public class DematerializeSpell extends BrutalitySpell {
 
     @Override
     public boolean onCast(Player player, ItemStack stack, int spellLevel) {
-        BrutalityTooltipHelper.SpellStatComponent range = getStat(RANGE);
 
-        Entity target = ModUtils.getEntityPlayerLookingAt(player, getFinalStat(spellLevel, range));
+        Entity target = ModUtils.getEntityPlayerLookingAt(player, getFinalStat(spellLevel, getStat(RANGE)));
         if (!(target instanceof LivingEntity livingTarget)) {
             player.displayClientMessage(Component.translatable("spell.brutality.dematerialize.no_target_found"), true);
             return false;

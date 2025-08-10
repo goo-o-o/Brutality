@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public abstract class BrutalitySpell implements IBrutalitySpell {
     private final MagicSchool school;
-    private final SpellType type;
+    private final List<SpellCategory> categories;
     private final String name;
     private final int baseManaCost;
     private final float baseDamage;
@@ -20,17 +20,19 @@ public abstract class BrutalitySpell implements IBrutalitySpell {
     private final List<BrutalityTooltipHelper.SpellStatComponent> statComponents;
     private final int descriptionCount;
     private static final Map<Class<? extends BrutalitySpell>, Map<BrutalityTooltipHelper.SpellStatComponents, BrutalityTooltipHelper.SpellStatComponent>> SPELL_STATS = new HashMap<>();
+    private final int baseCastTime;
     private Map<BrutalityTooltipHelper.SpellStatComponents, BrutalityTooltipHelper.SpellStatComponent> statMap = new HashMap<>();
 
-    protected BrutalitySpell(MagicSchool school, SpellType type, String name,
-                             int baseManaCost, float baseDamage, int baseCooldown, int descriptionCount,
+    protected BrutalitySpell(MagicSchool school, List<SpellCategory> categories, String name,
+                             int baseManaCost, float baseDamage, int baseCooldown, int baseCastTime, int descriptionCount,
                              @Nullable List<BrutalityTooltipHelper.SpellStatComponent> statComponents) {
         this.school = school;
-        this.type = type;
+        this.categories = categories;
         this.name = name;
         this.baseManaCost = baseManaCost;
         this.baseDamage = baseDamage;
         this.baseCooldown = baseCooldown;
+        this.baseCastTime = baseCastTime;
         this.statComponents = statComponents != null ? statComponents : Collections.emptyList();
         this.descriptionCount = descriptionCount;
 
@@ -46,7 +48,7 @@ public abstract class BrutalitySpell implements IBrutalitySpell {
     public String toString() {
         return "BrutalitySpell{" +
                 "school=" + school +
-                ", type=" + type +
+                ", type=" + categories +
                 ", name='" + name + '\'' +
                 ", baseManaCost=" + baseManaCost +
                 ", baseDamage=" + baseDamage +
@@ -97,6 +99,10 @@ public abstract class BrutalitySpell implements IBrutalitySpell {
         return name;
     }
 
+    @Override
+    public int getBaseCastTime() {
+        return baseCastTime;
+    }
 
     @Override
     public float getDamageLevelScaling() {
@@ -114,8 +120,8 @@ public abstract class BrutalitySpell implements IBrutalitySpell {
     }
 
     @Override
-    public SpellType getType() {
-        return type;
+    public List<SpellCategory> getCategories() {
+        return categories;
     }
 
     @Override

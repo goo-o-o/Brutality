@@ -10,7 +10,7 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 import java.util.List;
 
 public class AppleCoreLance extends BrutalityLanceItem {
-    public AppleCoreLance(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public AppleCoreLance(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 

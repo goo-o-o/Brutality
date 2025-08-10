@@ -1,7 +1,6 @@
 package net.goo.brutality.entity.projectile.generic;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.particle.base.AbstractWorldAlignedTrailParticle;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -77,7 +76,7 @@ public class SupernovaAsteroid extends ThrowableProjectile implements BrutalityG
 
         super.tick();
         if (!this.trailSpawned) {
-            this.level().addParticle((new AbstractWorldAlignedTrailParticle.OrbData(0.35F, 0, 0.5F, this.getBbWidth() / 2, this.getId(), 0, 0, 0, "circle", 10)), this.getX(), this.getY() + this.getBbHeight() / 2, this.getZ(), 0, 0, 0);
+//            this.level().addParticle((new AbstractWorldAlignedTrailParticle.OrbData(0.35F, 0, 0.5F, this.getBbWidth() / 2, this.getId(), 0, 0, 0, "circle", 10)), this.getX(), this.getY() + this.getBbHeight() / 2, this.getZ(), 0, 0, 0);
             this.trailSpawned = true;
         }
 
@@ -120,7 +119,7 @@ public class SupernovaAsteroid extends ThrowableProjectile implements BrutalityG
             level().playSound(null, getX(), getY(), getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.NEUTRAL, 1F, 1F);
 
             for (int i = 0; i < serverLevel.random.nextInt(50); i++) {
-                serverLevel.sendParticles(ModUtils.getRandomParticle(BrutalityModParticles.SUPERNOVA_PARTICLE), this.getX(),
+                serverLevel.sendParticles(ModUtils.getRandomParticle(BrutalityModParticles.COSMIC_PARTICLE), this.getX(),
                         this.getY() + this.getBbHeight() / 2, this.getZ(), 1,
                         0, 0, 0, 100);
             }

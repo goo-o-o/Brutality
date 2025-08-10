@@ -9,13 +9,17 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
+import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.DURATION;
+
 public class HolyMantleSpell extends BrutalitySpell {
 
 
     public HolyMantleSpell() {
-        super(MagicSchool.CELESTIA, SpellType.SINGLETON_SELF_BUFF, "holy_mantle",
-                50, 0, 200, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(BrutalityTooltipHelper.SpellStatComponents.DURATION, 200, 40, null, null),
+        super(MagicSchool.CELESTIA,
+                List.of(SpellCategory.INSTANT, SpellCategory.SELF, SpellCategory.BUFF),
+                "holy_mantle",
+                50, 0, 200, 0, 1, List.of(
+                        new BrutalityTooltipHelper.SpellStatComponent(DURATION, 200, 40, null, null),
                         new BrutalityTooltipHelper.SpellStatComponent(BrutalityTooltipHelper.SpellStatComponents.DEFENSE, 0, 4, null, null)
                 ));
     }
@@ -37,9 +41,7 @@ public class HolyMantleSpell extends BrutalitySpell {
 
     @Override
     public boolean onCast(Player player, ItemStack stack, int spellLevel) {
-        BrutalityTooltipHelper.SpellStatComponent durationStat = getStat(BrutalityTooltipHelper.SpellStatComponents.DURATION);
-        System.out.println(spellLevel);
-        player.addEffect(new MobEffectInstance(BrutalityModMobEffects.GRACE.get(), durationStat.base() + spellLevel * durationStat.levelDelta(), spellLevel));
+        player.addEffect(new MobEffectInstance(BrutalityModMobEffects.GRACE.get(), (int) getFinalStat(spellLevel, getStat(DURATION)), spellLevel));
         return true;
     }
 }

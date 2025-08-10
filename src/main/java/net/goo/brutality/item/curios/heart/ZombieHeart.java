@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ZombieHeart extends BrutalityCurioItem {
 
-    public ZombieHeart(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public ZombieHeart(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

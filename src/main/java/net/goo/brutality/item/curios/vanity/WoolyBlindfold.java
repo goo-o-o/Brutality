@@ -10,7 +10,7 @@ import java.util.List;
 
 public class WoolyBlindfold extends BrutalityCurioItem {
 
-    public WoolyBlindfold(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public WoolyBlindfold(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

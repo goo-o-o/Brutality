@@ -10,7 +10,7 @@ import java.util.List;
 public class GoodBook extends BrutalityCurioItem {
 
 
-    public GoodBook(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public GoodBook(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

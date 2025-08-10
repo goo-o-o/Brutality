@@ -10,7 +10,7 @@ import java.util.List;
 
 public class TrialGuardianHandsHead extends BrutalityCurioItem {
 
-    public TrialGuardianHandsHead(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public TrialGuardianHandsHead(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

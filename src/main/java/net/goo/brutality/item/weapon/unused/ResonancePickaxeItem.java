@@ -35,7 +35,7 @@ public class ResonancePickaxeItem extends BrutalityPickaxeItem implements GeoIte
     int[] color3 = new int[]{0, 0, 255};
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
-    public ResonancePickaxeItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public ResonancePickaxeItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, identifier, rarity, descriptionComponents);
     }
 

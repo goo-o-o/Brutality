@@ -16,6 +16,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
+import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.*;
 import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.DURATION;
 import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.RANGE;
 
@@ -23,8 +24,10 @@ public class LightBindingSpell extends BrutalitySpell {
 
 
     public LightBindingSpell() {
-        super(MagicSchool.CELESTIA, SpellType.SINGLETON_TARGET, "light_binding",
-                40, 0, 200, 1, List.of(
+        super(MagicSchool.CELESTIA,
+                List.of(INSTANT, TARGET, DEBUFF),
+                "light_binding",
+                40, 0, 200, 0, 1, List.of(
                         new BrutalityTooltipHelper.SpellStatComponent(RANGE, 10, 4, 0, 40),
                         new BrutalityTooltipHelper.SpellStatComponent(DURATION, 20, 10, 0, 100)
                 ));

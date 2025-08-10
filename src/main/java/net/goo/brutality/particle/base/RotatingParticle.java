@@ -6,14 +6,12 @@ import net.minecraft.core.particles.SimpleParticleType;
 import org.jetbrains.annotations.NotNull;
 
 public class RotatingParticle extends TextureSheetParticle {
-    private final SpriteSet sprites;
     private final float rotationSpeed;
 
     protected RotatingParticle(ClientLevel level, double x, double y, double z,
                                double xSpeed, double ySpeed, double zSpeed,
                                SpriteSet spriteSet) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
-        this.sprites = spriteSet;
 
         this.lifetime = 40 + random.nextInt(20);
         this.quadSize = 0.2f + random.nextFloat() * 0.15f;

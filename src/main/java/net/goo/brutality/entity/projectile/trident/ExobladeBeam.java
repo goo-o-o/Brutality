@@ -2,7 +2,7 @@ package net.goo.brutality.entity.projectile.trident;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractTrident;
-import net.goo.brutality.particle.custom.RainbowTrailParticle;
+import net.goo.brutality.particle.providers.TrailParticleData;
 import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.nbt.CompoundTag;
@@ -67,7 +67,7 @@ public class ExobladeBeam extends BrutalityAbstractTrident implements BrutalityG
 
     public void tick() {
         if (!trailSpawned && level().isClientSide) {
-            this.level().addParticle((new RainbowTrailParticle.OrbData(this.getBbHeight() * 0.75F, this.getId(), 10)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
+            this.level().addParticle((new TrailParticleData(BrutalityModParticles.RAINBOW_TRAIL_PARTICLE.get(), 1, 1, 1, 1, this.getBbHeight() * 0.75F, this.getId(), 10)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
             trailSpawned = true;
         }
         super.tick();

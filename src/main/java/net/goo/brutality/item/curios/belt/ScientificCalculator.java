@@ -21,7 +21,7 @@ import java.util.List;
 public class ScientificCalculator extends BrutalityCurioItem {
 
 
-    public ScientificCalculator(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public ScientificCalculator(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

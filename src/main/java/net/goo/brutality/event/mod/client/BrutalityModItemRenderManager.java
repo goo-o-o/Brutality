@@ -30,6 +30,8 @@ public class BrutalityModItemRenderManager {
             // Register layer configurations for items
             registerItemLayers(BrutalityModItems.FROSTMOURNE_SWORD.get(), renderer ->
                     renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer)));
+            registerItemLayers(BrutalityModItems.BIOMECH_REACTOR_TRIDENT.get(), renderer ->
+                    renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer)));
 
             registerItemLayers(BrutalityModItems.UMBRAL_TOME.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoEndPortalLayer<>(renderer)));

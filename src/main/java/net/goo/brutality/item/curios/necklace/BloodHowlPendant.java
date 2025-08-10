@@ -17,7 +17,7 @@ import java.util.UUID;
 public class BloodHowlPendant extends BrutalityCurioItem {
 
 
-    public BloodHowlPendant(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public BloodHowlPendant(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

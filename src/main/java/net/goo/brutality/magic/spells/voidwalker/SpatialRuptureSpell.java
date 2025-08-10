@@ -22,13 +22,17 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
+import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.AOE;
+import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.INSTANT;
 import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.SIZE;
 
 public class SpatialRuptureSpell extends BrutalitySpell {
 
     public SpatialRuptureSpell() {
-        super(MagicSchool.VOIDWALKER, SpellType.SINGLETON_AOE, "spatial_rupture",
-                30, 2, 80, 1, List.of(
+        super(MagicSchool.VOIDWALKER,
+                List.of(INSTANT, AOE),
+                "spatial_rupture",
+                30, 2, 80, 0, 1, List.of(
                         new BrutalityTooltipHelper.SpellStatComponent(SIZE, 3, 1, 0, 100)
                 ));
     }
@@ -50,7 +54,7 @@ public class SpatialRuptureSpell extends BrutalitySpell {
 
 
         if (player.level() instanceof ServerLevel serverLevel) {
-            double playerX = player.getX(), playerY = player.getY(0.3), playerZ = player.getZ();
+            double playerX = player.getX(), playerY = player.getY(0.5), playerZ = player.getZ();
             float offset = 0.1F + 0.025F * (spellLevel + 1);
             for (int i = 0; i < 16 + spellLevel * 4; i++) {
                 PacketHandler.sendToNearbyClients(serverLevel, playerX, playerY, playerZ, 128, new ClientboundParticlePacket(
@@ -62,17 +66,13 @@ public class SpatialRuptureSpell extends BrutalitySpell {
             }
             WaveParticleData waveParticleData = new WaveParticleData(BrutalityModParticles.ANTIMATTER_WAVE.get(), getFinalStat(spellLevel, getStat(SIZE)), 40);
 
-            serverLevel.sendParticles(
-                    waveParticleData,
-                    playerX,
-                    playerY,
-                    playerZ,
-                    1,
-                    0, 0, 0,
-                    0
-            );
+            PacketHandler.sendToNearbyClients(serverLevel, playerX, playerY, playerZ, 128, new ClientboundParticlePacket(
+                    waveParticleData, true, (float) playerX, (float) playerY, (float) playerZ, 0, 0, 0,
+                    0, 0, 0, 1
+            ));
 
-            ModUtils.applyWaveEffect(serverLevel, player, Entity.class, waveParticleData, e -> (e instanceof Projectile || e instanceof LivingEntity) && e != player,
+
+            ModUtils.applyWaveEffect(serverLevel, playerX, playerY, playerZ, Entity.class, waveParticleData, e -> (e instanceof Projectile || e instanceof LivingEntity) && e != player,
                     e -> {
                         Vec3 ePos = e.getPosition(1);
                         Vec3 playerToEntity = player.getPosition(1).vectorTo(ePos).normalize();

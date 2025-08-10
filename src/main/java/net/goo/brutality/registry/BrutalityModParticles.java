@@ -6,6 +6,7 @@ import net.goo.brutality.particle.base.*;
 import net.goo.brutality.particle.custom.*;
 import net.goo.brutality.particle.custom.flat.ExplosionMagicCircleParticle;
 import net.goo.brutality.particle.custom.flat.MurasamaSlash;
+import net.goo.brutality.particle.providers.TrailParticleData;
 import net.goo.brutality.particle.providers.WaveParticleData;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -13,6 +14,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -24,9 +26,9 @@ public class BrutalityModParticles {
         return PARTICLE_TYPES.register(name, () -> new SimpleParticleType(true));
     }
 
-    public static final List<RegistryObject<SimpleParticleType>> SUPERNOVA_PARTICLE = List.of(
-            registerSimpleParticle("supernova_particle_purple"),
-            registerSimpleParticle("supernova_particle_yellow")
+    public static final List<RegistryObject<SimpleParticleType>> COSMIC_PARTICLE = List.of(
+            registerSimpleParticle("yellow_cosmic_particle"),
+            registerSimpleParticle("purple_cosmic_particle")
     );
 
     public static final List<RegistryObject<SimpleParticleType>> MURASAMA_PARTICLE = List.of(
@@ -111,82 +113,65 @@ public class BrutalityModParticles {
             PARTICLE_TYPES.register("supernova_sweep_particle", () -> new SimpleParticleType(true));
 
 
-    public static final RegistryObject<ParticleType<AbstractWorldAlignedTrailParticle.OrbData>> GENERIC_WORLD_ALIGNED_TRAIL_PARTICLE =
-            PARTICLE_TYPES.register("generic_world_aligned_trail_particle", ()
-                    -> new ParticleType<>(false, AbstractWorldAlignedTrailParticle.OrbData.DESERIALIZER) {
+//    public static final RegistryObject<ParticleType<AbstractWorldAlignedTrailParticle.OrbData>> GENERIC_WORLD_ALIGNED_TRAIL_PARTICLE =
+//            PARTICLE_TYPES.register("generic_world_aligned_trail_particle", ()
+//                    -> new ParticleType<>(false, AbstractWorldAlignedTrailParticle.OrbData.DESERIALIZER) {
+//                @Override
+//                public Codec<AbstractWorldAlignedTrailParticle.OrbData> codec() {
+//                    return AbstractWorldAlignedTrailParticle.OrbData.CODEC(GENERIC_WORLD_ALIGNED_TRAIL_PARTICLE.get());
+//                }
+//            });
+
+    public static final RegistryObject<ParticleType<TrailParticleData>> TRAIL_PARTICLE = PARTICLE_TYPES.register("trail_particle", () ->
+            new ParticleType<>(false, TrailParticleData.DESERIALIZER) {
                 @Override
-                public Codec<AbstractWorldAlignedTrailParticle.OrbData> codec() {
-                    return AbstractWorldAlignedTrailParticle.OrbData.CODEC(GENERIC_WORLD_ALIGNED_TRAIL_PARTICLE.get());
-                }
-            });
-    public static final RegistryObject<ParticleType<AbstractCameraAlignedTrailParticle.OrbData>> GENERIC_CAMERA_ALIGNED_TRAIL_PARTICLE =
-            PARTICLE_TYPES.register("generic_camera_aligned_trail_particle", ()
-                    -> new ParticleType<>(false, AbstractCameraAlignedTrailParticle.OrbData.DESERIALIZER) {
-                @Override
-                public Codec<AbstractCameraAlignedTrailParticle.OrbData> codec() {
-                    return AbstractCameraAlignedTrailParticle.OrbData.CODEC(GENERIC_CAMERA_ALIGNED_TRAIL_PARTICLE.get());
-                }
-            });
-    public static final RegistryObject<ParticleType<RainbowTrailParticle.OrbData>> RAINBOW_TRAIL_PARTICLE =
-            PARTICLE_TYPES.register("rainbow_trail_particle", ()
-                    -> new ParticleType<>(false, RainbowTrailParticle.OrbData.DESERIALIZER) {
-                @Override
-                public Codec<RainbowTrailParticle.OrbData> codec() {
-                    return RainbowTrailParticle.OrbData.CODEC(RAINBOW_TRAIL_PARTICLE.get());
-                }
-            });
-    public static final RegistryObject<ParticleType<CelestialStarboardParticle.OrbData>> CELESTIAL_STARBOARD_PARTICLE =
-            PARTICLE_TYPES.register("celestial_starboard_particle", ()
-                    -> new ParticleType<>(false, CelestialStarboardParticle.OrbData.DESERIALIZER) {
-                @Override
-                public Codec<CelestialStarboardParticle.OrbData> codec() {
-                    return CelestialStarboardParticle.OrbData.CODEC(CELESTIAL_STARBOARD_PARTICLE.get());
+                public @NotNull Codec<TrailParticleData> codec() {
+                    return TrailParticleData.CODEC;
                 }
             });
 
-    public static final RegistryObject<ParticleType<CameraAlignedOrbitingTrailParticle.OrbData>> CAMERA_ALIGNED_ORBITING_TRAIL_PARTICLE =
-            PARTICLE_TYPES.register("generic_camera_aligned_orbiting_trail_particle", ()
-                    -> new ParticleType<>(false, CameraAlignedOrbitingTrailParticle.OrbData.DESERIALIZER) {
+    public static final RegistryObject<ParticleType<TrailParticleData>> RAINBOW_TRAIL_PARTICLE = PARTICLE_TYPES.register("rainbow_trail_particle", () ->
+            new ParticleType<>(false, TrailParticleData.DESERIALIZER) {
                 @Override
-                public Codec<CameraAlignedOrbitingTrailParticle.OrbData> codec() {
-                    return CameraAlignedOrbitingTrailParticle.OrbData.CODEC(CAMERA_ALIGNED_ORBITING_TRAIL_PARTICLE.get());
+                public @NotNull Codec<TrailParticleData> codec() {
+                    return TrailParticleData.CODEC;
                 }
             });
 
-    public static final RegistryObject<ParticleType<CreaseOfCreationParticle.OrbData>> CREASE_OF_CREATION_PARTICLE =
-            PARTICLE_TYPES.register("crease_of_creation_particle", ()
-                    -> new ParticleType<>(false, CreaseOfCreationParticle.OrbData.DESERIALIZER) {
+    public static final RegistryObject<ParticleType<TrailParticleData>> CELESTIAL_STARBOARD_PARTICLE = PARTICLE_TYPES.register("celestial_starboard_trail_particle", () ->
+            new ParticleType<>(false, TrailParticleData.DESERIALIZER) {
                 @Override
-                public Codec<CreaseOfCreationParticle.OrbData> codec() {
-                    return CreaseOfCreationParticle.OrbData.CODEC(CREASE_OF_CREATION_PARTICLE.get());
-                }
-            });
-    public static final RegistryObject<ParticleType<TerratomereParticle.OrbData>> TERRATOMERE_PARTICLE =
-            PARTICLE_TYPES.register("terratomere_particle", ()
-                    -> new ParticleType<>(false, TerratomereParticle.OrbData.DESERIALIZER) {
-                @Override
-                public Codec<TerratomereParticle.OrbData> codec() {
-                    return TerratomereParticle.OrbData.CODEC(TERRATOMERE_PARTICLE.get());
-                }
-            });
-    public static final RegistryObject<ParticleType<RuinedParticle.OrbData>> RUINED_PARTICLE =
-            PARTICLE_TYPES.register("ruined_particle", ()
-                    -> new ParticleType<>(false, RuinedParticle.OrbData.DESERIALIZER) {
-                @Override
-                public Codec<RuinedParticle.OrbData> codec() {
-                    return RuinedParticle.OrbData.CODEC(RUINED_PARTICLE.get());
+                public @NotNull Codec<TrailParticleData> codec() {
+                    return TrailParticleData.CODEC;
                 }
             });
 
-    public static final RegistryObject<ParticleType<GenericTridentTrailParticle.OrbData>> GENERIC_TRIDENT_TRAIL_PARTICLE =
-            PARTICLE_TYPES.register("trident_trail_particle", () ->
-                    new ParticleType<>(false, GenericTridentTrailParticle.OrbData.DESERIALIZER) {
+    public static final RegistryObject<ParticleType<TrailParticleData>> RUINED_PARTICLE = PARTICLE_TYPES.register("ruined_particle", () ->
+            new ParticleType<>(false, TrailParticleData.DESERIALIZER) {
+                @Override
+                public @NotNull Codec<TrailParticleData> codec() {
+                    return TrailParticleData.CODEC;
+                }
+            });
 
-                        @Override
-                        public Codec<GenericTridentTrailParticle.OrbData> codec() {
-                            return GenericTridentTrailParticle.OrbData.CODEC(GENERIC_TRIDENT_TRAIL_PARTICLE.get());
-                        }
-                    });
+    public static final RegistryObject<ParticleType<TrailParticleData>> CREASE_OF_CREATION_PARTICLE = PARTICLE_TYPES.register("crease_of_creation_particle", () ->
+            new ParticleType<>(false, TrailParticleData.DESERIALIZER) {
+                @Override
+                public @NotNull Codec<TrailParticleData> codec() {
+                    return TrailParticleData.CODEC;
+                }
+            });
+
+    public static final RegistryObject<ParticleType<TrailParticleData>> TERRATOMERE_PARTICLE = PARTICLE_TYPES.register("terratomere_particle", () ->
+            new ParticleType<>(false, TrailParticleData.DESERIALIZER) {
+                @Override
+                public @NotNull Codec<TrailParticleData> codec() {
+                    return TrailParticleData.CODEC;
+                }
+            });
+
+
+
 
 
     public static final RegistryObject<ParticleType<GenericParticleWithData.ParticleData>> GENERIC_PARTICLE_WITH_DATA =

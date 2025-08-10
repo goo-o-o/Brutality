@@ -1,7 +1,6 @@
 package net.goo.brutality.entity.projectile.generic;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.particle.base.AbstractWorldAlignedTrailParticle;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -43,7 +42,7 @@ public class PiEntity extends ThrowableProjectile implements BrutalityGeoEntity 
 
         super.tick();
         if (!this.trailSpawned && level().isClientSide()) {
-            this.level().addParticle((new AbstractWorldAlignedTrailParticle.OrbData(0, 0, 0, this.getBbHeight(), this.getId(), 0, 0, 0, "circle", 10)), this.getX(), this.getY() + this.getBbHeight() / 2, this.getZ(), 0, 0, 0);
+//            this.level().addParticle((new AbstractWorldAlignedTrailParticle.OrbData(0, 0, 0, this.getBbHeight(), this.getId(), 0, 0, 0, "circle", 10)), this.getX(), this.getY() + this.getBbHeight() / 2, this.getZ(), 0, 0, 0);
             this.trailSpawned = true;
         }
 

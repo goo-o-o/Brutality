@@ -2,7 +2,6 @@ package net.goo.brutality.entity.projectile.trident;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractTrident;
-import net.goo.brutality.particle.base.GenericTridentTrailParticle;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -44,7 +43,7 @@ public class ThrownThunderbolt extends BrutalityAbstractTrident implements Bruta
 
     public void tick() {
         if (!trailSpawned && level().isClientSide) {
-            this.level().addParticle((new GenericTridentTrailParticle.OrbData(0.8F, 0.8F, 0.0F, this.getBbHeight() * 0.75F, this.getId(), 0, 0, 0, "circle", 10)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
+//            this.level().addParticle((new GenericTridentTrailParticle.OrbData(0.8F, 0.8F, 0.0F, this.getBbHeight() * 0.75F, this.getId(), 0, 0, 0, "circle", 10)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
             trailSpawned = true;
         }
         super.tick();

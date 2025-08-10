@@ -4,7 +4,7 @@ import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractArrow;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.s2cSyncCapabilitiesPacket;
-import net.goo.brutality.particle.base.AbstractCameraAlignedTrailParticle;
+import net.goo.brutality.particle.providers.TrailParticleData;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
@@ -90,9 +90,8 @@ public class StarEntity extends BrutalityAbstractArrow implements BrutalityGeoEn
     @Override
     public void tick() {
         if (firstTick && this.level().isClientSide()) {
-            this.level().addParticle((new AbstractCameraAlignedTrailParticle.OrbData(1, 1, 0,
-                            this.getBbHeight() * 4F, this.getId(), 10)), this.getX(),
-                    this.getY() - this.getBbHeight() / 2, this.getZ(), 0, 0, 0);
+            level().addParticle(
+                    new TrailParticleData(BrutalityModParticles.TRAIL_PARTICLE.get(), 1, 1, 0, 1, this.getBbHeight() * 4F, this.getId(), 10), this.getX(),this.getY() - this.getBbHeight() / 2, this.getZ(), 0, 0, 0);
         }
 
         super.tick();

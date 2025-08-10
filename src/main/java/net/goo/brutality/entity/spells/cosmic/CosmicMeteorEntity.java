@@ -1,12 +1,15 @@
 package net.goo.brutality.entity.spells.cosmic;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.entity.base.BrutalityAbstractPhysicsProjectile;
-import net.goo.brutality.event.forge.DelayedTaskScheduler;
+import net.goo.brutality.entity.base.BrutalityAbstractArrow;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.magic.IBrutalitySpellEntity;
+import net.goo.brutality.magic.spells.cosmic.MeteorShowerSpell;
+import net.goo.brutality.network.ClientboundParticlePacket;
+import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.particle.providers.WaveParticleData;
 import net.goo.brutality.registry.BrutalityModParticles;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -17,12 +20,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -30,17 +34,37 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 
 import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.SIZE;
 
-public class CosmicCataclysmSpellEntity extends BrutalityAbstractPhysicsProjectile implements BrutalityGeoEntity, IBrutalitySpellEntity {
-    private static final EntityDataAccessor<Integer> SPELL_LEVEL_DATA = SynchedEntityData.defineId(CosmicCataclysmSpellEntity.class, EntityDataSerializers.INT);
+public class CosmicMeteorEntity extends BrutalityAbstractArrow implements BrutalityGeoEntity, IBrutalitySpellEntity {
+    private static final EntityDataAccessor<Integer> SPELL_LEVEL_DATA = SynchedEntityData.defineId(CosmicMeteorEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> DAMAGE_DATA = SynchedEntityData.defineId(CosmicMeteorEntity.class, EntityDataSerializers.FLOAT);
 
-    public CosmicCataclysmSpellEntity(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
+    public CosmicMeteorEntity(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+    }
+
+    @Override
+    protected boolean tryPickup(Player pPlayer) {
+        return false;
+    }
+
+    @Override
+    protected @NotNull ItemStack getPickupItem() {
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public boolean fireImmune() {
+        return true;
     }
 
     @Override
@@ -48,10 +72,6 @@ public class CosmicCataclysmSpellEntity extends BrutalityAbstractPhysicsProjecti
         return 16F / 32F;
     }
 
-    @Override
-    public float getModelHeight() {
-        return 8;
-    }
 
     @Override
     public boolean shouldRender(double pX, double pY, double pZ) {
@@ -67,6 +87,17 @@ public class CosmicCataclysmSpellEntity extends BrutalityAbstractPhysicsProjecti
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(SPELL_LEVEL_DATA, 1);
+        this.entityData.define(DAMAGE_DATA, 1F);
+    }
+
+    @Override
+    public void setDamage(float damage) {
+        this.entityData.set(DAMAGE_DATA, damage);
+    }
+
+    @Override
+    public float getDamage() {
+        return this.entityData.get(DAMAGE_DATA);
     }
 
     @Override
@@ -76,7 +107,7 @@ public class CosmicCataclysmSpellEntity extends BrutalityAbstractPhysicsProjecti
 
     @Override
     public BrutalitySpell getSpell() {
-        return new net.goo.brutality.magic.spells.cosmic.CosmicCataclysmSpell();
+        return new MeteorShowerSpell();
     }
 
     @Override
@@ -85,56 +116,47 @@ public class CosmicCataclysmSpellEntity extends BrutalityAbstractPhysicsProjecti
         if (tag.contains(SPELL_LEVEL)) {
             this.setSpellLevel(tag.getInt(SPELL_LEVEL));
         }
+        if (tag.contains(DAMAGE)) {
+            this.setDamage(tag.getFloat(DAMAGE));
+        }
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt(SPELL_LEVEL, this.getSpellLevel());
+        tag.putFloat(DAMAGE, this.getDamage());
     }
 
-    @Override
-    public float getGravity() {
-        return 0.01F;
-    }
 
     @Override
     public void tick() {
         super.tick();
-
-        if (this.inGround) {
-            lockPitch();
-            lockRoll();
-            lockYaw();
-        }
+        if (this.inGroundTime > 40) discard();
     }
 
     @Override
-    protected void onHit(HitResult hitResult) {
+    protected void onHit(@NotNull HitResult hitResult) {
         super.onHit(hitResult);
         int spellLevel = getSpellLevel();
         BrutalitySpell spell = getSpell();
         float size = spell.getFinalStat(spellLevel, spell.getStat(SIZE));
-        WaveParticleData waveParticleData = new WaveParticleData(BrutalityModParticles.COSMIC_WAVE.get(), size, 50);
+        WaveParticleData waveParticleData = new WaveParticleData(BrutalityModParticles.COSMIC_WAVE.get(), size * 2F, 50);
+
+        Vec3 loc = hitResult.getLocation();
+        double x = loc.x(), y = loc.y(), z = loc.z();
+
+        level().playLocalSound(this.getOnPos(), BrutalityModSounds.METEOR_CRASH.get(), SoundSource.AMBIENT, Math.min(spellLevel, 50),
+                1.5F - (spellLevel / 50F), false);
 
         if (this.level() instanceof ServerLevel serverLevel && getOwner() instanceof LivingEntity owner) {
-            serverLevel.sendParticles(
-                    waveParticleData,
-                    owner.getX(),
-                    owner.getY(),
-                    owner.getZ(),
-                    1,
-                    0, 0, 0,
-                    0
-            );
+            PacketHandler.sendToNearbyClients(serverLevel, x, y, z, 128, new ClientboundParticlePacket(
+                    waveParticleData, true, (float) x, (float) y + 0.1F, (float) z, 0, 0, 0,
+                    0, 0, 0, 1
+            ));
 
-            ModUtils.applyWaveEffect(serverLevel, owner, Entity.class, waveParticleData, e -> (e instanceof Projectile || (e instanceof LivingEntity && e != owner)),
+            ModUtils.applyWaveEffect(serverLevel, this, Entity.class, waveParticleData, null,
                     e -> {
-                        Vec3 ePos = e.getPosition(1);
-                        Vec3 playerToEntity = owner.getPosition(1).vectorTo(ePos).normalize();
-                        playerToEntity.add(0, 0.1, 0).scale(0.2 * spellLevel);
-
-                        e.push(playerToEntity.x, playerToEntity.y, playerToEntity.z);
                         e.hurt(e.damageSources().flyIntoWall(), spell.getFinalDamage(owner, spell, spellLevel));
                         if (e instanceof Player) {
                             ((ServerPlayer) owner).connection.send(new ClientboundSetEntityMotionPacket(e));
@@ -159,14 +181,13 @@ public class CosmicCataclysmSpellEntity extends BrutalityAbstractPhysicsProjecti
                     player.connection.send(new ClientboundSetEntityMotionPacket(player));
                 }
                 if (getOwner() instanceof Player owner)
-                    entity.hurt(entity.damageSources().playerAttack(owner), getSpell().getFinalDamage(owner, getSpell(), spellLevel));
+                    entity.hurt(entity.damageSources().playerAttack(owner), getDamage());
                 else
-                    entity.hurt(entity.damageSources().flyIntoWall(), getSpell().getFinalDamage(spellLevel));
+                    entity.hurt(entity.damageSources().flyIntoWall(), getDamage());
             }
 
         }
 
-        DelayedTaskScheduler.queueServerWork(40, this::discard);
 
     }
 
@@ -182,6 +203,16 @@ public class CosmicCataclysmSpellEntity extends BrutalityAbstractPhysicsProjecti
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, 0, this::predicate));
+    }
+
+    private PlayState predicate(AnimationState<CosmicMeteorEntity> state) {
+        if (this.inGround) {
+            state.setAndContinue(RawAnimation.begin().thenPlayAndHold("ground"));
+        } else {
+            state.setAndContinue(RawAnimation.begin().thenPlay("idle"));
+        }
+        return PlayState.CONTINUE;
     }
 
     AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -191,8 +222,4 @@ public class CosmicCataclysmSpellEntity extends BrutalityAbstractPhysicsProjecti
         return cache;
     }
 
-    @Override
-    protected int getBounceCount() {
-        return 0;
-    }
 }

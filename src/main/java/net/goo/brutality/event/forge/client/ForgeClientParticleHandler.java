@@ -3,13 +3,16 @@ package net.goo.brutality.event.forge.client;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.projectile.generic.BlackHole;
 import net.goo.brutality.entity.projectile.trident.ThrownThunderbolt;
+import net.goo.brutality.entity.spells.cosmic.CosmicMeteorEntity;
 import net.goo.brutality.item.weapon.sword.SupernovaSword;
-import net.goo.brutality.particle.custom.RuinedParticle;
+import net.goo.brutality.particle.providers.TrailParticleData;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.util.ModUtils;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -28,10 +31,13 @@ public class ForgeClientParticleHandler {
     static float blackHoleParticleSpeedFactor = 0.05F;
 
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        Player player = event.player;
-        int tickCount = event.player.tickCount;
-        Level level = player.level();
+    public static void onPlayerTick(TickEvent.ClientTickEvent event) {
+        Minecraft mc = Minecraft.getInstance();
+        Level level = mc.level;
+        Player player = mc.player;
+        if (level == null || player == null) return;
+        int tickCount = mc.player.tickCount;
+
         Item mainHandItem = player.getMainHandItem().getItem();
         Item offHandItem = player.getOffhandItem().getItem();
 
@@ -40,17 +46,16 @@ public class ForgeClientParticleHandler {
             spawnMiracleBlightParticles(player, level);
 
             if (tickCount % 10 == 0) {
-//                System.out.println(Objects.requireNonNull(player.getAttribute(Attributes.ATTACK_SPEED)).getValue());
 
-                // SUPERNOVA PARTICLE HANDLER START //
+                // SUPERNOVA SWORD PARTICLE HANDLER START //
                 if (mainHandItem instanceof SupernovaSword || offHandItem instanceof SupernovaSword) {
-                    level.addParticle(ModUtils.getRandomParticle(BrutalityModParticles.SUPERNOVA_PARTICLE),
+                    level.addParticle(ModUtils.getRandomParticle(BrutalityModParticles.COSMIC_PARTICLE),
                             player.getRandomX(0.5), player.getRandomY(), player.getRandomZ(0.5),
                             0, 0, 0
                     );
 
                 }
-                // SUPERNOVA PARTICLE HANDLER END //
+                // SUPERNOVA SWORD PARTICLE HANDLER END //
             }
 
 
@@ -67,7 +72,7 @@ public class ForgeClientParticleHandler {
                 // BLACK HOLE PARTICLE HANDLER START //
                 spawnBlackHoleEntityParticles(player, level);
                 // BLACK HOLE PARTICLE HANDLER END //
-
+                spawnCosmicCataclysmParticles(player, level);
             }
 
             // ZAP PARTICLE HANDLER START
@@ -83,7 +88,7 @@ public class ForgeClientParticleHandler {
     }
 
     private static void spawnBladeOfTheRuinedParticle(Player player, Level level) {
-        level.addParticle(new RuinedParticle.OrbData(0.18F, 0.47F, 0.44F, 10), player.getRandomX(2), player.getRandomY(), player.getRandomZ(2), 0, 0, 0);
+        level.addParticle(new TrailParticleData(BrutalityModParticles.RUINED_PARTICLE.get(), 0.18F, 0.47F, 0.44F, 10, 1, -1, 10), player.getRandomX(2), player.getRandomY(), player.getRandomZ(2), 0, 0, 0);
 
     }
 
@@ -120,6 +125,24 @@ public class ForgeClientParticleHandler {
     }
 
 
+    private static void spawnCosmicCataclysmParticles(Player player, Level level) {
+        List<CosmicMeteorEntity> entities = level.getEntitiesOfClass(CosmicMeteorEntity.class, player.getBoundingBox().inflate(50));
+        for (CosmicMeteorEntity spellEntity : entities) {
+
+            int spellLevel = spellEntity.getSpellLevel() / 2;
+
+            double offsetX = Mth.nextFloat(level.random, -spellLevel, spellLevel);
+            double offsetY = Mth.nextFloat(level.random, -spellLevel, spellLevel);
+            double offsetZ = Mth.nextFloat(level.random, -spellLevel, spellLevel);
+
+            Vec3 particlePosition = spellEntity.position().add(offsetX, offsetY, offsetZ);
+
+            level.addParticle(ModUtils.getRandomParticle(BrutalityModParticles.COSMIC_PARTICLE),
+                    particlePosition.x, particlePosition.y, particlePosition.z,
+                    0, 0, 0);
+        }
+    }
+
     private static void spawnBlackHoleEntityParticles(Player player, Level level) {
         List<BlackHole> blackHoleEntities = level.getEntitiesOfClass(BlackHole.class, player.getBoundingBox().inflate(50));
         for (BlackHole blackHole : blackHoleEntities) {
@@ -136,6 +159,7 @@ public class ForgeClientParticleHandler {
                     particleDirection.x, particleDirection.y, particleDirection.z);
         }
     }
+
 
     private static void spawnMiracleBlightParticles(Player player, Level level) {
         List<LivingEntity> nearbyEntities = level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(50));

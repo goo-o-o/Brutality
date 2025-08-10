@@ -279,16 +279,17 @@ public class BrutalityTooltipHelper {
         ACTIVE, PASSIVE, FULL_SET_PASSIVE, FULL_SET_ACTIVE, ON_HIT, WHEN_THROWN, ON_SWING, ON_RIGHT_CLICK, ON_SHIFT_RIGHT_CLICK, LORE, ON_KILL, ON_SHOOT, ON_HOLD_RIGHT_CLICK, CHARM, DASH_ABILITY
     }
 
-    public record SpellStatComponent(SpellStatComponents type, int base, int levelDelta, Integer min, Integer max) {
+    public record SpellStatComponent(SpellStatComponents type, int base, float levelDelta, Integer min, Integer max) {
         public int base() { return base; }
-        public int levelDelta() { return levelDelta; }
+        public float levelDelta() { return levelDelta; }
         public Integer min() { return min; }
         public Integer max() { return max; }
     }
 
     public enum SpellStatComponents {
         RANGE("📏"," 🟫"),
-        SIZE("📏"," 🟫"),
+        SIZE("📐"," 🟫"),
+        PIERCE("💘"," 🧟"),
         DURATION("🕒", "s"),
         DEFENSE("🦺", " 🛡"),
         HEALING("⛨", " ❤");

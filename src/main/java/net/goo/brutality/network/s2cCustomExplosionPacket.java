@@ -8,7 +8,7 @@
 //import net.minecraft.core.BlockPos;
 //import net.minecraft.network.FriendlyByteBuf;
 //import net.minecraft.util.Mth;
-//import net.minecraft.world.level.Explosion;
+//import net.minecraft.world.spellLevel.Explosion;
 //import net.minecraft.world.phys.Vec3;
 //import net.minecraftforge.network.NetworkEvent;
 //
@@ -93,10 +93,10 @@
 //
 //    public void handle(Supplier<NetworkEvent.Context> ctx) {
 //        ctx.get().enqueueWork(() -> {
-//            if (Minecraft.getInstance().level != null && Minecraft.getInstance().player != null) {
+//            if (Minecraft.getInstance().spellLevel != null && Minecraft.getInstance().player != null) {
 //
 //
-//                BrutalityExplosion explosion = ModExplosionHelper.createExplosion(this.explosionType, Minecraft.getInstance().level, null,
+//                BrutalityExplosion explosion = ModExplosionHelper.createExplosion(this.explosionType, Minecraft.getInstance().spellLevel, null,
 //                        this.x, this.y, this.z, this.power, false, Explosion.BlockInteraction.DESTROY);
 //
 //                explosion.finalizeExplosion(true);

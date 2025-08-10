@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DuelingGlove extends BrutalityCurioItem {
 
-    public DuelingGlove(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public DuelingGlove(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

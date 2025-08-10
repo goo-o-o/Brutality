@@ -9,13 +9,17 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
+import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.DURATION;
+
 public class SacredOathSpell extends BrutalitySpell {
 
 
     public SacredOathSpell() {
-        super(MagicSchool.CELESTIA, SpellType.SINGLETON_SELF_BUFF, "sacred_oath",
-                50, 0, 200, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(BrutalityTooltipHelper.SpellStatComponents.DURATION, 20, 10, null, null)
+        super(MagicSchool.CELESTIA,
+                List.of(SpellCategory.INSTANT, SpellCategory.SELF, SpellCategory.BUFF),
+                "sacred_oath",
+                50, 0, 200, 0, 1, List.of(
+                        new BrutalityTooltipHelper.SpellStatComponent(DURATION, 20, 10, null, null)
                 ));
     }
 
@@ -36,8 +40,7 @@ public class SacredOathSpell extends BrutalitySpell {
 
     @Override
     public boolean onCast(Player player, ItemStack stack, int spellLevel) {
-        BrutalityTooltipHelper.SpellStatComponent durationStat = getStat(BrutalityTooltipHelper.SpellStatComponents.DURATION);
-        player.addEffect(new MobEffectInstance(TerramityModMobEffects.PHASING.get(), durationStat.base() + spellLevel * durationStat.levelDelta()));
+        player.addEffect(new MobEffectInstance(TerramityModMobEffects.PHASING.get(), (int) getFinalStat(spellLevel, getStat(DURATION))));
         return true;
     }
 }

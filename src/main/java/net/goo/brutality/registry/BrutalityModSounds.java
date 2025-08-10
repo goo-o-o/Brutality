@@ -96,9 +96,13 @@ public class BrutalityModSounds {
 
 
     public static final RegistryObject<SoundEvent> VORTEX_EXPLOSION = registerSoundEvents("vortex_explosion");
+    public static final RegistryObject<SoundEvent> SPACE_EXPLOSION = registerSoundEvents("space_explosion");
+    public static final RegistryObject<SoundEvent> METEOR_CRASH = registerSoundEvents("meteor_crash");
+
+    public static final RegistryObject<SoundEvent> TOME_OPEN = registerSoundEvents("tome_open");
+    public static final RegistryObject<SoundEvent> TOME_CLOSE = registerSoundEvents("tome_close");
 
 
-    public static final RegistryObject<SoundEvent> BASS_BOOM = registerSoundEvents("bass_boom");
 
     public static final RegistryObject<SoundEvent> KNIFE_BLOCK = registerSoundEvents("knife_block");
     public static final RegistryObject<SoundEvent> SQUELCH = registerSoundEvents("squelch");
@@ -112,9 +116,11 @@ public class BrutalityModSounds {
 
     public static final RegistryObject<SoundEvent> TERRA_BLADE_USE = registerSoundEvents("terra_blade_use");
     public static final RegistryObject<SoundEvent> ICE_WAVE = registerSoundEvents("ice_wave");
+
+    public static final RegistryObject<SoundEvent> BASS_BOOM = registerSoundEvents("bass_boom");
     public static final RegistryObject<SoundEvent> BIG_EXPLOSION = registerSoundEvents("big_explosion");
     public static final RegistryObject<SoundEvent> BIGGER_EXPLOSION = registerSoundEvents("bigger_explosion");
-    public static final RegistryObject<SoundEvent> SPACE_EXPLOSION = registerSoundEvents("space_explosion");
+
     public static final RegistryObject<SoundEvent> WINGS_FLAP = registerSoundEvents("wings_flap");
 
     private static RegistryObject<SoundEvent> registerSoundEvents(String name) {

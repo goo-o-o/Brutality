@@ -49,9 +49,10 @@ public class CosmicTome extends BaseMagicTome {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", (state) ->
+        super.registerControllers(controllers);
+
+        controllers.add(new AnimationController<>(this, (state) ->
                 state.setAndContinue(RawAnimation.begin().thenLoop("idle")))
-                .triggerableAnim("cast", RawAnimation.begin().thenPlay("cast"))
         );
 
         controllers.add(new AnimationController<>(this, (state) ->

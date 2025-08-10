@@ -16,7 +16,7 @@ import java.util.List;
 
 public class FrozenHeart extends BrutalityCurioItem {
 
-    public FrozenHeart(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public FrozenHeart(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

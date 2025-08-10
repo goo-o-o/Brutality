@@ -8,7 +8,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -18,14 +17,17 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
+import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.*;
 import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.RANGE;
 
 public class VoidWalkSpell extends BrutalitySpell {
 
 
     public VoidWalkSpell() {
-        super(MagicSchool.VOIDWALKER, SpellType.SINGLETON_NO_TARGET, "void_walk",
-                40, 0, 160, 1, List.of(
+        super(MagicSchool.VOIDWALKER,
+                List.of(INSTANT, TARGET, UTILITY),
+                "void_walk",
+                40, 0, 160, 0, 1, List.of(
                         new BrutalityTooltipHelper.SpellStatComponent(RANGE, 20, 10, 0, 250)
                 ));
     }
@@ -43,8 +45,7 @@ public class VoidWalkSpell extends BrutalitySpell {
 
     @Override
     public boolean onCast(Player player, ItemStack stack, int spellLevel) {
-        BrutalityTooltipHelper.SpellStatComponent range = getStat(RANGE);
-        int baseRange = Mth.clamp(range.base() + (range.levelDelta() * spellLevel), range.min(), range.max());
+        float baseRange = getFinalStat(spellLevel, getStat(RANGE));
 
         if (player.level() instanceof ServerLevel serverLevel) {
             BlockPos blockPos = ModUtils.getBlockLookingAt(player, false, baseRange);

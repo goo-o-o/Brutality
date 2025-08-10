@@ -9,7 +9,7 @@ import java.util.List;
 
 public class HeartOfGold extends BrutalityCurioItem {
 
-    public HeartOfGold(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public HeartOfGold(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

@@ -15,7 +15,7 @@ import net.goo.brutality.entity.projectile.trident.ThrownKnife;
 import net.goo.brutality.entity.projectile.trident.ThrownThunderbolt;
 import net.goo.brutality.entity.projectile.trident.physics_projectile.*;
 import net.goo.brutality.entity.spells.celestia.LightBinding;
-import net.goo.brutality.entity.spells.cosmic.CosmicCataclysmSpellEntity;
+import net.goo.brutality.entity.spells.cosmic.CosmicMeteorEntity;
 import net.goo.brutality.entity.spells.voidwalker.GraviticImplosionEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -38,7 +38,7 @@ public class BrutalityModEntities {
                     .build(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "summoned_stray").toString()));
 
 //    public static final RegistryObject<EntityType<SwordWave>> SWORD_WAVE =
-//            ENTITY_TYPES.register("sword_wave", () -> EntityType.Builder.of(SwordWave::new,
+//           ENTITY_TYPES.register("sword_wave", () -> EntityType.Builder.of(SwordWave::new,
 //                    MobCategory.MISC).sized(1F, 0.25F).build("sword_wave"));
 
     public static final RegistryObject<EntityType<SpectralMawEntity>> SPECTRAL_MAW_ENTITY =
@@ -195,9 +195,9 @@ public class BrutalityModEntities {
                             .sized(0.5F, 0.5F)
                             .build("gravitic_implosion"));
 
-    public static final RegistryObject<EntityType<CosmicCataclysmSpellEntity>> COSMIC_CATACLYSM_ENTITY =
+    public static final RegistryObject<EntityType<CosmicMeteorEntity>> COSMIC_CATACLYSM_ENTITY =
             ENTITY_TYPES.register("cosmic_cataclysm",
-                    () -> EntityType.Builder.of(CosmicCataclysmSpellEntity::new, MobCategory.MISC)
+                    () -> EntityType.Builder.of(CosmicMeteorEntity::new, MobCategory.MISC)
                             .sized(1, 1)
                             .build("cosmic_cataclysm"));
 

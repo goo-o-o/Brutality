@@ -10,7 +10,7 @@ import java.util.List;
 
 public class GoldenHeadband extends BrutalityCurioItem {
 
-    public GoldenHeadband(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public GoldenHeadband(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

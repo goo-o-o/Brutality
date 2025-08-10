@@ -2,6 +2,9 @@ package net.goo.brutality.magic;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.magic.spells.celestia.*;
+import net.goo.brutality.magic.spells.cosmic.CosmicCataclysmSpell;
+import net.goo.brutality.magic.spells.cosmic.MeteorShowerSpell;
+import net.goo.brutality.magic.spells.cosmic.GravitokinesisSpell;
 import net.goo.brutality.magic.spells.voidwalker.*;
 import net.minecraft.resources.ResourceLocation;
 
@@ -33,5 +36,9 @@ public class SpellRegistry {
         register(new HolyMantleSpell());
         register(new SacrificeSpell());
         register(new LightBindingSpell());
+
+        register(new MeteorShowerSpell());
+        register(new GravitokinesisSpell());
+        register(new CosmicCataclysmSpell());
     }
 }

@@ -26,6 +26,30 @@
       }
     ]
   },
+  "treasure_chest_lock": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "brutality:treasure_chest_lock"
+      }
+    ]
+  },
+  "shuriken_impact": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "brutality:shuriken_impact"
+      }
+    ]
+  },
+  "metal_pipe": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "brutality:metal_pipe"
+      }
+    ]
+  },
   "jackpot_sound_1": {
     "category": "item",
     "sounds": [
@@ -298,7 +322,6 @@
       }
     ]
   },
-
   "deathbringer_stance_hit": {
     "category": "player",
     "sounds": [
@@ -323,14 +346,6 @@
       }
     ]
   },
-  "darkin_blade_3": {
-    "category": "player",
-    "sounds": [
-      {
-        "name": "brutality:darkin_blade_3"
-      }
-    ]
-  },
   "umbral_dash_1": {
     "category": "player",
     "sounds": [
@@ -344,6 +359,158 @@
     "sounds": [
       {
         "name": "brutality:umbral_dash_2"
+      }
+    ]
+  },
+  "transform_shadow_assasin": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:transform_shadow_assasin"
+      }
+    ]
+  },
+  "transform_rhaast": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:transform_rhaast"
+      }
+    ]
+  },
+  "transform_kayn": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:transform_kayn"
+      }
+    ]
+  },
+  "ground_impact": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:ground_impact"
+      }
+    ]
+  },
+  "spectral_maw": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:spectral_maw"
+      }
+    ]
+  },
+  "generic_slice": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:generic_slice"
+      }
+    ]
+  },
+  "terratomere_swing": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:terratomere_swing"
+      }
+    ]
+  },
+  "vortex_explosion": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:vortex_explosion"
+      }
+    ]
+  },
+  "exoblade_swing_1": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:exoblade_swing_1"
+      }
+    ]
+  },
+  "exoblade_swing_2": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:exoblade_swing_2"
+      }
+    ]
+  },
+  "exoblade_swing_3": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:exoblade_swing_3"
+      }
+    ]
+  },
+  "biomech_reactor_boom": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:biomech_reactor_boom"
+      }
+    ]
+  },
+  "target_found": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:target_found"
+      }
+    ]
+  },
+  "last_prism_use": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:last_prism_use"
+      }
+    ]
+  },
+  "styrofoam_impact": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:styrofoam_impact"
+      }
+    ]
+  },
+  "meteor_crash": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:meteor_crash"
+      }
+    ]
+  },
+  "tome_open": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:tome_open"
+      }
+    ]
+  },
+  "tome_close": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:tome_close"
+      }
+    ]
+  },
+  "space_explosion": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:space_explosion"
       }
     ]
   }

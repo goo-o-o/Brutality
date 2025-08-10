@@ -41,14 +41,14 @@ public class BrutalityModEntityRenderManager {
 
         event.registerEntityRenderer(BrutalityModEntities.THROWN_BIOMECH_REACTOR.get(), context -> new BrutalityAbstractPhysicsTridentRenderer<>(context,
                 renderer -> renderer.addRenderLayer(
-                        new BrutalityAutoFullbrightNoDepthLayer<>(renderer)
+                        new AutoGlowingGeoLayer<>(renderer)
                 )));
 
         event.registerEntityRenderer(BrutalityModEntities.THROWN_KNIFE_ENTITY.get(), BrutalityTridentRenderer::new);
 
 
         event.registerEntityRenderer(BrutalityModEntities.STAR_ENTITY.get(), context -> new BrutalityShurikenRenderer<>(context,
-                renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer))));
+                renderer -> renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer))));
 
         event.registerEntityRenderer(BrutalityModEntities.PI_ENTITY.get(), BrutalityEntityRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.DEPTH_CRUSHER_PROJECTILE.get(), BrutalityEntityRenderer::new);

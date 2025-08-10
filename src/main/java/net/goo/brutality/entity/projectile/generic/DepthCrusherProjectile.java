@@ -1,7 +1,7 @@
 package net.goo.brutality.entity.projectile.generic;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.particle.base.AbstractCameraAlignedTrailParticle;
+import net.goo.brutality.particle.providers.TrailParticleData;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -43,11 +43,10 @@ public class DepthCrusherProjectile extends ThrowableProjectile implements Bruta
 
         if (level().isClientSide()) {
             if (firstTick) {
-                this.level().addParticle((new AbstractCameraAlignedTrailParticle.OrbData(0.078F, 0.078F, 0.33F,
-                                this.getBbHeight() * 4F, this.getId(), 10)), this.getX(),
+                this.level().addParticle(new TrailParticleData(BrutalityModParticles.TRAIL_PARTICLE.get(),
+                                0.078F, 0.078F, 0.33F, 1, this.getBbHeight() * 4F, this.getId(), 10), this.getX(),
                         this.getY() - this.getBbHeight() / 2, this.getZ(), 0, 0, 0);
             }
-            level().addAlwaysVisibleParticle(BrutalityModParticles.DEPTH_CRUSHER_PARTICLE.get(), getX(), getY(), getZ(), 0, 0, 0);
         }
 
         super.tick();

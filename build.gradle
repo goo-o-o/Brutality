@@ -88,6 +88,8 @@ repositories {
         url = "https://maven.theillusivec4.top/"
     }
 
+    maven { url = "https://maven.firstdarkdev.xyz/snapshots" } // LDLib, Photon
+
     maven {
         url "https://cursemaven.com"
     }
@@ -173,23 +175,10 @@ dependencies {
     // Use the full Curios API jar at runtime
     runtimeOnly "top.theillusivec4.curios:curios-forge:${curios_version}"
 
-    // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
-    // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
-    // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
-    // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
-    // runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
-
-    // Example mod dependency using a mod jar from ./libs with a flat dir repository
-    // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
-    // The group id is ignored when searching -- in this case, it is "blank"
-    // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
-
-    // For more info:
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
-
-//    implementation fg.deobf("curse.maven:in-game-account-switcher-232676:5457030")
+    implementation fg.deobf("com.lowdragmc.photon:photon-forge-1.20.1:${photon_version}") { transitive = false }
+    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-1.20.1:${ld_lib_version}") { transitive = false }
+    implementation fg.deobf("com.lowdragmc.photon:photon-common-1.20.1:${photon_version}") { transitive = false }
+    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-common-1.20.1:${ld_lib_version}") { transitive = false }
 }
 
 tasks.named('processResources', ProcessResources).configure {

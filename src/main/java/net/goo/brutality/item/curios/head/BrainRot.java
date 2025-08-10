@@ -10,7 +10,7 @@ import java.util.List;
 public class BrainRot extends BrutalityCurioItem {
 
 
-    public BrainRot(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public BrainRot(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

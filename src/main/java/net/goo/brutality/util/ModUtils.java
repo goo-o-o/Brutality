@@ -132,18 +132,26 @@ public class ModUtils {
 
     private static final ScheduledExecutorService EXECUTOR = Executors.newScheduledThreadPool(1);
 
-    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, LivingEntity origin, Class<T> clazz, WaveParticleData particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
+    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, Vec3 origin, Class<T> clazz, WaveParticleData particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
+        return applyWaveEffect(level, origin.x(), origin.y(), origin.z(), clazz, particleData, filter, effect);
+    }
+
+    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, Entity origin, Class<T> clazz, WaveParticleData particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
+        return applyWaveEffect(level, origin.getX(), origin.getY(0.5), origin.getZ(), clazz, particleData, filter, effect);
+    }
+
+    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, double x, double y, double z, Class<T> clazz, WaveParticleData particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
         float maxRadius = particleData.radius();
         int lifetimeTicks = particleData.growthDuration();
 
         AABB box = new AABB(
-                new Vec3(origin.getX() - maxRadius, origin.getY(0.5), origin.getZ() - maxRadius),
-                new Vec3(origin.getX() + maxRadius, origin.getY(0.5), origin.getZ() + maxRadius));
+                new Vec3(x - maxRadius, y, z - maxRadius),
+                new Vec3(x + maxRadius, y, z + maxRadius));
 
         List<T> entities = filter != null ? level.getEntitiesOfClass(clazz, box, filter) : level.getEntitiesOfClass(clazz, box);
 
         entities.forEach(entity -> {
-            float distance = entity.distanceTo(origin);
+            float distance = Mth.sqrt((float) entity.distanceToSqr(x ,y ,z));
 
             // Normalize distance (0 to 1)
             float normalizedDistance = distance / maxRadius;
@@ -174,26 +182,26 @@ public class ModUtils {
     }
 
 
-    public static <T extends Entity> RayData<T> getEntitiesInRay(Class<T> entityClass, LivingEntity livingEntity,
+    public static <T extends Entity> RayData<T> getEntitiesInRay(Class<T> entityClass, LivingEntity origin,
                                                                  float maxRange, ClipContext.Fluid fluidContext, ClipContext.Block blockContext,
                                                                  float beamRadius, @Nullable Predicate<? super T> filter, @NotNull Integer pierceCap,
                                                                  @Nullable Consumer<Vec3> segmentConsumer
     ) {
 
-        Vec3 startPos = livingEntity.getEyePosition();
-        Vec3 endPos = startPos.add(livingEntity.getLookAngle().scale(maxRange));
-        Level level = livingEntity.level();
+        Vec3 startPos = origin.getEyePosition();
+        Vec3 endPos = startPos.add(origin.getLookAngle().scale(maxRange));
+        Level level = origin.level();
 
         BlockHitResult blockResult = level.clip(new ClipContext(
                 startPos,
                 endPos,
                 blockContext,
                 fluidContext,
-                livingEntity
+                origin
         ));
 
         int distance = (int) startPos.distanceTo(blockResult.getBlockPos().getCenter());
-        List<T> targets = collectEntitiesAlongRay(entityClass, livingEntity, startPos, distance, beamRadius, filter, pierceCap, segmentConsumer);
+        List<T> targets = collectEntitiesAlongRay(entityClass, origin, startPos, distance, beamRadius, filter, pierceCap, segmentConsumer);
 
         return new RayData<>(targets.stream().distinct().collect(Collectors.toList()), distance, blockResult.getLocation());
     }

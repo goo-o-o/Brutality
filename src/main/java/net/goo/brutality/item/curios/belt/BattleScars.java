@@ -18,7 +18,7 @@ import java.util.UUID;
 public class BattleScars extends BrutalityCurioItem {
 
 
-    public BattleScars(Rarity rarity, List<BrutalityTooltipHelper.DescriptionComponent> descriptionComponents) {
+    public BattleScars(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
