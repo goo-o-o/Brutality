@@ -95,7 +95,7 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
 
     @Override
     default void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, (state) ->
+        controllers.add(new AnimationController<>(this, state ->
                 state.setAndContinue(RawAnimation.begin().thenLoop("idle")))
         );
     }

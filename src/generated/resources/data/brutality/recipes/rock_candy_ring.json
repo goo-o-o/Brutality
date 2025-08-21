@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:empty_ring"
+    },
+    "#": {
+      "item": "terramity:prismatic_crystal_cluster"
+    },
+    "1": {
+      "item": "terramity:ruby"
+    },
+    "2": {
+      "item": "terramity:sapphire"
+    },
+    "3": {
+      "item": "terramity:topaz"
+    },
+    "4": {
+      "item": "terramity:onyx"
+    },
+    "@": {
+      "item": "minecraft:amethyst_cluster"
+    }
+  },
+  "pattern": [
+    "1#2",
+    "@!@",
+    "3#4"
+  ],
+  "result": {
+    "item": "brutality:rock_candy_ring"
+  },
+  "show_notification": true
+}

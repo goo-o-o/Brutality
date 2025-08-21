@@ -5,8 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,47 +20,49 @@ public class EnragedEffect extends MobEffect {
 
     public EnragedEffect(MobEffectCategory category, int color) {
         super(category, color);
+        // movement speed (20% + 10% per level)
+        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, ENRAGED_MS_UUID.toString(), 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        // attack speed (20% + 10% per level)
+        this.addAttributeModifier(Attributes.ATTACK_SPEED, ENRAGED_AS_UUID.toString(), 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        // attack damage (50% + 5% per level)
+        this.addAttributeModifier(Attributes.ATTACK_DAMAGE, ENRAGED_AD_UUID.toString(), 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        // armor (capped at 0, starts at -100% + 10% per level)
+        this.addAttributeModifier(Attributes.ARMOR, ENRAGED_ARMOR_UUID.toString(), 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
 
-        if (entity.tickCount % 5 == 0) {
-            if (entity.level() instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(BrutalityModParticles.ENRAGED_PARTICLE.get(),
-                        entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(), 1,
-                        0.5, 0.5, 0.5
-                        , 0);
+        if (entity.level() instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(BrutalityModParticles.ENRAGED_PARTICLE.get(),
+                    entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(), 1,
+                    0.5, 0.5, 0.5
+                    , 0);
 
 
-            }
         }
+
 
     }
 
+
     @Override
-    public void removeAttributeModifiers(@NotNull LivingEntity entity, @NotNull AttributeMap attributeMap, int amplifier) {
-        super.removeAttributeModifiers(entity, attributeMap, amplifier);
-        AttributeInstance movementSpeed = attributeMap.getInstance(Attributes.MOVEMENT_SPEED);
-        if (movementSpeed != null && movementSpeed.getModifier(ENRAGED_MS_UUID) != null) {
-            movementSpeed.removeModifier(ENRAGED_MS_UUID);
+    public double getAttributeModifierValue(int amplifier, @NotNull AttributeModifier modifier) {
+        UUID modifierId = modifier.getId();
+        if (modifierId.equals(ENRAGED_MS_UUID)) {
+            return 0.2 + (0.1 * amplifier); // Movement speed: 20% + 10% per level
+        } else if (modifierId.equals(ENRAGED_AS_UUID)) {
+            return 0.2 + (0.1 * amplifier); // Attack speed: 20% + 10% per level
+        } else if (modifierId.equals(ENRAGED_AD_UUID)) {
+            return 0.5 + (0.05 * amplifier); // Attack damage: 50% + 5% per level
+        } else if (modifierId.equals(ENRAGED_ARMOR_UUID)) {
+            return Math.min(-1.0 + (0.1 * amplifier), 0); // Armor: -100% + 10% per level, capped at 0
         }
-        AttributeInstance attackSpeed = attributeMap.getInstance(Attributes.ATTACK_SPEED);
-        if (attackSpeed != null && attackSpeed.getModifier(ENRAGED_AS_UUID) != null) {
-            attackSpeed.removeModifier(ENRAGED_AS_UUID);
-        }
-        AttributeInstance attackDamage = attributeMap.getInstance(Attributes.ATTACK_DAMAGE);
-        if (attackDamage != null && attackDamage.getModifier(ENRAGED_AD_UUID) != null) {
-            attackDamage.removeModifier(ENRAGED_AD_UUID);
-        }
-        AttributeInstance armor = attributeMap.getInstance(Attributes.ARMOR);
-        if (armor != null && armor.getModifier(ENRAGED_ARMOR_UUID) != null) {
-            armor.removeModifier(ENRAGED_ARMOR_UUID);
-        }
+        return 0; // Fallback for unknown modifiers
     }
 
     @Override
     public boolean isDurationEffectTick(int duration, int amplifier) {
-        return true;
+        return duration % 5 == 0;
     }
 }

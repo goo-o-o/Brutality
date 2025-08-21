@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "brutality:unbridled_rage"
+    },
+    "@": {
+      "item": "minecraft:clock"
+    }
+  },
+  "pattern": [
+    " ! ",
+    "!@!",
+    " ! "
+  ],
+  "result": {
+    "item": "brutality:rampage_clock"
+  },
+  "show_notification": true
+}

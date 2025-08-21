@@ -40,9 +40,9 @@ public class BrutalityForgeEntityRenderHandler {
             float finalScale = 1.0F + (spellLevel - 1) * scaleIncrement; // Scale factor: 1.0 at level 1, 1.5 at level 2, 2.0 at level 3, etc.
 
             BrutalitySpell spell = entity.getSpell();
-            BrutalityTooltipHelper.SpellStatComponent rangeStat = spell.getStat(BrutalityTooltipHelper.SpellStatComponents.SIZE);
-            finalScale = Mth.clamp(finalScale, 1.0F, rangeStat.max() / 2F); // Ensure scale doesn't exceed max range relative to base size
-
+            BrutalityTooltipHelper.SpellStatComponent sizeStat = spell.getStat(BrutalityTooltipHelper.SpellStatComponents.SIZE);
+            if (sizeStat == null) return;
+            finalScale = Mth.clamp(finalScale, 1.0F, sizeStat.max() / 2F); // Ensure scale doesn't exceed max range relative to base size
             PoseStack poseStack = event.getPoseStack();
             poseStack.popPose();
             poseStack.scale(finalScale, finalScale, finalScale);

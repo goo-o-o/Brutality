@@ -1,7 +1,11 @@
 package net.goo.brutality.util;
 
+import com.lowdragmc.photon.client.fx.FX;
+import com.lowdragmc.photon.client.fx.FXHelper;
 import net.goo.brutality.Brutality;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public interface ModResources {
     // Fonts
@@ -12,15 +16,16 @@ public interface ModResources {
     ResourceLocation COSMICALIEN = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "cosmicalien"); // Font used: Cosmic Alien https://www.dafont.com/cosmic-alien.font?
     ResourceLocation RARITY_FONT = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "gamer"); // Font used: Gamer https://www.dafont.com/gamer-2.font
 
-
-    // Values
-    float FROSTMOURNE_WAVE_RADIUS = 15, FROSTMOURNE_WAVE_DURATION = 4, FROSTMOURNE_WAVE_SPEED = 2;
-    float HEAL_WAVE_RADIUS = 3, HEAL_WAVE_DURATION = 2, HEAL_WAVE_SPEED = 3;
-
-    enum BEAM_TYPES {
-        TERRA,
-        EXCALIBUR
-    }
+    FX CREASE_OF_CREATION_FX = FXHelper.getFX(ResourceLocation.parse("photon:crease_of_creation_particle"));
+    FX CELESTIAL_STARBOARD_FX = FXHelper.getFX(ResourceLocation.parse("photon:celestial_starboard_trail"));
+    FX LIGHTNING_STRIKE_BURST_FX = FXHelper.getFX(ResourceLocation.parse("photon:lightning_strike_burst"));
+    FX LIGHTNING_AURA_FX = FXHelper.getFX(ResourceLocation.parse("photon:lightning_aura"));
+    FX LIGHTNING_TRAIL_FX = FXHelper.getFX(ResourceLocation.parse("photon:lightning_trail"));
+    FX GRAVITY_FIELD_UP_FX = FXHelper.getFX(ResourceLocation.parse("photon:gravity_field_up"));
+    FX GRAVITY_FIELD_DOWN_FX = FXHelper.getFX(ResourceLocation.parse("photon:gravity_field_down"));
+    FX RAINBOW_TRAIL_FX = FXHelper.getFX(ResourceLocation.parse("photon:rainbow_trail"));
+    FX ABYSS_TRAIL_FX = FXHelper.getFX(ResourceLocation.parse("photon:abyss_trail"));
+    FX RUINED_AURA_FX = FXHelper.getFX(ResourceLocation.parse("photon:ruined_particle"));
 
     enum EXPLOSION_TYPES {
         DEFAULT,
@@ -29,6 +34,5 @@ public interface ModResources {
         HOLY
     }
 
-    String CUSTOM_MODEL_DATA = "CustomModelData";
 
 }

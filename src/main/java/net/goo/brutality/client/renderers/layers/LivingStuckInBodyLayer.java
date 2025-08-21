@@ -30,7 +30,7 @@ public abstract class LivingStuckInBodyLayer <T extends LivingEntity, M extends 
 			if (i > 0) {
 				for (int j = 0; j < i; ++j) {
 					pPoseStack.pushPose();
-					ModelPart modelpart = ((IRandomModelPart) this.getParentModel()).armament$getRandomModelPart(randomsource);
+					ModelPart modelpart = ((IRandomModelPart) this.getParentModel()).brutality$getRandomModelPart(randomsource);
 					ModelPart.Cube modelpart$cube = modelpart.getRandomCube(randomsource);
 					modelpart.translateAndRotate(pPoseStack);
 					float f = randomsource.nextFloat();

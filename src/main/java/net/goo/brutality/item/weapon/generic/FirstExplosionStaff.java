@@ -3,11 +3,6 @@ package net.goo.brutality.item.weapon.generic;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.projectile.ray.ExplosionRay;
 import net.goo.brutality.item.base.BrutalityGenericItem;
-import net.goo.brutality.network.ClientboundEnhancedParticlePacket;
-import net.goo.brutality.network.ClientboundParticlePacket;
-import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.particle.custom.ExplosionAmbientParticle;
-import net.goo.brutality.particle.custom.flat.ExplosionMagicCircleParticle;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.ModExplosionHelper;
@@ -87,18 +82,18 @@ public class FirstExplosionStaff extends BrutalityGenericItem {
             randYaw = pLevel.random.nextIntBetweenInclusive(0, 361);
 
             for (int i = 0; i < 2; i++) {
-                PacketHandler.sendToServer(new ClientboundEnhancedParticlePacket(
-                        pPlayer.getX(),
-                        pPlayer.getY() + 0.1,
-                        pPlayer.getZ(),
-                        new ExplosionMagicCircleParticle.ParticleData(
-                                pPlayer.getId(),
-                                1,
-                                0,
-                                0,
-                                0, i == 1, true
-                        )
-                ));
+//                PacketHandler.sendToServer(new ClientboundExactParticlePacket(
+//                        pPlayer.getX(),
+//                        pPlayer.getY() + 0.1,
+//                        pPlayer.getZ(),
+//                        new ExplosionMagicCircleParticle.ParticleData(
+//                                pPlayer.getId(),
+//                                1,
+//                                0,
+//                                0,
+//                                0, i == 1, true
+//                        )
+//                ));
 
             }
         }
@@ -125,18 +120,18 @@ public class FirstExplosionStaff extends BrutalityGenericItem {
         Vec3 position = new Vec3(startPos.x + xOffset, startPos.y + height, startPos.z + zOffset);
 
 
-        PacketHandler.sendToNearbyClients(level, position.x, position.y, position.z, 128, new ClientboundParticlePacket(
-                new ExplosionMagicCircleParticle.ParticleData(
-                        player.getId(),
-                        level.random.nextIntBetweenInclusive(5, 50),
-                        randPitch,
-                        randYaw,
-                        0, level.random.nextBoolean(), false
-                ), true, (float) position.x, (float) position.y, (float) position.z,
-                0, 0, 0,
-                0, 0, 0,
-                1
-        ));
+//        PacketHandler.sendToNearbyClients(level, position.x, position.y, position.z, 128, new ClientboundParticlePacket(
+//                new ExplosionMagicCircleParticle.ParticleData(
+//                        player.getId(),
+//                        level.random.nextIntBetweenInclusive(5, 50),
+//                        randPitch,
+//                        randYaw,
+//                        0, level.random.nextBoolean(), false
+//                ), true, (float) position.x, (float) position.y, (float) position.z,
+//                0, 0, 0,
+//                0, 0, 0,
+//                1
+//        ));
 
     }
 
@@ -196,15 +191,15 @@ public class FirstExplosionStaff extends BrutalityGenericItem {
                     pPlayer.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, fatigueTime, 1));
                     pPlayer.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, fatigueTime, 1));
 
-                    PacketHandler.sendToAllClients(new ClientboundEnhancedParticlePacket(
-                            targetBlockPos.getCenter().x(),
-                            targetBlockPos.getCenter().y(),
-                            targetBlockPos.getCenter().z(),
-                            new ExplosionAmbientParticle.ParticleData(
-                                    pPlayer.getId(),
-                                    explosionSize * 2F
-                            )
-                    ));
+//                    PacketHandler.sendToAllClients(new ClientboundEnhancedParticlePacket(
+//                            targetBlockPos.getCenter().x(),
+//                            targetBlockPos.getCenter().y(),
+//                            targetBlockPos.getCenter().z(),
+//                            new ExplosionAmbientParticle.ParticleData(
+//                                    pPlayer.getId(),
+//                                    explosionSize * 2F
+//                            )
+//                    ));
 
 
                     ExplosionRay explosionRay = new ExplosionRay(BrutalityModEntities.EXPLOSION_RAY.get(), pLevel);

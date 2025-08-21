@@ -13,14 +13,14 @@ import java.util.List;
 @Mixin(HierarchicalModel.class)
 public abstract class HierarchicalModelMixin implements net.goo.brutality.client.models.IRandomModelPart {
 	@Unique
-	private List<ModelPart> armament$parts;
+	private List<ModelPart> brutality$parts;
 
 	@Unique
-	public ModelPart armament$getRandomModelPart(RandomSource paramRandom) {
-		if (this.armament$parts == null) {
-			this.armament$parts = this.root().getAllParts().filter((p_170824_) -> !p_170824_.isEmpty()).collect(ImmutableList.toImmutableList());
+	public ModelPart brutality$getRandomModelPart(RandomSource paramRandom) {
+		if (this.brutality$parts == null) {
+			this.brutality$parts = this.root().getAllParts().filter((p_170824_) -> !p_170824_.isEmpty()).collect(ImmutableList.toImmutableList());
 		}
-		return this.armament$parts.get(paramRandom.nextInt(this.armament$parts.size()));
+		return this.brutality$parts.get(paramRandom.nextInt(this.brutality$parts.size()));
 	}
 
 	@Shadow

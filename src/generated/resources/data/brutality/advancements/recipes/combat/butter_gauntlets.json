@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_hellrok_gauntlet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "terramity:hellrok_gauntlet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brutality:butter_gauntlets"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_hellrok_gauntlet",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brutality:butter_gauntlets"
+    ]
+  },
+  "sends_telemetry_event": false
+}

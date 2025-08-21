@@ -148,11 +148,11 @@ public interface IBrutalitySpell {
     boolean onCast(Player player, ItemStack stack, int spellLevel);
 
 
-    default float getFinalDamage(LivingEntity caster, IBrutalitySpell spell, int spellLevel) {
-        return getBaseDamage() + getDamageLevelScaling() * getActualSpellLevel(caster, spell, spellLevel);
+    default float getFinalDamage(LivingEntity caster, int spellLevel) {
+        return getBaseDamage() + getDamageLevelScaling() * getActualSpellLevel(caster, this, spellLevel);
     }
 
-    default float getFinalDamage(int spellLevel) {
+    default float getFinalDamageWithoutAttributes(int spellLevel) {
         return getBaseDamage() + getDamageLevelScaling() * spellLevel;
     }
 

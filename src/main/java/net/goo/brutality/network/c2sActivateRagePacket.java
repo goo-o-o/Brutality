@@ -27,7 +27,7 @@ public class c2sActivateRagePacket {
     public static void handle(c2sActivateRagePacket packet, Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
-            System.out.println("packet received");
+//            System.out.println("packet received");
             ServerPlayer sender = context.getSender();
             if (sender == null) return;
 

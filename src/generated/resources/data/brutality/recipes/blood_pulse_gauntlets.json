@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "brutality:unbridled_rage"
+    },
+    "#": {
+      "item": "terramity:spiteful_soul"
+    },
+    "%": {
+      "item": "terramity:diamond_gauntlet"
+    },
+    "@": {
+      "item": "terramity:chthonic_crystal"
+    }
+  },
+  "pattern": [
+    "#@#",
+    "!%!",
+    " @ "
+  ],
+  "result": {
+    "item": "brutality:blood_pulse_gauntlets"
+  },
+  "show_notification": true
+}

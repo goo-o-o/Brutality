@@ -4,9 +4,7 @@ import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.s2cSyncCapabilitiesPacket;
-import net.goo.brutality.particle.providers.TrailParticleData;
 import net.goo.brutality.registry.BrutalityCapabilities;
-import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -107,7 +105,6 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
                 }
                 stack.getOrCreateTag().putInt("target", target.getId());
             }
-
         }
         return InteractionResultHolder.pass(pPlayer.getItemInHand(pUsedHand));
     }
@@ -144,6 +141,10 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
     public boolean onDroppedByPlayer(ItemStack item, Player player) {
         if (player.level() instanceof ServerLevel serverLevel) {
             stopTriggeredAnim(player, GeoItem.getOrAssignId(item, serverLevel), "controller_2", "use");
+
+//            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
+//                    ModUtils.removeFX(player, CREASE_OF_CREATION_FX)
+//            );
 
             int targetId = item.getOrCreateTag().getInt("target");
             Entity target = serverLevel.getEntity(targetId);
@@ -202,6 +203,7 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
         if (!(player instanceof Player)) return;
         if (level.isClientSide()) return;
 
+
         int targetId = stack.getOrCreateTag().getInt("target");
 
         Entity target = level.getEntity(targetId);
@@ -211,7 +213,6 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
         target.getCapability(BrutalityCapabilities.ENTITY_SHOULD_ROTATE_CAP).ifPresent(cap -> {
             if (!cap.isShouldRotate()) {
                 cap.setShouldRotate(true);
-//                System.out.println("set should rotate");
                 PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(targetId, target));
             }
         });
@@ -249,36 +250,25 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
         }
     }
 
-
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (pLevel instanceof ServerLevel serverLevel)
-            if (pIsSelected) {
-                if (serverLevel.getGameTime() % 20 == 0) {
+        if (pLevel instanceof ServerLevel && !pIsSelected)
 
+            if (pStack.getOrCreateTag().contains("target")) {
 
-                    Vec3 viewVec = pEntity.getViewVector(1F).normalize().scale(1.5F);
+                int targetId = pStack.getOrCreateTag().getInt("target");
+                pStack.getOrCreateTag().remove("target");
 
-                    serverLevel.sendParticles((new TrailParticleData(BrutalityModParticles.CREASE_OF_CREATION_PARTICLE.get(),
-                            0.5F, 0.3F, 1f, 1, 0.5F, pEntity.getId(), 20)),
-                            pEntity.getX() - viewVec.x, pEntity.getY() + pEntity.getBbHeight() / 2, pEntity.getZ() - viewVec.y, 1, 0.5, 0.5, 0.5, 0);
-                }
-            } else {
-                if (pStack.getOrCreateTag().contains("target")) {
+                Entity target = pLevel.getEntity(targetId);
+                if (target == null) return;
 
-                    int targetId = pStack.getOrCreateTag().getInt("target");
-                    pStack.getOrCreateTag().remove("target");
-
-                    Entity target = pLevel.getEntity(targetId);
-                    if (target == null) return;
-
-                    DelayedTaskScheduler.queueServerWork(30, () ->
-                            target.getCapability(BrutalityCapabilities.ENTITY_SHOULD_ROTATE_CAP).ifPresent(cap -> {
-                                cap.setShouldRotate(false);
-                                PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(targetId, target));
-                            }));
-                }
+                DelayedTaskScheduler.queueServerWork(30, () ->
+                        target.getCapability(BrutalityCapabilities.ENTITY_SHOULD_ROTATE_CAP).ifPresent(cap -> {
+                            cap.setShouldRotate(false);
+                            PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(targetId, target));
+                        }));
             }
+
     }
 }
 

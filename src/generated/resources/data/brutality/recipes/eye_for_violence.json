@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "brutality:unbridled_rage"
+    },
+    "#": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "pattern": [
+    " ! ",
+    "!#!",
+    " ! "
+  ],
+  "result": {
+    "item": "brutality:eye_for_violence"
+  },
+  "show_notification": true
+}

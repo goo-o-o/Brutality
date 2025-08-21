@@ -54,7 +54,6 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static net.goo.brutality.util.ModResources.CUSTOM_MODEL_DATA;
 import static net.goo.brutality.util.helpers.AttributeHelper.ATTACK_DAMAGE_BONUS;
 
 @Mixin(Player.class)
@@ -157,7 +156,7 @@ public abstract class PlayerMixin extends LivingEntity {
 
         if (item instanceof ShadowstepSword) {
             if (ModUtils.isPlayerBehind(playerAttacker, livingVictim, 30)) {
-                modifiedAmount[0] *= 5;
+                modifiedAmount[0] *= 7;
             }
         } else if (item instanceof RhittaAxe) {
             modifiedAmount[0] += RhittaAxe.computeAttackDamageBonus(playerAttacker.level());
@@ -173,11 +172,11 @@ public abstract class PlayerMixin extends LivingEntity {
             livingVictim.invulnerableTime = 0;
 
         } else if (item instanceof DarkinScythe) {
-            if (stack.getOrCreateTag().getInt(CUSTOM_MODEL_DATA) == 1) {
+            if (ModUtils.getTextureIdx(stack) == 1) {
                 livingVictim.invulnerableTime = 0;
                 float magicDamage = modifiedAmount[0] / 4;
                 livingVictim.hurt(playerAttacker.damageSources().indirectMagic(playerAttacker, null), magicDamage);
-            } else if (stack.getOrCreateTag().getInt(CUSTOM_MODEL_DATA) == 2) {
+            } else if (ModUtils.getTextureIdx(stack) == 2) {
                 playerAttacker.heal(modifiedAmount[0] * 0.2F);
             }
         }
@@ -213,7 +212,7 @@ public abstract class PlayerMixin extends LivingEntity {
                 }
             });
 
-            handler.findFirstCurio(BrutalityModItems.BUTTER_GAUNTLETS_HANDS.get()).ifPresent(slot -> {
+            handler.findFirstCurio(BrutalityModItems.BUTTER_GAUNTLETS.get()).ifPresent(slot -> {
                 if (item.getDefaultInstance().is(ModTags.Items.GASTRONOMIST_ITEMS)) {
                     if (!playerAttacker.getCooldowns().isOnCooldown(slot.stack().getItem())) {
 //                    System.out.println("Not on cd");
@@ -287,7 +286,7 @@ public abstract class PlayerMixin extends LivingEntity {
                 livingVictim.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 20, 0));
                 livingVictim.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 0));
             });
-            handler.findFirstCurio(BrutalityModItems.BRAIN_ROT_HEAD.get()).ifPresent(slot -> {
+            handler.findFirstCurio(BrutalityModItems.BRAIN_ROT.get()).ifPresent(slot -> {
                 livingVictim.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 80, 0));
             });
 

@@ -5,5 +5,5 @@ import net.minecraft.util.RandomSource;
 // Thanks to PierceArrow mod
 
 public interface IRandomModelPart {
-	ModelPart armament$getRandomModelPart(RandomSource paramRandom);
+	ModelPart brutality$getRandomModelPart(RandomSource paramRandom);
 }

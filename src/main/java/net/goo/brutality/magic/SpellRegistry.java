@@ -1,10 +1,9 @@
 package net.goo.brutality.magic;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.magic.spells.brimwielder.AnnihilationSpell;
 import net.goo.brutality.magic.spells.celestia.*;
-import net.goo.brutality.magic.spells.cosmic.CosmicCataclysmSpell;
-import net.goo.brutality.magic.spells.cosmic.MeteorShowerSpell;
-import net.goo.brutality.magic.spells.cosmic.GravitokinesisSpell;
+import net.goo.brutality.magic.spells.cosmic.*;
 import net.goo.brutality.magic.spells.voidwalker.*;
 import net.minecraft.resources.ResourceLocation;
 
@@ -15,7 +14,7 @@ import java.util.Map;
 public class SpellRegistry {
     public static final Map<ResourceLocation, IBrutalitySpell> SPELLS = new HashMap<>();
 
-    public static void register(IBrutalitySpell spell) {
+    private static void register(IBrutalitySpell spell) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, spell.getSpellName().toLowerCase(Locale.ROOT));
         SPELLS.put(id, spell);
     }
@@ -40,5 +39,11 @@ public class SpellRegistry {
         register(new MeteorShowerSpell());
         register(new GravitokinesisSpell());
         register(new CosmicCataclysmSpell());
+        register(new StarStreamSpell());
+        register(new StarBurstSpell());
+        register(new SingularityShiftSpell());
+
+
+        register(new AnnihilationSpell());
     }
 }

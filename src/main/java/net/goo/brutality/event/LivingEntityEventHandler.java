@@ -94,7 +94,7 @@ public class LivingEntityEventHandler {
 
                 // Attacker is Living Entity
                 CuriosApi.getCuriosInventory(livingAttacker).ifPresent(handler -> {
-                    handler.findFirstCurio(BrutalityModItems.DUELING_GLOVE_HANDS.get()).ifPresent(slot -> {
+                    handler.findFirstCurio(BrutalityModItems.DUELING_GLOVE.get()).ifPresent(slot -> {
                         LivingEntity nearestEntity = level.getNearestEntity(
                                 LivingEntity.class, TargetingConditions.DEFAULT, livingAttacker, livingAttacker.getX(), livingAttacker.getY(), livingAttacker.getZ(), livingAttacker.getBoundingBox().inflate(100));
 
@@ -173,7 +173,6 @@ public class LivingEntityEventHandler {
                 });
 
 
-
                 // LIVING VICTIM FROM LIVING ATTACKER START ===============================================
                 if (livingVictim.hasEffect(BrutalityModMobEffects.STONEFORM.get())) {
                     int amp = Objects.requireNonNull(livingVictim.getEffect(BrutalityModMobEffects.STONEFORM.get())).getAmplifier();
@@ -183,7 +182,7 @@ public class LivingEntityEventHandler {
 
                 CuriosApi.getCuriosInventory(livingVictim).ifPresent(handler -> {
 
-                    handler.findFirstCurio(BrutalityModItems.DUELING_GLOVE_HANDS.get()).ifPresent(slot -> {
+                    handler.findFirstCurio(BrutalityModItems.DUELING_GLOVE.get()).ifPresent(slot -> {
 
                         List<LivingEntity> nearbyEntities = level.getEntitiesOfClass(LivingEntity.class, livingVictim.getBoundingBox().inflate(100),
                                 e -> e != livingVictim && !(e instanceof ArmorStand));
@@ -227,7 +226,7 @@ public class LivingEntityEventHandler {
                         });
 
 
-                        handler.findFirstCurio(BrutalityModItems.NANOMACHINES_HANDS.get()).ifPresent(slot -> {
+                        handler.findFirstCurio(BrutalityModItems.NANOMACHINES.get()).ifPresent(slot -> {
                             DamageSource source = event.getSource();
                             if (source.is(DamageTypeTags.BYPASSES_ARMOR)) return;
 
@@ -287,6 +286,7 @@ public class LivingEntityEventHandler {
                         BrutalitySpell.getStat(HolyMantleSpell.class, BrutalityTooltipHelper.SpellStatComponents.DEFENSE).levelDelta()) {
                     event.setCanceled(true);
                     livingVictim.removeEffect(BrutalityModMobEffects.GRACE.get());
+                    return;
                 }
             }
 
@@ -348,6 +348,15 @@ public class LivingEntityEventHandler {
             CuriosApi.getCuriosInventory(entity).ifPresent(handler -> {
                 handler.findFirstCurio(BrutalityModItems.CELESTIAL_STARBOARD.get()).ifPresent(slotResult ->
                         event.setCanceled(true));
+
+                handler.findFirstCurio(BrutalityModItems.HYPERBOLIC_FEATHER.get()).ifPresent(slotResult -> {
+                    if (!player.getCooldowns().isOnCooldown(slotResult.stack().getItem())) {
+                        player.getCooldowns().addCooldown(slotResult.stack().getItem(), 80);
+
+                        DelayedTaskScheduler.queueServerWork(1, () ->
+                                player.heal(2 * ModUtils.calculateFallDamage(player, event.getDistance(), event.getDamageMultiplier())));
+                    }
+                });
             });
 
             if (player.getMainHandItem().getItem() instanceof AtomicJudgementHammer) {
@@ -360,6 +369,7 @@ public class LivingEntityEventHandler {
 
         }
     }
+
 
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {

@@ -41,8 +41,6 @@ public class ForgeClientPlayerStateHandler {
     private static GraphicsStatus originalGfxMode;
     private static int originalRenderDist = -1;
     public static final ResourceLocation BIT_SHADER = ResourceLocation.fromNamespaceAndPath("minecraft", "shaders/post/bits.json");
-    public static final ResourceLocation PIXEL_SHADER = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "shaders/post/pixelate.json");
-    public static final ResourceLocation DEPTH_SHADER = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "shaders/post/depth.json");
 
 
     @SubscribeEvent
@@ -143,18 +141,20 @@ public class ForgeClientPlayerStateHandler {
         }
 
 
-        boolean playerNearEntityWithBork = StreamSupport.stream(level.entitiesForRendering().spliterator(), false)
-                .anyMatch(e -> e instanceof Player && ((Player) e).isHolding(BrutalityModItems.BLADE_OF_THE_RUINED_KING.get()) && e.distanceToSqr(player) <= 10 * 10);
+        if (BrutalityClientConfig.BORK_SKY_COLOR.get()) {
+
+            boolean playerNearEntityWithBork = StreamSupport.stream(level.entitiesForRendering().spliterator(), false)
+                    .anyMatch(e -> e instanceof Player && ((Player) e).isHolding(BrutalityModItems.BLADE_OF_THE_RUINED_KING.get()) && e.distanceToSqr(player) <= 10 * 10);
 
 
-        apply("bork", playerNearEntityWithBork,
-                new EnvironmentColorManager.ProximityColorSet().
-                        setColorAutoReset(EnvironmentColorManager.ColorType.FOG, new int[]{32, 92, 91}).
-                        setColorAutoReset(EnvironmentColorManager.ColorType.WATER, new int[]{32, 92, 91}).
-                        setColorAutoReset(EnvironmentColorManager.ColorType.GRASS, new int[]{32, 92, 91}).
-                        setColorAutoReset(EnvironmentColorManager.ColorType.FOLIAGE, new int[]{32, 92, 91}).
-                        setColorAutoReset(EnvironmentColorManager.ColorType.SKY, new int[]{0, 0, 0}));
-
+            apply("bork", playerNearEntityWithBork,
+                    new EnvironmentColorManager.ProximityColorSet().
+                            setColorAutoReset(EnvironmentColorManager.ColorType.FOG, new int[]{32, 92, 91}).
+                            setColorAutoReset(EnvironmentColorManager.ColorType.WATER, new int[]{32, 92, 91}).
+                            setColorAutoReset(EnvironmentColorManager.ColorType.GRASS, new int[]{32, 92, 91}).
+                            setColorAutoReset(EnvironmentColorManager.ColorType.FOLIAGE, new int[]{32, 92, 91}).
+                            setColorAutoReset(EnvironmentColorManager.ColorType.SKY, new int[]{0, 0, 0}));
+        }
 
         boolean rayNearby = StreamSupport.stream(level.entitiesForRendering().spliterator(), false)
                 .anyMatch(e -> e.getType() == BrutalityModEntities.EXPLOSION_RAY.get() && e.distanceToSqr(player) <= 50 * 50);

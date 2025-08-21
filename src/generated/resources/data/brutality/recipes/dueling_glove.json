@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:redstone"
+    },
+    "#": {
+      "item": "terramity:diamond_gauntlet"
+    },
+    "$": {
+      "item": "terramity:dimlite_ingot"
+    },
+    "@": {
+      "item": "terramity:sapphire"
+    }
+  },
+  "pattern": [
+    " @ ",
+    "!$!",
+    " # "
+  ],
+  "result": {
+    "item": "brutality:dueling_glove"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "1": {
+      "item": "terramity:onyx"
+    },
+    "2": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "3": {
+      "item": "terramity:topaz"
+    },
+    "4": {
+      "item": "terramity:ruby"
+    },
+    "5": {
+      "item": "minecraft:emerald"
+    },
+    "6": {
+      "item": "terramity:sapphire"
+    },
+    "@": {
+      "item": "minecraft:glass_bottle"
+    }
+  },
+  "pattern": [
+    "123",
+    "456",
+    " @ "
+  ],
+  "result": {
+    "item": "brutality:rainbow_sprinkles"
+  },
+  "show_notification": true
+}

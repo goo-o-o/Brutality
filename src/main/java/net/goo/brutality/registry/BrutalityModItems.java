@@ -23,6 +23,7 @@ import net.goo.brutality.item.curios.ring.RoadRunnersRing;
 import net.goo.brutality.item.curios.vanity.*;
 import net.goo.brutality.item.material.HighFrequencyAlloyItem;
 import net.goo.brutality.item.material.PocketBlackHoleItem;
+import net.goo.brutality.item.material.UnbridledRageItem;
 import net.goo.brutality.item.weapon.axe.OldGpuAxe;
 import net.goo.brutality.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.item.weapon.bow.ProvidenceBow;
@@ -37,10 +38,8 @@ import net.goo.brutality.item.weapon.sword.*;
 import net.goo.brutality.item.weapon.tome.*;
 import net.goo.brutality.item.weapon.trident.*;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -51,14 +50,35 @@ import java.util.List;
 import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.ItemDescriptionComponents.*;
 
 public class BrutalityModItems {
+
+    private static RegistryObject<Item> block(RegistryObject<Block> block) {
+        return ITEMS.register(block.getId().getPath(), () -> new BlockItem(block.get(), new Item.Properties()));
+    }
+
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, Brutality.MOD_ID);
 
     public static final RegistryObject<Item> POCKET_BLACK_HOLE = ITEMS.register("pocket_black_hole", () -> new PocketBlackHoleItem(new Item.Properties()));
     public static final RegistryObject<Item> HIGH_FREQUENCY_ALLOY = ITEMS.register("high_frequency_alloy", () -> new HighFrequencyAlloyItem(new Item.Properties()));
+    public static final RegistryObject<Item> UNBRIDLED_RAGE = ITEMS.register("unbridled_rage", () -> new UnbridledRageItem(new Item.Properties()));
 
 
     // region BlockItems
+//    public static final RegistryObject<Item> WATER_COOLER_ITEM =
+//            ITEMS.register("water_cooler", () ->
+//                    new WaterCoolerBlockItem(ModBlocks.WATER_COOLER_BLOCK.get(), new Item.Properties()));
+//
+    public static final RegistryObject<Item> WATER_COOLER_ITEM =
+            ITEMS.register("water_cooler", () ->
+                    new WaterCoolerBlockItem(ModBlocks.WATER_COOLER_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> COFFEE_MACHINE_ITEM =
+            ITEMS.register("coffee_machine", () ->
+                    new CoffeeMachineBlockItem(ModBlocks.COFFEE_MACHINE_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SUPER_SNIFFER_FIGURE_ITEM =
+            ITEMS.register("super_sniffer_figure", () ->
+                    new SuperSnifferFigureBlockItem(ModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get(), new Item.Properties()));
 
     // endregion
 
@@ -297,6 +317,18 @@ public class BrutalityModItems {
                     new BrutalityTooltipHelper.ItemDescriptionComponent(LORE, 1)
             )
     ));
+    public static final RegistryObject<Item> HYPERBOLIC_FEATHER = ITEMS.register("hyperbolic_feather", () -> new HyperbolicFeather(
+            Rarity.EPIC,
+            List.of(
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 2)
+            )
+    ));
+    public static final RegistryObject<Item> CARTON_OF_PRISM_SOLUTION_MILK = ITEMS.register("carton_of_prism_solution_milk", () -> new CartonOfPrismSolutionMilk(
+            ModRarities.MYTHIC,
+            List.of(
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 2)
+            )
+    ));
 
     public static final RegistryObject<Item> TRIAL_GUARDIAN_EYEBROWS = ITEMS.register("trial_guardian_eyebrows", () -> new TrialGuardianEyebrows(
             ModRarities.LEGENDARY,
@@ -338,14 +370,14 @@ public class BrutalityModItems {
             List.of(
             )
     ));
-    public static final RegistryObject<Item> NANOMACHINES_HANDS = ITEMS.register("nanomachines_hands", () -> new NanoMachines(
+    public static final RegistryObject<Item> NANOMACHINES = ITEMS.register("nanomachines", () -> new NanoMachines(
             ModRarities.MYTHIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(LORE, 1),
                     new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
             )
     ));
-    public static final RegistryObject<Item> DUELING_GLOVE_HANDS = ITEMS.register("dueling_glove_hands", () -> new DuelingGlove(
+    public static final RegistryObject<Item> DUELING_GLOVE = ITEMS.register("dueling_glove", () -> new DuelingGlove(
             ModRarities.MYTHIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 2)
@@ -385,7 +417,7 @@ public class BrutalityModItems {
             new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
     )
     ));
-    public static final RegistryObject<Item> BRAIN_ROT_HEAD = ITEMS.register("brain_rot", () -> new BrainRot(
+    public static final RegistryObject<Item> BRAIN_ROT = ITEMS.register("brain_rot", () -> new BrainRot(
             ModRarities.FABLED, List.of(
             new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
     )
@@ -431,7 +463,8 @@ public class BrutalityModItems {
     public static final RegistryObject<Item> SHADOWSTEP_SWORD = ITEMS.register("shadowstep", () -> new ShadowstepSword(
             Tiers.NETHERITE, -2, -2.6F,
             ModRarities.LEGENDARY, List.of(
-            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_RIGHT_CLICK, 1)
+            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_RIGHT_CLICK, 1),
+            new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
     )
     ));
     public static final RegistryObject<Item> CANOPY_OF_SHADOWS = ITEMS.register("canopy_of_shadows", () -> new CanopyOfShadowsItem(
@@ -490,7 +523,6 @@ public class BrutalityModItems {
     public static final RegistryObject<Item> SEVENTH_STAR_SWORD = ITEMS.register("seventh_star", () -> new SeventhStarSword(
             Tiers.NETHERITE, 10, -3.15F,
             ModRarities.FABLED, List.of(
-            new BrutalityTooltipHelper.ItemDescriptionComponent(LORE, 1),
             new BrutalityTooltipHelper.ItemDescriptionComponent(ON_RIGHT_CLICK, 1),
             new BrutalityTooltipHelper.ItemDescriptionComponent(ON_SHIFT_RIGHT_CLICK, 1),
             new BrutalityTooltipHelper.ItemDescriptionComponent(ON_SWING, 1)
@@ -706,7 +738,7 @@ public class BrutalityModItems {
                     new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
             )
     ));
-    public static final RegistryObject<Item> BUTTER_GAUNTLETS_HANDS = ITEMS.register("butter_gauntlets_hands", () -> new ButterGauntlets(
+    public static final RegistryObject<Item> BUTTER_GAUNTLETS = ITEMS.register("butter_gauntlets", () -> new ButterGauntlets(
             ModRarities.LEGENDARY,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 2)
@@ -1005,17 +1037,6 @@ public class BrutalityModItems {
                     new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
             )
     ));
-    public static final RegistryObject<Item> WATER_COOLER_ITEM =
-            ITEMS.register("water_cooler", () ->
-                    new WaterCoolerBlockItem(ModBlocks.WATER_COOLER_BLOCK.get(), new Item.Properties()));
-
-    public static final RegistryObject<Item> COFFEE_MACHINE_ITEM =
-            ITEMS.register("coffee_machine", () ->
-                    new CoffeeMachineBlockItem(ModBlocks.COFFEE_MACHINE_BLOCK.get(), new Item.Properties()));
-
-    public static final RegistryObject<Item> SUPER_SNIFFER_FIGURE_ITEM =
-            ITEMS.register("super_sniffer_figure", () ->
-                    new SuperSnifferFigureBlockItem(ModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get(), new Item.Properties()));
 
     // endregion
 

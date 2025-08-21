@@ -8,7 +8,7 @@
         "upswing": 0.5,
         "animation": "bettercombat:one_handed_punch",
         "swing_sound": {
-          "id": "armament:epic_punch_1"
+          "id": "brutality:epic_punch_1"
         }
       },
       {
@@ -16,15 +16,7 @@
         "upswing": 0.5,
         "animation": "bettercombat:one_handed_punch",
         "swing_sound": {
-          "id": "armament:epic_punch_3"
-        }
-      },
-      {
-        "hitbox": "FORWARD_BOX",
-        "upswing": 0.5,
-        "animation": "bettercombat:one_handed_punch",
-        "swing_sound": {
-          "id": "armament:epic_punch_3"
+          "id": "brutality:epic_punch_2"
         }
       }
     ]

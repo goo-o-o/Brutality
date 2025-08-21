@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "brutality:unbridled_rage"
+    },
+    "%": {
+      "item": "terramity:terramity_guidebook_icon"
+    },
+    "@": {
+      "item": "minecraft:sunflower"
+    }
+  },
+  "pattern": [
+    " @ ",
+    "!%!",
+    "!!!"
+  ],
+  "result": {
+    "item": "brutality:anger_management"
+  },
+  "show_notification": true
+}

@@ -27,4 +27,5 @@ public class BrutalityEntityRenderer<T extends Entity & BrutalityGeoEntity> exte
         return RenderType.entityTranslucentCull(texture);
     }
 
+
 }

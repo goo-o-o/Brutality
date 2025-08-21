@@ -1,9 +1,9 @@
 package net.goo.brutality.entity.projectile.trident.physics_projectile;
 
+import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractPhysicsTrident;
 import net.goo.brutality.entity.base.BrutalityAbstractTrident;
-import net.goo.brutality.particle.providers.TrailParticleData;
 import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
@@ -25,6 +25,8 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
+
+import static net.goo.brutality.util.ModResources.RAINBOW_TRAIL_FX;
 
 public class ThrownBiomechReactor extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
     private static final EntityDataAccessor<Integer> HOMING_TARGET_ID = SynchedEntityData.defineId(ThrownBiomechReactor.class, EntityDataSerializers.INT);
@@ -76,11 +78,16 @@ public class ThrownBiomechReactor extends BrutalityAbstractPhysicsTrident implem
     }
 
 
-
-
     @Override
     public void tick() {
+        if (firstTick && !(level() instanceof ServerLevel)) {
+//            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> {
+                EntityEffect rainbowTrail = new EntityEffect(RAINBOW_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
+                rainbowTrail.start();
+//            });
+        }
         super.tick();
+
         int cooldown = this.entityData.get(HOMING_COOLDOWN);
         if (cooldown > 0) {
             this.entityData.set(HOMING_COOLDOWN, cooldown - 1);
@@ -112,12 +119,6 @@ public class ThrownBiomechReactor extends BrutalityAbstractPhysicsTrident implem
                 }
 
             } else {
-
-                if (firstTick && level().isClientSide) {
-                    this.level().addParticle((new TrailParticleData(BrutalityModParticles.RAINBOW_TRAIL_PARTICLE.get(),
-                            1, 1, 1, 1,this.getBbHeight() * 0.75F, this.getId(), 10)),
-                            this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
-                }
 
                 Entity target = level().getEntity(this.entityData.get(HOMING_TARGET_ID));
 

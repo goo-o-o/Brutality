@@ -62,8 +62,8 @@ public class GravitokinesisSpell extends BrutalitySpell {
                     target.push(pushVec.x(), pushVec.y(), pushVec.z());
                     serverLevel.sendParticles(TerramityModParticleTypes.COSMIC_BOOM.get(), target.getX(), target.getY(0.5), target.getZ(),
                             1, 0.1, 0.1 ,0.1, 0);
-                    if (target instanceof Player) {
-                        ((ServerPlayer) player).connection.send(new ClientboundSetEntityMotionPacket(target));
+                    if (target instanceof ServerPlayer serverPlayer) {
+                        serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(target));
                     }
                 });
                 player.push(pullVec.x(), pullVec.y() + 0.25F, pullVec.z());
@@ -74,8 +74,8 @@ public class GravitokinesisSpell extends BrutalitySpell {
                     target.push(pullVec.x(), pullVec.y(), pullVec.z());
                     serverLevel.sendParticles(TerramityModParticleTypes.COSMIC_BOOM.get(), target.getX(), target.getY(0.5), target.getZ(),
                             1, 0.1, 0.1 ,0.1, 0);
-                    if (target instanceof Player) {
-                        ((ServerPlayer) player).connection.send(new ClientboundSetEntityMotionPacket(target));
+                    if (target instanceof ServerPlayer serverPlayer) {
+                        serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(target));
                     }
                 });
 

@@ -1,6 +1,6 @@
 package net.goo.brutality.magic.spells.cosmic;
 
-import net.goo.brutality.entity.spells.cosmic.CosmicMeteorEntity;
+import net.goo.brutality.entity.spells.cosmic.MeteorShowerEntity;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.ModUtils;
@@ -62,9 +62,8 @@ public class MeteorShowerSpell extends BrutalitySpell {
                     20,
                     Mth.nextFloat(serverLevel.random, -2, 2));
 
-            CosmicMeteorEntity spellEntity = new CosmicMeteorEntity(BrutalityModEntities.COSMIC_CATACLYSM_ENTITY.get(), serverLevel);
+            MeteorShowerEntity spellEntity = new MeteorShowerEntity(BrutalityModEntities.METEOR_SHOWER_ENTITY.get(), serverLevel);
             spellEntity.setSpellLevel(1);
-            spellEntity.setDamage(getFinalDamage(player, this, spellLevel));
             spellEntity.setPos(spawnPos);
             spellEntity.setOwner(player);
             spellEntity.addDeltaMovement(new Vec3(

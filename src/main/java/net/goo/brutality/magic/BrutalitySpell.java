@@ -77,12 +77,10 @@ public abstract class BrutalitySpell implements IBrutalitySpell {
      Instance sensitive method for {@code getStat}
      */
     public BrutalityTooltipHelper.SpellStatComponent getStat(BrutalityTooltipHelper.SpellStatComponents type) {
-        BrutalityTooltipHelper.SpellStatComponent stat = statMap.get(type);
-        if (stat == null) {
-            throw new IllegalArgumentException("Stat " + type + " not defined for spell " + name);
-        }
-        return stat;
+        return statMap.get(type);
     }
+
+
 
     @Override
     public MagicSchool getSchool() {

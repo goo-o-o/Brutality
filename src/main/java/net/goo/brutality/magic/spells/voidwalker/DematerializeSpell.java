@@ -53,7 +53,7 @@ public class DematerializeSpell extends BrutalitySpell {
             player.displayClientMessage(Component.translatable("spell.brutality.dematerialize.no_target_found"), true);
             return false;
         }
-        if (livingTarget.getHealth() > getFinalDamage(player, this, spellLevel)) {
+        if (livingTarget.getHealth() > getFinalDamage(player, spellLevel)) {
             player.displayClientMessage(Component.translatable("spell.brutality.dematerialize.too_much_health"), true);
             return false;
         }

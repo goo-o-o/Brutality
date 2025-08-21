@@ -87,6 +87,11 @@ public class BrutalityModMobEffects {
     public static final RegistryObject<MobEffect> LIGHT_BOUND = EFFECTS.register("light_bound",
             () -> new LightBoundEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{255, 253, 153})));
 
+    public static final RegistryObject<MobEffect> WEIGHTLESSNESS = EFFECTS.register("weightlessness",
+            () -> new WeightlessnessEffect(MobEffectCategory.NEUTRAL, BrutalityTooltipHelper.rgbToInt(new int[]{0, 200, 0}), -0.1));
+    public static final RegistryObject<MobEffect> HYPERGRAVITY = EFFECTS.register("hypergravity",
+            () -> new HypergravityEffect(MobEffectCategory.NEUTRAL, BrutalityTooltipHelper.rgbToInt(new int[]{200, 0, 0}), 0.25));
+
 
 
     public static void register(IEventBus eventBus) {

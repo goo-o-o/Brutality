@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "$": {
+      "item": "terramity:prism_solution_bucket"
+    },
+    "@": {
+      "item": "terramity:cardboard"
+    }
+  },
+  "pattern": [
+    " @ ",
+    "@$@",
+    " @ "
+  ],
+  "result": {
+    "item": "brutality:carton_of_prism_solution_milk"
+  },
+  "show_notification": true
+}

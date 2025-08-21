@@ -107,7 +107,7 @@ public class Envy extends BrutalityCurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
-//        super.appendHoverText(stack, world, tooltip, flag);
+        super.appendHoverText(stack, world, tooltip, flag);
         tooltip.add(Component.empty());
         tooltip.add(Component.translatable("curios.modifiers.charm").withStyle(ChatFormatting.GOLD));
 

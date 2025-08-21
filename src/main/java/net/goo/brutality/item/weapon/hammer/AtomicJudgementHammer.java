@@ -5,7 +5,6 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.config.BrutalityCommonConfig;
 import net.goo.brutality.item.base.BrutalityHammerItem;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.goo.brutality.util.helpers.ModExplosionHelper;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -37,7 +36,6 @@ public class AtomicJudgementHammer extends BrutalityHammerItem {
     }
 
 
-
     @Override
     public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
         Level level = pAttacker.level();
@@ -59,24 +57,11 @@ public class AtomicJudgementHammer extends BrutalityHammerItem {
             float basePower = (float) (player.getAttackStrengthScale(1F) * 10 * BrutalityCommonConfig.ATOMIC_JUDGEMENT_MULT.get());
             float radius = MathHelper.clamp(basePower, 1f, 100f); // Prevent extreme values
 
-            ModExplosionHelper.sendCustomExplode(
-                    EXPLOSION_TYPES.NUCLEAR,
-                    level,
-                    player,
-                    target.getX(),
-                    target.getY() + target.getBbHeight() / 5,
-                    target.getZ(),
-                    radius,
-                    false,
-                    BrutalityCommonConfig.ATOMIC_JUDGEMENT_GRIEFING.get() ?
-                            Level.ExplosionInteraction.BLOCK :
-                            Level.ExplosionInteraction.NONE,
-                    true
-            );
 
             int damage = Math.min(5, stack.getMaxDamage() - stack.getDamageValue());
             if (damage > 0) {
-                stack.hurtAndBreak(damage, target, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
+                if (!player.isCreative())
+                    stack.hurtAndBreak(damage, target, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
             }
         } catch (Exception e) {
             Brutality.LOGGER.error("Failed to execute atomic judgement explosion", e);
@@ -95,7 +80,6 @@ public class AtomicJudgementHammer extends BrutalityHammerItem {
     public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack) {
         return UseAnim.BOW;
     }
-
 
 
     @Override

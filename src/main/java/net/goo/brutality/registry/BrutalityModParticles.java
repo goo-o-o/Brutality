@@ -2,11 +2,7 @@ package net.goo.brutality.registry;
 
 import com.mojang.serialization.Codec;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.particle.base.*;
-import net.goo.brutality.particle.custom.*;
-import net.goo.brutality.particle.custom.flat.ExplosionMagicCircleParticle;
-import net.goo.brutality.particle.custom.flat.MurasamaSlash;
-import net.goo.brutality.particle.providers.TrailParticleData;
+import net.goo.brutality.particle.providers.FlatParticleData;
 import net.goo.brutality.particle.providers.WaveParticleData;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -84,15 +80,16 @@ public class BrutalityModParticles {
     public static final RegistryObject<SimpleParticleType> NUCLEAR_EXPLOSION_EMITTER =
             PARTICLE_TYPES.register("nuclear_explosion_emitter", () -> new SimpleParticleType(true));
 
-    public static final RegistryObject<SimpleParticleType> FLAT_PARTICLE =
-            PARTICLE_TYPES.register("flat_particle", () -> new SimpleParticleType(true));
-
+    public static final RegistryObject<SimpleParticleType> BLOOD_EXPLOSION_PARTICLE =
+            PARTICLE_TYPES.register("blood_explosion_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> BLOOD_EXPLOSION_EMITTER =
+            PARTICLE_TYPES.register("blood_explosion_emitter", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> BLOOD_PARTICLE =
+            PARTICLE_TYPES.register("blood_particle", () -> new SimpleParticleType(true));
 
 
     public static final RegistryObject<SimpleParticleType> TERRA_PARTICLE =
             PARTICLE_TYPES.register("terra_particle", () -> new SimpleParticleType(true));
-    public static final RegistryObject<SimpleParticleType> EXOBLADE_FLASH_PARTICLE =
-            PARTICLE_TYPES.register("exoblade_flash_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> BIOMECH_REACTOR_PARTICLE =
             PARTICLE_TYPES.register("biomech_reactor_particle", () -> new SimpleParticleType(true));
 
@@ -113,150 +110,57 @@ public class BrutalityModParticles {
             PARTICLE_TYPES.register("supernova_sweep_particle", () -> new SimpleParticleType(true));
 
 
-//    public static final RegistryObject<ParticleType<AbstractWorldAlignedTrailParticle.OrbData>> GENERIC_WORLD_ALIGNED_TRAIL_PARTICLE =
-//            PARTICLE_TYPES.register("generic_world_aligned_trail_particle", ()
-//                    -> new ParticleType<>(false, AbstractWorldAlignedTrailParticle.OrbData.DESERIALIZER) {
-//                @Override
-//                public Codec<AbstractWorldAlignedTrailParticle.OrbData> codec() {
-//                    return AbstractWorldAlignedTrailParticle.OrbData.CODEC(GENERIC_WORLD_ALIGNED_TRAIL_PARTICLE.get());
-//                }
-//            });
-
-    public static final RegistryObject<ParticleType<TrailParticleData>> TRAIL_PARTICLE = PARTICLE_TYPES.register("trail_particle", () ->
-            new ParticleType<>(false, TrailParticleData.DESERIALIZER) {
+    public static final RegistryObject<ParticleType<FlatParticleData<?>>> EXPLOSION_MAGIC_CIRCLE_PARTICLE = PARTICLE_TYPES.register("explosion_magic_circle", () ->
+            new ParticleType<>(false, FlatParticleData.DESERIALIZER) {
                 @Override
-                public @NotNull Codec<TrailParticleData> codec() {
-                    return TrailParticleData.CODEC;
+                public @NotNull Codec<FlatParticleData<?>> codec() { return FlatParticleData.CODEC;
                 }
             });
 
-    public static final RegistryObject<ParticleType<TrailParticleData>> RAINBOW_TRAIL_PARTICLE = PARTICLE_TYPES.register("rainbow_trail_particle", () ->
-            new ParticleType<>(false, TrailParticleData.DESERIALIZER) {
+    public static final RegistryObject<ParticleType<FlatParticleData<?>>> MURASAMA_SLASH_PARTICLE = PARTICLE_TYPES.register("murasama_slash_particle", () ->
+            new ParticleType<>(false, FlatParticleData.DESERIALIZER) {
                 @Override
-                public @NotNull Codec<TrailParticleData> codec() {
-                    return TrailParticleData.CODEC;
+                public @NotNull Codec<FlatParticleData<?>> codec() {
+                    return FlatParticleData.CODEC;
                 }
             });
 
-    public static final RegistryObject<ParticleType<TrailParticleData>> CELESTIAL_STARBOARD_PARTICLE = PARTICLE_TYPES.register("celestial_starboard_trail_particle", () ->
-            new ParticleType<>(false, TrailParticleData.DESERIALIZER) {
+    public static final RegistryObject<ParticleType<FlatParticleData<?>>> HEXING_CIRCLE_PARTICLE = PARTICLE_TYPES.register("hexing_star_particle", () ->
+            new ParticleType<>(false, FlatParticleData.DESERIALIZER) {
                 @Override
-                public @NotNull Codec<TrailParticleData> codec() {
-                    return TrailParticleData.CODEC;
+                public @NotNull Codec<FlatParticleData<?>> codec() {
+                    return FlatParticleData.CODEC;
                 }
             });
 
-    public static final RegistryObject<ParticleType<TrailParticleData>> RUINED_PARTICLE = PARTICLE_TYPES.register("ruined_particle", () ->
-            new ParticleType<>(false, TrailParticleData.DESERIALIZER) {
-                @Override
-                public @NotNull Codec<TrailParticleData> codec() {
-                    return TrailParticleData.CODEC;
-                }
-            });
-
-    public static final RegistryObject<ParticleType<TrailParticleData>> CREASE_OF_CREATION_PARTICLE = PARTICLE_TYPES.register("crease_of_creation_particle", () ->
-            new ParticleType<>(false, TrailParticleData.DESERIALIZER) {
-                @Override
-                public @NotNull Codec<TrailParticleData> codec() {
-                    return TrailParticleData.CODEC;
-                }
-            });
-
-    public static final RegistryObject<ParticleType<TrailParticleData>> TERRATOMERE_PARTICLE = PARTICLE_TYPES.register("terratomere_particle", () ->
-            new ParticleType<>(false, TrailParticleData.DESERIALIZER) {
-                @Override
-                public @NotNull Codec<TrailParticleData> codec() {
-                    return TrailParticleData.CODEC;
-                }
-            });
-
-
-
-
-
-    public static final RegistryObject<ParticleType<GenericParticleWithData.ParticleData>> GENERIC_PARTICLE_WITH_DATA =
-            PARTICLE_TYPES.register("generic_particle_with_data",
-                    () -> new ParticleType<>(false, GenericParticleWithData.ParticleData.DESERIALIZER) {
-                        @Override
-                        public Codec<GenericParticleWithData.ParticleData> codec() {
-                            return GenericParticleWithData.ParticleData.CODEC(GENERIC_PARTICLE_WITH_DATA.get());
-                        }
-                    });
-
-    public static final RegistryObject<ParticleType<ExplosionAmbientParticle.ParticleData>> EXPLOSION_AMBIENT_PARTICLE =
-            PARTICLE_TYPES.register("explosion_ambient_particle",
-                    () -> new ParticleType<>(false, ExplosionAmbientParticle.ParticleData.DESERIALIZER) {
-                        @Override
-                        public Codec<ExplosionAmbientParticle.ParticleData> codec() {
-                            return ExplosionAmbientParticle.ParticleData.CODEC(EXPLOSION_AMBIENT_PARTICLE.get());
-                        }
-                    });
-
-    public static final RegistryObject<ParticleType<FlatParticleWithData.ParticleData>> FLAT_PARTICLE_WITH_DATA =
-            PARTICLE_TYPES.register("generic_flat_particle_with_data",
-                    () -> new ParticleType<>(false, FlatParticleWithData.ParticleData.DESERIALIZER) {
-                        @Override
-                        public Codec<FlatParticleWithData.ParticleData> codec() {
-                            return FlatParticleWithData.ParticleData.CODEC(FLAT_PARTICLE_WITH_DATA.get());
-                        }
-                    });
-
-    public static final RegistryObject<ParticleType<GenericMagicCircleParticle.ParticleData>> GENERIC_MAGIC_CIRCLE_PARTICLE =
-            PARTICLE_TYPES.register("generic_magic_circle_particle",
-                    () -> new ParticleType<>(false, GenericMagicCircleParticle.ParticleData.DESERIALIZER) {
-                        @Override
-                        public Codec<GenericMagicCircleParticle.ParticleData> codec() {
-                            return GenericMagicCircleParticle.ParticleData.CODEC(GENERIC_MAGIC_CIRCLE_PARTICLE.get());
-                        }
-                    });
-
-    public static final RegistryObject<ParticleType<ExplosionMagicCircleParticle.ParticleData>> EXPLOSION_MAGIC_CIRCLE_PARTICLE =
-            PARTICLE_TYPES.register("explosion_magic_circle_particle",
-                    () -> new ParticleType<>(false, ExplosionMagicCircleParticle.ParticleData.DESERIALIZER) {
-                        @Override
-                        public Codec<ExplosionMagicCircleParticle.ParticleData> codec() {
-                            return ExplosionMagicCircleParticle.ParticleData.CODEC(EXPLOSION_MAGIC_CIRCLE_PARTICLE.get());
-                        }
-                    });
-
-    public static final RegistryObject<ParticleType<MurasamaSlash.ParticleData>> MURASAMA_SLASH_PARTICLE =
-            PARTICLE_TYPES.register("murasama_slash_particle",
-                    () -> new ParticleType<>(false, MurasamaSlash.ParticleData.DESERIALIZER) {
-                        @Override
-                        public Codec<MurasamaSlash.ParticleData> codec() {
-                            return MurasamaSlash.ParticleData.CODEC(MURASAMA_SLASH_PARTICLE.get());
-                        }
-                    });
-
-
-    public static final RegistryObject<ParticleType<WaveParticleData>> HEAL_WAVE = PARTICLE_TYPES.register("heal_wave", () ->
+    public static final RegistryObject<ParticleType<WaveParticleData<?>>> HEAL_WAVE = PARTICLE_TYPES.register("heal_wave", () ->
             new ParticleType<>(false, WaveParticleData.DESERIALIZER) {
                 @Override
-                public Codec<WaveParticleData> codec() {
+                public @NotNull Codec<WaveParticleData<?>> codec() {
                     return WaveParticleData.CODEC;
                 }
             });
 
-    public static final RegistryObject<ParticleType<WaveParticleData>> FROSTMOURNE_WAVE = PARTICLE_TYPES.register("frostmourne_wave", () ->
+    public static final RegistryObject<ParticleType<WaveParticleData<?>>> FROSTMOURNE_WAVE = PARTICLE_TYPES.register("frostmourne_wave", () ->
             new ParticleType<>(false, WaveParticleData.DESERIALIZER) {
                 @Override
-                public Codec<WaveParticleData> codec() {
+                public @NotNull Codec<WaveParticleData<?>> codec() {
                     return WaveParticleData.CODEC;
                 }
             });
 
-    public static final RegistryObject<ParticleType<WaveParticleData>> ANTIMATTER_WAVE = PARTICLE_TYPES.register("antimatter_wave", () ->
+    public static final RegistryObject<ParticleType<WaveParticleData<?>>> ANTIMATTER_WAVE = PARTICLE_TYPES.register("antimatter_wave", () ->
             new ParticleType<>(false, WaveParticleData.DESERIALIZER) {
                 @Override
-                public Codec<WaveParticleData> codec() {
+                public @NotNull Codec<WaveParticleData<?>> codec() {
                     return WaveParticleData.CODEC;
                 }
             });
 
-    public static final RegistryObject<ParticleType<WaveParticleData>> COSMIC_WAVE = PARTICLE_TYPES.register("cosmic_wave", () ->
+    public static final RegistryObject<ParticleType<WaveParticleData<?>>> COSMIC_WAVE = PARTICLE_TYPES.register("cosmic_wave", () ->
             new ParticleType<>(false, WaveParticleData.DESERIALIZER) {
                 @Override
-                public Codec<WaveParticleData> codec() {
+                public @NotNull Codec<WaveParticleData<?>> codec() {
                     return WaveParticleData.CODEC;
                 }
             });

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "brutality:unbridled_rage"
+    },
+    "#": {
+      "item": "terramity:chthonic_cursemark"
+    }
+  },
+  "pattern": [
+    " ! ",
+    "!#!",
+    " ! "
+  ],
+  "result": {
+    "item": "brutality:hate_sigil"
+  },
+  "show_notification": true
+}

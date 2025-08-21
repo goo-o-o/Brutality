@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brutality:seared_sugar_brooch"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_topaz_pickaxe": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "terramity:topaz_pickaxe"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_topaz_pickaxe",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brutality:seared_sugar_brooch"
+    ]
+  },
+  "sends_telemetry_event": false
+}

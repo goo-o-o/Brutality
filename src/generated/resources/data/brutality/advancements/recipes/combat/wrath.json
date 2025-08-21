@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brutality:wrath"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_unbridled_rage": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "brutality:unbridled_rage"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_unbridled_rage",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brutality:wrath"
+    ]
+  },
+  "sends_telemetry_event": false
+}

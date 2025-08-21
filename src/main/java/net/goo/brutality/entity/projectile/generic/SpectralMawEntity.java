@@ -1,18 +1,13 @@
 package net.goo.brutality.entity.projectile.generic;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.particle.providers.TrailParticleData;
-import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -80,14 +75,14 @@ public class SpectralMawEntity extends ThrowableProjectile implements BrutalityG
     @Override
     public void tick() {
 
-        if (!trailSpawned && this.level().isClientSide()) {
-            for (int i = 0; i < 4; i++)
-                this.level().addParticle(new TrailParticleData(BrutalityModParticles.RUINED_PARTICLE.get(), 0.18F, 0.47F, 0.44F, 1,
-                                this.getBbHeight() * 0.75F, this.getId(), 10), this.getRandomX(2),
-                        this.getRandomY() - this.getBbHeight() / 2, this.getRandomZ(2), 0, 0, 0);
-            trailSpawned = true;
-
-        }
+//        if (!trailSpawned && this.level().isClientSide()) {
+//            for (int i = 0; i < 4; i++)
+//                this.level().addParticle(new TrailParticleData(BrutalityModParticles.RUINED_PARTICLE.get(), 0.18F, 0.47F, 0.44F, 1,
+//                                this.getBbHeight() * 0.75F, this.getId(), 10), this.getRandomX(2),
+//                        this.getRandomY() - this.getBbHeight() / 2, this.getRandomZ(2), 0, 0, 0);
+//            trailSpawned = true;
+//
+//        }
 
         if (this.tickCount > this.getLifespan()) {
             this.discard();
@@ -97,13 +92,13 @@ public class SpectralMawEntity extends ThrowableProjectile implements BrutalityG
 
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
-        if (pResult.getEntity() instanceof LivingEntity entity && level() instanceof ServerLevel serverLevel) {
-            entity.addEffect(new MobEffectInstance(BrutalityModMobEffects.STUNNED.get(), 3, 0));
-                serverLevel.sendParticles(new TrailParticleData(BrutalityModParticles.RUINED_PARTICLE.get(), 0.18F, 0.47F, 0.44F, 1,
-                                this.getBbHeight() * 0.75F, this.getId(), 10),
-                        entity.getX(), entity.getY(), entity.getZ(), 10,
-                        0, 0, 0, 0);
-        }
+//        if (pResult.getEntity() instanceof LivingEntity entity && level() instanceof ServerLevel serverLevel) {
+//            entity.addEffect(new MobEffectInstance(BrutalityModMobEffects.STUNNED.get(), 3, 0));
+//                serverLevel.sendParticles(new TrailParticleData(BrutalityModParticles.RUINED_PARTICLE.get(), 0.18F, 0.47F, 0.44F, 1,
+//                                this.getBbHeight() * 0.75F, this.getId(), 10),
+//                        entity.getX(), entity.getY(), entity.getZ(), 10,
+//                        0, 0, 0, 0);
+//        }
 
         this.level().playSound(this, this.getOnPos(), SoundEvents.SOUL_ESCAPE, SoundSource.HOSTILE, 10, Mth.nextFloat(level().random, 0.5F, 1.5F));
 

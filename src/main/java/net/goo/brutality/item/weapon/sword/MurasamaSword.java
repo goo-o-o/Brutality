@@ -2,7 +2,7 @@ package net.goo.brutality.item.weapon.sword;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalitySwordItem;
-import net.goo.brutality.particle.custom.flat.MurasamaSlash;
+import net.goo.brutality.particle.providers.FlatParticleData;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
@@ -66,13 +66,17 @@ public class MurasamaSword extends BrutalitySwordItem {
             return;
         }
 
-        for (int i = 0; i < 10; i++)
-            ModUtils.sendParticles(serverLevel, new MurasamaSlash.ParticleData(false, 0, 0, 0,
-                            pPlayer.getId(), Mth.nextFloat(random, 3f, 12f),
-                            random.nextIntBetweenInclusive(-90, 90),
-                            random.nextIntBetweenInclusive(-90, 90),
-                            random.nextIntBetweenInclusive(-90, 90)), true, pPlayer,
+        for (int i = 0; i < 10; i++) {
+            FlatParticleData<?> data = new FlatParticleData<>(BrutalityModParticles.MURASAMA_SLASH_PARTICLE.get(),
+                    Mth.nextFloat(random, 3F, 12F),
+                    random.nextIntBetweenInclusive(-90, 90),
+                    random.nextIntBetweenInclusive(-90, 90),
+                    random.nextIntBetweenInclusive(-90, 90)
+            );
+//            PacketHandler.sendToServer(new ClientboundParticlePacket(data, true, (float) pPlayer.getX(), (float) pPlayer.getY(), (float) pPlayer.getZ(), 3.5F, 3.5F, 3.5F, 0, 0, 0, 1));
+            ModUtils.sendParticles(serverLevel, data, true, pPlayer,
                     3.5, 3.5, 3.5, 1, 0);
+        }
 
         pPlayer.getCooldowns().addCooldown(pStack.getItem(), 60);
 

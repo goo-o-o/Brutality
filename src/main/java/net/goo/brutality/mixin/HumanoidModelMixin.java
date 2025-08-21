@@ -28,15 +28,15 @@ import java.util.function.Function;
 public class HumanoidModelMixin implements net.goo.brutality.client.models.IRandomModelPart {
 
 	@Unique
-	private List<ModelPart> armament$parts;
+	private List<ModelPart> brutality$parts;
 
 	@Inject(method = "<init>(Lnet/minecraft/client/model/geom/ModelPart;Ljava/util/function/Function;)V", at = @At("TAIL"))
 	public void onConstructor(ModelPart p_170679_, Function<ResourceLocation, RenderType> p_170680_, CallbackInfo callbackInfo) {
-		this.armament$parts = p_170679_.getAllParts().filter((p_170824_) -> !p_170824_.isEmpty()).collect(ImmutableList.toImmutableList());
+		this.brutality$parts = p_170679_.getAllParts().filter((p_170824_) -> !p_170824_.isEmpty()).collect(ImmutableList.toImmutableList());
 	}
 	@Override
-	public ModelPart armament$getRandomModelPart(RandomSource paramRandom) {
-		return this.armament$parts.get(paramRandom.nextInt(this.armament$parts.size()));
+	public ModelPart brutality$getRandomModelPart(RandomSource paramRandom) {
+		return this.brutality$parts.get(paramRandom.nextInt(this.brutality$parts.size()));
 	}
 
 	@Unique

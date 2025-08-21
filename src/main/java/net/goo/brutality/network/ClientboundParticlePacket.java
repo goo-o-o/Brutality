@@ -26,6 +26,11 @@ public class ClientboundParticlePacket {
     private final boolean overrideLimiter;
     private final ParticleOptions particle;
 
+    /**
+     * Allows the sending of particles from the client side to all other clients through the server
+     * This is the non-exacting version, with Gaussian offset
+     * Works exactly the same as ServerLevel#sendParticles() but called on the client
+     */
     public <T extends ParticleOptions> ClientboundParticlePacket(T pParticle, boolean pOverrideLimiter, float pX, float pY, float pZ, float pXDist, float pYDist, float pZDist, float xSpeed, float ySpeed, float zSpeed, int pCount) {
         this.particle = pParticle;
         this.overrideLimiter = pOverrideLimiter;
@@ -74,7 +79,12 @@ public class ClientboundParticlePacket {
     }
 
     private <T extends ParticleOptions> T readParticle(FriendlyByteBuf pBuffer, ParticleType<T> pParticleType) {
-        return pParticleType.getDeserializer().fromNetwork(pParticleType, pBuffer);
+        try {
+            return pParticleType.getDeserializer().fromNetwork(pParticleType, pBuffer);
+        } catch (Exception e) {
+            LOGGER.error("Failed to deserialize particle type {}: {}", pParticleType, e.getMessage());
+            throw e; // Re-throw to help debug
+        }
     }
 
     public static void handle(ClientboundParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
@@ -90,7 +100,7 @@ public class ClientboundParticlePacket {
                 try {
                     level.addParticle(packet.particle, packet.overrideLimiter, packet.x + xOffset, packet.y + yOffset, packet.z + zOffset, packet.xSpeed, packet.ySpeed, packet.zSpeed);
                 } catch (Throwable throwable) {
-                    LOGGER.warn("Could not spawn particle effect {}", packet.particle);
+                    LOGGER.warn("Could not spawn particle effect {}: {}", packet.particle, throwable.getMessage());
                     return;
                 }
 

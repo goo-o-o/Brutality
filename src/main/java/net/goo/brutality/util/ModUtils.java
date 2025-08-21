@@ -1,5 +1,9 @@
 package net.goo.brutality.util;
 
+import com.lowdragmc.photon.client.fx.EntityEffect;
+import com.lowdragmc.photon.client.fx.FX;
+import com.lowdragmc.photon.client.fx.FXRuntime;
+import net.goo.brutality.entity.explosion.BrutalityExplosion;
 import net.goo.brutality.particle.providers.WaveParticleData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -10,33 +14,31 @@ import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -47,31 +49,120 @@ import java.util.stream.Collectors;
 public class ModUtils {
     protected static final RandomSource random = RandomSource.create();
 
-    public static List<? extends Entity> getEntitiesInSphere(Entity origin, @Nullable Predicate<? super Entity> predicate, double distance) {
-        List<? extends Entity> aabbEntities = predicate == null ?
-                origin.level().getEntities(origin, origin.getBoundingBox().inflate(distance)) :
-                origin.level().getEntities(origin, origin.getBoundingBox().inflate(distance), predicate);
-        return aabbEntities.stream().filter(entity -> entity.distanceTo(origin) < distance).toList();
+    public static Explosion explode(BrutalityExplosion explosion, Level level, boolean spawnParticles) {
+        try {
+            if (!ForgeEventFactory.onExplosionStart(level, explosion)) {
+                explosion.explode();
+                explosion.finalizeExplosion(spawnParticles);
+            }
+
+            return explosion;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create explosion of type " + explosion, e);
+        }
     }
 
-    public static <T extends Entity> List<T> getEntitiesInSphere(Class<T> clazz, Entity origin, Predicate<? super Entity> predicate, double distance) {
+    public static Explosion.BlockInteraction getCorrectExplosionInteraction(Level level, Entity source, Level.ExplosionInteraction interaction) {
+        switch (interaction) {
+            case NONE -> {
+                return Explosion.BlockInteraction.KEEP;
+            }
+            case BLOCK -> {
+                return level.getDestroyType(GameRules.RULE_BLOCK_EXPLOSION_DROP_DECAY);
+            }
+            case MOB -> {
+                return ForgeEventFactory.getMobGriefingEvent(level, source) ? level.getDestroyType(GameRules.RULE_MOB_EXPLOSION_DROP_DECAY) : Explosion.BlockInteraction.KEEP;
+            }
+            case TNT -> {
+                return level.getDestroyType(GameRules.RULE_TNT_EXPLOSION_DROP_DECAY);
+            }
+            default -> throw new IncompatibleClassChangeError();
+        }
+    }
+
+    public static int calculateFallDamage(LivingEntity living, float pFallDistance, float pDamageMultiplier) {
+        if (living.getType().is(EntityTypeTags.FALL_DAMAGE_IMMUNE)) {
+            return 0;
+        } else {
+            MobEffectInstance mobeffectinstance = living.getEffect(MobEffects.JUMP);
+            float f = mobeffectinstance == null ? 0.0F : (float) (mobeffectinstance.getAmplifier() + 1);
+            return Mth.ceil((pFallDistance - 3.0F - f) * pDamageMultiplier);
+        }
+    }
+
+    public static void removeFX(Entity entity, FX fx) {
+        List<EntityEffect> effects = EntityEffect.CACHE.get(entity);
+        if (effects == null) return;
+
+        boolean hasEffect = effects.stream().anyMatch(effect -> effect.getFx().equals(fx));
+        if (!hasEffect) return;
+
+        Iterator<EntityEffect> iter = effects.iterator();
+        while (iter.hasNext()) {
+            EntityEffect nextEffect = iter.next();
+            FX nextFX = nextEffect.getFx();
+
+            if (nextFX != null && nextFX.equals(fx)) {
+                iter.remove();
+                FXRuntime runtime = nextEffect.getRuntime();
+                if (runtime != null && runtime.isAlive()) {
+                    runtime.destroy(false);
+                }
+            }
+        }
+
+        if (effects.isEmpty()) {
+            EntityEffect.CACHE.remove(entity);
+        }
+    }
+
+
+    public static List<? extends Entity> getEntitiesInSphere(Entity origin, @Nullable Predicate<? super Entity> predicate, double radius) {
+        List<? extends Entity> aabbEntities = predicate == null ?
+                origin.level().getEntities(origin, origin.getBoundingBox().inflate(radius)) :
+                origin.level().getEntities(origin, origin.getBoundingBox().inflate(radius), predicate);
+        return aabbEntities.stream().filter(entity -> entity.distanceTo(origin) < radius).toList();
+    }
+
+    public static <T extends Entity> List<T> getEntitiesInSphere(Class<T> clazz, Entity origin, Predicate<? super Entity> predicate, double radius) {
         List<T> aabbEntities = predicate == null ?
-                origin.level().getEntitiesOfClass(clazz, origin.getBoundingBox().inflate(distance)) :
-                origin.level().getEntitiesOfClass(clazz, origin.getBoundingBox().inflate(distance), predicate);
-        return aabbEntities.stream().filter(entity -> entity.distanceTo(origin) < distance && entity != origin).toList();
+                origin.level().getEntitiesOfClass(clazz, origin.getBoundingBox().inflate(radius)) :
+                origin.level().getEntitiesOfClass(clazz, origin.getBoundingBox().inflate(radius), predicate);
+        return aabbEntities.stream().filter(entity -> entity.distanceTo(origin) < radius && entity != origin).toList();
+    }
+
+    public static <T extends Entity> List<T> getEntitiesInCylinder(Class<T> clazz, Entity origin, Predicate<? super Entity> predicate, double radius, double height) {
+        AABB aabb = new AABB(
+                origin.getX() - radius,
+                origin.getY(),
+                origin.getZ() - radius,
+                origin.getX() + radius,
+                origin.getY() + height,
+                origin.getZ() + radius
+        );
+
+        List<T> aabbEntities = predicate == null ?
+                origin.level().getEntitiesOfClass(clazz, aabb) :
+                origin.level().getEntitiesOfClass(clazz, aabb, predicate);
+        return aabbEntities.stream().filter(entity -> horizontalDistanceTo(entity, origin) < radius && entity != origin).toList();
+    }
+
+    public static float horizontalDistanceTo(Entity first, Entity second) {
+        float x = (float) (first.getX() - second.getX());
+        float z = (float) (first.getZ() - second.getZ());
+        return Mth.sqrt(x * x + z * z);
     }
 
     public static <T extends ParticleOptions> int sendParticles(ServerLevel serverLevel, T pType, boolean longDistance, double pPosX, double pPosY, double pPosZ, int pParticleCount, double pXOffset, double pYOffset, double pZOffset, double pSpeed) {
-        ClientboundLevelParticlesPacket clientboundlevelparticlespacket = new ClientboundLevelParticlesPacket(pType, false, pPosX, pPosY, pPosZ, (float) pXOffset, (float) pYOffset, (float) pZOffset, (float) pSpeed, pParticleCount);
+        ClientboundLevelParticlesPacket clientboundlevelparticlespacket = new ClientboundLevelParticlesPacket(
+                pType, longDistance, pPosX, pPosY, pPosZ, (float) pXOffset, (float) pYOffset, (float) pZOffset, (float) pSpeed, pParticleCount
+        );
         int i = 0;
-
-        for (int j = 0; j < serverLevel.players().size(); ++j) {
-            ServerPlayer serverPlayer = serverLevel.players().get(j);
+        for (ServerPlayer serverPlayer : serverLevel.players()) {
             if (sendParticles(serverLevel, serverPlayer, longDistance, pPosX, pPosY, pPosZ, clientboundlevelparticlespacket)) {
                 ++i;
             }
         }
-
         return i;
     }
 
@@ -132,15 +223,15 @@ public class ModUtils {
 
     private static final ScheduledExecutorService EXECUTOR = Executors.newScheduledThreadPool(1);
 
-    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, Vec3 origin, Class<T> clazz, WaveParticleData particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
+    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, Vec3 origin, Class<T> clazz, WaveParticleData<?> particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
         return applyWaveEffect(level, origin.x(), origin.y(), origin.z(), clazz, particleData, filter, effect);
     }
 
-    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, Entity origin, Class<T> clazz, WaveParticleData particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
+    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, Entity origin, Class<T> clazz, WaveParticleData<?> particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
         return applyWaveEffect(level, origin.getX(), origin.getY(0.5), origin.getZ(), clazz, particleData, filter, effect);
     }
 
-    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, double x, double y, double z, Class<T> clazz, WaveParticleData particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
+    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, double x, double y, double z, Class<T> clazz, WaveParticleData<?> particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
         float maxRadius = particleData.radius();
         int lifetimeTicks = particleData.growthDuration();
 
@@ -151,7 +242,7 @@ public class ModUtils {
         List<T> entities = filter != null ? level.getEntitiesOfClass(clazz, box, filter) : level.getEntitiesOfClass(clazz, box);
 
         entities.forEach(entity -> {
-            float distance = Mth.sqrt((float) entity.distanceToSqr(x ,y ,z));
+            float distance = Mth.sqrt((float) entity.distanceToSqr(x, y, z));
 
             // Normalize distance (0 to 1)
             float normalizedDistance = distance / maxRadius;
@@ -280,9 +371,14 @@ public class ModUtils {
         stack.getOrCreateTag().putInt("texture", data);
     }
 
+    public static void removeTextureIdx(ItemStack stack) {
+        stack.getOrCreateTag().remove("texture");
+    }
+
     public static int getTextureIdx(ItemStack stack) {
         return stack.getOrCreateTag().getInt("texture");
     }
+
 
     public static boolean tryExtendEffect(Player player, MobEffect mobEffect, int durationInc) {
         if (player.hasEffect(mobEffect)) {

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "brutality:unbridled_rage"
+    },
+    "%": {
+      "item": "minecraft:totem_of_undying"
+    }
+  },
+  "pattern": [
+    " ! ",
+    "!%!",
+    " ! "
+  ],
+  "result": {
+    "item": "brutality:grudge_totem"
+  },
+  "show_notification": true
+}

@@ -30,6 +30,8 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
@@ -43,6 +45,8 @@ import java.util.List;
 
 import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.CHANNELING;
 import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.CONTINUOUS;
+import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.CHANCE;
+import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.DURATION;
 
 public class BaseMagicTome extends BrutalityGenericItem {
 
@@ -190,6 +194,7 @@ public class BaseMagicTome extends BrutalityGenericItem {
         );
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
@@ -222,15 +227,15 @@ public class BaseMagicTome extends BrutalityGenericItem {
 
                 // Constants for consistent formatting
                 MutableComponent divider = Component.literal(" | ").withStyle(ChatFormatting.DARK_GRAY);
-                int spellLevel = IBrutalitySpell.getActualSpellLevel(mc.player, spell, entry.level());
-                float manaCost = IBrutalitySpell.getActualManaCost(mc.player, spell, spellLevel);
-                int castTime = IBrutalitySpell.getActualCastTime(mc.player, spell, spellLevel);
+                int actualSpellLevel = IBrutalitySpell.getActualSpellLevel(mc.player, spell, entry.level());
+                float manaCost = IBrutalitySpell.getActualManaCost(mc.player, spell, actualSpellLevel);
+                int castTime = IBrutalitySpell.getActualCastTime(mc.player, spell, actualSpellLevel);
                 castTime /= 20;
-                float spellCooldown = IBrutalitySpell.getActualCooldown(mc.player, spell, spellLevel);
+                float spellCooldown = IBrutalitySpell.getActualCooldown(mc.player, spell, actualSpellLevel);
                 spellCooldown /= 20;
 
-                int bonusLevel = spellLevel - entry.level();
-                // Spell name and spellLevel
+                int bonusLevel = actualSpellLevel - entry.level();
+                // Spell name and actualSpellLevel
 
                 MutableComponent spellType = Component.literal(" §8|§r ");
 
@@ -238,7 +243,7 @@ public class BaseMagicTome extends BrutalityGenericItem {
                     spellType.append(category.icon + " ");
                 });
 
-                tooltip.add(Component.translatable("spell." + Brutality.MOD_ID + "." + spellName).append(" §8|§r " + spellLevel +
+                tooltip.add(Component.translatable("spell." + Brutality.MOD_ID + "." + spellName).append(" §8|§r " + entry.level() +
                         (bonusLevel > 0 ? " + §l" + bonusLevel : "")).append(spellType));
 
                 for (int i = 1; i <= spell.getDescriptionCount(); i++) {
@@ -247,19 +252,19 @@ public class BaseMagicTome extends BrutalityGenericItem {
 
                 if (spell.getBaseDamage() > 0) {
                     String damageOperator = spell.getDamageLevelScaling() > 0 ? " + " : " - ";
-                    tooltip.add(Component.literal("🗡 §8|§6 " + spell.getBaseDamage() + "§r ❤§6" + damageOperator + "(" +
-                            Mth.abs(spell.getDamageLevelScaling()) + "§r ❤§6 * level) = §2" + spell.getFinalDamage(mc.player, spell, spellLevel) + "§r ❤"));
+                    tooltip.add(Component.literal("\uD83D\uDDE1 §8|§6 " + spell.getBaseDamage() + "§r ❤§6" + damageOperator + "(" +
+                            Mth.abs(spell.getDamageLevelScaling()) + "§r ❤§6 * level) = §2" + spell.getFinalDamage(mc.player, actualSpellLevel) + "§r ❤"));
 
                 }
                 if (castTime > 0) {
                     String castTimeOperator = spell.getCastTimeLevelScaling() > 0 ? " + " : " - ";
-                    tooltip.add(Component.literal("🪄 §8|§6 " + (showCastReduct ? "(" : "") + spell.getBaseCastTime() / 20 + "s" + castTimeOperator + "(" +
+                    tooltip.add(Component.literal("\uD83E\uDE84 §8|§6 " + (showCastReduct ? "(" : "") + spell.getBaseCastTime() / 20 + "s" + castTimeOperator + "(" +
                             Mth.abs(((float) spell.getCastTimeLevelScaling()) / 20) + "s * level)" + (showCastReduct ? ") * " + castTimeReduction : "") + " = §2" + castTime + "s"));
                 }
                 // Mana cost line
                 String manaOperator = spell.getManaCostLevelScaling() > 0 ? " + " : " - ";
-                tooltip.add(Component.literal("💧 §8|§6 " + (showManaReduct ? "(" : "") + spell.getBaseManaCost() + "§r 💧§6" + manaOperator + "(" +
-                        Mth.abs(spell.getManaCostLevelScaling()) + "§r 💧§6 * level)" + (showManaReduct ? ") * " + manaCostReduction : "") + " = §2" + manaCost + "§r 💧"));
+                tooltip.add(Component.literal("\uD83D\uDCA7 §8|§6 " + (showManaReduct ? "(" : "") + spell.getBaseManaCost() + "§r \uD83D\uDCA7§6" + manaOperator + "(" +
+                        Mth.abs(spell.getManaCostLevelScaling()) + "§r \uD83D\uDCA7§6 * level)" + (showManaReduct ? ") * " + manaCostReduction : "") + " = §2" + manaCost + "§r \uD83D\uDCA7"));
 
                 // Cooldown line
                 String cdOperator = spell.getCooldownLevelScaling() > 0 ? " + " : " - ";
@@ -273,12 +278,12 @@ public class BaseMagicTome extends BrutalityGenericItem {
 
                         if (component.min() != null) {
                             finalComponent.append(divider)
-                                    .append(Component.literal("ᴍɪɴ " + component.min()).withStyle(ChatFormatting.RED));
+                                    .append(Component.literal("ᴍɪɴ " + computeUnit(component.min(), component.type())).withStyle(ChatFormatting.RED));
                         }
 
                         if (component.max() != null) {
                             finalComponent.append(divider)
-                                    .append(Component.literal("ᴍᴀx " + component.max()).withStyle(ChatFormatting.GREEN));
+                                    .append(Component.literal("ᴍᴀx " + computeUnit(component.max(), component.type())).withStyle(ChatFormatting.GREEN));
                         }
 
                         tooltip.add(finalComponent);
@@ -310,15 +315,15 @@ public class BaseMagicTome extends BrutalityGenericItem {
 
             // Constants for consistent formatting
             MutableComponent divider = Component.literal(" | ").withStyle(ChatFormatting.DARK_GRAY);
-            int spellLevel = IBrutalitySpell.getActualSpellLevel(mc.player, spell, entry.level());
-            float manaCost = IBrutalitySpell.getActualManaCost(mc.player, spell, spellLevel);
-            int castTime = IBrutalitySpell.getActualCastTime(mc.player, spell, spellLevel);
+            int actualSpellLevel = IBrutalitySpell.getActualSpellLevel(mc.player, spell, entry.level());
+            float manaCost = IBrutalitySpell.getActualManaCost(mc.player, spell, actualSpellLevel);
+            int castTime = IBrutalitySpell.getActualCastTime(mc.player, spell, actualSpellLevel);
             castTime /= 20;
-            float spellCooldown = IBrutalitySpell.getActualCooldown(mc.player, spell, spellLevel);
+            float spellCooldown = IBrutalitySpell.getActualCooldown(mc.player, spell, actualSpellLevel);
             spellCooldown /= 20;
 
-            int bonusLevel = spellLevel - entry.level();
-            // Spell name and spellLevel
+            int bonusLevel = actualSpellLevel - entry.level();
+            // Spell name and actualSpellLevel
 
             MutableComponent spellType = Component.literal(" §8|§r ");
 
@@ -326,7 +331,7 @@ public class BaseMagicTome extends BrutalityGenericItem {
                 spellType.append(category.icon + " ");
             });
 
-            tooltip.add(Component.translatable("spell." + Brutality.MOD_ID + "." + spellName).append(" §8|§r " + spellLevel +
+            tooltip.add(Component.translatable("spell." + Brutality.MOD_ID + "." + spellName).append(" §8|§r " + entry.level() +
                     (bonusLevel > 0 ? " + §l" + bonusLevel : "")).append(spellType));
 
             for (int i = 1; i <= spell.getDescriptionCount(); i++) {
@@ -335,24 +340,25 @@ public class BaseMagicTome extends BrutalityGenericItem {
 
             if (spell.getBaseDamage() > 0) {
                 String damageOperator = spell.getDamageLevelScaling() > 0 ? " + " : " - ";
-                tooltip.add(Component.literal("🗡 §8|§6 " + spell.getBaseDamage() + "§r ❤§6" + damageOperator + "(" +
-                        Mth.abs(spell.getDamageLevelScaling()) + "§r ❤§6 * level) = §2" + spell.getFinalDamage(mc.player, spell, spellLevel) + "§r ❤"));
+                tooltip.add(Component.literal("\uD83D\uDDE1 §8|§6 " + spell.getBaseDamage() + "§r ❤§6" + damageOperator + "(" +
+                        Mth.abs(spell.getDamageLevelScaling()) + "§r ❤§6 * level) = §2" + spell.getFinalDamage(mc.player, actualSpellLevel) + "§r ❤"));
 
             }
             if (castTime > 0) {
                 String castTimeOperator = spell.getCastTimeLevelScaling() > 0 ? " + " : " - ";
-                tooltip.add(Component.literal("🪄 §8|§6 " + (showCastReduct ? "(" : "") + spell.getBaseCastTime() / 20 + "s" + castTimeOperator + "(" +
+                tooltip.add(Component.literal("\uD83E\uDE84 §8|§6 " + (showCastReduct ? "(" : "") + spell.getBaseCastTime() / 20 + "s" + castTimeOperator + "(" +
                         Mth.abs(((float) spell.getCastTimeLevelScaling()) / 20) + "s * level)" + (showCastReduct ? ") * " + castTimeReduction : "") + " = §2" + castTime + "s"));
             }
             // Mana cost line
             String manaOperator = spell.getManaCostLevelScaling() > 0 ? " + " : " - ";
-            tooltip.add(Component.literal("💧 §8|§6 " + (showManaReduct ? "(" : "") + spell.getBaseManaCost() + "§r 💧§6" + manaOperator + "(" +
-                    Mth.abs(spell.getManaCostLevelScaling()) + "§r 💧§6 * level)" + (showManaReduct ? ") * " + manaCostReduction : "") + " = §2" + manaCost + "§r 💧"));
+            tooltip.add(Component.literal("\uD83D\uDCA7 §8|§6 " + (showManaReduct ? "(" : "") + spell.getBaseManaCost() + "§r \uD83D\uDCA7§6" + manaOperator + "(" +
+                    Mth.abs(spell.getManaCostLevelScaling()) + "§r \uD83D\uDCA7§6 * level)" + (showManaReduct ? ") * " + manaCostReduction : "") + " = §2" + manaCost + "§r \uD83D\uDCA7"));
 
             // Cooldown line
             String cdOperator = spell.getCooldownLevelScaling() > 0 ? " + " : " - ";
             tooltip.add(Component.literal("⌛ §8|§6 " + (showCDReduct ? "(" : "") + spell.getBaseCooldown() / 20 + "s" + cdOperator + "(" +
                     Mth.abs(((float) spell.getCooldownLevelScaling()) / 20) + "s * level)" + (showCDReduct ? ") * " + spellCdReduction : "") + " = §2" + spellCooldown + "s"));
+
 
 
             if (spell.getStatComponents() != null)
@@ -361,12 +367,12 @@ public class BaseMagicTome extends BrutalityGenericItem {
 
                     if (component.min() != null) {
                         finalComponent.append(divider)
-                                .append(Component.literal("ᴍɪɴ " + component.min()).withStyle(ChatFormatting.RED));
+                                .append(Component.literal("ᴍɪɴ " + computeUnit(component.min(), component.type())).withStyle(ChatFormatting.RED));
                     }
 
                     if (component.max() != null) {
                         finalComponent.append(divider)
-                                .append(Component.literal("ᴍᴀx " + component.max()).withStyle(ChatFormatting.GREEN));
+                                .append(Component.literal("ᴍᴀx " + computeUnit(component.max(), component.type())).withStyle(ChatFormatting.GREEN));
                     }
 
                     tooltip.add(finalComponent);
@@ -383,40 +389,40 @@ public class BaseMagicTome extends BrutalityGenericItem {
         }
     }
 
+    private static float computeUnit(float input, BrutalityTooltipHelper.SpellStatComponents type) {
+        if (type.equals(DURATION)) {
+            return input / 20;
+        }
+        if (type.unit.contains("❤")) {
+            return input / 2;
+        }
+        return input;
+    }
+
     private static @NotNull MutableComponent getMutableComponent(Player player, SpellStorage.SpellEntry entry, BrutalityTooltipHelper.SpellStatComponent component) {
         BrutalityTooltipHelper.SpellStatComponents type = component.type();
         String operand = component.levelDelta() > 0 ? " + " : " - ";
-        boolean isDuration = type == BrutalityTooltipHelper.SpellStatComponents.DURATION;
-        boolean isHearts = component.type().unit.contains("❤");
-
-        float base = component.base();
-        float levelDelta = Mth.abs(component.levelDelta());
-        float finalValue = entry.spell().getFinalStat(IBrutalitySpell.getActualSpellLevel(player, entry.spell(), entry.level()) + 1, component);
-        levelDelta = isHearts ? levelDelta / 2 : levelDelta;
-        finalValue = isHearts ? finalValue / 2 : finalValue;
-        base = isHearts ? base / 2 : base;
-
-        levelDelta = isDuration ? levelDelta / 20 : levelDelta;
-        finalValue = isDuration ? finalValue / 20 : finalValue;
-        base = isDuration ? base / 20 : base;
-
+        float base = computeUnit(component.base(), type);
+        float levelDelta = computeUnit(Mth.abs(component.levelDelta()), type);
+        float finalValue = computeUnit(entry.spell().getFinalStat(IBrutalitySpell.getActualSpellLevel(player, entry.spell(), entry.level()), component), type);
+        boolean shouldReset = !(type.equals(DURATION) || type.equals(CHANCE));
 
         if (component.max() != null && component.min() != null) {
-            finalValue = Mth.clamp(finalValue, component.min(), component.max());
+            finalValue = Mth.clamp(finalValue, computeUnit(component.min(), type), computeUnit(component.max(), type));
         } else if (component.max() != null) {
-            finalValue = Math.min(finalValue, component.max());
+            finalValue = Math.min(finalValue, computeUnit(component.max(), type));
         } else if (component.min() != null) {
-            finalValue = Math.max(finalValue, component.min());
+            finalValue = Math.max(finalValue, computeUnit(component.min(), type));
         }
 
 
         return Component.literal(type.icon +
                 " §8|§6 " + base +
-                (isDuration ? "" : "§r") + type.unit
+                (shouldReset ? "§r" : "") + type.unit
                 + "§6" + operand + "(" + levelDelta +
-                (isDuration ? "" : "§r") + type.unit
+                (shouldReset ? "§r" : "") + type.unit
                 + "§6" + " * level) = §2" + finalValue +
-                (isDuration ? "" : "§r") + type.unit);
+                (shouldReset ? "§r" : "") + type.unit);
     }
 
     @Override

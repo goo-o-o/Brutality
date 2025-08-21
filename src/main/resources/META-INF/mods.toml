@@ -24,7 +24,6 @@ versionRange="${minecraft_version_range}"
 ordering="NONE"
 side="BOTH"
 
-# Add GeckoLib as a mandatory dependency
 [[dependencies.${mod_id}]]
 modId="geckolib"
 mandatory=true
@@ -43,6 +42,13 @@ side="BOTH"
 modId="terramity"
 mandatory=true
 versionRange="[0.9.8,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="photon"
+mandatory=true
+versionRange="[1.1.14,)"
 ordering="AFTER"
 side="BOTH"
 

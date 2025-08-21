@@ -1070,5 +1070,47 @@
     "name": "Pi",
     "namespace": "brutality",
     "width": "0.0625"
+  },
+  {
+    "height": "0.5",
+    "id": "gravitic_implosion",
+    "name": "gravitic_implosion",
+    "namespace": "brutality",
+    "width": "0.5"
+  },
+  {
+    "height": "1.0",
+    "id": "cosmic_cataclysm",
+    "name": "cosmic_cataclysm",
+    "namespace": "brutality",
+    "width": "1.0"
+  },
+  {
+    "height": "1.0",
+    "id": "meteor_shower",
+    "name": "meteor_shower",
+    "namespace": "brutality",
+    "width": "1.0"
+  },
+  {
+    "height": "0.5",
+    "id": "star_stream",
+    "name": "star_stream",
+    "namespace": "brutality",
+    "width": "0.5"
+  },
+  {
+    "height": "0.5",
+    "id": "singularity_shift",
+    "name": "singularity_shift",
+    "namespace": "brutality",
+    "width": "0.5"
+  },
+  {
+    "height": "0.0",
+    "id": "light_binding",
+    "name": "light_binding",
+    "namespace": "brutality",
+    "width": "0.0"
   }
 ]

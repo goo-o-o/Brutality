@@ -14,6 +14,10 @@ public interface BrutalityGeoEntity extends GeoEntity {
         return null;
     }
 
+    default String animation() {
+        return null;
+    }
+
     @Override
     default void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, (state) ->

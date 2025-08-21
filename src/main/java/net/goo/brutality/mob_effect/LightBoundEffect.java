@@ -23,8 +23,6 @@ public class LightBoundEffect extends MobEffect {
         if (entity.level() instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(TerramityModParticleTypes.HOLY_GLINT.get(), entity.getX(), entity.getY(0.5), entity.getZ(), 2, 1, 1, 1, 0);
         }
-
-
     }
 
 

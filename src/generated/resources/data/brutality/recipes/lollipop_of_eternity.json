@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:iridescent_shard"
+    },
+    "1": {
+      "item": "brutality:dunked_donut"
+    },
+    "3": {
+      "item": "brutality:caramel_crunch_medallion"
+    }
+  },
+  "pattern": [
+    " ! ",
+    "1!3",
+    " ! "
+  ],
+  "result": {
+    "item": "brutality:lollipop_of_eternity"
+  },
+  "show_notification": true
+}

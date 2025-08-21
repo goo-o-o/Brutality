@@ -55,8 +55,10 @@
     "brutality:multiplication_charm",
     "brutality:division_charm",
     "brutality:sum_charm",
+    "brutality:hyperbolic_feather",
 
     "brutality:crypto_wallet_charm",
-    "brutality:portable_mining_rig_charm"
+    "brutality:portable_mining_rig_charm",
+    "brutality:carton_of_prism_solution_milk"
   ]
 }

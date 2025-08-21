@@ -64,7 +64,7 @@ public class SpatialRuptureSpell extends BrutalitySpell {
                         (player.getRandom().nextFloat() - 0.5F) * offset, 1
                 ));
             }
-            WaveParticleData waveParticleData = new WaveParticleData(BrutalityModParticles.ANTIMATTER_WAVE.get(), getFinalStat(spellLevel, getStat(SIZE)), 40);
+            WaveParticleData<?> waveParticleData = new WaveParticleData<>(BrutalityModParticles.ANTIMATTER_WAVE.get(), getFinalStat(spellLevel, getStat(SIZE)), 40);
 
             PacketHandler.sendToNearbyClients(serverLevel, playerX, playerY, playerZ, 128, new ClientboundParticlePacket(
                     waveParticleData, true, (float) playerX, (float) playerY, (float) playerZ, 0, 0, 0,
@@ -79,7 +79,7 @@ public class SpatialRuptureSpell extends BrutalitySpell {
                         playerToEntity.add(0, 0.1, 0).scale(0.2 * spellLevel);
 
                         e.push(playerToEntity.x, playerToEntity.y, playerToEntity.z);
-                        e.hurt(e.damageSources().flyIntoWall(), getFinalDamage(player, this, spellLevel));
+                        e.hurt(e.damageSources().flyIntoWall(), getFinalDamage(player, spellLevel));
                         if (e instanceof Player) {
                             ((ServerPlayer) player).connection.send(new ClientboundSetEntityMotionPacket(e));
                         }

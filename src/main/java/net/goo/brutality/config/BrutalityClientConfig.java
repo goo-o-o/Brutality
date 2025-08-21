@@ -15,11 +15,13 @@ public class BrutalityClientConfig {
     public static final ForgeConfigSpec SPEC;
 
     public static final ForgeConfigSpec.BooleanValue BLACK_HOLE_SKY_COLOR;
+    public static final ForgeConfigSpec.BooleanValue BORK_SKY_COLOR;
 
     static {
         BUILDER.push("Brutality Client Config");
 
         BLACK_HOLE_SKY_COLOR = BUILDER.comment("Should the Black Hole change the color of the Sky and Fog").define("shouldBlackHoleChangeSkyColor", true);
+        BORK_SKY_COLOR = BUILDER.comment("Should the Blade of the Ruined King change the color of the environment").define("shouldBORKChangeEnvironmentColor", true);
 
 
         BUILDER.pop();

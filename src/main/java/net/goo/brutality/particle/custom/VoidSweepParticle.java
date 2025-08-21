@@ -1,6 +1,6 @@
 package net.goo.brutality.particle.custom;
 
-import net.goo.brutality.particle.base.ArmaSweepParticle;
+import net.goo.brutality.particle.base.SweepParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -9,7 +9,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 
 import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
 
-public class VoidSweepParticle extends ArmaSweepParticle {
+public class VoidSweepParticle extends SweepParticle {
 
     VoidSweepParticle(ClientLevel pLevel, double pX, double pY, double pZ, double pQuadSizeMultiplier, SpriteSet pSprites) {
         super(pLevel, pX, pY, pZ,0.0D, pSprites);

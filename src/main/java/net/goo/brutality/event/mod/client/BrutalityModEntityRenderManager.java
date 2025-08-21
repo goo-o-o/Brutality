@@ -58,7 +58,7 @@ public class BrutalityModEntityRenderManager {
         event.registerEntityRenderer(BrutalityModEntities.BLACK_HOLE_ENTITY.get(), context -> new BrutalityEntityRenderer<>(context,
                 renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer))));
 
-        event.registerEntityRenderer(BrutalityModEntities.BLACK_HOLE_ENTITY.get(), context -> new BrutalityEntityRenderer<>(context,
+        event.registerEntityRenderer(BrutalityModEntities.CRUEL_SUN_ENTITY.get(), context -> new BrutalityEntityRenderer<>(context,
                 renderer -> {
                     renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
                     renderer.addRenderLayer(new BrutalityAutoFullbrightAlphaLayer<>(renderer));
@@ -93,6 +93,29 @@ public class BrutalityModEntityRenderManager {
                     renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
                 }));
+
+        event.registerEntityRenderer(BrutalityModEntities.METEOR_SHOWER_ENTITY.get(), context -> new BrutalityAbstractPhysicsProjectileRenderer<>(context,
+                renderer -> {
+                    renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
+                    renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
+                }));
+
+        event.registerEntityRenderer(BrutalityModEntities.STAR_STREAM_ENTITY.get(), context -> new BrutalityAbstractPhysicsProjectileRenderer<>(context,
+                renderer -> {
+                    renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
+                    renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
+                }));
+        event.registerEntityRenderer(BrutalityModEntities.SINGULARITY_SHIFT.get(), context -> new BrutalityAbstractPhysicsProjectileRenderer<>(context,
+                renderer -> {
+                    renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
+                    renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
+                }));
+
+        event.registerEntityRenderer(BrutalityModEntities.ANNIHILATION_ENTITY.get(), context -> new BrutalityAbstractPhysicsProjectileRenderer<>(context,
+                renderer -> {
+                    renderer.addRenderLayer(new BrutalityAutoFullbrightAlphaLayer<>(renderer));
+                }));
+
 
         event.registerEntityRenderer(BrutalityModEntities.LIGHT_BINDING.get(), context -> new BrutalityEntityRenderer<>(context,
                 renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer))));

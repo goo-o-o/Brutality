@@ -80,14 +80,6 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
         this.entityData.define(SPELL_LEVEL_DATA, 1);
     }
 
-    @Override
-    public void setDamage(float damage) {
-    }
-
-    @Override
-    public float getDamage() {
-        return 0;
-    }
 
     @Override
     public void setSpellLevel(int spellLevel) {
@@ -172,9 +164,9 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
                         player.connection.send(new ClientboundSetEntityMotionPacket(player));
                     }
                     if (getOwner() instanceof Player owner)
-                        entity.hurt(entity.damageSources().playerAttack(owner), getSpell().getFinalDamage(owner, getSpell(), spellLevel));
+                        entity.hurt(entity.damageSources().playerAttack(owner), getSpell().getFinalDamage(owner, spellLevel));
                     else
-                        entity.hurt(entity.damageSources().flyIntoWall(), getSpell().getFinalDamage(spellLevel));
+                        entity.hurt(entity.damageSources().flyIntoWall(), getSpell().getFinalDamageWithoutAttributes(spellLevel));
                 }
 
             }

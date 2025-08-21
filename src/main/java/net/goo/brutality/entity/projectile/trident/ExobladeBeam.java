@@ -1,10 +1,9 @@
 package net.goo.brutality.entity.projectile.trident;
 
+import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractTrident;
-import net.goo.brutality.particle.providers.TrailParticleData;
 import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -23,6 +22,8 @@ import net.minecraft.world.phys.*;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
+
+import static net.goo.brutality.util.ModResources.RAINBOW_TRAIL_FX;
 
 public class ExobladeBeam extends BrutalityAbstractTrident implements BrutalityGeoEntity {
     private static final EntityDataAccessor<Integer> HOMING_TARGET_ID = SynchedEntityData.defineId(ExobladeBeam.class, EntityDataSerializers.INT);
@@ -63,12 +64,13 @@ public class ExobladeBeam extends BrutalityAbstractTrident implements BrutalityG
         return 60;
     }
 
-    private boolean trailSpawned = false;
 
     public void tick() {
-        if (!trailSpawned && level().isClientSide) {
-            this.level().addParticle((new TrailParticleData(BrutalityModParticles.RAINBOW_TRAIL_PARTICLE.get(), 1, 1, 1, 1, this.getBbHeight() * 0.75F, this.getId(), 10)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
-            trailSpawned = true;
+        if (firstTick && !(level() instanceof ServerLevel)) {
+//            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> {
+                EntityEffect rainbowTrail = new EntityEffect(RAINBOW_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
+                rainbowTrail.start();
+//            });
         }
         super.tick();
 
@@ -130,11 +132,8 @@ public class ExobladeBeam extends BrutalityAbstractTrident implements BrutalityG
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
-        if (pResult.getEntity() instanceof LivingEntity livingEntity && livingEntity.level() instanceof ServerLevel serverLevel && serverLevel.random.nextBoolean())  {
-            serverLevel.sendParticles(BrutalityModParticles.EXOBLADE_FLASH_PARTICLE.get(), pResult.getLocation().x, pResult.getLocation().y, pResult.getLocation().z,
-                    1, 0.5, 0.5, 0.5, 0);
+        if (pResult.getEntity() instanceof LivingEntity livingEntity && livingEntity.level() instanceof ServerLevel serverLevel && serverLevel.random.nextBoolean()) {
             livingEntity.addEffect(new MobEffectInstance(BrutalityModMobEffects.MIRACLE_BLIGHT.get(), 80, 0, false, false));
-
         }
     }
 

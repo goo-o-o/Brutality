@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "brutality:unbridled_rage"
+    },
+    "@": {
+      "item": "terramity:gold_medal"
+    }
+  },
+  "pattern": [
+    " ! ",
+    "!@!",
+    " ! "
+  ],
+  "result": {
+    "item": "brutality:blood_howl_pendant"
+  },
+  "show_notification": true
+}

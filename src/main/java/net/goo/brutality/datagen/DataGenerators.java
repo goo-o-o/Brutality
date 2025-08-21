@@ -1,6 +1,5 @@
 package net.goo.brutality.datagen;
 
-import net.daphne.lethality.datagen.ModBlockStateProvider;
 import net.goo.brutality.Brutality;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -22,18 +21,18 @@ public class DataGenerators {
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
         generator.addProvider(event.includeServer(), new BrutalityRecipeProvider(packOutput));
-//        generator.addProvider(event.includeServer(), ModLootTableProvider.create(packOutput));
+        generator.addProvider(event.includeServer(), ModLootTableProvider.create(packOutput));
 
-        generator.addProvider(event.includeClient(), new ModBlockStateProvider(packOutput, existingFileHelper));
-        generator.addProvider(event.includeClient(), new ModItemModelProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeClient(), new BrutalityBlockStateProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeClient(), new BrutalityItemModelProvider(packOutput, existingFileHelper));
 
-        ModBlockTagGenerator blockTagGenerator = generator.addProvider(event.includeServer(),
-                new ModBlockTagGenerator(packOutput, lookupProvider, existingFileHelper));
+        BrutalityBlockTagGenerator blockTagGenerator = generator.addProvider(event.includeServer(),
+                new BrutalityBlockTagGenerator(packOutput, lookupProvider, existingFileHelper));
 
-        generator.addProvider(event.includeServer(), new ModItemTagGenerator(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
+        generator.addProvider(event.includeServer(), new BrutalityItemTagProvider(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
 
-        generator.addProvider(event.includeServer(), new ModGlobalLootModifiersProvider(packOutput));
-        generator.addProvider(event.includeServer(), new ModPoiTypeTagsProvider(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new BrutalityGlobalLootModifiersProvider(packOutput));
+        generator.addProvider(event.includeServer(), new BrutalityPoiTypeTagsProvider(packOutput, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new BrutalityDataFetcher(packOutput));
         
     }

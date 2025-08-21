@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:sugar"
+    },
+    "@": {
+      "item": "minecraft:cake"
+    }
+  },
+  "pattern": [
+    "###",
+    "#@#",
+    "###"
+  ],
+  "result": {
+    "item": "brutality:sugar_glaze"
+  },
+  "show_notification": true
+}

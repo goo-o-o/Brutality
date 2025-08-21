@@ -20,7 +20,7 @@ public class PacketHandler {
 
     public static void register() {
         NETWORK_CHANNEL.registerMessage(id++, c2sTriggerAnimPacket.class, c2sTriggerAnimPacket::encode, c2sTriggerAnimPacket::new, c2sTriggerAnimPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ClientboundEnhancedParticlePacket.class, ClientboundEnhancedParticlePacket::encode, ClientboundEnhancedParticlePacket::new, ClientboundEnhancedParticlePacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundExactParticlePacket.class, ClientboundExactParticlePacket::encode, ClientboundExactParticlePacket::new, ClientboundExactParticlePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, c2sShootProjectilePacket.class, c2sShootProjectilePacket::encode, c2sShootProjectilePacket::new, c2sShootProjectilePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, c2sChangeNBTPacket.class, c2sChangeNBTPacket::encode, c2sChangeNBTPacket::new, c2sChangeNBTPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, s2cEnvironmentColorManagerPacket.class, s2cEnvironmentColorManagerPacket::encode, s2cEnvironmentColorManagerPacket::new, s2cEnvironmentColorManagerPacket::handle);

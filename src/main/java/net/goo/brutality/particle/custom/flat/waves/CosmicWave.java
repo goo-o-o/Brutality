@@ -7,21 +7,14 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 
-import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
-
 public class CosmicWave extends WaveParticle {
 
 
-    public CosmicWave(ClientLevel level, double x, double y, double z, WaveParticleData data, SpriteSet sprites) {
+    public CosmicWave(ClientLevel level, double x, double y, double z, WaveParticleData<?> data, SpriteSet sprites) {
         super(level, x, y, z, data, sprites);
     }
 
-    @Override
-    protected int getLightColor(float pPartialTick) {
-        return FULL_BRIGHT;
-    }
-
-    public static class Provider implements ParticleProvider<WaveParticleData> {
+    public static class Provider implements ParticleProvider<WaveParticleData<?>> {
         private final SpriteSet sprites;
 
         public Provider(SpriteSet spriteSet) {

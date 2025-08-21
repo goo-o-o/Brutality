@@ -3,10 +3,11 @@ package net.goo.brutality.util;
 import net.bettercombat.api.client.BetterCombatClientEvents;
 import net.goo.brutality.item.weapon.hammer.AtomicJudgementHammer;
 import net.goo.brutality.item.weapon.sword.*;
+import net.goo.brutality.network.ClientboundExactParticlePacket;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.c2sTriggerAnimPacket;
-import net.goo.brutality.network.ClientboundEnhancedParticlePacket;
-import net.goo.brutality.particle.custom.flat.MurasamaSlash;
+import net.goo.brutality.particle.providers.FlatParticleData;
+import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -38,43 +39,38 @@ public class BetterCombatIntegration {
                 } else if (item instanceof SupernovaSword) {
                     if (hand.combo().current() == 2) {
                         PacketHandler.sendToServer(new c2sTriggerAnimPacket(stack, GeoItem.getId(stack), "controller", "stab"));
-//                        ((SupernovaSword) item).triggerAnim(player, GeoItem.getId(stack), "controller", "stab");
-//                        System.out.println(GeoItem.getId(stack));
                     } else {
                         PacketHandler.sendToServer(new c2sTriggerAnimPacket(stack, GeoItem.getId(stack), "controller", "swing"));
-//                        ((SupernovaSword) item).triggerAnim(player, GeoItem.getId(stack), "controller", "swing");
-//                        System.out.println(GeoItem.getId(stack));
                     }
                 } else if (item instanceof MurasamaSword) {
-                    if (hand.combo().current() == 1)
-                        PacketHandler.sendToServer(new ClientboundEnhancedParticlePacket(
-                                player.getX(),
-                                player.getY() + player.getBbHeight() / 2,
-                                player.getZ(),
-                                new MurasamaSlash.ParticleData(true,
-                                        0, player.getBbHeight() / 2, 0,
-                                        player.getId(),
-                                        7.0f,
-                                        Mth.wrapDegrees(player.getViewXRot(1) - 20),
-                                        remapYaw(Mth.wrapDegrees(player.getViewYRot(1))),
-                                        -30
-                                )
-                        ));
+                    if (hand.combo().current() == 1) {
 
-                    if (hand.combo().current() == 2)
-                        PacketHandler.sendToServer(new ClientboundEnhancedParticlePacket(
-                                player.getX(),
-                                player.getY() + player.getBbHeight() / 2,
-                                player.getZ(),
-                                new MurasamaSlash.ParticleData(true,
-                                        0, player.getBbHeight() / 1.5F, 0,
-                                        player.getId(),
-                                        7.0f,
-                                        Mth.wrapDegrees(player.getViewXRot(1)),
-                                        remapYaw(Mth.wrapDegrees(player.getViewYRot(1))),
-                                        180
-                                )
+                        FlatParticleData<?> data = new FlatParticleData<>(BrutalityModParticles.MURASAMA_SLASH_PARTICLE.get(),
+                               7F,
+                                Mth.wrapDegrees(player.getViewXRot(1) - 20),
+                                remapYaw(Mth.wrapDegrees(player.getViewYRot(1))),
+                                -30,
+                                0, player.getBbHeight() / 2, 0, player.getId()
+                        );
+
+                        PacketHandler.sendToServer(new ClientboundExactParticlePacket(
+                                player.getX(), player.getY(0.5F), player.getZ(), data
                         ));
+                    }
+
+                    if (hand.combo().current() == 2) {
+                        FlatParticleData<?> data = new FlatParticleData<>(BrutalityModParticles.MURASAMA_SLASH_PARTICLE.get(),
+                                7F,
+                                Mth.wrapDegrees(player.getViewXRot(1)),
+                                remapYaw(Mth.wrapDegrees(player.getViewYRot(1))),
+                                180,
+                                0, player.getBbHeight() / 2, 0, player.getId()
+                        );
+
+                        PacketHandler.sendToServer(new ClientboundExactParticlePacket(
+                                player.getX(), player.getY(0.5F), player.getZ(), data
+                        ));
+                    }
                 } else if (item instanceof AtomicJudgementHammer) {
                     PacketHandler.sendToServer(new c2sTriggerAnimPacket(stack, GeoItem.getId(stack), "controller", "attack"));
                 }

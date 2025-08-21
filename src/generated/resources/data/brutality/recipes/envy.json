@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:blackstone"
+    },
+    "@": {
+      "item": "minecraft:crying_obsidian"
+    }
+  },
+  "pattern": [
+    "#@#",
+    "@ @",
+    "#@#"
+  ],
+  "result": {
+    "item": "brutality:envy"
+  },
+  "show_notification": true
+}

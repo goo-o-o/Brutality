@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:blackstone"
+    },
+    "$": {
+      "item": "terramity:crystal_heart"
+    },
+    "@": {
+      "item": "terramity:ruby"
+    }
+  },
+  "pattern": [
+    "#@#",
+    "@$@",
+    "#@#"
+  ],
+  "result": {
+    "item": "brutality:lust"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:blackstone"
+    },
+    "%": {
+      "item": "terramity:daemonium_block"
+    }
+  },
+  "pattern": [
+    "###",
+    "#%#",
+    "###"
+  ],
+  "result": {
+    "item": "brutality:sloth"
+  },
+  "show_notification": true
+}

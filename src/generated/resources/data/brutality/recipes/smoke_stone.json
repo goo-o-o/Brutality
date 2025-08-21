@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:sharpening_stone"
+    },
+    "#": {
+      "item": "minecraft:magma_block"
+    },
+    "$": {
+      "item": "minecraft:fire_charge"
+    },
+    "@": {
+      "item": "minecraft:smoker"
+    }
+  },
+  "pattern": [
+    " @ ",
+    "$!$",
+    " # "
+  ],
+  "result": {
+    "item": "brutality:smoke_stone"
+  },
+  "show_notification": true
+}

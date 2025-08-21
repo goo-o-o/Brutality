@@ -14,8 +14,12 @@ import net.goo.brutality.entity.projectile.trident.ThrownGungnir;
 import net.goo.brutality.entity.projectile.trident.ThrownKnife;
 import net.goo.brutality.entity.projectile.trident.ThrownThunderbolt;
 import net.goo.brutality.entity.projectile.trident.physics_projectile.*;
+import net.goo.brutality.entity.spells.brimwielder.AnnihilationSpellEntity;
 import net.goo.brutality.entity.spells.celestia.LightBinding;
-import net.goo.brutality.entity.spells.cosmic.CosmicMeteorEntity;
+import net.goo.brutality.entity.spells.cosmic.CosmicCataclysmEntity;
+import net.goo.brutality.entity.spells.cosmic.MeteorShowerEntity;
+import net.goo.brutality.entity.spells.cosmic.SingularityShiftEntity;
+import net.goo.brutality.entity.spells.cosmic.StarStreamEntity;
 import net.goo.brutality.entity.spells.voidwalker.GraviticImplosionEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -50,8 +54,8 @@ public class BrutalityModEntities {
             ENTITY_TYPES.register("star", () -> EntityType.Builder.<StarEntity>of(StarEntity::new,
                     MobCategory.MISC).sized(1, 0.0625F).build("star"));
 
-    public static final RegistryObject<EntityType<DepthCrusherProjectile>> DEPTH_CRUSHER_PROJECTILE =
-            ENTITY_TYPES.register("depth_crusher_projectile", () -> EntityType.Builder.of(DepthCrusherProjectile::new,
+    public static final RegistryObject<EntityType<AbyssProjectile>> DEPTH_CRUSHER_PROJECTILE =
+            ENTITY_TYPES.register("depth_crusher_projectile", () -> EntityType.Builder.of(AbyssProjectile::new,
                     MobCategory.MISC).sized(0.25F, 0.25F).build("depth_crusher_projectile"));
 
     public static final RegistryObject<EntityType<ThrownThunderbolt>> THROWN_THUNDERBOLT_ENTITY =
@@ -195,11 +199,35 @@ public class BrutalityModEntities {
                             .sized(0.5F, 0.5F)
                             .build("gravitic_implosion"));
 
-    public static final RegistryObject<EntityType<CosmicMeteorEntity>> COSMIC_CATACLYSM_ENTITY =
+    public static final RegistryObject<EntityType<CosmicCataclysmEntity>> COSMIC_CATACLYSM_ENTITY =
             ENTITY_TYPES.register("cosmic_cataclysm",
-                    () -> EntityType.Builder.of(CosmicMeteorEntity::new, MobCategory.MISC)
+                    () -> EntityType.Builder.of(CosmicCataclysmEntity::new, MobCategory.MISC)
                             .sized(1, 1)
                             .build("cosmic_cataclysm"));
+
+    public static final RegistryObject<EntityType<MeteorShowerEntity>> METEOR_SHOWER_ENTITY =
+            ENTITY_TYPES.register("meteor_shower",
+                    () -> EntityType.Builder.of(MeteorShowerEntity::new, MobCategory.MISC)
+                            .sized(1, 1)
+                            .build("meteor_shower"));
+
+    public static final RegistryObject<EntityType<StarStreamEntity>> STAR_STREAM_ENTITY =
+            ENTITY_TYPES.register("star_stream",
+                    () -> EntityType.Builder.of(StarStreamEntity::new, MobCategory.MISC)
+                            .sized(0.5F, 0.5F)
+                            .build("star_stream"));
+
+    public static final RegistryObject<EntityType<SingularityShiftEntity>> SINGULARITY_SHIFT =
+            ENTITY_TYPES.register("singularity_shift",
+                    () -> EntityType.Builder.of(SingularityShiftEntity::new, MobCategory.MISC)
+                            .sized(0.5F, 0.5F)
+                            .build("singularity_shift"));
+
+    public static final RegistryObject<EntityType<AnnihilationSpellEntity>> ANNIHILATION_ENTITY =
+            ENTITY_TYPES.register("annihilation",
+                    () -> EntityType.Builder.of(AnnihilationSpellEntity::new, MobCategory.MISC)
+                            .sized(0.5F, 0.5F)
+                            .build("annihilation"));
 
     public static final RegistryObject<EntityType<LightBinding>> LIGHT_BINDING =
             ENTITY_TYPES.register("light_binding", () -> EntityType.Builder.of(LightBinding::new,

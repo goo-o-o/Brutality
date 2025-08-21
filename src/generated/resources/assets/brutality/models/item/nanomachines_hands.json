@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "brutality:item/curio/hands/nanomachines_hands/nanomachines_hands_inventory"
-  }
-}

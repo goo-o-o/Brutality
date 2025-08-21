@@ -1,5 +1,7 @@
 {
   "item.brutality.high_frequency_alloy": "High-Frequency Alloy",
+  "item.brutality.unbridled_rage": "Unbridled Rage",
+  "item.brutality.pocket_black_hole": "Pocket Black Hole",
 
 
   "item.brutality.atomic_judgement": "Atomic Judgement",
@@ -165,7 +167,7 @@
   "item.brutality.void_knife.on_hit.2": "§e -Maximum of 4 stacks",
   "item.brutality.void_knife.on_hit.3": "§e -Inflicts §7Pulverized III§e for 3 ticks",
 
-  "item.brutality.suspicious_slot_machine": "Suspicious Slot Machine",
+  "item.brutality.suspicious_slot_machine": "Suspicious Slot Machine (BROKEN)",
   "item.brutality.suspicious_slot_machine.lore.1": "Can it be trusted?",
 
 
@@ -194,13 +196,13 @@
   "item.brutality.sugar_glaze.passive.1": "§e -True melee hits inflict §fGlazed I§e for 3 seconds",
 
   "item.brutality.caramel_crunch_medallion": "Caramel Crunch Medallion",
-  "item.brutality.caramel_crunch_medallion.passive.1": "§e -All Damage inflicts §7Caramelized II§e and §dCandied II§e for 6 seconds",
+  "item.brutality.caramel_crunch_medallion.passive.1": "§e -All Damage inflicts §6Caramelized II§e and §dCandied II§e for 6 seconds",
 
   "item.brutality.dunked_donut": "Dunked Donut",
   "item.brutality.dunked_donut.passive.1": "§e -All Damage inflicts §eS§6p§cr§4i§dn§5k§1l§9e§3d §bI§aI§e and §fGlazed II§e for 4 seconds",
 
   "item.brutality.lollipop_of_eternity": "Lollipop of Eternity",
-  "item.brutality.lollipop_of_eternity.passive.1": "§e -All Damage inflicts §eS§6p§cr§4i§dn§5k§1l§9e§3d §bI§aI§e§2I, §fGlazed III§e, §7Caramelized III§e and §dCandied III§e for 6 seconds",
+  "item.brutality.lollipop_of_eternity.passive.1": "§e -All Damage inflicts §eS§6p§cr§4i§dn§5k§1l§9e§3d §bI§aI§e§2I, §fGlazed III§e, §6Caramelized III§e and §dCandied III§e for 6 seconds",
 
 
 
@@ -223,9 +225,9 @@
   "item.brutality.olive_oil_charm.passive.1": "§e -True melee hits inflict §2Oiled II §efor 3 seconds",
   "item.brutality.extra_virgin_olive_oil_charm": "Extra Virgin Olive Oil",
   "item.brutality.extra_virgin_olive_oil_charm.passive.1": "§e -All Damage inflict §2Oiled IV §efor 6 seconds",
-  "item.brutality.butter_gauntlets_hands": "Butter Gauntlets",
-  "item.brutality.butter_gauntlets_hands.passive.1": "§e -True melee hits inflict §6Stunned §efor 4 ticks, with a base chance of 10%, increasing 2% with each level of §aLuck",
-  "item.brutality.butter_gauntlets_hands.passive.2": "§3 -3 second cooldown",
+  "item.brutality.butter_gauntlets": "Butter Gauntlets",
+  "item.brutality.butter_gauntlets.passive.1": "§e -True melee hits inflict §6Stunned §efor 4 ticks, with a base chance of 10%, increasing 2% with each level of §aLuck",
+  "item.brutality.butter_gauntlets.passive.2": "§3 -3 second cooldown",
 
   "item.brutality.tomato_sauce_charm": "Tomato Sauce",
   "item.brutality.tomato_sauce_charm.passive.1": "§e -True melee hits inflict §6Slicked I §efor 3 seconds",
@@ -295,22 +297,22 @@
   "item.brutality.exponential_charm.passive.2": "§e -A maximum of 15 hits can be in a combo before it is reset",
   "item.brutality.exponential_charm.passive.3": "§e -Increases Attack Damage using the formula:",
   "item.brutality.exponential_charm.passive.4": " ",
-  "item.brutality.exponential_charm.passive.5": "§e Damage§d^§f(§e1 §f+ §ecombo §f✖ §e0.01§f)",
+  "item.brutality.exponential_charm.passive.5": "§e Damage§d^§f(§e1 §f+ §ecombo §fx §e0.01§f)",
 
   "item.brutality.sine_charm": "Sine Function",
   "item.brutality.sine_charm.lore.1": "A trigonometric function",
   "item.brutality.sine_charm.passive.1": "§e -Increases Attack Damage using the formula:",
   "item.brutality.sine_charm.passive.2": "",
-  "item.brutality.sine_charm.passive.3": "§9 sin§f(§etime §f✖ §e0.1§f) §f✖ §e5 §f+ §e2.5",
+  "item.brutality.sine_charm.passive.3": "§9 sin§f(§etime §fx §e0.1§f) §fx §e5 §f+ §e2.5",
 
   "item.brutality.cosine_charm": "Cosine Function",
   "item.brutality.cosine_charm.lore.1": "A trigonometric function",
   "item.brutality.cosine_charm.passive.1": "§e -Increases Attack Speed using the formula:",
   "item.brutality.cosine_charm.passive.2": "",
-  "item.brutality.cosine_charm.passive.3": "§c cos§f(§etime §f✖ §e0.1§f) §f✖ §e0.25 §f+ §e0.125",
+  "item.brutality.cosine_charm.passive.3": "§c cos§f(§etime §fx §e0.1§f) §fx §e0.25 §f+ §e0.125",
 
   "item.brutality.addition_charm": "Addition (+)",
-  "item.brutality.multiplication_charm": "Multiplication (✖)",
+  "item.brutality.multiplication_charm": "Multiplication (x)",
 
   "item.brutality.subtraction_charm": "Subtraction (-)",
   "item.brutality.subtraction_charm.passive.1": "§e -Reduces Damage taken by 1 heart",
@@ -425,17 +427,17 @@
   "item.brutality.gluttony": "Sin of Gluttony",
   "item.brutality.gluttony.passive.1": "§e -Absorbs the souls of your slain enemies, giving bonus stats",
 
-  "item.brutality.nanomachines_hands": "Nano Machines",
-  "item.brutality.nanomachines_hands.lore.1": "Nanomachines, son!",
-  "item.brutality.nanomachines_hands.passive.1": "§e -Reduces §6Physical §eDamage taken by 50%",
+  "item.brutality.nanomachines": "Nano Machines",
+  "item.brutality.nanomachines.lore.1": "Nanomachines, son!",
+  "item.brutality.nanomachines.passive.1": "§e -Reduces §6Physical §eDamage taken by 50%",
 
   "item.brutality.plunder_chest_charm": "Plunder Chest",
   "item.brutality.plunder_chest_charm.passive.1": "§e -True melee hits steal enemy §aBuffs§e, with a base chance of 10%, increasing 2% with each level of §aLuck",
   "item.brutality.plunder_chest_charm.passive.2": "§3 -5 second cooldown",
 
-  "item.brutality.dueling_glove_hands": "Dueling Glove",
-  "item.brutality.dueling_glove_hands.passive.1": "§9 +1.5x Damage dealt to the nearest mob",
-  "item.brutality.dueling_glove_hands.passive.2": "§9 +1.5x Damage taken from other mobs",
+  "item.brutality.dueling_glove": "Dueling Glove",
+  "item.brutality.dueling_glove.passive.1": "§9 +1.5x Damage dealt to the nearest mob",
+  "item.brutality.dueling_glove.passive.2": "§9 +1.5x Damage taken from other mobs",
 
   "item.brutality.dragonheart": "Dragonheart",
   "item.brutality.dragonheart.passive.1": "§e -Grants §3Resistance I",
@@ -459,10 +461,6 @@
   "item.brutality.resplendent_feather_charm.lore.1": "Toasty",
   "item.brutality.resplendent_feather_charm.passive.1": "§e -Heal for every burning mob in a 12 block radius",
 
-  "item.brutality.pocket_black_hole": "Pocket Black Hole",
-  "item.brutality.pocket_black_hole.lore.1": "A little bit heavier than the Earth",
-  "item.brutality.pocket_black_hole.passive.1": "§e -Heal for every burning mob in a 12 block radius",
-  "item.brutality.pocket_black_hole.passive.2": "§e -Grants §dRegeneration II §eupon hitting critical health",
 
   "item.brutality.first_explosion": "The First Explosion",
   "item.brutality.first_explosion.lore.1": "Darkness blacker than black and darker than dark, I beseech thee, combine with my deep crimson.",
@@ -506,7 +504,7 @@
 
   "item.brutality.shadowstep": "Shadowstep",
   "item.brutality.shadowstep.on_right_click.1": "§e -Teleports behind the target you are looking at",
-  "item.brutality.shadowstep.passive.1": "§e -Backstabs do 3x Damage",
+  "item.brutality.shadowstep.passive.1": "§e -Backstabs do 7x Damage",
   "item.brutality.shadowstep.invalid": "You cannot teleport there",
 
   "item.brutality.noir_helmet": "The Gentleman's Eclipse",
@@ -588,6 +586,14 @@
   "item.brutality.the_cloud.oxygen": "§bOxygen",
   "item.brutality.the_cloud.active_effects": "§eActive Effects: ",
 
+  "item.brutality.hyperbolic_feather": "Hyperbolic Feather",
+  "item.brutality.hyperbolic_feather.passive.1": "§e -Heals for twice the fall Damage taken",
+  "item.brutality.hyperbolic_feather.passive.2": "§3 -4 second cooldown",
+
+  "item.brutality.carton_of_prism_solution_milk": "Carton of Prism Solution Milk",
+  "item.brutality.carton_of_prism_solution_milk.passive.1": "§e -Grants §fImmunity",
+  "item.brutality.carton_of_prism_solution_milk.passive.2": "§e -Grants §dRegeneration II",
+
   "item.brutality.truthseeker": "Truthseeker",
   "item.brutality.truthseeker.lore": "In the relentless pursuit of knowledge, its blade carves through the veil of ignorance, severing falsehoods and casting light into the darkest corners of understanding. Each on_swing carries the weight of unspoken truths, leaving a path of shattered illusions and unyielding clarity in its wake.",
   "item.brutality.truthseeker.ability.name.1": "Sage's Tribute",
@@ -645,12 +651,11 @@
   "spell.brutality.edge_of_oblivion.description.1": "§8Materialize a disc of antimatter, and launches it forward, shredding through mobs",
 
 
-
   "spell.brutality.heavenly_flight": "Heavenly Flight",
   "spell.brutality.heavenly_flight.description.1": "§8Grants §eMortal Flight",
 
   "spell.brutality.holy_mantle": "Holy Mantle",
-  "spell.brutality.holy_mantle.description.1": "§8Grants §eGrace§8 nullifying the next instance of damage you take, scales with level",
+  "spell.brutality.holy_mantle.description.1": "§8Grants §eGrace§8, nullifying the next instance of damage you take, scales with level",
 
   "spell.brutality.sacrifice": "Sacrifice",
   "spell.brutality.sacrifice.description.1": "§cHeals§8 nearby players, including the caster, healing is distributed evenly and any excess is transferred to the next lowest player. Prioritizes the caster",
@@ -663,6 +668,28 @@
 
   "spell.brutality.light_binding": "Light Binding",
   "spell.brutality.light_binding.description.1": "§8Bind the target in shackles of light, halting their movement",
+
+
+  "spell.brutality.cosmic_cataclysm": "Cosmic Cataclysm",
+  "spell.brutality.cosmic_cataclysm.description.1": "§8Call down a massive meteor, causing a shockwave on impact",
+
+  "spell.brutality.meteor_shower": "Meteor Shower",
+  "spell.brutality.meteor_shower.description.1": "§8Calls down a continuous barrage of meteors at the target location",
+
+  "spell.brutality.gravitokinesis": "Gravitokinesis",
+  "spell.brutality.gravitokinesis.description.1": "§8Pulls targeted mobs towards the caster, can be inverted by crouching, knocking mobs away while pushing back the player",
+
+  "spell.brutality.star_stream": "Star Stream",
+  "spell.brutality.star_stream.description.1": "§8Unleashes a continuous barrage of stars at the targeted location",
+
+  "spell.brutality.star_burst": "Star Burst",
+  "spell.brutality.star_burst.description.1": "§8Unleashes a burst of stars at the targeted direction",
+
+  "spell.brutality.singularity_shift": "Singularity Shift",
+  "spell.brutality.singularity_shift.description.1": "§8Throw a star that spawns a field of augmented gravity upon impact. Gravity direction can be changed by shifting",
+
+  "spell.brutality.annihilation": "Annihilation",
+  "spell.brutality.annihilation.description.1": "§8Summon lances in a star around the caster. Lances apply §cHexed§8 and have a chance to explode on contact. Only castable when standing on ground",
 
 
   "message.brutality.no_mana": "Insufficient Mana!",
@@ -769,6 +796,7 @@
   "effect.brutality.oiled": "§2Oiled",
   "effect.brutality.scored": "§mScored",
   "effect.brutality.marinated": "Marinated",
+  "effect.brutality.caffeinated": "Caffeinated",
   "effect.brutality.mashed": "§4Mashed",
   "effect.brutality.stunned": "§l§eStunned",
   "effect.brutality.miracle_blight": "§eM§6i§cr§4a§dc§5l§1e§9 §3B§bl§ai§2g§eh§6t",
@@ -777,6 +805,11 @@
   "effect.brutality.caramelized": "§6Caramelized",
   "effect.brutality.glazed": "§fGlazed",
   "effect.brutality.grace": "Grace",
+  "effect.brutality.lightbound": "Lightbound",
+  "effect.brutality.enraged": "Enraged",
+  "effect.brutality.the_void": "The Void",
+  "effect.brutality.weightlessness": "§2Weightlessness",
+  "effect.brutality.hypergravity": "§4Hypergravity",
 
   "brutality.description.type.active": "§6Active Ability:",
   "brutality.description.type.passive": "§6Passive Effect:",

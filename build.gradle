@@ -77,8 +77,8 @@ sourceSets.main.resources {
 }
 
 mixin {
-    add sourceSets.main, "${mod_id}.refmap.json"
-    config "${mod_id}.mixins.json"
+    add sourceSets.main, "brutality.refmap.json"
+    config "brutality.mixins.json"
 }
 
 repositories {
@@ -96,9 +96,9 @@ repositories {
 
     maven { url 'https://maven.minecraftforge.net/' }
     maven { url 'https://maven.parchmentmc.org' }
-    maven { url 'https://repo.spongepowered.org/repository/maven-public/' }
+//    maven { url 'https://repo.spongepowered.org/repository/maven-public/' }
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
-
+    maven { url 'https://repo.azisaba.net/repository/maven-public/' }
     // Modrinth for Better Combat
     maven { url 'https://api.modrinth.com/maven' }
 
@@ -117,12 +117,12 @@ repositories {
 
 }
 
-
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     // Mixin
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+
     compileOnly("io.github.llamalad7:mixinextras-common:0.4.1")
     implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.1")) {
         jarJar.ranged(it, "[0.4.1,)")
@@ -135,12 +135,12 @@ dependencies {
     implementation fg.deobf('maven.modrinth:better-combat:1.8.6+1.20.1-forge')
     implementation fg.deobf("curse.maven:crafttweaker-239197:6256146")
 
+
     implementation fg.deobf("curse.maven:mmmmmmmmmmmm-225738:6237015")
     implementation fg.deobf("curse.maven:selene-499980:6507197")
     implementation fg.deobf("curse.maven:embeddium-908741:5681725")
     implementation fg.deobf("curse.maven:jade-324717:6271651")
 //    implementation fg.deobf("curse.maven:oculus-581495:6020952")
-
 
     implementation fg.deobf("curse.maven:attributefix-280510:4911084")
     implementation fg.deobf("curse.maven:bookshelf-228525:5423987")
@@ -158,11 +158,15 @@ dependencies {
 //    implementation fg.deobf("curse.maven:free-cam-557076:4643128")
 
     // Terramity thingamajigs
+    implementation fg.deobf("curse.maven:environmental-388992:6060255")
+    implementation fg.deobf("curse.maven:blueprint-382216:6408581")
+
     implementation fg.deobf("curse.maven:terramity-1084134:6054971")
     implementation fg.deobf("curse.maven:patchouli-306770:6164575")
     implementation fg.deobf("curse.maven:curios-309927:6418456")
     implementation fg.deobf("curse.maven:caelus-308989:5281700")
     implementation fg.deobf("curse.maven:lethality-a-terramity-addon-1282036:6766042")
+    implementation fg.deobf("curse.maven:azurelib-817423:6849107")
 
     // compile against the JEI API but do not include it at runtime
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))

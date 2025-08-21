@@ -1,6 +1,6 @@
 package net.goo.brutality.magic.spells.cosmic;
 
-import net.goo.brutality.entity.spells.cosmic.CosmicMeteorEntity;
+import net.goo.brutality.entity.spells.cosmic.CosmicCataclysmEntity;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.ModUtils;
@@ -58,9 +58,8 @@ public class CosmicCataclysmSpell extends BrutalitySpell {
             Vec3 targetPos = blockPos.getCenter();
             Vec3 spawnPos = targetPos.add(0, Math.min(50, spellLevel) * 10, 0);
 
-            CosmicMeteorEntity spellEntity = new CosmicMeteorEntity(BrutalityModEntities.COSMIC_CATACLYSM_ENTITY.get(), serverLevel);
+            CosmicCataclysmEntity spellEntity = new CosmicCataclysmEntity(BrutalityModEntities.COSMIC_CATACLYSM_ENTITY.get(), serverLevel);
             spellEntity.setSpellLevel(spellLevel);
-            spellEntity.setDamage(getFinalDamage(player, this, spellLevel));
             spellEntity.setPos(spawnPos);
             spellEntity.setOwner(player);
             serverLevel.addFreshEntity(spellEntity);

@@ -44,6 +44,6 @@
     }
   },
   "textures": {
-    "particle": "armament:item/spatula"
+    "particle": "brutality:item/spatula"
   }
 }

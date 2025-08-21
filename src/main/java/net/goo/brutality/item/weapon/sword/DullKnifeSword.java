@@ -9,7 +9,6 @@ import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.EnvironmentColorManager;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundSource;
@@ -17,8 +16,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -57,14 +54,14 @@ public class DullKnifeSword extends BrutalitySwordItem {
 
     }
 
-    enum EmotionColor {
+    public enum EmotionColor {
         NEUTRAL(new int[]{255, 255, 255}, new int[]{34, 34, 34}, BrutalityModMobEffects.NEUTRAL.get()),
         HAPPY(new int[]{255, 226, 0}, new int[]{255, 48, 251}, BrutalityModMobEffects.HAPPY.get()),
         SAD(new int[]{0, 26, 127}, new int[]{0, 242, 255}, BrutalityModMobEffects.SAD.get()),
         ANGRY(new int[]{255, 201, 0}, new int[]{215, 0, 0}, BrutalityModMobEffects.ANGRY.get());
 
-        private final int[] primaryColor;
-        private final int[] secondaryColor;
+        public final int[] primaryColor;
+        public final int[] secondaryColor;
         private final MobEffect effect;
 
         EmotionColor(int[] primaryColor, int[] secondaryColor, MobEffect effect) {
@@ -174,36 +171,5 @@ public class DullKnifeSword extends BrutalitySwordItem {
     }
 
 
-    @Override
-    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (!(pEntity instanceof LivingEntity entity)) return;
-        CompoundTag tag = pStack.getOrCreateTag();
-
-
-        int emotionIndex = ModUtils.getTextureIdx(pStack);
-        EmotionColor emotion = EmotionColor.byId(emotionIndex);
-        boolean wasSelected = tag.getBoolean("was_selected");
-
-        if (pIsSelected) {
-            entity.addEffect(new MobEffectInstance(emotion.effect, 1, 0, false, true));
-            if (pLevel.isClientSide() && !wasSelected) {
-                EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.SKY, emotion.primaryColor);
-                EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.FOG, emotion.secondaryColor);
-
-                tag.putBoolean("was_selected", pIsSelected);
-            }
-        }
-    }
-
-    @Override
-    public boolean onDroppedByPlayer(ItemStack item, Player player) {
-        EnvironmentColorManager.resetAllColors();
-        return super.onDroppedByPlayer(item, player);
-    }
-
-    @Override
-    public void onDeselected(Player player) {
-        EnvironmentColorManager.resetAllColors();
-    }
 
 }

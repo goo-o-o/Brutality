@@ -226,14 +226,6 @@
       }
     ]
   },
-  "epic_punch_3": {
-    "category": "player",
-    "sounds": [
-      {
-        "name": "brutality:epic_punch_3"
-      }
-    ]
-  },
   "frying_pan_hit": {
     "category": "player",
     "sounds": [
@@ -511,6 +503,22 @@
     "sounds": [
       {
         "name": "brutality:space_explosion"
+      }
+    ]
+  },
+  "bass_bop": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:bass_bop"
+      }
+    ]
+  },
+  "blood_splatter": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:blood_splatter"
       }
     ]
   }

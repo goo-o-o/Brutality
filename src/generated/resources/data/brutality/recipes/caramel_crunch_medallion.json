@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:daemonium"
+    },
+    "1": {
+      "item": "brutality:seared_sugar_brooch"
+    },
+    "3": {
+      "item": "brutality:rock_candy_ring"
+    }
+  },
+  "pattern": [
+    " ! ",
+    "1!3",
+    " ! "
+  ],
+  "result": {
+    "item": "brutality:caramel_crunch_medallion"
+  },
+  "show_notification": true
+}

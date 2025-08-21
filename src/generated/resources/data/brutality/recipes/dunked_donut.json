@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:daemonium"
+    },
+    "1": {
+      "item": "brutality:sugar_glaze"
+    },
+    "3": {
+      "item": "brutality:rainbow_sprinkles"
+    }
+  },
+  "pattern": [
+    " ! ",
+    "1!3",
+    " ! "
+  ],
+  "result": {
+    "item": "brutality:dunked_donut"
+  },
+  "show_notification": true
+}

@@ -21,7 +21,7 @@ public class QuadrupedModelMixin implements net.goo.brutality.client.models.IRan
 		this.parts = p_170857_.getAllParts().filter((p_170824_) -> !p_170824_.isEmpty()).collect(ImmutableList.toImmutableList());
 	}
 
-	public ModelPart armament$getRandomModelPart(RandomSource p_103407_) {
+	public ModelPart brutality$getRandomModelPart(RandomSource p_103407_) {
 		return this.parts.get(p_103407_.nextInt(this.parts.size()));
 	}
 }

@@ -14,13 +14,50 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.function.Function;
 
+@Mod.EventBusSubscriber (value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BrutalityRenderTypes extends RenderType {
-    public BrutalityRenderTypes(String p_173178_, VertexFormat p_173179_, VertexFormat.Mode p_173180_, int p_173181_, boolean p_173182_, boolean p_173183_, Runnable p_173184_, Runnable p_173185_) {
-        super(p_173178_, p_173179_, p_173180_, p_173181_, p_173182_, p_173183_, p_173184_, p_173185_);
+    public BrutalityRenderTypes(String string, VertexFormat vertexFormat, VertexFormat.Mode mode, int i, boolean b, boolean b1, Runnable runnable, Runnable runnable1) {
+        super(string, vertexFormat, mode, i, b, b1, runnable, runnable1);
     }
+//
+//    private static ShaderInstance brightShader;
+//    @SubscribeEvent
+//    public static void registerShaders(RegisterShadersEvent event) throws IOException {
+//        event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "bloom"),
+//                DefaultVertexFormat.POSITION_COLOR_TEX), shaderInstance -> brightShader = shaderInstance);
+//    }
+//    public static ShaderInstance getBrightShader() {
+//        if (brightShader == null) {
+//            throw new IllegalStateException("Bright shader not initialized!");
+//        }
+//        return brightShader;
+//    }
+//    private static final ShaderStateShard BRIGHT_SHADER_STATE = new ShaderStateShard(BrutalityRenderTypes::getBrightShader);
+//
+//    public static RenderType getBrightRenderType(ResourceLocation texture) {
+//        return RenderType.create(
+//                "bloom_" + texture.getPath(),
+//                DefaultVertexFormat.POSITION_COLOR_TEX,
+//                VertexFormat.Mode.QUADS,
+//                256,
+//                false,
+//                true,
+//                RenderType.CompositeState.builder()
+//                        .setShaderState(BRIGHT_SHADER_STATE)
+//                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
+//                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+//                        .setLightmapState(RenderStateShard.NO_LIGHTMAP) // Full bright
+//                        .setCullState(RenderStateShard.NO_CULL)
+//                        .createCompositeState(false)
+//        );
+//    }
+
+
 
     protected static final RenderStateShard.TransparencyStateShard GHOST_TRANSPARENCY = new RenderStateShard.TransparencyStateShard("translucent_ghost_transparency", () -> {
         RenderSystem.enableBlend();
@@ -30,18 +67,6 @@ public class BrutalityRenderTypes extends RenderType {
         RenderSystem.defaultBlendFunc();
     });
 
-    public static RenderType getBright(ResourceLocation locationIn) {
-        TextureStateShard renderstate$texturestate = new TextureStateShard(locationIn, false, false);
-        return create("bright", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, CompositeState
-                .builder()
-                .setTextureState(renderstate$texturestate)
-                .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
-                .setTransparencyState(NO_TRANSPARENCY)
-                .setCullState(NO_CULL)
-                .setLightmapState(LIGHTMAP)
-                .setOverlayState(OVERLAY)
-                .createCompositeState(false));
-    }
 
     public static RenderType getFlickering(ResourceLocation resourceLocation, float lightLevel) {
         TextureStateShard renderstate$texturestate = new TextureStateShard(resourceLocation, false, false);

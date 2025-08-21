@@ -1,6 +1,7 @@
 package net.goo.brutality.item.weapon.generic;
 
 import net.goo.brutality.item.base.BrutalityGenericItem;
+import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -63,8 +64,7 @@ public class TheCloudItem extends BrutalityGenericItem {
             effectsList.add(effect.save(effectTag));
 
         });
-        stack.getOrCreateTag().putInt(CUSTOM_MODEL_DATA, 1);
-
+        ModUtils.setTextureIdx(stack, 1);
 
         if (!stack.getOrCreateTag().contains(DATA)) {
 
@@ -72,8 +72,7 @@ public class TheCloudItem extends BrutalityGenericItem {
             stack.addTagElement(DATA, dataTag);
 
         } else {
-            stack.getOrCreateTag().remove(CUSTOM_MODEL_DATA);
-
+            ModUtils.removeTextureIdx(stack);
 
             CompoundTag itemData = stack.getOrCreateTag().getCompound(DATA);
 

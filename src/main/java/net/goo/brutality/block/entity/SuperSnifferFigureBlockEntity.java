@@ -55,7 +55,6 @@ public class SuperSnifferFigureBlockEntity extends BlockEntity implements Brutal
 
     private PlayState predicate(AnimationState<SuperSnifferFigureBlockEntity> state) {
         SuperSnifferFigureBlockEntity blockEntity = (SuperSnifferFigureBlockEntity) state.getData(DataTickets.BLOCK_ENTITY);
-        System.out.println("PREDICATE POSE: " + blockEntity.getPose());
         state.getController().setAnimation(RawAnimation.begin().thenPlayAndHold("pose_" + blockEntity.getPose()));
         return PlayState.CONTINUE;
     }

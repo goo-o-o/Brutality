@@ -1,18 +1,17 @@
 package net.goo.brutality.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.goo.brutality.item.BrutalityArmorMaterials;
 import net.goo.brutality.item.weapon.scythe.DarkinScythe;
-import net.goo.brutality.registry.BrutalityDamageTypes;
 import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.goo.brutality.util.BrutalityEntityRotations;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -22,11 +21,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import static net.goo.brutality.util.ModResources.CUSTOM_MODEL_DATA;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements BrutalityEntityRotations {
@@ -54,28 +50,35 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
 
 
         if (mainHand.getItem() instanceof DarkinScythe)
-            if (mainHand.getOrCreateTag().getInt(CUSTOM_MODEL_DATA) == 1)
+            if (ModUtils.getTextureIdx(mainHand) == 1)
                 cir.setReturnValue(false);
 
         if (offhand.getItem() instanceof DarkinScythe)
-            if (offhand.getOrCreateTag().getInt(CUSTOM_MODEL_DATA) == 1)
+            if (ModUtils.getTextureIdx(offhand) == 1)
                 cir.setReturnValue(false);
     }
 
-    @Redirect(
+    @WrapOperation(
             method = "travel",
-            at = @At(
-                    value = "INVOKE",
-                    remap = false,
-                    target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F"
-            )
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F")
     )
-    private float overrideFriction(BlockState state, LevelReader level, BlockPos pos, Entity entity) {
-        if (entity instanceof LivingEntity living && living.hasEffect(BrutalityModMobEffects.OILED.get())) {
-            return 0.999F;
+    private float wrapGetFriction(BlockState state, LevelReader level, BlockPos pos, Entity entity, Operation<Float> original) {
+        float friction = original.call(state, level, pos, entity);
+        if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(BrutalityModMobEffects.OILED.get())) {
+            return (float) Math.min(1.099, 1F + livingEntity.getEffect(BrutalityModMobEffects.OILED.get()).getAmplifier() * 0.02F);
         }
-        return state.getFriction(level, pos, entity);
+        return friction;
     }
+
+//    @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F"))
+//    private float getFriction(BlockState state, LevelReader level, BlockPos pos, Entity entity) {
+//        if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(BrutalityModMobEffects.OILED.get())) {
+//            return (float) Math.min(1.099, 1F + livingEntity.getEffect(BrutalityModMobEffects.OILED.get()).getAmplifier() * 0.2F);
+//        }
+//
+//        return state.getFriction(level, pos, entity);
+//    }
+
 
     @Inject(
             method = "getJumpPower",
@@ -156,7 +159,6 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
             this.brutality$pitch = (float) Math.atan2(motion.y, Math.sqrt(motion.x * motion.x + motion.z * motion.z)) * Mth.RAD_TO_DEG;
         }
     }
-
 
 
 }

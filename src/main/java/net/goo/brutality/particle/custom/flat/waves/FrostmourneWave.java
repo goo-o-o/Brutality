@@ -6,15 +6,16 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
+import org.jetbrains.annotations.NotNull;
 
 public class FrostmourneWave extends WaveParticle {
 
 
-    public FrostmourneWave(ClientLevel level, double x, double y, double z, WaveParticleData data, SpriteSet sprites) {
+    public FrostmourneWave(ClientLevel level, double x, double y, double z, WaveParticleData<?> data, SpriteSet sprites) {
         super(level, x, y, z, data, sprites);
     }
 
-    public static class Provider implements ParticleProvider<WaveParticleData> {
+    public static class Provider implements ParticleProvider<WaveParticleData<?>> {
         private final SpriteSet sprites;
 
         public Provider(SpriteSet spriteSet) {
@@ -22,7 +23,7 @@ public class FrostmourneWave extends WaveParticle {
         }
 
         @Override
-        public Particle createParticle(WaveParticleData data, ClientLevel level,
+        public Particle createParticle(@NotNull WaveParticleData data, ClientLevel level,
                                        double x, double y, double z,
                                        double dx, double dy, double dz) {
             return new FrostmourneWave(level, x, y, z, data, sprites);

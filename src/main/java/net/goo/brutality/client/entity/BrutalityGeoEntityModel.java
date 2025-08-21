@@ -25,7 +25,8 @@ public class BrutalityGeoEntityModel<T extends Entity & BrutalityGeoEntity> exte
 
 
     public ResourceLocation getAnimationResource(T animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "animations/entity/" + ForgeRegistries.ENTITY_TYPES.getKey(animatable.getType()).getPath() + ".animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "animations/entity/" + (animatable.animation() != null ? animatable.animation() :
+                ForgeRegistries.ENTITY_TYPES.getKey(animatable.getType()).getPath()) + ".animation.json");
 
     }
 

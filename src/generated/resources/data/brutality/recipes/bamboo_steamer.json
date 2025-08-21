@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:water_bucket"
+    },
+    "#": {
+      "item": "minecraft:stripped_bamboo_block"
+    },
+    "$": {
+      "item": "minecraft:magma_block"
+    }
+  },
+  "pattern": [
+    "###",
+    "#!#",
+    "#$#"
+  ],
+  "result": {
+    "item": "brutality:bamboo_steamer"
+  },
+  "show_notification": true
+}

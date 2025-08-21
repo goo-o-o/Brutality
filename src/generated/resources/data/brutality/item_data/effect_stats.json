@@ -312,6 +312,12 @@
     "namespace": "brutality"
   },
   {
+    "category": "beneficial",
+    "id": "the_void",
+    "name": "the_void",
+    "namespace": "brutality"
+  },
+  {
     "category": "harmful",
     "id": "pulverized",
     "name": "Pulverized",
@@ -423,6 +429,30 @@
     "category": "harmful",
     "id": "sprinkled",
     "name": "§eS§6p§cr§4i§dn§5k§1l§9e§3d",
+    "namespace": "brutality"
+  },
+  {
+    "category": "beneficial",
+    "id": "grace",
+    "name": "Grace",
+    "namespace": "brutality"
+  },
+  {
+    "category": "harmful",
+    "id": "light_bound",
+    "name": "light_bound",
+    "namespace": "brutality"
+  },
+  {
+    "category": "neutral",
+    "id": "weightlessness",
+    "name": "§2Weightlessness",
+    "namespace": "brutality"
+  },
+  {
+    "category": "neutral",
+    "id": "hypergravity",
+    "name": "§4Hypergravity",
     "namespace": "brutality"
   }
 ]

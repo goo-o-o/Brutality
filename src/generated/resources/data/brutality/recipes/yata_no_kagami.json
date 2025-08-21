@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:gaianite_cluster"
+    },
+    "$": {
+      "item": "terramity:daemonium_glass"
+    },
+    "@": {
+      "item": "minecraft:oxidized_copper"
+    }
+  },
+  "pattern": [
+    " @!",
+    "@$@",
+    "!@ "
+  ],
+  "result": {
+    "item": "brutality:yata_no_kagami"
+  },
+  "show_notification": true
+}

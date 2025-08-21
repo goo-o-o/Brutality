@@ -3,9 +3,8 @@ package net.goo.brutality.event.forge.client;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.projectile.generic.BlackHole;
 import net.goo.brutality.entity.projectile.trident.ThrownThunderbolt;
-import net.goo.brutality.entity.spells.cosmic.CosmicMeteorEntity;
+import net.goo.brutality.entity.spells.cosmic.CosmicCataclysmEntity;
 import net.goo.brutality.item.weapon.sword.SupernovaSword;
-import net.goo.brutality.particle.providers.TrailParticleData;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.registry.BrutalityModParticles;
@@ -88,8 +87,7 @@ public class ForgeClientParticleHandler {
     }
 
     private static void spawnBladeOfTheRuinedParticle(Player player, Level level) {
-        level.addParticle(new TrailParticleData(BrutalityModParticles.RUINED_PARTICLE.get(), 0.18F, 0.47F, 0.44F, 10, 1, -1, 10), player.getRandomX(2), player.getRandomY(), player.getRandomZ(2), 0, 0, 0);
-
+//        level.addParticle(new TrailParticleData(BrutalityModParticles.RUINED_PARTICLE.get(), 0.18F, 0.47F, 0.44F, 10, 1, -1, 10), player.getRandomX(2), player.getRandomY(), player.getRandomZ(2), 0, 0, 0);
     }
 
     private static void spawnZeusThunderboltParticle(Player player, Level level) {
@@ -126,8 +124,8 @@ public class ForgeClientParticleHandler {
 
 
     private static void spawnCosmicCataclysmParticles(Player player, Level level) {
-        List<CosmicMeteorEntity> entities = level.getEntitiesOfClass(CosmicMeteorEntity.class, player.getBoundingBox().inflate(50));
-        for (CosmicMeteorEntity spellEntity : entities) {
+        List<CosmicCataclysmEntity> entities = level.getEntitiesOfClass(CosmicCataclysmEntity.class, player.getBoundingBox().inflate(50));
+        for (CosmicCataclysmEntity spellEntity : entities) {
 
             int spellLevel = spellEntity.getSpellLevel() / 2;
 

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:topaz"
+    },
+    "#": {
+      "item": "minecraft:gold_ingot"
+    },
+    "@": {
+      "item": "terramity:hellrok_gauntlet"
+    }
+  },
+  "pattern": [
+    "###",
+    "#@#",
+    "!!!"
+  ],
+  "result": {
+    "item": "brutality:butter_gauntlets"
+  },
+  "show_notification": true
+}

@@ -288,7 +288,10 @@ public class BrutalityTooltipHelper {
 
     public enum SpellStatComponents {
         RANGE("📏"," 🟫"),
+        SPEED("⏲"," ⏲"),
         SIZE("📐"," 🟫"),
+        CHANCE("🎲","%"),
+        QUANTITY("🔢"," ◽"),
         PIERCE("💘"," 🧟"),
         DURATION("🕒", "s"),
         DEFENSE("🦺", " 🛡"),

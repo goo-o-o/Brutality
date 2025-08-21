@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:blackstone"
+    },
+    "$": {
+      "item": "terramity:virentium_alloy_ingot"
+    },
+    "@": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "pattern": [
+    "#@#",
+    "@$@",
+    "#@#"
+  ],
+  "result": {
+    "item": "brutality:gluttony"
+  },
+  "show_notification": true
+}

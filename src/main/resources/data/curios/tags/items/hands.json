@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "brutality:nanomachines_hands",
-    "brutality:dueling_glove_hands",
-    "brutality:butter_gauntlets_hands",
+    "brutality:nanomachines",
+    "brutality:dueling_glove",
+    "brutality:butter_gauntlets",
     "brutality:good_book",
     "brutality:anger_management",
     "brutality:blood_pulse_gauntlets"

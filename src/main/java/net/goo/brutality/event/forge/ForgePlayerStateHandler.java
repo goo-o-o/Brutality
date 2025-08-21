@@ -1,30 +1,32 @@
 package net.goo.brutality.event.forge;
 
+import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.item.base.BrutalityGeoItem;
 import net.goo.brutality.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.item.weapon.generic.CreaseOfCreationItem;
 import net.goo.brutality.item.weapon.lance.EventHorizonLance;
+import net.goo.brutality.item.weapon.sword.BladeOfTheRuinedKingSword;
+import net.goo.brutality.item.weapon.sword.DullKnifeSword;
 import net.goo.brutality.item.weapon.sword.SupernovaSword;
 import net.goo.brutality.item.weapon.tome.BaseMagicTome;
-import net.goo.brutality.mob_effect.EnragedEffect;
+import net.goo.brutality.item.weapon.trident.ThunderboltTrident;
 import net.goo.brutality.mob_effect.TheVoidEffect;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.s2cSyncCapabilitiesPacket;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.registry.ModAttributes;
+import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.util.helpers.EnvironmentColorManager;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
@@ -32,15 +34,16 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingSwapItemsEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import oshi.util.tuples.Pair;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
 
-import static net.goo.brutality.mob_effect.EnragedEffect.*;
+import static net.goo.brutality.util.ModResources.*;
 import static net.goo.brutality.util.helpers.EnvironmentColorManager.resetAllColors;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
@@ -53,6 +56,70 @@ public class ForgePlayerStateHandler {
 //        }
 //    }
 
+//    @SubscribeEvent
+//    public static void onPlayerContainerOpen(PlayerContainerEvent.Open event) {
+//        Player player = event.getEntity();
+//        if (player.level().isClientSide()) return; // server only
+//
+//        AbstractContainerMenu menu = event.getContainer();
+//
+//        // Track only player inventory slots
+//        Map<Integer, ItemStack> initialContents = new HashMap<>();
+//        for (int i = 0; i < menu.slots.size(); i++) {
+//            Slot slot = menu.getSlot(i);
+//            if (slot.container == player.getInventory()) {
+//                initialContents.put(i, slot.getItem().copy());
+//            }
+//        }
+//
+//        menu.addSlotListener(new ContainerListener() {
+//            @Override
+//            public void slotChanged(AbstractContainerMenu menu, int slotIndex, ItemStack newStack) {
+//                if (!initialContents.containsKey(slotIndex)) return; // not a player slot
+//
+//                ItemStack oldStack = initialContents.get(slotIndex);
+//                int oldCount = oldStack.getCount();
+//                int newCount = newStack.getCount();
+//
+//                // If count decreased for our specific item
+//                if (oldCount > newCount && isSpecificItem(oldStack)) {
+//                    triggerItemLeftInventory(player, oldStack, newStack);
+//                }
+//
+//                // update stored state
+//                initialContents.put(slotIndex, newStack.copy());
+//            }
+//
+//            @Override
+//            public void dataChanged(AbstractContainerMenu menu, int slotIndex, int data) {
+//            }
+//        });
+//    }
+//
+//    private static boolean isSpecificItem(ItemStack stack) {
+//        if (stack.isEmpty()) return false;
+//        Item item = stack.getItem();
+//        return item instanceof EventHorizonLance
+//                || item instanceof RhittaAxe
+//                || item instanceof BaseMagicTome
+//                || item instanceof CreaseOfCreationItem;
+//    }
+//
+//    private static void triggerItemLeftInventory(Player player, ItemStack oldStack, ItemStack newStack) {
+//        Item item = oldStack.getItem();
+//        if (item instanceof EventHorizonLance lance) {
+//            lance.despawnBlackHole(player, oldStack);
+//        } else if (item instanceof RhittaAxe axe) {
+//            axe.despawnCruelSun(player, oldStack);
+//        } else if (item instanceof BaseMagicTome tome) {
+//            tome.closeBook(player, oldStack, player.level());
+//        } else if (item instanceof CreaseOfCreationItem) {
+//            ModUtils.removeFX(player, CREASE_OF_CREATION_FX);
+//            newStack.getOrCreateTag().putBoolean("fxOn", false);
+//        }
+//    }
+
+
     @SubscribeEvent
     public static void onSwitchItemHands(LivingSwapItemsEvent event) {
         if (event.getEntity() instanceof Player player) {
@@ -64,15 +131,6 @@ public class ForgePlayerStateHandler {
         }
     }
 
-//    @SubscribeEvent
-//    public static void onPlayerRespawn(PlayerEvent.Clone event) {
-//        if (event.getOriginal() instanceof ServerPlayer preServerPlayer && event.getEntity() instanceof ServerPlayer postServerPlayer) {
-//            CombatTracker preCombatTracker = preServerPlayer.getCombatTracker();
-//            if (preCombatTracker.entries.get(preCombatTracker.entries.size() - 1).source().is(BrutalityDamageTypes.DEMATERIALIZE)) {
-//                postServerPlayer.restoreFrom(preServerPlayer, true);
-//            }
-//        }
-//    }
 
     @SubscribeEvent
     public static void onAddEffect(MobEffectEvent.Added event) {
@@ -81,68 +139,11 @@ public class ForgePlayerStateHandler {
         MobEffect effect = instance.getEffect();
         int amplifier = instance.getAmplifier();
 
-        if (effect instanceof EnragedEffect) {
-            if (!entity.level().isClientSide) {
-                AttributeInstance movementSpeed = entity.getAttribute(Attributes.MOVEMENT_SPEED);
-                if (movementSpeed != null) {
-                    double dynamicSpeedBonus = 0.2 + (0.1 * amplifier);
-
-                    AttributeModifier existing = movementSpeed.getModifier(ENRAGED_MS_UUID);
-                    if (existing != null) {
-                        movementSpeed.removeModifier(existing);
-                    }
-                    movementSpeed.addTransientModifier(new AttributeModifier(
-                            ENRAGED_MS_UUID,
-                            "Enraged MS Bonus",
-                            dynamicSpeedBonus,
-                            AttributeModifier.Operation.MULTIPLY_TOTAL));
+        if (!entity.level().isClientSide) {
+            if (effect instanceof TheVoidEffect) {
+                if (entity instanceof Player player) {
+                    PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(player.getId(), player));
                 }
-                AttributeInstance attackSpeed = entity.getAttribute(Attributes.ATTACK_SPEED);
-                if (attackSpeed != null) {
-                    double dynamicAttackSpeedBonus = 0.2 + (0.1 * amplifier);
-
-                    AttributeModifier existing = attackSpeed.getModifier(ENRAGED_AS_UUID);
-                    if (existing != null) {
-                        attackSpeed.removeModifier(existing);
-                    }
-                    attackSpeed.addTransientModifier(new AttributeModifier(
-                            ENRAGED_AS_UUID,
-                            "Enraged AS Bonus",
-                            dynamicAttackSpeedBonus,
-                            AttributeModifier.Operation.MULTIPLY_TOTAL));
-                }
-                AttributeInstance attackDamage = entity.getAttribute(Attributes.ATTACK_DAMAGE);
-                if (attackDamage != null) {
-                    double dynamicAttackDamageBonus = 0.5 + (0.05 * amplifier);
-
-                    AttributeModifier existing = attackDamage.getModifier(ENRAGED_AD_UUID);
-                    if (existing != null) {
-                        attackDamage.removeModifier(existing);
-                    }
-                    attackDamage.addTransientModifier(new AttributeModifier(
-                            ENRAGED_AD_UUID,
-                            "Enraged AD Bonus",
-                            dynamicAttackDamageBonus,
-                            AttributeModifier.Operation.MULTIPLY_TOTAL));
-                }
-                AttributeInstance armor = entity.getAttribute(Attributes.ARMOR);
-                if (armor != null) {
-                    double dynamicArmorBonus = Math.min(-1 + (0.1 * amplifier), 0);
-
-                    AttributeModifier existing = armor.getModifier(ENRAGED_ARMOR_UUID);
-                    if (existing != null) {
-                        armor.removeModifier(existing);
-                    }
-                    armor.addTransientModifier(new AttributeModifier(
-                            ENRAGED_ARMOR_UUID,
-                            "Enraged MS Bonus",
-                            dynamicArmorBonus,
-                            AttributeModifier.Operation.MULTIPLY_TOTAL));
-                }
-            }
-        } else if (effect instanceof TheVoidEffect) {
-            if (entity instanceof Player player) {
-                PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(player.getId(), player));
             }
         }
     }
@@ -176,12 +177,6 @@ public class ForgePlayerStateHandler {
     }
 
 
-//    @SubscribeEvent
-//    public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
-//        if (event.getEntity() instanceof ServerPlayer player) {
-//        }
-//    }
-
     @SubscribeEvent
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
@@ -192,54 +187,145 @@ public class ForgePlayerStateHandler {
         }
     }
 
-    @SubscribeEvent
-    public static void onPlaceInItemFrame(PlayerInteractEvent.EntityInteractSpecific event) {
-        if (!(event.getLevel() instanceof ServerLevel serverLevel)) return;
-
-        Entity target = event.getTarget();
-        Player player = event.getEntity();
-
-        if (target instanceof ItemFrame itemFrame) {
-            ItemStack heldItem = player.getMainHandItem();
-
-            if (itemFrame.getItem().isEmpty() && !heldItem.isEmpty()) {
-                if (heldItem.getItem() instanceof EventHorizonLance eventHorizonLance) {
-                    eventHorizonLance.despawnBlackHole(player, heldItem);
-                }
-                if (heldItem.getItem() instanceof RhittaAxe rhittaAxe) {
-                    rhittaAxe.despawnCruelSun(player, heldItem);
-                }
-                if (heldItem.getItem() instanceof BaseMagicTome tome) {
-                    tome.closeBook(itemFrame.getBlockX(), itemFrame.getBlockY(), itemFrame.getBlockZ(), player, heldItem, serverLevel);
-                }
-            }
-        }
-    }
-
-
-    private static final Map<Player, Integer> lastSelectedSlot = new HashMap<>();
 
     private static final UUID CHOPSTICK_AS_UUID = UUID.fromString("cd9b5958-a78b-4391-af97-826d4379f7f0");
     private static final UUID CHOPSTICK_KB_UUID = UUID.fromString("3f0426a3-2e8a-4d29-b06e-7a470bf28015");
 
+    @FunctionalInterface
+    public interface HoldEvent {
+        void run(Player player);
+    }
+
+    public record HoldToggleAction(HoldEvent onHold, HoldEvent onRelease) {
+    }
+
+    private static final List<Pair<Predicate<ItemStack>, HoldToggleAction>> TOGGLE_ACTIONS = new ArrayList<>();
+
+    static {
+        TOGGLE_ACTIONS.add(new Pair<>(
+                stack -> stack.getItem() instanceof CreaseOfCreationItem,
+                new HoldToggleAction(
+                        player -> {
+                            if (!(player.level() instanceof ServerLevel)) {
+                                EntityEffect effect = new EntityEffect(CREASE_OF_CREATION_FX, player.level(), player, EntityEffect.AutoRotate.NONE);
+                                effect.start();
+                            }
+                        },
+                        player -> {
+                            if (!(player.level() instanceof ServerLevel)) {
+                                ModUtils.removeFX(player, CREASE_OF_CREATION_FX);
+                            }
+                        }
+                )));
+        TOGGLE_ACTIONS.add(new Pair<>(
+                stack -> stack.getItem() instanceof BladeOfTheRuinedKingSword,
+                new HoldToggleAction(
+                        player -> {
+                            if (!(player.level() instanceof ServerLevel)) {
+                                EntityEffect effect = new EntityEffect(RUINED_AURA_FX, player.level(), player, EntityEffect.AutoRotate.NONE);
+                                effect.start();
+                            }
+                        },
+                        player -> {
+                            if (!(player.level() instanceof ServerLevel)) {
+                                ModUtils.removeFX(player, RUINED_AURA_FX);
+                            }
+                        }
+                )));
+
+        TOGGLE_ACTIONS.add(new Pair<>(
+                stack -> stack.getItem() instanceof DullKnifeSword,
+                new HoldToggleAction(
+                        player -> {
+                            if (player.level().isClientSide()) {
+                                int emotionIndex = ModUtils.getTextureIdx(player.getMainHandItem());
+                                DullKnifeSword.EmotionColor emotion = DullKnifeSword.EmotionColor.byId(emotionIndex);
+                                EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.SKY, emotion.primaryColor);
+                                EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.FOG, emotion.secondaryColor);
+                            }
+                        },
+                        player -> EnvironmentColorManager.resetAllColors()
+                )));
+
+        TOGGLE_ACTIONS.add(new Pair<>(
+                stack -> stack.getItem() instanceof EventHorizonLance,
+                new HoldToggleAction(
+                        player -> {
+                        },
+                        player -> {
+                            if (player.getMainHandItem().getItem() instanceof EventHorizonLance lance) {
+                                lance.despawnBlackHole(player, player.getMainHandItem());
+                            }
+                        }
+                )));
+
+        TOGGLE_ACTIONS.add(new Pair<>(
+                stack -> stack.getItem() instanceof RhittaAxe,
+                new HoldToggleAction(
+                        player -> {
+                        },
+                        player -> {
+                            if (player.getMainHandItem().getItem() instanceof RhittaAxe rhittaAxe) {
+                                rhittaAxe.despawnCruelSun(player, player.getMainHandItem());
+                            }
+                        }
+                )));
+
+        TOGGLE_ACTIONS.add(new Pair<>(
+                stack -> stack.getItem() instanceof BaseMagicTome,
+                new HoldToggleAction(
+                        player -> {
+                        },
+                        player -> {
+                            ItemStack main = player.getMainHandItem();
+                            if (main.getItem() instanceof BaseMagicTome tome) {
+                                tome.closeBook(player, main, player.level());
+                            }
+                        }
+                )));
+        TOGGLE_ACTIONS.add(new Pair<>(
+                stack -> stack.getItem() instanceof ThunderboltTrident,
+                new HoldToggleAction(
+                        player -> {
+                            if (!(player.level() instanceof ServerLevel)) {
+                                EntityEffect effect = new EntityEffect(LIGHTNING_AURA_FX, player.level(), player, EntityEffect.AutoRotate.NONE);
+                                effect.start();
+                            }
+                        },
+                        player -> {
+                            if (!(player.level() instanceof ServerLevel)) {
+                                ModUtils.removeFX(player, LIGHTNING_AURA_FX);
+                            }
+                        }
+                )));
+
+
+    }
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase != TickEvent.Phase.START) return;
 
         Player player = event.player;
-        int currentSlot = player.getInventory().selected;
-        int lastSlot = lastSelectedSlot.getOrDefault(player, -1);
 
-        if (currentSlot != lastSlot) {
-            ItemStack deselected = lastSlot >= 0 && lastSlot < 9 ? player.getInventory().getItem(lastSlot) : ItemStack.EMPTY;
 
-            if (deselected.getItem() instanceof BrutalityGeoItem item) {
-                item.onDeselected(player, deselected);
+        for (var entry : TOGGLE_ACTIONS) {
+            Predicate<ItemStack> matcher = entry.getA();
+            HoldToggleAction action = entry.getB();
+
+            boolean isHolding = matcher.test(player.getMainHandItem()) || matcher.test(player.getOffhandItem());
+            String tagKey = "holding_action_" + TOGGLE_ACTIONS.indexOf(entry); // unique per entry
+
+            boolean wasHolding = player.getPersistentData().getBoolean(tagKey);
+
+            if (isHolding && !wasHolding) {
+                action.onHold().run(player);
+                player.getPersistentData().putBoolean(tagKey, true);
+            } else if (!isHolding && wasHolding) {
+                action.onRelease().run(player);
+                player.getPersistentData().putBoolean(tagKey, false);
             }
         }
-
-        lastSelectedSlot.put(player, currentSlot);
 
 
         AttributeInstance knockback = player.getAttribute(Attributes.ATTACK_KNOCKBACK);
@@ -249,7 +335,6 @@ public class ForgePlayerStateHandler {
 
         if (player.getMainHandItem().is(BrutalityModItems.CHOPSTICK_STAFF.get()) && player.getOffhandItem().is(BrutalityModItems.CHOPSTICK_STAFF.get())) {
             if (attackSpeed != null & !hasASMult) {
-                System.out.println("adding Attack Speed");
                 attackSpeed.addTransientModifier(
                         new AttributeModifier(
                                 CHOPSTICK_AS_UUID,
@@ -261,8 +346,6 @@ public class ForgePlayerStateHandler {
             }
 
             if (knockback != null && !hasKBMult) {
-                System.out.println("adding Knockback");
-
                 knockback.addTransientModifier(
                         new AttributeModifier(
                                 CHOPSTICK_KB_UUID,
@@ -273,7 +356,6 @@ public class ForgePlayerStateHandler {
                 );
             }
         } else {
-
             if (attackSpeed != null) attackSpeed.removeModifier(CHOPSTICK_AS_UUID);
             if (knockback != null) knockback.removeModifier(CHOPSTICK_KB_UUID);
         }

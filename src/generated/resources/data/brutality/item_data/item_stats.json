@@ -7969,6 +7969,41 @@
     "rarity": "common"
   },
   {
+    "category": "generic",
+    "id": "unbridled_rage",
+    "itemType": "generic",
+    "name": "Unbridled Rage",
+    "namespace": "brutality",
+    "rarity": "common"
+  },
+  {
+    "blockType": "tile_entity",
+    "category": "generic",
+    "id": "water_cooler",
+    "itemType": "block",
+    "name": "Water Cooler",
+    "namespace": "brutality",
+    "rarity": "common"
+  },
+  {
+    "blockType": "tile_entity",
+    "category": "generic",
+    "id": "coffee_machine",
+    "itemType": "block",
+    "name": "Coffee Machine",
+    "namespace": "brutality",
+    "rarity": "common"
+  },
+  {
+    "blockType": "tile_entity",
+    "category": "generic",
+    "id": "super_sniffer_figure",
+    "itemType": "block",
+    "name": "Super Sniffer Figurine",
+    "namespace": "brutality",
+    "rarity": "common"
+  },
+  {
     "allowedEnchantments": "[Unbreaking]",
     "category": "curio",
     "enchantmentValue": "0",
@@ -8119,7 +8154,7 @@
     "attackDamage": "54",
     "attackSpeed": "0.5",
     "category": "weapon",
-    "durability": 2031,
+    "durability": 10000,
     "enchantmentValue": "15",
     "id": "royal_guardian_sword",
     "itemType": "sword",
@@ -8356,6 +8391,36 @@
     "allowedEnchantments": "[Unbreaking]",
     "category": "curio",
     "enchantmentValue": "0",
+    "id": "suspicious_slot_machine",
+    "itemType": "charm",
+    "name": "Suspicious Slot Machine (BROKEN)",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "hyperbolic_feather",
+    "itemType": "charm",
+    "name": "Hyperbolic Feather",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "carton_of_prism_solution_milk",
+    "itemType": "charm",
+    "name": "Carton of Prism Solution Milk",
+    "namespace": "brutality",
+    "rarity": "mythic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
     "id": "trial_guardian_eyebrows",
     "itemType": "head",
     "name": "Trial Guardian's Eyebrows",
@@ -8419,9 +8484,9 @@
     "allowedEnchantments": "[Unbreaking]",
     "category": "curio",
     "enchantmentValue": "0",
-    "id": "nanomachines_hands",
+    "id": "nanomachines",
     "itemType": "hands",
-    "name": "Nano Machines",
+    "name": "nanomachines",
     "namespace": "brutality",
     "rarity": "mythic"
   },
@@ -8429,9 +8494,9 @@
     "allowedEnchantments": "[Unbreaking]",
     "category": "curio",
     "enchantmentValue": "0",
-    "id": "dueling_glove_hands",
+    "id": "dueling_glove",
     "itemType": "hands",
-    "name": "Dueling Glove",
+    "name": "dueling_glove",
     "namespace": "brutality",
     "rarity": "mythic"
   },
@@ -8672,6 +8737,7 @@
   {
     "allowedEnchantments": "[Unbreaking, Power, Punch, Flame, Infinity, Curse of Vanishing]",
     "category": "weapon",
+    "durability": 1000,
     "enchantmentValue": "1",
     "id": "providence",
     "itemType": "bow",
@@ -9034,9 +9100,9 @@
     "allowedEnchantments": "[Unbreaking]",
     "category": "curio",
     "enchantmentValue": "0",
-    "id": "butter_gauntlets_hands",
+    "id": "butter_gauntlets",
     "itemType": "hands",
-    "name": "Butter Gauntlets",
+    "name": "butter_gauntlets",
     "namespace": "brutality",
     "rarity": "legendary"
   },
@@ -9338,7 +9404,7 @@
     "enchantmentValue": "0",
     "id": "multiplication_charm",
     "itemType": "charm",
-    "name": "Multiplication (✖)",
+    "name": "Multiplication (x)",
     "namespace": "brutality",
     "rarity": "epic"
   },
@@ -9567,21 +9633,93 @@
     "rarity": "common"
   },
   {
-    "blockType": "tile_entity",
+    "allowedEnchantments": "[Unbreaking]",
     "category": "generic",
-    "id": "water_cooler",
-    "itemType": "block",
-    "name": "Water Cooler",
+    "enchantmentValue": "0",
+    "id": "daemonic_tome",
+    "itemType": "tome",
+    "name": "Daemonic Tome",
     "namespace": "brutality",
-    "rarity": "common"
+    "rarity": "legendary"
   },
   {
-    "blockType": "tile_entity",
+    "allowedEnchantments": "[Unbreaking]",
     "category": "generic",
-    "id": "coffee_machine",
-    "itemType": "block",
-    "name": "Coffee Machine",
+    "enchantmentValue": "0",
+    "id": "darkist_tome",
+    "itemType": "tome",
+    "name": "Darkist Tome",
     "namespace": "brutality",
-    "rarity": "common"
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "generic",
+    "enchantmentValue": "0",
+    "id": "evergreen_tome",
+    "itemType": "tome",
+    "name": "Evergreen Tome",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "generic",
+    "enchantmentValue": "0",
+    "id": "cosmic_tome",
+    "itemType": "tome",
+    "name": "Cosmic Tome",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "generic",
+    "enchantmentValue": "0",
+    "id": "umbral_tome",
+    "itemType": "tome",
+    "name": "Umbral Tome",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "generic",
+    "enchantmentValue": "0",
+    "id": "void_tome",
+    "itemType": "tome",
+    "name": "Void Tome",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "generic",
+    "enchantmentValue": "0",
+    "id": "exodic_tome",
+    "itemType": "tome",
+    "name": "Exodic Tome",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "generic",
+    "enchantmentValue": "0",
+    "id": "celestia_tome",
+    "itemType": "tome",
+    "name": "Celestia Tome",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "generic",
+    "enchantmentValue": "0",
+    "id": "brimwielder_tome",
+    "itemType": "tome",
+    "name": "Brimwielder Tome",
+    "namespace": "brutality",
+    "rarity": "legendary"
   }
 ]

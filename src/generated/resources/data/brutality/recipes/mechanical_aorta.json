@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "terramity:chthonic_crystal"
+    },
+    "$": {
+      "item": "brutality:unbridled_rage"
+    },
+    "1": {
+      "item": "minecraft:repeater"
+    },
+    "2": {
+      "item": "minecraft:piston"
+    },
+    "3": {
+      "item": "terramity:battery"
+    },
+    "@": {
+      "item": "terramity:red_warp_pipe"
+    }
+  },
+  "pattern": [
+    "#@#",
+    "123",
+    "$$$"
+  ],
+  "result": {
+    "item": "brutality:mechanical_aorta"
+  },
+  "show_notification": true
+}

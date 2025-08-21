@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "brutality:unbridled_rage"
+    },
+    "%": {
+      "item": "terramity:magma_stone"
+    },
+    "@": {
+      "item": "terramity:chthonic_crystal"
+    }
+  },
+  "pattern": [
+    "@!@",
+    "!%!",
+    "@!@"
+  ],
+  "result": {
+    "item": "brutality:blood_stone"
+  },
+  "show_notification": true
+}

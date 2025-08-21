@@ -17,29 +17,36 @@ import static com.mojang.blaze3d.platform.GlStateManager.SourceFactor.ONE;
 import static com.mojang.blaze3d.platform.GlStateManager.SourceFactor.SRC_ALPHA;
 
 public class BrutalityAutoFullbrightTexture extends AutoGlowingTexture {
-    private static final RenderStateShard.ShaderStateShard SHADER_STATE = new RenderStateShard.ShaderStateShard(GameRenderer::getRendertypeEyesShader);
-    private static final RenderStateShard.TransparencyStateShard TRANSPARENCY_STATE = new RenderStateShard.TransparencyStateShard(
-            "translucent_transparency", () -> {
-        RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE_MINUS_SRC_ALPHA);
 
-    }, () -> {
-        RenderSystem.disableBlend();
-        RenderSystem.defaultBlendFunc();
-    });
-    private static final RenderStateShard.WriteMaskStateShard WRITE_MASK = new RenderStateShard.WriteMaskStateShard(true, true);
-    protected static final RenderStateShard.CullStateShard CULL = new RenderStateShard.CullStateShard(true);
 
     public BrutalityAutoFullbrightTexture(ResourceLocation originalLocation, ResourceLocation location) {
         super(originalLocation, location);
     }
 
     private static final Function<ResourceLocation, RenderType> RENDER_TYPE_FUNCTION = Util.memoize((texture) -> {
-        RenderStateShard.TextureStateShard textureState = new RenderStateShard.TextureStateShard(texture, false, false);
+        RenderStateShard.TransparencyStateShard TRANSPARENCY_STATE = new RenderStateShard.TransparencyStateShard(
+                "translucent_transparency", () -> {
+            RenderSystem.enableBlend();
+            RenderSystem.blendFuncSeparate(SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE_MINUS_SRC_ALPHA);
+
+        }, () -> {
+            RenderSystem.disableBlend();
+            RenderSystem.defaultBlendFunc();
+        });
+
         return RenderType.create("arma_fullbright_layer",
-                DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true,
-                RenderType.CompositeState.builder().setShaderState(SHADER_STATE).setCullState(CULL).setTextureState(textureState).
-                        setTransparencyState(TRANSPARENCY_STATE).setWriteMaskState(WRITE_MASK).createCompositeState(false));
+                DefaultVertexFormat.NEW_ENTITY,
+                VertexFormat.Mode.QUADS,
+                256,
+                false,
+                true,
+                RenderType.CompositeState.builder()
+                        .setShaderState(new RenderStateShard.ShaderStateShard(GameRenderer::getRendertypeEyesShader))
+                        .setCullState(new RenderStateShard.CullStateShard(true))
+                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
+                        .setTransparencyState(TRANSPARENCY_STATE)
+                        .setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true, true))
+                        .createCompositeState(false));
     });
 
     public static RenderType getRenderType(ResourceLocation texture) {

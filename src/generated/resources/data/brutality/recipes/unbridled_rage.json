@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "terramity:black_matter"
+    },
+    {
+      "item": "terramity:spiteful_soul"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "item": "brutality:unbridled_rage"
+  }
+}

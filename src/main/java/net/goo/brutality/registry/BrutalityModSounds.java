@@ -49,8 +49,7 @@ public class BrutalityModSounds {
 
     public static final List<RegistryObject<SoundEvent>> PUNCHES = List.of(
             registerSoundEvents("epic_punch_1"),
-            registerSoundEvents("epic_punch_2"),
-            registerSoundEvents("epic_punch_3")
+            registerSoundEvents("epic_punch_2")
     );
 
     public static final List<RegistryObject<SoundEvent>> EXOBLADE = List.of(
@@ -77,6 +76,8 @@ public class BrutalityModSounds {
 
     public static final RegistryObject<SoundEvent> SHURIKEN_IMPACT = registerSoundEvents("shuriken_impact");
     public static final RegistryObject<SoundEvent> STYROFOAM_IMPACT = registerSoundEvents("styrofoam_impact");
+
+    public static final RegistryObject<SoundEvent> BLOOD_SPLATTER = registerSoundEvents("blood_splatter");
 
 
     public static final RegistryObject<SoundEvent> DEATHBRINGER_STANCE_READY = registerSoundEvents("deathbringer_stance_ready");
@@ -113,6 +114,7 @@ public class BrutalityModSounds {
     public static final RegistryObject<SoundEvent> DULL_KNIFE_CRIT = registerSoundEvents("dull_knife_crit");
     public static final RegistryObject<SoundEvent> DULL_KNIFE_ABILITY = registerSoundEvents("dull_knife_ability");
 
+    public static final RegistryObject<SoundEvent> BASS_BOP = registerSoundEvents("bass_bop");
 
     public static final RegistryObject<SoundEvent> TERRA_BLADE_USE = registerSoundEvents("terra_blade_use");
     public static final RegistryObject<SoundEvent> ICE_WAVE = registerSoundEvents("ice_wave");

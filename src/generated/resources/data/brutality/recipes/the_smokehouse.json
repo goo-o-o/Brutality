@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "brutality:smoke_stone"
+    },
+    "#": {
+      "item": "minecraft:oak_log"
+    },
+    "$": {
+      "item": "minecraft:cobblestone"
+    },
+    "@": {
+      "item": "terramity:profanum"
+    }
+  },
+  "pattern": [
+    "#@#",
+    "#!#",
+    "$$$"
+  ],
+  "result": {
+    "item": "brutality:the_smokehouse"
+  },
+  "show_notification": true
+}

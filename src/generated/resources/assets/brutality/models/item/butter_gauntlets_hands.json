@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "brutality:item/curio/hands/butter_gauntlets_hands/butter_gauntlets_hands_inventory"
-  }
-}

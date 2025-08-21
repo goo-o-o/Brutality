@@ -1,11 +1,11 @@
 {
   "textures": [
-    "brutality:waves/murasama_slash/murasama_slash_particle_1",
-    "brutality:waves/murasama_slash/murasama_slash_particle_2",
-    "brutality:waves/murasama_slash/murasama_slash_particle_3",
-    "brutality:waves/murasama_slash/murasama_slash_particle_4",
-    "brutality:waves/murasama_slash/murasama_slash_particle_5",
-    "brutality:waves/murasama_slash/murasama_slash_particle_6",
-    "brutality:waves/murasama_slash/murasama_slash_particle_7"
+    "brutality:murasama_slash/murasama_slash_particle_1",
+    "brutality:murasama_slash/murasama_slash_particle_2",
+    "brutality:murasama_slash/murasama_slash_particle_3",
+    "brutality:murasama_slash/murasama_slash_particle_4",
+    "brutality:murasama_slash/murasama_slash_particle_5",
+    "brutality:murasama_slash/murasama_slash_particle_6",
+    "brutality:murasama_slash/murasama_slash_particle_7"
   ]
 }
