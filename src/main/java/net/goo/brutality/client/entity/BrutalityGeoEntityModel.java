@@ -1,7 +1,9 @@
 package net.goo.brutality.client.entity;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.entity.projectile.ray.LastPrismRay;
+import net.goo.brutality.entity.base.BrutalityRay;
+import net.goo.brutality.magic.BrutalitySpell;
+import net.goo.brutality.magic.IBrutalitySpellEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -9,6 +11,8 @@ import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+
+import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.SIZE;
 
 public class BrutalityGeoEntityModel<T extends Entity & BrutalityGeoEntity> extends GeoModel<T> {
     public GeoEntityRenderer<T> renderer;
@@ -34,11 +38,23 @@ public class BrutalityGeoEntityModel<T extends Entity & BrutalityGeoEntity> exte
     public void setCustomAnimations(T animatable, long instanceId, AnimationState<T> animationState) {
         super.setCustomAnimations(animatable, instanceId, animationState);
 
-        if (animatable instanceof LastPrismRay lastPrismRay) {
+        if (animatable instanceof BrutalityRay ray) {
             CoreGeoBone mainBeam = this.getAnimationProcessor().getBone("main_beam");
 
             if (mainBeam != null) {
-                mainBeam.setScaleY(lastPrismRay.getDataMaxLength());
+                mainBeam.setScaleY(ray.getDataMaxLength());
+
+                if (ray instanceof IBrutalitySpellEntity spellEntity) {
+                    BrutalitySpell spell = spellEntity.getSpell();
+                    if (spellEntity.getSpell().getStat(SIZE) != null) {
+                        float desiredSize = spell.getFinalStat(spellEntity.getSpellLevel(), spellEntity.getSpell().getStat(SIZE));
+                        float baseSize = spell.getStat(SIZE).base();
+                        float scale = desiredSize / baseSize;
+
+                        mainBeam.setScaleX(mainBeam.getScaleX() * scale);
+                        mainBeam.setScaleZ(mainBeam.getScaleZ() * scale);
+                    }
+                }
             }
         }
     }

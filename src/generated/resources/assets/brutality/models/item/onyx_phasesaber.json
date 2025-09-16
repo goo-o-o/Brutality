@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:item/sword/onyx_phasesaber_handheld",
+  "textures": {
+    "layer0": "brutality:item/sword/onyx_phasesaber/onyx_phasesaber_handheld"
+  }
+}

@@ -30,7 +30,7 @@ public class HolyMantleSpell extends BrutalitySpell {
     }
 
     @Override
-    public int getManaCostLevelScaling() {
+    public float getManaCostLevelScaling() {
         return 10;
     }
 
@@ -40,7 +40,7 @@ public class HolyMantleSpell extends BrutalitySpell {
     }
 
     @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
         player.addEffect(new MobEffectInstance(BrutalityModMobEffects.GRACE.get(), (int) getFinalStat(spellLevel, getStat(DURATION)), spellLevel));
         return true;
     }

@@ -18,7 +18,6 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
@@ -44,6 +43,11 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
     }
 
     @Override
+    public BrutalityCategories.AttackType getAttackType() {
+        return BrutalityCategories.AttackType.NONE;
+    }
+
+    @Override
     public boolean isDamageable(ItemStack stack) {
         return true;
     }
@@ -54,13 +58,13 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
     }
 
     @Override
-    public @NotNull Component getName(ItemStack pStack) {
+    public @NotNull Component getName(@NotNull ItemStack pStack) {
         return brutalityNameHandler(pStack);
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityHoverTextHandler(pTooltipComponents, descriptionComponents, rarity);
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        brutalityTooltipHandler(pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
@@ -121,10 +125,10 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
 
 
     @Override
-    public void releaseUsing(ItemStack bowStack, Level world, LivingEntity shooter, int timeLeft) {
+    public void releaseUsing(@NotNull ItemStack bowStack, @NotNull Level world, @NotNull LivingEntity shooter, int timeLeft) {
         if (shooter instanceof Player player) {
             boolean infiniteArrows = player.getAbilities().instabuild
-                    || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, bowStack) > 0
+                    || bowStack.getEnchantmentLevel(Enchantments.INFINITY_ARROWS) > 0
                     || !requiresArrows();
 
             ItemStack arrowStack = player.getProjectile(bowStack);
@@ -163,17 +167,17 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
                             }
                         }
 
-                        int powerLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, bowStack);
+                        int powerLevel = bowStack.getEnchantmentLevel(Enchantments.POWER_ARROWS);
                         if (powerLevel > 0) {
                             arrowEntity.setBaseDamage(arrowEntity.getBaseDamage() + (powerLevel * 0.5D + 0.5D));
                         }
 
-                        int punchLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, bowStack);
+                        int punchLevel = bowStack.getEnchantmentLevel(Enchantments.PUNCH_ARROWS);
                         if (punchLevel > 0) {
                             arrowEntity.setKnockback(punchLevel);
                         }
 
-                        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAMING_ARROWS, bowStack) > 0) {
+                        if (bowStack.getEnchantmentLevel(Enchantments.FLAMING_ARROWS) > 0) {
                             arrowEntity.setSecondsOnFire(100);
                         }
 

@@ -14,12 +14,15 @@ import net.goo.brutality.entity.projectile.trident.ThrownGungnir;
 import net.goo.brutality.entity.projectile.trident.ThrownKnife;
 import net.goo.brutality.entity.projectile.trident.ThrownThunderbolt;
 import net.goo.brutality.entity.projectile.trident.physics_projectile.*;
-import net.goo.brutality.entity.spells.brimwielder.AnnihilationSpellEntity;
+import net.goo.brutality.entity.spells.brimwielder.*;
 import net.goo.brutality.entity.spells.celestia.LightBinding;
 import net.goo.brutality.entity.spells.cosmic.CosmicCataclysmEntity;
 import net.goo.brutality.entity.spells.cosmic.MeteorShowerEntity;
 import net.goo.brutality.entity.spells.cosmic.SingularityShiftEntity;
 import net.goo.brutality.entity.spells.cosmic.StarStreamEntity;
+import net.goo.brutality.entity.spells.umbrancy.CrescentDart;
+import net.goo.brutality.entity.spells.umbrancy.CrescentScythe;
+import net.goo.brutality.entity.spells.umbrancy.PiercingMoonlight;
 import net.goo.brutality.entity.spells.voidwalker.GraviticImplosionEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -166,6 +169,7 @@ public class BrutalityModEntities {
                     () -> EntityType.Builder.of(LastPrismRay::new,
                             MobCategory.MISC).sized(0, 0).setUpdateInterval(1).build("last_prism_ray"));
 
+
 //    public static final RegistryObject<EntityType<SupernovaPortal>> SUPERNOVA_PORTAL =
 //            ENTITY_TYPES.register("supernova_portal",
 //                    () -> EntityType.Builder.of(SupernovaPortal::new,
@@ -217,17 +221,58 @@ public class BrutalityModEntities {
                             .sized(0.5F, 0.5F)
                             .build("star_stream"));
 
-    public static final RegistryObject<EntityType<SingularityShiftEntity>> SINGULARITY_SHIFT =
+    public static final RegistryObject<EntityType<SingularityShiftEntity>> SINGULARITY_SHIFT_ENTITY =
             ENTITY_TYPES.register("singularity_shift",
                     () -> EntityType.Builder.of(SingularityShiftEntity::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
                             .build("singularity_shift"));
 
-    public static final RegistryObject<EntityType<AnnihilationSpellEntity>> ANNIHILATION_ENTITY =
+    public static final RegistryObject<EntityType<AnnihilationEntity>> ANNIHILATION_ENTITY =
             ENTITY_TYPES.register("annihilation",
-                    () -> EntityType.Builder.of(AnnihilationSpellEntity::new, MobCategory.MISC)
+                    () -> EntityType.Builder.of(AnnihilationEntity::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
                             .build("annihilation"));
+
+    public static final RegistryObject<EntityType<ChthonicCapsuleEntity>> CHTHONIC_CAPSULE_ENTITY =
+            ENTITY_TYPES.register("chthonic_capsule",
+                    () -> EntityType.Builder.of(ChthonicCapsuleEntity::new, MobCategory.MISC)
+                            .sized(0.5F, 0.5F)
+                            .build("chthonic_capsule"));
+
+    public static final RegistryObject<EntityType<DestructionEntity>> DESTRUCTION_ENTITY =
+            ENTITY_TYPES.register("destruction",
+                    () -> EntityType.Builder.of(DestructionEntity::new, MobCategory.MISC)
+                            .sized(0.5F, 0.5F)
+                            .build("destruction"));
+
+
+    public static final RegistryObject<EntityType<ExtinctionEntity>> EXTINCTION_ENTITY =
+            ENTITY_TYPES.register("extinction",
+                    () -> EntityType.Builder.of(ExtinctionEntity::new,
+                            MobCategory.MISC).sized(0, 0).setUpdateInterval(1).build("extinction"));
+
+    public static final RegistryObject<EntityType<PiercingMoonlight>> PIERCING_MOONLIGHT_ENTITY =
+            ENTITY_TYPES.register("piercing_moonlight",
+                    () -> EntityType.Builder.of(PiercingMoonlight::new,
+                            MobCategory.MISC).sized(0, 0).build("piercing_moonlight"));
+
+    public static final RegistryObject<EntityType<CrescentDart>> CRESCENT_DART_ENTITY =
+            ENTITY_TYPES.register("crescent_dart",
+                    () -> EntityType.Builder.of(CrescentDart::new,
+                            MobCategory.MISC).sized(0.5F, 0.0625F).build("crescent_dart"));
+
+    public static final RegistryObject<EntityType<BrimspikeEntity>> BRIMSPIKE_ENTITY =
+            ENTITY_TYPES.register("brimspike",
+                    () -> EntityType.Builder.of(BrimspikeEntity::new, MobCategory.MISC)
+                            .sized(0.5F, 0.5F).setUpdateInterval(1)
+                            .build("brimspike"));
+
+    public static final RegistryObject<EntityType<CrescentScythe>> CRESCENT_SCYTHE_ENTITY =
+            ENTITY_TYPES.register("crescent_scythe",
+                    () -> EntityType.Builder.of(CrescentScythe::new, MobCategory.MISC)
+                            .sized(3, 0.0625F)
+                            .build("crescent_scythe"));
+
 
     public static final RegistryObject<EntityType<LightBinding>> LIGHT_BINDING =
             ENTITY_TYPES.register("light_binding", () -> EntityType.Builder.of(LightBinding::new,

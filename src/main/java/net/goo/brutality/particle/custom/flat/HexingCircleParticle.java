@@ -16,10 +16,10 @@ public class HexingCircleParticle extends FlatParticle {
         this.lifetime = 120;
     }
 
-    public static class HexingCircleParticleProvider implements ParticleProvider<FlatParticleData<?>> {
+    public static class Provider implements ParticleProvider<FlatParticleData<?>> {
         private final SpriteSet sprites;
 
-        public HexingCircleParticleProvider(SpriteSet sprites) {
+        public Provider(SpriteSet sprites) {
             this.sprites = sprites;
         }
 

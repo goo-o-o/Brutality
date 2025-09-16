@@ -4,7 +4,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.projectile.trident.ExobladeBeam;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.c2sShootProjectilePacket;
+import net.goo.brutality.network.ServerboundShootProjectilePacket;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
@@ -61,7 +61,7 @@ public class ExobladeSword extends BrutalitySwordItem {
             player.getCooldowns().addCooldown(item, 5);
             if (level.isClientSide()) {
                 for (int i = 0; i < 4; i++)
-                    PacketHandler.sendToServer(new c2sShootProjectilePacket(BrutalityModEntities.EXOBLADE_BEAM.getId(), 2F, true, 1.5F, 0));
+                    PacketHandler.sendToServer(new ServerboundShootProjectilePacket(BrutalityModEntities.EXOBLADE_BEAM.getId(), 2F, true, 1.5F, 0));
             } else {
                 for (int i = 0; i < 4; i++)
                     ProjectileHelper.shootProjectile(() -> new ExobladeBeam(BrutalityModEntities.EXOBLADE_BEAM.get(), level), player, level, 2F, true, 1.5F, 0);

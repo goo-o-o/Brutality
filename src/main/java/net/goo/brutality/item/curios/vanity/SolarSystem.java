@@ -22,4 +22,9 @@ public class SolarSystem extends BrutalityCurioItem {
     public boolean followBodyRotations() {
         return false;
     }
+
+    @Override
+    public boolean translateIfSneaking() {
+        return false;
+    }
 }

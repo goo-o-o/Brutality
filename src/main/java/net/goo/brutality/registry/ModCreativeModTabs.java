@@ -25,15 +25,6 @@ public class ModCreativeModTabs {
                     })
                     .build());
 
-    public static final RegistryObject<CreativeModeTab> BRUTALITY_MYTHOLOGY_TAB = CREATIVE_MODE_TABS.register("brutality_myth_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(BrutalityModItems.THUNDERBOLT_TRIDENT.get()))
-                    .title(Component.translatable("creativeTab.brutality_myth_tab"))
-                    .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(BrutalityModItems.GUNGNIR_TRIDENT.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.YATA_NO_KAGAMI.get());
-                        output.accept(BrutalityModItems.THUNDERBOLT_TRIDENT.get().getDefaultInstance());
-
-                    }).build());
 
     public static final RegistryObject<CreativeModeTab> BRUTALITY_VANITY_TAB = CREATIVE_MODE_TABS.register("brutality_vanity_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(BrutalityModItems.GOLDEN_HEADBAND.get()))
@@ -49,28 +40,6 @@ public class ModCreativeModTabs {
 
                     }).build());
 
-    public static final RegistryObject<CreativeModeTab> BRUTALITY_RAGE_TAB = CREATIVE_MODE_TABS.register("brutality_rage_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(BrutalityModItems.RAGE_STONE.get()))
-                    .title(Component.translatable("creativeTab.brutality_rage_tab"))
-                    .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(BrutalityModItems.RAGE_STONE.get());
-                        output.accept(BrutalityModItems.PAIN_CATALYST.get());
-                        output.accept(BrutalityModItems.RAMPAGE_CLOCK.get());
-                        output.accept(BrutalityModItems.BLOOD_HOWL_PENDANT.get());
-                        output.accept(BrutalityModItems.SPITE_SHARD.get());
-                        output.accept(BrutalityModItems.HATE_SIGIL.get());
-                        output.accept(BrutalityModItems.HEART_OF_WRATH.get());
-                        output.accept(BrutalityModItems.EYE_FOR_VIOLENCE.get());
-                        output.accept(BrutalityModItems.BATTLE_SCARS.get());
-                        output.accept(BrutalityModItems.MECHANICAL_AORTA.get());
-                        output.accept(BrutalityModItems.BLOOD_PULSE_GAUNTLETS.get());
-                        output.accept(BrutalityModItems.FURY_BAND.get());
-                        output.accept(BrutalityModItems.GRUDGE_TOTEM.get());
-                        output.accept(BrutalityModItems.BLOOD_STONE.get());
-                        output.accept(BrutalityModItems.WRATH_CHARM.get());
-                        output.accept(BrutalityModItems.ANGER_MANAGEMENT.get());
-
-                    }).build());
 
 
     public static final RegistryObject<CreativeModeTab> BRUTALITY_GASTRONOMY_TAB = CREATIVE_MODE_TABS.register("brutality_gastronomy_tab",
@@ -126,9 +95,9 @@ public class ModCreativeModTabs {
                     }).build());
 
 
-    public static final RegistryObject<CreativeModeTab> BRUTALITY_MATH_TAB = CREATIVE_MODE_TABS.register("brutality_math_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(BrutalityModItems.COSINE_CHARM.get()))
-                    .title(Component.translatable("creativeTab.brutality_math_tab"))
+    public static final RegistryObject<CreativeModeTab> BRUTALITY_CURIO_TAB = CREATIVE_MODE_TABS.register("brutality_curio_tab",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(BrutalityModItems.CARTON_OF_PRISM_SOLUTION_MILK.get()))
+                    .title(Component.translatable("creativeTab.brutality_curio_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
 
                         output.accept(BrutalityModItems.PI_CHARM.get());
@@ -140,32 +109,187 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.SUM_CHARM.get());
                         output.accept(BrutalityModItems.SINE_CHARM.get());
                         output.accept(BrutalityModItems.COSINE_CHARM.get());
-                        output.accept(BrutalityModItems.SCIENTIFIC_CALCULATOR_BELT.get());
+                        output.accept(BrutalityModItems.SCIENTIFIC_CALCULATOR.get());
                         output.accept(BrutalityModItems.HYPERBOLIC_FEATHER.get());
-                        output.accept(BrutalityModItems.WOODEN_RULER.get());
-                        output.accept(BrutalityModItems.METAL_RULER.get().getDefaultInstance());
 
+
+                        output.accept(BrutalityModItems.CARTON_OF_PRISM_SOLUTION_MILK.get());
+                        output.accept(BrutalityModItems.LIGHT_SWITCH.get());
+                        output.accept(BrutalityModItems.DIVINE_IMMOLATION.get());
+                        output.accept(BrutalityModItems.CRYPTO_WALLET_CHARM.get());
+                        output.accept(BrutalityModItems.PORTABLE_MINING_RIG_CHARM.get());
+                        output.accept(BrutalityModItems.THE_CLOUD.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.GOOD_BOOK.get());
+                        output.accept(BrutalityModItems.CELESTIAL_STARBOARD.get());
+                        output.accept(BrutalityModItems.PLUNDER_CHEST_CHARM.get());
+                        output.accept(BrutalityModItems.ROAD_RUNNERS_RING.get());
+                        output.accept(BrutalityModItems.ABYSSAL_NECKLACE.get());
+                        output.accept(BrutalityModItems.BRAIN_ROT.get());
+                        output.accept(BrutalityModItems.RESPLENDENT_FEATHER_CHARM.get());
+                        output.accept(BrutalityModItems.NANOMACHINES.get());
+                        output.accept(BrutalityModItems.DUELING_GLOVE.get());
+                        output.accept(BrutalityModItems.MICROBLADE_BAND.get());
+                        output.accept(BrutalityModItems.CROWN_OF_TYRANNY.get());
+                        output.accept(BrutalityModItems.PORTABLE_QUANTUM_THINGAMABOB.get());
+                        output.accept(BrutalityModItems.WARPSLICE_SCABBARD.get());
+                        output.accept(BrutalityModItems.DAEMONIUM_WHETSTONE.get());
+                        output.accept(BrutalityModItems.KNIGHTS_PENDANT.get());
+                        output.accept(BrutalityModItems.THE_OATH.get());
+                        output.accept(BrutalityModItems.LUCKY_INSOLES.get());
+                        output.accept(BrutalityModItems.OLD_GUILLOTINE.get());
+                        output.accept(BrutalityModItems.GAMBLERS_CHAIN.get());
+                        output.accept(BrutalityModItems.DAEMONIUM_SEWING_KIT.get());
+                        output.accept(BrutalityModItems.PINCUSHION.get());
+                        output.accept(BrutalityModItems.SOLDIERS_SYRINGE.get());
+                        output.accept(BrutalityModItems.TARGET_CUBE.get());
+                        output.accept(BrutalityModItems.BRUTESKIN_BELT.get());
+                        output.accept(BrutalityModItems.ENERGY_FOCUSER.get());
+                        output.accept(BrutalityModItems.CRITICAL_THINKING.get());
+                        output.accept(BrutalityModItems.DEADSHOT_BROOCH.get());
+                        output.accept(BrutalityModItems.VINDICATOR_STEROIDS.get());
+                        output.accept(BrutalityModItems.CROWBAR.get());
+                        output.accept(BrutalityModItems.WIRE_CUTTERS.get());
+                        output.accept(BrutalityModItems.AIR_JORDAN_EARRINGS.get());
+                        output.accept(BrutalityModItems.JURY_NULLIFIER.get());
+                        output.accept(BrutalityModItems.EYE_OF_THE_DRAGON.get());
+                        output.accept(BrutalityModItems.LENS_MAKERS_GLASSES.get());
+                        output.accept(BrutalityModItems.SCOPE_GOGGLES.get());
+                        output.accept(BrutalityModItems.BLACK_MATTER_NECKLACE.get());
+                        output.accept(BrutalityModItems.PHANTOM_FINGER.get());
+                        output.accept(BrutalityModItems.SILVER_RESPAWN_CARD.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.DIAMOND_RESPAWN_CARD.get());
+
+                        output.accept(BrutalityModItems.GREED_CHARM.get());
+                        output.accept(BrutalityModItems.PRIDE_CHARM.get());
+                        output.accept(BrutalityModItems.SLOTH_CHARM.get());
+                        output.accept(BrutalityModItems.ENVY_CHARM.get());
+                        output.accept(BrutalityModItems.LUST_CHARM.get());
+                        output.accept(BrutalityModItems.GLUTTONY_CHARM.get());
+
+                        output.accept(BrutalityModItems.DRAGONHEART.get());
+                        output.accept(BrutalityModItems.UVOGRE_HEART.get());
+                        output.accept(BrutalityModItems.ZOMBIE_HEART.get());
+                        output.accept(BrutalityModItems.FROZEN_HEART.get());
+                        output.accept(BrutalityModItems.HEART_OF_GOLD.get());
+                        output.accept(BrutalityModItems.SECOND_HEART.get());
+                        output.accept(BrutalityModItems.BRUTAL_HEART.get());
+                        output.accept(BrutalityModItems.NINJA_HEART.get());
+
+                        output.accept(BrutalityModItems.DAVYS_ANKLET.get());
+                        output.accept(BrutalityModItems.ANKLET_OF_THE_IMPRISONED.get());
+                        output.accept(BrutalityModItems.SHARPNESS_ANKLET.get());
+                        output.accept(BrutalityModItems.DEBUG_ANKLET.get());
+                        output.accept(BrutalityModItems.REDSTONE_ANKLET.get());
+                        output.accept(BrutalityModItems.DEVILS_ANKLET.get());
+                        output.accept(BrutalityModItems.BASKETBALL_ANKLET.get());
+                        output.accept(BrutalityModItems.EMERALD_ANKLET.get());
+                        output.accept(BrutalityModItems.RUBY_ANKLET.get());
+                        output.accept(BrutalityModItems.TOPAZ_ANKLET.get());
+                        output.accept(BrutalityModItems.SAPPHIRE_ANKLET.get());
+                        output.accept(BrutalityModItems.ONYX_ANKLET.get());
+                        output.accept(BrutalityModItems.ULTRA_DODGE_ANKLET.get());
+                        output.accept(BrutalityModItems.GUNDALFS_ANKLET.get());
+                        output.accept(BrutalityModItems.TRIAL_ANKLET.get());
+                        output.accept(BrutalityModItems.SUPER_DODGE_ANKLET.get());
+                        output.accept(BrutalityModItems.GNOME_KINGS_ANKLET.get());
+                        output.accept(BrutalityModItems.ANKLENT.get());
+                        output.accept(BrutalityModItems.ANKLE_MONITOR.get());
+                        output.accept(BrutalityModItems.FIERY_ANKLET.get());
+                        output.accept(BrutalityModItems.SACRED_SPEED_ANKLET.get());
+                        output.accept(BrutalityModItems.CONDUCTITE_ANKLET.get());
+                        output.accept(BrutalityModItems.BLOOD_CLOT_ANKLET.get());
+                        output.accept(BrutalityModItems.VIRENTIUM_ANKLET.get());
+                        output.accept(BrutalityModItems.COSMIC_ANKLET.get());
+                        output.accept(BrutalityModItems.VOID_ANKLET.get());
+                        output.accept(BrutalityModItems.IRONCLAD_ANKLET.get());
+                        output.accept(BrutalityModItems.GLADIATORS_ANKLET.get());
+                        output.accept(BrutalityModItems.NYXIUM_ANKLET.get());
+                        output.accept(BrutalityModItems.EXODIUM_ANKLET.get());
+                        output.accept(BrutalityModItems.WINDSWEPT_ANKLET.get());
+                        output.accept(BrutalityModItems.BIG_STEPPA.get());
+
+                        output.accept(BrutalityModItems.HELL_SPECS.get());
+                        output.accept(BrutalityModItems.STYGIAN_CHAIN.get());
+                        output.accept(BrutalityModItems.BLOOD_CHALICE.get());
+                        output.accept(BrutalityModItems.HEMOMATIC_LOCKET.get());
+                        output.accept(BrutalityModItems.SANGUINE_SIGNET.get());
+                        output.accept(BrutalityModItems.SELF_REPAIR_NEXUS.get());
+                        output.accept(BrutalityModItems.HEMOGRAFT_NEEDLE.get());
+                        output.accept(BrutalityModItems.VAMPIRE_FANG.get());
+                        output.accept(BrutalityModItems.SANGUINE_SPECTACLES.get());
+                        output.accept(BrutalityModItems.PROGENITORS_EARRINGS.get());
+                        output.accept(BrutalityModItems.BLOODSTAINED_MIRROR.get());
+                        output.accept(BrutalityModItems.VAMPIRIC_TALISMAN.get());
+                        output.accept(BrutalityModItems.FALLEN_ANGELS_HALO.get());
+                        output.accept(BrutalityModItems.HELLSPEC_TIE.get());
+                        output.accept(BrutalityModItems.BLOOD_PACK.get());
+                        output.accept(BrutalityModItems.RAGE_STONE.get());
+                        output.accept(BrutalityModItems.PAIN_CATALYST.get());
+                        output.accept(BrutalityModItems.RAMPAGE_CLOCK.get());
+                        output.accept(BrutalityModItems.BLOOD_HOWL_PENDANT.get());
+                        output.accept(BrutalityModItems.SPITE_SHARD.get());
+                        output.accept(BrutalityModItems.HATE_SIGIL.get());
+                        output.accept(BrutalityModItems.HEART_OF_WRATH.get());
+                        output.accept(BrutalityModItems.EYE_FOR_VIOLENCE.get());
+                        output.accept(BrutalityModItems.BATTLE_SCARS.get());
+                        output.accept(BrutalityModItems.MECHANICAL_AORTA.get());
+                        output.accept(BrutalityModItems.BLOOD_PULSE_GAUNTLETS.get());
+                        output.accept(BrutalityModItems.FURY_BAND.get());
+                        output.accept(BrutalityModItems.GRUDGE_TOTEM.get());
+                        output.accept(BrutalityModItems.BLOOD_STONE.get());
+                        output.accept(BrutalityModItems.WRATH_CHARM.get());
+                        output.accept(BrutalityModItems.ANGER_MANAGEMENT.get());
+
+
+                        output.accept(BrutalityModItems.BROKEN_CLOCK.get());
+                        output.accept(BrutalityModItems.SHATTERED_CLOCK.get());
+                        output.accept(BrutalityModItems.SUNDERED_CLOCK.get());
+                        output.accept(BrutalityModItems.TIMEKEEPERS_CLOCK.get());
+                        output.accept(BrutalityModItems.THE_CLOCK_OF_FROZEN_TIME.get());
+
+
+                        output.accept(BrutalityModItems.ARCHMAGES_TRICK.get());
+                        output.accept(BrutalityModItems.SOUL_STONE.get());
+                        output.accept(BrutalityModItems.EMERGENCY_FLASK.get());
+                        output.accept(BrutalityModItems.RING_OF_MANA.get());
+                        output.accept(BrutalityModItems.RING_OF_MANA_PLUS.get());
+                        output.accept(BrutalityModItems.CONSERVATIVE_CONCOCTION.get());
+                        output.accept(BrutalityModItems.RUNE_OF_DELTA.get());
+                        output.accept(BrutalityModItems.ECHO_CHAMBER.get());
+                        output.accept(BrutalityModItems.ONYX_IDOL.get());
+                        output.accept(BrutalityModItems.SCRIBES_INDEX.get());
+                        output.accept(BrutalityModItems.BLACK_HOLE_ORB.get());
+                        output.accept(BrutalityModItems.FORBIDDEN_ORB.get());
+                        output.accept(BrutalityModItems.BLOOD_ORB.get());
+                        output.accept(BrutalityModItems.PROFANUM_REACTOR.get());
+                        output.accept(BrutalityModItems.MANA_SYRINGE.get());
+                        output.accept(BrutalityModItems.DECK_OF_CARDS.get());
                     }).build());
 
 
     public static final RegistryObject<CreativeModeTab> BRUTALITY_TAB = CREATIVE_MODE_TABS.register("brutality_unsorted_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(BrutalityModItems.SEVENTH_STAR_SWORD.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(BrutalityModItems.SEVENTH_STAR.get()))
                     .title(Component.translatable("creativeTab.brutality_unsorted_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(BrutalityModItems.GUNGNIR_TRIDENT.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.YATA_NO_KAGAMI.get());
+                        output.accept(BrutalityModItems.THUNDERBOLT_TRIDENT.get().getDefaultInstance());
 
+                        output.accept(BrutalityModItems.WOODEN_RULER.get());
+                        output.accept(BrutalityModItems.METAL_RULER.get().getDefaultInstance());
                         // region Original Items
                         output.accept(BrutalityModItems.ATOMIC_JUDGEMENT_HAMMER.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.CREASE_OF_CREATION_ITEM.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.EVENT_HORIZON_LANCE.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.CREASE_OF_CREATION.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.EVENT_HORIZON.get().getDefaultInstance());
                         output.accept(BrutalityModItems.JACKPOT_HAMMER.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.PROVIDENCE_BOW.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.SEVENTH_STAR_SWORD.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.DOUBLE_DOWN_SWORD.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.WHISPERWALTZ_SWORD.get());
-                        output.accept(BrutalityModItems.OLD_GPU_AXE.get());
-                        output.accept(BrutalityModItems.PAPER_CUT_SWORD.get());
+                        output.accept(BrutalityModItems.PROVIDENCE.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.SEVENTH_STAR.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.DOUBLE_DOWN.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.WHISPERWALTZ.get());
+                        output.accept(BrutalityModItems.OLD_GPU.get());
+                        output.accept(BrutalityModItems.PAPER_CUT.get());
 
-                        output.accept(BrutalityModItems.SUPERNOVA_SWORD.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.SUPERNOVA.get().getDefaultInstance());
 
                         output.accept(BrutalityModItems.BLADE_OF_THE_RUINED_KING.get());
                         output.accept(BrutalityModItems.DARKIN_BLADE_SWORD.get().getDefaultInstance());
@@ -183,34 +307,11 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.MUG.get().getDefaultInstance());
                         output.accept(BrutalityModItems.SUPER_SNIFFER_FIGURE_ITEM.get().getDefaultInstance());
 
+                        output.accept(BrutalityModItems.ONYX_PHASESABER.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.RUBY_PHASESABER.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.SAPPHIRE_PHASESABER.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.TOPAZ_PHASESABER.get().getDefaultInstance());
 
-                        output.accept(BrutalityModItems.CARTON_OF_PRISM_SOLUTION_MILK.get());
-                        output.accept(BrutalityModItems.CRYPTO_WALLET_CHARM.get());
-                        output.accept(BrutalityModItems.PORTABLE_MINING_RIG_CHARM.get());
-                        output.accept(BrutalityModItems.THE_CLOUD_ITEM.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.GOOD_BOOK.get());
-                        output.accept(BrutalityModItems.CELESTIAL_STARBOARD.get());
-                        output.accept(BrutalityModItems.PLUNDER_CHEST_CHARM.get());
-                        output.accept(BrutalityModItems.ROAD_RUNNERS_RING.get());
-                        output.accept(BrutalityModItems.ABYSSAL_NECKLACE.get());
-                        output.accept(BrutalityModItems.BRAIN_ROT.get());
-                        output.accept(BrutalityModItems.RESPLENDENT_FEATHER_CHARM.get());
-                        output.accept(BrutalityModItems.NANOMACHINES.get());
-                        output.accept(BrutalityModItems.DUELING_GLOVE.get());
-
-                        output.accept(BrutalityModItems.GREED_CHARM.get());
-                        output.accept(BrutalityModItems.PRIDE_CHARM.get());
-                        output.accept(BrutalityModItems.SLOTH_CHARM.get());
-                        output.accept(BrutalityModItems.ENVY_CHARM.get());
-                        output.accept(BrutalityModItems.LUST_CHARM.get());
-                        output.accept(BrutalityModItems.GLUTTONY_CHARM.get());
-
-                        output.accept(BrutalityModItems.DRAGONHEART.get());
-                        output.accept(BrutalityModItems.UVOGRE_HEART.get());
-                        output.accept(BrutalityModItems.ZOMBIE_HEART.get());
-                        output.accept(BrutalityModItems.FROZEN_HEART.get());
-                        output.accept(BrutalityModItems.HEART_OF_GOLD.get());
-                        output.accept(BrutalityModItems.SECOND_HEART.get());
 
 
                         output.accept(BrutalityModItems.TERRA_BLADE_SWORD.get().getDefaultInstance());
@@ -219,8 +320,8 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.EXOBLADE_SWORD.get().getDefaultInstance());
                         output.accept(BrutalityModItems.BIOMECH_REACTOR_TRIDENT.get().getDefaultInstance());
                         output.accept(BrutalityModItems.DEPTH_CRUSHER_TRIDENT.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.MARIANAS_TRENCH_SWORD.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.CHALLENGER_DEEP_SWORD.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.MARIANAS_TRENCH.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.CHALLENGER_DEEP.get().getDefaultInstance());
 
 
                         output.accept(BrutalityModItems.NOIR_HELMET.get().getDefaultInstance());
@@ -228,7 +329,7 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.NOIR_LEGGINGS.get().getDefaultInstance());
                         output.accept(BrutalityModItems.NOIR_BOOTS.get().getDefaultInstance());
                         output.accept(BrutalityModItems.CANOPY_OF_SHADOWS.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.SHADOWSTEP_SWORD.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.SHADOWSTEP.get().getDefaultInstance());
 
 
 

@@ -37,7 +37,7 @@ public class Pi extends BrutalityCurioItem {
     public boolean canEquip(SlotContext slotContext, ItemStack stack) {
         return CuriosApi.getCuriosInventory(slotContext.entity())
                 .map(handler ->
-                        handler.findFirstCurio(BrutalityModItems.SCIENTIFIC_CALCULATOR_BELT.get()).isPresent()
+                        handler.findFirstCurio(BrutalityModItems.SCIENTIFIC_CALCULATOR.get()).isPresent()
                 )
                 .orElse(false);
     }
@@ -48,7 +48,7 @@ public class Pi extends BrutalityCurioItem {
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
-                canSpawn = handler.isEquipped(BrutalityModItems.SCIENTIFIC_CALCULATOR_BELT.get());
+                canSpawn = handler.isEquipped(BrutalityModItems.SCIENTIFIC_CALCULATOR.get());
             });
         }
     }
@@ -91,8 +91,6 @@ public class Pi extends BrutalityCurioItem {
 
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        super.onUnequip(slotContext, newStack, stack);
-
         LivingEntity owner = slotContext.entity();
         for (PiEntity piEntity : owner.level().getEntitiesOfClass(PiEntity.class, owner.getBoundingBox().inflate(10))) {
             piEntity.discard();

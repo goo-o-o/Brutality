@@ -684,7 +684,7 @@ public class BrutalityDataFetcher implements DataProvider {
                 BrutalityCategories.ItemType.TRIDENT,
                 BrutalityCategories.ItemType.SCYTHE,
                 BrutalityCategories.ItemType.BOW,
-                BrutalityCategories.ItemType.LANCE,
+                BrutalityCategories.ItemType.SPEAR,
                 BrutalityCategories.ItemType.STAFF
         );
 

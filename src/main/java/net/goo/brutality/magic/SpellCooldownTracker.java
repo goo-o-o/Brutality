@@ -1,146 +1,169 @@
 package net.goo.brutality.magic;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.network.ClientboundSyncCooldownPacket;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.s2cSyncCooldownPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.*;
-@Mod.EventBusSubscriber (bus = Mod.EventBusSubscriber.Bus.FORGE)
+
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class SpellCooldownTracker {
-    private static final Map<UUID, Map<ResourceLocation, Integer>> serverCooldowns = new HashMap<>();
-    private static final Map<UUID, Map<ResourceLocation, Integer>> serverOriginalCooldowns = new HashMap<>();
-    private static final Map<UUID, Map<ResourceLocation, Integer>> clientCooldowns = new HashMap<>();
-    private static final Map<UUID, Map<ResourceLocation, Integer>> clientOriginalCooldowns = new HashMap<>();
+    private static final Map<UUID, Map<ResourceLocation, CooldownData>> serverCooldowns = new HashMap<>();
+    private static final Map<UUID, Map<ResourceLocation, CooldownData>> clientCooldowns = new HashMap<>();
+    private static final Map<UUID, Integer> syncTickCounters = new HashMap<>();
+
+
+    public record CooldownData(int remainingTicks, int originalTicks, float progress) {
+    }
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) return;
+        if (event.phase != TickEvent.Phase.END || event.side.isClient()) return;
         Player player = event.player;
         UUID playerId = player.getUUID();
 
-        if (!player.level().isClientSide()) {
-            Map<ResourceLocation, Integer> cooldowns = serverCooldowns.get(playerId);
-            if (cooldowns == null) return;
+        Map<ResourceLocation, CooldownData> cooldowns = serverCooldowns.get(playerId);
+        if (cooldowns == null) return;
 
-            Iterator<Map.Entry<ResourceLocation, Integer>> iterator = cooldowns.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<ResourceLocation, Integer> entry = iterator.next();
-                int remaining = entry.getValue() - 1;
-                if (remaining <= 0) {
-                    iterator.remove();
-                    serverOriginalCooldowns.getOrDefault(playerId, Collections.emptyMap()).remove(entry.getKey());
-                } else {
-                    entry.setValue(remaining);
+        int tickCounter = syncTickCounters.getOrDefault(playerId, 0) + 1;
+        boolean shouldSync = tickCounter >= 10;
+
+
+        Iterator<Map.Entry<ResourceLocation, CooldownData>> iterator = cooldowns.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<ResourceLocation, CooldownData> entry = iterator.next();
+            CooldownData data = entry.getValue();
+            int remaining = data.remainingTicks - 1;
+            int originalTicks = data.originalTicks;
+
+            if (remaining <= 0) {
+                iterator.remove();
+                if (shouldSync) {
+                    PacketHandler.sendToPlayer(new ClientboundSyncCooldownPacket(entry.getKey().toString(), 0, 0, 0), (ServerPlayer) player);
+                }
+            } else {
+                float newProgress = (float) (originalTicks - remaining) / originalTicks;
+                entry.setValue(new CooldownData(remaining, data.originalTicks, newProgress));
+                if (shouldSync) {
+                    PacketHandler.sendToPlayer(new ClientboundSyncCooldownPacket(entry.getKey().toString(), remaining, data.originalTicks, newProgress), (ServerPlayer) player);
                 }
             }
+        }
 
-            if (cooldowns.isEmpty()) {
-                serverCooldowns.remove(playerId);
-                serverOriginalCooldowns.remove(playerId);
-            }
+        if (cooldowns.isEmpty()) {
+            serverCooldowns.remove(playerId);
+            syncTickCounters.remove(playerId);
+        } else if (shouldSync) {
+            syncTickCounters.put(playerId, 0);
         } else {
-            Map<ResourceLocation, Integer> cooldowns = clientCooldowns.get(playerId);
-            if (cooldowns == null) return;
-
-            Iterator<Map.Entry<ResourceLocation, Integer>> iterator = cooldowns.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<ResourceLocation, Integer> entry = iterator.next();
-                int remaining = entry.getValue() - 1;
-                if (remaining <= 0) {
-                    iterator.remove();
-                    clientOriginalCooldowns.getOrDefault(playerId, Collections.emptyMap()).remove(entry.getKey());
-                } else {
-                    entry.setValue(remaining);
-                }
-            }
-
-            if (cooldowns.isEmpty()) {
-                clientCooldowns.remove(playerId);
-                clientOriginalCooldowns.remove(playerId);
-            }
+            syncTickCounters.put(playerId, tickCounter);
         }
     }
 
-    public static void setCooldown(Player player, IBrutalitySpell spell, int spellLevel) {
-        if (!player.level().isClientSide()) {
-            int cooldownTicks = IBrutalitySpell.getActualCooldown(player, spell, spellLevel);
-            if (cooldownTicks <= 0) return;
 
-            ResourceLocation spellId = getSpellId(spell);
-            serverCooldowns.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).put(spellId, cooldownTicks);
-            serverOriginalCooldowns.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).put(spellId, cooldownTicks);
-            PacketHandler.sendToPlayer(new s2cSyncCooldownPacket(spellId.toString(), cooldownTicks, cooldownTicks), (ServerPlayer) player);
+    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
+    public static void onClientPlayerTick(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.END || Minecraft.getInstance().player == null) return;
+        Player player = Minecraft.getInstance().player;
+        UUID playerId = player.getUUID();
+
+        Map<ResourceLocation, CooldownData> cooldowns = clientCooldowns.get(playerId);
+        if (cooldowns == null) return;
+
+        Iterator<Map.Entry<ResourceLocation, CooldownData>> iterator = cooldowns.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<ResourceLocation, CooldownData> entry = iterator.next();
+            CooldownData data = entry.getValue();
+            int remaining = data.remainingTicks - 1;
+            int originalTicks = data.originalTicks;
+
+            if (remaining <= 0) {
+                iterator.remove();
+            } else {
+                float newProgress = (float) (originalTicks - remaining) / originalTicks;
+                entry.setValue(new CooldownData(remaining, data.originalTicks, newProgress));
+            }
+        }
+
+        if (cooldowns.isEmpty()) {
+            clientCooldowns.remove(playerId);
+        }
+
+
+    }
+
+
+    public static void setCooldown(Player player, IBrutalitySpell spell, int spellLevel) {
+        int cooldownTicks = IBrutalitySpell.getActualCooldown(player, spell, spellLevel);
+        if (cooldownTicks <= 0) {
+            return;
+        }
+
+        ResourceLocation spellId = getSpellId(spell);
+        CooldownData data = new CooldownData(cooldownTicks, cooldownTicks, 0f);
+
+        if (!player.level().isClientSide()) {
+            Map<ResourceLocation, CooldownData> cooldowns = serverCooldowns.computeIfAbsent(player.getUUID(), k -> new HashMap<>());
+            cooldowns.put(spellId, data);
+            PacketHandler.sendToPlayer(new ClientboundSyncCooldownPacket(spellId.toString(), cooldownTicks, cooldownTicks, 0f), (ServerPlayer) player);
+        } else {
+            clientCooldowns.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).put(spellId, data);
         }
     }
 
     public static void resetCooldowns(Player player) {
         UUID playerId = player.getUUID();
-        Map<ResourceLocation, Integer> cooldowns = serverCooldowns.get(playerId);
-
-        if (cooldowns != null) {
-            cooldowns.replaceAll((spellId, value) -> 0);
-            cooldowns.forEach((spellId, value) -> PacketHandler.sendToPlayer(
-                    new s2cSyncCooldownPacket(spellId.toString(), 0 ,0), (ServerPlayer) player));
-            if (cooldowns.isEmpty()) {
+        if (!player.level().isClientSide()) {
+            Map<ResourceLocation, CooldownData> cooldowns = serverCooldowns.get(playerId);
+            if (cooldowns != null) {
+                cooldowns.keySet().forEach(spellId ->
+                        PacketHandler.sendToPlayer(new ClientboundSyncCooldownPacket(spellId.toString(), 0, 0, 0), (ServerPlayer) player));
                 serverCooldowns.remove(playerId);
-                serverOriginalCooldowns.remove(playerId);
             }
+        } else {
+            clientCooldowns.remove(playerId);
         }
     }
 
     public static boolean isOnCooldown(Player player, IBrutalitySpell spell) {
-        if (!player.level().isClientSide()) {
-            return serverCooldowns.getOrDefault(player.getUUID(), Collections.emptyMap())
-                    .containsKey(getSpellId(spell));
-        } else {
-            return clientCooldowns.getOrDefault(player.getUUID(), Collections.emptyMap())
-                    .containsKey(getSpellId(spell));
-        }
+        ResourceLocation spellId = getSpellId(spell);
+        Map<UUID, Map<ResourceLocation, CooldownData>> cooldownMap = player.level().isClientSide() ? clientCooldowns : serverCooldowns;
+        return cooldownMap.getOrDefault(player.getUUID(), Collections.emptyMap()).containsKey(spellId);
     }
 
     public static int getRemainingTicks(Player player, IBrutalitySpell spell) {
-        if (!player.level().isClientSide()) {
-            return serverCooldowns.getOrDefault(player.getUUID(), Collections.emptyMap())
-                    .getOrDefault(getSpellId(spell), 0);
-        } else {
-            return clientCooldowns.getOrDefault(player.getUUID(), Collections.emptyMap())
-                    .getOrDefault(getSpellId(spell), 0);
-        }
+        ResourceLocation spellId = getSpellId(spell);
+        Map<UUID, Map<ResourceLocation, CooldownData>> cooldownMap = player.level().isClientSide() ? clientCooldowns : serverCooldowns;
+        CooldownData data = cooldownMap.getOrDefault(player.getUUID(), Collections.emptyMap()).get(spellId);
+        return data != null ? data.remainingTicks : 0;
     }
 
     public static float getCooldownProgress(Player player, IBrutalitySpell spell) {
-        Map<ResourceLocation, Integer> cooldowns = !player.level().isClientSide() ?
-                serverCooldowns.get(player.getUUID()) : clientCooldowns.get(player.getUUID());
-        Map<ResourceLocation, Integer> originals = !player.level().isClientSide() ?
-                serverOriginalCooldowns.get(player.getUUID()) : clientOriginalCooldowns.get(player.getUUID());
-
-        if (cooldowns == null || originals == null) return 0f;
-
-        Integer remaining = cooldowns.get(getSpellId(spell));
-        Integer original = originals.get(getSpellId(spell));
-
-        if (remaining == null || original == null || original == 0) return 0f;
-
-        return (float) remaining / original;
+        ResourceLocation spellId = getSpellId(spell);
+        CooldownData data = clientCooldowns.getOrDefault(player.getUUID(), Collections.emptyMap()).get(spellId);
+        return data != null ? Math.max(0f, Math.min(1f, data.progress)) : 0f;
     }
 
-    public static void updateCooldownClient(String spellId, int remaining, int original) {
+    @OnlyIn(Dist.CLIENT)
+    public static void updateCooldownClient(String spellId, int remaining, int original, float progress) {
         if (Minecraft.getInstance().player != null) {
             ResourceLocation id = ResourceLocation.parse(spellId);
             UUID playerId = Minecraft.getInstance().player.getUUID();
             if (remaining > 0) {
-                clientCooldowns.computeIfAbsent(playerId, k -> new HashMap<>()).put(id, remaining);
-                clientOriginalCooldowns.computeIfAbsent(playerId, k -> new HashMap<>()).put(id, original);
+                float clampedProgress = Math.max(0f, Math.min(1f, progress));
+                clientCooldowns.computeIfAbsent(playerId, k -> new HashMap<>()).put(id, new CooldownData(remaining, original, clampedProgress));
             } else {
                 clientCooldowns.getOrDefault(playerId, Collections.emptyMap()).remove(id);
-                clientOriginalCooldowns.getOrDefault(playerId, Collections.emptyMap()).remove(id);
             }
         }
     }

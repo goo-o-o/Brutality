@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.function.Function;
 
-@Mod.EventBusSubscriber (value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BrutalityRenderTypes extends RenderType {
     public BrutalityRenderTypes(String string, VertexFormat vertexFormat, VertexFormat.Mode mode, int i, boolean b, boolean b1, Runnable runnable, Runnable runnable1) {
         super(string, vertexFormat, mode, i, b, b1, runnable, runnable1);
@@ -28,8 +28,8 @@ public class BrutalityRenderTypes extends RenderType {
 //    private static ShaderInstance brightShader;
 //    @SubscribeEvent
 //    public static void registerShaders(RegisterShadersEvent event) throws IOException {
-//        event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "bloom"),
-//                DefaultVertexFormat.POSITION_COLOR_TEX), shaderInstance -> brightShader = shaderInstance);
+//        event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "fullbright"),
+//                DefaultVertexFormat.NEW_ENTITY), shaderInstance -> brightShader = shaderInstance);
 //    }
 //    public static ShaderInstance getBrightShader() {
 //        if (brightShader == null) {
@@ -58,7 +58,6 @@ public class BrutalityRenderTypes extends RenderType {
 //    }
 
 
-
     protected static final RenderStateShard.TransparencyStateShard GHOST_TRANSPARENCY = new RenderStateShard.TransparencyStateShard("translucent_ghost_transparency", () -> {
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
@@ -69,10 +68,10 @@ public class BrutalityRenderTypes extends RenderType {
 
 
     public static RenderType getFlickering(ResourceLocation resourceLocation, float lightLevel) {
-        TextureStateShard renderstate$texturestate = new TextureStateShard(resourceLocation, false, false);
+        TextureStateShard textureStateShard = new TextureStateShard(resourceLocation, false, false);
         return create("flickering", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, CompositeState
                 .builder()
-                .setTextureState(renderstate$texturestate)
+                .setTextureState(textureStateShard)
                 .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                 .setCullState(NO_CULL).setLightmapState(LIGHTMAP)
@@ -99,23 +98,21 @@ public class BrutalityRenderTypes extends RenderType {
     }
 
     public static RenderType getfullBright(ResourceLocation locationIn) {
-        TextureStateShard renderstate$texturestate = new TextureStateShard(locationIn, false, false);
+        TextureStateShard textureStateShard = new TextureStateShard(locationIn, false, false);
         return create("full_bright", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, CompositeState
                 .builder()
-                .setTextureState(renderstate$texturestate)
+                .setTextureState(textureStateShard)
                 .setShaderState(RENDERTYPE_EYES_SHADER)
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                .setCullState(NO_CULL)
-                .setLightmapState(LIGHTMAP)
-                .setOverlayState(OVERLAY)
+                .setCullState(CULL)
                 .createCompositeState(false));
     }
 
     public static RenderType getfullBrightCull(ResourceLocation locationIn) {
-        TextureStateShard renderstate$texturestate = new TextureStateShard(locationIn, false, false);
+        TextureStateShard textureStateShard = new TextureStateShard(locationIn, false, false);
         return create("full_bright", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, CompositeState
                 .builder()
-                .setTextureState(renderstate$texturestate)
+                .setTextureState(textureStateShard)
                 .setShaderState(RENDERTYPE_EYES_SHADER)
                 .setTransparencyState(ADDITIVE_TRANSPARENCY)
                 .setCullState(CULL)
@@ -124,13 +121,29 @@ public class BrutalityRenderTypes extends RenderType {
                 .createCompositeState(false));
     }
 
+    public static RenderType getfullBrightNoDepth(ResourceLocation locationIn) {
+        TextureStateShard textureStateShard = new TextureStateShard(locationIn, false, false);
+        return create("fullbright_no_depth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true,
+                CompositeState
+                        .builder()
+                        .setTextureState(textureStateShard)
+                        .setShaderState(RENDERTYPE_EYES_SHADER)
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                        .setCullState(CULL)
+                        .setWriteMaskState(COLOR_WRITE)
+                        .createCompositeState(false));
+    }
+
+
+
     public static RenderType getGlowingEffect(ResourceLocation locationIn) {
-        TextureStateShard renderstate$texturestate = new TextureStateShard(locationIn, false, false);
+        TextureStateShard textureStateShard = new TextureStateShard(locationIn, false, false);
         return create("glow_effect", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, CompositeState.builder()
-                .setTextureState(renderstate$texturestate)
+                .setTextureState(textureStateShard)
                 .setShaderState(RENDERTYPE_BEACON_BEAM_SHADER)
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                .setCullState(NO_CULL).setOverlayState(OVERLAY)
+                .setCullState(NO_CULL)
+                .setOverlayState(OVERLAY)
                 .setWriteMaskState(COLOR_WRITE)
                 .createCompositeState(false));
     }
@@ -139,7 +152,7 @@ public class BrutalityRenderTypes extends RenderType {
         CompositeState renderState = CompositeState.builder()
                 .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
                 .setCullState(NO_CULL)
-                .setTextureState(new TextureStateShard(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID,"textures/particle/em_pulse.png"), true, true))
+                .setTextureState(new TextureStateShard(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/particle/em_pulse.png"), true, true))
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                 .setLightmapState(LIGHTMAP)
                 .setOverlayState(OVERLAY)
@@ -152,10 +165,10 @@ public class BrutalityRenderTypes extends RenderType {
 
 
     public static RenderType getTrailEffect(ResourceLocation locationIn) {
-        TextureStateShard renderstate$texturestate = new TextureStateShard(locationIn, false, false);
+        TextureStateShard textureStateShard = new TextureStateShard(locationIn, false, false);
         return create("trail_effect", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, RenderType
                 .CompositeState.builder()
-                .setTextureState(renderstate$texturestate)
+                .setTextureState(textureStateShard)
                 .setShaderState(RENDERTYPE_ITEM_ENTITY_TRANSLUCENT_CULL_SHADER)
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                 .setOutputState(ITEM_ENTITY_TARGET)
@@ -218,14 +231,14 @@ public class BrutalityRenderTypes extends RenderType {
                 .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
                 .setCullState(NO_CULL)
                 .createCompositeState(true);
-        return create("entity_alpha", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256,true,true, rendertype$compositestate);
+        return create("entity_alpha", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, rendertype$compositestate);
     }
 
     public static RenderType getShockWave() {
         CompositeState renderState = CompositeState.builder()
                 .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
                 .setCullState(NO_CULL)
-                .setTextureState(new TextureStateShard(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID,"textures/particle/shock_wave.png"), true, true))
+                .setTextureState(new TextureStateShard(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/particle/shock_wave.png"), true, true))
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                 .setLightmapState(LIGHTMAP)
                 .setOverlayState(OVERLAY)
@@ -235,7 +248,6 @@ public class BrutalityRenderTypes extends RenderType {
                 .createCompositeState(false);
         return create("shock_wave", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, renderState);
     }
-
 
 
     public static ParticleRenderType PARTICLE_SHEET_TRANSLUCENT_NO_CULL = new ParticleRenderType() {

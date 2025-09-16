@@ -55,11 +55,14 @@ public class BrutalityAxeItem extends AxeItem implements BrutalityGeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityHoverTextHandler(pTooltipComponents, descriptionComponents, rarity);
+        brutalityTooltipHandler(pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
-
+    @Override
+    public BrutalityCategories.AttackType getAttackType() {
+        return BrutalityCategories.AttackType.SLASH;
+    }
 
     @Override
     public BrutalityCategories category() {
@@ -77,4 +80,8 @@ public class BrutalityAxeItem extends AxeItem implements BrutalityGeoItem {
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
     }
+
+
+
+
 }

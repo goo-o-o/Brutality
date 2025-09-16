@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/head/crown_of_tyranny/crown_of_tyranny_inventory"
+  }
+}

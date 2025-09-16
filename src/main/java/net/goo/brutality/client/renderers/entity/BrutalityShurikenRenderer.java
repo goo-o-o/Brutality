@@ -3,14 +3,13 @@ package net.goo.brutality.client.renderers.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.entity.projectile.generic.StarEntity;
+import net.goo.brutality.entity.base.BrutalityShuriken;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 
 import java.util.function.Consumer;
 
-public class BrutalityShurikenRenderer<T extends Entity & BrutalityGeoEntity> extends BrutalityEntityRenderer<T> {
+public class BrutalityShurikenRenderer<T extends BrutalityShuriken & BrutalityGeoEntity> extends BrutalityEntityRenderer<T> {
 
 
     public BrutalityShurikenRenderer(EntityRendererProvider.Context context, Consumer<BrutalityEntityRenderer<T>> layerConfigurator) {
@@ -27,13 +26,11 @@ public class BrutalityShurikenRenderer<T extends Entity & BrutalityGeoEntity> ex
         poseStack.mulPose(Axis.XN.rotationDegrees(Mth.lerp(partialTick, animatable.xRotO, animatable.getXRot())));
 
 
-        if (animatable instanceof StarEntity starEntity) {
-            if (starEntity.inGround) {
-                if (!starEntity.renderForLayer)
-                    poseStack.mulPose(Axis.YP.rotationDegrees(starEntity.getRandomYaw()));
-            } else {
-                poseStack.mulPose(Axis.YP.rotationDegrees(Mth.wrapDegrees(Mth.lerp(partialTick, (ageInTicks - 1) * 180F, ageInTicks * 180F))));
-            }
+        if (animatable.inGround) {
+            if (!animatable.renderForLayer)
+                poseStack.mulPose(Axis.YP.rotationDegrees(animatable.getRandomYaw()));
+        } else {
+            poseStack.mulPose(Axis.YP.rotationDegrees(Mth.wrapDegrees(Mth.lerp(partialTick, (ageInTicks - 1) * 180F, ageInTicks * 180F))));
         }
 
         super.applyRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick);

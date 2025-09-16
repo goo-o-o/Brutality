@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/anklet/gladiators_anklet/gladiators_anklet_inventory"
+  }
+}

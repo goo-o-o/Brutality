@@ -29,7 +29,7 @@ public class HeavenlyFlightSpell extends BrutalitySpell {
     }
 
     @Override
-    public int getManaCostLevelScaling() {
+    public float getManaCostLevelScaling() {
         return 10;
     }
 
@@ -39,7 +39,7 @@ public class HeavenlyFlightSpell extends BrutalitySpell {
     }
 
     @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
         float duration = getFinalStat(spellLevel, getStat(BrutalityTooltipHelper.SpellStatComponents.DURATION));
         player.addEffect(new MobEffectInstance(TerramityModMobEffects.MORTAL_FLIGHT.get(), (int) duration));
         player.playSound(BrutalityModSounds.WINGS_FLAP.get(), 1, Mth.nextFloat(player.getRandom(), 0.8F, 1.2F));

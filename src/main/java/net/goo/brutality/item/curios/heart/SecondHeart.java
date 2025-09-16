@@ -25,24 +25,12 @@ public class SecondHeart extends BrutalityCurioItem {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        if (slotContext.entity() != null) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-            builder.put(Attributes.MAX_HEALTH, new AttributeModifier(SECOND_HEART_HP_UUID, "HP Buff", 12, AttributeModifier.Operation.ADDITION));
-            return builder.build();
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
+        builder.put(Attributes.MAX_HEALTH, new AttributeModifier(SECOND_HEART_HP_UUID, "HP Buff", 12, AttributeModifier.Operation.ADDITION));
+        return builder.build();
 
-        }
-        return super.getAttributeModifiers(slotContext, uuid, stack);
     }
 
-//    @Override
-//    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-//        if (slotContext.entity() instanceof Player player) {
-//            AttributeInstance maxHealth = player.getAttribute(Attributes.MAX_HEALTH);
-//            if (maxHealth != null) {
-//                maxHealth.removeModifier(SECOND_HEART_HP_UUID);
-//            }
-//        }
-//    }
 
     @Override
     public BrutalityCategories category() {

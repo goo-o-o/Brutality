@@ -2,8 +2,9 @@ package net.goo.brutality.magic;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+
+import javax.annotation.Nullable;
 
 public interface IBrutalitySpellEntity {
 
@@ -15,11 +16,8 @@ public interface IBrutalitySpellEntity {
     void setSpellLevel(int spellLevel);
     int getSpellLevel();
 
-    default float getFinalDamage(IBrutalitySpell spell, LivingEntity owner, int spellLevel) {
+    default float getFinalDamage(IBrutalitySpell spell, @Nullable Entity owner, int spellLevel) {
         return spell.getFinalDamage(owner, spellLevel);
-    }
-    default float getFinalDamageWithoutAttributes(IBrutalitySpell spell, int spellLevel) {
-        return spell.getFinalDamageWithoutAttributes(spellLevel);
     }
 
     float getSizeScaling();

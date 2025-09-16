@@ -308,13 +308,13 @@
   {
     "category": "harmful",
     "id": "enraged",
-    "name": "enraged",
+    "name": "Enraged",
     "namespace": "brutality"
   },
   {
     "category": "beneficial",
     "id": "the_void",
-    "name": "the_void",
+    "name": "The Void",
     "namespace": "brutality"
   },
   {
@@ -344,7 +344,7 @@
   {
     "category": "beneficial",
     "id": "caffeinated",
-    "name": "caffeinated",
+    "name": "Caffeinated",
     "namespace": "brutality"
   },
   {
@@ -452,7 +452,49 @@
   {
     "category": "neutral",
     "id": "hypergravity",
-    "name": "§4Hypergravity",
+    "name": "hypergravity",
+    "namespace": "brutality"
+  },
+  {
+    "category": "neutral",
+    "id": "mana_fatigue",
+    "name": "§cMana Fatigue",
+    "namespace": "brutality"
+  },
+  {
+    "category": "neutral",
+    "id": "frugal_mana",
+    "name": "frugal_mana",
+    "namespace": "brutality"
+  },
+  {
+    "category": "beneficial",
+    "id": "ultra_dodge",
+    "name": "§bUltra Dodge",
+    "namespace": "brutality"
+  },
+  {
+    "category": "harmful",
+    "id": "dodge_cooldown",
+    "name": "§4Dodge Cooldown",
+    "namespace": "brutality"
+  },
+  {
+    "category": "beneficial",
+    "id": "precision",
+    "name": "§4Precision",
+    "namespace": "brutality"
+  },
+  {
+    "category": "beneficial",
+    "id": "magic_power",
+    "name": "magic_power",
+    "namespace": "brutality"
+  },
+  {
+    "category": "harmful",
+    "id": "magic_sickness",
+    "name": "magic_sickness",
     "namespace": "brutality"
   }
 ]

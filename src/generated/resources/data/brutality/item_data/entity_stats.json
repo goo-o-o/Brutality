@@ -1107,6 +1107,62 @@
     "width": "0.5"
   },
   {
+    "height": "0.5",
+    "id": "annihilation",
+    "name": "annihilation",
+    "namespace": "brutality",
+    "width": "0.5"
+  },
+  {
+    "height": "0.5",
+    "id": "chthonic_capsule",
+    "name": "chthonic_capsule",
+    "namespace": "brutality",
+    "width": "0.5"
+  },
+  {
+    "height": "0.5",
+    "id": "destruction",
+    "name": "destruction",
+    "namespace": "brutality",
+    "width": "0.5"
+  },
+  {
+    "height": "0.0",
+    "id": "extinction",
+    "name": "extinction",
+    "namespace": "brutality",
+    "width": "0.0"
+  },
+  {
+    "height": "0.0",
+    "id": "piercing_moonlight",
+    "name": "piercing_moonlight",
+    "namespace": "brutality",
+    "width": "0.0"
+  },
+  {
+    "height": "0.0625",
+    "id": "crescent_dart",
+    "name": "crescent_dart",
+    "namespace": "brutality",
+    "width": "0.0625"
+  },
+  {
+    "height": "0.5",
+    "id": "brimspike",
+    "name": "brimspike",
+    "namespace": "brutality",
+    "width": "0.5"
+  },
+  {
+    "height": "0.0625",
+    "id": "crescent_scythe",
+    "name": "crescent_scythe",
+    "namespace": "brutality",
+    "width": "0.0625"
+  },
+  {
     "height": "0.0",
     "id": "light_binding",
     "name": "light_binding",

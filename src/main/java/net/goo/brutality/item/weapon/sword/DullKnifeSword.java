@@ -111,7 +111,7 @@ public class DullKnifeSword extends BrutalitySwordItem {
 
 
     @Override
-    public String texture(ItemStack stack) {
+    public String texture(@javax.annotation.Nullable ItemStack stack) {
         int currentMode = ModUtils.getTextureIdx(stack);
 
         return "dull_knife_" + EmotionColor.values()[currentMode].toString().toLowerCase(Locale.ROOT);

@@ -86,7 +86,6 @@ public class ThrownBiomechReactor extends BrutalityAbstractPhysicsTrident implem
                 rainbowTrail.start();
 //            });
         }
-        super.tick();
 
         int cooldown = this.entityData.get(HOMING_COOLDOWN);
         if (cooldown > 0) {
@@ -143,6 +142,9 @@ public class ThrownBiomechReactor extends BrutalityAbstractPhysicsTrident implem
                 }
             }
         }
+        super.tick();
+
+
     }
 
     @Override

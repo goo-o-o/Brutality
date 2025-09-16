@@ -1,6 +1,7 @@
 package net.goo.brutality.item.weapon.generic;
 
 import net.goo.brutality.entity.projectile.ray.LastPrismRay;
+import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModParticles;
@@ -27,7 +28,7 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 import java.util.List;
 
 public class LastPrismItem extends BrutalityGenericItem {
-    private static String LAST_PRISM_ID = "LastPrismId";
+    private static final String LAST_PRISM_ID = "LastPrismId";
 
     public LastPrismItem(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
@@ -82,9 +83,8 @@ public class LastPrismItem extends BrutalityGenericItem {
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {
         super.releaseUsing(pStack, pLevel, pLivingEntity, pTimeCharged);
         if (getLastPrismRay(pLevel, pStack) instanceof LastPrismRay lastPrismRay) {
-            lastPrismRay.getPersistentData().putLong("DespawnTime", pLevel.getGameTime() + 20);
-//            if (pLevel instanceof ServerLevel serverLevel)
-//                stopTriggeredAnim(pLivingEntity, GeoItem.getOrAssignId(pStack, serverLevel), "controller", "use");
+            lastPrismRay.triggerAnim(null, "despawn");
+            DelayedTaskScheduler.queueServerWork(20, lastPrismRay::discard);
         }
 
     }

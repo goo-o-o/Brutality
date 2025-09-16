@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraftforge.common.ForgeMod;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
@@ -59,7 +60,7 @@ public class FryingPanHammer extends BrutalityHammerItem implements BrutalityGeo
     }
 
     @Override
-    public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
+    public boolean hurtEnemy(ItemStack pStack, @NotNull LivingEntity pTarget, @NotNull LivingEntity pAttacker) {
         pAttacker.level().playSound(null, pAttacker.getOnPos(), BrutalityModSounds.FRYING_PAN_HIT.get(), SoundSource.PLAYERS, 1F, Mth.nextFloat(pAttacker.getRandom(), 0.8F, 1.2F));
         pTarget.addEffect(new MobEffectInstance(BrutalityModMobEffects.MASHED.get(), 60, 1, false, true));
 

@@ -1,6 +1,5 @@
 package net.goo.brutality.item.weapon.unused;
 
-import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.InteractionHand;
@@ -16,7 +15,6 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
@@ -25,7 +23,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-@Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ViperRapierItem extends BrutalitySwordItem implements GeoItem {
 
 

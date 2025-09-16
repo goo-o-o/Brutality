@@ -1,5 +1,6 @@
 package net.goo.brutality.util.helpers;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.goo.brutality.registry.ModRarities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -272,27 +273,47 @@ public class BrutalityTooltipHelper {
     }
 
 
-    public record ItemDescriptionComponent(ItemDescriptionComponents type, int lines) {
+    public record ItemDescriptionComponent(ItemDescriptionComponents type, int lines, Integer cooldownTicks, InputConstants.Key keyMapping) {
+        public ItemDescriptionComponent(ItemDescriptionComponents type, int lines) {
+            this(type, lines, null, null);
+        }
+        public ItemDescriptionComponent(ItemDescriptionComponents type, int lines, int cooldownTicks) {
+            this(type, lines, cooldownTicks, null);
+        }
+        public ItemDescriptionComponent(ItemDescriptionComponents type, int lines, InputConstants.Key keyMapping) {
+            this(type, lines, null, keyMapping);
+        }
     }
 
     public enum ItemDescriptionComponents {
-        ACTIVE, PASSIVE, FULL_SET_PASSIVE, FULL_SET_ACTIVE, ON_HIT, WHEN_THROWN, ON_SWING, ON_RIGHT_CLICK, ON_SHIFT_RIGHT_CLICK, LORE, ON_KILL, ON_SHOOT, ON_HOLD_RIGHT_CLICK, CHARM, DASH_ABILITY
+        ACTIVE, PASSIVE, FULL_SET_PASSIVE, FULL_SET_ACTIVE, ON_HIT, WHEN_THROWN, ON_SWING, ON_RIGHT_CLICK, ON_SHIFT_RIGHT_CLICK, LORE, ON_KILL, ON_SHOOT, ON_HOLD_RIGHT_CLICK, CHARM, DASH_ABILITY, ON_SUCCESSFUL_DODGE
     }
 
-    public record SpellStatComponent(SpellStatComponents type, int base, float levelDelta, Integer min, Integer max) {
-        public int base() { return base; }
-        public float levelDelta() { return levelDelta; }
-        public Integer min() { return min; }
-        public Integer max() { return max; }
+    public record SpellStatComponent(SpellStatComponents type, float base, float levelDelta, Float min, Float max) {
+        public float base() {
+            return base;
+        }
+
+        public float levelDelta() {
+            return levelDelta;
+        }
+
+        public Float min() {
+            return min;
+        }
+
+        public Float max() {
+            return max;
+        }
     }
 
     public enum SpellStatComponents {
-        RANGE("📏"," 🟫"),
-        SPEED("⏲"," ⏲"),
-        SIZE("📐"," 🟫"),
-        CHANCE("🎲","%"),
-        QUANTITY("🔢"," ◽"),
-        PIERCE("💘"," 🧟"),
+        RANGE("📏", " 🟫"),
+        SPEED("⏲", " ⏲"),
+        SIZE("📐", " 🟫"),
+        CHANCE("🎲", "%"),
+        QUANTITY("🔢", " ◽"),
+        PIERCE("💘", " 🧟"),
         DURATION("🕒", "s"),
         DEFENSE("🦺", " 🛡"),
         HEALING("⛨", " ❤");

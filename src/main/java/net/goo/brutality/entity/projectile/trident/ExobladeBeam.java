@@ -31,7 +31,7 @@ public class ExobladeBeam extends BrutalityAbstractTrident implements BrutalityG
     public ExobladeBeam(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.entityData.set(HOMING_TARGET_ID, -1);
-        this.collideWithBlocks(false);
+        this.collideWithBlocks = false;
     }
 
     public ExobladeBeam(Level pLevel, LivingEntity pShooter, ItemStack pStack, EntityType<? extends AbstractArrow> trident) {

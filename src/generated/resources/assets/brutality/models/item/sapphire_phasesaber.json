@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:item/sword/sapphire_phasesaber_handheld",
+  "textures": {
+    "layer0": "brutality:item/sword/sapphire_phasesaber/sapphire_phasesaber_handheld"
+  }
+}

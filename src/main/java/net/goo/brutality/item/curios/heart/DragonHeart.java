@@ -24,10 +24,9 @@ public class DragonHeart extends BrutalityCurioItem {
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
-        super.curioTick(slotContext, stack);
-
-        slotContext.entity().addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 3, 2));
-        slotContext.entity().addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 3, 0));
-
+        if (slotContext.entity().tickCount % 10 == 0) {
+            slotContext.entity().addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 11, 2));
+            slotContext.entity().addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 11, 0));
+        }
     }
 }

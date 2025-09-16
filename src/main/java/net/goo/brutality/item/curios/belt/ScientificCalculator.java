@@ -4,14 +4,10 @@ import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
 import net.goo.brutality.util.ModTags;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.SlotResult;
@@ -26,15 +22,7 @@ public class ScientificCalculator extends BrutalityCurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("curios.modifiers.belt").withStyle(ChatFormatting.GOLD));
-        tooltip.add(Component.translatable("item.brutality.scientific_calculator_belt.passive.1")); // Allows the use of mathematical functions
-    }
-
-    @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        super.onUnequip(slotContext, newStack, stack);
-
         LivingEntity entity = slotContext.entity();
         if (entity instanceof Player player) {
             CuriosApi.getCuriosInventory(entity).ifPresent(handler -> {

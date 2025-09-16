@@ -20,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraftforge.common.ForgeMod;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class TheGoldenSpatulaHammer extends BrutalityHammerItem implements Bruta
     }
 
     @Override
-    public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
+    public boolean hurtEnemy(ItemStack pStack, @NotNull LivingEntity pTarget, @NotNull LivingEntity pAttacker) {
         pAttacker.level().playSound(null, pAttacker.getOnPos(), ModUtils.getRandomSound(BrutalityModSounds.SPATULA), SoundSource.PLAYERS);
         pTarget.push(0D, 0.5D, 0D);
 

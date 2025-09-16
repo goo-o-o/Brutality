@@ -15,4 +15,17 @@ public class BrutalityCurioItem extends BrutalityGenericItem implements ICurioIt
     public boolean followBodyRotations() {
         return true;
     }
+    public boolean followHeadRotations() {
+        return true;
+    }
+
+    /**
+     * Only works if the bone is within the chest slot, this is intentional
+     */
+    public boolean rotateIfSneaking() {
+        return true;
+    }
+    public boolean translateIfSneaking() {
+        return true;
+    }
 }

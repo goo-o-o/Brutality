@@ -1,6 +1,5 @@
 package net.goo.brutality.item.weapon.unused;
 
-import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalityPickaxeItem;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.core.BlockPos;
@@ -18,7 +17,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -27,7 +25,6 @@ import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInst
 import java.util.List;
 import java.util.Optional;
 
-@Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ResonancePickaxeItem extends BrutalityPickaxeItem implements GeoItem {
     private final String BLOCK_KEY = "activeBlock";
     int[] color1 = new int[]{255, 0, 0};

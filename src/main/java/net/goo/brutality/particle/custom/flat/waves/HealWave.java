@@ -10,11 +10,11 @@ import net.minecraft.client.particle.SpriteSet;
 public class HealWave extends WaveParticle {
 
 
-    public HealWave(ClientLevel level, double x, double y, double z, WaveParticleData data, SpriteSet sprites) {
+    public HealWave(ClientLevel level, double x, double y, double z, WaveParticleData<?> data, SpriteSet sprites) {
         super(level, x, y, z, data, sprites);
     }
 
-    public static class Provider implements ParticleProvider<WaveParticleData> {
+    public static class Provider implements ParticleProvider<WaveParticleData<?>> {
         private final SpriteSet sprites;
 
         public Provider(SpriteSet spriteSet) {

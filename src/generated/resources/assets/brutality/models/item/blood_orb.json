@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/charm/blood_orb/blood_orb_inventory"
+  }
+}

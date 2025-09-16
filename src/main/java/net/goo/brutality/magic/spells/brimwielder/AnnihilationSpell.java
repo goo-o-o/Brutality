@@ -1,12 +1,13 @@
 package net.goo.brutality.magic.spells.brimwielder;
 
-import net.goo.brutality.entity.spells.brimwielder.AnnihilationSpellEntity;
+import net.goo.brutality.entity.spells.brimwielder.AnnihilationEntity;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.particle.providers.FlatParticleData;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -22,10 +23,10 @@ public class AnnihilationSpell extends BrutalitySpell {
 
 
     public AnnihilationSpell() {
-        super(MagicSchool.BRIMWIELDER, List.of(SpellCategory.CHANNELING, SpellCategory.AOE), "annihilation", 100, 5, 200, 80, 1, List.of(
-                new BrutalityTooltipHelper.SpellStatComponent(SIZE, 5, 1, 5, 15),
-                new BrutalityTooltipHelper.SpellStatComponent(CHANCE, 5, 3, 5, 50),
-                new BrutalityTooltipHelper.SpellStatComponent(QUANTITY, 25, 5, 25, 75)));
+        super(MagicSchool.BRIMWIELDER, List.of(SpellCategory.CHANNELLING, SpellCategory.AOE), "annihilation", 100, 5, 200, 80, 1, List.of(
+                new BrutalityTooltipHelper.SpellStatComponent(SIZE, 5, 1, 5F, 15F),
+                new BrutalityTooltipHelper.SpellStatComponent(CHANCE, 5, 3, 5F, 50F),
+                new BrutalityTooltipHelper.SpellStatComponent(QUANTITY, 25, 5, 25F, 75F)));
     }
 
     @Override
@@ -39,7 +40,7 @@ public class AnnihilationSpell extends BrutalitySpell {
     }
 
     @Override
-    public int getManaCostLevelScaling() {
+    public float getManaCostLevelScaling() {
         return 5;
     }
 
@@ -49,13 +50,15 @@ public class AnnihilationSpell extends BrutalitySpell {
     }
 
     @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
-        if (!player.onGround()) return false;
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
+        if (!player.onGround()) {
+            player.displayClientMessage(Component.translatable("message.brutality.condition.on_ground"), true);
+            return false;
+        }
         float radius = getFinalStat(spellLevel, getStat(SIZE));
         int quantity = (int) getFinalStat(spellLevel, getStat(QUANTITY));
         int globalCount = 1;
         Vec3 spawnPos = player.getPosition(1);
-
 
         if (player.level() instanceof ServerLevel serverLevel) {
             List<Vec3> points = new ArrayList<>();
@@ -84,12 +87,12 @@ public class AnnihilationSpell extends BrutalitySpell {
             }
 
             for (Vec3 finalPos : lancePositions) {
-                AnnihilationSpellEntity annihilationSpellEntity = new AnnihilationSpellEntity(BrutalityModEntities.ANNIHILATION_ENTITY.get(), serverLevel);
-                annihilationSpellEntity.setPos(finalPos.x, finalPos.y, finalPos.z);
-                annihilationSpellEntity.setOwner(player);
-                annihilationSpellEntity.setSpellLevel(spellLevel);
-                annihilationSpellEntity.setBaseDamage(getFinalDamage(player, spellLevel));
-                DelayedTaskScheduler.queueServerWork(globalCount, () -> serverLevel.addFreshEntity(annihilationSpellEntity));
+                AnnihilationEntity annihilationEntity = new AnnihilationEntity(BrutalityModEntities.ANNIHILATION_ENTITY.get(), serverLevel);
+                annihilationEntity.setPos(finalPos.x, finalPos.y, finalPos.z);
+                annihilationEntity.setOwner(player);
+                annihilationEntity.setSpellLevel(spellLevel);
+                annihilationEntity.setBaseDamage(getFinalDamage(player, spellLevel));
+                DelayedTaskScheduler.queueServerWork(globalCount, () -> serverLevel.addFreshEntity(annihilationEntity));
                 globalCount++;
             }
         } else {
@@ -98,5 +101,4 @@ public class AnnihilationSpell extends BrutalitySpell {
         }
         return true;
     }
-
 }

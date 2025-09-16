@@ -7,9 +7,7 @@ import net.goo.brutality.item.base.BrutalityCurioItem;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import top.theillusivec4.curios.api.SlotContext;
@@ -31,22 +29,9 @@ public class BloodPulseGauntlets extends BrutalityCurioItem {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        if (slotContext.entity() != null) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-            builder.put(ModAttributes.RAGE_LEVEL.get(), new AttributeModifier(BLOOD_PULSE_RAGE_LEVEL_UUID, "Rage Level Buff", 2, AttributeModifier.Operation.ADDITION));
-            return builder.build();
-
-        }
-        return super.getAttributeModifiers(slotContext, uuid, stack);
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
+        builder.put(ModAttributes.RAGE_LEVEL.get(), new AttributeModifier(BLOOD_PULSE_RAGE_LEVEL_UUID, "Rage Level Buff", 2, AttributeModifier.Operation.ADDITION));
+        return builder.build();
     }
 
-    @Override
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            AttributeInstance rageLevel = player.getAttribute(ModAttributes.RAGE_LEVEL.get());
-            if (rageLevel != null) {
-                rageLevel.removeModifier(BLOOD_PULSE_RAGE_LEVEL_UUID);
-            }
-        }
-    }
 }

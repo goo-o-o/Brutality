@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/hands/phantom_finger/phantom_finger_inventory"
+  }
+}

@@ -50,26 +50,38 @@ public class BrutalityModItemRenderManager {
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
 
 
-            registerItemLayers(BrutalityModItems.PROVIDENCE_BOW.get(), renderer -> {
-                renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer));
+            registerItemLayers(BrutalityModItems.PROVIDENCE.get(), renderer -> {
                 renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
+                renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer));
+            });
+            registerItemLayers(BrutalityModItems.ONYX_PHASESABER.get(), renderer -> {
+                renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
+            });
+            registerItemLayers(BrutalityModItems.TOPAZ_PHASESABER.get(), renderer -> {
+                renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
+            });
+            registerItemLayers(BrutalityModItems.SAPPHIRE_PHASESABER.get(), renderer -> {
+                renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
+            });
+            registerItemLayers(BrutalityModItems.RUBY_PHASESABER.get(), renderer -> {
+                renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
             });
 
-            registerItemLayers(BrutalityModItems.CREASE_OF_CREATION_ITEM.get(), renderer ->
+            registerItemLayers(BrutalityModItems.CREASE_OF_CREATION.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
 
             registerItemLayers(BrutalityModItems.ATOMIC_JUDGEMENT_HAMMER.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
 
-            registerItemLayers(BrutalityModItems.EVENT_HORIZON_LANCE.get(), renderer ->
-                    renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
+            registerItemLayers(BrutalityModItems.EVENT_HORIZON.get(), renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
+
             registerItemLayers(BrutalityModItems.DARKIN_SCYTHE.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
             registerItemLayers(BrutalityModItems.BLADE_OF_THE_RUINED_KING.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
             registerItemLayers(BrutalityModItems.BLADE_OF_THE_RUINED_KING.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.DOUBLE_DOWN_SWORD.get(), renderer ->
+            registerItemLayers(BrutalityModItems.DOUBLE_DOWN.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoAlphaLayer<>(renderer)));
             registerItemLayers(BrutalityModItems.DULL_KNIFE_DAGGER.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
@@ -79,7 +91,7 @@ public class BrutalityModItemRenderManager {
                     renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
                     });
 
-            registerItemLayers(BrutalityModItems.SEVENTH_STAR_SWORD.get(), renderer ->
+            registerItemLayers(BrutalityModItems.SEVENTH_STAR.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
             registerItemLayers(BrutalityModItems.VOID_KNIFE_SWORD.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoEndPortalLayer<>(renderer)));

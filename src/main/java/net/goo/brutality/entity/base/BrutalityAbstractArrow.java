@@ -3,7 +3,6 @@ package net.goo.brutality.entity.base;
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.entity.projectile.generic.StarEntity;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -24,10 +23,8 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,6 +32,7 @@ import java.util.List;
 
 public abstract class BrutalityAbstractArrow extends AbstractArrow implements BrutalityGeoEntity {
     private final IntOpenHashSet ignoredEntities = new IntOpenHashSet();
+    public boolean collideWithBlocks = true;
 
     protected BrutalityAbstractArrow(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -44,7 +42,7 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
         super(trident, pShooter, pLevel);
     }
 
-    public BrutalityAbstractArrow(@NotNull EntityType<StarEntity> pEntityType, Level level, double x, double y, double z) {
+    public BrutalityAbstractArrow(@NotNull EntityType<? extends AbstractArrow> pEntityType, Level level, double x, double y, double z) {
         super(pEntityType, x, y, z, level);
     }
 
@@ -92,7 +90,23 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
 
     @Override
     public void tick() {
-        boolean flag = this.isNoPhysics();
+        // Projectile.class start
+        if (!this.hasBeenShot) {
+            this.gameEvent(GameEvent.PROJECTILE_SHOOT, this.getOwner());
+            this.hasBeenShot = true;
+        }
+
+        if (!this.leftOwner) {
+            this.leftOwner = this.checkLeftOwner();
+        }
+        // Projectile.class end
+
+        // Entity.class start
+        this.baseTick();
+        // Entity.class end
+
+        // AbstractArrow.class start
+        boolean noPhysics = this.isNoPhysics();
         Vec3 vec3 = this.getDeltaMovement();
         if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
             double d0 = vec3.horizontalDistance();
@@ -104,15 +118,17 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
 
         BlockPos blockpos = this.blockPosition();
         BlockState blockstate = this.level().getBlockState(blockpos);
-        if (!blockstate.isAir() && !flag) {
-            VoxelShape voxelshape = blockstate.getCollisionShape(this.level(), blockpos);
-            if (!voxelshape.isEmpty()) {
-                Vec3 vec31 = this.position();
+        if (collideWithBlocks) {
+            if (!blockstate.isAir() && !noPhysics) {
+                VoxelShape voxelshape = blockstate.getCollisionShape(this.level(), blockpos);
+                if (!voxelshape.isEmpty()) {
+                    Vec3 vec31 = this.position();
 
-                for (AABB aabb : voxelshape.toAabbs()) {
-                    if (aabb.move(blockpos).contains(vec31)) {
-                        this.inGround = true;
-                        break;
+                    for (AABB aabb : voxelshape.toAabbs()) {
+                        if (aabb.move(blockpos).contains(vec31)) {
+                            this.inGround = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -126,13 +142,11 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
             this.clearFire();
         }
 
-        if (this.inGround && !flag) {
+        this.tickDespawn();
+        if (this.inGround && !noPhysics) {
             if (this.lastState != blockstate && this.shouldFall()) {
                 this.startFalling();
-            } else if (!this.level().isClientSide) {
-                this.tickDespawn();
             }
-
             ++this.inGroundTime;
         } else {
             this.inGroundTime = 0;
@@ -158,7 +172,7 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
                     }
                 }
 
-                if (hitresult != null && hitresult.getType() != HitResult.Type.MISS && !flag) {
+                if (hitresult != null && hitresult.getType() != HitResult.Type.MISS && !noPhysics) {
                     var result = net.minecraftforge.event.ForgeEventFactory.onProjectileImpactResultNullable(this, hitresult);
                     if (result == null) {
                         if (hitresult.getType() != HitResult.Type.ENTITY)
@@ -214,7 +228,7 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
             double d3 = this.getZ() + d1;
             double d4 = vec3.horizontalDistance();
             if (shouldYawToMovement()) {
-                if (flag) {
+                if (noPhysics) {
                     this.setYRot((float) (Mth.atan2(-d5, -d1) * (double) (180F / (float) Math.PI)));
                 } else {
                     this.setYRot((float) (Mth.atan2(d5, d1) * (double) (180F / (float) Math.PI)));
@@ -235,7 +249,7 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
             }
 
             this.setDeltaMovement(vec3.scale(f));
-            if (!this.isNoGravity() && !flag) {
+            if (!this.isNoGravity() && !noPhysics) {
                 Vec3 vec34 = this.getDeltaMovement();
                 this.setDeltaMovement(vec34.x, vec34.y - (double) getGravity(), vec34.z);
             }
@@ -349,9 +363,15 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
         }
 
     }
+
     @Override
     protected boolean canHitEntity(@NotNull Entity entity) {
         return super.canHitEntity(entity) && (this.piercingIgnoreEntityIds == null || !this.piercingIgnoreEntityIds.contains(entity.getId())) && !this.ignoredEntities.contains(entity.getId());
     }
 
+    @Override
+    protected void onHitBlock(BlockHitResult pResult) {
+        if (collideWithBlocks)
+            super.onHitBlock(pResult);
+    }
 }

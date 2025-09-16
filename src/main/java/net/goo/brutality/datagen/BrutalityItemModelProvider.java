@@ -176,7 +176,7 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
     }
 
     private void generateBrutalityGeoItemModel(BrutalityGeoItem item) {
-        String identifier = item.getRegistryName();
+        String identifier = item.model(null) != null ? item.model(null) : item.getRegistryName();
 //        System.out.println(identifier);
         String folder = Objects.equals(item.category(), BrutalityCategories.ItemType.BLOCK) ? BrutalityCategories.ItemType.BLOCK.toString().toLowerCase() : "item";
         boolean isBlockItem = item instanceof BrutalityBlockItem;

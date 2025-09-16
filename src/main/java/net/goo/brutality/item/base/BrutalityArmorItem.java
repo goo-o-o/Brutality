@@ -49,11 +49,14 @@ public class BrutalityArmorItem extends ArmorItem implements BrutalityGeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityHoverTextHandler(pTooltipComponents, descriptionComponents, rarity);
+        brutalityTooltipHandler(pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
-
+    @Override
+    public BrutalityCategories.AttackType getAttackType() {
+        return BrutalityCategories.AttackType.NONE;
+    }
 
     @Override
     public BrutalityCategories category() {

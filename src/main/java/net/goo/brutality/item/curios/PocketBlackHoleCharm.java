@@ -48,9 +48,4 @@ public class PocketBlackHoleCharm extends BrutalityCurioItem {
         return super.getAttributeModifiers(slotContext, uuid, stack);
     }
 
-    @Override
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        super.onUnequip(slotContext, newStack, stack);
-
-    }
 }

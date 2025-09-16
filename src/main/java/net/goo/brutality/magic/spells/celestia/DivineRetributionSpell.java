@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 
 import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.AOE;
-import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.CHANNELING;
+import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.CHANNELLING;
 import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.RANGE;
 
 public class DivineRetributionSpell extends BrutalitySpell {
@@ -20,7 +20,7 @@ public class DivineRetributionSpell extends BrutalitySpell {
 
     public DivineRetributionSpell() {
         super(MagicSchool.CELESTIA,
-                List.of(CHANNELING, AOE),
+                List.of(CHANNELLING, AOE),
                 "divine_retribution",
                 50, 0, 20 * 40, 140, 1, List.of(
                         new BrutalityTooltipHelper.SpellStatComponent(RANGE, 15, 5, null, null)
@@ -33,7 +33,7 @@ public class DivineRetributionSpell extends BrutalitySpell {
     }
 
     @Override
-    public int getManaCostLevelScaling() {
+    public float getManaCostLevelScaling() {
         return 10;
     }
 
@@ -48,7 +48,7 @@ public class DivineRetributionSpell extends BrutalitySpell {
     }
 
     @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
         BlockPos block = ModUtils.getBlockLookingAt(player, false, getFinalStat(spellLevel, getStat(RANGE)));
         if (block == null) return false;
 

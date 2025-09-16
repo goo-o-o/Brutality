@@ -12,8 +12,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
@@ -35,7 +33,6 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Consumer;
 
 import static net.goo.brutality.util.helpers.EnchantmentHelper.hasInfinity;
@@ -45,22 +42,26 @@ public class BrutalityTridentItem extends TridentItem implements BrutalityGeoIte
     protected Rarity rarity;
     protected List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
-    protected static final UUID BRUTALITY_TRIDENT_AD_UUID = UUID.fromString("4607b3e0-a77d-4d48-971c-81661cb81516");
-    protected static final UUID BRUTALITY_TRIDENT_AS_UUID = UUID.fromString("8d21b54d-2b6b-4186-8470-b8894e1b8730");
-
 
     public BrutalityTridentItem(float attackDamageModifier, float attackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(new Item.Properties().defaultDurability(1561));
 
         ImmutableMultimap.Builder<Attribute, AttributeModifier> attributes = ImmutableMultimap.builder();
-        attributes.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BRUTALITY_TRIDENT_AD_UUID, "Tool modifier", attackDamageModifier, AttributeModifier.Operation.ADDITION));
-        attributes.put(Attributes.ATTACK_SPEED, new AttributeModifier(BRUTALITY_TRIDENT_AS_UUID, "Tool modifier", attackSpeedModifier, AttributeModifier.Operation.ADDITION));
+        attributes.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", attackDamageModifier, AttributeModifier.Operation.ADDITION));
+        attributes.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", attackSpeedModifier, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = attributes.build();
 
         this.rarity = rarity;
         this.descriptionComponents = descriptionComponents;
     }
 
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+
+
+        return super.getAttributeModifiers(slot, stack);
+    }
 
     public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot pEquipmentSlot) {
         return pEquipmentSlot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(pEquipmentSlot);
@@ -74,6 +75,11 @@ public class BrutalityTridentItem extends TridentItem implements BrutalityGeoIte
                 return BrutalityModItemRenderManager.createRenderer(BrutalityTridentItem.this);
             }
         });
+    }
+
+    @Override
+    public BrutalityCategories.AttackType getAttackType() {
+        return BrutalityCategories.AttackType.STAB;
     }
 
     @Override
@@ -93,7 +99,7 @@ public class BrutalityTridentItem extends TridentItem implements BrutalityGeoIte
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityHoverTextHandler(pTooltipComponents, descriptionComponents, rarity);
+        brutalityTooltipHandler(pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
@@ -113,21 +119,8 @@ public class BrutalityTridentItem extends TridentItem implements BrutalityGeoIte
     }
 
 
-    public UseAnim getUseAnimation(ItemStack pStack) {
-        return UseAnim.SPEAR;
-    }
-
     public float getLaunchVel() {
         return 2.5F;
-    }
-
-    @Override
-    public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
-        pStack.hurtAndBreak(1, pAttacker, (livingEntity) -> {
-            livingEntity.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-        });
-
-        return true;
     }
 
     @Override
@@ -190,19 +183,6 @@ public class BrutalityTridentItem extends TridentItem implements BrutalityGeoIte
 
     protected boolean isInnatelyInfinite() {
         return false;
-    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
-        ItemStack itemstack = pPlayer.getItemInHand(pHand);
-        if (itemstack.getDamageValue() >= itemstack.getMaxDamage() - 1) {
-            return InteractionResultHolder.fail(itemstack);
-        } else if (EnchantmentHelper.getRiptide(itemstack) > 0 && !pPlayer.isInWaterOrRain()) {
-            return InteractionResultHolder.fail(itemstack);
-        } else {
-            pPlayer.startUsingItem(pHand);
-            return InteractionResultHolder.consume(itemstack);
-        }
     }
 
     public void launchProjectile(Level pLevel, Player player, ItemStack pStack) {

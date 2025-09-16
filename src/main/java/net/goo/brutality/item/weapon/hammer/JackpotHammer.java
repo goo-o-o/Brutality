@@ -2,6 +2,7 @@ package net.goo.brutality.item.weapon.hammer;
 
 import net.goo.brutality.item.base.BrutalityHammerItem;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -18,5 +19,9 @@ public class JackpotHammer extends BrutalityHammerItem {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
 
+    }
+
+    public static float getRandomDamage(Player player) {
+        return player.tickCount % 10 + 4;
     }
 }

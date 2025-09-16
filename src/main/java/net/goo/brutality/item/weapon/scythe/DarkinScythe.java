@@ -28,6 +28,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
@@ -52,7 +53,7 @@ public class DarkinScythe extends BrutalityScytheItem {
     }
 
     @Override
-    public String texture(ItemStack stack) {
+    public String texture(@javax.annotation.Nullable ItemStack stack) {
         return "darkin_scythe" + types[ModUtils.getTextureIdx(stack)];
     }
 
@@ -63,15 +64,15 @@ public class DarkinScythe extends BrutalityScytheItem {
 
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         int index = ModUtils.getTextureIdx(pStack);
 
         pTooltipComponents.add(Component.translatable("brutality.description.type.on_shift_right_click"));
         pTooltipComponents.add(Component.translatable("item.brutality.darkin_scythe.on_shift_right_click.1"));
         pTooltipComponents.add(Component.translatable("item.brutality.darkin_scythe.on_shift_right_click.2"));
-        pTooltipComponents.add(Component.empty());
 
         if (index == 1) {
+            pTooltipComponents.add(Component.empty());
             pTooltipComponents.add(Component.translatable("item.brutality.darkin_scythe.shadow_assasin"));
             pTooltipComponents.add(Component.empty());
             pTooltipComponents.add(Component.translatable("brutality.description.type.on_hit"));
@@ -85,6 +86,7 @@ public class DarkinScythe extends BrutalityScytheItem {
         }
 
         if (index == 2) {
+            pTooltipComponents.add(Component.empty());
             pTooltipComponents.add(Component.translatable("item.brutality.darkin_scythe.darkin"));
             pTooltipComponents.add(Component.empty());
             pTooltipComponents.add(Component.translatable("brutality.description.type.on_hit"));

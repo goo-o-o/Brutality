@@ -27,7 +27,7 @@ public class StarBurstSpell extends BrutalitySpell {
                 List.of(INSTANT, AOE),
                 "star_burst",
                 50, 3, 20, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(QUANTITY, 5, 3, 5, null)
+                        new BrutalityTooltipHelper.SpellStatComponent(QUANTITY, 5, 3, 5F, null)
                 ));
     }
 
@@ -37,7 +37,7 @@ public class StarBurstSpell extends BrutalitySpell {
     }
 
     @Override
-    public int getManaCostLevelScaling() {
+    public float getManaCostLevelScaling() {
         return 15;
     }
 
@@ -47,7 +47,7 @@ public class StarBurstSpell extends BrutalitySpell {
     }
 
     @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
         if (player.level() instanceof ServerLevel serverLevel) {
             RandomSource random = player.getRandom();
             for (int i = 0; i < getFinalStat(spellLevel, getStat(QUANTITY)); i++) {

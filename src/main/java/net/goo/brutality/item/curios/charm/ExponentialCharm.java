@@ -5,7 +5,7 @@ import com.google.common.collect.Multimap;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.s2cSyncCapabilitiesPacket;
+import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -62,17 +62,16 @@ public class ExponentialCharm extends BrutalityCurioItem {
         if (slotContext.entity() instanceof Player player) {
             player.getCapability(BrutalityCapabilities.PLAYER_COMBO_CAP).ifPresent(cap -> {
                 cap.resetAll();
-                PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(player.getId(), player));
+                PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(player.getId(), player));
             });
         }
-        super.onUnequip(slotContext, newStack, stack);
     }
 
     @Override
     public boolean canEquip(SlotContext slotContext, ItemStack stack) {
         return CuriosApi.getCuriosInventory(slotContext.entity())
                 .map(handler ->
-                        handler.findFirstCurio(BrutalityModItems.SCIENTIFIC_CALCULATOR_BELT.get()).isPresent()
+                        handler.isEquipped(BrutalityModItems.SCIENTIFIC_CALCULATOR.get())
                 )
                 .orElse(false);
     }

@@ -40,6 +40,11 @@ public class BrutalityPickaxeItem extends PickaxeItem implements BrutalityGeoIte
     }
 
     @Override
+    public BrutalityCategories.AttackType getAttackType() {
+        return BrutalityCategories.AttackType.STAB;
+    }
+
+    @Override
     public boolean isDamageable(ItemStack stack) {
         return true;
     }
@@ -56,7 +61,7 @@ public class BrutalityPickaxeItem extends PickaxeItem implements BrutalityGeoIte
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityHoverTextHandler(pTooltipComponents, descriptionComponents, rarity);
+        brutalityTooltipHandler(pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 

@@ -1,20 +1,20 @@
 package net.goo.brutality.item.curios.charm;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 
@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class Envy extends BrutalityCurioItem {
-    private static final String HEALTH_DIFF = "health_diff";
 
     public Envy(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
@@ -34,87 +33,69 @@ public class Envy extends BrutalityCurioItem {
     }
 
 
-    private static void updateCurrentBonus(Player player, ItemStack stack) {
-        Player nearestPlayer = player.level().getNearestPlayer(player.getX(), player.getY(), player.getZ(), 10, e ->
-                e instanceof Player p && !p.isCreative() && !p.isSpectator() && p != player &&
-                        !CuriosApi.getCuriosInventory(p).map(handler -> handler.isEquipped(BrutalityModItems.ENVY_CHARM.get())).orElse(false)
-        );
+    private static float getNewBonus(LivingEntity wearer) {
+        Player nearestValidPlayer =
+                wearer.level().getNearestPlayer(wearer.getX(), wearer.getY(), wearer.getZ(), 10, e ->
+                        e instanceof Player p && !p.isCreative() && !p.isSpectator() && p != wearer &&
+                                !CuriosApi.getCuriosInventory(p).map(handler ->
+                                        handler.isEquipped(BrutalityModItems.ENVY_CHARM.get())).orElse(false));
+        if (nearestValidPlayer == null) return 0;
 
-        CompoundTag tag = stack.getOrCreateTag();
-        if (nearestPlayer == null) {
-            tag.putFloat(HEALTH_DIFF, 0);
-            return;
-        }
-
-        float currentBonus = tag.getFloat(HEALTH_DIFF);
-
-
-        float newBonus = getNewBonus(player, nearestPlayer);
-
-        if (currentBonus == newBonus) {
-            return;
-        }
-
-        tag.putFloat(HEALTH_DIFF, newBonus);
-    }
-
-    private static float getNewBonus(Player wearer, Player nearestPlayer) {
         AttributeInstance maxHealthAttr = wearer.getAttribute(Attributes.MAX_HEALTH);
-        float playerHealthNoEnvy = 20;
-        if (maxHealthAttr != null) {
-            playerHealthNoEnvy = (float) maxHealthAttr.getBaseValue();
+        float playerHealthNoEnvy = (float) wearer.getAttributeBaseValue(Attributes.MAX_HEALTH);
+        if (maxHealthAttr != null)
             for (AttributeModifier modifier : maxHealthAttr.getModifiers()) {
                 if (!modifier.getId().equals(ENVY_HP_UUID)) {
                     playerHealthNoEnvy += (float) modifier.getAmount();
                 }
             }
-        }
-        return Math.max((nearestPlayer.getMaxHealth() - playerHealthNoEnvy) / 2, 0);
+
+        return Math.max((nearestValidPlayer.getMaxHealth() - playerHealthNoEnvy) / 2, 0);
     }
 
     private static final UUID ENVY_HP_UUID = UUID.fromString("0a98b1be-25b9-4c38-8e4e-762979e8a1a3");
 
+    private static final Object2FloatOpenHashMap<UUID> OLD_BONUS_MAP = new Object2FloatOpenHashMap<>();
+
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player && player.tickCount % 10 == 0) {
-            AttributeInstance maxHealth = player.getAttribute(Attributes.MAX_HEALTH);
-            if (maxHealth != null) {
-                updateCurrentBonus(player, stack);
-                maxHealth.removeModifier(ENVY_HP_UUID);
-                maxHealth.addTransientModifier(
-                        new AttributeModifier(
-                                ENVY_HP_UUID,
-                                "Envy HP Bonus",
-                                stack.getOrCreateTag().getFloat(HEALTH_DIFF),
-                                AttributeModifier.Operation.ADDITION
-                        )
-                );
+        if (slotContext.entity() != null) {
+            LivingEntity livingEntity = slotContext.entity();
+            if (!livingEntity.level().isClientSide() && livingEntity.tickCount % 10 == 0) {
+                AttributeInstance maxHealth = livingEntity.getAttribute(Attributes.MAX_HEALTH);
+                float newBonus = getNewBonus(livingEntity);
 
+                UUID uuid = livingEntity.getUUID();
+                float oldBonus = OLD_BONUS_MAP.getOrDefault(uuid, 0);
+                if (maxHealth != null && oldBonus != newBonus) {
+                    OLD_BONUS_MAP.put(uuid, newBonus);
+                    maxHealth.removeModifier(ENVY_HP_UUID);
+                    maxHealth.addTransientModifier(
+                            new AttributeModifier(
+                                    ENVY_HP_UUID,
+                                    "HP Bonus",
+                                    newBonus,
+                                    AttributeModifier.Operation.ADDITION
+                            )
+                    );
+                }
             }
         }
     }
-
-
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            AttributeInstance maxHealth = player.getAttribute(Attributes.MAX_HEALTH);
-            if (maxHealth != null) {
-                maxHealth.removeModifier(ENVY_HP_UUID);
-            }
-        }
-    }
-
 
     @Override
-    public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, world, tooltip, flag);
-        tooltip.add(Component.empty());
-        tooltip.add(Component.translatable("curios.modifiers.charm").withStyle(ChatFormatting.GOLD));
+    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+        if (slotContext.entity() != null) OLD_BONUS_MAP.removeFloat(slotContext.entity().getUUID());
+    }
 
-        float healthDiff = stack.getOrCreateTag().getFloat(HEALTH_DIFF);
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
+        if (slotContext.entity() != null) {
+            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
+            builder.put(Attributes.MAX_HEALTH, new AttributeModifier(ENVY_HP_UUID, "HP Buff", getNewBonus(slotContext.entity()), AttributeModifier.Operation.ADDITION));
 
-        tooltip.add(Component.literal((healthDiff >= 0 ? "+" : "") + healthDiff + " ").append(Component.translatable("attribute.name.generic.max_health"))
-                .withStyle(ChatFormatting.BLUE));
-
+            return builder.build();
+        }
+        return super.getAttributeModifiers(slotContext, uuid, stack);
     }
 }

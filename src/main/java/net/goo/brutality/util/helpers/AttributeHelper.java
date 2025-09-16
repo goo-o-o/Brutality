@@ -1,12 +1,12 @@
 package net.goo.brutality.util.helpers;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.UUID;
 
@@ -49,7 +49,7 @@ public class AttributeHelper {
         // Create a new modifier
         AttributeModifier newModifier = new AttributeModifier(id, "Tool modifier", newAmount, operation);
         CompoundTag newCompoundTag = newModifier.save();
-        newCompoundTag.putString("AttributeName", BuiltInRegistries.ATTRIBUTE.getKey(pAttribute).toString());
+        newCompoundTag.putString("AttributeName", ForgeRegistries.ATTRIBUTES.getKey(pAttribute).toString());
         if (pSlot != null) {
             newCompoundTag.putString("Slot", pSlot.getName());
         }

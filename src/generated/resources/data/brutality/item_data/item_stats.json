@@ -8027,11 +8027,11 @@
     "rarity": "fabled"
   },
   {
-    "allowedEnchantments": "[Sharpness, Smite, Bane of Arthropods, Knockback, Fire Aspect, Looting, Sweeping Edge, Unbreaking, Mending, Curse of Vanishing]",
+    "allowedEnchantments": "[Unbreaking, Mending, Curse of Vanishing]",
     "attackDamage": "6",
     "attackSpeed": "1.5",
     "category": "weapon",
-    "durability": 2031,
+    "durability": 1561,
     "enchantmentValue": "15",
     "id": "darkin_scythe",
     "itemType": "scythe",
@@ -8240,7 +8240,7 @@
     "rarity": "fabled"
   },
   {
-    "allowedEnchantments": "[Sharpness, Smite, Bane of Arthropods, Efficiency, Silk Touch, Unbreaking, Fortune, Mending, Curse of Vanishing]",
+    "allowedEnchantments": "[Unbreaking, Mending, Curse of Vanishing]",
     "attackDamage": "3",
     "attackSpeed": "1.4",
     "category": "weapon",
@@ -8391,6 +8391,976 @@
     "allowedEnchantments": "[Unbreaking]",
     "category": "curio",
     "enchantmentValue": "0",
+    "id": "energy_focuser",
+    "itemType": "charm",
+    "name": "Energy Focuser",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "bruteskin_belt",
+    "itemType": "belt",
+    "name": "Bruteskin Belt",
+    "namespace": "brutality",
+    "rarity": "mythic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "critical_thinking",
+    "itemType": "head",
+    "name": "Critical Thinking",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "deadshot_brooch",
+    "itemType": "charm",
+    "name": "Deadshot Brooch",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Sharpness, Smite, Bane of Arthropods, Knockback, Fire Aspect, Looting, Sweeping Edge, Unbreaking, Mending, Curse of Vanishing]",
+    "attackDamage": "11",
+    "attackSpeed": "1.2",
+    "category": "weapon",
+    "durability": 2031,
+    "enchantmentValue": "15",
+    "id": "onyx_phasesaber",
+    "itemType": "sword",
+    "name": "Onyx Phasesaber",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Sharpness, Smite, Bane of Arthropods, Knockback, Fire Aspect, Looting, Sweeping Edge, Unbreaking, Mending, Curse of Vanishing]",
+    "attackDamage": "11",
+    "attackSpeed": "1.2",
+    "category": "weapon",
+    "durability": 2031,
+    "enchantmentValue": "15",
+    "id": "topaz_phasesaber",
+    "itemType": "sword",
+    "name": "Topaz Phasesaber",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Sharpness, Smite, Bane of Arthropods, Knockback, Fire Aspect, Looting, Sweeping Edge, Unbreaking, Mending, Curse of Vanishing]",
+    "attackDamage": "11",
+    "attackSpeed": "1.2",
+    "category": "weapon",
+    "durability": 2031,
+    "enchantmentValue": "15",
+    "id": "ruby_phasesaber",
+    "itemType": "sword",
+    "name": "Ruby Phasesaber",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Sharpness, Smite, Bane of Arthropods, Knockback, Fire Aspect, Looting, Sweeping Edge, Unbreaking, Mending, Curse of Vanishing]",
+    "attackDamage": "11",
+    "attackSpeed": "1.2",
+    "category": "weapon",
+    "durability": 2031,
+    "enchantmentValue": "15",
+    "id": "sapphire_phasesaber",
+    "itemType": "sword",
+    "name": "Sapphire Phasesaber",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "hellspec_tie",
+    "itemType": "necklace",
+    "name": "Hellspec Tie",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "archmages_trick",
+    "itemType": "belt",
+    "name": "Archmage's Trick",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "soul_stone",
+    "itemType": "charm",
+    "name": "Soul Stone",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "emergency_flask",
+    "itemType": "charm",
+    "name": "Emergency Flask",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "ring_of_mana",
+    "itemType": "ring",
+    "name": "Ring Of Mana",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "ring_of_mana_plus",
+    "itemType": "ring",
+    "name": "Ring Of Mana +",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "conservative_concoction",
+    "itemType": "charm",
+    "name": "Conservative Concoction",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "microblade_band",
+    "itemType": "ring",
+    "name": "Microblade Band",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "rune_of_delta",
+    "itemType": "heart",
+    "name": "Rune of Delta",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "echo_chamber",
+    "itemType": "charm",
+    "name": "Echo Chamber",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "onyx_idol",
+    "itemType": "charm",
+    "name": "Onyx Idol",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "scribes_index",
+    "itemType": "charm",
+    "name": "Scribe's Index",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "black_hole_orb",
+    "itemType": "charm",
+    "name": "Black Hole Orb",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "forbidden_orb",
+    "itemType": "charm",
+    "name": "Forbidden Orb",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "blood_orb",
+    "itemType": "charm",
+    "name": "Blood Orb",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "crown_of_tyranny",
+    "itemType": "head",
+    "name": "Crown of Tyranny",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "portable_quantum_thingamabob",
+    "itemType": "charm",
+    "name": "Portable Quantum Thingamabob",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "warpslice_scabbard",
+    "itemType": "belt",
+    "name": "Warpslice Scabbard",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "profanum_reactor",
+    "itemType": "charm",
+    "name": "Profanum Reactor",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "daemonium_whetstone",
+    "itemType": "charm",
+    "name": "Daemonium Whetstone",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "knights_pendant",
+    "itemType": "necklace",
+    "name": "Knight's Pendant",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "the_oath",
+    "itemType": "hands",
+    "name": "The Oath",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "lucky_insoles",
+    "itemType": "charm",
+    "name": "Lucky Insoles",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "sanguine_signet",
+    "itemType": "ring",
+    "name": "Sanguine Signet",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "phantom_finger",
+    "itemType": "hands",
+    "name": "Phantom Finger",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "stygian_chain",
+    "itemType": "hands",
+    "name": "Stygian Chain",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "category": "curio",
+    "id": "silver_respawn_card",
+    "itemType": "charm",
+    "name": "Silver Respawn Card",
+    "namespace": "brutality",
+    "rarity": "mythic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "diamond_respawn_card",
+    "itemType": "charm",
+    "name": "Diamond Respawn Card",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "evil_king_respawn_card",
+    "itemType": "charm",
+    "name": "Evil King Respawn Card",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "hemomatic_locket",
+    "itemType": "necklace",
+    "name": "Hemomatic Locket",
+    "namespace": "brutality",
+    "rarity": "fabled"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "daemonium_sewing_kit",
+    "itemType": "charm",
+    "name": "Daemonium Sewing Kit",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "gamblers_chain",
+    "itemType": "necklace",
+    "name": "Gambler's Chain",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "pincushion",
+    "itemType": "charm",
+    "name": "Pincushion",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "old_guillotine",
+    "itemType": "charm",
+    "name": "Old Guillotine",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "knuckle_wraps",
+    "itemType": "charm",
+    "name": "Knuckle Wraps",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "mana_syringe",
+    "itemType": "charm",
+    "name": "Mana Syringe",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "soldiers_syringe",
+    "itemType": "charm",
+    "name": "Soldier's Syringe",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "target_cube",
+    "itemType": "charm",
+    "name": "Target Cube",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "blood_pack",
+    "itemType": "charm",
+    "name": "Blood Pack",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "broken_clock",
+    "itemType": "charm",
+    "name": "Broken Clock",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "shattered_clock",
+    "itemType": "charm",
+    "name": "Shattered Clock",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "sundered_clock",
+    "itemType": "charm",
+    "name": "Sundered Clock",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "timekeepers_clock",
+    "itemType": "charm",
+    "name": "Timekeeper's Clock",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "the_clock_of_frozen_time",
+    "itemType": "charm",
+    "name": "The Clock of Frozen Time",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "wire_cutters",
+    "itemType": "charm",
+    "name": "Wire Cutters",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "air_jordan_earrings",
+    "itemType": "head",
+    "name": "Air Jordan Earrings",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "hell_specs",
+    "itemType": "head",
+    "name": "Hell Specs",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "scope_goggles",
+    "itemType": "head",
+    "name": "Scope Goggles",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "lens_makers_glasses",
+    "itemType": "head",
+    "name": "Lens Maker's Glasses",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "jury_nullifier",
+    "itemType": "hands",
+    "name": "Jury Nullifier",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "eye_of_the_dragon",
+    "itemType": "hands",
+    "name": "Eye of The Dragon",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "crowbar",
+    "itemType": "hands",
+    "name": "Crowbar",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "brutal_heart",
+    "itemType": "heart",
+    "name": "Brutal Heart",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "ninja_heart",
+    "itemType": "heart",
+    "name": "Ninja Heart",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "deck_of_cards",
+    "itemType": "charm",
+    "name": "Deck of Cards",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "vindicator_steroids",
+    "itemType": "charm",
+    "name": "Vindicator Steroids",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "davys_anklet",
+    "itemType": "anklet",
+    "name": "Davy's Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "anklet_of_the_imprisoned",
+    "itemType": "anklet",
+    "name": "Anklet of The Imprisoned",
+    "namespace": "brutality",
+    "rarity": "cataclysmic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "sharpness_anklet",
+    "itemType": "anklet",
+    "name": "Sharpness Anklet",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "debug_anklet",
+    "itemType": "anklet",
+    "name": "Debug Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "redstone_anklet",
+    "itemType": "anklet",
+    "name": "Redstone Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "devils_anklet",
+    "itemType": "anklet",
+    "name": "Devil's Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "basketball_anklet",
+    "itemType": "anklet",
+    "name": "Basketball Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "emerald_anklet",
+    "itemType": "anklet",
+    "name": "Emerald Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "ruby_anklet",
+    "itemType": "anklet",
+    "name": "Ruby Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "topaz_anklet",
+    "itemType": "anklet",
+    "name": "Topaz Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "sapphire_anklet",
+    "itemType": "anklet",
+    "name": "Sapphire Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "onyx_anklet",
+    "itemType": "anklet",
+    "name": "Onyx Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "ultra_dodge_anklet",
+    "itemType": "anklet",
+    "name": "Ultra Dodge Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "gundalfs_anklet",
+    "itemType": "anklet",
+    "name": "Gundalf's Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "trial_anklet",
+    "itemType": "anklet",
+    "name": "Trial Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "super_dodge_anklet",
+    "itemType": "anklet",
+    "name": "Super Dodge Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "gnome_kings_anklet",
+    "itemType": "anklet",
+    "name": "Anklet of the Gnome King",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "anklent",
+    "itemType": "anklet",
+    "name": "Anklen't",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "ankle_monitor",
+    "itemType": "anklet",
+    "name": "Ankle Monitor",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "fiery_anklet",
+    "itemType": "anklet",
+    "name": "Fiery Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "sacred_speed_anklet",
+    "itemType": "anklet",
+    "name": "Sacred Speed Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "conductite_anklet",
+    "itemType": "anklet",
+    "name": "Conductite Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "blood_clot_anklet",
+    "itemType": "anklet",
+    "name": "Blood Clot Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "virentium_anklet",
+    "itemType": "anklet",
+    "name": "Virentium Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "cosmic_anklet",
+    "itemType": "anklet",
+    "name": "Cosmic Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "nyxium_anklet",
+    "itemType": "anklet",
+    "name": "Nyxium Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "void_anklet",
+    "itemType": "anklet",
+    "name": "Void Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "ironclad_anklet",
+    "itemType": "anklet",
+    "name": "Ironclad Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "gladiators_anklet",
+    "itemType": "anklet",
+    "name": "Gladiator's Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "exodium_anklet",
+    "itemType": "anklet",
+    "name": "Exodium Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "big_steppa",
+    "itemType": "anklet",
+    "name": "Big Steppa",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "windswept_anklet",
+    "itemType": "anklet",
+    "name": "Windswept Anklet",
+    "namespace": "brutality",
+    "rarity": "epic"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
     "id": "suspicious_slot_machine",
     "itemType": "charm",
     "name": "Suspicious Slot Machine (BROKEN)",
@@ -8438,11 +9408,111 @@
     "rarity": "legendary"
   },
   {
-    "allowedEnchantments": "[Sharpness, Smite, Bane of Arthropods, Efficiency, Silk Touch, Unbreaking, Fortune, Mending, Curse of Vanishing]",
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "blood_chalice",
+    "itemType": "charm",
+    "name": "Blood Chalice",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "black_matter_necklace",
+    "itemType": "necklace",
+    "name": "Black Matter Necklace",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "self_repair_nexus",
+    "itemType": "charm",
+    "name": "Self-Repair Nexus",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "vampiric_talisman",
+    "itemType": "charm",
+    "name": "Vampiric Talisman",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "hemograft_needle",
+    "itemType": "charm",
+    "name": "Hemograft Needle",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "sanguine_spectacles",
+    "itemType": "head",
+    "name": "Sanguine Spectacles",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "vampire_fang",
+    "itemType": "head",
+    "name": "Vampire Fang",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "progenitors_earrings",
+    "itemType": "head",
+    "name": "Progenitor's Earrings",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "fallen_angels_halo",
+    "itemType": "head",
+    "name": "Fallen Angels Halo",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "bloodstained_mirror",
+    "itemType": "charm",
+    "name": "Bloodstained Mirror",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking, Mending, Curse of Vanishing]",
     "attackDamage": "9",
     "attackSpeed": "1",
     "category": "weapon",
-    "durability": 2031,
+    "durability": 1561,
     "enchantmentValue": "15",
     "id": "atomic_judgement",
     "itemType": "hammer",
@@ -8474,6 +9544,26 @@
     "allowedEnchantments": "[Unbreaking]",
     "category": "curio",
     "enchantmentValue": "0",
+    "id": "divine_immolation",
+    "itemType": "charm",
+    "name": "Divine Immolation",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
+    "id": "light_switch",
+    "itemType": "charm",
+    "name": "Light Switch",
+    "namespace": "brutality",
+    "rarity": "legendary"
+  },
+  {
+    "allowedEnchantments": "[Unbreaking]",
+    "category": "curio",
+    "enchantmentValue": "0",
     "id": "solar_system",
     "itemType": "head",
     "name": "The Solar System",
@@ -8486,7 +9576,7 @@
     "enchantmentValue": "0",
     "id": "nanomachines",
     "itemType": "hands",
-    "name": "nanomachines",
+    "name": "Nano Machines",
     "namespace": "brutality",
     "rarity": "mythic"
   },
@@ -8496,7 +9586,7 @@
     "enchantmentValue": "0",
     "id": "dueling_glove",
     "itemType": "hands",
-    "name": "dueling_glove",
+    "name": "Dueling Glove",
     "namespace": "brutality",
     "rarity": "mythic"
   },
@@ -8661,9 +9751,9 @@
     "rarity": "mythic"
   },
   {
-    "allowedEnchantments": "[Sharpness, Smite, Bane of Arthropods, Efficiency, Silk Touch, Unbreaking, Fortune, Mending, Curse of Vanishing]",
+    "allowedEnchantments": "[Unbreaking, Mending, Curse of Vanishing]",
     "category": "weapon",
-    "durability": 2031,
+    "durability": 1561,
     "enchantmentValue": "15",
     "id": "terraton_hammer",
     "itemType": "hammer",
@@ -8672,7 +9762,7 @@
     "rarity": "mythic"
   },
   {
-    "allowedEnchantments": "[Sharpness, Smite, Bane of Arthropods, Efficiency, Silk Touch, Unbreaking, Fortune, Mending, Curse of Vanishing]",
+    "allowedEnchantments": "[Unbreaking, Mending, Curse of Vanishing]",
     "attackDamage": "2",
     "attackSpeed": "1",
     "category": "weapon",
@@ -8811,7 +9901,7 @@
     "durability": 2031,
     "enchantmentValue": "15",
     "id": "event_horizon",
-    "itemType": "lance",
+    "itemType": "spear",
     "name": "Event Horizon",
     "namespace": "brutality",
     "rarity": "fabled"
@@ -9102,7 +10192,7 @@
     "enchantmentValue": "0",
     "id": "butter_gauntlets",
     "itemType": "hands",
-    "name": "butter_gauntlets",
+    "name": "Butter Gauntlets",
     "namespace": "brutality",
     "rarity": "legendary"
   },
@@ -9177,11 +10267,11 @@
     "rarity": "epic"
   },
   {
-    "allowedEnchantments": "[Sharpness, Smite, Bane of Arthropods, Efficiency, Silk Touch, Unbreaking, Fortune, Mending, Curse of Vanishing]",
+    "allowedEnchantments": "[Unbreaking, Mending, Curse of Vanishing]",
     "attackDamage": "4",
     "attackSpeed": "1.7",
     "category": "weapon",
-    "durability": 250,
+    "durability": 1561,
     "enchantmentValue": "14",
     "id": "spatula",
     "itemType": "hammer",
@@ -9190,11 +10280,11 @@
     "rarity": "epic"
   },
   {
-    "allowedEnchantments": "[Sharpness, Smite, Bane of Arthropods, Efficiency, Silk Touch, Unbreaking, Fortune, Mending, Curse of Vanishing]",
+    "allowedEnchantments": "[Unbreaking, Mending, Curse of Vanishing]",
     "attackDamage": "17",
     "attackSpeed": "1.7",
     "category": "weapon",
-    "durability": 2031,
+    "durability": 1561,
     "enchantmentValue": "15",
     "id": "the_golden_spatula",
     "itemType": "hammer",
@@ -9275,17 +10365,17 @@
     "durability": 100,
     "enchantmentValue": "14",
     "id": "apple_core",
-    "itemType": "lance",
+    "itemType": "spear",
     "name": "Apple Core",
     "namespace": "brutality",
     "rarity": "legendary"
   },
   {
-    "allowedEnchantments": "[Sharpness, Smite, Bane of Arthropods, Efficiency, Silk Touch, Unbreaking, Fortune, Mending, Curse of Vanishing]",
+    "allowedEnchantments": "[Unbreaking, Mending, Curse of Vanishing]",
     "attackDamage": "4",
     "attackSpeed": "1.7",
     "category": "weapon",
-    "durability": 250,
+    "durability": 1561,
     "enchantmentValue": "14",
     "id": "frying_pan",
     "itemType": "hammer",
@@ -9320,11 +10410,11 @@
     "rarity": "epic"
   },
   {
-    "allowedEnchantments": "[Sharpness, Smite, Bane of Arthropods, Efficiency, Silk Touch, Unbreaking, Fortune, Mending, Curse of Vanishing]",
+    "allowedEnchantments": "[Unbreaking, Mending, Curse of Vanishing]",
     "attackDamage": "4",
     "attackSpeed": "1.7",
     "category": "weapon",
-    "durability": 250,
+    "durability": 1561,
     "enchantmentValue": "14",
     "id": "potato_masher",
     "itemType": "hammer",
@@ -9333,11 +10423,11 @@
     "rarity": "epic"
   },
   {
-    "allowedEnchantments": "[Sharpness, Smite, Bane of Arthropods, Efficiency, Silk Touch, Unbreaking, Fortune, Mending, Curse of Vanishing]",
+    "allowedEnchantments": "[Unbreaking, Mending, Curse of Vanishing]",
     "attackDamage": "4",
     "attackSpeed": "1.7",
     "category": "weapon",
-    "durability": 250,
+    "durability": 1561,
     "enchantmentValue": "14",
     "id": "whisk",
     "itemType": "hammer",
@@ -9452,9 +10542,9 @@
     "allowedEnchantments": "[Unbreaking]",
     "category": "curio",
     "enchantmentValue": "0",
-    "id": "scientific_calculator_belt",
+    "id": "scientific_calculator",
     "itemType": "belt",
-    "name": "Scientific Calculator",
+    "name": "scientific_calculator",
     "namespace": "brutality",
     "rarity": "epic"
   },

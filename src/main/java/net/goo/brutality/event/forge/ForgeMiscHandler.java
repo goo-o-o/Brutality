@@ -19,7 +19,7 @@ public class ForgeMiscHandler {
             Player player = event.getEntity();
             if (!player.level().isClientSide()) {
                 player.level().getServer().tell(new TickTask(1, () -> {
-                    player.getInventory().setItem(player.getInventory().selected, BrutalityModItems.DOUBLE_DOWN_SWORD.get().getDefaultInstance());
+                    player.getInventory().setItem(player.getInventory().selected, BrutalityModItems.DOUBLE_DOWN.get().getDefaultInstance());
                 }));
             }
         }
@@ -28,7 +28,7 @@ public class ForgeMiscHandler {
     @SubscribeEvent
     public static void onItemToss(ItemTossEvent event) {
         if (event.getEntity().getItem().getOrCreateTag().getBoolean("fromDoubleDown")) {
-            event.getEntity().setItem(BrutalityModItems.DOUBLE_DOWN_SWORD.get().getDefaultInstance());
+            event.getEntity().setItem(BrutalityModItems.DOUBLE_DOWN.get().getDefaultInstance());
         }
     }
 

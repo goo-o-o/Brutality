@@ -58,11 +58,9 @@ public class BattleScars extends BrutalityCurioItem {
 
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            AttributeInstance rageGainAttr = player.getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
-            if (rageGainAttr != null) {
-                rageGainAttr.removeModifier(BATTLE_SCARS_RAGE_GAIN_UUID);
-            }
+        AttributeInstance rageGainAttr = slotContext.entity().getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
+        if (rageGainAttr != null) {
+            rageGainAttr.removeModifier(BATTLE_SCARS_RAGE_GAIN_UUID);
         }
     }
 }

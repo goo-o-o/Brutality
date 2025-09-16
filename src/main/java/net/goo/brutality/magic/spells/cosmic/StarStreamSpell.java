@@ -30,18 +30,13 @@ public class StarStreamSpell extends BrutalitySpell {
                 List.of(CONTINUOUS, TARGET),
                 "star_stream",
                 8, 3, 20, 10, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(SPEED, 1, 0.25F, 1, 3)
+                        new BrutalityTooltipHelper.SpellStatComponent(SPEED, 1, 0.25F, 1F, 3F)
                 ));
     }
 
     @Override
     public float getDamageLevelScaling() {
         return 0.25F;
-    }
-
-    @Override
-    public int getManaCostLevelScaling() {
-        return 0;
     }
 
     @Override
@@ -55,7 +50,7 @@ public class StarStreamSpell extends BrutalitySpell {
     }
 
     @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onCastTick(Player player, ItemStack stack, int spellLevel) {
         if (player.level() instanceof ServerLevel serverLevel) {
             Vec3 target;
             ModUtils.RayData<Entity> rayData = ModUtils.getEntitiesInRay(Entity.class, player, 20, ClipContext.Fluid.NONE, ClipContext.Block.OUTLINE, 0.5F, e -> e != player && !(e instanceof StarStreamEntity), 1, null);

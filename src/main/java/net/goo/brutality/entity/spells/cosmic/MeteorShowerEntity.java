@@ -3,8 +3,8 @@ package net.goo.brutality.entity.spells.cosmic;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.magic.IBrutalitySpell;
 import net.goo.brutality.magic.spells.cosmic.MeteorShowerSpell;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
 
@@ -40,12 +40,7 @@ public class MeteorShowerEntity extends CosmicCataclysmEntity{
     }
 
     @Override
-    public float getFinalDamage(IBrutalitySpell spell, LivingEntity owner, int spellLevel) {
-        return 7F;
-    }
-
-    @Override
-    public float getFinalDamageWithoutAttributes(IBrutalitySpell spell, int spellLevel) {
+    public float getFinalDamage(IBrutalitySpell spell, Entity owner, int spellLevel) {
         return 7F;
     }
 }

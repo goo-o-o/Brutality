@@ -1,7 +1,10 @@
 {
   "replace": false,
   "values": [
-    "brutality:scientific_calculator_belt",
+    "brutality:scientific_calculator",
+    "brutality:bruteskin_belt",
+    "brutality:archmages_trick",
+    "brutality:warpslice_scabbard",
     "brutality:battle_scars"
   ]
 }

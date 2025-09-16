@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.goo.brutality.particle.providers.WaveParticleData;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
@@ -37,8 +36,4 @@ public class WaveParticle extends FlatParticle {
         this.setSpriteFromAge(this.sprites);
     }
 
-    @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
-    }
 }

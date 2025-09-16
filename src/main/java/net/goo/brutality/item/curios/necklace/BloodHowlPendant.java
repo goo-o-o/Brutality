@@ -1,12 +1,16 @@
 package net.goo.brutality.item.curios.necklace;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
+import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import top.theillusivec4.curios.api.SlotContext;
@@ -27,29 +31,30 @@ public class BloodHowlPendant extends BrutalityCurioItem {
     }
 
     UUID BLOOD_HOWL_RAGE_GAIN_UUID = UUID.fromString("9f300d11-6844-4a87-8350-eb0cee580300");
+    private static final Object2BooleanOpenHashMap<UUID> WAS_ACTIVE_MAP = new Object2BooleanOpenHashMap<>();
+
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            AttributeInstance rageGainAttr = player.getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
-            if (rageGainAttr != null) {
-
-                if (player.getHealth() / player.getMaxHealth() < 0.5F) {
-
-                    // Remove old modifier (if exists)
-                    rageGainAttr.removeModifier(BLOOD_HOWL_RAGE_GAIN_UUID);
-
-                    // Add new modifier with dynamic value
-                    rageGainAttr.addTransientModifier(
-                            new AttributeModifier(
-                                    BLOOD_HOWL_RAGE_GAIN_UUID,
-                                    "Temporary Speed Bonus",
-                                    0.5F,
-                                    AttributeModifier.Operation.MULTIPLY_TOTAL
-                            )
-                    );
-                } else {
-                    rageGainAttr.removeModifier(BLOOD_HOWL_RAGE_GAIN_UUID);
+        if (slotContext.entity() != null) {
+            LivingEntity livingEntity = slotContext.entity();
+            if (!livingEntity.level().isClientSide() && livingEntity.tickCount % 10 == 0) {
+                AttributeInstance rageGain = livingEntity.getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
+                boolean active = livingEntity.getHealth() / livingEntity.getMaxHealth() < 0.5F;
+                UUID uuid = livingEntity.getUUID();
+                boolean wasActive = WAS_ACTIVE_MAP.getOrDefault(uuid, false);
+                if (rageGain != null && wasActive != active) {
+                    WAS_ACTIVE_MAP.put(uuid, active);
+                    rageGain.removeModifier(BLOOD_HOWL_RAGE_GAIN_UUID);
+                    if (active)
+                        rageGain.addTransientModifier(
+                                new AttributeModifier(
+                                        BLOOD_HOWL_RAGE_GAIN_UUID,
+                                        "Rage Gain Buff",
+                                        0.5F,
+                                        AttributeModifier.Operation.MULTIPLY_TOTAL
+                                )
+                        );
                 }
             }
         }
@@ -57,11 +62,24 @@ public class BloodHowlPendant extends BrutalityCurioItem {
 
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            AttributeInstance rageGainAttr = player.getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
-            if (rageGainAttr != null) {
-                rageGainAttr.removeModifier(BLOOD_HOWL_RAGE_GAIN_UUID);
+        if (slotContext.entity() != null) WAS_ACTIVE_MAP.removeBoolean(slotContext.entity().getUUID());
+    }
+
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
+        if (slotContext.entity() != null) {
+            if (slotContext.entity().getHealth() / slotContext.entity().getMaxHealth() < 0.5F) {
+                ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
+                builder.put(ModAttributes.RAGE_GAIN_MULTIPLIER.get(),
+                        new AttributeModifier(BLOOD_HOWL_RAGE_GAIN_UUID,
+                                "Rage Gain Buff",
+                                0.5,
+                                AttributeModifier.Operation.MULTIPLY_TOTAL
+                        ));
+                return builder.build();
             }
         }
+        return super.getAttributeModifiers(slotContext, uuid, stack);
     }
 }

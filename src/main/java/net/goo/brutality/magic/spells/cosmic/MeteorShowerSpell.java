@@ -26,8 +26,8 @@ public class MeteorShowerSpell extends BrutalitySpell {
                 List.of(CONTINUOUS, AOE, TARGET),
                 "meteor_shower",
                 10, 7, 100, 10, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 15, 5, 0, 100),
-                        new BrutalityTooltipHelper.SpellStatComponent(SIZE, 3, 0, 3, 3)
+                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 15, 5, 0F, 100F),
+                        new BrutalityTooltipHelper.SpellStatComponent(SIZE, 3, 0, 3F, 3F)
                 ));
     }
 
@@ -36,10 +36,6 @@ public class MeteorShowerSpell extends BrutalitySpell {
         return 0;
     }
 
-    @Override
-    public int getManaCostLevelScaling() {
-        return 0;
-    }
 
     @Override
     public int getCooldownLevelScaling() {
@@ -52,7 +48,7 @@ public class MeteorShowerSpell extends BrutalitySpell {
     }
 
     @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onCastTick(Player player, ItemStack stack, int spellLevel) {
         if (player.level() instanceof ServerLevel serverLevel) {
             BlockPos blockPos = ModUtils.getBlockLookingAt(player, false, getFinalStat(spellLevel, getStat(RANGE)));
             if (blockPos == null) return false;

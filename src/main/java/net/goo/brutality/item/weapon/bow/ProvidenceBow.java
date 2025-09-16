@@ -103,7 +103,7 @@ public class ProvidenceBow extends BrutalityBowItem {
 //    }
 
     @Override
-    public void releaseUsing(ItemStack bowStack, Level level, LivingEntity shooter, int timeLeft) {
+    public void releaseUsing(@NotNull ItemStack bowStack, @NotNull Level level, @NotNull LivingEntity shooter, int timeLeft) {
         super.releaseUsing(bowStack, level, shooter, timeLeft);
 
         if (level instanceof ServerLevel serverLevel)

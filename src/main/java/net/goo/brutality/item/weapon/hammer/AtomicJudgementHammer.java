@@ -37,7 +37,7 @@ public class AtomicJudgementHammer extends BrutalityHammerItem {
 
 
     @Override
-    public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
+    public boolean hurtEnemy(ItemStack pStack, @NotNull LivingEntity pTarget, @NotNull LivingEntity pAttacker) {
         Level level = pAttacker.level();
 
         doCustomExplosion(level, pTarget, pAttacker, pStack);

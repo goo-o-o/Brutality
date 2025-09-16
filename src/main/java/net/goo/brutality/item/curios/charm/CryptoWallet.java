@@ -57,8 +57,6 @@ public class CryptoWallet extends BrutalityCurioItem {
                 AttributeInstance attackSpeed = player.getAttribute(Attributes.ATTACK_SPEED);
 
                 if (attackSpeed != null) {
-
-
                     // Remove old modifier (if exists)
                     attackSpeed.removeModifier(CRYPTO_CHARM_AS_UUID);
 
@@ -78,15 +76,13 @@ public class CryptoWallet extends BrutalityCurioItem {
     }
 
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            AttributeInstance attackSpeed = player.getAttribute(Attributes.ATTACK_SPEED);
-            if (attackSpeed != null) {
-                attackSpeed.removeModifier(CRYPTO_CHARM_AS_UUID);
-            }
-            AttributeInstance attackDamage = player.getAttribute(Attributes.ATTACK_DAMAGE);
-            if (attackDamage != null) {
-                attackDamage.removeModifier(CRYPTO_CHARM_AD_UUID);
-            }
+        AttributeInstance attackSpeed = slotContext.entity().getAttribute(Attributes.ATTACK_SPEED);
+        if (attackSpeed != null) {
+            attackSpeed.removeModifier(CRYPTO_CHARM_AS_UUID);
+        }
+        AttributeInstance attackDamage = slotContext.entity().getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackDamage != null) {
+            attackDamage.removeModifier(CRYPTO_CHARM_AD_UUID);
         }
     }
 

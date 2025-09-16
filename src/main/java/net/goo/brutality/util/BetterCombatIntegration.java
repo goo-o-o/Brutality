@@ -5,7 +5,7 @@ import net.goo.brutality.item.weapon.hammer.AtomicJudgementHammer;
 import net.goo.brutality.item.weapon.sword.*;
 import net.goo.brutality.network.ClientboundExactParticlePacket;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.c2sTriggerAnimPacket;
+import net.goo.brutality.network.ServerboundTriggerAnimationPacket;
 import net.goo.brutality.particle.providers.FlatParticleData;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraft.util.Mth;
@@ -38,9 +38,9 @@ public class BetterCombatIntegration {
                     challengerDeepSword.performChallengerDeepAttack(stack, player);
                 } else if (item instanceof SupernovaSword) {
                     if (hand.combo().current() == 2) {
-                        PacketHandler.sendToServer(new c2sTriggerAnimPacket(stack, GeoItem.getId(stack), "controller", "stab"));
+                        PacketHandler.sendToServer(new ServerboundTriggerAnimationPacket(stack, GeoItem.getId(stack), "controller", "stab"));
                     } else {
-                        PacketHandler.sendToServer(new c2sTriggerAnimPacket(stack, GeoItem.getId(stack), "controller", "swing"));
+                        PacketHandler.sendToServer(new ServerboundTriggerAnimationPacket(stack, GeoItem.getId(stack), "controller", "swing"));
                     }
                 } else if (item instanceof MurasamaSword) {
                     if (hand.combo().current() == 1) {
@@ -72,7 +72,7 @@ public class BetterCombatIntegration {
                         ));
                     }
                 } else if (item instanceof AtomicJudgementHammer) {
-                    PacketHandler.sendToServer(new c2sTriggerAnimPacket(stack, GeoItem.getId(stack), "controller", "attack"));
+                    PacketHandler.sendToServer(new ServerboundTriggerAnimationPacket(stack, GeoItem.getId(stack), "controller", "attack"));
                 }
 
             });

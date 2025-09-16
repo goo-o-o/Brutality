@@ -7,9 +7,7 @@ import net.goo.brutality.item.base.BrutalityCurioItem;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import top.theillusivec4.curios.api.SlotContext;
@@ -34,27 +32,11 @@ public class FuryBand extends BrutalityCurioItem {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        if (slotContext.entity() != null) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-            builder.put(ModAttributes.RAGE_TIME_MULTIPLIER.get(), new AttributeModifier(FURY_BAND_RAGE_TIME_UUID, "Max Rage Time Buff", 0.75, AttributeModifier.Operation.MULTIPLY_TOTAL));
-            builder.put(ModAttributes.RAGE_LEVEL.get(), new AttributeModifier(FURY_BAND_RAGE_LEVEL_UUID, "Rage Level Buff", 1, AttributeModifier.Operation.ADDITION));
-            return builder.build();
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
+        builder.put(ModAttributes.RAGE_TIME_MULTIPLIER.get(), new AttributeModifier(FURY_BAND_RAGE_TIME_UUID, "Max Rage Time Buff", 0.75, AttributeModifier.Operation.MULTIPLY_TOTAL));
+        builder.put(ModAttributes.RAGE_LEVEL.get(), new AttributeModifier(FURY_BAND_RAGE_LEVEL_UUID, "Rage Level Buff", 1, AttributeModifier.Operation.ADDITION));
+        return builder.build();
 
-        }
-        return super.getAttributeModifiers(slotContext, uuid, stack);
     }
 
-    @Override
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            AttributeInstance rageTime = player.getAttribute(ModAttributes.RAGE_TIME_MULTIPLIER.get());
-            if (rageTime != null) {
-                rageTime.removeModifier(FURY_BAND_RAGE_TIME_UUID);
-            }
-            AttributeInstance rageLevel = player.getAttribute(ModAttributes.RAGE_LEVEL.get());
-            if (rageLevel != null) {
-                rageLevel.removeModifier(FURY_BAND_RAGE_LEVEL_UUID);
-            }
-        }
-    }
 }

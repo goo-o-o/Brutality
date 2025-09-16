@@ -4,7 +4,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.projectile.beam.TerraBeam;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.c2sShootProjectilePacket;
+import net.goo.brutality.network.ServerboundShootProjectilePacket;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -60,7 +60,7 @@ public class TerraBladeSword extends BrutalitySwordItem {
             level.playSound(player, player.getOnPos(), BrutalityModSounds.TERRA_BLADE_USE.get(), SoundSource.PLAYERS);
             player.getCooldowns().addCooldown(item, 5);
             if (level.isClientSide()) {
-                PacketHandler.sendToServer(new c2sShootProjectilePacket(BrutalityModEntities.TERRA_BEAM.getId(), 2.5F, false, 0F, 0));
+                PacketHandler.sendToServer(new ServerboundShootProjectilePacket(BrutalityModEntities.TERRA_BEAM.getId(), 2.5F, false, 0F, 0));
             } else {
                 ProjectileHelper.shootProjectile(() -> new TerraBeam(BrutalityModEntities.TERRA_BEAM.get(), level), player, level, 3.5F, false, 0F, 0);
             }

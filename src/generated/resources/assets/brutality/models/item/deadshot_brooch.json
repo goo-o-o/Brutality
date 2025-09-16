@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/charm/deadshot_brooch/deadshot_brooch_inventory"
+  }
+}

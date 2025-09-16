@@ -4,9 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
@@ -47,7 +47,7 @@ public class ClientboundParticlePacket {
     }
 
     public ClientboundParticlePacket(FriendlyByteBuf pBuffer) {
-        ParticleType<?> particletype = pBuffer.readById(BuiltInRegistries.PARTICLE_TYPE);
+        ParticleType<?> particletype = pBuffer.readRegistryIdSafe(ParticleType.class);
         this.overrideLimiter = pBuffer.readBoolean();
         this.x = pBuffer.readFloat();
         this.y = pBuffer.readFloat();
@@ -63,7 +63,7 @@ public class ClientboundParticlePacket {
     }
 
     public void write(FriendlyByteBuf pBuffer) {
-        pBuffer.writeId(BuiltInRegistries.PARTICLE_TYPE, this.particle.getType());
+        pBuffer.writeRegistryId(ForgeRegistries.PARTICLE_TYPES, this.particle.getType());
         pBuffer.writeBoolean(this.overrideLimiter);
         pBuffer.writeFloat(this.x);
         pBuffer.writeFloat(this.y);

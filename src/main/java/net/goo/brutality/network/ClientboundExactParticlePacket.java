@@ -2,11 +2,11 @@ package net.goo.brutality.network;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
@@ -28,7 +28,7 @@ public class ClientboundExactParticlePacket {
     }
 
     public ClientboundExactParticlePacket(FriendlyByteBuf pBuffer) {
-        ParticleType<?> type = pBuffer.readById(BuiltInRegistries.PARTICLE_TYPE);
+        ParticleType<?> type = pBuffer.readRegistryIdSafe(ParticleType.class);
         this.x = pBuffer.readDouble();
         this.y = pBuffer.readDouble();
         this.z = pBuffer.readDouble();
@@ -36,7 +36,7 @@ public class ClientboundExactParticlePacket {
     }
 
     public void encode(FriendlyByteBuf pBuffer) {
-        pBuffer.writeId(BuiltInRegistries.PARTICLE_TYPE, this.particle.getType());
+        pBuffer.writeRegistryId(ForgeRegistries.PARTICLE_TYPES, this.particle.getType());
         pBuffer.writeDouble(this.x);
         pBuffer.writeDouble(this.y);
         pBuffer.writeDouble(this.z);

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/charm/echo_chamber/echo_chamber_inventory"
+  }
+}

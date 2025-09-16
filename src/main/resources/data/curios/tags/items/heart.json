@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "brutality:rune_of_delta",
     "brutality:dragonheart",
     "brutality:uvogre_heart",
     "brutality:zombie_heart",
@@ -8,6 +9,8 @@
     "brutality:second_heart",
     "brutality:heart_of_wrath",
     "brutality:heart_of_gold",
+    "brutality:ninja_heart",
+    "brutality:brutal_heart",
     "terramity:crystal_heart"
   ]
 }

@@ -2,7 +2,7 @@
 	"format_version": "1.8.0",
 	"animations": {
 		"idle": {
-			"loop": true,
+			"loop": "hold_on_last_frame",
 			"bones": {
 				"cube": {
 					"rotation": {
@@ -10,11 +10,6 @@
 					},
 					"position": {
 						"vector": [0, "math.sin(query.anim_time * 90) * 1", 0]
-					}
-				},
-				"distortion": {
-					"rotation": {
-						"vector": ["query.anim_time * 45", 0, "math.cos(query.anim_time * 45) * 45"]
 					}
 				},
 				"ring1": {

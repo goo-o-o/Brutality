@@ -10,11 +10,11 @@ import net.minecraft.client.particle.SpriteSet;
 public class AntiMatterWave extends WaveParticle {
 
 
-    public AntiMatterWave(ClientLevel level, double x, double y, double z, WaveParticleData data, SpriteSet sprites) {
+    public AntiMatterWave(ClientLevel level, double x, double y, double z, WaveParticleData<?> data, SpriteSet sprites) {
         super(level, x, y, z, data, sprites);
     }
 
-    public static class Provider implements ParticleProvider<WaveParticleData> {
+    public static class Provider implements ParticleProvider<WaveParticleData<?>> {
         private final SpriteSet sprites;
 
         public Provider(SpriteSet spriteSet) {

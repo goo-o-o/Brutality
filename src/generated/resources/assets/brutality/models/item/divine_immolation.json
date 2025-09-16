@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/charm/divine_immolation/divine_immolation_inventory"
+  }
+}

@@ -39,10 +39,10 @@ public class ModAttributes {
             () -> new RangedAttribute("attribute.name.generic.max_mana", 100.0, 0.0F, 16384F).setSyncable(true));
 
     public static final RegistryObject<Attribute> SPELL_COOLDOWN_REDUCTION = ATTRIBUTES.register("spell_cooldown_reduction",
-            () -> new RangedAttribute("attribute.name.generic.spell_cooldown_reduction", 0.0, 0.0F, 1F).setSyncable(true));
+            () -> new RangedAttribute("attribute.name.generic.spell_cooldown_reduction", 1, 1, 2F).setSyncable(true));
 
     public static final RegistryObject<Attribute> CAST_TIME_REDUCTION = ATTRIBUTES.register("cast_time_reduction",
-            () -> new RangedAttribute("attribute.name.generic.cast_time_reduction", 0.0, 0.0F, 1F).setSyncable(true));
+            () -> new RangedAttribute("attribute.name.generic.cast_time_reduction", 1, 1, 2F).setSyncable(true));
 
     public static final RegistryObject<Attribute> DAEMONIC_SCHOOL_LEVEL = ATTRIBUTES.register("daemonic_school_level",
             () -> new RangedAttribute("attribute.name.generic.daemonic_school_level", 0.0, -1024F, 1024F).setSyncable(true));
@@ -73,6 +73,57 @@ public class ModAttributes {
 
     public static final RegistryObject<Attribute> VOIDWALKER_SCHOOL_LEVEL = ATTRIBUTES.register("voidwalker_school_level",
             () -> new RangedAttribute("attribute.name.generic.voidwalker_school_level", 0.0, -1024F, 1024F).setSyncable(true));
+
+    public static final RegistryObject<Attribute> SPELL_DAMAGE = ATTRIBUTES.register("spell_damage",
+            () -> new RangedAttribute("attribute.name.generic.spell_damage", 1, -1024F, 1024F).setSyncable(true));
+
+
+    public static final RegistryObject<Attribute> CRITICAL_STRIKE_CHANCE = ATTRIBUTES.register("critical_strike_chance",
+            () -> new RangedAttribute("attribute.name.generic.critical_strike_chance", 1, 1, 2).setSyncable(true));
+    public static final RegistryObject<Attribute> CRITICAL_STRIKE_DAMAGE = ATTRIBUTES.register("critical_strike_damage",
+            () -> new RangedAttribute("attribute.name.generic.critical_strike_damage", 1.4, -1024F, 1024F).setSyncable(true));
+
+    public static final RegistryObject<Attribute> LIFESTEAL = ATTRIBUTES.register("lifesteal",
+            () -> new RangedAttribute("attribute.name.generic.lifesteal", 1, 1.0F, 1024F).setSyncable(true));
+    public static final RegistryObject<Attribute> OMNIVAMP = ATTRIBUTES.register("omnivamp",
+            () -> new RangedAttribute("attribute.name.generic.omnivamp", 1, 1.0F, 1024F).setSyncable(true));
+
+    public static final RegistryObject<Attribute> DODGE_CHANCE = ATTRIBUTES.register("dodge_chance",
+            () -> new RangedAttribute("attribute.name.generic.dodge_chance", 1, 1.0F, 1.95F).setSyncable(true));
+    public static final RegistryObject<Attribute> JUMP_HEIGHT = ATTRIBUTES.register("jump_height",
+            () -> new RangedAttribute("attribute.name.generic.jump_height", 1.2522, 0, 1024F).setSyncable(true));
+
+    public static final RegistryObject<Attribute> STUN_CHANCE = ATTRIBUTES.register("stun_chance",
+            () -> new RangedAttribute("attribute.name.generic.stun_chance", 1, 1, 2F).setSyncable(true));
+    public static final RegistryObject<Attribute> STUN_DURATION = ATTRIBUTES.register("stun_duration",
+            () -> new RangedAttribute("attribute.name.generic.stun_duration", 0.1, 0.1, 1024F).setSyncable(true));
+    public static final RegistryObject<Attribute> TENACITY = ATTRIBUTES.register("tenacity",
+            () -> new RangedAttribute("attribute.name.generic.tenacity", 1, 1, 2F).setSyncable(true));
+
+    public static final RegistryObject<Attribute> BLUNT_DAMAGE = ATTRIBUTES.register("blunt_attack_damage",
+            () -> new RangedAttribute("attribute.name.generic.blunt_damage", 0, 0, 1024F).setSyncable(true));
+    public static final RegistryObject<Attribute> PIERCING_DAMAGE = ATTRIBUTES.register("piercing_damage",
+            () -> new RangedAttribute("attribute.name.generic.piercing_damage", 0, 0, 1024F).setSyncable(true));
+    public static final RegistryObject<Attribute> SLASH_DAMAGE = ATTRIBUTES.register("slash_damage",
+            () -> new RangedAttribute("attribute.name.generic.slash_damage", 0, 0, 1024F).setSyncable(true));
+
+    public static final RegistryObject<Attribute> AXE_DAMAGE = ATTRIBUTES.register("axe_damage",
+            () -> new RangedAttribute("attribute.name.generic.axe_damage", 0, 0, 1024F).setSyncable(true));
+    public static final RegistryObject<Attribute> SWORD_DAMAGE = ATTRIBUTES.register("sword_damage",
+            () -> new RangedAttribute("attribute.name.generic.sword_damage", 0, 0, 1024F).setSyncable(true));
+    public static final RegistryObject<Attribute> HAMMER_DAMAGE = ATTRIBUTES.register("hammer_damage",
+            () -> new RangedAttribute("attribute.name.generic.hammer_damage", 0, 0, 1024F).setSyncable(true));
+    public static final RegistryObject<Attribute> SPEAR_DAMAGE = ATTRIBUTES.register("spear_damage",
+            () -> new RangedAttribute("attribute.name.generic.spear_damage", 0, 0, 1024F).setSyncable(true));
+    public static final RegistryObject<Attribute> SCYTHE_DAMAGE = ATTRIBUTES.register("scythe_damage",
+            () -> new RangedAttribute("attribute.name.generic.scythe_damage", 0, 0, 1024F).setSyncable(true));
+
+    public static final RegistryObject<Attribute> LETHALITY = ATTRIBUTES.register("lethality",
+            () -> new RangedAttribute("attribute.name.generic.lethality", 0, 0, 1024F).setSyncable(true));
+    public static final RegistryObject<Attribute> ARMOR_PENETRATION = ATTRIBUTES.register("armor_penetration",
+            () -> new RangedAttribute("attribute.name.generic.armor_penetration", 1, 1, 1024F).setSyncable(true));
+
+
 
 
     private static final Supplier<Map<IBrutalitySpell.MagicSchool, Attribute>> SPELL_SCHOOL_ATTRIBUTE_MAP_SUPPLIER = () -> ImmutableMap.of(

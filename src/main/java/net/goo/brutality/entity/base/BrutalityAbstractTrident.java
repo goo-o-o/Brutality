@@ -1,9 +1,7 @@
 package net.goo.brutality.entity.base;
 
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -12,7 +10,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -23,16 +20,12 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.*;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nullable;
@@ -43,15 +36,15 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(BrutalityAbstractTrident.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(BrutalityAbstractTrident.class, EntityDataSerializers.BOOLEAN);
     private ItemStack pickupItem = new ItemStack(Items.TRIDENT);
-    protected boolean dealtDamage, collideWithBlocks = true;
     public int clientSideReturnTridentTickCount;
     private int targetsHit = 0;
+    protected boolean dealtDamage = false;
 
-    protected final IntOpenHashSet ignoredEntities = new IntOpenHashSet();
 
     public BrutalityAbstractTrident(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
+
     public BrutalityAbstractTrident(EntityType<? extends BrutalityAbstractTrident> pEntityType, Player player, Level pLevel) {
         super(pEntityType, player, pLevel);
     }
@@ -68,10 +61,6 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
 
     public int getInGroundLifespan() {
         return 1200;
-    }
-
-    public void collideWithBlocks(boolean collideWithBlocks) {
-        this.collideWithBlocks = collideWithBlocks;
     }
 
     public float getDamage() {
@@ -94,7 +83,7 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
         return false;
     }
 
-    protected ItemStack getPickupItem() {
+    protected @NotNull ItemStack getPickupItem() {
         return this.pickupItem;
     }
 
@@ -117,17 +106,7 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
 
     @Override
     public void tick() {
-        this.baseTick();
-        if (!this.hasBeenShot) {
-            this.gameEvent(GameEvent.PROJECTILE_SHOOT, this.getOwner());
-            this.hasBeenShot = true;
-        }
-
-        if (!this.leftOwner) {
-            this.leftOwner = this.checkLeftOwner();
-        }
-
-
+        // ThrownTrident.class
         if (this.inGroundTime > 4) {
             this.dealtDamage = true;
         }
@@ -158,156 +137,10 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
                 ++this.clientSideReturnTridentTickCount;
             }
         }
+        // ThrownTrident.class end
 
-
-        boolean noPhysics = this.isNoPhysics();
-        Vec3 vec3 = this.getDeltaMovement();
-        if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
-            double d0 = vec3.horizontalDistance();
-            this.setYRot((float) (Math.toDegrees(Mth.atan2(vec3.x, vec3.z))));
-            this.setXRot((float) (Math.toDegrees(Mth.atan2(vec3.y, d0))));
-            this.yRotO = this.getYRot();
-            this.xRotO = this.getXRot();
-        }
-
-        BlockPos blockpos = this.blockPosition();
-        BlockState blockstate = this.level().getBlockState(blockpos);
-
-        if (collideWithBlocks) {
-            if (!blockstate.isAir() && !noPhysics) {
-                VoxelShape voxelshape = blockstate.getCollisionShape(this.level(), blockpos);
-                if (!voxelshape.isEmpty()) {
-                    Vec3 vec31 = this.position();
-
-                    for (AABB aabb : voxelshape.toAabbs()) {
-                        if (aabb.move(blockpos).contains(vec31)) {
-                            this.inGround = true;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (this.shakeTime > 0) {
-            --this.shakeTime;
-        }
-
-        if (this.isInWaterOrRain() || blockstate.is(Blocks.POWDER_SNOW) || this.isInFluidType((fluidType, height) -> this.canFluidExtinguish(fluidType))) {
-            this.clearFire();
-        }
-
-        if (!this.level().isClientSide && !noPhysics) {
-            this.tickDespawn();
-        }
-
-        if (this.inGround && !noPhysics) {
-            if (this.lastState != blockstate && this.shouldFall()) {
-                this.startFalling();
-            }
-            ++this.inGroundTime;
-        } else {
-            this.inGroundTime = 0;
-            Vec3 vec32 = this.position();
-            Vec3 vec33 = vec32.add(vec3);
-            HitResult hitresult = this.level().clip(new ClipContext(vec32, vec33, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
-            if (hitresult.getType() != HitResult.Type.MISS) {
-                vec33 = hitresult.getLocation();
-            }
-
-            while (!this.isRemoved()) {
-                EntityHitResult entityhitresult = this.findHitEntity(vec32, vec33);
-                if (entityhitresult != null) {
-                    hitresult = entityhitresult;
-                }
-
-                if (hitresult != null && hitresult.getType() == HitResult.Type.ENTITY) {
-                    assert hitresult instanceof EntityHitResult;
-                    Entity entity = ((EntityHitResult) hitresult).getEntity();
-                    Entity entity1 = this.getOwner();
-                    if (entity instanceof Player && entity1 instanceof Player && !((Player) entity1).canHarmPlayer((Player) entity)) {
-                        hitresult = null;
-                        entityhitresult = null;
-                    }
-                }
-
-                if (hitresult != null && hitresult.getType() != HitResult.Type.MISS && !noPhysics) {
-                    switch (net.minecraftforge.event.ForgeEventFactory.onProjectileImpactResult(this, hitresult)) {
-                        case SKIP_ENTITY:
-                            if (hitresult.getType() != HitResult.Type.ENTITY) { // If there is no entity, we just return default behaviour
-                                this.onHit(hitresult);
-                                this.hasImpulse = true;
-                                break;
-                            }
-                            assert entityhitresult != null;
-                            ignoredEntities.add(entityhitresult.getEntity().getId());
-                            entityhitresult = null; // Don't process any further
-                            break;
-                        case STOP_AT_CURRENT_NO_DAMAGE:
-                            this.discard();
-                            entityhitresult = null; // Don't process any further
-                            break;
-                        case STOP_AT_CURRENT:
-                            this.setPierceLevel((byte) 0);
-                        case DEFAULT:
-                            this.onHit(hitresult);
-                            this.hasImpulse = true;
-                            break;
-                    }
-                }
-
-                if (entityhitresult == null || this.getPierceLevel() <= 0) {
-                    break;
-                }
-
-                hitresult = null;
-            }
-
-            if (this.isRemoved())
-                return;
-
-            vec3 = this.getDeltaMovement();
-            double d5 = vec3.x;
-            double d6 = vec3.y;
-            double d1 = vec3.z;
-            if (this.isCritArrow()) {
-                for (int j = 0; j < 4; ++j) {
-                    this.level().addParticle(ParticleTypes.CRIT, this.getX() + d5 * (double) j / 4.0D, this.getY() + d6 * (double) j / 4.0D, this.getZ() + d1 * (double) j / 4.0D, -d5, -d6 + 0.2D, -d1);
-                }
-            }
-
-            double d7 = this.getX() + d5;
-            double d2 = this.getY() + d6;
-            double d3 = this.getZ() + d1;
-            double d4 = vec3.horizontalDistance();
-            if (noPhysics) {
-                this.setYRot((float) (Mth.atan2(-d5, -d1) * (double) (180F / (float) Math.PI)));
-            } else {
-                this.setYRot((float) (Mth.atan2(d5, d1) * (double) (180F / (float) Math.PI)));
-            }
-
-            this.setXRot((float) (Mth.atan2(d6, d4) * (double) (180F / (float) Math.PI)));
-            this.setXRot(lerpRotation(this.xRotO, this.getXRot()));
-            this.setYRot(lerpRotation(this.yRotO, this.getYRot()));
-            float f = 0.99F;
-            if (this.isInWater()) {
-                for (int j = 0; j < 4; ++j) {
-                    this.level().addParticle(ParticleTypes.BUBBLE, d7 - d5 * 0.25D, d2 - d6 * 0.25D, d3 - d1 * 0.25D, d5, d6, d1);
-                }
-
-                f = this.getWaterInertia();
-            }
-
-            this.setDeltaMovement(vec3.scale(f));
-            if (!this.isNoGravity() && !noPhysics) {
-                Vec3 vec34 = this.getDeltaMovement();
-                this.setDeltaMovement(vec34.x, vec34.y - getGravity(), vec34.z);
-            }
-
-            this.setPos(d7, d2, d3);
-            this.checkInsideBlocks();
-        }
-
+        // Abstract Arrow.class
+       super.tick();
 
     }
 

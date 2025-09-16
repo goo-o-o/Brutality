@@ -15,7 +15,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
@@ -122,11 +121,11 @@ public class StarStreamEntity extends BrutalityAbstractArrow implements Brutalit
     protected void onHitEntity(EntityHitResult pResult) {
         Entity victim = pResult.getEntity();
         victim.invulnerableTime = 0;
-        if (getOwner() instanceof LivingEntity livingEntity) {
-            victim.hurt(victim.damageSources().indirectMagic(getOwner(), getOwner()), getFinalDamage(getSpell(), livingEntity, getSpellLevel()));
-        } else {
-            victim.hurt(victim.damageSources().generic(), getFinalDamageWithoutAttributes(getSpell(), getSpellLevel()));
-        }
+        if (getOwner() != null)
+            victim.hurt(victim.damageSources().indirectMagic(getOwner(), getOwner()), getFinalDamage(getSpell(), getOwner(), getSpellLevel()));
+        else
+            victim.hurt(victim.damageSources().magic(), getFinalDamage(getSpell(), getOwner(), getSpellLevel()));
+
     }
 
     @Override

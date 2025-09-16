@@ -31,24 +31,19 @@ public class EdgeOfOblivionSpell extends BrutalitySpell {
                 List.of(SpellCategory.INSTANT, SpellCategory.AOE),
                 "edge_of_oblivion",
                 30, 2, 80, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 3, 1, 0, 100)
+                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 3, 1, 0F, 100F)
                 ));
     }
 
 
     @Override
-    public int getManaCostLevelScaling() {
+    public float getManaCostLevelScaling() {
         return 5;
     }
 
 
     @Override
-    public int getCooldownLevelScaling() {
-        return 0;
-    }
-
-    @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
         float radius = getFinalStat(spellLevel, getStat(RANGE));
 
         if (player.level() instanceof ServerLevel serverLevel) {
@@ -62,7 +57,7 @@ public class EdgeOfOblivionSpell extends BrutalitySpell {
                         (player.getRandom().nextFloat() - 0.5F) * offset, 1
                 ));
             }
-            WaveParticleData waveParticleData = new WaveParticleData(BrutalityModParticles.ANTIMATTER_WAVE.get(), radius, 40);
+            WaveParticleData<?> waveParticleData = new WaveParticleData<>(BrutalityModParticles.ANTIMATTER_WAVE.get(), radius, 40);
 
             serverLevel.sendParticles(
                     waveParticleData,

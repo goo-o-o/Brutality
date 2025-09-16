@@ -57,7 +57,7 @@ public class MugItem extends BrutalityGenericItem {
     protected String[] types = new String[]{"", "_coffee", "_eeffoc"};
 
     @Override
-    public String texture(ItemStack stack) {
+    public String texture(@javax.annotation.Nullable ItemStack stack) {
         return "mug" + types[ModUtils.getTextureIdx(stack)];
     }
 

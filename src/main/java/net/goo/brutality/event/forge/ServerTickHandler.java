@@ -1,7 +1,7 @@
 package net.goo.brutality.event.forge;
 
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.s2cSyncTickPacket;
+import net.goo.brutality.network.ClientboundSyncTickPacket;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -14,7 +14,7 @@ public class ServerTickHandler {
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         serverTick++;
         if (serverTick % 20 == 0) {
-            PacketHandler.sendToAllClients(new s2cSyncTickPacket(serverTick));
+            PacketHandler.sendToAllClients(new ClientboundSyncTickPacket(serverTick));
         }
     }
 

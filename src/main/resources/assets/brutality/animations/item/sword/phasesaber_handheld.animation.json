@@ -1,0 +1,26 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"hide": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"blade": {
+					"scale": {
+						"vector": ["query.anim_time < 1 ? 1 : 0", "Math.max(1 - query.anim_time, 0)", "query.anim_time < 1 ? 1 : 0"]
+					}
+				}
+			}
+		},
+		"show": {
+			"loop": true,
+			"bones": {
+				"blade": {
+					"scale": {
+						"vector": [1, "Math.min(query.anim_time, 1)", 1]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

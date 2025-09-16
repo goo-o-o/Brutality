@@ -2,7 +2,7 @@ package net.goo.brutality.event.forge;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.s2cSyncCapabilitiesPacket;
+import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.minecraft.server.level.ServerLevel;
@@ -31,10 +31,13 @@ public class ForgeEffectSyncHandler {
                 } else if (effect == BrutalityModMobEffects.LIGHT_BOUND.get()) {
                     cap.setLightBound(true);
                 }
-                PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(entity.getId(), entity));
+                PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(entity.getId(), entity));
             });
+
         }
     }
+
+
 
     @SubscribeEvent
     public static void onRemoveEffect(MobEffectEvent.Remove event) {
@@ -55,7 +58,7 @@ public class ForgeEffectSyncHandler {
                 } else if (effect == BrutalityModMobEffects.LIGHT_BOUND.get()) {
                     cap.setLightBound(false);
                 }
-                PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(entity.getId(), entity));
+                PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(entity.getId(), entity));
             });
         }
     }
@@ -78,7 +81,7 @@ public class ForgeEffectSyncHandler {
                 } else if (effect == BrutalityModMobEffects.LIGHT_BOUND.get()) {
                     cap.setLightBound(false);
                 }
-                PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(entity.getId(), entity));
+                PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(entity.getId(), entity));
             });
         }
     }

@@ -21,26 +21,20 @@ public class SingularityShiftSpell extends BrutalitySpell {
                 List.of(SpellCategory.INSTANT, SpellCategory.UTILITY, SpellCategory.AOE),
                 "singularity_shift",
                 80, 0, 1200, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(SIZE, 2, 1F, 2, 7),
-                        new BrutalityTooltipHelper.SpellStatComponent(DURATION, 300, 100, 300, 1100)
+                        new BrutalityTooltipHelper.SpellStatComponent(SIZE, 2, 1F, 2F, 7F),
+                        new BrutalityTooltipHelper.SpellStatComponent(DURATION, 300, 100, 300F, 1100F)
                 ));
     }
 
-
     @Override
-    public int getManaCostLevelScaling() {
+    public float getManaCostLevelScaling() {
         return 10;
     }
 
     @Override
-    public int getCooldownLevelScaling() {
-        return 0;
-    }
-
-    @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
         if (player.level() instanceof ServerLevel serverLevel) {
-            SingularityShiftEntity singularityShiftEntity = new SingularityShiftEntity(BrutalityModEntities.SINGULARITY_SHIFT.get(), serverLevel);
+            SingularityShiftEntity singularityShiftEntity = new SingularityShiftEntity(BrutalityModEntities.SINGULARITY_SHIFT_ENTITY.get(), serverLevel);
             singularityShiftEntity.setSpellLevel(spellLevel);
             singularityShiftEntity.setPos(player.getEyePosition());
             singularityShiftEntity.setOwner(player);

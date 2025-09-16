@@ -15,6 +15,7 @@ public class BrutalityModSounds {
             DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Brutality.MOD_ID);
     public static final RegistryObject<SoundEvent> METAL_PIPE = registerSoundEvents("metal_pipe");
     public static final RegistryObject<SoundEvent> TREASURE_CHEST_LOCK = registerSoundEvents("treasure_chest_lock");
+    public static final RegistryObject<SoundEvent> LIGHT_SWITCH = registerSoundEvents("light_switch");
 
     public static final RegistryObject<SoundEvent> LEAF_BLOWER_ON = registerSoundEvents("leaf_blower_on");
     public static final RegistryObject<SoundEvent> LEAF_BLOWER_ACTIVE = registerSoundEvents("leaf_blower_active");
@@ -25,6 +26,12 @@ public class BrutalityModSounds {
             registerSoundEvents("jackpot_sound_2"),
             registerSoundEvents("jackpot_sound_3"),
             registerSoundEvents("jackpot_sound_4")
+    );
+    public static final List<RegistryObject<SoundEvent>> DODGE_SOUNDS = List.of(
+            registerSoundEvents("dodge_1"),
+            registerSoundEvents("dodge_2"),
+            registerSoundEvents("dodge_3"),
+            registerSoundEvents("dodge_4")
     );
 
     public static final List<RegistryObject<SoundEvent>> MURASAMA = List.of(
@@ -99,10 +106,13 @@ public class BrutalityModSounds {
     public static final RegistryObject<SoundEvent> VORTEX_EXPLOSION = registerSoundEvents("vortex_explosion");
     public static final RegistryObject<SoundEvent> SPACE_EXPLOSION = registerSoundEvents("space_explosion");
     public static final RegistryObject<SoundEvent> METEOR_CRASH = registerSoundEvents("meteor_crash");
+    public static final RegistryObject<SoundEvent> LASER_BEAM = registerSoundEvents("laser_beam");
+
 
     public static final RegistryObject<SoundEvent> TOME_OPEN = registerSoundEvents("tome_open");
     public static final RegistryObject<SoundEvent> TOME_CLOSE = registerSoundEvents("tome_close");
 
+    public static final RegistryObject<SoundEvent> PHASESABER_SWING = registerSoundEvents("phasesaber_swing");
 
 
     public static final RegistryObject<SoundEvent> KNIFE_BLOCK = registerSoundEvents("knife_block");

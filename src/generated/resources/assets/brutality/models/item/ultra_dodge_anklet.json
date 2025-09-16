@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/anklet/ultra_dodge_anklet/ultra_dodge_anklet_inventory"
+  }
+}

@@ -1,6 +1,5 @@
 package net.goo.brutality.entity.explosion;
 
-import net.goo.brutality.entity.spells.brimwielder.AnnihilationSpellEntity;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -10,8 +9,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.Predicate;
 
 public class BloodExplosion extends BrutalityExplosion {
 
@@ -51,10 +48,4 @@ public class BloodExplosion extends BrutalityExplosion {
 //            }
 //        }
     }
-
-    @Override
-    public Predicate<Entity> getEntityFilter() {
-        return entity -> (!(entity instanceof AnnihilationSpellEntity));
-    }
-
 }

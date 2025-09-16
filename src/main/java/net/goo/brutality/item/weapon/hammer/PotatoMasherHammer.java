@@ -9,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class PotatoMasherHammer extends BrutalityHammerItem implements Brutality
     }
 
     @Override
-    public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
+    public boolean hurtEnemy(ItemStack pStack, @NotNull LivingEntity pTarget, @NotNull LivingEntity pAttacker) {
         pTarget.addEffect(new MobEffectInstance(BrutalityModMobEffects.MASHED.get(), 100, 2, false, true));
 
         return super.hurtEnemy(pStack, pTarget, pAttacker);

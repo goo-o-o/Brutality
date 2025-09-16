@@ -73,20 +73,13 @@ public class ThrownGungnir extends BrutalityAbstractTrident implements Brutality
         return new Vec3(-0.01D, -1D, -0.01D);
     }
 
-
-    boolean trailSpawned;
-
     @Override
     public void tick() {
-        if (!trailSpawned && level().isClientSide()) {
-//            this.level().addParticle((new GenericTridentTrailParticle.OrbData(1F, 0F, 0F, this.getBbHeight() * 0.75F, this.getId(), 0, 0, 0, "circle", 10)), this.getX(), this.getY() + getBbHeight() / 2, this.getZ(), 0, 0, 0);
-            trailSpawned = true;
-        }
-
         super.tick();
 
         if (this.entityData.get(HIT_COUNT) >= getHitQuota()) {
             this.dealtDamage = true; // <- Set this if necessary for vanilla behavior
+            this.collideWithBlocks = true;
             return;
         }
 

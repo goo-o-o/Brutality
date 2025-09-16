@@ -6,6 +6,7 @@ import net.goo.brutality.util.ModResources;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -19,26 +20,34 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.UUID;
 
 public interface BrutalityGeoItem extends GeoItem, ModResources {
     default String getRegistryName() {
         return Objects.requireNonNull(ForgeRegistries.ITEMS.getKey((Item) this)).getPath().toLowerCase(Locale.ROOT);
     }
 
+    BrutalityCategories.AttackType getAttackType();
+
+    UUID BASE_STUN_CHANCE_UUID = UUID.fromString("6d3d3787-e06f-4111-b03f-aed7c9317416");
+
     BrutalityCategories category();
 
-    default String model(ItemStack stack) {
+    default String model(@Nullable ItemStack stack) {
         return null;
     }
 
-    default String texture(ItemStack stack) {
+    default String texture(@Nullable ItemStack stack) {
         return null;
     }
 
-    default String animation(ItemStack stack) { return null; }
+    default String animation(@Nullable ItemStack stack) {
+        return null;
+    }
 
     default String getCategoryAsString() {
         return category().toString().toLowerCase(Locale.ROOT);
@@ -61,7 +70,7 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
     }
 
 
-    default void brutalityHoverTextHandler(List<Component> pTooltipComponents, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents, Rarity rarity) {
+    default void brutalityTooltipHandler(List<Component> pTooltipComponents, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents, Rarity rarity) {
         String identifier = getRegistryName();
 
         if (!ModList.get().isLoaded("obscuria_tooltips"))
@@ -81,6 +90,48 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
                 for (int i = 1; i <= descriptionComponent.lines(); i++) {
                     pTooltipComponents.add(Component.translatable("item." + Brutality.MOD_ID + "." + identifier + "." + componentLower + "." + i));
                 }
+
+                if (descriptionComponent.cooldownTicks() != null) {
+                    int totalSecs = (int) (descriptionComponent.cooldownTicks() / 20F);
+                    int hours = (int) (totalSecs / 3600F);
+                    int minutes = (int) ((totalSecs % 3600) / 60F);
+                    int seconds = totalSecs % 60;
+
+                    StringBuilder formatted = new StringBuilder();
+                    boolean first = true;
+                    if (hours > 0) {
+                        formatted.append(hours).append(hours == 1 ? " hour" : " hours");
+                        first = false;
+                    }
+                    if (minutes > 0) {
+                        if (!first) formatted.append(" ");
+                        formatted.append(hours).append(minutes == 1 ? " minute" : " minutes");
+                        first = false;
+                    }
+                    if (seconds > 0 || (hours == 0 && minutes == 0)) {
+                        if (!first) formatted.append(" ");
+                        formatted.append(seconds).append(seconds == 1 ? " second" : " seconds");
+                    }
+
+
+
+                    MutableComponent component = Component.literal(" -" + formatted + " ")
+                            .append(Component.translatable("message.brutality.second_cooldown"));
+
+                    pTooltipComponents.add(component.withStyle(ChatFormatting.DARK_AQUA));
+                }
+
+                if (descriptionComponent.type().equals(BrutalityTooltipHelper.ItemDescriptionComponents.ACTIVE)) {
+                    if (descriptionComponent.keyMapping() != null) {
+                        MutableComponent component = Component.literal("(")
+                                .append(Component.translatable("key.brutality.current_keybind"))
+                                .append(": ")
+                                .append(descriptionComponent.keyMapping().getDisplayName())
+                                .append(")");
+
+                        pTooltipComponents.add(component.withStyle(ChatFormatting.GRAY));
+                    }
+                }
             } else {
                 for (int i = 1; i <= descriptionComponent.lines(); i++) {
                     pTooltipComponents.add(Component.translatable("item." + Brutality.MOD_ID + "." + identifier + "." + componentLower + "." + i).withStyle(ChatFormatting.BLUE));
@@ -99,7 +150,6 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
                 state.setAndContinue(RawAnimation.begin().thenLoop("idle")))
         );
     }
-
 
 
     default void onDeselected(Player player) {

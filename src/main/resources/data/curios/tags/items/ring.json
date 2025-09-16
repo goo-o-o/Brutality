@@ -3,6 +3,10 @@
   "values": [
     "brutality:road_runners_ring",
     "brutality:fury_band",
+    "brutality:microblade_band",
+    "brutality:ring_of_mana",
+    "brutality:ring_of_mana_plus",
+    "brutality:sanguine_signet",
     "brutality:rock_candy_ring"
   ]
 }

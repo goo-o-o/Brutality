@@ -29,7 +29,7 @@ public class ForgeGrindstoneHandler {
                     Map.of(Enchantments.LOYALTY, 5, Enchantments.INFINITY_ARROWS, 1), // Allowed enchantments
                     Map.of(Enchantments.LOYALTY, 5, Enchantments.INFINITY_ARROWS, 1)  // Forced enchantments
             );
-        } else if (targetStack.getItem() == BrutalityModItems.TERRATON_HAMMER.get()) {
+        } else if (targetStack.getItem() == BrutalityModItems.HAMMER.get()) {
             handleGrindstoneEvent(
                     event,
                     targetStack,
@@ -43,7 +43,7 @@ public class ForgeGrindstoneHandler {
                     Map.of(Enchantments.SWEEPING_EDGE, 5), // Allowed enchantments
                     Map.of(Enchantments.SWEEPING_EDGE, 5)  // Forced enchantments
             );
-        } else if (targetStack.getItem() == BrutalityModItems.SUPERNOVA_SWORD.get()) {
+        } else if (targetStack.getItem() == BrutalityModItems.SUPERNOVA.get()) {
             handleGrindstoneEvent(
                     event,
                     targetStack,

@@ -4,7 +4,11 @@ import com.lowdragmc.photon.client.fx.EntityEffect;
 import com.lowdragmc.photon.client.fx.FX;
 import com.lowdragmc.photon.client.fx.FXRuntime;
 import net.goo.brutality.entity.explosion.BrutalityExplosion;
+import net.goo.brutality.item.BrutalityCategories;
+import net.goo.brutality.item.base.*;
 import net.goo.brutality.particle.providers.WaveParticleData;
+import net.goo.brutality.registry.ModAttributes;
+import net.mcreator.terramity.init.TerramityModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
@@ -15,6 +19,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
@@ -22,10 +27,11 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -36,6 +42,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -48,6 +55,96 @@ import java.util.stream.Collectors;
 
 public class ModUtils {
     protected static final RandomSource random = RandomSource.create();
+
+    public static void handleActiveAbilityWithCd(ICuriosItemHandler handler, Item item, int cooldownTicks, Runnable runnable) {
+        if (handler.isEquipped(item)) {
+            if (handler.getWearer() instanceof Player wearer) {
+                if (!wearer.getCooldowns().isOnCooldown(item)) {
+                    runnable.run();
+                    wearer.getCooldowns().addCooldown(item, cooldownTicks);
+                }
+            }
+        }
+    }
+
+    public static void handleActiveAbility(ICuriosItemHandler handler, Item item, Runnable runnable) {
+        if (handler.isEquipped(item)) {
+            runnable.run();
+        }
+    }
+
+    public static Random getSyncedSeededRandom(Entity player) {
+        long seed = player.level().getGameTime(); // Shared game time
+        seed = seed * 31 + player.getUUID().hashCode(); // Unique per player
+        seed = seed * 31 + (long) (player.getX() * 1000); // Player X position (scaled)
+        seed = seed * 31 + (long) (player.getY() * 1000); // Player Y position (scaled)
+        seed = seed * 31 + (long) (player.getZ() * 1000); // Player Z position (scaled)
+        seed = seed * 31 + player.tickCount;
+        return new Random(seed);
+    }
+
+    public static double computeAttributes(@Nullable Player player, ItemStack stack, double inputDamage) {
+        if (player == null) return inputDamage;
+
+        Map<Predicate<ItemStack>, List<Attribute>> attributeMap = Map.of(
+                s -> s.getItem() instanceof SwordItem || s.is(ItemTags.SWORDS), // Filter
+                List.of(ModAttributes.SWORD_DAMAGE.get(), ModAttributes.SLASH_DAMAGE.get()), // Attributes that affect it
+
+                s -> s.getItem() instanceof AxeItem || s.is(ItemTags.AXES), // Filter
+                List.of(ModAttributes.AXE_DAMAGE.get(), ModAttributes.SLASH_DAMAGE.get()), // Attributes that affect it
+
+                s -> s.getItem() instanceof BrutalityHammerItem || s.is(TerramityModItems.HELLROK_GIGATON_HAMMER.get()), // Filter
+                List.of(ModAttributes.HAMMER_DAMAGE.get(), ModAttributes.BLUNT_DAMAGE.get()), // Attributes that affect it
+
+                s -> s.getItem() instanceof BrutalityScytheItem, // Filter
+                List.of(ModAttributes.SCYTHE_DAMAGE.get(), ModAttributes.SLASH_DAMAGE.get()),  // Attributes that affect it
+
+                s -> s.getItem() instanceof BrutalitySpearItem || s.getItem() instanceof BrutalityTridentItem || s.getItem() instanceof TridentItem, // Filter
+                List.of(ModAttributes.SPEAR_DAMAGE.get(), ModAttributes.PIERCING_DAMAGE.get()),  // Attributes that affect it
+
+                s -> !s.is(TerramityModItems.HELLROK_GIGATON_HAMMER.get()) && (s.getItem() instanceof PickaxeItem || s.is(ItemTags.PICKAXES) || s.getItem() instanceof HoeItem || s.is(ItemTags.HOES)), // Filter
+                List.of(ModAttributes.PIERCING_DAMAGE.get()), // Attributes that affect it
+
+                s -> s.getItem() instanceof ShovelItem || s.is(ItemTags.SHOVELS), // Filter
+                List.of(ModAttributes.BLUNT_DAMAGE.get())  // Attributes that affect it
+        );
+
+        for (var entry : attributeMap.entrySet()) {
+            if (entry.getKey().test(stack)) {
+                for (Attribute attribute : entry.getValue()) {
+                    AttributeInstance attributeInstance = player.getAttribute(attribute);
+                    if (attributeInstance != null) {
+                        for (AttributeModifier modifier : attributeInstance.getModifiers()) {
+                            if (modifier.getOperation() == AttributeModifier.Operation.ADDITION)
+                                inputDamage += (float) modifier.getAmount();
+                            else if (modifier.getOperation() == AttributeModifier.Operation.MULTIPLY_BASE)
+                                inputDamage += (float) (modifier.getAmount() * attributeInstance.getBaseValue());
+                            else if (modifier.getOperation() == AttributeModifier.Operation.MULTIPLY_TOTAL) {
+                                inputDamage *= 1 + (float) modifier.getAmount();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return inputDamage;
+    }
+
+    private static BrutalityCategories.AttackType getAttackType(Item item, ItemStack stack) {
+        if (item == null || stack == null)
+            return BrutalityCategories.AttackType.NONE;
+
+        if (item instanceof BrutalityGeoItem geoItem) {
+            return geoItem.getAttackType();
+        }
+        if (item instanceof SwordItem || stack.is(ItemTags.SWORDS)) {
+            return BrutalityCategories.AttackType.SLASH;
+        }
+        if (item instanceof AxeItem || stack.is(ItemTags.AXES)) {
+            return BrutalityCategories.AttackType.SLASH;
+        }
+        return BrutalityCategories.AttackType.NONE;
+    }
 
     public static Explosion explode(BrutalityExplosion explosion, Level level, boolean spawnParticles) {
         try {
@@ -379,20 +476,44 @@ public class ModUtils {
         return stack.getOrCreateTag().getInt("texture");
     }
 
-
-    public static boolean tryExtendEffect(Player player, MobEffect mobEffect, int durationInc) {
-        if (player.hasEffect(mobEffect)) {
-            MobEffectInstance originalInstance = player.getEffect(mobEffect);
-            assert originalInstance != null;
-            player.addEffect(new MobEffectInstance(mobEffect,
-                    originalInstance.getDuration() + durationInc,
-                    originalInstance.getAmplifier(),
-                    originalInstance.isAmbient(),
-                    originalInstance.isVisible()));
-            return true;
-        }
-        return false;
+    public record ModValue(Integer value, boolean overwrite) {
     }
+
+    /**
+     * @param livingEntity  The {@link LivingEntity} to add effects to
+     * @param mobEffect     The {@link MobEffect} to add
+     * @param durationMod   A small {@link ModValue} record to pass the duration modifier as well as whether it should overwrite the original instance
+     * @param amplifierMod  A small {@link ModValue} record to pass the amplifier modifier as well as whether it should overwrite the original instance
+     * @param firstInstance The {@link MobEffectInstance} to apply if the {@link LivingEntity} does not have the effect. Leave empty to not apply
+     */
+    public static void modifyEffect(LivingEntity livingEntity, MobEffect mobEffect, @Nullable ModValue durationMod, @Nullable ModValue amplifierMod, @Nullable MobEffectInstance firstInstance) {
+        System.out.println(livingEntity + " | " + livingEntity.getActiveEffects());
+        if (livingEntity.hasEffect(mobEffect)) {
+            MobEffectInstance original = livingEntity.getEffect(mobEffect);
+
+            int newDuration = original.getDuration();
+            int newAmplifier = original.getAmplifier();
+
+            if (durationMod != null)
+                if (durationMod.overwrite()) {
+                    newDuration = durationMod.value;
+                } else {
+                    newDuration += durationMod.value;
+                }
+
+            if (amplifierMod != null)
+                if (amplifierMod.overwrite()) {
+                    newAmplifier = amplifierMod.value;
+                } else {
+                    newAmplifier += amplifierMod.value;
+                }
+
+            livingEntity.addEffect(new MobEffectInstance(mobEffect, newDuration, newAmplifier, original.isAmbient(), original.isVisible(), original.showIcon()));
+        } else if (firstInstance != null) {
+            livingEntity.addEffect(firstInstance);
+        }
+    }
+
 
     public static BlockPos getBlockLookingAt(Player player, boolean isFluid, float hitDistance) {
         HitResult block = player.pick(hitDistance, 1.0F, isFluid);

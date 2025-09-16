@@ -17,4 +17,14 @@ public class SeraphimHaloHead extends BrutalityCurioItem {
     public BrutalityCategories category() {
         return BrutalityCategories.CurioType.HEAD;
     }
+
+    @Override
+    public boolean followHeadRotations() {
+        return false;
+    }
+
+    @Override
+    public boolean translateIfSneaking() {
+        return false;
+    }
 }

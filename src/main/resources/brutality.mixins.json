@@ -16,7 +16,8 @@
     "LivingEntityMixin",
     "MobEffectInstanceMixin",
     "PlayerMixin",
-    "ServerPlayerMixin"
+    "ServerPlayerMixin",
+    "VillagerMixin"
   ],
   "priority": 1200,
   "injectors": {

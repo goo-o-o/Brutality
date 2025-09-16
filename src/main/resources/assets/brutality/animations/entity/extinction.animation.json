@@ -1,0 +1,32 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"spawn": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"main_beam": {
+					"rotation": {
+						"vector": [0, "query.life_time * query.life_time * 25", 0]
+					},
+					"scale": {
+						"vector": ["Math.min(query.anim_time, 1)", 1, "Math.min(query.anim_time, 1)"]
+					}
+				}
+			}
+		},
+		"despawn": {
+			"loop": true,
+			"bones": {
+				"main_beam": {
+					"rotation": {
+						"vector": [0, "query.life_time * query.life_time * 25", 0]
+					},
+					"scale": {
+						"vector": ["Math.max(1 - query.anim_time, 0)", 1, "Math.max(1 - query.anim_time, 0)"]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

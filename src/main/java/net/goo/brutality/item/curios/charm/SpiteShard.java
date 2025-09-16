@@ -5,13 +5,12 @@ import com.google.common.collect.Multimap;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.s2cSyncCapabilitiesPacket;
+import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
@@ -49,16 +48,6 @@ public class SpiteShard extends BrutalityCurioItem {
     }
 
     @Override
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            AttributeInstance rageTime = player.getAttribute(ModAttributes.MAX_RAGE.get());
-            if (rageTime != null) {
-                rageTime.removeModifier(SPITE_SHARD_MAX_RAGE_UUID);
-            }
-        }
-    }
-
-    @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             if (player.tickCount % 20 == 0) {
@@ -69,7 +58,7 @@ public class SpiteShard extends BrutalityCurioItem {
                 if (!aggroEntities.isEmpty()) {
                     player.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap -> {
                                 cap.incrementRage(aggroEntities.size() / 5F);
-                                PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(player.getId(), player));
+                                PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(player.getId(), player));
                             }
                     );
                 }

@@ -32,14 +32,14 @@ public class ModClientSetup {
 
 
         event.enqueueWork(() -> {
-            ItemProperties.register(BrutalityModItems.PROVIDENCE_BOW.get(), ResourceLocation.parse("pull"), (stack, level, entity, seed) -> {
+            ItemProperties.register(BrutalityModItems.PROVIDENCE.get(), ResourceLocation.parse("pull"), (stack, level, entity, seed) -> {
                 if (entity == null) {
                     return 0.0F;
                 }
                 return entity.getUseItem() != stack ? 0.0F : (float) (stack.getUseDuration() - entity.getUseItemRemainingTicks()) / 20.0F;
             });
 
-            ItemProperties.register(BrutalityModItems.PROVIDENCE_BOW.get(), ResourceLocation.parse("pulling"), (stack, level, entity, seed) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
+            ItemProperties.register(BrutalityModItems.PROVIDENCE.get(), ResourceLocation.parse("pulling"), (stack, level, entity, seed) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
         });
 
 

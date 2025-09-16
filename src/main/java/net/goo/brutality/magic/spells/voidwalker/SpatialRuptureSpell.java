@@ -33,25 +33,19 @@ public class SpatialRuptureSpell extends BrutalitySpell {
                 List.of(INSTANT, AOE),
                 "spatial_rupture",
                 30, 2, 80, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(SIZE, 3, 1, 0, 100)
+                        new BrutalityTooltipHelper.SpellStatComponent(SIZE, 3, 1, 0F, 100F)
                 ));
     }
 
 
     @Override
-    public int getManaCostLevelScaling() {
+    public float getManaCostLevelScaling() {
         return 5;
     }
 
 
     @Override
-    public int getCooldownLevelScaling() {
-        return 0;
-    }
-
-    @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
-
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
 
         if (player.level() instanceof ServerLevel serverLevel) {
             double playerX = player.getX(), playerY = player.getY(0.5), playerZ = player.getZ();

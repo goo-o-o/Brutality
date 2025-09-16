@@ -1,3 +1,11 @@
+buildscript {
+    repositories {
+    }
+    dependencies {
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+    }
+}
+
 plugins {
     id 'eclipse'
     id 'idea'
@@ -10,6 +18,7 @@ plugins {
 version = mod_version
 group = mod_group_id
 apply plugin: 'java'
+apply plugin: 'org.spongepowered.mixin'
 
 base {
     archivesName = mod_id
@@ -50,21 +59,29 @@ minecraft {
 
 
         client {
+            properties 'mixin.env.remapRefMap': 'true'
+            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.enabledGameTestNamespaces', mod_id
             arg '-mixin.config=' + mod_id + '.mixins.json'
             args '--username', project.findProperty('minecraftUsername') ?: 'Dev'
         }
 
         server {
+            properties 'mixin.env.remapRefMap': 'true'
+            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.enabledGameTestNamespaces', mod_id
             arg '-mixin.config=' + mod_id + '.mixins.json'
         }
 
         gameTestServer {
+            properties 'mixin.env.remapRefMap': 'true'
+            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.enabledGameTestNamespaces', mod_id
         }
 
         data {
+            properties 'mixin.env.remapRefMap': 'true'
+            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
             workingDirectory project.file('run-data')
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
         }
@@ -73,12 +90,12 @@ minecraft {
 
 sourceSets.main.resources {
     srcDir 'src/generated/resources'
-    ext.refMap = "main.refmap.json"
+    ext.refMap = "${mod_id}.refmap.json"
 }
 
 mixin {
-    add sourceSets.main, "brutality.refmap.json"
-    config "brutality.mixins.json"
+    add sourceSets.main, "${mod_id}.refmap.json"
+    config "${mod_id}.mixins.json"
 }
 
 repositories {
@@ -138,24 +155,29 @@ dependencies {
 
     implementation fg.deobf("curse.maven:mmmmmmmmmmmm-225738:6237015")
     implementation fg.deobf("curse.maven:selene-499980:6507197")
-    implementation fg.deobf("curse.maven:embeddium-908741:5681725")
-    implementation fg.deobf("curse.maven:jade-324717:6271651")
+
+    // Clientside (Disable when running Server)
+//    implementation fg.deobf("curse.maven:embeddium-908741:5681725")
+//    implementation fg.deobf("curse.maven:jade-324717:6271651")
 //    implementation fg.deobf("curse.maven:oculus-581495:6020952")
+//    implementation fg.deobf("curse.maven:free-cam-557076:4643128")
+//    implementation fg.deobf("curse.maven:model-gap-fix-676136:5200949")
+//    implementation fg.deobf("curse.maven:loot-beams-506757:5548970")
+//    implementation fg.deobf("curse.maven:overflowing-bars-852662:5763974")
 
     implementation fg.deobf("curse.maven:attributefix-280510:4911084")
     implementation fg.deobf("curse.maven:bookshelf-228525:5423987")
 
 
     implementation fg.deobf("curse.maven:puzzles-lib-495476:6387081")
-    implementation fg.deobf("curse.maven:overflowing-bars-852662:5763974")
 
 
     implementation fg.deobf("curse.maven:configured-457570:5180900")
-    implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220")
-    implementation fg.deobf("curse.maven:model-gap-fix-676136:5200949")
-//    implementation fg.deobf("curse.maven:loot-beams-506757:5548970")
-    implementation fg.deobf("curse.maven:just-enough-effect-descriptions-jeed-532286:6172935")
-//    implementation fg.deobf("curse.maven:free-cam-557076:4643128")
+//    implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220")
+//    implementation fg.deobf("curse.maven:just-enough-effect-descriptions-jeed-532286:6172935")
+
+    implementation fg.deobf("curse.maven:lendercataclysm-551586:6906993")
+    implementation fg.deobf("curse.maven:lionfish-api-1001614:5922047")
 
     // Terramity thingamajigs
     implementation fg.deobf("curse.maven:environmental-388992:6060255")
@@ -220,13 +242,10 @@ publishing {
         }
     }
     repositories {
-        maven {
-            url "file://${project.projectDir}/mcmodsrepo"
-        }
+        maven { url 'https://maven.minecraftforge.net' }
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-    options.compilerArgs << "-Xlint:deprecation"
 }

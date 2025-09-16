@@ -25,16 +25,10 @@ public class GravitokinesisSpell extends BrutalitySpell {
                 List.of(SpellCategory.INSTANT, SpellCategory.TARGET, SpellCategory.UTILITY),
                 "gravitokinesis",
                 40, 0, 160, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 5, 2, 5, 100),
-                        new BrutalityTooltipHelper.SpellStatComponent(SIZE, 1, 0.5F, 1, 5),
-                        new BrutalityTooltipHelper.SpellStatComponent(PIERCE, 3, 1, 1, null)
+                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 5, 2, 5F, 100F),
+                        new BrutalityTooltipHelper.SpellStatComponent(SIZE, 1, 0.5F, 1F, 5F),
+                        new BrutalityTooltipHelper.SpellStatComponent(PIERCE, 3, 1, 1F, null)
                 ));
-    }
-
-
-    @Override
-    public int getManaCostLevelScaling() {
-        return 0;
     }
 
     @Override
@@ -43,7 +37,7 @@ public class GravitokinesisSpell extends BrutalitySpell {
     }
 
     @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
         float radius = getFinalStat(spellLevel, getStat(SIZE));
         float baseRange = getFinalStat(spellLevel, getStat(RANGE));
         float pierceCap = getFinalStat(spellLevel, getStat(PIERCE));

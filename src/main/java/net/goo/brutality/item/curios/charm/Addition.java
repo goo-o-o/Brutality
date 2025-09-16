@@ -46,7 +46,7 @@ public class Addition extends BrutalityCurioItem {
     public boolean canEquip(SlotContext slotContext, ItemStack stack) {
         return CuriosApi.getCuriosInventory(slotContext.entity())
                 .map(handler ->
-                        handler.findFirstCurio(BrutalityModItems.SCIENTIFIC_CALCULATOR_BELT.get()).isPresent()
+                        handler.isEquipped(BrutalityModItems.SCIENTIFIC_CALCULATOR.get())
                 )
                 .orElse(false);
     }

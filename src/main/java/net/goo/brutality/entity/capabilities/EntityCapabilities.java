@@ -1,6 +1,12 @@
 package net.goo.brutality.entity.capabilities;
 
+import net.goo.brutality.event.ConsumeManaEvent;
+import net.goo.brutality.magic.IBrutalitySpell;
+import net.goo.brutality.registry.ModAttributes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -12,6 +18,7 @@ public class EntityCapabilities {
     private static final String MIRACLE_BLIGHTED = "isMiracleBlighted", SHOULD_ROTATE = "shouldRotate", RAGE_VALUE = "rageValue", MANA_VALUE = "manaValue";
     private static final String IS_RAGE = "isRage", IS_THE_VOID = "isTheVoid", IS_LIGHT_BOUND = "isBound";
     private static final String HIT_COUNT = "hitCount", LAST_HIT_TIME = "lastHitTime", LAST_VICTIM_ID = "lastVictimId";
+    private static final String CARD_TYPE = "cardType", KIT_TYPE = "kitType";
 
     @AutoRegisterCapability
     public static class EntityEffectCap implements INBTSerializable<CompoundTag> {
@@ -92,6 +99,63 @@ public class EntityCapabilities {
 
         public void deserializeNBT(CompoundTag nbt) {
             setShouldRotate(nbt.getBoolean(SHOULD_ROTATE));
+        }
+    }
+
+    @AutoRegisterCapability
+    public static class RespawnCap implements INBTSerializable<CompoundTag> {
+        public enum CARD_TYPE {
+            NONE,
+            SILVER,
+            DIAMOND,
+            EVIL_KING
+        }
+
+        public enum KIT_TYPE {
+            NONE,
+            SILVER,
+            DIAMOND,
+            EVIL_KING
+        }
+
+        private CARD_TYPE cardType = RespawnCap.CARD_TYPE.NONE;
+
+        public CARD_TYPE getCardType() {
+            return this.cardType;
+        }
+
+        public void setCardType(CARD_TYPE cardType) {
+            this.cardType = cardType;
+        }
+
+        private KIT_TYPE kitType = RespawnCap.KIT_TYPE.NONE;
+
+        public KIT_TYPE getKitType() {
+            return this.kitType;
+        }
+
+        public void setKitType(KIT_TYPE kitType) {
+            this.kitType = kitType;
+        }
+
+        @Override
+        public CompoundTag serializeNBT() {
+            CompoundTag tag = new CompoundTag();
+            tag.putString(CARD_TYPE, cardType.name()); // Serialize enum as string
+            tag.putString(KIT_TYPE, kitType.name()); // Serialize enum as string
+            return tag;
+        }
+
+        @Override
+        public void deserializeNBT(CompoundTag nbt) {
+            String name = nbt.getString(CARD_TYPE);
+            try {
+                setCardType(RespawnCap.CARD_TYPE.valueOf(name));
+                setKitType(RespawnCap.KIT_TYPE.valueOf(name));
+            } catch (IllegalArgumentException e) {
+                setCardType(RespawnCap.CARD_TYPE.NONE);
+                setKitType(RespawnCap.KIT_TYPE.NONE);
+            }
         }
     }
 
@@ -181,6 +245,12 @@ public class EntityCapabilities {
             return this.manaValue;
         }
 
+        public boolean isMaxMana(Player player) {
+            AttributeInstance maxMana = player.getAttribute(ModAttributes.MAX_MANA.get());
+            if (maxMana != null) return this.manaValue == maxMana.getValue();
+            return false;
+        }
+
         public void setManaValue(float manaValue) {
             this.manaValue = manaValue;
         }
@@ -191,6 +261,17 @@ public class EntityCapabilities {
 
         public void decrementMana(float amount) {
             this.manaValue = manaValue() - amount;
+        }
+
+        public float getCurrentManaRatio(Player player) {
+            AttributeInstance maxMana = player.getAttribute(ModAttributes.MAX_MANA.get());
+            if (maxMana != null) return (float) (this.manaValue / maxMana.getValue());
+            return 0;
+        }
+
+        public void decrementMana(Player player, IBrutalitySpell spell, int spellLevel, float amount) {
+            decrementMana(amount);
+            MinecraftForge.EVENT_BUS.post(new ConsumeManaEvent(player, spell, spellLevel, amount));
         }
 
         public CompoundTag serializeNBT() {

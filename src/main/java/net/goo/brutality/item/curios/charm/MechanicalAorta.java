@@ -8,7 +8,6 @@ import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -36,13 +35,10 @@ public class MechanicalAorta extends BrutalityCurioItem {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        if (slotContext.entity() != null) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-            builder.put(ModAttributes.RAGE_GAIN_MULTIPLIER.get(), new AttributeModifier(MECH_AORTA_RAGE_GAIN_UUID, "Rage Gain Buff", 2, AttributeModifier.Operation.MULTIPLY_TOTAL));
-            builder.put(ModAttributes.RAGE_TIME_MULTIPLIER.get(), new AttributeModifier(MECH_AORTA_RAGE_TIME_UUID, "Rage Time Debuff", -0.5, AttributeModifier.Operation.MULTIPLY_TOTAL));
-            return builder.build();
-        }
-        return super.getAttributeModifiers(slotContext, uuid, stack);
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
+        builder.put(ModAttributes.RAGE_GAIN_MULTIPLIER.get(), new AttributeModifier(MECH_AORTA_RAGE_GAIN_UUID, "Rage Gain Buff", 2, AttributeModifier.Operation.MULTIPLY_TOTAL));
+        builder.put(ModAttributes.RAGE_TIME_MULTIPLIER.get(), new AttributeModifier(MECH_AORTA_RAGE_TIME_UUID, "Rage Time Debuff", -0.5, AttributeModifier.Operation.MULTIPLY_TOTAL));
+        return builder.build();
     }
 
     @Override
@@ -57,17 +53,4 @@ public class MechanicalAorta extends BrutalityCurioItem {
         }
     }
 
-    @Override
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            AttributeInstance rageGain = player.getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
-            if (rageGain != null) {
-                rageGain.removeModifier(MECH_AORTA_RAGE_GAIN_UUID);
-            }
-            AttributeInstance rageTime = player.getAttribute(ModAttributes.RAGE_TIME_MULTIPLIER.get());
-            if (rageTime != null) {
-                rageTime.removeModifier(MECH_AORTA_RAGE_TIME_UUID);
-            }
-        }
-    }
 }

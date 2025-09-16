@@ -1,0 +1,16 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"spawn": {
+			"loop": true,
+			"bones": {
+				"crescent_scythe": {
+					"rotation": {
+						"vector": [0, "Math.min(query.anim_time, 5) * query.anim_time * 180", 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

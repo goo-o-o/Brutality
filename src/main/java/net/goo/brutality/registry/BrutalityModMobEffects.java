@@ -92,7 +92,23 @@ public class BrutalityModMobEffects {
     public static final RegistryObject<MobEffect> HYPERGRAVITY = EFFECTS.register("hypergravity",
             () -> new HypergravityEffect(MobEffectCategory.NEUTRAL, BrutalityTooltipHelper.rgbToInt(new int[]{200, 0, 0}), 0.25));
 
+    public static final RegistryObject<MobEffect> MANA_FATIGUE = EFFECTS.register("mana_fatigue",
+            () -> new ManaFatigueEffect(MobEffectCategory.NEUTRAL, BrutalityTooltipHelper.rgbToInt(new int[]{200, 0, 0})));
+    public static final RegistryObject<MobEffect> FRUGAL_MANA = EFFECTS.register("frugal_mana",
+            () -> new FrugalManaEffect(MobEffectCategory.NEUTRAL, BrutalityTooltipHelper.rgbToInt(new int[]{0, 200, 0})));
 
+    public static final RegistryObject<MobEffect> ULTRA_DODGE = EFFECTS.register("ultra_dodge",
+            () -> new UltraDodgeEffect(MobEffectCategory.BENEFICIAL, BrutalityTooltipHelper.rgbToInt(new int[]{255, 245, 255})));
+    public static final RegistryObject<MobEffect> DODGE_COOLDOWN = EFFECTS.register("dodge_cooldown",
+            () -> new DodgeCooldownEffect(MobEffectCategory.HARMFUL, -16750951));
+
+    public static final RegistryObject<MobEffect> PRECISION = EFFECTS.register("precision",
+            () -> new PrecisionEffect(MobEffectCategory.BENEFICIAL, BrutalityTooltipHelper.rgbToInt(new int[]{255, 0, 0})));
+
+    public static final RegistryObject<MobEffect> MAGIC_POWER = EFFECTS.register("magic_power",
+            () -> new MagicPowerEffect(MobEffectCategory.BENEFICIAL, BrutalityTooltipHelper.rgbToInt(new int[]{200, 0, 0})));
+    public static final RegistryObject<MobEffect> MAGIC_SICKNESS = EFFECTS.register("magic_sickness",
+            () -> new MagicSicknessEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{0, 200, 0})));
 
     public static void register(IEventBus eventBus) {
         EFFECTS.register(eventBus);

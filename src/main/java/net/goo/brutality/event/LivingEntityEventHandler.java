@@ -4,13 +4,18 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.capabilities.EntityCapabilities;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.curios.charm.Sine;
+import net.goo.brutality.item.weapon.generic.CreaseOfCreationItem;
 import net.goo.brutality.item.weapon.hammer.AtomicJudgementHammer;
-import net.goo.brutality.item.weapon.hammer.TerratonHammer;
-import net.goo.brutality.item.weapon.lance.EventHorizonLance;
+import net.goo.brutality.item.weapon.hammer.TeratonHammer;
+import net.goo.brutality.item.weapon.spear.EventHorizonSpear;
+import net.goo.brutality.item.weapon.sword.SupernovaSword;
 import net.goo.brutality.magic.BrutalitySpell;
+import net.goo.brutality.magic.IBrutalitySpell;
+import net.goo.brutality.magic.SpellCastingHandler;
+import net.goo.brutality.magic.SpellCooldownTracker;
 import net.goo.brutality.magic.spells.celestia.HolyMantleSpell;
+import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.s2cSyncCapabilitiesPacket;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.registry.BrutalityModMobEffects;
@@ -18,15 +23,17 @@ import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.ModTags;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -34,13 +41,14 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
+import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.CriticalHitEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -49,257 +57,343 @@ import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import static net.goo.brutality.item.curios.charm.Gluttony.SOULS;
 import static net.goo.brutality.item.curios.charm.Greed.GREED_BONUS;
 import static net.goo.brutality.item.curios.charm.Sum.SUM_DAMAGE;
+import static net.goo.brutality.util.helpers.EnvironmentColorManager.resetAllColors;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
 public class LivingEntityEventHandler {
 
+    @SubscribeEvent
+    public static void onSpellCast(SpellCastEvent.Post event) {
+        Player player = event.getPlayer();
+        IBrutalitySpell spell = event.getSpell();
+        int level = event.getSpellLevel();
+        ItemStack tome = event.getStack();
+        float manaCost = IBrutalitySpell.getActualManaCost(player, spell, level);
+
+        CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
+            handler.findFirstCurio(BrutalityModItems.HELLSPEC_TIE.get()).ifPresent(slotResult -> {
+                if (spell.getSchool() == IBrutalitySpell.MagicSchool.BRIMWIELDER) {
+                    SpellCastingHandler.addMana(player, manaCost * 0.25F);
+                }
+            });
+            handler.findFirstCurio(BrutalityModItems.SOUL_STONE.get()).ifPresent(slotResult -> {
+                float chance = ModUtils.getSyncedSeededRandom(player).nextFloat(0, 1);
+                if (chance < 0.05F) {
+                    SpellCastingHandler.addMana(player, manaCost);
+                } else {
+                    SpellCastingHandler.addMana(player, manaCost * 0.15F);
+                }
+            });
+        });
+    }
+
+    @SubscribeEvent
+    public static void onConsumeMana(ConsumeManaEvent event) {
+        float amount = event.getAmount();
+        int level = event.getSpellLevel();
+        IBrutalitySpell spell = event.getSpell();
+        Player player = event.getPlayer();
+
+        CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
+            handler.findFirstCurio(BrutalityModItems.ONYX_IDOL.get()).ifPresent(slot -> {
+                ItemStack stack = slot.stack();
+                CompoundTag tag = stack.getOrCreateTag();
+                tag.putFloat("mana", tag.getFloat("mana") + amount);
+                if (tag.getFloat("mana") > 200) {
+                    SpellCooldownTracker.resetCooldowns(player);
+                    tag.putFloat("mana", amount % 200);
+                }
+            });
+        });
+    }
+
+    @SubscribeEvent
+    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        Player player = event.getEntity();
+
+        player.getCapability(BrutalityCapabilities.RESPAWN_CAP).ifPresent(cap -> {
+            List<MobEffect> effects = List.of(MobEffects.SATURATION, MobEffects.MOVEMENT_SPEED, MobEffects.ABSORPTION, MobEffects.JUMP, MobEffects.DAMAGE_RESISTANCE, TerramityModMobEffects.IMMUNITY.get());
+
+            if (cap.getCardType() == EntityCapabilities.RespawnCap.CARD_TYPE.SILVER) {
+                for (int i = 0; i < 4; i++) {
+                    player.addEffect(new MobEffectInstance(effects.get(i), 20 * 30, 1));
+                }
+
+            } else if (cap.getCardType() == EntityCapabilities.RespawnCap.CARD_TYPE.DIAMOND) {
+                ItemCooldowns cooldowns = player.getCooldowns();
+                if (cooldowns.isOnCooldown(BrutalityModItems.DIAMOND_RESPAWN_CARD.get())) return;
+                cooldowns.addCooldown(BrutalityModItems.DIAMOND_RESPAWN_CARD.get(), 20 * 30 * 60);
+
+                for (int i = 0; i < 5; i++) {
+                    player.addEffect(new MobEffectInstance(effects.get(i), 20 * 120, 1));
+                }
+
+            } else if (cap.getCardType() == EntityCapabilities.RespawnCap.CARD_TYPE.EVIL_KING) {
+                ItemCooldowns cooldowns = player.getCooldowns();
+                if (cooldowns.isOnCooldown(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get())) return;
+                cooldowns.addCooldown(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get(), 20 * 15 * 60);
+
+                for (int i = 0; i < 6; i++) {
+                    player.addEffect(new MobEffectInstance(effects.get(i), 20 * 5 * 60, 1));
+                }
+
+            }
+
+            if (cap.getCardType() != EntityCapabilities.RespawnCap.CARD_TYPE.NONE)
+                cap.setCardType(EntityCapabilities.RespawnCap.CARD_TYPE.NONE);
+            if (cap.getKitType() != EntityCapabilities.RespawnCap.KIT_TYPE.NONE)
+                cap.setKitType(EntityCapabilities.RespawnCap.KIT_TYPE.NONE);
+        });
+    }
+
+    @SubscribeEvent
+    public static void onPlayerCrit(CriticalHitEvent event) {
+        Player player = event.getEntity();
+
+        boolean flag = player.getAttackStrengthScale(0.5F) > 0.9;
+        float critChance = (float) player.getAttributeValue(ModAttributes.CRITICAL_STRIKE_CHANCE.get());
+
+        boolean crit = player.getRandom().nextFloat() < (critChance - 1);
+
+        if (crit && flag) {
+            event.setResult(Event.Result.ALLOW);
+            event.setDamageModifier((float) event.getEntity().getAttributeValue(ModAttributes.CRITICAL_STRIKE_DAMAGE.get()));
+            if (event.getEntity().hasEffect(BrutalityModMobEffects.PRECISION.get())) {
+                event.getEntity().removeEffect(BrutalityModMobEffects.PRECISION.get());
+            }
+        } else {
+            event.setResult(Event.Result.DENY);
+        }
+
+    }
+
+    @SubscribeEvent
+    public static void onLivingHeal(LivingHealEvent event) {
+        LivingEntity healed = event.getEntity();
+
+        CuriosApi.getCuriosInventory(healed).ifPresent(handler -> {
+            if (handler.isEquipped(BrutalityModItems.HEMOMATIC_LOCKET.get())) {
+                healed.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 60, 0));
+            }
+        });
+    }
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getEntity().level().isClientSide) return;
-
-        Entity victim = event.getEntity();
+        LivingEntity victim = event.getEntity();
         Entity attacker = event.getSource().getEntity();
-        Level level = victim.level();
-        final float[] damage = {event.getAmount()};
+        Level victimLevel = victim.level();
+        final float[] modifiedAmount = {event.getAmount()};
 
 
-        if (victim instanceof LivingEntity livingVictim) {
-            if (attacker instanceof LivingEntity livingAttacker) {
-                if (attacker instanceof Player playerAttacker) {
-                    playerAttacker.getCapability(BrutalityCapabilities.PLAYER_COMBO_CAP).ifPresent(cap -> {
-                        if (cap.lastVictimId() == livingVictim.getId() && System.currentTimeMillis() - cap.lastHitTime() < 5000) {
-                            cap.setHitCount((cap.hitCount() + 1) % 15);
-                        } else {
-                            cap.setHitCount(1);
-                        }
-
-                        cap.setLastVictimId(livingVictim.getId());
-                        cap.setLastHitTime(System.currentTimeMillis());
-                        PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(playerAttacker.getId(), playerAttacker));
+        if (attacker instanceof LivingEntity livingAttacker) {
 
 
-                        CuriosApi.getCuriosInventory(playerAttacker).ifPresent(handler ->
-                                handler.findFirstCurio(BrutalityModItems.EXPONENTIAL_CHARM.get()).ifPresent(slot -> {
-                                    damage[0] = (float) Math.pow(damage[0], (0.01 * cap.hitCount()) + 1);
-                                }));
-                    });
+            if (attacker instanceof Player playerAttacker) {
 
+                AttributeInstance omnivampAttr = playerAttacker.getAttribute(ModAttributes.OMNIVAMP.get());
+                if (omnivampAttr != null) {
+                    playerAttacker.heal(((float) (modifiedAmount[0] * (omnivampAttr.getValue() - 1))));
                 }
 
+                playerAttacker.getCapability(BrutalityCapabilities.PLAYER_COMBO_CAP).ifPresent(cap -> {
+                    if (cap.lastVictimId() == victim.getId() && System.currentTimeMillis() - cap.lastHitTime() < 5000) {
+                        cap.setHitCount((cap.hitCount() + 1) % 15);
+                    } else {
+                        cap.setHitCount(1);
+                    }
 
-                // Attacker is Living Entity
-                CuriosApi.getCuriosInventory(livingAttacker).ifPresent(handler -> {
-                    handler.findFirstCurio(BrutalityModItems.DUELING_GLOVE.get()).ifPresent(slot -> {
-                        LivingEntity nearestEntity = level.getNearestEntity(
-                                LivingEntity.class, TargetingConditions.DEFAULT, livingAttacker, livingAttacker.getX(), livingAttacker.getY(), livingAttacker.getZ(), livingAttacker.getBoundingBox().inflate(100));
-
-                        if (nearestEntity == victim) {
-                            damage[0] *= 1.5F;
-                        }
-                    });
-                    handler.findFirstCurio(BrutalityModItems.BLOOD_PULSE_GAUNTLETS.get()).ifPresent(slot -> {
-                        if (livingAttacker.hasEffect(BrutalityModMobEffects.ENRAGED.get())) {
-                            livingAttacker.level().explode(livingAttacker, livingAttacker.damageSources().explosion(livingAttacker, null),
-                                    null, livingVictim.position(), 0.25F, false, Level.ExplosionInteraction.MOB
-                            );
-                        }
-                    });
-
-                    handler.findFirstCurio(BrutalityModItems.SUM_CHARM.get()).ifPresent(slot -> {
-                        float damageStored = slot.stack().getOrCreateTag().getFloat(SUM_DAMAGE);
-                        damage[0] += damageStored;
-                        slot.stack().getOrCreateTag().putFloat(SUM_DAMAGE, 0);
-                    });
-
-                    if (level instanceof ServerLevel serverLevel)
-                        handler.findFirstCurio(BrutalityModItems.SINE_CHARM.get()).ifPresent(slot -> {
-                            damage[0] += Sine.getCurrentBonus(serverLevel);
-                        });
-
-                    handler.findFirstCurio(BrutalityModItems.GLUTTONY_CHARM.get()).ifPresent(slot -> {
-                        damage[0] += slot.stack().getOrCreateTag().getInt(SOULS) * 0.01F;
-                    });
-
-                    //===========================================================================================//
-                    // GASTRONOMY START
-
-                    final int[] fridgeMult = {1};
-
-                    handler.findFirstCurio(BrutalityModItems.FRIDGE_CHARM.get()).ifPresent(slot -> {
-                        fridgeMult[0] = 2;
-                    });
-                    handler.findFirstCurio(BrutalityModItems.SMART_FRIDGE_CHARM.get()).ifPresent(slot -> {
-                        fridgeMult[0] = 3;
-                    });
-
-                    handler.findFirstCurio(BrutalityModItems.PIZZA_SLOP_CHARM.get()).ifPresent(slot -> {
-                        livingVictim.addEffect(new
-                                MobEffectInstance(BrutalityModMobEffects.SLICKED.get(), 120 * fridgeMult[0], 1, false, false));
-                    });
-                    handler.findFirstCurio(BrutalityModItems.THE_SMOKEHOUSE.get()).ifPresent(slot -> {
-                        livingVictim.addEffect(new
-                                MobEffectInstance(BrutalityModMobEffects.SMOKED.get(), 80 * fridgeMult[0], 1, false, false));
-                    });
-                    handler.findFirstCurio(BrutalityModItems.EXTRA_VIRGIN_OLIVE_OIL_CHARM.get()).ifPresent(slot -> {
-                        livingVictim.addEffect(new MobEffectInstance(BrutalityModMobEffects.OILED.get(), 120 * fridgeMult[0], 3));
-                    });
-                    handler.findFirstCurio(BrutalityModItems.CARAMEL_CRUNCH_MEDALLION.get()).ifPresent(slot -> {
-                        livingVictim.addEffect(new MobEffectInstance(BrutalityModMobEffects.CANDIED.get(), 80 * fridgeMult[0], 1));
-                        livingVictim.addEffect(new MobEffectInstance(BrutalityModMobEffects.CARAMELIZED.get(), 80 * fridgeMult[0], 1));
-                    });
-                    handler.findFirstCurio(BrutalityModItems.DUNKED_DONUT.get()).ifPresent(slot -> {
-                        livingVictim.addEffect(new MobEffectInstance(BrutalityModMobEffects.GLAZED.get(), 80 * fridgeMult[0], 1));
-                        livingVictim.addEffect(new MobEffectInstance(BrutalityModMobEffects.SPRINKLED.get(), 80 * fridgeMult[0], 1));
-                    });
-                    handler.findFirstCurio(BrutalityModItems.LOLLIPOP_OF_ETERNITY.get()).ifPresent(slot -> {
-                        livingVictim.addEffect(new MobEffectInstance(BrutalityModMobEffects.GLAZED.get(), 120 * fridgeMult[0], 2));
-                        livingVictim.addEffect(new MobEffectInstance(BrutalityModMobEffects.CARAMELIZED.get(), 120 * fridgeMult[0], 2));
-                        livingVictim.addEffect(new MobEffectInstance(BrutalityModMobEffects.SPRINKLED.get(), 120 * fridgeMult[0], 2));
-                        livingVictim.addEffect(new MobEffectInstance(BrutalityModMobEffects.CANDIED.get(), 120 * fridgeMult[0], 2));
-                    });
-                    handler.findFirstCurio(BrutalityModItems.SALT_AND_PEPPER_CHARM.get()).ifPresent(slot -> {
-                        livingVictim.addEffect(new MobEffectInstance(BrutalityModMobEffects.SALTED.get(), 120 * fridgeMult[0], 1));
-                        livingVictim.addEffect(new MobEffectInstance(BrutalityModMobEffects.PEPPERED.get(), 120 * fridgeMult[0], 1));
-                    });
-                    // GASTRONOMY END
-                    //===========================================================================================//
+                    cap.setLastVictimId(victim.getId());
+                    cap.setLastHitTime(System.currentTimeMillis());
+                    PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(playerAttacker.getId(), playerAttacker));
 
 
+                    CuriosApi.getCuriosInventory(playerAttacker).ifPresent(handler ->
+                            handler.findFirstCurio(BrutalityModItems.EXPONENTIAL_CHARM.get()).ifPresent(slot -> {
+                                modifiedAmount[0] = (float) Math.pow(modifiedAmount[0], (0.01 * cap.hitCount()) + 1);
+                            }));
                 });
 
+            }
 
-                // LIVING VICTIM FROM LIVING ATTACKER START ===============================================
-                if (livingVictim.hasEffect(BrutalityModMobEffects.STONEFORM.get())) {
-                    int amp = Objects.requireNonNull(livingVictim.getEffect(BrutalityModMobEffects.STONEFORM.get())).getAmplifier();
-                    damage[0] *= (1 - 0.1F * (amp + 1F));
+
+            // Attacker is Living Entity
+            CuriosApi.getCuriosInventory(livingAttacker).ifPresent(handler -> {
+                if (handler.isEquipped(BrutalityModItems.CROWBAR.get())) {
+                    if (victim.getHealth() / victim.getMaxHealth() > 0.9F) {
+                        modifiedAmount[0] *= 1.4F;
+                    }
                 }
 
+                if (handler.isEquipped(BrutalityModItems.DUELING_GLOVE.get())) {
+                    LivingEntity nearestEntity = victimLevel.getNearestEntity(
+                            LivingEntity.class, TargetingConditions.DEFAULT, livingAttacker, livingAttacker.getX(), livingAttacker.getY(), livingAttacker.getZ(), livingAttacker.getBoundingBox().inflate(100));
 
-                CuriosApi.getCuriosInventory(livingVictim).ifPresent(handler -> {
+                    if (nearestEntity == victim) {
+                        modifiedAmount[0] *= 1.5F;
+                    }
+                }
 
-                    handler.findFirstCurio(BrutalityModItems.DUELING_GLOVE.get()).ifPresent(slot -> {
+                if (handler.isEquipped(BrutalityModItems.OLD_GUILLOTINE.get())) {
+                    if (victim.getHealth() <= 5) {
+                        victim.kill();
+                        return;
+                    }
+                }
 
-                        List<LivingEntity> nearbyEntities = level.getEntitiesOfClass(LivingEntity.class, livingVictim.getBoundingBox().inflate(100),
-                                e -> e != livingVictim && !(e instanceof ArmorStand));
+                if (handler.isEquipped(BrutalityModItems.BLOOD_PULSE_GAUNTLETS.get())) {
+                    if (livingAttacker.hasEffect(BrutalityModMobEffects.ENRAGED.get())) {
+                        livingAttacker.level().explode(livingAttacker, livingAttacker.damageSources().explosion(livingAttacker, null),
+                                null, victim.position(), 0.25F, false, Level.ExplosionInteraction.MOB
+                        );
+                    }
+                }
+                if (handler.isEquipped(BrutalityModItems.THE_OATH.get())) {
+                    victim.invulnerableTime = 0;
+                    victim.hurt(victim.damageSources().indirectMagic(livingAttacker, null), modifiedAmount[0] * 0.1F);
+                }
 
-                        LivingEntity nearestEntity = nearbyEntities.stream()
-                                .min(Comparator.comparingDouble(e -> e.distanceToSqr(livingVictim)))
-                                .orElse(null);
+                handler.findFirstCurio(BrutalityModItems.SUM_CHARM.get()).ifPresent(slot -> {
+                    float damageStored = slot.stack().getOrCreateTag().getFloat(SUM_DAMAGE);
+                    modifiedAmount[0] += damageStored;
+                    slot.stack().getOrCreateTag().putFloat(SUM_DAMAGE, 0);
+                });
+
+                if (victimLevel instanceof ServerLevel serverLevel)
+                    if (handler.isEquipped(BrutalityModItems.SINE_CHARM.get())) {
+                        modifiedAmount[0] += Sine.getCurrentBonus(serverLevel);
+                    }
+
+
+                handler.findFirstCurio(BrutalityModItems.GLUTTONY_CHARM.get()).ifPresent(slot -> {
+                    modifiedAmount[0] += slot.stack().getOrCreateTag().getInt(SOULS) * 0.01F;
+                });
+
+                if (handler.isEquipped(BrutalityModItems.CROWN_OF_TYRANNY.get())) {
+                    float missingHealthRatio = victim.getHealth() / victim.getMaxHealth();
+                    modifiedAmount[0] *= (1 + (1 - missingHealthRatio)) * 0.75F;
+                }
+
+                if (handler.isEquipped(BrutalityModItems.PORTABLE_QUANTUM_THINGAMABOB.get())) {
+                    livingAttacker.addEffect(new MobEffectInstance(TerramityModMobEffects.MIRRORING.get(), 20));
+                }
+
+                //===========================================================================================//
+                // GASTRONOMY START
+
+                final int[] fridgeMult = {1};
+
+                handler.findFirstCurio(BrutalityModItems.FRIDGE_CHARM.get()).ifPresent(slot -> {
+                    fridgeMult[0] = 2;
+                });
+                handler.findFirstCurio(BrutalityModItems.SMART_FRIDGE_CHARM.get()).ifPresent(slot -> {
+                    fridgeMult[0] = 3;
+                });
+
+                handler.findFirstCurio(BrutalityModItems.PIZZA_SLOP_CHARM.get()).ifPresent(slot -> {
+                    victim.addEffect(new
+                            MobEffectInstance(BrutalityModMobEffects.SLICKED.get(), 120 * fridgeMult[0], 1, false, false));
+                });
+                handler.findFirstCurio(BrutalityModItems.THE_SMOKEHOUSE.get()).ifPresent(slot -> {
+                    victim.addEffect(new
+                            MobEffectInstance(BrutalityModMobEffects.SMOKED.get(), 80 * fridgeMult[0], 1, false, false));
+                });
+                handler.findFirstCurio(BrutalityModItems.EXTRA_VIRGIN_OLIVE_OIL_CHARM.get()).ifPresent(slot -> {
+                    victim.addEffect(new MobEffectInstance(BrutalityModMobEffects.OILED.get(), 120 * fridgeMult[0], 3));
+                });
+                handler.findFirstCurio(BrutalityModItems.CARAMEL_CRUNCH_MEDALLION.get()).ifPresent(slot -> {
+                    victim.addEffect(new MobEffectInstance(BrutalityModMobEffects.CANDIED.get(), 80 * fridgeMult[0], 1));
+                    victim.addEffect(new MobEffectInstance(BrutalityModMobEffects.CARAMELIZED.get(), 80 * fridgeMult[0], 1));
+                });
+                handler.findFirstCurio(BrutalityModItems.DUNKED_DONUT.get()).ifPresent(slot -> {
+                    victim.addEffect(new MobEffectInstance(BrutalityModMobEffects.GLAZED.get(), 80 * fridgeMult[0], 1));
+                    victim.addEffect(new MobEffectInstance(BrutalityModMobEffects.SPRINKLED.get(), 80 * fridgeMult[0], 1));
+                });
+                handler.findFirstCurio(BrutalityModItems.LOLLIPOP_OF_ETERNITY.get()).ifPresent(slot -> {
+                    victim.addEffect(new MobEffectInstance(BrutalityModMobEffects.GLAZED.get(), 120 * fridgeMult[0], 2));
+                    victim.addEffect(new MobEffectInstance(BrutalityModMobEffects.CARAMELIZED.get(), 120 * fridgeMult[0], 2));
+                    victim.addEffect(new MobEffectInstance(BrutalityModMobEffects.SPRINKLED.get(), 120 * fridgeMult[0], 2));
+                    victim.addEffect(new MobEffectInstance(BrutalityModMobEffects.CANDIED.get(), 120 * fridgeMult[0], 2));
+                });
+                handler.findFirstCurio(BrutalityModItems.SALT_AND_PEPPER_CHARM.get()).ifPresent(slot -> {
+                    victim.addEffect(new MobEffectInstance(BrutalityModMobEffects.SALTED.get(), 120 * fridgeMult[0], 1));
+                    victim.addEffect(new MobEffectInstance(BrutalityModMobEffects.PEPPERED.get(), 120 * fridgeMult[0], 1));
+                });
+                // GASTRONOMY END
+                //===========================================================================================//
+
+
+            });
+
+
+            // LIVING VICTIM FROM LIVING ATTACKER START ===============================================
+            if (victim.hasEffect(BrutalityModMobEffects.STONEFORM.get())) {
+                int amp = Objects.requireNonNull(victim.getEffect(BrutalityModMobEffects.STONEFORM.get())).getAmplifier();
+                modifiedAmount[0] *= (1 - 0.1F * (amp + 1F));
+            }
+
+
+            CuriosApi.getCuriosInventory(victim).ifPresent(handler -> {
+                handler.findFirstCurio(BrutalityModItems.YATA_NO_KAGAMI.get()).ifPresent(slot -> {
+                    float negated = modifiedAmount[0] * 0.25F;
+                    modifiedAmount[0] = Math.max(0, modifiedAmount[0] - negated);
+                    livingAttacker.hurt(livingAttacker.damageSources().indirectMagic(victim, null), negated);
+                });
+                handler.findFirstCurio(BrutalityModItems.BLOODSTAINED_MIRROR.get()).ifPresent(slot -> {
+                    livingAttacker.hurt(livingAttacker.damageSources().indirectMagic(victim, null), modifiedAmount[0] * 0.1F);
+                });
+
+                handler.findFirstCurio(BrutalityModItems.DUELING_GLOVE.get()).ifPresent(slot -> {
+
+                    List<LivingEntity> nearbyEntities = victimLevel.getEntitiesOfClass(LivingEntity.class, victim.getBoundingBox().inflate(100),
+                            e -> e != victim && !(e instanceof ArmorStand));
+
+                    LivingEntity nearestEntity = nearbyEntities.stream()
+                            .min(Comparator.comparingDouble(e -> e.distanceToSqr(victim)))
+                            .orElse(null);
 
 //                        System.out.println("NEARBY ENTITIES: " + nearbyEntities);
 //                        System.out.println("NEAREST: " + nearestEntity);
 //                        System.out.println("ATTACKER: " + livingAttacker);
 
-                        if (nearestEntity != livingAttacker) {
-                            damage[0] *= 1.5F;
-                        }
-                    });
-
-
-                });
-
-
-                if (victim instanceof Player victimPlayer) {
-                    // If Victim is Player
-                    if (victimPlayer.hasEffect(BrutalityModMobEffects.SAD.get())) {
-                        int foodLevel = victimPlayer.getFoodData().getFoodLevel();
-                        if (foodLevel > 0) {
-                            float foodReduction = damage[0] / 2;
-                            victimPlayer.getFoodData().setFoodLevel((int) Math.max(0, foodLevel - foodReduction));
-                            damage[0] = foodReduction;
-                        }
+                    if (nearestEntity != livingAttacker) {
+                        modifiedAmount[0] *= 1.5F;
                     }
-
-
-                    CuriosApi.getCuriosInventory(victimPlayer).ifPresent(handler -> {
-
-
-                        handler.findFirstCurio(BrutalityModItems.HEART_OF_GOLD.get()).ifPresent(slot -> {
-                            if (victimPlayer.getAbsorptionAmount() == 0)
-                                DelayedTaskScheduler.queueServerWork(1, () ->
-                                        victimPlayer.setAbsorptionAmount(victimPlayer.getAbsorptionAmount() + damage[0] / 2));
-                        });
-
-
-                        handler.findFirstCurio(BrutalityModItems.NANOMACHINES.get()).ifPresent(slot -> {
-                            DamageSource source = event.getSource();
-                            if (source.is(DamageTypeTags.BYPASSES_ARMOR)) return;
-
-                            if (source.is(DamageTypeTags.IS_PROJECTILE) ||
-                                    source.is(DamageTypes.MOB_ATTACK) ||
-                                    source.is(DamageTypes.PLAYER_ATTACK) ||
-                                    source.is(DamageTypes.MOB_ATTACK_NO_AGGRO)) {
-                                damage[0] = Math.max(0, damage[0] / 2);
-                            }
-                        });
-
-
-                        handler.findFirstCurio(BrutalityModItems.SUBTRACTION_CHARM.get()).ifPresent(slot -> {
-                            damage[0] = Math.max(0, damage[0] - 2);
-                        });
-
-                        handler.findFirstCurio(BrutalityModItems.DIVISION_CHARM.get()).ifPresent(slot -> {
-                            damage[0] = Math.max(0, damage[0] / 1.1F);
-                        });
-
-                        handler.findFirstCurio(BrutalityModItems.SUM_CHARM.get()).ifPresent(slot -> {
-                            float damageStored = slot.stack().getOrCreateTag().getFloat(SUM_DAMAGE);
-                            slot.stack().getOrCreateTag().putFloat(SUM_DAMAGE, Math.min(150, damageStored + Math.min(10, damage[0] / 2)));
-                        });
-
-                        handler.findFirstCurio(BrutalityModItems.YATA_NO_KAGAMI.get()).ifPresent(slot -> {
-                            float negated = damage[0] * 0.25F;
-                            damage[0] = Math.max(0, damage[0] - negated);
-                            livingAttacker.hurt(livingAttacker.damageSources().indirectMagic(victimPlayer, null), negated);
-                        });
-
-                        if (!victimPlayer.hasEffect(BrutalityModMobEffects.ENRAGED.get()))
-                            if (!handler.findCurios(stack -> stack.is(ModTags.Items.RAGE_ITEMS)).isEmpty()) {
-                                victimPlayer.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap -> {
-                                    // Before modification
-                                    float rageGain = damage[0];
-
-                                    AttributeInstance rageGainAttr = victimPlayer.getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
-                                    if (rageGainAttr != null) rageGain *= (float) rageGainAttr.getValue();
-
-                                    cap.incrementRage(Math.max(0, rageGain));
-                                    tryTriggerRage(victimPlayer, handler, cap);
-                                });
-                            }
-                    });
-                }
-
-                CuriosApi.getCuriosInventory(livingAttacker).ifPresent(handler -> {
-                    handler.findFirstCurio(BrutalityModItems.GREED_CHARM.get()).ifPresent(slot -> {
-                        damage[0] *= 1 + slot.stack().getOrCreateTag().getInt(GREED_BONUS) * 0.01F;
-                    });
                 });
-            }
 
-            if (livingVictim.hasEffect(BrutalityModMobEffects.GRACE.get())) {
-                if (damage[0] <= livingVictim.getEffect(BrutalityModMobEffects.GRACE.get()).getAmplifier() *
-                        BrutalitySpell.getStat(HolyMantleSpell.class, BrutalityTooltipHelper.SpellStatComponents.DEFENSE).levelDelta()) {
-                    event.setCanceled(true);
-                    livingVictim.removeEffect(BrutalityModMobEffects.GRACE.get());
-                    return;
-                }
-            }
 
+            });
+
+
+            CuriosApi.getCuriosInventory(livingAttacker).ifPresent(handler -> {
+                handler.findFirstCurio(BrutalityModItems.GREED_CHARM.get()).ifPresent(slot -> {
+                    modifiedAmount[0] *= 1 + slot.stack().getOrCreateTag().getInt(GREED_BONUS) * 0.01F;
+                });
+            });
         }
 
-        event.setAmount(Math.max(0, damage[0]));
+        if (victim.hasEffect(BrutalityModMobEffects.GRACE.get())) {
+            if (modifiedAmount[0] <= victim.getEffect(BrutalityModMobEffects.GRACE.get()).getAmplifier() *
+                    BrutalitySpell.getStat(HolyMantleSpell.class, BrutalityTooltipHelper.SpellStatComponents.DEFENSE).levelDelta()) {
+                event.setCanceled(true);
+                victim.removeEffect(BrutalityModMobEffects.GRACE.get());
+                return;
+            }
+        }
+
+        event.setAmount(Math.max(0, modifiedAmount[0]));
 
         if (event.getSource().getEntity() instanceof Player attackerPlayer) {
             if (!attackerPlayer.hasEffect(BrutalityModMobEffects.ENRAGED.get()))
                 CuriosApi.getCuriosInventory(attackerPlayer).ifPresent(handler -> {
                     if (!handler.findCurios(stack -> stack.is(ModTags.Items.RAGE_ITEMS)).isEmpty()) {
                         attackerPlayer.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap -> {
-                            float damageDealt = damage[0]; // Final amount dealt
+                            float damageDealt = modifiedAmount[0]; // Final amount dealt
                             float rageGain = damageDealt / 5F;
 
                             AttributeInstance rageGainAttr = attackerPlayer.getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
@@ -312,6 +406,72 @@ public class LivingEntityEventHandler {
                 });
         }
 
+        if (victim instanceof Player victimPlayer) {
+            // If Victim is Player
+            if (victimPlayer.hasEffect(BrutalityModMobEffects.SAD.get())) {
+                int foodLevel = victimPlayer.getFoodData().getFoodLevel();
+                if (foodLevel > 0) {
+                    float foodReduction = modifiedAmount[0] / 2;
+                    victimPlayer.getFoodData().setFoodLevel((int) Math.max(0, foodLevel - foodReduction));
+                    modifiedAmount[0] = foodReduction;
+                }
+            }
+
+
+            CuriosApi.getCuriosInventory(victimPlayer).ifPresent(handler -> {
+
+
+                handler.findFirstCurio(BrutalityModItems.HEART_OF_GOLD.get()).ifPresent(slot -> {
+                    if (victimPlayer.getAbsorptionAmount() == 0)
+                        DelayedTaskScheduler.queueServerWork(1, () ->
+                                victimPlayer.setAbsorptionAmount(victimPlayer.getAbsorptionAmount() + modifiedAmount[0] / 2));
+                });
+
+
+                handler.findFirstCurio(BrutalityModItems.NANOMACHINES.get()).ifPresent(slot -> {
+                    DamageSource source = event.getSource();
+                    if (source.is(DamageTypeTags.BYPASSES_ARMOR)) return;
+
+                    if (source.is(DamageTypeTags.IS_PROJECTILE) ||
+                            source.is(DamageTypes.MOB_ATTACK) ||
+                            source.is(DamageTypes.PLAYER_ATTACK) ||
+                            source.is(DamageTypes.MOB_ATTACK_NO_AGGRO)) {
+                        modifiedAmount[0] = Math.max(0, modifiedAmount[0] / 2);
+                    }
+                });
+
+
+                if (handler.isEquipped(BrutalityModItems.SUBTRACTION_CHARM.get())) {
+                    modifiedAmount[0] = Math.max(0, modifiedAmount[0] - 2);
+                }
+
+                if (handler.isEquipped(BrutalityModItems.DIVISION_CHARM.get())) {
+                    modifiedAmount[0] = Math.max(0, modifiedAmount[0] / 1.1F);
+                }
+
+                handler.findFirstCurio(BrutalityModItems.SUM_CHARM.get()).ifPresent(slot -> {
+                    float damageStored = slot.stack().getOrCreateTag().getFloat(SUM_DAMAGE);
+                    slot.stack().getOrCreateTag().putFloat(SUM_DAMAGE, Math.min(150, damageStored + Math.min(10, modifiedAmount[0] / 2)));
+                });
+
+                if (handler.isEquipped(BrutalityModItems.BLOOD_ORB.get())) {
+                    SpellCastingHandler.addMana(victimPlayer, modifiedAmount[0] * 7.5F);
+                }
+                if (!victimPlayer.hasEffect(BrutalityModMobEffects.ENRAGED.get()))
+                    if (!handler.findCurios(stack -> stack.is(ModTags.Items.RAGE_ITEMS)).isEmpty()) {
+                        victimPlayer.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap -> {
+                            // Before modification
+                            float rageGain = modifiedAmount[0];
+
+                            AttributeInstance rageGainAttr = victimPlayer.getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
+                            if (rageGainAttr != null) rageGain *= (float) rageGainAttr.getValue();
+
+                            cap.incrementRage(Math.max(0, rageGain));
+                            tryTriggerRage(victimPlayer, handler, cap);
+                        });
+                    }
+            });
+        }
 
     }
 
@@ -322,14 +482,14 @@ public class LivingEntityEventHandler {
         if (lastAttacker instanceof Player player) {
             Item item = player.getMainHandItem().getItem();
 
-            if (item instanceof TerratonHammer) {
+            if (item instanceof TeratonHammer) {
                 float kbMult = ((float) Math.pow(player.getAttackStrengthScale(0.5F), 3));
 
                 event.setStrength((event.getOriginalStrength() * 10) * kbMult);
 
             }
 
-            if (item instanceof EventHorizonLance) {
+            if (item instanceof EventHorizonSpear) {
                 event.setCanceled(true);
 
                 Vec3 direction = lastAttacker.getPosition(1f).subtract(victim.getPosition(1F)).normalize();
@@ -344,7 +504,7 @@ public class LivingEntityEventHandler {
     @SubscribeEvent
     public static void onLivingFall(LivingFallEvent event) {
         LivingEntity entity = event.getEntity();
-        if (entity instanceof Player player && !player.level().isClientSide()) {
+        if (entity instanceof Player player) {
             CuriosApi.getCuriosInventory(entity).ifPresent(handler -> {
                 handler.findFirstCurio(BrutalityModItems.CELESTIAL_STARBOARD.get()).ifPresent(slotResult ->
                         event.setCanceled(true));
@@ -355,6 +515,18 @@ public class LivingEntityEventHandler {
 
                         DelayedTaskScheduler.queueServerWork(1, () ->
                                 player.heal(2 * ModUtils.calculateFallDamage(player, event.getDistance(), event.getDamageMultiplier())));
+                    }
+                });
+
+                handler.findFirstCurio(BrutalityModItems.TOPAZ_ANKLET.get()).ifPresent(slotResult -> {
+                    Vec3 loc = entity.getPosition(1);
+                    long gameTime = entity.level().getGameTime();
+                    long seed = (Double.doubleToLongBits(loc.x) ^ Double.doubleToLongBits(loc.y) ^
+                            Double.doubleToLongBits(loc.z) ^ gameTime);
+                    Random seeded = new Random(seed);
+                    float chance = seeded.nextFloat(0, 1);
+                    if (chance < 0.9F) {
+                        event.setCanceled(true);
                     }
                 });
             });
@@ -373,24 +545,40 @@ public class LivingEntityEventHandler {
 
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {
-        if (!(event.getSource().getEntity() instanceof ServerPlayer causingPlayer)) return;
+        LivingEntity victim = event.getEntity();
+        Level level = victim.level();
 
-        CuriosApi.getCuriosInventory(causingPlayer).ifPresent(handler -> {
-            handler.findFirstCurio(BrutalityModItems.GLUTTONY_CHARM.get()).ifPresent(slot -> {
-                ItemStack stack = slot.stack();
-                CompoundTag tag = stack.getOrCreateTag();
-                int souls = tag.getInt(SOULS) + 1;
-                tag.putInt(SOULS, souls);
-            });
-
-            handler.findFirstCurio(BrutalityModItems.RAMPAGE_CLOCK.get()).ifPresent(slot -> {
-                        ModUtils.tryExtendEffect(causingPlayer, BrutalityModMobEffects.ENRAGED.get(), 20);
-                    }
-            );
-
+        level.getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, victim, victim.getBoundingBox().inflate(3)).forEach(nearbyEntity -> {
+            CuriosApi.getCuriosInventory(nearbyEntity).ifPresent(handler ->
+                    handler.findFirstCurio(BrutalityModItems.SELF_REPAIR_NEXUS.get()).ifPresent(slot -> nearbyEntity.heal(2)));
         });
 
+        if (event.getSource().getEntity() instanceof Player attackerPlayer) {
+            CuriosApi.getCuriosInventory(attackerPlayer).ifPresent(handler -> {
+                handler.findFirstCurio(BrutalityModItems.GLUTTONY_CHARM.get()).ifPresent(slot -> {
+                    ItemStack stack = slot.stack();
+                    CompoundTag tag = stack.getOrCreateTag();
+                    int souls = tag.getInt(SOULS) + 1;
+                    tag.putInt(SOULS, souls);
+                });
+
+                handler.findFirstCurio(BrutalityModItems.RAMPAGE_CLOCK.get()).ifPresent(slot -> {
+                            ModUtils.modifyEffect(attackerPlayer, BrutalityModMobEffects.ENRAGED.get(), new ModUtils.ModValue(20, false), null, null);
+                        }
+                );
+
+            });
+        }
+
+
         if (event.getEntity() instanceof Player victimPlayer) {
+            if (victimPlayer.level() instanceof ServerLevel serverLevel) {
+                SupernovaSword.clearAsteroids(victimPlayer, serverLevel);
+                CreaseOfCreationItem.handleCreaseOfCreation(victimPlayer);
+            }
+
+            resetAllColors();
+
             if (victimPlayer.hasEffect(BrutalityModMobEffects.ENRAGED.get())) {
                 CuriosApi.getCuriosInventory(victimPlayer).ifPresent(handler -> {
                     handler.findFirstCurio(BrutalityModItems.GRUDGE_TOTEM.get()).ifPresent(slot -> {
@@ -402,7 +590,8 @@ public class LivingEntityEventHandler {
         }
     }
 
-    public static void tryTriggerRage(Player player, ICuriosItemHandler handler, EntityCapabilities.PlayerRageCap cap) {
+    public static void tryTriggerRage(Player player, ICuriosItemHandler handler, EntityCapabilities.PlayerRageCap
+            cap) {
         int maxRage = (int) player.getAttributeValue(ModAttributes.MAX_RAGE.get());
 
         if (cap.rageValue() >= maxRage) {
@@ -427,7 +616,7 @@ public class LivingEntityEventHandler {
         }
 
         cap.setRageValue(Math.min(cap.rageValue(), maxRage));
-        PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(player.getId(), player));
+        PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(player.getId(), player));
     }
 
 

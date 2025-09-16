@@ -1,0 +1,47 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.piercing_moonlight",
+				"texture_width": 64,
+				"texture_height": 64,
+				"visible_bounds_width": 5,
+				"visible_bounds_height": 101.5,
+				"visible_bounds_offset": [0, 50.25, 0]
+			},
+			"bones": [
+				{
+					"name": "main_beam",
+					"pivot": [0, 0.5, 0],
+					"cubes": [
+						{
+							"origin": [-1, 0.5, -1],
+							"size": [2, 16, 2],
+							"uv": {
+								"north": {"uv": [9, 0], "uv_size": [2, 16]},
+								"east": {"uv": [9, 0], "uv_size": [2, 16]},
+								"south": {"uv": [9, 0], "uv_size": [2, 16]},
+								"west": {"uv": [9, 0], "uv_size": [2, 16]},
+								"up": {"uv": [11, 18], "uv_size": [-2, -2]},
+								"down": {"uv": [11, 18], "uv_size": [-2, -2]}
+							}
+						},
+						{
+							"origin": [1.25, 16.75, 1.25],
+							"size": [-2.5, -16.5, -2.5],
+							"uv": {
+								"north": {"uv": [0, 0], "uv_size": [2, 16]},
+								"east": {"uv": [0, 0], "uv_size": [2, 16]},
+								"south": {"uv": [0, 0], "uv_size": [2, 16]},
+								"west": {"uv": [0, 0], "uv_size": [2, 16]},
+								"up": {"uv": [2, 18], "uv_size": [-2, -2]},
+								"down": {"uv": [2, 18], "uv_size": [-2, -2]}
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

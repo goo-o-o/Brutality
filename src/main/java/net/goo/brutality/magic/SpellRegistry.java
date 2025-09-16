@@ -1,9 +1,10 @@
 package net.goo.brutality.magic;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.magic.spells.brimwielder.AnnihilationSpell;
+import net.goo.brutality.magic.spells.brimwielder.*;
 import net.goo.brutality.magic.spells.celestia.*;
 import net.goo.brutality.magic.spells.cosmic.*;
+import net.goo.brutality.magic.spells.umbrancy.*;
 import net.goo.brutality.magic.spells.voidwalker.*;
 import net.minecraft.resources.ResourceLocation;
 
@@ -43,7 +44,17 @@ public class SpellRegistry {
         register(new StarBurstSpell());
         register(new SingularityShiftSpell());
 
-
         register(new AnnihilationSpell());
+        register(new ExtinctionSpell());
+        register(new BrimspikeSpell());
+        register(new StygianStepSpell());
+        register(new ChthonicCapsuleSpell());
+
+        register(new NightfallSpell());
+        register(new MoonlitMendingSpell());
+        register(new CrescentScytheSpell());
+        register(new PiercingMoonlightSpell());
+        register(new CrescentDartSpell());
+
     }
 }

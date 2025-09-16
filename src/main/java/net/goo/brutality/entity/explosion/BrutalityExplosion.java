@@ -45,7 +45,8 @@ import java.util.function.Predicate;
 public class BrutalityExplosion extends Explosion {
     private final Map<Entity, Vec3> hitEntities = Maps.newHashMap();
     public float damageScale = 1;
-
+    public Float damage = null;
+    Predicate<Entity> entityFilter = e -> true;
 
     public BrutalityExplosion(Level pLevel, @Nullable Entity pSource, double pToBlowX, double pToBlowY, double pToBlowZ, float pRadius, boolean pFire, BlockInteraction pBlockInteraction) {
         super(pLevel, pSource, pToBlowX, pToBlowY, pToBlowZ, pRadius, pFire, pBlockInteraction);
@@ -76,7 +77,10 @@ public class BrutalityExplosion extends Explosion {
     }
 
     public Predicate<Entity> getEntityFilter() {
-        return entity -> true;
+        return entityFilter;
+    }
+    public void setEntityFilter(Predicate<Entity> entityFilter) {
+        this.entityFilter = entityFilter;
     }
 
     @Override
@@ -227,7 +231,11 @@ public class BrutalityExplosion extends Explosion {
                         double visibilityFactor = getSeenPercent(explosionCenter, entity);
                         double impactFactor = ((double) 1.0F - distanceRatio) * visibilityFactor;
 
+                        if (this.damage != null) {
+                            entity.hurt(this.getDamageSource(), damageScale * this.damage);
+                        } else {
                         entity.hurt(this.getDamageSource(), damageScale * (float) ((impactFactor * impactFactor + impactFactor) / 2.0F * 7.0F * explosionDiameter + 1.0F));
+                        }
                         onHit(entity, impactFactor);
                         double knockbackFactor;
                         if (entity instanceof LivingEntity livingEntity) {

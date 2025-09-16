@@ -25,20 +25,10 @@ public class DematerializeSpell extends BrutalitySpell {
                 List.of(SpellCategory.INSTANT, SpellCategory.TARGET),
                 "dematerialize",
                 40, 7, 120, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 10, 2, 0, 50)
+                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 10, 2, 0F, 50F)
                 ));
     }
 
-
-    @Override
-    public int getManaCostLevelScaling() {
-        return 0;
-    }
-
-    @Override
-    public int getCooldownLevelScaling() {
-        return 0;
-    }
 
     @Override
     public float getDamageLevelScaling() {
@@ -46,7 +36,7 @@ public class DematerializeSpell extends BrutalitySpell {
     }
 
     @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
 
         Entity target = ModUtils.getEntityPlayerLookingAt(player, getFinalStat(spellLevel, getStat(RANGE)));
         if (!(target instanceof LivingEntity livingTarget)) {

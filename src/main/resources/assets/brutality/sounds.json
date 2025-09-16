@@ -521,5 +521,61 @@
         "name": "brutality:blood_splatter"
       }
     ]
+  },
+  "laser_beam": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:laser_beam"
+      }
+    ]
+  },
+  "dodge_1": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:dodge_1"
+      }
+    ]
+  },
+  "dodge_2": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:dodge_2"
+      }
+    ]
+  },
+  "dodge_3": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:dodge_3"
+      }
+    ]
+  },
+  "dodge_4": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:dodge_4"
+      }
+    ]
+  },
+  "phasesaber_swing": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "brutality:phasesaber_swing"
+      }
+    ]
+  },
+  "light_switch": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:light_switch"
+      }
+    ]
   }
 }

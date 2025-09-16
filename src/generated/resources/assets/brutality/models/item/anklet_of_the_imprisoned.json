@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/anklet/anklet_of_the_imprisoned/anklet_of_the_imprisoned_inventory"
+  }
+}

@@ -25,6 +25,11 @@ public class BrutalityBlockItem extends BlockItem implements BrutalityGeoItem {
     }
 
     @Override
+    public BrutalityCategories.AttackType getAttackType() {
+        return BrutalityCategories.AttackType.NONE;
+    }
+
+    @Override
     public GeoAnimatable cacheItem() {
         return this;
     }

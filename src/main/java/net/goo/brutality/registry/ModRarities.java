@@ -27,12 +27,15 @@ public class ModRarities {
         RARITY_TO_GRADIENT.put(LEGENDARY, RarityData.LEGENDARY);
         RARITY_TO_GRADIENT.put(FABLED, RarityData.FABLED);
         RARITY_TO_GRADIENT.put(MYTHIC, RarityData.MYTHIC);
+        RARITY_TO_GRADIENT.put(DIVINE, RarityData.DIVINE);
+        RARITY_TO_GRADIENT.put(CATACLYSMIC, RarityData.CATACLYSMIC);
         RARITY_TO_GRADIENT.put(GODLY, RarityData.GODLY);
         RARITY_TO_GRADIENT.put(DARK, RarityData.DARK);
         RARITY_TO_GRADIENT.put(SCULK, RarityData.SCULK);
         RARITY_TO_GRADIENT.put(ICE, RarityData.ICE);
         RARITY_TO_GRADIENT.put(FIRE, RarityData.FIRE);
         RARITY_TO_GRADIENT.put(STYGIAN, RarityData.STYGIAN);
+        RARITY_TO_GRADIENT.put(PRISMATIC, RarityData.PRISMATIC);
     }
 
 

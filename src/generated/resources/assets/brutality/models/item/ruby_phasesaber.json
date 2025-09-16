@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:item/sword/ruby_phasesaber_handheld",
+  "textures": {
+    "layer0": "brutality:item/sword/ruby_phasesaber/ruby_phasesaber_handheld"
+  }
+}

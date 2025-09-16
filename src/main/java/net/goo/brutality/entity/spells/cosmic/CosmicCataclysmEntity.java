@@ -127,7 +127,7 @@ public class CosmicCataclysmEntity extends BrutalityAbstractArrow implements Bru
         int spellLevel = getSpellLevel();
         BrutalitySpell spell = getSpell();
         float size = spell.getFinalStat(spellLevel, spell.getStat(SIZE));
-        WaveParticleData waveParticleData = new WaveParticleData(BrutalityModParticles.COSMIC_WAVE.get(), size * 2F, 50);
+        WaveParticleData<?> waveParticleData = new WaveParticleData<>(BrutalityModParticles.COSMIC_WAVE.get(), size * 2F, 50);
 
         Vec3 loc = hitResult.getLocation();
         double x = loc.x(), y = loc.y(), z = loc.z();
@@ -142,7 +142,7 @@ public class CosmicCataclysmEntity extends BrutalityAbstractArrow implements Bru
             ));
 
             if (shouldApplyWaveEffect)
-                ModUtils.applyWaveEffect(serverLevel, this, Entity.class, waveParticleData, null,
+                ModUtils.applyWaveEffect(serverLevel, this, Entity.class, waveParticleData, e -> e != owner,
                         e -> {
                             e.hurt(e.damageSources().flyIntoWall(), spell.getFinalDamage(owner, spellLevel));
                             if (e instanceof Player) {
@@ -167,10 +167,11 @@ public class CosmicCataclysmEntity extends BrutalityAbstractArrow implements Bru
                 if (entity instanceof ServerPlayer player) {
                     player.connection.send(new ClientboundSetEntityMotionPacket(player));
                 }
-                if (getOwner() instanceof Player owner)
-                    entity.hurt(entity.damageSources().playerAttack(owner), this.getFinalDamage(spell, owner, spellLevel));
+                if (getOwner() != null)
+                    entity.hurt(entity.damageSources().indirectMagic(getOwner(), null), this.getFinalDamage(spell, getOwner(), spellLevel));
                 else
-                    entity.hurt(entity.damageSources().flyIntoWall(), this.getFinalDamageWithoutAttributes(spell, spellLevel));
+                    entity.hurt(entity.damageSources().magic(), this.getFinalDamage(spell, getOwner(), spellLevel));
+
             }
 
         }

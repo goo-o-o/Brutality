@@ -7,9 +7,7 @@ import net.goo.brutality.item.base.BrutalityCurioItem;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import top.theillusivec4.curios.api.SlotContext;
@@ -42,13 +40,4 @@ public class RampageClock extends BrutalityCurioItem {
         return super.getAttributeModifiers(slotContext, uuid, stack);
     }
 
-    @Override
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            AttributeInstance rageTime = player.getAttribute(ModAttributes.RAGE_TIME_MULTIPLIER.get());
-            if (rageTime != null) {
-                rageTime.removeModifier(RAMPAGE_CLOCK_RAGE_TIME_UUID);
-            }
-        }
-    }
 }

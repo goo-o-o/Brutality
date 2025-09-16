@@ -7,8 +7,6 @@ import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
@@ -83,21 +81,4 @@ public class GungnirTrident extends BrutalityTridentItem {
 
     }
 
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
-        ItemStack itemstack = pPlayer.getItemInHand(pHand);
-        if (itemstack.getDamageValue() >= itemstack.getMaxDamage() - 1) {
-            return InteractionResultHolder.fail(itemstack);
-        } else {
-            pPlayer.startUsingItem(pHand);
-            return InteractionResultHolder.consume(itemstack);
-        }
-
-    }
-
-//    @Override
-//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
-//        super.configureLayers(renderer);
-//        renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer));
-//    }
 }

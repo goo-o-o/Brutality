@@ -24,7 +24,7 @@ public class SacrificeSpell extends BrutalitySpell {
                 "sacrifice",
                 80, 0, 600, 0, 1, List.of(
                         new BrutalityTooltipHelper.SpellStatComponent(BrutalityTooltipHelper.SpellStatComponents.HEALING, 10, 2, null, null),
-                        new BrutalityTooltipHelper.SpellStatComponent(BrutalityTooltipHelper.SpellStatComponents.RANGE, 5, 1, null, 25)
+                        new BrutalityTooltipHelper.SpellStatComponent(BrutalityTooltipHelper.SpellStatComponents.RANGE, 5, 1, null, 25F)
                 ));
     }
 
@@ -34,7 +34,7 @@ public class SacrificeSpell extends BrutalitySpell {
     }
 
     @Override
-    public int getManaCostLevelScaling() {
+    public float getManaCostLevelScaling() {
         return 10;
     }
 
@@ -44,12 +44,12 @@ public class SacrificeSpell extends BrutalitySpell {
     }
 
     @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
         BrutalityTooltipHelper.SpellStatComponent healthStat = getStat(BrutalityTooltipHelper.SpellStatComponents.HEALING);
         float healPool = getFinalStat(spellLevel, healthStat);
 
         if (player.level() instanceof ServerLevel serverLevel) {
-            WaveParticleData waveParticleData = new WaveParticleData(BrutalityModParticles.HEAL_WAVE.get(), getFinalStat(spellLevel, getStat(RANGE)), 20);
+            WaveParticleData<?> waveParticleData = new WaveParticleData<>(BrutalityModParticles.HEAL_WAVE.get(), getFinalStat(spellLevel, getStat(RANGE)), 20);
 
             serverLevel.sendParticles(
                     waveParticleData,

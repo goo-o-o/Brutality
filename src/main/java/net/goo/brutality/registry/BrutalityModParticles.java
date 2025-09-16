@@ -3,6 +3,7 @@ package net.goo.brutality.registry;
 import com.mojang.serialization.Codec;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.particle.providers.FlatParticleData;
+import net.goo.brutality.particle.providers.PointToPointParticleData;
 import net.goo.brutality.particle.providers.WaveParticleData;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -130,6 +131,14 @@ public class BrutalityModParticles {
                 @Override
                 public @NotNull Codec<FlatParticleData<?>> codec() {
                     return FlatParticleData.CODEC;
+                }
+            });
+
+    public static final RegistryObject<ParticleType<PointToPointParticleData<?>>> STYGIAN_STEP_PARTICLE = PARTICLE_TYPES.register("stygian_step_particle", () ->
+            new ParticleType<>(false, PointToPointParticleData.DESERIALIZER) {
+                @Override
+                public @NotNull Codec<PointToPointParticleData<?>> codec() {
+                    return PointToPointParticleData.CODEC;
                 }
             });
 

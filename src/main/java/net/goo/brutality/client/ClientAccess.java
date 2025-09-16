@@ -1,6 +1,8 @@
 package net.goo.brutality.client;
 
+import net.goo.brutality.entity.spells.brimwielder.ExtinctionEntity;
 import net.goo.brutality.registry.BrutalityCapabilities;
+import net.goo.brutality.sounds.ExtinctionSpellSoundInstance;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
@@ -14,7 +16,7 @@ import java.util.Map;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientAccess {
-
+    private static ExtinctionSpellSoundInstance sound;
     public static void syncCapabilities(int entityId, Map<String, CompoundTag> data) {
         Level level = Minecraft.getInstance().level;
         if (level == null) return;
@@ -34,6 +36,19 @@ public class ClientAccess {
             }
         }
     }
+
+    public static void playExtinctionSpellSound(ExtinctionEntity extinctionEntity)
+    {
+        ExtinctionSpellSoundInstance sound = new ExtinctionSpellSoundInstance(extinctionEntity);
+        ClientAccess.sound = sound;
+        Minecraft.getInstance().getSoundManager().play(sound);
+    }
+
+    public static void stopExtinctionSpellSound()
+    {
+        Minecraft.getInstance().getSoundManager().stop(sound);
+    }
+
 
 }
 

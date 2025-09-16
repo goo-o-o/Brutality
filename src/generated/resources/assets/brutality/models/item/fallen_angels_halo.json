@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/head/fallen_angels_halo/fallen_angels_halo_inventory"
+  }
+}

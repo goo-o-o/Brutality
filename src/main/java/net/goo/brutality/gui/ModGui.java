@@ -131,7 +131,7 @@ public class ModGui {
         }
 
         CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
-            if (handler.isEquipped(BrutalityModItems.SCIENTIFIC_CALCULATOR_BELT.get())) {
+            if (handler.isEquipped(BrutalityModItems.SCIENTIFIC_CALCULATOR.get())) {
                 computeVariables(windowWidth, windowHeight);
                 renderAxesAndTexture(gui);
 
@@ -176,6 +176,8 @@ public class ModGui {
         float manaPercent = maxMana != null ? manaValue / (float) maxMana.getValue() : 0;
         manaPercent = Mth.clamp(manaPercent, 0, 1); // Ensure between 0-1
 
+//        gui.drawString(FONT, String.valueOf(manaValue), 600, 100, SINE_COLOR);
+
         int diameter = 70;
         int radius = diameter / 2;
 
@@ -213,7 +215,6 @@ public class ModGui {
         if (SpellCastingHandler.currentlyChannellingSpell(player, tome)) {
             float channelProgress = SpellCastingHandler.getChannellingProgress(player, tome);
             RadialProgressBarRenderer.renderProgressBar(tome, gui, magicCenterX, magicCenterY, 0, channelProgress);
-
         }
     }
 
@@ -237,6 +238,8 @@ public class ModGui {
             boolean isSelected = selectedSpell != null &&
                     selectedSpell.spell() == spellEntry.spell() &&
                     selectedSpell.level() == spellEntry.level();
+            int actualSpellLevel = IBrutalitySpell.getActualSpellLevel(player, spellEntry.spell(), spellEntry.level());
+            String spellLevelString = String.valueOf(actualSpellLevel);
 
             int xComponent = Math.round(magicCenterX + Mth.cos(angleOffset) * distanceFromCenter);
             int yComponent = Math.round(magicCenterY + Mth.sin(angleOffset) * distanceFromCenter);
@@ -259,8 +262,9 @@ public class ModGui {
                     (int) (xComponent - baseIconRadius), (int) (yComponent - baseIconRadius),
                     0, 0, (int) iconDiameter, (int) iconDiameter, (int) iconDiameter, (int) iconDiameter);
 
-            float progress = SpellCooldownTracker.getCooldownProgress(player, spellEntry.spell());
-            if (progress > 0) {
+            if (SpellCooldownTracker.isOnCooldown(player, spellEntry.spell())) {
+                float progress = 1 - SpellCooldownTracker.getCooldownProgress(player, spellEntry.spell());
+
                 int visibleHeight = Math.round(iconDiameter * progress);
                 gui.blit(SPELL_CONTAINER_CD_TEXTURE,
                         (int) (xComponent - baseIconRadius),
@@ -269,6 +273,17 @@ public class ModGui {
                         (int) iconDiameter - visibleHeight,
                         (int) iconDiameter,
                         visibleHeight,
+                        (int) iconDiameter, (int) iconDiameter);
+            }
+
+            if (isSelected && SpellCastingHandler.currentlyCastingContinuousSpell(player, tome)) {
+                gui.blit(SPELL_CONTAINER_CD_TEXTURE,
+                        (int) (xComponent - baseIconRadius),
+                        (int) (yComponent - baseIconRadius),
+                        0F,
+                        iconDiameter,
+                        (int) iconDiameter,
+                        (int) iconDiameter,
                         (int) iconDiameter, (int) iconDiameter);
             }
 
@@ -281,8 +296,7 @@ public class ModGui {
                     (int) (yComponent - baseIconRadius - baseMiniRadius / 2),
                     0, 0, (int) baseMiniDiameter, (int) baseMiniDiameter, (int) baseMiniDiameter, (int) baseMiniDiameter);
 
-            String spellLevel = String.valueOf(IBrutalitySpell.getActualSpellLevel(player, spellEntry.spell(), spellEntry.level()));
-            int textWidth = FONT.width(spellLevel);
+            int textWidth = FONT.width(spellLevelString);
             float targetWidth = 8;
             float textScale = Math.min(1f, targetWidth / textWidth);
 
@@ -298,7 +312,7 @@ public class ModGui {
 
                 gui.pose().scale(textScale, textScale, 1f);
 
-                gui.drawString(FONT, spellLevel,
+                gui.drawString(FONT, spellLevelString,
                         -textWidth / 2f,
                         0,
                         school == IBrutalitySpell.MagicSchool.CELESTIA ? GUI_BLACK : GUI_WHITE, true);

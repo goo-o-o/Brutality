@@ -39,7 +39,7 @@ public class TruthseekerSword extends BrutalitySwordItem {
         Player player = event.getEntity();
 
         final float EXPERIENCE_BOOST = 2.0F;
-        if (player.getMainHandItem().getItem() == BrutalityModItems.TRUTHSEEKER_SWORD.get()) {
+        if (player.getMainHandItem().getItem() == BrutalityModItems.TRUTHSEEKER.get()) {
             int originalXP = event.getAmount();
             int boostedXP = (int) (originalXP * EXPERIENCE_BOOST);
             event.setAmount(boostedXP);

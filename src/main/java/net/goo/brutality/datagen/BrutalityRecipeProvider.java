@@ -95,7 +95,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_terra_blade", has(BrutalityModItems.TERRA_BLADE_SWORD.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.CREASE_OF_CREATION_ITEM.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.CREASE_OF_CREATION.get())
                 .pattern(" # ")
                 .pattern("#@#")
                 .pattern(" # ")
@@ -104,7 +104,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_gravity_gauntlet", has(TerramityModItems.GRAVITY_GAUNTLET.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.SUPERNOVA_SWORD.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.SUPERNOVA.get())
                 .pattern(" #%")
                 .pattern("#@#")
                 .pattern("$# ")
@@ -171,17 +171,17 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_profanum", has(TerramityModItems.PROFANUM.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.THE_CLOUD_ITEM.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.THE_CLOUD.get())
                 .pattern(" # ")
                 .pattern("@$@")
                 .pattern(" # ")
                 .define('#', TerramityModItems.PRISMATIC_JEWEL.get())
-                .define('@', TerramityModItems.IRIDESCENT_SHARD.get())
+                .define('@', TerramityModItems.IRIDESCENT_SHARD_BLOCK.get())
                 .define('$', Items.WHITE_WOOL)
                 .unlockedBy("has_prismatic_jewel", has(TerramityModItems.PRISMATIC_JEWEL.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.EVENT_HORIZON_LANCE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.EVENT_HORIZON.get())
                 .pattern(" #!")
                 .pattern("@$#")
                 .pattern("%@ ")
@@ -227,7 +227,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_murasama", has(TerramityModItems.MURASAMA.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.PROVIDENCE_BOW.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.PROVIDENCE.get())
                 .pattern("%@#")
                 .pattern("@$!")
                 .pattern("#! ")
@@ -239,7 +239,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_archangel_halo", has(TerramityModItems.ARCHANGEL_HALO.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.SEVENTH_STAR_SWORD.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.SEVENTH_STAR.get())
                 .pattern(" @#")
                 .pattern("@$!")
                 .pattern("%! ")
@@ -251,7 +251,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_nether_star", has(Items.NETHER_STAR))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.DOUBLE_DOWN_SWORD.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.DOUBLE_DOWN.get())
                 .pattern(" @*")
                 .pattern("#$!")
                 .pattern("&% ")
@@ -265,7 +265,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_slot_machine", has(TerramityModItems.SLOT_MACHINE.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.OLD_GPU_AXE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.OLD_GPU.get())
                 .pattern("!@#")
                 .pattern(" @#")
                 .pattern("$@#")
@@ -276,7 +276,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_conductite_upgrade_smithing_template", has(TerramityModItems.CONDUCTITE_UPGRADE_SMITHING_TEMPLATE.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.PAPER_CUT_SWORD.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.PAPER_CUT.get())
                 .pattern(" # ")
                 .pattern(" # ")
                 .pattern(" # ")
@@ -284,7 +284,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_paper", has(Items.PAPER))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.WHISPERWALTZ_SWORD.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.WHISPERWALTZ.get())
                 .pattern(" @#")
                 .pattern("@#@")
                 .pattern("$@ ")
@@ -501,7 +501,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('$', BrutalityModItems.FRIDGE_CHARM.get())
                 .unlockedBy("has_fridge", has(BrutalityModItems.FRIDGE_CHARM.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.SCIENTIFIC_CALCULATOR_BELT.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.SCIENTIFIC_CALCULATOR.get())
                 .pattern("!#^")
                 .pattern("#$#")
                 .pattern("&#@")
@@ -784,7 +784,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('$', Items.BLACK_WOOL)
                 .unlockedBy("has_black_matter", has(TerramityModItems.BLACK_MATTER.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.SHADOWSTEP_SWORD.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.SHADOWSTEP.get())
                 .pattern("#@#")
                 .pattern("@$@")
                 .pattern("#@#")
@@ -874,7 +874,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_archangel_halo", has(TerramityModItems.ARCHANGEL_HALO.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.MARIANAS_TRENCH_SWORD.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.MARIANAS_TRENCH.get())
                 .pattern("  #")
                 .pattern("!@#")
                 .pattern("$  ")
@@ -884,14 +884,14 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('$', BrutalityModItems.DEPTH_CRUSHER_TRIDENT.get())
                 .unlockedBy("has_depth_crusher", has(BrutalityModItems.DEPTH_CRUSHER_TRIDENT.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.CHALLENGER_DEEP_SWORD.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.CHALLENGER_DEEP.get())
                 .pattern("  #")
                 .pattern("%# ")
                 .pattern("$% ")
                 .define('#', TerramityModItems.EXODIUM_SUPERALLOY.get())
                 .define('%', Items.ENDER_EYE)
-                .define('$', BrutalityModItems.MARIANAS_TRENCH_SWORD.get())
-                .unlockedBy("has_marianas_trench", has(BrutalityModItems.MARIANAS_TRENCH_SWORD.get()))
+                .define('$', BrutalityModItems.MARIANAS_TRENCH.get())
+                .unlockedBy("has_marianas_trench", has(BrutalityModItems.MARIANAS_TRENCH.get()))
                 .save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.PRIDE_CHARM.get())
                 .pattern("#@#")

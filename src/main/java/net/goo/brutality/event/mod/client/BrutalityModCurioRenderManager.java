@@ -21,6 +21,9 @@ public class BrutalityModCurioRenderManager {
         CuriosRendererRegistry.register(BrutalityModItems.SERAPHIM_HALO.get(), () ->
                 new BrutalityCurioRenderer<>(renderer ->
                         renderer.addRenderLayer(new BrutalityAutoFullbrightAlphaLayer<>(renderer))));
+        CuriosRendererRegistry.register(BrutalityModItems.FALLEN_ANGELS_HALO.get(), () ->
+                new BrutalityCurioRenderer<>(renderer ->
+                        renderer.addRenderLayer(new BrutalityAutoFullbrightAlphaLayer<>(renderer))));
 
         CuriosRendererRegistry.register(BrutalityModItems.CELESTIAL_STARBOARD.get(), () ->
                 new BrutalityCurioRenderer<>(renderer ->
@@ -34,6 +37,9 @@ public class BrutalityModCurioRenderManager {
         CuriosRendererRegistry.register(BrutalityModItems.SUSPICIOUS_SLOT_MACHINE.get(), SuspiciousSlotMachineRenderer::new);
         CuriosRendererRegistry.register(BrutalityModItems.TRIAL_GUARDIAN_HANDS.get(), BrutalityCurioRenderer::new);
 
+        CuriosRendererRegistry.register(BrutalityModItems.HELLSPEC_TIE.get(), BrutalityCurioRenderer::new);
+        CuriosRendererRegistry.register(BrutalityModItems.PROGENITORS_EARRINGS.get(), BrutalityCurioRenderer::new);
+        CuriosRendererRegistry.register(BrutalityModItems.SANGUINE_SPECTACLES.get(), BrutalityCurioRenderer::new);
 
     }
 }

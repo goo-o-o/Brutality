@@ -3,8 +3,9 @@ package net.goo.brutality.event.forge.client;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.weapon.tome.BaseMagicTome;
+import net.goo.brutality.magic.SpellCastingHandler;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.c2sChangeSpellPacket;
+import net.goo.brutality.network.ServerboundChangeSpellPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.world.inventory.Slot;
@@ -25,10 +26,12 @@ public class SpellSelectHandler {
             int scrollDirection = (int) Math.signum(event.getScrollDelta());
             if (isShiftDown) {
                 if (mc.player.getMainHandItem().getItem() instanceof BaseMagicTome) {
-                    PacketHandler.sendToServer(new c2sChangeSpellPacket(scrollDirection, mc.player.getInventory().selected));
+                    if (SpellCastingHandler.currentlyChannellingSpell(mc.player, mc.player.getMainHandItem())) return;
+                    PacketHandler.sendToServer(new ServerboundChangeSpellPacket(scrollDirection, mc.player.getInventory().selected));
                     event.setCanceled(true);
                 } else if (mc.player.getOffhandItem().getItem() instanceof BaseMagicTome) {
-                    PacketHandler.sendToServer(new c2sChangeSpellPacket(scrollDirection, 40));
+                    if (SpellCastingHandler.currentlyChannellingSpell(mc.player, mc.player.getOffhandItem())) return;
+                    PacketHandler.sendToServer(new ServerboundChangeSpellPacket(scrollDirection, 40));
                     event.setCanceled(true);
                 }
             }
@@ -42,7 +45,7 @@ public class SpellSelectHandler {
             int scrollDirection = (int) Math.signum(event.getScrollDelta());
 
             if (hoveredSlot != null && hoveredSlot.getItem().getItem() instanceof BaseMagicTome) {
-                PacketHandler.sendToServer(new c2sChangeSpellPacket(scrollDirection, hoveredSlot.getSlotIndex()));
+                PacketHandler.sendToServer(new ServerboundChangeSpellPacket(scrollDirection, hoveredSlot.getSlotIndex()));
                 event.setCanceled(true);
             }
         }

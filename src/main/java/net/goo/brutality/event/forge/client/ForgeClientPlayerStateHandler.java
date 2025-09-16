@@ -1,11 +1,13 @@
 package net.goo.brutality.event.forge.client;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.config.BrutalityClientConfig;
 import net.goo.brutality.event.mod.client.Keybindings;
 import net.goo.brutality.item.BrutalityArmorMaterials;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.c2sActivateRagePacket;
+import net.goo.brutality.network.ServerboundActivateRagePacket;
+import net.goo.brutality.network.ServerboundActiveAbilityPressPacket;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModItems;
@@ -13,6 +15,7 @@ import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.goo.brutality.util.ModTags;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.EnvironmentColorManager;
+import net.mcreator.terramity.init.TerramityModKeyMappings;
 import net.minecraft.client.GraphicsStatus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -21,6 +24,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderNameTagEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -50,6 +54,34 @@ public class ForgeClientPlayerStateHandler {
                 event.setResult(Event.Result.DENY);
             }
     }
+    @SubscribeEvent
+    public static void onKeyPressed(InputEvent.Key event) {
+        Minecraft mc = Minecraft.getInstance();
+        LocalPlayer player = mc.player;
+        ClientLevel level = mc.level;
+        if (level == null || player == null) return;
+
+        if (event.getAction() == InputConstants.PRESS) {
+            if (!player.hasEffect(BrutalityModMobEffects.ENRAGED.get()))
+                if (Keybindings.RAGE_ACTIVATE_KEY.consumeClick()) {
+                    CuriosApi.getCuriosInventory(player).ifPresent(
+                            handler -> {
+                                if (!handler.findCurios(stack -> stack.is(ModTags.Items.RAGE_ITEMS)).isEmpty()) {
+                                    player.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap -> {
+                                        if (handler.findFirstCurio(BrutalityModItems.ANGER_MANAGEMENT.get()).isPresent()) {
+                                            PacketHandler.sendToServer(new ServerboundActivateRagePacket());
+                                        }
+                                    });
+
+                                }
+                            });
+                }
+
+            if (TerramityModKeyMappings.ACTIVE_ABILITY.consumeClick()) {
+                PacketHandler.sendToServer(new ServerboundActiveAbilityPressPacket());
+            }
+        }
+    }
 
 
     @SubscribeEvent
@@ -62,14 +94,14 @@ public class ForgeClientPlayerStateHandler {
         if (event.phase != TickEvent.Phase.END) return;
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
-        if (mc.level == null || player == null) return;
         ClientLevel level = mc.level;
+        if (level == null || player == null) return;
 
         if (player.hasEffect(BrutalityModMobEffects.STUNNED.get())) {
             mc.mouseHandler.setIgnoreFirstMove();
         }
 
-        boolean isHoldingGpuAxe = player.isHolding(BrutalityModItems.OLD_GPU_AXE.get());
+        boolean isHoldingGpuAxe = player.isHolding(BrutalityModItems.OLD_GPU.get());
 
         if (isHoldingGpuAxe) {
             if (!wasHoldingGpuAxe) {
@@ -113,20 +145,7 @@ public class ForgeClientPlayerStateHandler {
 
         wasHoldingGpuAxe = isHoldingGpuAxe;
 
-        if (!player.hasEffect(BrutalityModMobEffects.ENRAGED.get()))
-            if (Keybindings.RAGE_ACTIVATE_KEY.get().consumeClick()) {
-                CuriosApi.getCuriosInventory(player).ifPresent(
-                        handler -> {
-                            if (!handler.findCurios(stack -> stack.is(ModTags.Items.RAGE_ITEMS)).isEmpty()) {
-                                player.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap -> {
-                                    if (handler.findFirstCurio(BrutalityModItems.ANGER_MANAGEMENT.get()).isPresent()) {
-                                        PacketHandler.sendToServer(new c2sActivateRagePacket());
-                                    }
-                                });
 
-                            }
-                        });
-            }
 
         activeColorSources.clear();
 

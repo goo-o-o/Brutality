@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/charm/broken_clock/broken_clock_inventory"
+  }
+}

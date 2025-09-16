@@ -80,6 +80,10 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
         this.entityData.define(SPELL_LEVEL_DATA, 1);
     }
 
+    @Override
+    protected int getLifespan() {
+        return 100;
+    }
 
     @Override
     public void setSpellLevel(int spellLevel) {
@@ -128,13 +132,13 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
         super.onHit(hitResult);
         triggerAnim("controller", "impact");
         int spellLevel = getSpellLevel();
+        if (level() instanceof ServerLevel serverLevel) {
 
-        DelayedTaskScheduler.queueServerWork(6, () -> playSound(BrutalityModSounds.SPACE_EXPLOSION.get(), Math.min(spellLevel, 50),
-                1.5F - (spellLevel / 50F)));
+            DelayedTaskScheduler.queueServerWork(6, () -> playSound(BrutalityModSounds.SPACE_EXPLOSION.get(), Math.min(spellLevel, 50),
+                    1.5F - (spellLevel / 50F)));
 
-        DelayedTaskScheduler.queueServerWork(15, () -> {
+            DelayedTaskScheduler.queueServerWork(15, () -> {
 
-            if (level() instanceof ServerLevel serverLevel) {
                 for (int i = 0; i < 16 + spellLevel * 4; i++) {
                     float randomX = (float) this.getRandomX(5 + spellLevel);
                     float randomY = (float) this.getY((random.nextDouble()) * (5 + spellLevel));
@@ -147,38 +151,41 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
                             (float) (this.getZ() - randomZ) * (0.035F + 0.015F * (spellLevel + 1)), 1
                     ));
                 }
-            }
 
-            List<Entity> nearbyEntities = level().getEntities(this, this.getBoundingBox().inflate(spellLevel / 2F + 3),
-                    e -> e instanceof LivingEntity && !(e instanceof Player && (e.isSpectator() || ((Player) e).isCreative())));
+                List<Entity> nearbyEntities = level().getEntities(this, this.getBoundingBox().inflate(spellLevel / 2F + 3),
+                        e -> e instanceof LivingEntity && !(e instanceof Player && (e.isSpectator() || ((Player) e).isCreative())));
 
-            for (Entity entity : nearbyEntities) {
-                if (entity != this && entity != getOwner()) {
-                    Vec3 targetPos = entity.getPosition(1.0F);
-                    Vec3 sourcePos = this.getPosition(1).add(0, this.getBbHeight(), 0);
-                    Vec3 targetVector = sourcePos.subtract(targetPos).normalize();
+                for (Entity entity : nearbyEntities) {
+                    if (entity != this && entity != getOwner()) {
+                        Vec3 targetPos = entity.getPosition(1.0F);
+                        Vec3 sourcePos = this.getPosition(1).add(0, this.getBbHeight(), 0);
+                        Vec3 targetVector = sourcePos.subtract(targetPos).normalize();
 
 
-                    entity.addDeltaMovement(targetVector.scale(0.15F).scale((1 + spellLevel) / 2F));
-                    if (entity instanceof ServerPlayer player) {
-                        player.connection.send(new ClientboundSetEntityMotionPacket(player));
+                        entity.addDeltaMovement(targetVector.scale(0.15F).scale((1 + spellLevel) / 2F));
+                        if (entity instanceof ServerPlayer player) {
+                            player.connection.send(new ClientboundSetEntityMotionPacket(player));
+                        }
+
+                        float finalDamage = getSpell().getFinalDamage(getOwner(), spellLevel);
+                        if (getOwner() != null)
+                            entity.hurt(entity.damageSources().indirectMagic(getOwner(), null), finalDamage);
+                        else
+                            entity.hurt(entity.damageSources().magic(), finalDamage);
                     }
-                    if (getOwner() instanceof Player owner)
-                        entity.hurt(entity.damageSources().playerAttack(owner), getSpell().getFinalDamage(owner, spellLevel));
-                    else
-                        entity.hurt(entity.damageSources().flyIntoWall(), getSpell().getFinalDamageWithoutAttributes(spellLevel));
+
                 }
 
-            }
+            });
 
-        });
-
+        }
 
     }
 
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
         this.setNoGravity(true);
+        this.setDeltaMovement(0,0,0);
     }
 
     @Override

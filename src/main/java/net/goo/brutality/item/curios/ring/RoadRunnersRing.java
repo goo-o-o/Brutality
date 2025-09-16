@@ -3,7 +3,7 @@ package net.goo.brutality.item.curios.ring;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.c2sDamageEntityPacket;
+import net.goo.brutality.network.ServerboundDamageEntityPacket;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
@@ -38,13 +38,13 @@ public class RoadRunnersRing extends BrutalityCurioItem {
                 Vec3 currentPos = player.position();
                 Vec3 direction = currentPos.subtract(new Vec3(xOld, player.getY(), zOld));
 
-                if (direction.lengthSqr() > 0.25 && player.horizontalCollision) {
+                if (direction.lengthSqr() > 0.2 && player.horizontalCollision) {
                     Vec3 wallNormal = getWallNormal(player, direction);
 
                     float impactFactor = (float) Math.abs(direction.normalize().dot(wallNormal));
 
                     if (impactFactor > 0.7f) {
-                        float damage = (float) (direction.lengthSqr() * 5);
+                        float damage = (float) (direction.lengthSqr() * 15);
                         triggerCollisionEffects(player, damage);
                     }
                 }
@@ -70,7 +70,7 @@ public class RoadRunnersRing extends BrutalityCurioItem {
     }
 
     private void triggerCollisionEffects(Player player, float damage) {
-        PacketHandler.sendToServer(new c2sDamageEntityPacket(player.getId(), damage, player.damageSources().flyIntoWall()));
+        PacketHandler.sendToServer(new ServerboundDamageEntityPacket(player.getId(), damage, player.damageSources().flyIntoWall()));
         player.playSound(getFallDamageSound(damage), 1, Mth.nextFloat(player.getRandom(), 0.8F, 1.2F));
     }
 

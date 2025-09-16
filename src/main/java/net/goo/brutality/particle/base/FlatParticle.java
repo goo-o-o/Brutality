@@ -38,6 +38,7 @@ public class FlatParticle extends TextureSheetParticle {
         if (data.entityID() != null)
             this.relatedEntity = level.getEntity(data.entityID());
         else this.relatedEntity = null;
+        this.setSpriteFromAge(sprites);
     }
 
 
@@ -73,6 +74,7 @@ public class FlatParticle extends TextureSheetParticle {
         float size = this.getQuadSize(partialTicks);
         Vector3f[] transformedVertices = new Vector3f[4];
 
+        
         for (int i = 0; i < 4; i++) {
             transformedVertices[i] = new Vector3f(baseVertices[i]);
             transformedVertices[i].rotate(combinedRot);  // Apply combined rotation

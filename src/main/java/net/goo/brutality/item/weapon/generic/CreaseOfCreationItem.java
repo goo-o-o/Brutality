@@ -3,7 +3,7 @@ package net.goo.brutality.item.weapon.generic;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.s2cSyncCapabilitiesPacket;
+import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
@@ -152,7 +152,7 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
             if (target != null) {
                 target.getCapability(BrutalityCapabilities.ENTITY_SHOULD_ROTATE_CAP).ifPresent(cap -> {
                     cap.setShouldRotate(false);
-                    PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(targetId, target));
+                    PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(targetId, target));
                 });
             }
             item.getOrCreateTag().remove("target");
@@ -174,7 +174,7 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
                 DelayedTaskScheduler.queueServerWork(30, () ->
                         target.getCapability(BrutalityCapabilities.ENTITY_SHOULD_ROTATE_CAP).ifPresent(cap -> {
                             cap.setShouldRotate(false);
-                            PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(targetId, target));
+                            PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(targetId, target));
                         }));
 
                 if (!pLivingEntity.isShiftKeyDown()) return;
@@ -213,7 +213,7 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
         target.getCapability(BrutalityCapabilities.ENTITY_SHOULD_ROTATE_CAP).ifPresent(cap -> {
             if (!cap.isShouldRotate()) {
                 cap.setShouldRotate(true);
-                PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(targetId, target));
+                PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(targetId, target));
             }
         });
 
@@ -265,7 +265,7 @@ public class CreaseOfCreationItem extends BrutalityGenericItem {
                 DelayedTaskScheduler.queueServerWork(30, () ->
                         target.getCapability(BrutalityCapabilities.ENTITY_SHOULD_ROTATE_CAP).ifPresent(cap -> {
                             cap.setShouldRotate(false);
-                            PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(targetId, target));
+                            PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(targetId, target));
                         }));
             }
 

@@ -3,7 +3,7 @@ package net.goo.brutality.item.weapon.sword;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.c2sShootProjectilePacket;
+import net.goo.brutality.network.ServerboundShootProjectilePacket;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
@@ -61,7 +61,7 @@ public class TerratomereSword extends BrutalitySwordItem {
         if (!player.getCooldowns().isOnCooldown(item)) {
             player.getCooldowns().addCooldown(item, 5);
             if (level.isClientSide()) {
-                PacketHandler.sendToServer(new c2sShootProjectilePacket(BrutalityModEntities.TERRA_BEAM.getId(), 0.45F, false, 0F, 0));
+                PacketHandler.sendToServer(new ServerboundShootProjectilePacket(BrutalityModEntities.TERRA_BEAM.getId(), 0.45F, false, 0F, 0));
 //                PacketHandler.sendToServer(new c2sParticlePacket(
 //                        player.getX(), player.getY(), player.getZ(), 0.3f, 0.75f, 0.5f, 3, player.getId(), 15, 4, 0));
 //                PacketHandler.sendToServer(new c2sParticlePacket(player.getX(), player.getY() + player.getBbHeight() / 2, player.getZ(), 2, 2, 2,

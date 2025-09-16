@@ -27,18 +27,17 @@ public class FrozenHeart extends BrutalityCurioItem {
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
-        super.curioTick(slotContext, stack);
-
         LivingEntity entity = slotContext.entity();
-        Level level = entity.level();
+        if (entity.tickCount % 10 == 0) {
+            Level level = entity.level();
 
-        List<LivingEntity> nearbyEntities = level.getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, entity, entity.getBoundingBox().inflate(10));
+            List<LivingEntity> nearbyEntities = level.getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, entity, entity.getBoundingBox().inflate(10));
 
-        for (LivingEntity nearbyEntity : nearbyEntities) {
-            nearbyEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 3, 0));
-            nearbyEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 3, 0));
+            for (LivingEntity nearbyEntity : nearbyEntities) {
+                nearbyEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 11, 0));
+                nearbyEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 11, 0));
+            }
         }
-
     }
 
 }

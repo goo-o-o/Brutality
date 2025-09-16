@@ -28,15 +28,10 @@ public class VoidWalkSpell extends BrutalitySpell {
                 List.of(INSTANT, TARGET, UTILITY),
                 "void_walk",
                 40, 0, 160, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 20, 10, 0, 250)
+                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 20, 10, 0F, 250F)
                 ));
     }
 
-
-    @Override
-    public int getManaCostLevelScaling() {
-        return 0;
-    }
 
     @Override
     public int getCooldownLevelScaling() {
@@ -44,7 +39,7 @@ public class VoidWalkSpell extends BrutalitySpell {
     }
 
     @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
         float baseRange = getFinalStat(spellLevel, getStat(RANGE));
 
         if (player.level() instanceof ServerLevel serverLevel) {

@@ -146,10 +146,6 @@ public class BrutalityAbstractPhysicsProjectile extends BrutalityAbstractArrow i
         }
     }
 
-    protected boolean shouldDiscard() {
-        return false;
-    }
-
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 

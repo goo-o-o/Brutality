@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class BrutalityGenericItem extends Item implements BrutalityGeoItem {
-    private final List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents;
+    public final List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents;
     public Rarity rarity;
 
     public BrutalityGenericItem(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
@@ -40,6 +40,10 @@ public class BrutalityGenericItem extends Item implements BrutalityGeoItem {
         });
     }
 
+    @Override
+    public BrutalityCategories.AttackType getAttackType() {
+        return BrutalityCategories.AttackType.NONE;
+    }
 
     @Override
     public boolean isDamageable(ItemStack stack) {
@@ -58,7 +62,7 @@ public class BrutalityGenericItem extends Item implements BrutalityGeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityHoverTextHandler(pTooltipComponents, descriptionComponents, rarity);
+        brutalityTooltipHandler(pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 

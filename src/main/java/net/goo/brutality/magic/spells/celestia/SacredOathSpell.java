@@ -29,7 +29,7 @@ public class SacredOathSpell extends BrutalitySpell {
     }
 
     @Override
-    public int getManaCostLevelScaling() {
+    public float getManaCostLevelScaling() {
         return 10;
     }
 
@@ -39,7 +39,7 @@ public class SacredOathSpell extends BrutalitySpell {
     }
 
     @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
         player.addEffect(new MobEffectInstance(TerramityModMobEffects.PHASING.get(), (int) getFinalStat(spellLevel, getStat(DURATION))));
         return true;
     }

@@ -19,6 +19,4 @@ public class AngerManagement extends BrutalityCurioItem {
         return BrutalityCategories.CurioType.HANDS;
     }
 
-
-
 }

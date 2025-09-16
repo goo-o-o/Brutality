@@ -42,6 +42,10 @@ public class BrutalitySwordItem extends SwordItem implements BrutalityGeoItem {
         });
     }
 
+    @Override
+    public BrutalityCategories.AttackType getAttackType() {
+        return BrutalityCategories.AttackType.SLASH;
+    }
 
     @Override
     public boolean isDamageable(ItemStack stack) {
@@ -55,7 +59,7 @@ public class BrutalitySwordItem extends SwordItem implements BrutalityGeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityHoverTextHandler(pTooltipComponents, descriptionComponents, rarity);
+        brutalityTooltipHandler(pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 

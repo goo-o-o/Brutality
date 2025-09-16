@@ -5,7 +5,7 @@ import com.google.common.collect.Multimap;
 import net.goo.brutality.entity.projectile.generic.AbyssProjectile;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.c2sShootProjectilePacket;
+import net.goo.brutality.network.ServerboundShootProjectilePacket;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.ProjectileHelper;
@@ -73,7 +73,7 @@ public class MarianasTrenchSword extends BrutalitySwordItem {
         if (player.getCooldowns().isOnCooldown(stack.getItem())) return;
         if (level.isClientSide()) {
             for (int i = 1; i <= 360; i += 45)
-                PacketHandler.sendToServer(new c2sShootProjectilePacket(BrutalityModEntities.DEPTH_CRUSHER_PROJECTILE.getId(), 0.5F, false, 0F, i));
+                PacketHandler.sendToServer(new ServerboundShootProjectilePacket(BrutalityModEntities.DEPTH_CRUSHER_PROJECTILE.getId(), 0.5F, false, 0F, i));
         } else {
             for (int i = 1; i <= 360; i += 45) {
                 ProjectileHelper.shootProjectile(() ->

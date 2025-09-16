@@ -2,17 +2,16 @@ package net.goo.brutality.item.weapon.tome;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.entity.capabilities.EntityCapabilities;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.magic.IBrutalitySpell;
 import net.goo.brutality.magic.SpellCastingHandler;
-import net.goo.brutality.magic.SpellCooldownTracker;
 import net.goo.brutality.magic.SpellStorage;
-import net.goo.brutality.registry.BrutalityCapabilities;
+import net.goo.brutality.magic.SpellUtils;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.mcreator.terramity.init.TerramityModSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -22,8 +21,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -43,8 +42,6 @@ import software.bernie.geckolib.core.object.PlayState;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.CHANNELING;
-import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.CONTINUOUS;
 import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.CHANCE;
 import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.DURATION;
 
@@ -57,141 +54,151 @@ public class BaseMagicTome extends BrutalityGenericItem {
     }
 
     @Override
+    public ItemStack getDefaultInstance() {
+        ItemStack stack = new ItemStack(this);
+        stack.getOrCreateTag().putBoolean("closed", true);
+        return stack;
+    }
+
+    @Override
     public BrutalityCategories category() {
         return BrutalityCategories.ItemType.TOME;
     }
 
     @Override
-    public @NotNull UseAnim getUseAnimation(ItemStack pStack) {
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack) {
         return UseAnim.NONE;
     }
 
     @Override
-    public int getUseDuration(ItemStack pStack) {
+    public int getUseDuration(@NotNull ItemStack pStack) {
         return 72000;
     }
 
-
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+        SpellStorage.SpellEntry spellEntry = SpellStorage.getCurrentSpellEntry(stack);
+        if (spellEntry == null) {
+            return InteractionResultHolder.pass(stack);
+        }
 
-        List<SpellStorage.SpellEntry> spells = SpellStorage.getSpells(stack);
-        if (!spells.isEmpty()) {
-            SpellStorage.SpellEntry spellEntry = SpellStorage.getCurrentSpellEntry(stack);
-            if (spellEntry == null) return InteractionResultHolder.pass(stack);
-            List<IBrutalitySpell.SpellCategory> categories = spellEntry.spell().getCategories();
+        IBrutalitySpell spell = spellEntry.spell();
+        int actualSpellLevel = IBrutalitySpell.getActualSpellLevel(player, spell, spellEntry.level());
+        List<IBrutalitySpell.SpellCategory> categories = spell.getCategories();
 
-            if (categories.contains(CHANNELING) || categories.contains(CONTINUOUS)) {
+        SpellCastingHandler.CastConditionResult initialCheck = SpellCastingHandler.checkAllConditions(player, spell, actualSpellLevel);
+        if (!initialCheck.canCast()) {
+            player.displayClientMessage(initialCheck.feedback(), true);
+            return InteractionResultHolder.fail(stack);
+        }
+
+        if (categories.contains(IBrutalitySpell.SpellCategory.CHANNELLING)) {
+            player.startUsingItem(hand);
+            // Redirect to useTick
+            if (level instanceof ServerLevel serverLevel) {
+                stack.getOrCreateTag().putBoolean("closed", false);
+                level.playSound(null, player.getX(), player.getY(), player.getZ(), BrutalityModSounds.TOME_OPEN.get(), SoundSource.PLAYERS, 1, 1);
+                stopTriggeredAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "book_controller", "close");
+                triggerAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "main_controller", "cast_channelling");
+            }
+            return InteractionResultHolder.pass(stack);
+        } else if (categories.contains(IBrutalitySpell.SpellCategory.CONTINUOUS)) {
+            if (SpellCastingHandler.startContinuousCast(player, stack, spell, actualSpellLevel)) {
                 player.startUsingItem(hand);
-                if (level instanceof ServerLevel serverLevel && !SpellCooldownTracker.isOnCooldown(player, spellEntry.spell())) {
-                    serverLevel.playSound(null, player.getOnPos(), BrutalityModSounds.TOME_OPEN.get(), SoundSource.PLAYERS, 1, 1);
+                if (level instanceof ServerLevel serverLevel) {
+                    stack.getOrCreateTag().putBoolean("closed", false);
+                    level.playSound(null, player.getX(), player.getY(), player.getZ(), BrutalityModSounds.TOME_OPEN.get(), SoundSource.PLAYERS, 1, 1);
                     stopTriggeredAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "book_controller", "close");
-                    if (categories.contains(CHANNELING))
-                        triggerAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "main_controller", "cast_channelling");
-                    else if (categories.contains(CONTINUOUS))
-                        triggerAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "main_controller", "cast_continuous");
+                    triggerAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "main_controller", "cast_continuous");
                 }
                 return InteractionResultHolder.pass(stack);
             }
-            if (SpellCastingHandler.tryCastSingletonSpell(player, stack, spellEntry.spell(), spellEntry.level())) {
+            // No redirect, just cast
+        } else if (categories.contains(IBrutalitySpell.SpellCategory.INSTANT)) {
+            if (SpellCastingHandler.castInstantSpell(player, stack, spell, actualSpellLevel)) {
                 if (level instanceof ServerLevel serverLevel) {
-                    player.getCooldowns().addCooldown(stack.getItem(), 25);
-                    serverLevel.playSound(null, player.getOnPos(), BrutalityModSounds.TOME_OPEN.get(), SoundSource.PLAYERS, 1, 1);
-                    stopTriggeredAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "main_controller", "cast_channelling");
-                    stopTriggeredAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "main_controller", "cast_continuous");
+                    level.playSound(null, player.getX(), player.getY(), player.getZ(), TerramityModSounds.TOMEUSE.get(), SoundSource.PLAYERS, 1, 1);
                     stopTriggeredAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "book_controller", "close");
                     triggerAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "main_controller", "cast_instant");
+                    player.getCooldowns().addCooldown(this, 30);
                 }
+                return InteractionResultHolder.pass(stack);
             }
         }
-
-        return InteractionResultHolder.pass(stack);
+        return InteractionResultHolder.fail(stack);
     }
 
     @Override
-    public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {
-        super.releaseUsing(pStack, pLevel, pLivingEntity, pTimeCharged);
-        SpellStorage.SpellEntry entry = SpellStorage.getCurrentSpellEntry(pStack);
-        if (entry == null || !(pLivingEntity instanceof Player player)) return;
-        IBrutalitySpell spell = entry.spell();
-        if (SpellCooldownTracker.isOnCooldown(player, spell)) return;
-        if (!(spell.getCategories().contains(CHANNELING) || spell.getCategories().contains(CONTINUOUS)))
-            return;
-
-        if (spell.getCategories().contains(CONTINUOUS)) {
-            SpellCooldownTracker.setCooldown(player, spell, IBrutalitySpell.getActualSpellLevel(player, spell, entry.level()));
-            if (pLevel instanceof ServerLevel serverLevel) {
-                serverLevel.playSound(null, player.getOnPos(), BrutalityModSounds.TOME_CLOSE.get(), SoundSource.PLAYERS, 1, 1);
-
-                stopTriggeredAnim(player, GeoItem.getOrAssignId(pStack, serverLevel), "main_controller", "cast_continuous");
-                triggerAnim(player, GeoItem.getOrAssignId(pStack, serverLevel), "book_controller", "close");
-
-            }
-        }
-        player.getCooldowns().addCooldown(pStack.getItem(), 25);
-
-    }
-
-
-    @Override
-    public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
-        SpellStorage.SpellEntry spellEntry = SpellStorage.getCurrentSpellEntry(pStack);
-        int useTicks = this.getUseDuration(pStack) - pRemainingUseDuration;
+    public void onUseTick(@NotNull Level level, @NotNull LivingEntity livingEntity, @NotNull ItemStack stack, int remainingTicks) {
+        if (!(livingEntity instanceof Player player)) return;
+        SpellStorage.SpellEntry spellEntry = SpellStorage.getCurrentSpellEntry(stack);
         if (spellEntry == null) return;
+
         IBrutalitySpell spell = spellEntry.spell();
-        if (!(pLivingEntity instanceof Player player)) return;
-        if (SpellCooldownTracker.isOnCooldown(player, spell)) {
-            player.stopUsingItem();
-            return;
-        }
+        int spellLevel = IBrutalitySpell.getActualSpellLevel(player, spell, spellEntry.level());
 
-        int actualSpellLevel = IBrutalitySpell.getActualSpellLevel(player, spell, spellEntry.level());
-        int actualCastTime = IBrutalitySpell.getActualCastTime(player, spell, actualSpellLevel);
-        List<IBrutalitySpell.SpellCategory> categories = spell.getCategories();
-
-        if (categories.contains(CHANNELING)) {
-            if (spellEntry.spell().interruptibleByDamage()) {
-                if (player.isHurt()) {
-                    player.getCooldowns().addCooldown(pStack.getItem(), 25);
-                    int finalLevel = IBrutalitySpell.getActualSpellLevel(player, spell, spellEntry.level());
-                    EntityCapabilities.PlayerManaCap manaHandler = player.getCapability(BrutalityCapabilities.PLAYER_MANA_CAP).orElse(null);
-                    manaHandler.decrementMana(IBrutalitySpell.getActualManaCost(player, spell, finalLevel));
-                    SpellCooldownTracker.setCooldown(player, spell, finalLevel);
-                    player.displayClientMessage(Component.translatable("message." + Brutality.MOD_ID + ".cast_failed").withStyle(ChatFormatting.RED), true);
-                    closeBook(player, pStack, pLevel);
-                    player.stopUsingItem();
-                    return;
-                }
+        if (spell.getCategories().contains(IBrutalitySpell.SpellCategory.CHANNELLING)) {
+            if (SpellCastingHandler.castChannellingSpell(player, stack, spell, spellLevel, remainingTicks)) {
+                player.releaseUsingItem();
             }
-            if (useTicks > actualCastTime) {
-                player.stopUsingItem();
-                if (pLevel instanceof ServerLevel serverLevel) {
-                    serverLevel.playSound(null, player.getOnPos(), BrutalityModSounds.TOME_CLOSE.get(), SoundSource.PLAYERS, 1, 1);
-                    stopTriggeredAnim(player, GeoItem.getOrAssignId(pStack, serverLevel), "main_controller", "cast_channelling");
-                    triggerAnim(player, GeoItem.getOrAssignId(pStack, serverLevel), "book_controller", "close");
-                }
-                SpellCastingHandler.tryCastSingletonSpell(player, pStack, spell, spellEntry.level());
-                player.getCooldowns().addCooldown(pStack.getItem(), 25);
-            }
-        } else if (categories.contains(CONTINUOUS)) {
-            if (useTicks % Math.max(actualCastTime, 0) == 0) {
-                SpellCastingHandler.tryCastSingletonSpell(player, pStack, spell, actualSpellLevel);
-            }
+        } else if (spell.getCategories().contains(IBrutalitySpell.SpellCategory.CONTINUOUS)) {
+            SpellCastingHandler.tickContinuousCast(player, stack, spell, spellLevel);
         }
     }
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "main_controller", (state) -> PlayState.STOP)
-                .triggerableAnim("cast_instant", RawAnimation.begin().thenPlay("cast_instant"))
-                .triggerableAnim("cast_channelling", RawAnimation.begin().thenPlayAndHold("cast_channelling"))
-                .triggerableAnim("cast_continuous", RawAnimation.begin().thenPlayAndHold("cast_continuous"))
-        );
 
-        controllers.add(new AnimationController<>(this, "book_controller", (state) -> PlayState.STOP)
-                .triggerableAnim("close", RawAnimation.begin().thenPlayAndHold("close"))
-        );
+    @Override
+    public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity livingEntity, int ticksUsed) {
+        if (!(livingEntity instanceof Player player)) return;
+        SpellStorage.SpellEntry spellEntry = SpellStorage.getCurrentSpellEntry(stack);
+        if (spellEntry == null) return;
+
+        IBrutalitySpell spell = spellEntry.spell();
+        int spellLevel = IBrutalitySpell.getActualSpellLevel(player, spell, spellEntry.level());
+
+        if (spell.getCategories().contains(IBrutalitySpell.SpellCategory.CONTINUOUS)) {
+            SpellCastingHandler.endContinuousCast(player, stack, spell, spellLevel);
+        }
+        if (!level.isClientSide()) {
+            closeBook(player, stack);
+            player.getCooldowns().addCooldown(this, 30);
+        }
+    }
+
+
+    @Override
+    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slot, boolean isSelected) {
+        if (!isSelected && entity instanceof Player player)
+            tryCloseBook(player, stack);
+    }
+
+
+    @Override
+    public boolean onDroppedByPlayer(ItemStack stack, Player player) {
+        tryCloseBook(player, stack);
+        return super.onDroppedByPlayer(stack, player);
+    }
+
+    public void closeBook(Player player, ItemStack stack) {
+        Level level = player.level();
+        SpellStorage.SpellEntry spellEntry = SpellStorage.getCurrentSpellEntry(stack);
+        if (spellEntry != null) {
+            spellEntry.spell().onEndCast(player, stack, IBrutalitySpell.getActualSpellLevel(player, spellEntry.spell(), spellEntry.level()));
+        }
+        if (!level.isClientSide()) {
+            stack.getOrCreateTag().putBoolean("closed", true);
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), BrutalityModSounds.TOME_CLOSE.get(), SoundSource.PLAYERS, 1, 1);
+            stopTriggeredAnim(player, GeoItem.getOrAssignId(stack, (ServerLevel) level), "main_controller", "cast_channelling");
+            stopTriggeredAnim(player, GeoItem.getOrAssignId(stack, (ServerLevel) level), "main_controller", "cast_continuous");
+            triggerAnim(player, GeoItem.getOrAssignId(stack, (ServerLevel) level), "book_controller", "close");
+        }
+    }
+
+    public void tryCloseBook(Player player, ItemStack stack) {
+        if (!stack.getOrCreateTag().getBoolean("closed")) {
+            closeBook(player, stack);
+        }
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -213,35 +220,36 @@ public class BaseMagicTome extends BrutalityGenericItem {
                 IBrutalitySpell spell = entry.spell();
                 String spellName = spell.getSpellName();
 
+                int actualSpellLevel = IBrutalitySpell.getActualSpellLevel(mc.player, spell, entry.level());
 
-                AttributeInstance manaCostAttr = mc.player.getAttribute(ModAttributes.MANA_COST.get());
-                AttributeInstance spellCdAttr = mc.player.getAttribute(ModAttributes.SPELL_COOLDOWN_REDUCTION.get());
-                AttributeInstance castTimeAttr = mc.player.getAttribute(ModAttributes.CAST_TIME_REDUCTION.get());
-                float manaCostReduction = manaCostAttr != null ? (float) manaCostAttr.getValue() : 0F;
-                float spellCdReduction = 1 - (spellCdAttr != null ? (float) spellCdAttr.getValue() : 0F);
-                float castTimeReduction = 1 - (castTimeAttr != null ? (float) castTimeAttr.getValue() : 0F);
+                float manaCostReduction = (float) mc.player.getAttributeValue(ModAttributes.MANA_COST.get());
+                float spellDamageMultiplier = (float) mc.player.getAttributeValue(ModAttributes.SPELL_DAMAGE.get());
+                float spellCdReduction = 2 - (float) mc.player.getAttributeValue(ModAttributes.SPELL_COOLDOWN_REDUCTION.get());
+                float castTimeReduction = 2 - (float) mc.player.getAttributeValue(ModAttributes.CAST_TIME_REDUCTION.get());
+                castTimeReduction += SpellUtils.getCurioCastTimeMultiplier(mc.player, spell, actualSpellLevel) - 1;
+                spellCdReduction += SpellUtils.getCurioCooldownMultiplier(mc.player, spell, actualSpellLevel) - 1;
+                spellDamageMultiplier += SpellUtils.getCurioDamageMultiplier(mc.player, spell, actualSpellLevel) - 1;
 
+                boolean showDamageMulti = spellDamageMultiplier != 1F;
                 boolean showManaReduct = manaCostReduction != 1F;
                 boolean showCDReduct = spellCdReduction != 1F;
                 boolean showCastReduct = castTimeReduction != 1F;
 
                 // Constants for consistent formatting
                 MutableComponent divider = Component.literal(" | ").withStyle(ChatFormatting.DARK_GRAY);
-                int actualSpellLevel = IBrutalitySpell.getActualSpellLevel(mc.player, spell, entry.level());
                 float manaCost = IBrutalitySpell.getActualManaCost(mc.player, spell, actualSpellLevel);
-                int castTime = IBrutalitySpell.getActualCastTime(mc.player, spell, actualSpellLevel);
+                float castTime = IBrutalitySpell.getActualCastTime(mc.player, spell, actualSpellLevel);
                 castTime /= 20;
                 float spellCooldown = IBrutalitySpell.getActualCooldown(mc.player, spell, actualSpellLevel);
                 spellCooldown /= 20;
+                float finalDamage = spell.getFinalDamage(mc.player, actualSpellLevel);
 
                 int bonusLevel = actualSpellLevel - entry.level();
                 // Spell name and actualSpellLevel
 
                 MutableComponent spellType = Component.literal(" §8|§r ");
 
-                spell.getCategories().forEach(category -> {
-                    spellType.append(category.icon + " ");
-                });
+                spell.getCategories().forEach(category -> spellType.append(category.icon + " "));
 
                 tooltip.add(Component.translatable("spell." + Brutality.MOD_ID + "." + spellName).append(" §8|§r " + entry.level() +
                         (bonusLevel > 0 ? " + §l" + bonusLevel : "")).append(spellType));
@@ -250,26 +258,26 @@ public class BaseMagicTome extends BrutalityGenericItem {
                     tooltip.add(Component.translatable("spell." + Brutality.MOD_ID + "." + spellName + ".description." + i));
                 }
 
-                if (spell.getBaseDamage() > 0) {
+                if (finalDamage > 0) {
                     String damageOperator = spell.getDamageLevelScaling() > 0 ? " + " : " - ";
-                    tooltip.add(Component.literal("\uD83D\uDDE1 §8|§6 " + spell.getBaseDamage() + "§r ❤§6" + damageOperator + "(" +
-                            Mth.abs(spell.getDamageLevelScaling()) + "§r ❤§6 * level) = §2" + spell.getFinalDamage(mc.player, actualSpellLevel) + "§r ❤"));
+                    tooltip.add(Component.literal("\uD83D\uDDE1 §8|§6 " + (showDamageMulti ? "(" : "") + spell.getBaseDamage() + "§r ❤§6" + damageOperator + "(" +
+                            Mth.abs(spell.getDamageLevelScaling()) + "§r ❤§6 * level)" + (showDamageMulti ? ") * " + String.format("%.2f", spellDamageMultiplier) : "") + " = §2" + finalDamage + "§r ❤"));
 
                 }
                 if (castTime > 0) {
                     String castTimeOperator = spell.getCastTimeLevelScaling() > 0 ? " + " : " - ";
                     tooltip.add(Component.literal("\uD83E\uDE84 §8|§6 " + (showCastReduct ? "(" : "") + spell.getBaseCastTime() / 20 + "s" + castTimeOperator + "(" +
-                            Mth.abs(((float) spell.getCastTimeLevelScaling()) / 20) + "s * level)" + (showCastReduct ? ") * " + castTimeReduction : "") + " = §2" + castTime + "s"));
+                            Mth.abs(((float) spell.getCastTimeLevelScaling()) / 20) + "s * level)" + (showCastReduct ? ") * " + String.format("%.2f", castTimeReduction) : "") + " = §2" + castTime + "s"));
                 }
                 // Mana cost line
                 String manaOperator = spell.getManaCostLevelScaling() > 0 ? " + " : " - ";
                 tooltip.add(Component.literal("\uD83D\uDCA7 §8|§6 " + (showManaReduct ? "(" : "") + spell.getBaseManaCost() + "§r \uD83D\uDCA7§6" + manaOperator + "(" +
-                        Mth.abs(spell.getManaCostLevelScaling()) + "§r \uD83D\uDCA7§6 * level)" + (showManaReduct ? ") * " + manaCostReduction : "") + " = §2" + manaCost + "§r \uD83D\uDCA7"));
+                        Mth.abs(spell.getManaCostLevelScaling()) + "§r \uD83D\uDCA7§6 * level)" + (showManaReduct ? ") * " + String.format("%.2f", manaCostReduction) : "") + " = §2" + manaCost + "§r \uD83D\uDCA7"));
 
                 // Cooldown line
                 String cdOperator = spell.getCooldownLevelScaling() > 0 ? " + " : " - ";
                 tooltip.add(Component.literal("⌛ §8|§6 " + (showCDReduct ? "(" : "") + spell.getBaseCooldown() / 20 + "s" + cdOperator + "(" +
-                        Mth.abs(((float) spell.getCooldownLevelScaling()) / 20) + "s * level)" + (showCDReduct ? ") * " + spellCdReduction : "") + " = §2" + spellCooldown + "s"));
+                        Mth.abs(((float) spell.getCooldownLevelScaling()) / 20) + "s * level)" + (showCDReduct ? ") * " + String.format("%.2f", spellCdReduction) : "") + " = §2" + spellCooldown + "s"));
 
 
                 if (spell.getStatComponents() != null)
@@ -300,27 +308,29 @@ public class BaseMagicTome extends BrutalityGenericItem {
             if (entry == null) return;
             IBrutalitySpell spell = entry.spell();
             String spellName = spell.getSpellName();
+            int actualSpellLevel = IBrutalitySpell.getActualSpellLevel(mc.player, spell, entry.level());
 
+            float manaCostReduction = (float) mc.player.getAttributeValue(ModAttributes.MANA_COST.get());
+            float spellDamageMultiplier = (float) mc.player.getAttributeValue(ModAttributes.SPELL_DAMAGE.get());
+            float spellCdReduction = 2 - (float) mc.player.getAttributeValue(ModAttributes.SPELL_COOLDOWN_REDUCTION.get());
+            float castTimeReduction = 2 - (float) mc.player.getAttributeValue(ModAttributes.CAST_TIME_REDUCTION.get());
+            spellCdReduction += SpellUtils.getCurioCooldownMultiplier(mc.player, spell, actualSpellLevel) - 1;
+            castTimeReduction += SpellUtils.getCurioCastTimeMultiplier(mc.player, spell, actualSpellLevel) - 1;
+            spellDamageMultiplier += SpellUtils.getCurioDamageMultiplier(mc.player, spell, actualSpellLevel) - 1;
 
-            AttributeInstance manaCostAttr = mc.player.getAttribute(ModAttributes.MANA_COST.get());
-            AttributeInstance spellCdAttr = mc.player.getAttribute(ModAttributes.SPELL_COOLDOWN_REDUCTION.get());
-            AttributeInstance castTimeAttr = mc.player.getAttribute(ModAttributes.CAST_TIME_REDUCTION.get());
-            float manaCostReduction = manaCostAttr != null ? (float) manaCostAttr.getValue() : 0F;
-            float spellCdReduction = 1 - (spellCdAttr != null ? (float) spellCdAttr.getValue() : 0F);
-            float castTimeReduction = 1 - (castTimeAttr != null ? (float) castTimeAttr.getValue() : 0F);
-
+            boolean showDamageMulti = spellDamageMultiplier != 1F;
             boolean showManaReduct = manaCostReduction != 1F;
             boolean showCDReduct = spellCdReduction != 1F;
             boolean showCastReduct = castTimeReduction != 1F;
 
             // Constants for consistent formatting
             MutableComponent divider = Component.literal(" | ").withStyle(ChatFormatting.DARK_GRAY);
-            int actualSpellLevel = IBrutalitySpell.getActualSpellLevel(mc.player, spell, entry.level());
             float manaCost = IBrutalitySpell.getActualManaCost(mc.player, spell, actualSpellLevel);
-            int castTime = IBrutalitySpell.getActualCastTime(mc.player, spell, actualSpellLevel);
+            float castTime = IBrutalitySpell.getActualCastTime(mc.player, spell, actualSpellLevel);
             castTime /= 20;
             float spellCooldown = IBrutalitySpell.getActualCooldown(mc.player, spell, actualSpellLevel);
             spellCooldown /= 20;
+            float finalDamage = spell.getFinalDamage(mc.player, actualSpellLevel);
 
             int bonusLevel = actualSpellLevel - entry.level();
             // Spell name and actualSpellLevel
@@ -338,27 +348,26 @@ public class BaseMagicTome extends BrutalityGenericItem {
                 tooltip.add(Component.translatable("spell." + Brutality.MOD_ID + "." + spellName + ".description." + i));
             }
 
-            if (spell.getBaseDamage() > 0) {
+            if (finalDamage > 0) {
                 String damageOperator = spell.getDamageLevelScaling() > 0 ? " + " : " - ";
-                tooltip.add(Component.literal("\uD83D\uDDE1 §8|§6 " + spell.getBaseDamage() + "§r ❤§6" + damageOperator + "(" +
-                        Mth.abs(spell.getDamageLevelScaling()) + "§r ❤§6 * level) = §2" + spell.getFinalDamage(mc.player, actualSpellLevel) + "§r ❤"));
+                tooltip.add(Component.literal("\uD83D\uDDE1 §8|§6 " + (showDamageMulti ? "(" : "") + spell.getBaseDamage() + "§r ❤§6" + damageOperator + "(" +
+                        Mth.abs(spell.getDamageLevelScaling()) + "§r ❤§6 * level)" + (showDamageMulti ? ") * " + String.format("%.2f", spellDamageMultiplier) : "") + " = §2" + finalDamage + "§r ❤"));
 
             }
             if (castTime > 0) {
                 String castTimeOperator = spell.getCastTimeLevelScaling() > 0 ? " + " : " - ";
                 tooltip.add(Component.literal("\uD83E\uDE84 §8|§6 " + (showCastReduct ? "(" : "") + spell.getBaseCastTime() / 20 + "s" + castTimeOperator + "(" +
-                        Mth.abs(((float) spell.getCastTimeLevelScaling()) / 20) + "s * level)" + (showCastReduct ? ") * " + castTimeReduction : "") + " = §2" + castTime + "s"));
+                        Mth.abs(((float) spell.getCastTimeLevelScaling()) / 20) + "s * level)" + (showCastReduct ? ") * " + String.format("%.2f", castTimeReduction) : "") + " = §2" + castTime + "s"));
             }
             // Mana cost line
             String manaOperator = spell.getManaCostLevelScaling() > 0 ? " + " : " - ";
             tooltip.add(Component.literal("\uD83D\uDCA7 §8|§6 " + (showManaReduct ? "(" : "") + spell.getBaseManaCost() + "§r \uD83D\uDCA7§6" + manaOperator + "(" +
-                    Mth.abs(spell.getManaCostLevelScaling()) + "§r \uD83D\uDCA7§6 * level)" + (showManaReduct ? ") * " + manaCostReduction : "") + " = §2" + manaCost + "§r \uD83D\uDCA7"));
+                    Mth.abs(spell.getManaCostLevelScaling()) + "§r \uD83D\uDCA7§6 * level)" + (showManaReduct ? ") * " + String.format("%.2f", manaCostReduction) : "") + " = §2" + manaCost + "§r \uD83D\uDCA7"));
 
             // Cooldown line
             String cdOperator = spell.getCooldownLevelScaling() > 0 ? " + " : " - ";
-            tooltip.add(Component.literal("⌛ §8|§6 " + (showCDReduct ? "(" : "") + spell.getBaseCooldown() / 20 + "s" + cdOperator + "(" +
-                    Mth.abs(((float) spell.getCooldownLevelScaling()) / 20) + "s * level)" + (showCDReduct ? ") * " + spellCdReduction : "") + " = §2" + spellCooldown + "s"));
-
+            tooltip.add(Component.literal("\u231b §8|§6 " + (showCDReduct ? "(" : "") + spell.getBaseCooldown() / 20 + "s" + cdOperator + "(" +
+                    Mth.abs(((float) spell.getCooldownLevelScaling()) / 20) + "s * level)" + (showCDReduct ? ") * " + String.format("%.2f", spellCdReduction) : "") + " = §2" + spellCooldown + "s"));
 
 
             if (spell.getStatComponents() != null)
@@ -382,6 +391,7 @@ public class BaseMagicTome extends BrutalityGenericItem {
 
             tooltip.add(Component.empty());
 
+
             tooltip.add(Component.literal("§8Spell " + (spells.indexOf(entry) + 1) + "/" + spells.size()));
             tooltip.add(Component.literal("§8Press ")
                     .append(mc.options.keyShift.getKey().getDisplayName()).withStyle(ChatFormatting.GRAY)
@@ -399,7 +409,7 @@ public class BaseMagicTome extends BrutalityGenericItem {
         return input;
     }
 
-    private static @NotNull MutableComponent getMutableComponent(Player player, SpellStorage.SpellEntry entry, BrutalityTooltipHelper.SpellStatComponent component) {
+    private static @NotNull MutableComponent getMutableComponent(Player player, SpellStorage.SpellEntry entry, net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponent component) {
         BrutalityTooltipHelper.SpellStatComponents type = component.type();
         String operand = component.levelDelta() > 0 ? " + " : " - ";
         float base = computeUnit(component.base(), type);
@@ -425,26 +435,14 @@ public class BaseMagicTome extends BrutalityGenericItem {
                 (shouldReset ? "§r" : "") + type.unit);
     }
 
-    @Override
-    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-        return false;
-    }
-
-    public void closeBook(Player player, ItemStack stack, Level level) {
-        closeBook(player.getBlockX(), player.getBlockY(), player.getBlockZ(), player, stack, level);
-    }
-
-    public void closeBook(float x, float y, float z, Player player, ItemStack stack, Level level) {
-        if (level instanceof ServerLevel serverLevel) {
-            stopTriggeredAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "main_controller", "cast_channelling");
-            triggerAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "book_controller", "close");
-            serverLevel.playSound(null, x, y, z, BrutalityModSounds.TOME_CLOSE.get(), SoundSource.PLAYERS, 1, 1);
-        }
-    }
 
     @Override
-    public boolean onDroppedByPlayer(ItemStack item, Player player) {
-        closeBook(player, item, player.level());
-        return super.onDroppedByPlayer(item, player);
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "main_controller", state -> PlayState.STOP)
+                .triggerableAnim("cast_instant", RawAnimation.begin().thenPlay("cast_instant"))
+                .triggerableAnim("cast_channelling", RawAnimation.begin().thenPlayAndHold("cast_channelling"))
+                .triggerableAnim("cast_continuous", RawAnimation.begin().thenPlayAndHold("cast_continuous")));
+        controllers.add(new AnimationController<>(this, "book_controller", state -> PlayState.STOP)
+                .triggerableAnim("close", RawAnimation.begin().thenPlayAndHold("close")));
     }
 }

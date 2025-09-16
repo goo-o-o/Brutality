@@ -21,11 +21,11 @@ public class CosmicCataclysmSpell extends BrutalitySpell {
 
     public CosmicCataclysmSpell() {
         super(MagicSchool.COSMIC,
-                List.of(SpellCategory.CHANNELING, SpellCategory.AOE),
+                List.of(SpellCategory.CHANNELLING, SpellCategory.AOE),
                 "cosmic_cataclysm",
                 100, 10, 100, 20, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 15, 5, 0, 100),
-                        new BrutalityTooltipHelper.SpellStatComponent(SIZE, 3, 1, 3, 50)
+                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 15, 5, 0F, 100F),
+                        new BrutalityTooltipHelper.SpellStatComponent(SIZE, 3, 1, 3F, 50F)
                 ));
     }
 
@@ -35,7 +35,7 @@ public class CosmicCataclysmSpell extends BrutalitySpell {
     }
 
     @Override
-    public int getManaCostLevelScaling() {
+    public float getManaCostLevelScaling() {
         return 5;
     }
 
@@ -51,7 +51,7 @@ public class CosmicCataclysmSpell extends BrutalitySpell {
 
 
     @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
         if (player.level() instanceof ServerLevel serverLevel) {
             BlockPos blockPos = ModUtils.getBlockLookingAt(player, false, getFinalStat(spellLevel, getStat(RANGE)));
             if (blockPos == null) return false;

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/anklet/blood_clot_anklet/blood_clot_anklet_inventory"
+  }
+}

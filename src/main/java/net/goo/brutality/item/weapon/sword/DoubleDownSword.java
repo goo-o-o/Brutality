@@ -76,7 +76,7 @@ public class DoubleDownSword extends BrutalitySwordItem {
 
         List<SwordData> swordData = getSortedSwordData();
         if (swordData.isEmpty()) {
-            return Map.of(BrutalityModItems.DOUBLE_DOWN_SWORD.get(), 100.0);
+            return Map.of(BrutalityModItems.DOUBLE_DOWN.get(), 100.0);
         }
 
         double[] baseWeights = swordData.stream()

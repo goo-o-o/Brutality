@@ -34,7 +34,7 @@ public class StyrofoamCupItem extends BrutalityGenericItem {
     protected String[] types = new String[]{"", "_water"};
 
     @Override
-    public String texture(ItemStack stack) {
+    public String texture(@javax.annotation.Nullable ItemStack stack) {
         return "styrofoam_cup" + types[ModUtils.getTextureIdx(stack)];
     }
 

@@ -23,7 +23,6 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -235,18 +234,18 @@ public class FirstExplosionStaff extends BrutalityGenericItem {
         );
     }
 
-    @SubscribeEvent
-    public static void onOwnerDamaged(LivingHurtEvent event) {
-        LivingEntity entity = event.getEntity();
-        if (entity instanceof Player player) {
-            if (!player.level().isClientSide() && player.getUseItem().getItem() instanceof FirstExplosionStaff) {
-                if (player.isUsingItem()) {
-                    ItemStack pStack = player.getUseItem();
-                    player.getCooldowns().addCooldown(pStack.getItem(), 200);
-                    player.getUseItem().getOrCreateTag().putBoolean(SUCCESSFUL, false);
-                    player.stopUsingItem();
-                }
-            }
-        }
-    }
+//    @SubscribeEvent
+//    public static void onOwnerDamaged(LivingHurtEvent event) {
+//        LivingEntity entity = event.getEntity();
+//        if (entity instanceof Player player) {
+//            if (!player.level().isClientSide() && player.getUseItem().getItem() instanceof FirstExplosionStaff) {
+//                if (player.isUsingItem()) {
+//                    ItemStack pStack = player.getUseItem();
+//                    player.getCooldowns().addCooldown(pStack.getItem(), 200);
+//                    player.getUseItem().getOrCreateTag().putBoolean(SUCCESSFUL, false);
+//                    player.stopUsingItem();
+//                }
+//            }
+//        }
+//    }
 }

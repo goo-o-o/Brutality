@@ -28,21 +28,17 @@ public class LightBindingSpell extends BrutalitySpell {
                 List.of(INSTANT, TARGET, DEBUFF),
                 "light_binding",
                 40, 0, 200, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 10, 4, 0, 40),
-                        new BrutalityTooltipHelper.SpellStatComponent(DURATION, 20, 10, 0, 100)
+                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 10, 4, 0F, 40F),
+                        new BrutalityTooltipHelper.SpellStatComponent(DURATION, 20, 10, 0F, 100F)
                 ));
     }
 
 
     @Override
-    public int getManaCostLevelScaling() {
+    public float getManaCostLevelScaling() {
         return 10;
     }
 
-    @Override
-    public int getCooldownLevelScaling() {
-        return 0;
-    }
 
     @Override
     public float getDamageLevelScaling() {
@@ -50,7 +46,7 @@ public class LightBindingSpell extends BrutalitySpell {
     }
 
     @Override
-    public boolean onCast(Player player, ItemStack stack, int spellLevel) {
+    public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
         BrutalityTooltipHelper.SpellStatComponent range = getStat(RANGE);
         BrutalityTooltipHelper.SpellStatComponent duration = getStat(DURATION);
 

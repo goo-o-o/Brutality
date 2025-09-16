@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/charm/evil_king_respawn_card/evil_king_respawn_card_inventory"
+  }
+}

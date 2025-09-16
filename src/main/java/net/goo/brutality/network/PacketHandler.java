@@ -11,7 +11,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 public class PacketHandler {
     private static final String PROTOCOL_VERSION = "1";
     private static final SimpleChannel NETWORK_CHANNEL = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation(Brutality.MOD_ID, "main_channel"),
+            ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "main_channel"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals
@@ -19,19 +19,22 @@ public class PacketHandler {
     public static int id = 0;
 
     public static void register() {
-        NETWORK_CHANNEL.registerMessage(id++, c2sTriggerAnimPacket.class, c2sTriggerAnimPacket::encode, c2sTriggerAnimPacket::new, c2sTriggerAnimPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundTriggerAnimationPacket.class, ServerboundTriggerAnimationPacket::encode, ServerboundTriggerAnimationPacket::new, ServerboundTriggerAnimationPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundShootProjectilePacket.class, ServerboundShootProjectilePacket::encode, ServerboundShootProjectilePacket::new, ServerboundShootProjectilePacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundChangeNBTPacket.class, ServerboundChangeNBTPacket::encode, ServerboundChangeNBTPacket::new, ServerboundChangeNBTPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundDamageEntityPacket.class, ServerboundDamageEntityPacket::encode, ServerboundDamageEntityPacket::new, ServerboundDamageEntityPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundParticlePacket.class, ServerboundParticlePacket::encode, ServerboundParticlePacket::new, ServerboundParticlePacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundActivateRagePacket.class, ServerboundActivateRagePacket::encode, ServerboundActivateRagePacket::new, ServerboundActivateRagePacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundChangeSpellPacket.class, ServerboundChangeSpellPacket::encode, ServerboundChangeSpellPacket::new, ServerboundChangeSpellPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundActiveAbilityPressPacket.class, ServerboundActiveAbilityPressPacket::encode, ServerboundActiveAbilityPressPacket::new, ServerboundActiveAbilityPressPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundExactParticlePacket.class, ClientboundExactParticlePacket::encode, ClientboundExactParticlePacket::new, ClientboundExactParticlePacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, c2sShootProjectilePacket.class, c2sShootProjectilePacket::encode, c2sShootProjectilePacket::new, c2sShootProjectilePacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, c2sChangeNBTPacket.class, c2sChangeNBTPacket::encode, c2sChangeNBTPacket::new, c2sChangeNBTPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, s2cEnvironmentColorManagerPacket.class, s2cEnvironmentColorManagerPacket::encode, s2cEnvironmentColorManagerPacket::new, s2cEnvironmentColorManagerPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, c2sDamageEntityPacket.class, c2sDamageEntityPacket::encode, c2sDamageEntityPacket::new, c2sDamageEntityPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, c2sParticlePacket.class, c2sParticlePacket::encode, c2sParticlePacket::new, c2sParticlePacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, s2cSyncCapabilitiesPacket.class, s2cSyncCapabilitiesPacket::encode, s2cSyncCapabilitiesPacket::new, s2cSyncCapabilitiesPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, c2sActivateRagePacket.class, c2sActivateRagePacket::encode, c2sActivateRagePacket::new, c2sActivateRagePacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, s2cSyncTickPacket.class, s2cSyncTickPacket::encode, s2cSyncTickPacket::new, s2cSyncTickPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, c2sChangeSpellPacket.class, c2sChangeSpellPacket::encode, c2sChangeSpellPacket::new, c2sChangeSpellPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, s2cSyncCooldownPacket.class, s2cSyncCooldownPacket::encode, s2cSyncCooldownPacket::new, s2cSyncCooldownPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncCapabilitiesPacket.class, ClientboundSyncCapabilitiesPacket::encode, ClientboundSyncCapabilitiesPacket::new, ClientboundSyncCapabilitiesPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundEnvironmentColorManagerPacket.class, ClientboundEnvironmentColorManagerPacket::encode, ClientboundEnvironmentColorManagerPacket::new, ClientboundEnvironmentColorManagerPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncTickPacket.class, ClientboundSyncTickPacket::encode, ClientboundSyncTickPacket::new, ClientboundSyncTickPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncCooldownPacket.class, ClientboundSyncCooldownPacket::write, ClientboundSyncCooldownPacket::new, ClientboundSyncCooldownPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundParticlePacket.class, ClientboundParticlePacket::write, ClientboundParticlePacket::new, ClientboundParticlePacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundDodgePacket.class, ClientboundDodgePacket::write, ClientboundDodgePacket::new, ClientboundDodgePacket::handle);
+
     }
 
     public static void sendToServer(Object msg) {

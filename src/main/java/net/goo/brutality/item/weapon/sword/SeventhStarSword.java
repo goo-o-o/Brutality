@@ -4,8 +4,8 @@ import net.goo.brutality.config.BrutalityCommonConfig;
 import net.goo.brutality.entity.projectile.generic.StarEntity;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.c2sShootProjectilePacket;
-import net.goo.brutality.network.s2cSyncCapabilitiesPacket;
+import net.goo.brutality.network.ServerboundShootProjectilePacket;
+import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -65,7 +65,7 @@ public class SeventhStarSword extends BrutalitySwordItem {
 
                         cap.clearStarCount(uuid);
                         if (!pLevel.isClientSide())
-                            PacketHandler.sendToAllClients(new s2cSyncCapabilitiesPacket(entity.getId(), entity));
+                            PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(entity.getId(), entity));
                     }
                 });
 
@@ -99,7 +99,7 @@ public class SeventhStarSword extends BrutalitySwordItem {
         Level level = player.level();
         if (level.isClientSide()) {
             for (int i = -15; i <= 15; i += 15)
-                PacketHandler.sendToServer(new c2sShootProjectilePacket(BrutalityModEntities.STAR_ENTITY.getId(), 2.5F, false, 0F, i));
+                PacketHandler.sendToServer(new ServerboundShootProjectilePacket(BrutalityModEntities.STAR_ENTITY.getId(), 2.5F, false, 0F, i));
         } else {
             for (int i = -15; i <= 15; i += 15)
                 ProjectileHelper.shootProjectile(() ->

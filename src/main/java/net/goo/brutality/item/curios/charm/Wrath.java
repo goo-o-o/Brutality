@@ -9,7 +9,6 @@ import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import top.theillusivec4.curios.api.SlotContext;
@@ -55,19 +54,17 @@ public class Wrath extends BrutalityCurioItem {
 
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            AttributeInstance maxRage = player.getAttribute(ModAttributes.MAX_RAGE.get());
-            if (maxRage != null) {
-                maxRage.removeModifier(WRATH_RAGE_UUID);
-            }
-            AttributeInstance rageTime = player.getAttribute(ModAttributes.RAGE_TIME_MULTIPLIER.get());
-            if (rageTime != null) {
-                rageTime.removeModifier(WRATH_RAGE_TIME_UUID);
-            }
-            AttributeInstance rageGain = player.getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
-            if (rageGain != null) {
-                rageGain.removeModifier(WRATH_RAGE_GAIN_UUID);
-            }
+        AttributeInstance maxRage = slotContext.entity().getAttribute(ModAttributes.MAX_RAGE.get());
+        if (maxRage != null) {
+            maxRage.removeModifier(WRATH_RAGE_UUID);
+        }
+        AttributeInstance rageTime = slotContext.entity().getAttribute(ModAttributes.RAGE_TIME_MULTIPLIER.get());
+        if (rageTime != null) {
+            rageTime.removeModifier(WRATH_RAGE_TIME_UUID);
+        }
+        AttributeInstance rageGain = slotContext.entity().getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
+        if (rageGain != null) {
+            rageGain.removeModifier(WRATH_RAGE_GAIN_UUID);
         }
     }
 

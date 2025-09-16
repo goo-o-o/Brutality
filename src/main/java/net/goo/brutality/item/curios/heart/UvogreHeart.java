@@ -23,8 +23,10 @@ public class UvogreHeart extends BrutalityCurioItem {
         super.curioTick(slotContext, stack);
         LivingEntity entity = slotContext.entity();
 
-        if (entity.getHealth() < entity.getMaxHealth() / 4 && !entity.level().isClientSide()) {
-            entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 3, 3));
+        if (entity.tickCount % 10 == 0 && !entity.level().isClientSide()) {
+            if (entity.getHealth() < entity.getMaxHealth() / 4) {
+                entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 11, 3));
+            }
         }
     }
 

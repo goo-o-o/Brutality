@@ -147,7 +147,7 @@ public class SwordBeam extends ThrowableProjectile implements BrutalityGeoEntity
     @Override
     public void tick() {
         Entity entity = this.getOwner();
-        if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
+        if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunk(this.blockPosition().getX(), this.blockPosition().getZ())) {
             HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
 
             if (hitresult.getType() != HitResult.Type.MISS && !ForgeEventFactory.onProjectileImpact(this, hitresult)) {

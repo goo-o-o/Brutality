@@ -21,14 +21,11 @@ public class SpellCommands {
         dispatcher.register(
                 Commands.literal("spell")
                         .then(Commands.literal("add")
-                                .requires(source -> source.hasPermission(2)) // Requires OP permission
+                                .requires(source -> source.hasPermission(2))
                                 .then(Commands.argument("spell_name", StringArgumentType.string())
                                         .suggests((context, builder) -> {
-                                            // Add spell name suggestions
                                             for (ResourceLocation spellId : SpellRegistry.SPELLS.keySet()) {
-                                                IBrutalitySpell spell = SpellRegistry.getSpell(spellId);
-
-                                                builder.suggest(spell.getSpellName());
+                                                builder.suggest(SpellRegistry.getSpell(spellId).getSpellName());
                                             }
                                             return builder.buildFuture();
                                         })
@@ -36,33 +33,24 @@ public class SpellCommands {
                                                 .executes(SpellCommands::addSpellToHeldItem)
                                         )
                                 )
-                        ));
-
-        dispatcher.register(
-                Commands.literal("spell")
+                        )
                         .then(Commands.literal("remove")
-                                .requires(source -> source.hasPermission(2)) // Requires OP permission
+                                .requires(source -> source.hasPermission(2))
                                 .then(Commands.argument("spell_name", StringArgumentType.string())
                                         .suggests((context, builder) -> {
-                                            // Add spell name suggestions
                                             for (ResourceLocation spellId : SpellRegistry.SPELLS.keySet()) {
-                                                IBrutalitySpell spell = SpellRegistry.getSpell(spellId);
-
-                                                builder.suggest(spell.getSpellName());
+                                                builder.suggest(SpellRegistry.getSpell(spellId).getSpellName());
                                             }
                                             return builder.buildFuture();
-                                        }).executes(SpellCommands::removeSpellFromHeldItem)
+                                        })
+                                        .executes(SpellCommands::removeSpellFromHeldItem)
                                 )
-                        ));
-
-        dispatcher.register(
-                Commands.literal("spell")
+                        )
                         .then(Commands.literal("cooldowns")
                                 .then(Commands.literal("reset")
-                                        .requires(source -> source.hasPermission(2)) // Requires OP permission
+                                        .requires(source -> source.hasPermission(2))
                                         .then(Commands.argument("player", EntityArgument.player())
                                                 .suggests((context, builder) -> {
-                                                    // Suggest online player names
                                                     for (ServerPlayer player : context.getSource().getServer().getPlayerList().getPlayers()) {
                                                         builder.suggest(player.getName().getString());
                                                     }
@@ -75,68 +63,59 @@ public class SpellCommands {
                                                     return 1;
                                                 })
                                         )
-                                )));
-    }
-
-    private static int removeSpellFromHeldItem(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-        String spellName = StringArgumentType.getString(context, "spell_name");
-
-        Player player = context.getSource().getPlayerOrException();
-        ItemStack heldItem = player.getMainHandItem();
-
-        if (!(heldItem.getItem() instanceof BaseMagicTome)) {
-            context.getSource().sendFailure(Component.literal("You must be holding a magic item in your main hand!"));
-            return 0;
-        }
-
-        ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, spellName.toLowerCase());
-        IBrutalitySpell spell = SpellRegistry.getSpell(spellId);
-
-        if (spell == null) {
-            context.getSource().sendFailure(Component.literal("Unknown spell: " + spellName));
-            return 0;
-        }
-
-        boolean success = SpellStorage.removeSpell(heldItem, spell);
-
-        if (success) {
-            context.getSource().sendSuccess(() -> Component.literal("Removed spell " + spellName + "from your held item"), true);
-            return 1;
-        } else {
-            context.getSource().sendFailure(Component.literal("Failed to remove spell from item"));
-            return 0;
-        }
+                                )
+                        )
+        );
     }
 
     private static int addSpellToHeldItem(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         String spellName = StringArgumentType.getString(context, "spell_name");
         int level = IntegerArgumentType.getInteger(context, "level");
-
         Player player = context.getSource().getPlayerOrException();
         ItemStack heldItem = player.getMainHandItem();
 
         if (!(heldItem.getItem() instanceof BaseMagicTome)) {
-            context.getSource().sendFailure(Component.literal("You must be holding a magic item in your main hand!"));
+            context.getSource().sendFailure(Component.literal("You must be holding a magic tome!"));
             return 0;
         }
 
         ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, spellName.toLowerCase());
         IBrutalitySpell spell = SpellRegistry.getSpell(spellId);
-
         if (spell == null) {
             context.getSource().sendFailure(Component.literal("Unknown spell: " + spellName));
             return 0;
         }
 
-        boolean success = SpellStorage.addSpell(heldItem, spell, level);
-
-        if (success) {
-            context.getSource().sendSuccess(() -> Component.literal("Added spell " + spellName + " at level " + level + " to your held item"), true);
+        if (SpellStorage.addSpell(heldItem, spell, level)) {
+            context.getSource().sendSuccess(() -> Component.literal("Added spell " + spellName + " at level " + level), true);
             return 1;
-        } else {
-            context.getSource().sendFailure(Component.literal("Failed to add spell to item"));
-            return 0;
         }
+        context.getSource().sendFailure(Component.literal("Failed to add spell"));
+        return 0;
     }
 
+    private static int removeSpellFromHeldItem(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        String spellName = StringArgumentType.getString(context, "spell_name");
+        Player player = context.getSource().getPlayerOrException();
+        ItemStack heldItem = player.getMainHandItem();
+
+        if (!(heldItem.getItem() instanceof BaseMagicTome)) {
+            context.getSource().sendFailure(Component.literal("You must be holding a magic tome!"));
+            return 0;
+        }
+
+        ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, spellName.toLowerCase());
+        IBrutalitySpell spell = SpellRegistry.getSpell(spellId);
+        if (spell == null) {
+            context.getSource().sendFailure(Component.literal("Unknown spell: " + spellName));
+            return 0;
+        }
+
+        if (SpellStorage.removeSpell(heldItem, spell)) {
+            context.getSource().sendSuccess(() -> Component.literal("Removed spell " + spellName), true);
+            return 1;
+        }
+        context.getSource().sendFailure(Component.literal("Failed to remove spell"));
+        return 0;
+    }
 }
