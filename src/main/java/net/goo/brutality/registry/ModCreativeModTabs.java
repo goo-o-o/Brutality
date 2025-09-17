@@ -158,6 +158,7 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.PHANTOM_FINGER.get());
                         output.accept(BrutalityModItems.SILVER_RESPAWN_CARD.get().getDefaultInstance());
                         output.accept(BrutalityModItems.DIAMOND_RESPAWN_CARD.get());
+                        output.accept(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get());
 
                         output.accept(BrutalityModItems.GREED_CHARM.get());
                         output.accept(BrutalityModItems.PRIDE_CHARM.get());

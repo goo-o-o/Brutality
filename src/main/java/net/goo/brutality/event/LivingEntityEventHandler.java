@@ -112,36 +112,31 @@ public class LivingEntityEventHandler {
         });
     }
 
+
     @SubscribeEvent
     public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
         Player player = event.getEntity();
 
         player.getCapability(BrutalityCapabilities.RESPAWN_CAP).ifPresent(cap -> {
             List<MobEffect> effects = List.of(MobEffects.SATURATION, MobEffects.MOVEMENT_SPEED, MobEffects.ABSORPTION, MobEffects.JUMP, MobEffects.DAMAGE_RESISTANCE, TerramityModMobEffects.IMMUNITY.get());
+            ItemCooldowns cooldowns = player.getCooldowns();
 
-            if (cap.getCardType() == EntityCapabilities.RespawnCap.CARD_TYPE.SILVER) {
-                for (int i = 0; i < 4; i++) {
-                    player.addEffect(new MobEffectInstance(effects.get(i), 20 * 30, 1));
-                }
-
-            } else if (cap.getCardType() == EntityCapabilities.RespawnCap.CARD_TYPE.DIAMOND) {
-                ItemCooldowns cooldowns = player.getCooldowns();
-                if (cooldowns.isOnCooldown(BrutalityModItems.DIAMOND_RESPAWN_CARD.get())) return;
-                cooldowns.addCooldown(BrutalityModItems.DIAMOND_RESPAWN_CARD.get(), 20 * 30 * 60);
-
-                for (int i = 0; i < 5; i++) {
-                    player.addEffect(new MobEffectInstance(effects.get(i), 20 * 120, 1));
-                }
-
-            } else if (cap.getCardType() == EntityCapabilities.RespawnCap.CARD_TYPE.EVIL_KING) {
-                ItemCooldowns cooldowns = player.getCooldowns();
-                if (cooldowns.isOnCooldown(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get())) return;
+            if (cap.getCardType() == EntityCapabilities.RespawnCap.CARD_TYPE.EVIL_KING && !cooldowns.isOnCooldown(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get())) {
                 cooldowns.addCooldown(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get(), 20 * 15 * 60);
 
                 for (int i = 0; i < 6; i++) {
                     player.addEffect(new MobEffectInstance(effects.get(i), 20 * 5 * 60, 1));
                 }
+            } else if (cap.getCardType() == EntityCapabilities.RespawnCap.CARD_TYPE.DIAMOND && !cooldowns.isOnCooldown(BrutalityModItems.DIAMOND_RESPAWN_CARD.get())) {
+                cooldowns.addCooldown(BrutalityModItems.DIAMOND_RESPAWN_CARD.get(), 20 * 30 * 60);
 
+                for (int i = 0; i < 5; i++) {
+                    player.addEffect(new MobEffectInstance(effects.get(i), 20 * 120, 1));
+                }
+            } else if (cap.getCardType() == EntityCapabilities.RespawnCap.CARD_TYPE.SILVER) {
+                for (int i = 0; i < 4; i++) {
+                    player.addEffect(new MobEffectInstance(effects.get(i), 20 * 30, 1));
+                }
             }
 
             if (cap.getCardType() != EntityCapabilities.RespawnCap.CARD_TYPE.NONE)
@@ -576,6 +571,23 @@ public class LivingEntityEventHandler {
                 SupernovaSword.clearAsteroids(victimPlayer, serverLevel);
                 CreaseOfCreationItem.handleCreaseOfCreation(victimPlayer);
             }
+
+            CuriosApi.getCuriosInventory(victimPlayer).ifPresent(handler -> {
+                victimPlayer.getCapability(BrutalityCapabilities.RESPAWN_CAP).ifPresent(cap -> {
+                    ItemCooldowns cooldowns = victimPlayer.getCooldowns();
+                    if (handler.isEquipped(BrutalityModItems.SILVER_RESPAWN_CARD.get()) && !cooldowns.isOnCooldown(BrutalityModItems.SILVER_RESPAWN_CARD.get())) {
+                        cap.setCardType(EntityCapabilities.RespawnCap.CARD_TYPE.SILVER);
+                    }
+                    if (handler.isEquipped(BrutalityModItems.DIAMOND_RESPAWN_CARD.get()) && !cooldowns.isOnCooldown(BrutalityModItems.DIAMOND_RESPAWN_CARD.get())) {
+                        cap.setCardType(EntityCapabilities.RespawnCap.CARD_TYPE.DIAMOND);
+                    }
+
+                    if (handler.isEquipped(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get()) && !cooldowns.isOnCooldown(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get())) {
+                        cap.setCardType(EntityCapabilities.RespawnCap.CARD_TYPE.EVIL_KING);
+                    }
+
+                });
+            });
 
             resetAllColors();
 

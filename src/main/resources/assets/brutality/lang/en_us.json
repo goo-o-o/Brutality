@@ -968,11 +968,12 @@
 
   "message.brutality.condition.on_ground": "§cOnly Castable when on the ground",
 
+  "message.brutality.last_death_location": "Last Death Location: ",
   "message.brutality.no_mana": "Insufficient Mana!",
   "message.brutality.on_cooldown": "Spell is on Cooldown! You may cast in ",
   "message.brutality.seconds": " seconds",
   "message.brutality.cast_failed": "Cast Failed!",
-  "message.brutality.second_cooldown" : "second cooldown",
+  "message.brutality.cooldown" : "cooldown",
 
   "key.brutality.rage_activate_key" : "Activate Rage",
   "key.brutality.current_keybind" : "Current Keybind",

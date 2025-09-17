@@ -25,22 +25,6 @@ public class SilverRespawnCard extends BrutalityCurioItem {
         return BrutalityCategories.CurioType.CHARM;
     }
 
-    @Override
-    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
-        if (slotContext.entity() != null) {
-            slotContext.entity().getCapability(BrutalityCapabilities.RESPAWN_CAP).ifPresent(cap ->
-                    cap.setCardType(EntityCapabilities.RespawnCap.CARD_TYPE.SILVER));
-        }
-    }
-
-    @Override
-    public void onUnequip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
-        if (slotContext.entity() != null) {
-            if (slotContext.entity().isDeadOrDying()) return;
-            slotContext.entity().getCapability(BrutalityCapabilities.RESPAWN_CAP).ifPresent(cap ->
-                    cap.setCardType(EntityCapabilities.RespawnCap.CARD_TYPE.NONE));
-        }
-    }
 
     @Override
     public @NotNull ItemStack getDefaultInstance() {

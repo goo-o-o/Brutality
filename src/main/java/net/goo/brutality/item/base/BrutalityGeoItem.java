@@ -100,23 +100,23 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
                     StringBuilder formatted = new StringBuilder();
                     boolean first = true;
                     if (hours > 0) {
-                        formatted.append(hours).append(hours == 1 ? " hour" : " hours");
+                        formatted.append(hours).append(" hour");
                         first = false;
                     }
                     if (minutes > 0) {
                         if (!first) formatted.append(" ");
-                        formatted.append(hours).append(minutes == 1 ? " minute" : " minutes");
+                        formatted.append(minutes).append(" minute");
                         first = false;
                     }
                     if (seconds > 0 || (hours == 0 && minutes == 0)) {
                         if (!first) formatted.append(" ");
-                        formatted.append(seconds).append(seconds == 1 ? " second" : " seconds");
+                        formatted.append(seconds).append(" second");
                     }
 
 
 
                     MutableComponent component = Component.literal(" -" + formatted + " ")
-                            .append(Component.translatable("message.brutality.second_cooldown"));
+                            .append(Component.translatable("message." + Brutality.MOD_ID + ".cooldown"));
 
                     pTooltipComponents.add(component.withStyle(ChatFormatting.DARK_AQUA));
                 }
