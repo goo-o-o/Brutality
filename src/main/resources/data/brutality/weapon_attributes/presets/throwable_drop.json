@@ -1,0 +1,23 @@
+{
+  "attributes": {
+    "attack_range": 1,
+    "category": "throwable_swing",
+    "attacks": [
+      {
+        "hitbox": "HORIZONTAL_PLANE",
+        "damage_multiplier": 0,
+        "angle": 120,
+        "upswing": 0.5,
+        "animation": "brutality:throw_drop"
+      },
+      {
+        "hitbox": "HORIZONTAL_PLANE",
+        "condition": "DUAL_WIELDING_SAME_CATEGORY",
+        "damage_multiplier": 0,
+        "angle": 120,
+        "upswing": 0.5,
+        "animation": "brutality:throw_drop"
+      }
+    ]
+  }
+}

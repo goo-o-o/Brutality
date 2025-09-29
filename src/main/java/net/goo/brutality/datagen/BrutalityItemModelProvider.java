@@ -214,16 +214,27 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
 
     private void generateHandheldOnlyModel(BrutalityGeoItem item) {
         String identifier = item.getRegistryName();
-        String folder = Objects.equals(item.category(), BrutalityCategories.ItemType.BLOCK) ? BrutalityCategories.ItemType.BLOCK.toString().toLowerCase() : "item";
         boolean isBlockItem = item instanceof BlockItem;
+        String folder = item.category() == BrutalityCategories.ItemType.BLOCK
+                ? BrutalityCategories.ItemType.BLOCK.toString().toLowerCase()
+                : "item";
         String category = isBlockItem ? "" : item.getCategoryAsString() + "/";
+        String texturePath = isBlockItem ? "" : identifier + "/";
+        String curioPath = item instanceof BrutalityCurioItem ? "curio/" : "";
 
-        withExistingParent(identifier, ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, folder + "/" + category + identifier +
-                "_handheld"))
-                .texture("layer0", ResourceLocation.fromNamespaceAndPath(
-                        Brutality.MOD_ID, folder + "/" +
-                                (item instanceof BrutalityCurioItem ? "curio/" : "") + category + (isBlockItem ? "" : identifier + "/") + identifier + (isBlockItem ? "" : "_handheld")
-                ));
+        withExistingParent(
+                identifier,
+                ResourceLocation.fromNamespaceAndPath(
+                        Brutality.MOD_ID,
+                        folder + "/" + category + identifier + "_handheld"
+                )
+        ).texture(
+                "layer0",
+                ResourceLocation.fromNamespaceAndPath(
+                        Brutality.MOD_ID,
+                        folder + "/" + curioPath + category + texturePath + identifier + (isBlockItem ? "" : "_handheld")
+                )
+        );
     }
 
 

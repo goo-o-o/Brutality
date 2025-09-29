@@ -67,14 +67,11 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
     }
 
     protected void tickDespawn() {
-        ++this.life;
         if (this.inGroundTime >= getInGroundLifespan()) {
             this.discard();
         }
-        if (this.life >= getLifespan()) {
-            this.discard();
-        }
     }
+
 
     protected int getLifespan() {
         return 1200;
@@ -84,9 +81,10 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
         return true;
     }
 
-    public SoundEvent getHitEntitySound() {
+    public SoundEvent getHitEntitySoundEvent() {
         return SoundEvents.ARROW_HIT;
     }
+
 
     @Override
     public void tick() {
@@ -104,6 +102,9 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
         // Entity.class start
         this.baseTick();
         // Entity.class end
+        if (this.tickCount >= getLifespan()) {
+            this.discard();
+        }
 
         // AbstractArrow.class start
         boolean noPhysics = this.isNoPhysics();
@@ -344,7 +345,7 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
                 }
             }
 
-            this.playSound(this.soundEvent, 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
+            this.playSound(getHitEntitySoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
             if (this.getPierceLevel() <= 0) {
                 this.discard();
             }
@@ -371,7 +372,20 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
 
     @Override
     protected void onHitBlock(BlockHitResult pResult) {
-        if (collideWithBlocks)
+        if (collideWithBlocks) {
+            this.lastState = this.level().getBlockState(pResult.getBlockPos());
             super.onHitBlock(pResult);
+            Vec3 vec3 = pResult.getLocation().subtract(this.getX(), this.getY(), this.getZ());
+            this.setDeltaMovement(vec3);
+            Vec3 vec31 = vec3.normalize().scale(0.05F);
+            this.setPosRaw(this.getX() - vec31.x, this.getY() - vec31.y, this.getZ() - vec31.z);
+            this.playSound(getHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
+            this.inGround = true;
+            this.shakeTime = 7;
+            this.setCritArrow(false);
+            this.setPierceLevel((byte) 0);
+            this.setShotFromCrossbow(false);
+            this.resetPiercedEntities();
+        }
     }
 }

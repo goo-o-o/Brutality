@@ -74,11 +74,11 @@ public class ChallengerDeepSword extends BrutalitySwordItem {
         if (player.getCooldowns().isOnCooldown(stack.getItem())) return;
         if (level.isClientSide()) {
             for (int i = 1; i <= 360; i += 30)
-                PacketHandler.sendToServer(new ServerboundShootProjectilePacket(BrutalityModEntities.DEPTH_CRUSHER_PROJECTILE.getId(), 0.5F, false, 0F, i));
+                PacketHandler.sendToServer(new ServerboundShootProjectilePacket(BrutalityModEntities.ABYSS_PROJECTILE.getId(), 0.5F, false, 0F, i));
         } else {
             for (int i = 1; i <= 360; i += 30) {
                 ProjectileHelper.shootProjectile(() ->
-                        new AbyssProjectile(BrutalityModEntities.DEPTH_CRUSHER_PROJECTILE.get(), level), player, level, 0.5F, false, 0F, i);
+                        new AbyssProjectile(BrutalityModEntities.ABYSS_PROJECTILE.get(), level), player, level, 0.5F, false, 0F, i);
             }
         }
         player.getCooldowns().addCooldown(stack.getItem(), 10);

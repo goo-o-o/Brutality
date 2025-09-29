@@ -6,10 +6,13 @@ import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.mcreator.terramity.init.TerramityModKeyMappings;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
@@ -20,6 +23,7 @@ public class DeckOfCards extends BrutalityCurioItem {
 
     public DeckOfCards(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
+
     }
 
     @Override

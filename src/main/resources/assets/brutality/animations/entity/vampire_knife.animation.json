@@ -1,0 +1,16 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"spin": {
+			"loop": true,
+			"bones": {
+				"vampire_knife": {
+					"rotation": {
+						"vector": [0, 0, "query.anim_time * query.anim_time * 720 * 2"]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

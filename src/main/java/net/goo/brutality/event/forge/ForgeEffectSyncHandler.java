@@ -4,12 +4,14 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
 import net.goo.brutality.registry.BrutalityCapabilities;
+import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -37,6 +39,14 @@ public class ForgeEffectSyncHandler {
         }
     }
 
+    @SubscribeEvent
+    public static void onTryAddEffect(MobEffectEvent.Applicable event) {
+        if (event.getEffectInstance().getEffect() == BrutalityModMobEffects.RADIATION.get()) {
+            if (event.getEntity().isHolding(BrutalityModItems.ATOMIC_JUDGEMENT_HAMMER.get())) {
+                event.setResult(Event.Result.DENY);
+            }
+        }
+    }
 
 
     @SubscribeEvent

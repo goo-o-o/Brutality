@@ -577,5 +577,61 @@
         "name": "brutality:light_switch"
       }
     ]
+  },
+  "emergency_meeting": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:emergency_meeting"
+      }
+    ]
+  },
+  "throw": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:throw"
+      }
+    ]
+  },
+  "crate_break_1": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:crate_break_1"
+      }
+    ]
+  },
+  "crate_break_2": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:crate_break_2"
+      }
+    ]
+  },
+  "crate_break_3": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:crate_break_3"
+      }
+    ]
+  },
+  "crate_break_4": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:crate_break_4"
+      }
+    ]
+  },
+  "zap": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:zap"
+      }
+    ]
   }
 }

@@ -18,6 +18,7 @@ public class BrutalityBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         blockWithItem(ModBlocks.WATER_COOLER_BLOCK);
         blockWithItem(ModBlocks.COFFEE_MACHINE_BLOCK);
+        blockWithItem(ModBlocks.SUPER_SNIFFER_FIGURE_BLOCK);
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {

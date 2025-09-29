@@ -41,7 +41,7 @@ public class BrutalitySpearItem extends AxeItem implements BrutalityGeoItem {
 
     @Override
     public BrutalityCategories.AttackType getAttackType() {
-        return BrutalityCategories.AttackType.STAB;
+        return BrutalityCategories.AttackType.PIERCE;
     }
 
     @Override

@@ -38,14 +38,29 @@ public class BrutalityModEntityRenderManager {
         event.registerEntityRenderer(BrutalityModEntities.THROWN_BANANA_ENTITY.get(), BrutalityAbstractPhysicsTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.THROWN_WINTERMELON_ENTITY.get(), BrutalityAbstractPhysicsTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.THROWN_STYROFOAM_CUP.get(), BrutalityAbstractPhysicsTridentRenderer::new);
-        event.registerEntityRenderer(BrutalityModEntities.THROWN_DEPTH_CRUSHER.get(), BrutalityAbstractPhysicsTridentRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.CINDER_BLOCK.get(), BrutalityAbstractPhysicsTridentRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.STICKY_BOMB.get(), BrutalityAbstractPhysicsTridentRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.BEACH_BALL.get(), BrutalityAbstractPhysicsTridentRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.BLAST_BARREL.get(), BrutalityAbstractPhysicsTridentRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.SCULK_GRENADE.get(), BrutalityAbstractPhysicsTridentRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.HOLY_HAND_GRENADE.get(), BrutalityAbstractPhysicsTridentRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.DYNAMITE.get(), BrutalityAbstractPhysicsTridentRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.STICKY_DYNAMITE.get(), BrutalityAbstractPhysicsTridentRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.BOUNCY_DYNAMITE.get(), BrutalityAbstractPhysicsTridentRenderer::new);
 
+        event.registerEntityRenderer(BrutalityModEntities.ICE_CUBE.get(), context -> new BrutalityAbstractPhysicsTridentRenderer<>(context,
+                renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer))));
+        event.registerEntityRenderer(BrutalityModEntities.PERMAFROST_CUBE.get(), context -> new BrutalityAbstractPhysicsTridentRenderer<>(context,
+                renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer))));
         event.registerEntityRenderer(BrutalityModEntities.THROWN_BIOMECH_REACTOR.get(), context -> new BrutalityAbstractPhysicsTridentRenderer<>(context,
                 renderer -> renderer.addRenderLayer(
                         new AutoGlowingGeoLayer<>(renderer)
                 )));
 
+        event.registerEntityRenderer(BrutalityModEntities.THROWN_DEPTH_CRUSHER.get(), BrutalityAbstractPhysicsProjectileRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.THROWN_KNIFE_ENTITY.get(), BrutalityTridentRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.FATE_CARD.get(), BrutalityTridentRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.VAMPIRE_KNIFE.get(), context -> new BrutalityTridentRenderer<>(context, renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightAlphaLayer<>(renderer))));
 
 
         event.registerEntityRenderer(BrutalityModEntities.STAR_ENTITY.get(), context -> new BrutalityShurikenRenderer<>(context,
@@ -55,7 +70,8 @@ public class BrutalityModEntityRenderManager {
                 renderer -> renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer))));
 
         event.registerEntityRenderer(BrutalityModEntities.PI_ENTITY.get(), BrutalityEntityRenderer::new);
-        event.registerEntityRenderer(BrutalityModEntities.DEPTH_CRUSHER_PROJECTILE.get(), BrutalityEntityRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.ABYSS_PROJECTILE.get(), BrutalityEntityRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.VAMPIRE_HEAL_PROJECTILE.get(), BrutalityEntityRenderer::new);
 
         event.registerEntityRenderer(BrutalityModEntities.TERRA_BEAM.get(), BrutalitySwordBeamRenderer::new);
 

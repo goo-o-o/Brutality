@@ -78,8 +78,7 @@ public class ResonancePickaxeItem extends BrutalityPickaxeItem implements GeoIte
     public BlockPos LookingAtBlock(Player player, boolean isFluid, float hitDistance){
         HitResult block =  player.pick(hitDistance, 1.0F, isFluid);
         if (block.getType() == HitResult.Type.BLOCK) {
-            BlockPos blockpos = ((BlockHitResult)block).getBlockPos();
-            return blockpos;
+            return ((BlockHitResult)block).getBlockPos();
         }
         return null;
     }

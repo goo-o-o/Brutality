@@ -15,6 +15,7 @@ public interface ModResources {
     ResourceLocation RARITY_FONT = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "gamer"); // Font used: Gamer https://www.dafont.com/gamer-2.font
 
     FX CREASE_OF_CREATION_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "crease_of_creation_particle"));
+    FX VAMPIRE_TRIAL_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "vampire_trail"));
     FX CELESTIAL_STARBOARD_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "celestial_starboard_trail"));
     FX LIGHTNING_STRIKE_BURST_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "lightning_strike_burst"));
     FX LIGHTNING_AURA_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "lightning_aura"));
@@ -24,14 +25,5 @@ public interface ModResources {
     FX RAINBOW_TRAIL_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "rainbow_trail"));
     FX ABYSS_TRAIL_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "abyss_trail"));
     FX RUINED_AURA_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "ruined_particle"));
-
-    enum EXPLOSION_TYPES {
-        DEFAULT,
-        NUCLEAR,
-        FIRE,
-        HOLY
-    }
-
-
 
 }

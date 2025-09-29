@@ -3,6 +3,8 @@ package net.goo.brutality.event;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.capabilities.EntityCapabilities;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
+import net.goo.brutality.event.forge.ForgePlayerStateHandler;
+import net.goo.brutality.item.BrutalityArmorMaterials;
 import net.goo.brutality.item.curios.charm.Sine;
 import net.goo.brutality.item.weapon.generic.CreaseOfCreationItem;
 import net.goo.brutality.item.weapon.hammer.AtomicJudgementHammer;
@@ -31,7 +33,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -115,36 +116,58 @@ public class LivingEntityEventHandler {
 
     @SubscribeEvent
     public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        Player player = event.getEntity();
+        Player newPlayer = event.getEntity();
+        ItemCooldowns newCooldowns = newPlayer.getCooldowns();
 
-        player.getCapability(BrutalityCapabilities.RESPAWN_CAP).ifPresent(cap -> {
-            List<MobEffect> effects = List.of(MobEffects.SATURATION, MobEffects.MOVEMENT_SPEED, MobEffects.ABSORPTION, MobEffects.JUMP, MobEffects.DAMAGE_RESISTANCE, TerramityModMobEffects.IMMUNITY.get());
-            ItemCooldowns cooldowns = player.getCooldowns();
 
-            if (cap.getCardType() == EntityCapabilities.RespawnCap.CARD_TYPE.EVIL_KING && !cooldowns.isOnCooldown(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get())) {
-                cooldowns.addCooldown(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get(), 20 * 15 * 60);
+        Item diamondBooster = BrutalityModItems.DIAMOND_BOOSTER_PACK.get();
+        Item evilKingBooster = BrutalityModItems.EVIL_KING_BOOSTER_PACK.get();
 
-                for (int i = 0; i < 6; i++) {
-                    player.addEffect(new MobEffectInstance(effects.get(i), 20 * 5 * 60, 1));
-                }
-            } else if (cap.getCardType() == EntityCapabilities.RespawnCap.CARD_TYPE.DIAMOND && !cooldowns.isOnCooldown(BrutalityModItems.DIAMOND_RESPAWN_CARD.get())) {
-                cooldowns.addCooldown(BrutalityModItems.DIAMOND_RESPAWN_CARD.get(), 20 * 30 * 60);
+        DelayedTaskScheduler.queueServerWork(2, () ->
 
-                for (int i = 0; i < 5; i++) {
-                    player.addEffect(new MobEffectInstance(effects.get(i), 20 * 120, 1));
-                }
-            } else if (cap.getCardType() == EntityCapabilities.RespawnCap.CARD_TYPE.SILVER) {
-                for (int i = 0; i < 4; i++) {
-                    player.addEffect(new MobEffectInstance(effects.get(i), 20 * 30, 1));
-                }
-            }
+                newPlayer.getCapability(BrutalityCapabilities.RESPAWN_CAP).ifPresent(cap -> {
 
-            if (cap.getCardType() != EntityCapabilities.RespawnCap.CARD_TYPE.NONE)
-                cap.setCardType(EntityCapabilities.RespawnCap.CARD_TYPE.NONE);
-            if (cap.getKitType() != EntityCapabilities.RespawnCap.KIT_TYPE.NONE)
-                cap.setKitType(EntityCapabilities.RespawnCap.KIT_TYPE.NONE);
-        });
+                    if (cap.getBoosterType() == EntityCapabilities.RespawnCap.BOOSTER_TYPE.EVIL_KING && !newCooldowns.isOnCooldown(evilKingBooster)) {
+                        newCooldowns.addCooldown(evilKingBooster, 20 * 15 * 60);
+
+                        for (int i = 0; i < 6; i++) {
+                            newPlayer.addEffect(new MobEffectInstance(ForgePlayerStateHandler.boosterPackEffects.get().get(i), 20 * 5 * 60, 1));
+                        }
+                    }
+
+                    if (cap.getBoosterType() == EntityCapabilities.RespawnCap.BOOSTER_TYPE.DIAMOND && !newCooldowns.isOnCooldown(diamondBooster)) {
+                        newCooldowns.addCooldown(diamondBooster, 20 * 30 * 60);
+
+                        for (int i = 0; i < 5; i++) {
+                            newPlayer.addEffect(new MobEffectInstance(ForgePlayerStateHandler.boosterPackEffects.get().get(i), 20 * 120, 1));
+                        }
+                    }
+
+                    if (cap.getBoosterType() == EntityCapabilities.RespawnCap.BOOSTER_TYPE.SILVER) {
+                        for (int i = 0; i < 4; i++) {
+                            newPlayer.addEffect(new MobEffectInstance(ForgePlayerStateHandler.boosterPackEffects.get().get(i), 20 * 30, 1));
+                        }
+                    }
+
+                    if (cap.getBoosterType() != EntityCapabilities.RespawnCap.BOOSTER_TYPE.NONE)
+                        cap.setBoosterType(EntityCapabilities.RespawnCap.BOOSTER_TYPE.NONE);
+                    if (cap.getKitType() != EntityCapabilities.RespawnCap.KIT_TYPE.NONE)
+                        cap.setKitType(EntityCapabilities.RespawnCap.KIT_TYPE.NONE);
+                }));
     }
+
+    @SubscribeEvent
+    public static void entityVisibility(LivingEvent.LivingVisibilityEvent event) {
+        if (ModUtils.hasFullArmorSet(event.getEntity(), BrutalityArmorMaterials.NOIR)) {
+            event.modifyVisibility(0);
+        }
+
+        if (event.getEntity() instanceof Player player) {
+            double visibility = player.getAttributeValue(ModAttributes.ENTITY_VISIBILITY.get());
+            event.modifyVisibility(visibility);
+        }
+    }
+
 
     @SubscribeEvent
     public static void onPlayerCrit(CriticalHitEvent event) {
@@ -155,9 +178,19 @@ public class LivingEntityEventHandler {
 
         boolean crit = player.getRandom().nextFloat() < (critChance - 1);
 
+
         if (crit && flag) {
             event.setResult(Event.Result.ALLOW);
             event.setDamageModifier((float) event.getEntity().getAttributeValue(ModAttributes.CRITICAL_STRIKE_DAMAGE.get()));
+
+            CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
+                if (handler.isEquipped(BrutalityModItems.FUZZY_DICE.get())) {
+                    if (player.getRandom().nextFloat() < (critChance - 1)) {
+                        event.setDamageModifier(event.getDamageModifier() * 2F);
+                    }
+                }
+            });
+
             if (event.getEntity().hasEffect(BrutalityModMobEffects.PRECISION.get())) {
                 event.getEntity().removeEffect(BrutalityModMobEffects.PRECISION.get());
             }
@@ -184,7 +217,6 @@ public class LivingEntityEventHandler {
         Entity attacker = event.getSource().getEntity();
         Level victimLevel = victim.level();
         final float[] modifiedAmount = {event.getAmount()};
-
 
         if (attacker instanceof LivingEntity livingAttacker) {
 
@@ -529,7 +561,7 @@ public class LivingEntityEventHandler {
             if (player.getMainHandItem().getItem() instanceof AtomicJudgementHammer) {
                 event.setDamageMultiplier(0.15F);
                 if (event.getDistance() > 10 && !player.level().isClientSide() && player.isShiftKeyDown()) {
-                    AtomicJudgementHammer.doCustomExplosion(player.level(), player, player, player.getMainHandItem());
+                    AtomicJudgementHammer.doExplosion(player, player.getPosition(1));
                 }
             }
 
@@ -571,24 +603,6 @@ public class LivingEntityEventHandler {
                 SupernovaSword.clearAsteroids(victimPlayer, serverLevel);
                 CreaseOfCreationItem.handleCreaseOfCreation(victimPlayer);
             }
-
-            CuriosApi.getCuriosInventory(victimPlayer).ifPresent(handler -> {
-                victimPlayer.getCapability(BrutalityCapabilities.RESPAWN_CAP).ifPresent(cap -> {
-                    ItemCooldowns cooldowns = victimPlayer.getCooldowns();
-                    if (handler.isEquipped(BrutalityModItems.SILVER_RESPAWN_CARD.get()) && !cooldowns.isOnCooldown(BrutalityModItems.SILVER_RESPAWN_CARD.get())) {
-                        cap.setCardType(EntityCapabilities.RespawnCap.CARD_TYPE.SILVER);
-                    }
-                    if (handler.isEquipped(BrutalityModItems.DIAMOND_RESPAWN_CARD.get()) && !cooldowns.isOnCooldown(BrutalityModItems.DIAMOND_RESPAWN_CARD.get())) {
-                        cap.setCardType(EntityCapabilities.RespawnCap.CARD_TYPE.DIAMOND);
-                    }
-
-                    if (handler.isEquipped(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get()) && !cooldowns.isOnCooldown(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get())) {
-                        cap.setCardType(EntityCapabilities.RespawnCap.CARD_TYPE.EVIL_KING);
-                    }
-
-                });
-            });
-
             resetAllColors();
 
             if (victimPlayer.hasEffect(BrutalityModMobEffects.ENRAGED.get())) {
@@ -599,6 +613,46 @@ public class LivingEntityEventHandler {
                     });
                 });
             }
+
+            CuriosApi.getCuriosInventory(victimPlayer).ifPresent(handler -> {
+                ItemCooldowns cooldowns = victimPlayer.getCooldowns();
+                victimPlayer.getCapability(BrutalityCapabilities.RESPAWN_CAP).ifPresent(cap -> {
+                    if (handler.isEquipped(BrutalityModItems.SILVER_BOOSTER_PACK.get())) {
+                        cap.setBoosterType(EntityCapabilities.RespawnCap.BOOSTER_TYPE.SILVER);
+                    }
+                    if (handler.isEquipped(BrutalityModItems.DIAMOND_BOOSTER_PACK.get()) && !cooldowns.isOnCooldown(BrutalityModItems.DIAMOND_BOOSTER_PACK.get())) {
+                        cap.setBoosterType(EntityCapabilities.RespawnCap.BOOSTER_TYPE.DIAMOND);
+                    }
+                    if (handler.isEquipped(BrutalityModItems.EVIL_KING_BOOSTER_PACK.get()) && !cooldowns.isOnCooldown(BrutalityModItems.EVIL_KING_BOOSTER_PACK.get())) {
+                        cap.setBoosterType(EntityCapabilities.RespawnCap.BOOSTER_TYPE.EVIL_KING);
+                    }
+
+
+                });
+
+                if (handler.isEquipped(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get()) && !cooldowns.isOnCooldown(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get())) {
+                    cooldowns.addCooldown(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get(), 15 * 60 * 20);
+                    event.setCanceled(true);
+                    victimPlayer.setHealth(6F);
+
+                } else if (handler.isEquipped(BrutalityModItems.DIAMOND_RESPAWN_CARD.get()) && !cooldowns.isOnCooldown(BrutalityModItems.DIAMOND_RESPAWN_CARD.get())) {
+                    cooldowns.addCooldown(BrutalityModItems.DIAMOND_RESPAWN_CARD.get(), 30 * 60 * 20);
+                    event.setCanceled(true);
+                    victimPlayer.setHealth(4F);
+
+                } else {
+                    handler.findFirstCurio(BrutalityModItems.SILVER_RESPAWN_CARD.get()).ifPresent(slot -> {
+                        slot.stack().hurtAndBreak(slot.stack().getMaxDamage(), victimPlayer, (player) -> {
+                        });
+                        event.setCanceled(true);
+                        victimPlayer.setHealth(2F);
+
+                    });
+                }
+
+            });
+
+
         }
     }
 

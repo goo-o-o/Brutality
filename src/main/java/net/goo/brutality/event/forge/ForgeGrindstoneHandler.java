@@ -29,7 +29,7 @@ public class ForgeGrindstoneHandler {
                     Map.of(Enchantments.LOYALTY, 5, Enchantments.INFINITY_ARROWS, 1), // Allowed enchantments
                     Map.of(Enchantments.LOYALTY, 5, Enchantments.INFINITY_ARROWS, 1)  // Forced enchantments
             );
-        } else if (targetStack.getItem() == BrutalityModItems.HAMMER.get()) {
+        } else if (targetStack.getItem() == BrutalityModItems.TERRATON_HAMMER.get()) {
             handleGrindstoneEvent(
                     event,
                     targetStack,

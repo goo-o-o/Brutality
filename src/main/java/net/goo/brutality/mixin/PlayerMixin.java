@@ -1,8 +1,10 @@
 package net.goo.brutality.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import net.goo.brutality.item.base.BrutalityThrowingItem;
 import net.goo.brutality.item.curios.charm.Cosine;
 import net.goo.brutality.item.weapon.axe.RhittaAxe;
+import net.goo.brutality.item.weapon.hammer.AtomicJudgementHammer;
 import net.goo.brutality.item.weapon.hammer.JackpotHammer;
 import net.goo.brutality.item.weapon.hammer.WoodenRulerHammer;
 import net.goo.brutality.item.weapon.scythe.DarkinScythe;
@@ -12,6 +14,7 @@ import net.goo.brutality.item.weapon.sword.MurasamaSword;
 import net.goo.brutality.item.weapon.sword.ShadowstepSword;
 import net.goo.brutality.item.weapon.sword.SupernovaSword;
 import net.goo.brutality.item.weapon.sword.phasesaber.BasePhasesaber;
+import net.goo.brutality.item.weapon.throwing.StickyBomb;
 import net.goo.brutality.magic.SpellCastingHandler;
 import net.goo.brutality.mob_effect.gastronomy.IGastronomyEffect;
 import net.goo.brutality.registry.*;
@@ -33,6 +36,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -53,8 +57,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-
-import static net.goo.brutality.util.helpers.AttributeHelper.ATTACK_DAMAGE_BONUS;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin extends LivingEntity {
@@ -126,10 +128,10 @@ public abstract class PlayerMixin extends LivingEntity {
     private float modifyAttackDamage(float originalDamage) {
         Player player = (Player) (Object) this;
         ItemStack stack = player.getMainHandItem();
-        if (stack.getOrCreateTag().contains(ATTACK_DAMAGE_BONUS)) {
-            originalDamage += stack.getOrCreateTag().getFloat(ATTACK_DAMAGE_BONUS);
-        }
+        originalDamage -= (float) player.getAttributeBaseValue(Attributes.ATTACK_DAMAGE);
         originalDamage = (float) ModUtils.computeAttributes(player, stack, originalDamage);
+        originalDamage += (float) player.getAttributeBaseValue(Attributes.ATTACK_DAMAGE);
+
         return originalDamage;
     }
 
@@ -340,38 +342,38 @@ public abstract class PlayerMixin extends LivingEntity {
                     gastro.applyEffect(playerAttacker, livingVictim, instance.getAmplifier());
                 }
             }
-
-
-            if (item instanceof ShadowstepSword) {
-                if (ModUtils.isPlayerBehind(playerAttacker, livingVictim, 30)) {
-                    modifiedAmount[0] *= 7;
-                }
-            } else if (item instanceof BasePhasesaber) {
-                return livingVictim.hurt(damageSources().indirectMagic(playerAttacker, null), modifiedAmount[0]);
-            } else if (item instanceof RhittaAxe) {
-                modifiedAmount[0] += RhittaAxe.computeAttackDamageBonus(playerAttacker.level());
-            } else if (item instanceof JackpotHammer) {
-                modifiedAmount[0] += playerAttacker.level().random.nextInt(-5, 11);
-                brutality$handleJackpotEffects(playerAttacker, livingVictim, modifiedAmount[0]);
-            } else if (item instanceof WoodenRulerHammer || item instanceof MetalRulerSword) {
-                modifiedAmount[0] *= livingVictim.getBbHeight() * 0.75F;
-            } else if (item instanceof MurasamaSword) {
-                livingVictim.invulnerableTime = 0;
-                modifiedAmount[0] /= 2;
-                livingVictim.hurt(playerAttacker.damageSources().indirectMagic(playerAttacker, null), modifiedAmount[0]);
-                livingVictim.invulnerableTime = 0;
-
-            } else if (item instanceof DarkinScythe) {
-                if (ModUtils.getTextureIdx(stack) == 1) {
-                    livingVictim.invulnerableTime = 0;
-                    float magicDamage = modifiedAmount[0] / 4;
-                    livingVictim.hurt(playerAttacker.damageSources().indirectMagic(playerAttacker, null), magicDamage);
-                } else if (ModUtils.getTextureIdx(stack) == 2) {
-                    playerAttacker.heal(modifiedAmount[0] * 0.2F);
-                }
-            }
         }
 
+        if (item instanceof ShadowstepSword) {
+            if (ModUtils.isPlayerBehind(playerAttacker, livingVictim, 30)) {
+                modifiedAmount[0] *= 7;
+            }
+        } else if (item instanceof BasePhasesaber) {
+            return livingVictim.hurt(damageSources().indirectMagic(playerAttacker, null), modifiedAmount[0]);
+        } else if (item instanceof RhittaAxe) {
+            modifiedAmount[0] += RhittaAxe.computeAttackDamageBonus(playerAttacker.level());
+        } else if (item instanceof JackpotHammer) {
+            modifiedAmount[0] += playerAttacker.level().random.nextInt(-5, 11);
+            brutality$handleJackpotEffects(playerAttacker, livingVictim, modifiedAmount[0]);
+        } else if (item instanceof WoodenRulerHammer || item instanceof MetalRulerSword) {
+            modifiedAmount[0] *= livingVictim.getBbHeight() * 0.75F;
+        } else if (item instanceof MurasamaSword) {
+            livingVictim.invulnerableTime = 0;
+            modifiedAmount[0] /= 2;
+            livingVictim.hurt(playerAttacker.damageSources().indirectMagic(playerAttacker, null), modifiedAmount[0]);
+            livingVictim.invulnerableTime = 0;
+
+        } else if (item instanceof DarkinScythe) {
+            if (ModUtils.getTextureIdx(stack) == 1) {
+                livingVictim.invulnerableTime = 0;
+                float magicDamage = modifiedAmount[0] / 4;
+                livingVictim.hurt(playerAttacker.damageSources().indirectMagic(playerAttacker, null), magicDamage);
+            } else if (ModUtils.getTextureIdx(stack) == 2) {
+                playerAttacker.heal(modifiedAmount[0] * 0.2F);
+            }
+        } else if (item instanceof AtomicJudgementHammer) {
+            AtomicJudgementHammer.doExplosion(playerAttacker, livingVictim.getPosition(1).add(0, livingVictim.getBbHeight() / 2, 0));
+        }
 
         return livingVictim.hurt(pSource, modifiedAmount[0]);
     }
@@ -416,20 +418,31 @@ public abstract class PlayerMixin extends LivingEntity {
     }
 
     @ModifyReturnValue(
-            method = "getCurrentItemAttackStrengthDelay()F",
+            method = "getCurrentItemAttackStrengthDelay",
             at = @At("RETURN")
     )
     private float modifyAttackSpeed(float originalDelay) {
-        Player self = (Player) (Object) this;
+        Player player = (Player) (Object) this;
 
-        if (CuriosApi.getCuriosInventory(self)
+        if (player.isHolding(BrutalityModItems.VAMPIRE_KNIVES.get())) return 5;
+
+        float modifiedDelay = originalDelay;
+
+        if (CuriosApi.getCuriosInventory(player)
                 .map(handler -> handler.findFirstCurio(BrutalityModItems.COSINE_CHARM.get()).isPresent())
                 .orElse(false)) {
 
-            float bonus = Cosine.getCurrentBonus(self.level());
-            return originalDelay / (1.0f + bonus);
+            float bonus = Cosine.getCurrentBonus(player.level());
+            modifiedDelay /= (1.0f + bonus);
         }
-        return originalDelay;
+
+        if (player.getMainHandItem().getItem() instanceof BrutalityThrowingItem || player.getOffhandItem().getItem() instanceof BrutalityThrowingItem) {
+            if (player.getMainHandItem().getItem() == player.getOffhandItem().getItem()) {
+                modifiedDelay /= 2;
+            }
+        }
+
+        return modifiedDelay;
     }
 
 //    @ModifyVariable(

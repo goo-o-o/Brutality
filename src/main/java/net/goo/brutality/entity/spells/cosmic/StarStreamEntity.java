@@ -129,7 +129,7 @@ public class StarStreamEntity extends BrutalityAbstractArrow implements Brutalit
     }
 
     @Override
-    protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
+    public SoundEvent getHitGroundSoundEvent() {
         return SoundEvents.EMPTY;
     }
 

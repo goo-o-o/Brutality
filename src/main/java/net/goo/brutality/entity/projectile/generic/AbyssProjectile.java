@@ -73,7 +73,7 @@ public class AbyssProjectile extends ThrowableProjectile implements BrutalityGeo
                     Vec3 motion = targetVec.normalize().scale(scale);
                     this.addDeltaMovement(motion);
 
-                    if (this.getDeltaMovement().length() > 2) {
+                    if (this.getDeltaMovement().length() > 1) {
                         this.setDeltaMovement(this.getDeltaMovement().scale(0.85));
                     }
 

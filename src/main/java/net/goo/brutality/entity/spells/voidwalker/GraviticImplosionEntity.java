@@ -104,6 +104,11 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
     }
 
     @Override
+    public @NotNull SoundEvent getHitGroundSoundEvent() {
+        return SoundEvents.EMPTY;
+    }
+
+    @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt(SPELL_LEVEL, this.getSpellLevel());

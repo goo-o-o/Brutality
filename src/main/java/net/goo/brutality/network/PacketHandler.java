@@ -19,6 +19,7 @@ public class PacketHandler {
     public static int id = 0;
 
     public static void register() {
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundShootFromRotationPacket.class, ServerboundShootFromRotationPacket::encode, ServerboundShootFromRotationPacket::new, ServerboundShootFromRotationPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundTriggerAnimationPacket.class, ServerboundTriggerAnimationPacket::encode, ServerboundTriggerAnimationPacket::new, ServerboundTriggerAnimationPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundShootProjectilePacket.class, ServerboundShootProjectilePacket::encode, ServerboundShootProjectilePacket::new, ServerboundShootProjectilePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundChangeNBTPacket.class, ServerboundChangeNBTPacket::encode, ServerboundChangeNBTPacket::new, ServerboundChangeNBTPacket::handle);
@@ -27,14 +28,17 @@ public class PacketHandler {
         NETWORK_CHANNEL.registerMessage(id++, ServerboundActivateRagePacket.class, ServerboundActivateRagePacket::encode, ServerboundActivateRagePacket::new, ServerboundActivateRagePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundChangeSpellPacket.class, ServerboundChangeSpellPacket::encode, ServerboundChangeSpellPacket::new, ServerboundChangeSpellPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundActiveAbilityPressPacket.class, ServerboundActiveAbilityPressPacket::encode, ServerboundActiveAbilityPressPacket::new, ServerboundActiveAbilityPressPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundPlayerAnimationPacket.class, ServerboundPlayerAnimationPacket::write, ServerboundPlayerAnimationPacket::new, ServerboundPlayerAnimationPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundExactParticlePacket.class, ClientboundExactParticlePacket::encode, ClientboundExactParticlePacket::new, ClientboundExactParticlePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncCapabilitiesPacket.class, ClientboundSyncCapabilitiesPacket::encode, ClientboundSyncCapabilitiesPacket::new, ClientboundSyncCapabilitiesPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundEnvironmentColorManagerPacket.class, ClientboundEnvironmentColorManagerPacket::encode, ClientboundEnvironmentColorManagerPacket::new, ClientboundEnvironmentColorManagerPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncTickPacket.class, ClientboundSyncTickPacket::encode, ClientboundSyncTickPacket::new, ClientboundSyncTickPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncCooldownPacket.class, ClientboundSyncCooldownPacket::write, ClientboundSyncCooldownPacket::new, ClientboundSyncCooldownPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncSpellCooldownPacket.class, ClientboundSyncSpellCooldownPacket::write, ClientboundSyncSpellCooldownPacket::new, ClientboundSyncSpellCooldownPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundParticlePacket.class, ClientboundParticlePacket::write, ClientboundParticlePacket::new, ClientboundParticlePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundDodgePacket.class, ClientboundDodgePacket::write, ClientboundDodgePacket::new, ClientboundDodgePacket::handle);
-
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncItemCooldownPacket.class, ClientboundSyncItemCooldownPacket::write, ClientboundSyncItemCooldownPacket::decode, ClientboundSyncItemCooldownPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundPlayerAnimationPacket.class, ClientboundPlayerAnimationPacket::write, ClientboundPlayerAnimationPacket::new, ClientboundPlayerAnimationPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundBrutalityExplodePacket.class, ClientboundBrutalityExplodePacket::write, ClientboundBrutalityExplodePacket::new, ClientboundBrutalityExplodePacket::handle);
     }
 
     public static void sendToServer(Object msg) {

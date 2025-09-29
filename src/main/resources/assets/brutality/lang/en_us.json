@@ -3,6 +3,43 @@
   "item.brutality.unbridled_rage": "Unbridled Rage",
   "item.brutality.pocket_black_hole": "Pocket Black Hole",
 
+  "item.brutality.cinder_block": "Cinder Block",
+  "item.brutality.beach_ball": "Beach Ball",
+  "item.brutality.blast_barrel": "Blast Barrel",
+  "item.brutality.blast_barrel.when_thrown.1": "§e -Throws out a Barrel that explodes after 2 bounces or 5 seconds",
+  "item.brutality.dynamite": "Dynamite",
+  "item.brutality.dynamite.when_thrown.1": "§e -Throws out a stick of Dynamite that explodes after 3 seconds",
+  "item.brutality.sticky_dynamite": "Sticky Dynamite",
+  "item.brutality.sticky_dynamite.when_thrown.1": "§e -Throws out a stick of Sticky Dynamite that explodes after 3 seconds",
+  "item.brutality.bouncy_dynamite": "Bouncy Dynamite",
+  "item.brutality.bouncy_dynamite.when_thrown.1": "§e -Throws out a stick of Bouncy Dynamite that explodes after 3 seconds",
+  "item.brutality.sticky_bomb": "Sticky Bomb",
+  "item.brutality.sticky_bomb.when_thrown.1": "§e -Throws out a Sticky Bomb that can be detonated remotely",
+  "item.brutality.sticky_bomb.on_right_click.1": "§e -Detonate all nearby Sticky Bombs",
+  "item.brutality.sticky_bomb.fail.1": "§cCannot have more than 10 Sticky Bombs present",
+  "item.brutality.ice_cube": "Ice Cube",
+  "item.brutality.ice_cube.when_thrown.1": "§e -Throws out an Ice Cube that freezes enemies on hit",
+  "item.brutality.permafrost_cube": "Permafrost Cube",
+  "item.brutality.permafrost_cube.when_thrown.1": "§e -Throws out a Permafrost Cube that freezes nearby enemies on hit",
+  "item.brutality.sculk_grenade": "Sculk Grenade",
+  "item.brutality.sculk_grenade.when_thrown.1": "§e -Throws out a Sculk Grenade that explodes into a Sonic Shockwave on impact",
+  "item.brutality.sculk_grenade.when_thrown.2": "§e -The Shockwave inflicts§8 Blindness§e for 0.5 seconds",
+
+  "item.brutality.holy_hand_grenade": "Holy Hand Grenade",
+  "item.brutality.holy_hand_grenade.when_thrown.1": "§e -Throws out a Holy Hand Grenade that explodes after 3 seconds",
+
+  "item.brutality.deck_of_fate": "Deck Of Fate",
+  "item.brutality.deck_of_fate.when_thrown.1": "§e -Throws out a Fate Card, each Fate Card has 1 out of 5 effects:",
+  "item.brutality.deck_of_fate.when_thrown.2": "",
+  "item.brutality.deck_of_fate.when_thrown.3": "§e -§1Inflicts Slowness II for 3 seconds",
+  "item.brutality.deck_of_fate.when_thrown.4": "§e -§eStuns the target for 5 ticks",
+  "item.brutality.deck_of_fate.when_thrown.5": "§e -§4Ignites enemies for 5 seconds",
+  "item.brutality.deck_of_fate.when_thrown.6": "§e -§2Inflicts Poison II for 3 seconds",
+  "item.brutality.deck_of_fate.when_thrown.7": "§e -§8Inflicts Wither II for 3 seconds",
+
+  "item.brutality.vampire_knives": "Vampire Knives",
+  "item.brutality.vampire_knives.when_thrown.1": "§e -Throws out 4 - 8 Vampire Knifes",
+  "item.brutality.vampire_knives.when_thrown.2": "§e -Velocity scales with§r ‼§9 Attack Speed",
 
   "item.brutality.atomic_judgement": "Atomic Judgement",
   "item.brutality.atomic_judgement.lore.1": "Handle with care",
@@ -221,6 +258,34 @@
   "item.brutality.lollipop_of_eternity.passive.1": "§e -All Damage inflicts §eS§6p§cr§4i§dn§5k§1l§9e§3d §bI§aI§e§2I, §fGlazed III§e, §6Caramelized III§e and §dCandied III§e for 6 seconds",
 
 
+  "item.brutality.fuzzy_dice": "Fuzzy Dice",
+  "item.brutality.fuzzy_dice.passive.1": "§e -You have a chance to Double Crit for 2x Crit Damage",
+
+
+  "item.brutality.dumbbell": "Dumbbell",
+  "item.brutality.box_of_chocolates": "Box of Chocolates",
+  "item.brutality.chocolate_bar": "Chocolate Bar",
+  "item.brutality.broken_heart": "Broken Heart",
+  "item.brutality.glass_heart": "Glass Heart",
+  "item.brutality.bikers_helmet": "Biker's Helmet",
+  "item.brutality.bikers_helmet.passive.1": "§e -Deflect incoming projectiles near the wearer's Head",
+  "item.brutality.escape_key": "Escape Key",
+  "item.brutality.escape_key.passive.1": "§e -Grants§e Invisibility§e and§b Speed II§e when below 25%§r ❤§9 Health§e",
+  "item.brutality.essential_oils": "Essential Oils",
+  "item.brutality.essential_oils.passive.1": "§e -Grants§2 Oiled II§e",
+  "item.brutality.miracle_cure": "Miracle Cure",
+  "item.brutality.miracle_cure.active.1": "§e -Cleanses all Harmful§c Effects§e",
+  "item.brutality.incognito_mode": "Incognito Mode",
+  "item.brutality.miniature_anchor": "Miniature Anchor",
+  "item.brutality.miniature_anchor.passive.1": "§e - Grants§3 Resistance IV§e while Underwater",
+  "item.brutality.paper_airplane": "Paper Airplane",
+  "item.brutality.emergency_meeting": "Emergency Meeting",
+  "item.brutality.emergency_meeting.active.1": "§e -Inflicts§7 Slowness IV§e for 10 seconds to all nearby mobs in a 7.5 block radius",
+  "item.brutality.pencil_sharpener": "Pencil Sharpener",
+  "item.brutality.fire_extinguisher": "Fire Extinguisher",
+  "item.brutality.fire_extinguisher.passive.1": "§e -Fire lasts half as long",
+
+
 
 
   "item.brutality.bamboo_steamer": "Bamboo Steamer",
@@ -340,9 +405,9 @@
   "item.brutality.sum_charm.passive.3": "§e -Resets to 0 after use",
   "item.brutality.sum_charm.damage_stored.1": "§cDamage Stored:",
 
-  "item.brutality.scientific_calculator_belt": "Scientific Calculator",
-  "item.brutality.scientific_calculator_belt.lore.1": "Comes with 64KB of RAM",
-  "item.brutality.scientific_calculator_belt.passive.1": "§9 -Allows the use of mathematical functions, constants and concepts",
+  "item.brutality.scientific_calculator": "Scientific Calculator",
+  "item.brutality.scientific_calculator.lore.1": "Comes with 64KB of RAM",
+  "item.brutality.scientific_calculator.passive.1": "§9 -Allows the use of mathematical functions, constants and concepts",
 
   "item.brutality.road_runners_ring": "Road Runner's Ring",
   "item.brutality.road_runners_ring.lore.1": "Meep meep!",
@@ -473,16 +538,28 @@
 
   "item.brutality.sanguine_signet": "Sanguine Signet",
   "item.brutality.stygian_chain": "Stygian Chain",
+
   "item.brutality.silver_respawn_card": "Silver Respawn Card",
-  "item.brutality.silver_respawn_card.passive.1": "§e -Grants 30 seconds of§b Speed II§e,§e Absorption II§e and§a Jump Boost II§e on respawn",
+  "item.brutality.silver_respawn_card.passive.1": "§e -Defy §4Death§e and return with 1§r ❤§e Heart",
+  "item.brutality.silver_respawn_card.passive.2": "§e -Consumed on Use",
   "item.brutality.diamond_respawn_card": "Diamond Respawn Card",
-  "item.brutality.diamond_respawn_card.passive.1": "§e -Grants 2 minutes of§b Speed II§e,§e Absorption II§e,§a Jump Boost II§e,§6 Saturation§e and§3 Resistance II§e on respawn",
-  "item.brutality.diamond_respawn_card.passive.2": "§e -Shows the wearer's previous Death Location",
-  "item.brutality.diamond_respawn_card.passive.3": "§e -Soulbound",
+  "item.brutality.diamond_respawn_card.passive.1": "§e -Defy §4Death§e and return with 2§r ❤§e Hearts",
   "item.brutality.evil_king_respawn_card": "Evil King Respawn Card",
-  "item.brutality.evil_king_respawn_card.passive.1": "§e -Grants 5 minutes of§b Speed II§e,§e Absorption II§e,§a Jump Boost II§e,§6 Saturation§e,§3 Resistance II§e and§f Immunity§e on respawn",
-  "item.brutality.evil_king_respawn_card.passive.2": "§e -Shows the wearer's previous Death Location",
-  "item.brutality.evil_king_respawn_card.passive.3": "§e -Soulbound",
+  "item.brutality.evil_king_respawn_card.passive.1": "§e -Defy §4Death§e and return with 3§r ❤§e Hearts",
+
+  "item.brutality.silver_booster_pack": "Silver Booster Pack",
+  "item.brutality.silver_booster_pack.passive.1": "§e -Grants 30 seconds of§b Speed II§e,§e Absorption II§e and§a Jump Boost II§e on respawn",
+  "item.brutality.silver_booster_pack.passive.2": "§e -Effects run out upon nearing previous Death Location",
+  "item.brutality.diamond_booster_pack": "Diamond Booster Pack",
+  "item.brutality.diamond_booster_pack.passive.1": "§e -Grants 2 minutes of§b Speed II§e,§e Absorption II§e,§a Jump Boost II§e,§6 Saturation§e and§3 Resistance II§e on respawn",
+  "item.brutality.diamond_booster_pack.passive.2": "§e -Shows the wearer's previous Death Location",
+  "item.brutality.diamond_booster_pack.passive.3": "§e -Effects run out upon nearing previous Death Location",
+  "item.brutality.diamond_booster_pack.passive.4": "§e -Soulbound",
+  "item.brutality.evil_king_booster_pack": "Evil King Booster Pack",
+  "item.brutality.evil_king_booster_pack.passive.1": "§e -Grants 5 minutes of§b Speed II§e,§e Absorption II§e,§a Jump Boost II§e,§6 Saturation§e,§3 Resistance II§e and§f Immunity§e on respawn",
+  "item.brutality.evil_king_booster_pack.passive.2": "§e -Shows the wearer's previous Death Location",
+  "item.brutality.evil_king_booster_pack.passive.3": "§e -Effects run out upon nearing previous Death Location",
+  "item.brutality.evil_king_booster_pack.passive.4": "§e -Soulbound",
 
   "item.brutality.onyx_idol": "Onyx Idol",
   "item.brutality.onyx_idol.passive.1": "§e -Every 200§r 💧§9 Mana§e Spent, instantly reset all your§r ⌛§9 Spell Cooldowns",
@@ -865,6 +942,25 @@
 
   "item.brutality.windswept_anklet": "Windswept Anklet",
 
+  "item.brutality.black_seal": "Black Seal",
+  "item.brutality.black_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🪡§9 Lethality",
+  "item.brutality.blue_seal": "Blue Seal",
+  "item.brutality.blue_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🛡§9 Armor",
+  "item.brutality.green_seal": "Green Seal",
+  "item.brutality.green_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🍀§9 Luck",
+  "item.brutality.orange_seal": "Orange Seal",
+  "item.brutality.orange_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 💥§9 Critical Chance",
+  "item.brutality.pink_seal": "Pink Seal",
+  "item.brutality.pink_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🪓§9 Lifesteal",
+  "item.brutality.purple_seal": "Purple Seal",
+  "item.brutality.purple_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🎈§9 Tenacity",
+  "item.brutality.red_seal": "Red Seal",
+  "item.brutality.red_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r ❤§9 Health",
+  "item.brutality.yellow_seal": "Yellow Seal",
+  "item.brutality.yellow_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r ‼§9 Attack Speed",
+  "item.brutality.teal_seal": "Teal Seal",
+  "item.brutality.teal_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r ❗§9 Attack Damage",
+
 
   "item.brutality.daemonic_tome": "Daemonic Tome",
   "item.brutality.evergreen_tome": "Evergreen Tome",
@@ -960,11 +1056,13 @@
   "spell.brutality.brimspike.fail": "§cOnly one Brimspike can be present at a time",
 
   "spell.brutality.nightfall": "Nightfall",
-  "spell.brutality.nightfall.description.1": "§8Temporarily makes it midnight, nearby mobs are inflicted with §7Slowness§8 and Blindness",
+  "spell.brutality.nightfall.description.1": "§8Temporarily makes it midnight, nearby mobs are inflicted with §7Slowness§8 and§8 Blindness",
 
   "spell.brutality.moonlit_mending": "Moonlit Mending",
   "spell.brutality.moonlit_mending.healed_for": "§aHealed for ",
   "spell.brutality.moonlit_mending.description.1": "§8§aHeals§8 the caster depending on the time of day (Noon = 10% Max§r ❤§9 Health§e | Midnight 100% Max§r ❤§9 Health§e) excess healing is converted into absorption level",
+
+
 
   "message.brutality.condition.on_ground": "§cOnly Castable when on the ground",
 
@@ -1085,6 +1183,22 @@
   "attribute.name.generic.lethality": "§f🪡§r Lethality",
   "attribute.name.generic.armor_penetration": "§f🏹§r Armor Penetration",
 
+  "attribute.name.generic.entity_visibility": "§f👁§r Entity Visibility",
+  "attribute.name.generic.throw_strength": "Throw Strength",
+
+  "attribute.name.generic.attack_damage": "§f❗§r Attack Damage",
+  "attribute.name.generic.attack_speed": "§f‼§r Attack Speed",
+
+
+  "attribute.modifier.equals.0": "%s %s",
+  "attribute.modifier.equals.1": "%s%% Base %s",
+  "attribute.modifier.equals.2": "%s%% Total %s",
+  "attribute.modifier.plus.0": "+%s %s",
+  "attribute.modifier.plus.1": "+%s%% Base %s",
+  "attribute.modifier.plus.2": "+%s%% Total %s",
+  "attribute.modifier.take.0": "-%s %s",
+  "attribute.modifier.take.1": "-%s%% Base %s",
+  "attribute.modifier.take.2": "-%s%% Total %s",
 
 
   "effect.brutality.neutral": "Neutral",
@@ -1116,7 +1230,9 @@
   "effect.brutality.the_void": "The Void",
   "effect.brutality.weightlessness": "§2Weightlessness",
   "effect.brutality.mana_fatigue": "§cMana Fatigue",
+  "effect.brutality.magic_sickness": "§cMagic Sickness",
   "effect.brutality.mana_frugality": "§aFrugal Mana",
+  "effect.brutality.magic_power": "§aMagic Power",
   "effect.brutality.ultra_dodge": "§bUltra Dodge",
   "effect.brutality.dodge_cooldown": "§4Dodge Cooldown",
   "effect.brutality.precision": "§4Precision",

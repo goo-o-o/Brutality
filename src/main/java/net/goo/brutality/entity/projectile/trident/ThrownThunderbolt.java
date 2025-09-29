@@ -22,6 +22,7 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 import static net.goo.brutality.util.ModResources.LIGHTNING_STRIKE_BURST_FX;
@@ -42,7 +43,7 @@ public class ThrownThunderbolt extends BrutalityAbstractTrident implements Bruta
         return 0.015F;
     }
 
-    public float getDamage() {
+    public float getDamage(@Nullable LivingEntity livingEntity) {
         return 8F;
     }
 
@@ -87,7 +88,7 @@ public class ThrownThunderbolt extends BrutalityAbstractTrident implements Bruta
                     if (entity.getRemainingFireTicks() == 0) {
                         entity.setSecondsOnFire(8);
                     }
-                    entity.hurt(this.damageSources().lightningBolt(), getDamage());
+                    entity.hurt(this.damageSources().lightningBolt(), getDamage(getOwner() instanceof LivingEntity owner ? owner : null));
                 });
             });
         }

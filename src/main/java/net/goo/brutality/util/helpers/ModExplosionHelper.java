@@ -1,19 +1,31 @@
 package net.goo.brutality.util.helpers;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.entity.explosion.BrutalityExplosion;
+import net.goo.brutality.network.ClientboundBrutalityExplodePacket;
+import net.goo.brutality.network.PacketHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModExplosionHelper {
+
 
     public static class ProgressiveExplosion {
         private final Level level;
@@ -98,8 +110,34 @@ public class ModExplosionHelper {
 
     }
 
+    @Mod.EventBusSubscriber(value = Dist.CLIENT)
+    public static class Client {
+        public static void handleExplosion(ClientboundBrutalityExplodePacket packet) {
+            Minecraft mc = Minecraft.getInstance();
+            Level level = mc.level;
+            if (level == null) return;
+            try {
+                Class<?> explosionClass = Class.forName(packet.getClazz());
+                Constructor<?> constructor = explosionClass.getConstructor(Level.class, Entity.class, double.class, double.class, double.class, float.class, List.class);
+
+                BrutalityExplosion explosion = (BrutalityExplosion) constructor.newInstance(
+                        level, null, packet.getX(), packet.getY(), packet.getZ(), packet.getPower(), packet.getToBlow());
+                explosion.explode();
+                explosion.finalizeExplosion(packet.isSpawnParticles());
+                if (mc.player == null) return;
+                mc.player.setDeltaMovement(mc.player.getDeltaMovement().add(packet.getKnockbackX(), packet.getKnockbackY(), packet.getKnockbackZ()));
+            } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+                Explosion explosion = new Explosion(level, null, packet.getX(), packet.getY(), packet.getZ(), packet.getPower(), packet.getToBlow());
+                explosion.finalizeExplosion(packet.isSpawnParticles());
+                if (mc.player == null) return;
+                mc.player.setDeltaMovement(mc.player.getDeltaMovement().add(packet.getKnockbackX(), packet.getKnockbackY(), packet.getKnockbackZ()));
+            }
+        }
+    }
+
+
     @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.DEDICATED_SERVER)
-    public static class ExplosionManager {
+    public static class Server {
         private static final List<ProgressiveExplosion> activeExplosions = new ArrayList<>();
 
         public static void addExplosion(Level level, Entity owner, BlockPos center, float radius, int layersPerTick) {
@@ -113,5 +151,37 @@ public class ModExplosionHelper {
                 activeExplosions.removeIf(ProgressiveExplosion::tick);
             }
         }
+
+
+        /**
+         * Must be called from the Server, like {@link ServerLevel#explode(Entity, double, double, double, float, Level.ExplosionInteraction)}
+         */
+        public static Explosion explode(BrutalityExplosion explosion, Level level, boolean spawnParticles) {
+            if (level instanceof ServerLevel serverLevel) {
+                Explosion.BlockInteraction blockInteraction = switch (explosion.getExplosionInteraction()) {
+                    case NONE -> Explosion.BlockInteraction.KEEP;
+                    case BLOCK -> level.getDestroyType(GameRules.RULE_BLOCK_EXPLOSION_DROP_DECAY);
+                    case MOB ->
+                            ForgeEventFactory.getMobGriefingEvent(level, explosion.getDirectSourceEntity()) ? level.getDestroyType(GameRules.RULE_MOB_EXPLOSION_DROP_DECAY) : Explosion.BlockInteraction.KEEP;
+                    case TNT -> level.getDestroyType(GameRules.RULE_TNT_EXPLOSION_DROP_DECAY);
+                };
+
+                if (ForgeEventFactory.onExplosionStart(level, explosion)) return explosion;
+                explosion.blockInteraction = blockInteraction;
+                explosion.explode();
+                explosion.finalizeExplosion(spawnParticles);
+                if (!explosion.interactsWithBlocks()) {
+                    explosion.clearToBlow();
+                }
+
+                for (ServerPlayer serverplayer : serverLevel.getPlayers(serverPlayer -> serverPlayer.distanceToSqr(explosion.getPosition()) < 4096)) {
+                    PacketHandler.sendToPlayer(new ClientboundBrutalityExplodePacket(explosion.getPosition().x, explosion.getPosition().y, explosion.getPosition().z, explosion.getRadius(), explosion.getToBlow(), explosion.getHitPlayers().get(serverplayer), spawnParticles, explosion.getClass()), serverplayer);
+                }
+            }
+            return explosion;
+
+        }
     }
+
+
 }

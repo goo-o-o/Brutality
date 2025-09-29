@@ -184,7 +184,12 @@ public class CosmicCataclysmEntity extends BrutalityAbstractArrow implements Bru
     }
 
     @Override
-    protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
+    public SoundEvent getHitEntitySoundEvent() {
+        return SoundEvents.EMPTY;
+    }
+
+    @Override
+    public SoundEvent getHitGroundSoundEvent() {
         return SoundEvents.EMPTY;
     }
 

@@ -52,14 +52,87 @@ public class BrutalityModEntities {
             ENTITY_TYPES.register("spectral_maw", () -> EntityType.Builder.<SpectralMawEntity>of(SpectralMawEntity::new,
                     MobCategory.MISC).sized(0.5F, 0.5F).build("spectral_maw"));
 
+    public static final RegistryObject<EntityType<Dynamite>> DYNAMITE =
+            ENTITY_TYPES.register("dynamite",
+                    () -> EntityType.Builder.of(Dynamite::new, MobCategory.MISC)
+                            .sized(0.125F, 0.125F)
+                            .build("dynamite"));
+    public static final RegistryObject<EntityType<StickyDynamite>> STICKY_DYNAMITE =
+            ENTITY_TYPES.register("sticky_dynamite",
+                    () -> EntityType.Builder.of(StickyDynamite::new, MobCategory.MISC)
+                            .sized(0.125F, 0.125F)
+                            .build("sticky_dynamite"));
+    public static final RegistryObject<EntityType<BouncyDynamite>> BOUNCY_DYNAMITE =
+            ENTITY_TYPES.register("bouncy_dynamite",
+                    () -> EntityType.Builder.of(BouncyDynamite::new, MobCategory.MISC)
+                            .sized(0.125F, 0.125F)
+                            .build("bouncy_dynamite"));
+
+    public static final RegistryObject<EntityType<CinderBlock>> CINDER_BLOCK =
+            ENTITY_TYPES.register("cinder_block",
+                    () -> EntityType.Builder.of(CinderBlock::new, MobCategory.MISC)
+                            .sized(0.5F, 0.5F)
+                            .build("cinder_block"));
+    public static final RegistryObject<EntityType<StickyBomb>> STICKY_BOMB =
+            ENTITY_TYPES.register("sticky_bomb",
+                    () -> EntityType.Builder.of(StickyBomb::new, MobCategory.MISC)
+                            .sized(0.125F, 0.125F)
+                            .build("sticky_bomb"));
+    public static final RegistryObject<EntityType<IceCube>> ICE_CUBE =
+            ENTITY_TYPES.register("ice_cube",
+                    () -> EntityType.Builder.of(IceCube::new, MobCategory.MISC)
+                            .sized(0.25F, 0.25F)
+                            .build("ice_cube"));
+    public static final RegistryObject<EntityType<PermafrostCube>> PERMAFROST_CUBE =
+            ENTITY_TYPES.register("permafrost_cube",
+                    () -> EntityType.Builder.of(PermafrostCube::new, MobCategory.MISC)
+                            .sized(0.375F, 0.375F)
+                            .build("permafrost_cube"));
+
+    public static final RegistryObject<EntityType<BeachBall>> BEACH_BALL =
+            ENTITY_TYPES.register("beach_ball",
+                    () -> EntityType.Builder.of(BeachBall::new, MobCategory.MISC)
+                            .sized(1.125F, 1.125F)
+                            .build("beach_ball"));
+
+
+    public static final RegistryObject<EntityType<FateCard>> FATE_CARD =
+            ENTITY_TYPES.register("fate_card", () -> EntityType.Builder.of(FateCard::new,
+                    MobCategory.MISC).sized(1F, 0.0625F).build("fate_card"));
+
+    public static final RegistryObject<EntityType<BlastBarrel>> BLAST_BARREL =
+            ENTITY_TYPES.register("blast_barrel",
+                    () -> EntityType.Builder.of(BlastBarrel::new, MobCategory.MISC)
+                            .sized(1, 0.75F)
+                            .build("blast_barrel"));
+
+    public static final RegistryObject<EntityType<SculkGrenade>> SCULK_GRENADE =
+            ENTITY_TYPES.register("sculk_grenade",
+                    () -> EntityType.Builder.of(SculkGrenade::new, MobCategory.MISC)
+                            .sized(0.375F, 0.1875F)
+                            .build("sculk_grenade"));
+
+    public static final RegistryObject<EntityType<HolyHandGrenade>> HOLY_HAND_GRENADE =
+            ENTITY_TYPES.register("holy_hand_grenade",
+                    () -> EntityType.Builder.of(HolyHandGrenade::new, MobCategory.MISC)
+                            .sized(0.5F, 0.5F)
+                            .build("holy_hand_grenade"));
 
     public static final RegistryObject<EntityType<StarEntity>> STAR_ENTITY =
             ENTITY_TYPES.register("star", () -> EntityType.Builder.<StarEntity>of(StarEntity::new,
                     MobCategory.MISC).sized(1, 0.0625F).build("star"));
 
-    public static final RegistryObject<EntityType<AbyssProjectile>> DEPTH_CRUSHER_PROJECTILE =
-            ENTITY_TYPES.register("depth_crusher_projectile", () -> EntityType.Builder.of(AbyssProjectile::new,
-                    MobCategory.MISC).sized(0.25F, 0.25F).build("depth_crusher_projectile"));
+    public static final RegistryObject<EntityType<VampireKnife>> VAMPIRE_KNIFE =
+            ENTITY_TYPES.register("vampire_knife", () -> EntityType.Builder.of(VampireKnife::new,
+                    MobCategory.MISC).sized(0.5F, 0.5F).build("vampire_knife"));
+
+    public static final RegistryObject<EntityType<AbyssProjectile>> ABYSS_PROJECTILE =
+            ENTITY_TYPES.register("abyss_projectile", () -> EntityType.Builder.of(AbyssProjectile::new,
+                    MobCategory.MISC).sized(0.25F, 0.25F).build("abyss_projectile"));
+
+    public static final RegistryObject<EntityType<VampireHealProjectile>> VAMPIRE_HEAL_PROJECTILE =
+            ENTITY_TYPES.register("vampire_heal_projectile", () -> EntityType.Builder.of(VampireHealProjectile::new,
+                    MobCategory.MISC).sized(0.25F, 0.25F).updateInterval(1).build("vampire_heal_projectile"));
 
     public static final RegistryObject<EntityType<ThrownThunderbolt>> THROWN_THUNDERBOLT_ENTITY =
             ENTITY_TYPES.register("thrown_thunderbolt",

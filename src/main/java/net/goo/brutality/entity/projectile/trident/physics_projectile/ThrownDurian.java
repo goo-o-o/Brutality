@@ -37,7 +37,7 @@ public class ThrownDurian extends BrutalityAbstractPhysicsTrident implements Bru
     }
 
     @Override
-    public SoundEvent getHitEntitySound() {
+    public SoundEvent getHitEntitySoundEvent() {
         return BrutalityModSounds.SQUELCH.get();
     }
 

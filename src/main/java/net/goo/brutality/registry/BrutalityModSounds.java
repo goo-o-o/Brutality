@@ -16,6 +16,9 @@ public class BrutalityModSounds {
     public static final RegistryObject<SoundEvent> METAL_PIPE = registerSoundEvents("metal_pipe");
     public static final RegistryObject<SoundEvent> TREASURE_CHEST_LOCK = registerSoundEvents("treasure_chest_lock");
     public static final RegistryObject<SoundEvent> LIGHT_SWITCH = registerSoundEvents("light_switch");
+    public static final RegistryObject<SoundEvent> EMERGENCY_MEETING = registerSoundEvents("emergency_meeting");
+    public static final RegistryObject<SoundEvent> THROW = registerSoundEvents("throw");
+    public static final RegistryObject<SoundEvent> ZAP = registerSoundEvents("zap");
 
     public static final RegistryObject<SoundEvent> LEAF_BLOWER_ON = registerSoundEvents("leaf_blower_on");
     public static final RegistryObject<SoundEvent> LEAF_BLOWER_ACTIVE = registerSoundEvents("leaf_blower_active");
@@ -26,6 +29,13 @@ public class BrutalityModSounds {
             registerSoundEvents("jackpot_sound_2"),
             registerSoundEvents("jackpot_sound_3"),
             registerSoundEvents("jackpot_sound_4")
+    );
+
+    public static final List<RegistryObject<SoundEvent>> CRATE_BREAK_SOUNDS = List.of(
+            registerSoundEvents("crate_break_1"),
+            registerSoundEvents("crate_break_2"),
+            registerSoundEvents("crate_break_3"),
+            registerSoundEvents("crate_break_4")
     );
     public static final List<RegistryObject<SoundEvent>> DODGE_SOUNDS = List.of(
             registerSoundEvents("dodge_1"),

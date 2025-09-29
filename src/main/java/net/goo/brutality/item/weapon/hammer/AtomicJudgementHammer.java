@@ -1,10 +1,11 @@
 package net.goo.brutality.item.weapon.hammer;
 
-import net.bettercombat.utils.MathHelper;
-import net.goo.brutality.Brutality;
 import net.goo.brutality.config.BrutalityCommonConfig;
+import net.goo.brutality.entity.explosion.BrutalityExplosion;
+import net.goo.brutality.entity.explosion.NuclearExplosion;
 import net.goo.brutality.item.base.BrutalityHammerItem;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.ModExplosionHelper;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -37,38 +38,6 @@ public class AtomicJudgementHammer extends BrutalityHammerItem {
 
 
     @Override
-    public boolean hurtEnemy(ItemStack pStack, @NotNull LivingEntity pTarget, @NotNull LivingEntity pAttacker) {
-        Level level = pAttacker.level();
-
-        doCustomExplosion(level, pTarget, pAttacker, pStack);
-
-        return super.hurtEnemy(pStack, pTarget, pAttacker);
-    }
-
-
-    public static void doCustomExplosion(Level level, LivingEntity target, LivingEntity attacker, ItemStack stack) {
-        if (level.isClientSide() || !(attacker instanceof Player player)) return;
-
-        if (target == null || stack.isEmpty()) {
-            return;
-        }
-
-        try {
-            float basePower = (float) (player.getAttackStrengthScale(1F) * 10 * BrutalityCommonConfig.ATOMIC_JUDGEMENT_MULT.get());
-            float radius = MathHelper.clamp(basePower, 1f, 100f); // Prevent extreme values
-
-
-            int damage = Math.min(5, stack.getMaxDamage() - stack.getDamageValue());
-            if (damage > 0) {
-                if (!player.isCreative())
-                    stack.hurtAndBreak(damage, target, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
-            }
-        } catch (Exception e) {
-            Brutality.LOGGER.error("Failed to execute atomic judgement explosion", e);
-        }
-    }
-
-    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, (state) ->
                 state.setAndContinue(RawAnimation.begin().thenLoop("idle")))
@@ -81,6 +50,15 @@ public class AtomicJudgementHammer extends BrutalityHammerItem {
         return UseAnim.BOW;
     }
 
+
+    public static void doExplosion(Player player, Vec3 loc) {
+        Level level = player.level();
+
+        BrutalityExplosion explosion = new NuclearExplosion(player.level(), player, null, null, loc.x, loc.y, loc.z, 3, false,
+                BrutalityCommonConfig.ATOMIC_JUDGEMENT_GRIEFING.get() ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
+
+        ModExplosionHelper.Server.explode(explosion, level, true);
+    }
 
     @Override
     public void releaseUsing(@NotNull ItemStack pStack, @NotNull Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {

@@ -1,6 +1,5 @@
 package net.goo.brutality.util.helpers;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import net.goo.brutality.registry.ModRarities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -11,19 +10,9 @@ import net.minecraft.world.item.Rarity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 
-import java.awt.*;
-
 import static net.minecraft.util.CommonColors.WHITE;
 
 public class BrutalityTooltipHelper {
-
-    public static int[] changeBrightness(int[] colors, float factor) {
-        int[] result = new int[colors.length];
-        for (int i = 0; i < colors.length; i++) {
-            result[i] = (int) (colors[i] * factor);
-        }
-        return result;
-    }
 
     public static Component getRarityName(String translationKey, Rarity rarity) {
         assert Minecraft.getInstance().player != null;
@@ -63,21 +52,6 @@ public class BrutalityTooltipHelper {
         }
     }
 
-    public static int[] ensureVisible(int[] rgb) {
-        float[] hsv = new float[3];
-        Color.RGBtoHSB(rgb[0], rgb[1], rgb[2], hsv);
-
-        float minBrightness = 25;
-        float boost = 0.25F;
-
-        if (hsv[2] < minBrightness) {
-            hsv[2] = Math.min(1.0f, hsv[2] + boost);
-        }
-
-        // Convert back to RGB
-        int rgbInt = Color.HSBtoRGB(hsv[0], hsv[1], hsv[2]);
-        return new int[]{(rgbInt >> 16) & 0xFF, (rgbInt >> 8) & 0xFF, rgbInt & 0xFF};
-    }
 
     public static int getColorFromGradient(int percentage, int[]... rgbColors) {
         // Handle edge cases when there are less than 2 colors
@@ -272,16 +246,9 @@ public class BrutalityTooltipHelper {
         return new int[]{r, g, b_};
     }
 
-
-    public record ItemDescriptionComponent(ItemDescriptionComponents type, int lines, Integer cooldownTicks, InputConstants.Key keyMapping) {
+    public record ItemDescriptionComponent(ItemDescriptionComponents type, int lines, Integer cooldownTicks) {
         public ItemDescriptionComponent(ItemDescriptionComponents type, int lines) {
-            this(type, lines, null, null);
-        }
-        public ItemDescriptionComponent(ItemDescriptionComponents type, int lines, int cooldownTicks) {
-            this(type, lines, cooldownTicks, null);
-        }
-        public ItemDescriptionComponent(ItemDescriptionComponents type, int lines, InputConstants.Key keyMapping) {
-            this(type, lines, null, keyMapping);
+            this(type, lines, null);
         }
     }
 

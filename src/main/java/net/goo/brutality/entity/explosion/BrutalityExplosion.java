@@ -34,12 +34,9 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import javax.annotation.Nullable;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class BrutalityExplosion extends Explosion {
@@ -47,13 +44,25 @@ public class BrutalityExplosion extends Explosion {
     public float damageScale = 1;
     public Float damage = null;
     Predicate<Entity> entityFilter = e -> true;
+    protected Level.ExplosionInteraction explosionInteraction;
 
-    public BrutalityExplosion(Level pLevel, @Nullable Entity pSource, double pToBlowX, double pToBlowY, double pToBlowZ, float pRadius, boolean pFire, BlockInteraction pBlockInteraction) {
-        super(pLevel, pSource, pToBlowX, pToBlowY, pToBlowZ, pRadius, pFire, pBlockInteraction);
+
+    public BrutalityExplosion(Level pLevel, @Nullable Entity pSource, double pToBlowX, double pToBlowY, double pToBlowZ, float pRadius, List<BlockPos> pPositions) {
+        this(pLevel, pSource, pToBlowX, pToBlowY, pToBlowZ, pRadius, false, Level.ExplosionInteraction.NONE, pPositions);
     }
 
-    public BrutalityExplosion(Level pLevel, @Nullable Entity pSource, @Nullable DamageSource pDamageSource, @Nullable ExplosionDamageCalculator pDamageCalculator, double pToBlowX, double pToBlowY, double pToBlowZ, float pRadius, boolean pFire, BlockInteraction pBlockInteraction) {
-        super(pLevel, pSource, pDamageSource, pDamageCalculator, pToBlowX, pToBlowY, pToBlowZ, pRadius, pFire, pBlockInteraction);
+    public BrutalityExplosion(Level pLevel, @Nullable Entity pSource, double pToBlowX, double pToBlowY, double pToBlowZ, float pRadius, boolean pFire, Level.ExplosionInteraction explosionInteraction, List<BlockPos> pPositions) {
+        this(pLevel, pSource, pToBlowX, pToBlowY, pToBlowZ, pRadius, pFire, explosionInteraction);
+        this.toBlow.addAll(pPositions);
+    }
+
+    public BrutalityExplosion(Level pLevel, @Nullable Entity pSource, double pToBlowX, double pToBlowY, double pToBlowZ, float pRadius, boolean pFire, Level.ExplosionInteraction explosionInteraction) {
+        this(pLevel, pSource, null, null, pToBlowX, pToBlowY, pToBlowZ, pRadius, pFire, explosionInteraction);
+    }
+
+    public BrutalityExplosion(Level pLevel, @Nullable Entity pSource, @Nullable DamageSource pDamageSource, @Nullable ExplosionDamageCalculator pDamageCalculator, double pToBlowX, double pToBlowY, double pToBlowZ, float pRadius, boolean pFire, Level.ExplosionInteraction explosionInteraction) {
+        super(pLevel, pSource, pDamageSource, pDamageCalculator, pToBlowX, pToBlowY, pToBlowZ, pRadius, pFire, BlockInteraction.KEEP);
+        this.explosionInteraction = explosionInteraction;
     }
 
     protected SimpleParticleType getParticleEmitter() {
@@ -72,6 +81,18 @@ public class BrutalityExplosion extends Explosion {
         return hitEntities;
     }
 
+    public boolean getFire() {
+        return fire;
+    }
+
+    public float getRadius() {
+        return radius;
+    }
+
+    public Level.ExplosionInteraction getExplosionInteraction() {
+        return this.explosionInteraction;
+    }
+
     protected boolean needsInteractWithBlocksForEmitter() {
         return true;
     }
@@ -79,6 +100,7 @@ public class BrutalityExplosion extends Explosion {
     public Predicate<Entity> getEntityFilter() {
         return entityFilter;
     }
+
     public void setEntityFilter(Predicate<Entity> entityFilter) {
         this.entityFilter = entityFilter;
     }
@@ -231,11 +253,9 @@ public class BrutalityExplosion extends Explosion {
                         double visibilityFactor = getSeenPercent(explosionCenter, entity);
                         double impactFactor = ((double) 1.0F - distanceRatio) * visibilityFactor;
 
-                        if (this.damage != null) {
-                            entity.hurt(this.getDamageSource(), damageScale * this.damage);
-                        } else {
-                        entity.hurt(this.getDamageSource(), damageScale * (float) ((impactFactor * impactFactor + impactFactor) / 2.0F * 7.0F * explosionDiameter + 1.0F));
-                        }
+                        entity.hurt(this.getDamageSource(),
+                                damageScale * Objects.requireNonNullElseGet(this.damage,
+                                        () -> (float) ((impactFactor * impactFactor + impactFactor) / 2.0F * 7.0F * explosionDiameter + 1.0F)));
                         onHit(entity, impactFactor);
                         double knockbackFactor;
                         if (entity instanceof LivingEntity livingEntity) {

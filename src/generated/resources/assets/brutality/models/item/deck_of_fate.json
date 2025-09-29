@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/throwing/deck_of_fate/deck_of_fate_inventory"
+  }
+}

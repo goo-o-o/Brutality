@@ -115,9 +115,18 @@ public class ModCreativeModTabs {
 
                         output.accept(BrutalityModItems.CARTON_OF_PRISM_SOLUTION_MILK.get());
                         output.accept(BrutalityModItems.LIGHT_SWITCH.get());
+                        output.accept(BrutalityModItems.FUZZY_DICE.get());
                         output.accept(BrutalityModItems.DIVINE_IMMOLATION.get());
                         output.accept(BrutalityModItems.CRYPTO_WALLET_CHARM.get());
-                        output.accept(BrutalityModItems.PORTABLE_MINING_RIG_CHARM.get());
+                        output.accept(BrutalityModItems.PORTABLE_MINING_RIG.get());
+                        output.accept(BrutalityModItems.DUMBBELL.get());
+                        output.accept(BrutalityModItems.BOX_OF_CHOCOLATES.get());
+                        output.accept(BrutalityModItems.BROKEN_HEART.get());
+                        output.accept(BrutalityModItems.BIKERS_HELMET.get());
+                        output.accept(BrutalityModItems.ESCAPE_KEY.get());
+                        output.accept(BrutalityModItems.MIRACLE_CURE.get());
+                        output.accept(BrutalityModItems.ESSENTIAL_OILS.get());
+                        output.accept(BrutalityModItems.GLASS_HEART.get());
                         output.accept(BrutalityModItems.THE_CLOUD.get().getDefaultInstance());
                         output.accept(BrutalityModItems.GOOD_BOOK.get());
                         output.accept(BrutalityModItems.CELESTIAL_STARBOARD.get());
@@ -156,9 +165,13 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.SCOPE_GOGGLES.get());
                         output.accept(BrutalityModItems.BLACK_MATTER_NECKLACE.get());
                         output.accept(BrutalityModItems.PHANTOM_FINGER.get());
-                        output.accept(BrutalityModItems.SILVER_RESPAWN_CARD.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.SILVER_BOOSTER_PACK.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.DIAMOND_BOOSTER_PACK.get());
+                        output.accept(BrutalityModItems.EVIL_KING_BOOSTER_PACK.get());
+                        output.accept(BrutalityModItems.SILVER_RESPAWN_CARD.get());
                         output.accept(BrutalityModItems.DIAMOND_RESPAWN_CARD.get());
                         output.accept(BrutalityModItems.EVIL_KING_RESPAWN_CARD.get());
+                        output.accept(BrutalityModItems.YATA_NO_KAGAMI.get());
 
                         output.accept(BrutalityModItems.GREED_CHARM.get());
                         output.accept(BrutalityModItems.PRIDE_CHARM.get());
@@ -220,6 +233,13 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.SANGUINE_SPECTACLES.get());
                         output.accept(BrutalityModItems.PROGENITORS_EARRINGS.get());
                         output.accept(BrutalityModItems.BLOODSTAINED_MIRROR.get());
+                        output.accept(BrutalityModItems.INCOGNITO_MODE.get());
+                        output.accept(BrutalityModItems.MINIATURE_ANCHOR.get());
+                        output.accept(BrutalityModItems.PAPER_AIRPLANE.get());
+                        output.accept(BrutalityModItems.FIRE_EXTINGUISHER.get());
+                        output.accept(BrutalityModItems.EMERGENCY_MEETING.get());
+                        output.accept(BrutalityModItems.PENCIL_SHARPENER.get());
+                        output.accept(BrutalityModItems.CHOCOLATE_BAR.get());
                         output.accept(BrutalityModItems.VAMPIRIC_TALISMAN.get());
                         output.accept(BrutalityModItems.FALLEN_ANGELS_HALO.get());
                         output.accept(BrutalityModItems.HELLSPEC_TIE.get());
@@ -272,8 +292,30 @@ public class ModCreativeModTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(BrutalityModItems.SEVENTH_STAR.get()))
                     .title(Component.translatable("creativeTab.brutality_unsorted_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(BrutalityModItems.BLACK_SEAL.get());
+                        output.accept(BrutalityModItems.BLUE_SEAL.get());
+                        output.accept(BrutalityModItems.GREEN_SEAL.get());
+                        output.accept(BrutalityModItems.ORANGE_SEAL.get());
+                        output.accept(BrutalityModItems.PINK_SEAL.get());
+                        output.accept(BrutalityModItems.PURPLE_SEAL.get());
+                        output.accept(BrutalityModItems.RED_SEAL.get());
+                        output.accept(BrutalityModItems.TEAL_SEAL.get());
+                        output.accept(BrutalityModItems.YELLOW_SEAL.get());
+
+                        output.accept(BrutalityModItems.CINDER_BLOCK.get());
+                        output.accept(BrutalityModItems.SCULK_GRENADE.get());
+                        output.accept(BrutalityModItems.STICKY_BOMB.get());
+                        output.accept(BrutalityModItems.BEACH_BALL.get());
+                        output.accept(BrutalityModItems.BLAST_BARREL.get());
+                        output.accept(BrutalityModItems.DECK_OF_FATE.get());
+                        output.accept(BrutalityModItems.ICE_CUBE.get());
+                        output.accept(BrutalityModItems.PERMAFROST_CUBE.get());
+                        output.accept(BrutalityModItems.HOLY_HAND_GRENADE.get());
                         output.accept(BrutalityModItems.GUNGNIR_TRIDENT.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.YATA_NO_KAGAMI.get());
+                        output.accept(BrutalityModItems.VAMPIRE_KNIVES.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.DYNAMITE.get());
+                        output.accept(BrutalityModItems.STICKY_DYNAMITE.get());
+                        output.accept(BrutalityModItems.BOUNCY_DYNAMITE.get());
                         output.accept(BrutalityModItems.THUNDERBOLT_TRIDENT.get().getDefaultInstance());
 
                         output.accept(BrutalityModItems.WOODEN_RULER.get());
@@ -297,7 +339,7 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.DARKIN_SCYTHE.get().getDefaultInstance());
                         output.accept(BrutalityModItems.RHITTA_AXE.get().getDefaultInstance());
                         output.accept(BrutalityModItems.FROSTMOURNE_SWORD.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.MURASAMA_SWORD.get().getDefaultInstance());
+//                        output.accept(BrutalityModItems.MURASAMA_SWORD.get().getDefaultInstance());
                         output.accept(BrutalityModItems.DULL_KNIFE_DAGGER.get().getDefaultInstance());
                         output.accept(BrutalityModItems.ROYAL_GUARDIAN_SWORD.get().getDefaultInstance());
 
@@ -315,14 +357,14 @@ public class ModCreativeModTabs {
 
 
 
-                        output.accept(BrutalityModItems.TERRA_BLADE_SWORD.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.TERRATOMERE_SWORD.get().getDefaultInstance());
+//                        output.accept(BrutalityModItems.TERRA_BLADE_SWORD.get().getDefaultInstance());
+//                        output.accept(BrutalityModItems.TERRATOMERE_SWORD.get().getDefaultInstance());
                         output.accept(BrutalityModItems.LAST_PRISM_ITEM.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.EXOBLADE_SWORD.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.BIOMECH_REACTOR_TRIDENT.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.DEPTH_CRUSHER_TRIDENT.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.MARIANAS_TRENCH.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.CHALLENGER_DEEP.get().getDefaultInstance());
+//                        output.accept(BrutalityModItems.EXOBLADE_SWORD.get().getDefaultInstance());
+//                        output.accept(BrutalityModItems.BIOMECH_REACTOR_TRIDENT.get().getDefaultInstance());
+//                        output.accept(BrutalityModItems.DEPTH_CRUSHER_TRIDENT.get().getDefaultInstance());
+//                        output.accept(BrutalityModItems.MARIANAS_TRENCH.get().getDefaultInstance());
+//                        output.accept(BrutalityModItems.CHALLENGER_DEEP.get().getDefaultInstance());
 
 
                         output.accept(BrutalityModItems.NOIR_HELMET.get().getDefaultInstance());

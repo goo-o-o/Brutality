@@ -208,7 +208,7 @@ public class FirstExplosionStaff extends BrutalityGenericItem {
                     explosionRay.setCircleCount(circleCount);
                     explosionRay.setPos(targetBlockPos.getCenter().x, targetBlockPos.getY(), targetBlockPos.getCenter().z);
                     pLevel.addFreshEntity(explosionRay);
-                    ModExplosionHelper.ExplosionManager.addExplosion(pLevel, pPlayer, explosionRay.blockPosition(), explosionSize, 3);
+                    ModExplosionHelper.Server.addExplosion(pLevel, pPlayer, explosionRay.blockPosition(), explosionSize, 3);
 
                 } else {
                     pLivingEntity.hurt(pLivingEntity.damageSources().indirectMagic(pLivingEntity, pLivingEntity), circleCount);

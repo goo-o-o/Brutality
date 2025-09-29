@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/throwing/vampire_knives/vampire_knives_inventory"
+  }
+}

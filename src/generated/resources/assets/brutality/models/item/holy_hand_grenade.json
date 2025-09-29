@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/throwing/holy_hand_grenade/holy_hand_grenade_inventory"
+  }
+}

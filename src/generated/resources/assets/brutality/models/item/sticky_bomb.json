@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/throwing/sticky_bomb/sticky_bomb_inventory"
+  }
+}

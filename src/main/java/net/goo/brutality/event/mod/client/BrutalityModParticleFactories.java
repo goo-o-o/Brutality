@@ -5,10 +5,7 @@ import net.goo.brutality.particle.custom.*;
 import net.goo.brutality.particle.custom.flat.HexingCircleParticle;
 import net.goo.brutality.particle.custom.flat.MurasamaSlashParticle;
 import net.goo.brutality.particle.custom.flat.StygianStepParticle;
-import net.goo.brutality.particle.custom.flat.waves.AntiMatterWave;
-import net.goo.brutality.particle.custom.flat.waves.CosmicWave;
-import net.goo.brutality.particle.custom.flat.waves.FrostmourneWave;
-import net.goo.brutality.particle.custom.flat.waves.HealWave;
+import net.goo.brutality.particle.custom.flat.waves.*;
 import net.goo.brutality.particle.providers.FlatParticleData;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraftforge.api.distmarker.Dist;
@@ -66,12 +63,15 @@ public class BrutalityModParticleFactories {
         event.registerSpriteSet(BrutalityModParticles.HEAL_WAVE.get(), HealWave.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.FROSTMOURNE_WAVE.get(), FrostmourneWave.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.COSMIC_WAVE.get(), CosmicWave.Provider::new);
+        event.registerSpriteSet(BrutalityModParticles.SONIC_WAVE.get(), SonicWave.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.ANTIMATTER_WAVE.get(), AntiMatterWave.Provider::new);
 
-        event.registerSpecial(BrutalityModParticles.NUCLEAR_EXPLOSION_EMITTER.get(), new NuclearExplosionSeedParticle.Provider());
+        event.registerSpecial(BrutalityModParticles.NUCLEAR_EXPLOSION_EMITTER.get(), new NuclearExplosionParticleEmitter.Provider());
         event.registerSpriteSet(BrutalityModParticles.NUCLEAR_EXPLOSION_PARTICLE.get(), NuclearExplosionParticle.Provider::new);
-        event.registerSpecial(BrutalityModParticles.BLOOD_EXPLOSION_EMITTER.get(), new BloodExplosionSeedParticle.Provider());
+        event.registerSpecial(BrutalityModParticles.BLOOD_EXPLOSION_EMITTER.get(), new BloodExplosionEmitter.Provider());
         event.registerSpriteSet(BrutalityModParticles.BLOOD_EXPLOSION_PARTICLE.get(), BloodExplosionParticle.Provider::new);
+        event.registerSpecial(BrutalityModParticles.NAPALM_EXPLOSION_EMITTER.get(), new NapalmExplosionParticleEmitter.Provider());
+        event.registerSpriteSet(BrutalityModParticles.NAPALM_EXPLOSION_PARTICLE.get(), NapalmExplosionParticle.Provider::new);
 
     }
 }

@@ -1,5 +1,7 @@
 package net.goo.brutality.event.mod.client;
 
+import dev.kosmx.playerAnim.api.layered.ModifierLayer;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.BetterCombatIntegration;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -30,6 +32,8 @@ public class ModClientSetup {
                 ((pStack, pLevel, pEntity, pSeed) -> pStack.getOrCreateTag().getInt("texture"))));
 
 
+        PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(ResourceLocation.fromNamespaceAndPath(MOD_ID, "animation"), 42,
+                (player) -> new ModifierLayer<>());
 
         event.enqueueWork(() -> {
             ItemProperties.register(BrutalityModItems.PROVIDENCE.get(), ResourceLocation.parse("pull"), (stack, level, entity, seed) -> {
@@ -44,6 +48,5 @@ public class ModClientSetup {
 
 
     }
-
 
 }

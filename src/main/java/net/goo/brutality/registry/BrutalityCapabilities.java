@@ -18,6 +18,7 @@ import java.util.function.Supplier;
 public class BrutalityCapabilities {
     public static final Capability<EntityCapabilities.EntityEffectCap> ENTITY_EFFECT_CAP = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<EntityCapabilities.EntityStarCountCap> ENTITY_STAR_COUNT_CAP = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<EntityCapabilities.EntityStickyBombCap> ENTITY_STICKY_BOMB_CAP = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<EntityCapabilities.EntityShouldRotateCap> ENTITY_SHOULD_ROTATE_CAP = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<EntityCapabilities.PlayerRageCap> PLAYER_RAGE_CAP = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<EntityCapabilities.PlayerManaCap> PLAYER_MANA_CAP = CapabilityManager.get(new CapabilityToken<>(){});
@@ -27,6 +28,7 @@ public class BrutalityCapabilities {
     static {
         CapabilitySyncRegistry.register("effect", ENTITY_EFFECT_CAP, EntityCapabilities.EntityEffectCap::new);
         CapabilitySyncRegistry.register("star_count", ENTITY_STAR_COUNT_CAP, EntityCapabilities.EntityStarCountCap::new);
+        CapabilitySyncRegistry.register("sticky_bomb", ENTITY_STICKY_BOMB_CAP, EntityCapabilities.EntityStickyBombCap::new);
         CapabilitySyncRegistry.register("should_rotate", ENTITY_SHOULD_ROTATE_CAP, EntityCapabilities.EntityShouldRotateCap::new);
         CapabilitySyncRegistry.register("rage_value", PLAYER_RAGE_CAP, EntityCapabilities.PlayerRageCap::new);
         CapabilitySyncRegistry.register("mana_value", PLAYER_MANA_CAP, EntityCapabilities.PlayerManaCap::new);

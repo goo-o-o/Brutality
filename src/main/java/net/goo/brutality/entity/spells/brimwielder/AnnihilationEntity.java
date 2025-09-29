@@ -6,7 +6,7 @@ import net.goo.brutality.entity.explosion.BloodExplosion;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.magic.IBrutalitySpellEntity;
 import net.goo.brutality.magic.spells.brimwielder.AnnihilationSpell;
-import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.util.helpers.ModExplosionHelper;
 import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -79,6 +79,12 @@ public class AnnihilationEntity extends BrutalityAbstractArrow implements Brutal
         this.entityData.define(SPELL_LEVEL_DATA, 1);
     }
 
+    @Override
+    public SoundEvent getHitGroundSoundEvent() {
+        return SoundEvents.TRIDENT_HIT_GROUND;
+    }
+
+
 
     @Override
     public void setSpellLevel(int spellLevel) {
@@ -122,10 +128,10 @@ public class AnnihilationEntity extends BrutalityAbstractArrow implements Brutal
 
         Random seeded = new Random(seed);
         if (seeded.nextInt(0, 100) < getSpell().getFinalStat(getSpellLevel(), getSpell().getStat(CHANCE))) {
-            BloodExplosion explosion = new BloodExplosion(level(), getOwner(), null, null, loc.x, loc.y, loc.z, 3, false, ModUtils.getCorrectExplosionInteraction(level(), getOwner(), Level.ExplosionInteraction.NONE));
+            BloodExplosion explosion = new BloodExplosion(level(), getOwner(), null, null, loc.x, loc.y, loc.z, 3, false, Level.ExplosionInteraction.NONE);
             explosion.damageScale = getSpellLevel() * 0.15F;
             explosion.setEntityFilter(e -> !(e instanceof AnnihilationEntity));
-            ModUtils.explode(explosion, level(), true);
+            ModExplosionHelper.Server.explode(explosion, level(), true);
         }
     }
 
@@ -138,13 +144,9 @@ public class AnnihilationEntity extends BrutalityAbstractArrow implements Brutal
         if (this.inGroundTime > 100) discard();
     }
 
-    @Override
-    protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.TRIDENT_HIT_GROUND;
-    }
 
     @Override
-    public SoundEvent getHitEntitySound() {
+    public SoundEvent getHitEntitySoundEvent() {
         return SoundEvents.TRIDENT_HIT;
     }
 

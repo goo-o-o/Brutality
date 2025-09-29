@@ -32,7 +32,7 @@ public class ThrownStyrofoamCup extends BrutalityAbstractPhysicsTrident {
     }
 
     @Override
-    public SoundEvent getHitEntitySound() {
+    public SoundEvent getHitEntitySoundEvent() {
         return BrutalityModSounds.STYROFOAM_IMPACT.get();
     }
 
@@ -42,7 +42,7 @@ public class ThrownStyrofoamCup extends BrutalityAbstractPhysicsTrident {
     }
 
     @Override
-    protected int getBounceCount() {
+    protected int getBounceQuota() {
         return 0;
     }
 }

@@ -2,9 +2,11 @@ package net.goo.brutality.entity.base;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -47,6 +49,17 @@ public class BrutalityAbstractPhysicsProjectile extends BrutalityAbstractArrow i
     }
 
     @Override
+    public boolean hurt(DamageSource pSource, float pAmount) {
+        if (pSource.getEntity() instanceof LivingEntity livingEntity) {
+            Vec3 look = livingEntity.getLookAngle().scale(livingEntity.getAttributeValue(Attributes.ATTACK_KNOCKBACK));
+            setDeltaMovement(look);
+            this.hurtMarked = true;
+            return false;
+        }
+        return super.hurt(pSource, pAmount);
+    }
+
+    @Override
     public void tick() {
         super.tick();
 
@@ -58,7 +71,7 @@ public class BrutalityAbstractPhysicsProjectile extends BrutalityAbstractArrow i
         // Calculate current rotation values
         Vec3 motion = this.getDeltaMovement();
         float speed = (float) motion.length();
-        if (speed > 0.1 && !inGround) {
+        if (speed > 0.25 && !inGround) {
             if (!lockRoll())
                 this.roll += speed * getRotationSpeed(); // Adjust multiplier for rotation speed
             if (!lockYaw())
@@ -97,7 +110,7 @@ public class BrutalityAbstractPhysicsProjectile extends BrutalityAbstractArrow i
         }
 
         // Play impact effects
-        this.playSound(this.getDefaultHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
+        this.playSound(getHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
         this.shakeTime = 7;
 
         // Check bounce limit BEFORE physics

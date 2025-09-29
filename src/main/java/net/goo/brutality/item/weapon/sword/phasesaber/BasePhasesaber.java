@@ -3,6 +3,7 @@ package net.goo.brutality.item.weapon.sword.phasesaber;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -13,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
@@ -51,14 +53,20 @@ public class BasePhasesaber extends BrutalitySwordItem {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<GeoAnimatable>(this, "controller", state -> PlayState.CONTINUE)
-                .triggerableAnim("show", RawAnimation.begin().thenPlayAndHold("show"))
-                .triggerableAnim("hide", RawAnimation.begin().thenPlayAndHold("hide")));
+                .triggerableAnim("show", RawAnimation.begin().thenPlayAndHold("show")).setAnimationSpeed(2)
+                .triggerableAnim("hide", RawAnimation.begin().thenPlayAndHold("hide")).setAnimationSpeed(2));
     }
+
 
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
-        entity.playSound(BrutalityModSounds.PHASESABER_SWING.get());
+        entity.playSound(BrutalityModSounds.PHASESABER_SWING.get(), 1.0F, 1.0F);
         return super.onEntitySwing(stack, entity);
+    }
+
+    @Override
+    public boolean canAttackBlock(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer) {
+        return false;
     }
 
     @Override

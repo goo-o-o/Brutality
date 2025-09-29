@@ -41,7 +41,7 @@ public class BrutalityPickaxeItem extends PickaxeItem implements BrutalityGeoIte
 
     @Override
     public BrutalityCategories.AttackType getAttackType() {
-        return BrutalityCategories.AttackType.STAB;
+        return BrutalityCategories.AttackType.PIERCE;
     }
 
     @Override

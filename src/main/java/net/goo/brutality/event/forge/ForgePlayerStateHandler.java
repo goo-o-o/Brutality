@@ -1,5 +1,6 @@
 package net.goo.brutality.event.forge;
 
+import com.google.common.base.Suppliers;
 import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.weapon.axe.RhittaAxe;
@@ -12,17 +13,20 @@ import net.goo.brutality.item.weapon.tome.BaseMagicTome;
 import net.goo.brutality.item.weapon.trident.ThunderboltTrident;
 import net.goo.brutality.mob_effect.TheVoidEffect;
 import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
+import net.goo.brutality.network.ClientboundSyncItemCooldownPacket;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.EnvironmentColorManager;
+import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -33,9 +37,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingSwapItemsEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
@@ -49,12 +53,21 @@ import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import static net.goo.brutality.util.ModResources.*;
 import static net.goo.brutality.util.helpers.EnvironmentColorManager.resetAllColors;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgePlayerStateHandler {
+
+    public static final Supplier<List<Item>> cdPersistItems = Suppliers.memoize(() -> List.of(
+            BrutalityModItems.EVIL_KING_BOOSTER_PACK.get(), BrutalityModItems.EVIL_KING_RESPAWN_CARD.get(),
+            BrutalityModItems.DIAMOND_BOOSTER_PACK.get(), BrutalityModItems.DIAMOND_RESPAWN_CARD.get(),
+            BrutalityModItems.SILVER_BOOSTER_PACK.get(), BrutalityModItems.SILVER_RESPAWN_CARD.get()
+            ));
+    public static final Supplier<List<MobEffect>> boosterPackEffects = Suppliers.memoize(() -> List.of(
+            MobEffects.SATURATION, MobEffects.MOVEMENT_SPEED, MobEffects.ABSORPTION, MobEffects.JUMP, MobEffects.DAMAGE_RESISTANCE, TerramityModMobEffects.IMMUNITY.get()));
 
     @SubscribeEvent
     public static void onSwitchItemHands(LivingSwapItemsEvent event) {
@@ -96,38 +109,32 @@ public class ForgePlayerStateHandler {
     }
 
 
+
+
     @SubscribeEvent
-    public static void onRespawn(PlayerEvent.Clone event) {
+    public static void onPlayerClone(PlayerEvent.Clone event) {
         Player newPlayer = event.getEntity();
-//        if (event.isWasDeath()) {
-//            ItemCooldowns cooldowns = newPlayer.getCooldowns();
-//            if (cooldowns.isOnCooldown(BrutalityModItems.SILVER_RESPAWN_CARD.get())) return;
-//            newPlayer.getCapability(BrutalityCapabilities.RESPAWN_CARD_CAP).ifPresent(cap -> {
-//                if (cap.getCardType() == EntityCapabilities.EntityRespawnCardCap.CARD_TYPE.SILVER) {
-//                    newPlayer.getInventory().armor.set(0, new ItemStack(Items.IRON_BOOTS));
-//                    newPlayer.getInventory().armor.set(1, new ItemStack(Items.IRON_LEGGINGS));
-//                    newPlayer.getInventory().armor.set(2, new ItemStack(Items.IRON_CHESTPLATE));
-//                    newPlayer.getInventory().armor.set(3, new ItemStack(Items.IRON_HELMET));
-//
-//                    newPlayer.getInventory().add(new ItemStack(Items.GOLDEN_APPLE, 2));
-//                    newPlayer.getInventory().add(new ItemStack(Items.COOKED_BEEF, 8));
-//                    newPlayer.getInventory().add(new ItemStack(Items.IRON_SWORD));
-//                    newPlayer.getInventory().add(new ItemStack(Items.IRON_PICKAXE));
-//                    newPlayer.getInventory().add(new ItemStack(Items.IRON_AXE));
-//                } else if (cap.getCardType() == EntityCapabilities.EntityRespawnCardCap.CARD_TYPE.DIAMOND) {
-//                    newPlayer.getInventory().armor.set(0, new ItemStack(Items.IRON_BOOTS));
-//                    newPlayer.getInventory().armor.set(1, new ItemStack(Items.IRON_LEGGINGS));
-//                    newPlayer.getInventory().armor.set(2, new ItemStack(Items.IRON_CHESTPLATE));
-//                    newPlayer.getInventory().armor.set(3, new ItemStack(Items.IRON_HELMET));
-//
-//                    newPlayer.getInventory().add(new ItemStack(Items.GOLDEN_APPLE, 4));
-//                    newPlayer.getInventory().add(new ItemStack(Items.COOKED_BEEF, 16));
-//                    newPlayer.getInventory().add(new ItemStack(Items.DIAMOND_SWORD));
-//                    newPlayer.getInventory().add(new ItemStack(Items.DIAMOND_PICKAXE));
-//                    newPlayer.getInventory().add(new ItemStack(Items.DIAMOND_AXE));
-//                }
-//            });
-//        }
+        Player oldPlayer = event.getOriginal();
+        if (event.isWasDeath()) {
+            ItemCooldowns newCooldowns = newPlayer.getCooldowns();
+            ItemCooldowns oldCooldowns = oldPlayer.getCooldowns();
+
+            boolean shouldSync = false;
+            for (Map.Entry<Item, ItemCooldowns.CooldownInstance> entry : oldCooldowns.cooldowns.entrySet()) {
+                Item item = entry.getKey();
+
+                if (cdPersistItems.get().contains(item)) {
+                    ItemCooldowns.CooldownInstance cooldown = entry.getValue();
+                    newCooldowns.cooldowns.put(item, new ItemCooldowns.CooldownInstance(cooldown.startTime, cooldown.endTime));
+                    newCooldowns.tickCount = oldCooldowns.tickCount;
+                    shouldSync = true;
+                }
+            }
+
+            if (shouldSync)
+                DelayedTaskScheduler.queueServerWork(1, () ->
+                        PacketHandler.sendToPlayer(new ClientboundSyncItemCooldownPacket(newCooldowns.cooldowns, newCooldowns.tickCount), ((ServerPlayer) newPlayer)));
+        }
     }
 
 
@@ -137,8 +144,16 @@ public class ForgePlayerStateHandler {
             SupernovaSword.clearAsteroids(player, player.serverLevel());
             CreaseOfCreationItem.handleCreaseOfCreation(player);
 
-
         }
+    }
+
+    @SubscribeEvent
+    public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            ItemCooldowns itemCooldowns = player.getCooldowns();
+            PacketHandler.sendToPlayer(new ClientboundSyncItemCooldownPacket(itemCooldowns.cooldowns, itemCooldowns.tickCount), player);
+        }
+
     }
 
 
@@ -195,7 +210,7 @@ public class ForgePlayerStateHandler {
                                 EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.FOG, emotion.secondaryColor);
                             }
                         },
-                        (player) -> EnvironmentColorManager.resetAllColors()
+                        (player) -> resetAllColors()
                 )));
 
 

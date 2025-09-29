@@ -41,7 +41,7 @@ public class ThrownButter extends BrutalityAbstractPhysicsTrident implements Bru
     }
 
     @Override
-    public SoundEvent getHitEntitySound() {
+    public SoundEvent getHitEntitySoundEvent() {
         return BrutalityModSounds.SQUELCH.get();
     }
 

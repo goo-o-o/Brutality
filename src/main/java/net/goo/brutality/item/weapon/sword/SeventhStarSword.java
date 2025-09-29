@@ -46,29 +46,34 @@ public class SeventhStarSword extends BrutalitySwordItem {
 
             for (Entity entity : nearbyEntities) {
                 if (entity instanceof StarEntity star && star.getOwner() == pPlayer) {
-                    pLevel.explode(pPlayer, null, null,
-                            star.getPosition(1).add(0, star.getBbHeight() / 2, 0), 1,
-                            false,
-                            BrutalityCommonConfig.SEVENTH_STAR_GRIEFING.get() ?
-                                    Level.ExplosionInteraction.BLOCK :
-                                    Level.ExplosionInteraction.NONE
-                    );
+                    if (!pLevel.isClientSide())
+                        pLevel.explode(pPlayer, null, null,
+                                star.getPosition(1).add(0, star.getBbHeight() / 2, 0), 1,
+                                false,
+                                BrutalityCommonConfig.SEVENTH_STAR_GRIEFING.get() ?
+                                        Level.ExplosionInteraction.BLOCK :
+                                        Level.ExplosionInteraction.NONE
+                        );
 
                     star.discard();
                 }
 
                 entity.getCapability(BrutalityCapabilities.ENTITY_STAR_COUNT_CAP).ifPresent(cap -> {
-                    if (cap.getStarCount(uuid) > 0) {
-                        for (int i = 0; i < cap.getStarCount(uuid); i++)
+                    int starCount = cap.getStarCount(uuid, entity.getId());
+                    if (starCount > 0) {
+                        for (int i = 0; i < starCount; i++) {
                             pLevel.explode(pPlayer, null, null,
-                                    entity.getPosition(1).add(0, entity.getBbHeight() / 2, 0), 1, false, Level.ExplosionInteraction.MOB);
-
-                        cap.clearStarCount(uuid);
-                        if (!pLevel.isClientSide())
+                                    entity.getPosition(1).add(0, entity.getBbHeight() / 2, 0), 1, false,
+                                    BrutalityCommonConfig.SEVENTH_STAR_GRIEFING.get() ?
+                                            Level.ExplosionInteraction.BLOCK :
+                                            Level.ExplosionInteraction.NONE);
+                        }
+                        cap.clearStarCount(uuid, entity.getId());
+                        if (!pLevel.isClientSide()) {
                             PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(entity.getId(), entity));
+                        }
                     }
                 });
-
 
             }
         } else {

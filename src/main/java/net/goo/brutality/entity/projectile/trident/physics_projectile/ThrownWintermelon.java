@@ -39,7 +39,7 @@ public class ThrownWintermelon extends BrutalityAbstractPhysicsTrident implement
     }
 
     @Override
-    public SoundEvent getHitEntitySound() {
+    public SoundEvent getHitEntitySoundEvent() {
         return BrutalityModSounds.SQUELCH.get();
     }
 

@@ -12,8 +12,10 @@ public class BrutalityCommonConfig {
     public static final ForgeConfigSpec SPEC;
 
     public static final ForgeConfigSpec.BooleanValue ATOMIC_JUDGEMENT_GRIEFING;
+    public static final ForgeConfigSpec.BooleanValue THROWING_WEAPONS_BREAK_BLOCKS;
     public static final ForgeConfigSpec.BooleanValue SEVENTH_STAR_GRIEFING;
     public static final ForgeConfigSpec.DoubleValue ATOMIC_JUDGEMENT_MULT;
+    public static final ForgeConfigSpec.IntValue BEACHBALL_LIFESPAN;
 
     public static final ForgeConfigSpec.DoubleValue BLACK_HOLE_PULL_STRENGTH;
     public static final ForgeConfigSpec.IntValue BLACK_HOLE_TICK_DAMAGE;
@@ -46,6 +48,13 @@ public class BrutalityCommonConfig {
                 .comment("How many times Gungnir will hit before returning (Default = 3)")
                 .defineInRange("gungnirHitQuota", 3, 0, 10);
 
+        BEACHBALL_LIFESPAN = BUILDER
+                .comment("Beachball Lifespan in Ticks")
+                .defineInRange("beachBallLifeSpan", 1200, 20, 20000);
+
+        THROWING_WEAPONS_BREAK_BLOCKS = BUILDER
+                .comment("Should Throwing Weapons break blocks, this includes things such as On Hit Block effects or Explosions breaking blocks")
+                .define("throwingWeaponsShouldBreakBlocks", false);
 
         BUILDER.pop();
         SPEC = BUILDER.build();

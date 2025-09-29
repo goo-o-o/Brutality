@@ -1,10 +1,16 @@
 package net.goo.brutality.entity.base;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
+import net.goo.brutality.event.forge.DelayedTaskScheduler;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
@@ -12,15 +18,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class BrutalityAbstractPhysicsTrident extends BrutalityAbstractTrident implements BrutalityGeoEntity {
-
+    private static final EntityDataAccessor<Integer> BOUNCE_COUNT = SynchedEntityData.defineId(BrutalityAbstractPhysicsTrident.class, EntityDataSerializers.INT);
     protected int bounceCount = 0;
     public float prevRoll;
     public float roll;
@@ -41,14 +45,31 @@ public class BrutalityAbstractPhysicsTrident extends BrutalityAbstractTrident im
         super(pLevel, pShooter, pStack, trident);
     }
 
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(BOUNCE_COUNT, 0);
+    }
 
-    public static <T extends BrutalityAbstractPhysicsTrident> RegistryObject<EntityType<T>> register(
-            String name, EntityType.EntityFactory<T> factory, DeferredRegister<EntityType<?>> registry, float width, float height) {
-        return registry.register(name, () -> EntityType.Builder.of(factory, MobCategory.MISC)
-                .sized(width, height)
-                .clientTrackingRange(64)
-                .setUpdateInterval(20)
-                .build(name));
+    public int getBounceCount() {
+        return this.entityData.get(BOUNCE_COUNT);
+    }
+
+    public void setBounceCount(int count) {
+        this.entityData.set(BOUNCE_COUNT, count, true);
+        this.bounceCount = count;
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float pAmount) {
+        if (source.is(DamageTypes.PLAYER_ATTACK) && source.getEntity() instanceof Player player) {
+            Vec3 look = player.getLookAngle().scale(0.5 + player.getAttributeValue(Attributes.ATTACK_KNOCKBACK));
+            this.markHurt();
+            this.inGround = false;
+            setDeltaMovement(look);
+            return false;
+        }
+        return super.hurt(source, pAmount);
     }
 
     @Override
@@ -63,13 +84,17 @@ public class BrutalityAbstractPhysicsTrident extends BrutalityAbstractTrident im
         // Calculate current rotation values
         Vec3 motion = this.getDeltaMovement();
         float speed = (float) motion.length();
-        if (speed > 0.1 && !inGround) {
+        if (speed > 0.25 && !inGround) {
             if (!lockRoll())
                 this.roll += speed * getRotationSpeed(); // Adjust multiplier for rotation speed
-            if (!lockYaw())
+            if (!lockYaw()) {
                 this.yaw = (float) Math.atan2(motion.z, motion.x) * Mth.RAD_TO_DEG - 90.0f;
-            if (!lockPitch())
+                this.yaw = Mth.wrapDegrees(this.yaw);
+            }
+            if (!lockPitch()) {
                 this.pitch = (float) Math.atan2(motion.y, Math.sqrt(motion.x * motion.x + motion.z * motion.z)) * Mth.RAD_TO_DEG;
+                this.pitch = Mth.wrapDegrees(this.pitch);
+            }
         }
     }
 
@@ -89,7 +114,7 @@ public class BrutalityAbstractPhysicsTrident extends BrutalityAbstractTrident im
         return false;
     }
 
-    protected int getBounceCount() {
+    protected int getBounceQuota() {
         return 5;
     }
 
@@ -102,23 +127,15 @@ public class BrutalityAbstractPhysicsTrident extends BrutalityAbstractTrident im
         }
 
         // Play impact effects
-        this.playSound(this.getDefaultHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
+        this.playSound(getHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
         this.shakeTime = 7;
 
-        // Check bounce limit BEFORE physics
-        this.bounceCount++;
-        if (this.bounceCount > getBounceCount()) {
-            this.inGround = true;
-            super.onHitBlock(hitResult); // Final stick to ground
-            return;
-        }
 
         if (this.inGround) return;
         // Bounce physics
         Vec3 normal = Vec3.atLowerCornerOf(hitResult.getDirection().getNormal());
         Vec3 incoming = this.getDeltaMovement();
         Vec3 reflected = incoming.subtract(normal.scale(2 * incoming.dot(normal)));
-
         this.setDeltaMovement(reflected.scale(getBounciness()));
 
         // Position adjustment
@@ -142,16 +159,25 @@ public class BrutalityAbstractPhysicsTrident extends BrutalityAbstractTrident im
 
     @Override
     protected void onHit(HitResult hitResult) {
-        if (this.inGround) return; // Critical: Skip if already grounded
+        if (inGround) return;
+        setBounceCount(getBounceCount() + 1);
 
-        if (hitResult.getType() == HitResult.Type.BLOCK) {
-            this.onHitBlock((BlockHitResult) hitResult);
-        } else {
-            super.onHit(hitResult);
+        if (getBounceCount() >= getBounceQuota()) {
+            inGround = true;
+            onFinalBounce(hitResult);
+            if (shouldDiscardAfterBounce() && !level().isClientSide()) {
+                DelayedTaskScheduler.queueServerWork(2, this::discard);
+            }
         }
+        super.onHit(hitResult);
+
     }
 
-    protected boolean shouldDiscard() {
+    protected void onFinalBounce(HitResult result) {
+
+    }
+
+    protected boolean shouldDiscardAfterBounce() {
         return false;
     }
 

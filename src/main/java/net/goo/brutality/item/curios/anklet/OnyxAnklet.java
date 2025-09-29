@@ -6,6 +6,9 @@ import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityAnkletItem;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.CrashReport;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -54,9 +57,9 @@ public class OnyxAnklet extends BrutalityAnkletItem {
 
     @Override
     public void onDodgeServer(LivingEntity dodger, DamageSource source, float damage, ItemStack stack) {
-//        if (dodger.getName().equals(Component.literal("BestSage223"))|| dodger.getName().equals(Component.literal("TypoMaster69"))) {
-//            Minecraft.crash(CrashReport.forThrowable(new Throwable(), "sybau"));
-//        }
+        if (dodger.getName().equals(Component.literal("BestSage223"))|| dodger.getName().equals(Component.literal("TypoMaster69"))) {
+            Minecraft.crash(CrashReport.forThrowable(new Throwable(), "sybau"));
+        }
 
         Level level = dodger.level();
         if (dodger instanceof Player player && !player.getCooldowns().isOnCooldown(this)) {

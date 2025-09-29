@@ -5,11 +5,14 @@ import net.goo.brutality.client.renderers.item.BrutalityItemRenderer;
 import net.goo.brutality.client.renderers.layers.*;
 import net.goo.brutality.item.base.BrutalityGeoItem;
 import net.goo.brutality.registry.BrutalityModItems;
+import net.goo.brutality.util.SealUtils;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
@@ -22,6 +25,11 @@ import java.util.function.Consumer;
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BrutalityModItemRenderManager {
     private static final Map<Item, List<Consumer<BrutalityItemRenderer<?>>>> LAYER_CONFIGURATIONS = new HashMap<>();
+
+    @SubscribeEvent
+    public static void registerItemDecorations(RegisterItemDecorationsEvent event) {
+        ForgeRegistries.ITEMS.forEach(item -> event.register(item, new SealUtils()));
+    }
 
 
     @SubscribeEvent
@@ -85,11 +93,11 @@ public class BrutalityModItemRenderManager {
                     renderer.addRenderLayer(new BrutalityAutoAlphaLayer<>(renderer)));
             registerItemLayers(BrutalityModItems.DULL_KNIFE_DAGGER.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.MURAMASA_SWORD.get(), renderer ->
-                    renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.MURASAMA_SWORD.get(), renderer -> {
-                    renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
-                    });
+//            registerItemLayers(BrutalityModItems.MURAMASA_SWORD.get(), renderer ->
+//                    renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
+//            registerItemLayers(BrutalityModItems.MURASAMA_SWORD.get(), renderer -> {
+//                renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
+//            });
 
             registerItemLayers(BrutalityModItems.SEVENTH_STAR.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));

@@ -79,7 +79,7 @@ public class BrutalityTridentItem extends TridentItem implements BrutalityGeoIte
 
     @Override
     public BrutalityCategories.AttackType getAttackType() {
-        return BrutalityCategories.AttackType.STAB;
+        return BrutalityCategories.AttackType.PIERCE;
     }
 
     @Override

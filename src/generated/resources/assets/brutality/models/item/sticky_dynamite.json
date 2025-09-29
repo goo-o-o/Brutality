@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/throwing/sticky_dynamite/sticky_dynamite_inventory"
+  }
+}

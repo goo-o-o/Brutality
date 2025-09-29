@@ -122,7 +122,7 @@ public class BrimspikeEntity extends BrutalityAbstractArrow implements Brutality
     }
 
     @Override
-    public SoundEvent getHitEntitySound() {
+    public SoundEvent getHitEntitySoundEvent() {
         return TerramityModSounds.HEXED.get();
     }
 

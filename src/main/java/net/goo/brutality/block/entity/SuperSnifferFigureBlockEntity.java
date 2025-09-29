@@ -33,7 +33,6 @@ public class SuperSnifferFigureBlockEntity extends BlockEntity implements Brutal
 
     @Override
     public String texture(Block block) {
-        System.out.println(this.getTexture());
         return "super_sniffer_figure" + textures[this.getTexture()];
     }
 

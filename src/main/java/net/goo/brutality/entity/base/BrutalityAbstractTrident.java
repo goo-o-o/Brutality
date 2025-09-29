@@ -63,16 +63,12 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
         return 1200;
     }
 
-    public float getDamage() {
+    public float getDamage(@Nullable LivingEntity livingEntity) {
         return 6F;
     }
 
     protected float getWaterInertia() {
         return 0.99F;
-    }
-
-    protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.TRIDENT_HIT_GROUND;
     }
 
     protected SoundEvent getChannelingLightningSoundEvent() {
@@ -93,6 +89,16 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
 
     protected int getHitQuota() {
         return 1;
+    }
+
+    @Override
+    public @NotNull SoundEvent getHitGroundSoundEvent() {
+        return SoundEvents.TRIDENT_HIT_GROUND;
+    }
+
+    @Override
+    public SoundEvent getHitEntitySoundEvent() {
+        return SoundEvents.TRIDENT_HIT;
     }
 
     //==================================================================//
@@ -229,7 +235,7 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
 
     protected void onHitEntity(EntityHitResult pResult) {
         Entity target = pResult.getEntity();
-        float f = getDamage();
+        float f = getDamage(getOwner() instanceof LivingEntity owner ? owner : null);
         if (target instanceof LivingEntity livingentity) {
             f += EnchantmentHelper.getDamageBonus(this.pickupItem, livingentity.getMobType());
         }
@@ -239,6 +245,10 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
         if (this.targetsHit < getHitQuota() - 1) {
             this.targetsHit += 1;
         } else this.dealtDamage = true;
+
+        SoundEvent soundEvent = getHitEntitySoundEvent();
+
+
         if (target.hurt(damagesource, f)) {
             if (target.getType() == EntityType.ENDERMAN) {
                 return;
@@ -252,7 +262,7 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
         }
 
         this.setDeltaMovement(this.getDeltaMovement().multiply(getTridentBounceStrength().x, getTridentBounceStrength().y, getTridentBounceStrength().z));
-        float f1 = 1.0F;
+        float volume = 1.0F;
         if (this.level() instanceof ServerLevel && this.level().isThundering() && this.isChanneling() || summonsLightningByDefault()) {
             BlockPos blockpos = target.blockPosition();
             if (this.level().canSeeSky(blockpos)) {
@@ -261,10 +271,13 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
                     lightningbolt.moveTo(Vec3.atBottomCenterOf(blockpos));
                     lightningbolt.setCause(owner instanceof ServerPlayer ? (ServerPlayer) owner : null);
                     this.level().addFreshEntity(lightningbolt);
-                    this.playSound(getChannelingLightningSoundEvent(), 5F, 1);
+                    soundEvent = getChannelingLightningSoundEvent();
+                    volume = 5F;
                 }
             }
         }
+
+        this.playSound(soundEvent, volume, 1.0F);
 
     }
 

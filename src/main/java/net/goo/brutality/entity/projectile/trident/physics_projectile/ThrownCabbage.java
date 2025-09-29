@@ -41,7 +41,7 @@ public class ThrownCabbage extends BrutalityAbstractPhysicsTrident implements Br
     }
 
 
-    public SoundEvent getHitEntitySound() {
+    public SoundEvent getHitEntitySoundEvent() {
         return level().getRandom().nextBoolean() ? SoundEvents.MOSS_FALL : SoundEvents.MOSS_HIT;
     }
 

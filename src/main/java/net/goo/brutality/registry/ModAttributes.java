@@ -33,7 +33,7 @@ public class ModAttributes {
             () -> new RangedAttribute("attribute.name.generic.mana_cost", 1.0D, 0.0F, 128F).setSyncable(true));
 
     public static final RegistryObject<Attribute> MANA_REGEN = ATTRIBUTES.register("mana_regen",
-            () -> new RangedAttribute("attribute.name.generic.mana_regen", 10D, 0.0F, 16384F).setSyncable(true));
+            () -> new RangedAttribute("attribute.name.generic.mana_regen", 10.0D, 0.0F, 16384F).setSyncable(true));
 
     public static final RegistryObject<Attribute> MAX_MANA = ATTRIBUTES.register("max_mana",
             () -> new RangedAttribute("attribute.name.generic.max_mana", 100.0, 0.0F, 16384F).setSyncable(true));
@@ -100,7 +100,7 @@ public class ModAttributes {
     public static final RegistryObject<Attribute> TENACITY = ATTRIBUTES.register("tenacity",
             () -> new RangedAttribute("attribute.name.generic.tenacity", 1, 1, 2F).setSyncable(true));
 
-    public static final RegistryObject<Attribute> BLUNT_DAMAGE = ATTRIBUTES.register("blunt_attack_damage",
+    public static final RegistryObject<Attribute> BLUNT_DAMAGE = ATTRIBUTES.register("blunt_damage",
             () -> new RangedAttribute("attribute.name.generic.blunt_damage", 0, 0, 1024F).setSyncable(true));
     public static final RegistryObject<Attribute> PIERCING_DAMAGE = ATTRIBUTES.register("piercing_damage",
             () -> new RangedAttribute("attribute.name.generic.piercing_damage", 0, 0, 1024F).setSyncable(true));
@@ -123,6 +123,12 @@ public class ModAttributes {
     public static final RegistryObject<Attribute> ARMOR_PENETRATION = ATTRIBUTES.register("armor_penetration",
             () -> new RangedAttribute("attribute.name.generic.armor_penetration", 1, 1, 1024F).setSyncable(true));
 
+    public static final RegistryObject<Attribute> ENTITY_VISIBILITY = ATTRIBUTES.register("entity_visibility",
+            () -> new RangedAttribute("attribute.name.generic.entity_visibility", 1, 0, 1).setSyncable(true));
+
+
+    public static final RegistryObject<Attribute> THROW_STRENGTH = ATTRIBUTES.register("throw_strength",
+            () -> new RangedAttribute("attribute.name.generic.throw_strength", 1, 0, 1024F).setSyncable(true));
 
 
 

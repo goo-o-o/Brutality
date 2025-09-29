@@ -33,7 +33,7 @@ public class BrutalityShuriken extends BrutalityAbstractArrow implements Brutali
     }
 
     @Override
-    public SoundEvent getHitEntitySound() {
+    public SoundEvent getHitEntitySoundEvent() {
         return BrutalityModSounds.SQUELCH.get();
     }
 

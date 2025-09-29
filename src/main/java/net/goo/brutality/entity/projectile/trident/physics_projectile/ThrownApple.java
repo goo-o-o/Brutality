@@ -43,7 +43,7 @@ public class ThrownApple extends BrutalityAbstractPhysicsTrident implements Brut
     }
 
     @Override
-    public SoundEvent getHitEntitySound() {
+    public SoundEvent getHitEntitySoundEvent() {
         return BrutalityModSounds.SQUELCH.get();
     }
 

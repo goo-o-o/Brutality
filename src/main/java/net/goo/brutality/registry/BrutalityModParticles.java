@@ -81,6 +81,11 @@ public class BrutalityModParticles {
     public static final RegistryObject<SimpleParticleType> NUCLEAR_EXPLOSION_EMITTER =
             PARTICLE_TYPES.register("nuclear_explosion_emitter", () -> new SimpleParticleType(true));
 
+    public static final RegistryObject<SimpleParticleType> NAPALM_EXPLOSION_PARTICLE =
+            PARTICLE_TYPES.register("napalm_explosion_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> NAPALM_EXPLOSION_EMITTER =
+            PARTICLE_TYPES.register("napalm_explosion_emitter", () -> new SimpleParticleType(true));
+
     public static final RegistryObject<SimpleParticleType> BLOOD_EXPLOSION_PARTICLE =
             PARTICLE_TYPES.register("blood_explosion_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> BLOOD_EXPLOSION_EMITTER =
@@ -167,6 +172,14 @@ public class BrutalityModParticles {
             });
 
     public static final RegistryObject<ParticleType<WaveParticleData<?>>> COSMIC_WAVE = PARTICLE_TYPES.register("cosmic_wave", () ->
+            new ParticleType<>(false, WaveParticleData.DESERIALIZER) {
+                @Override
+                public @NotNull Codec<WaveParticleData<?>> codec() {
+                    return WaveParticleData.CODEC;
+                }
+            });
+
+    public static final RegistryObject<ParticleType<WaveParticleData<?>>> SONIC_WAVE = PARTICLE_TYPES.register("sonic_wave", () ->
             new ParticleType<>(false, WaveParticleData.DESERIALIZER) {
                 @Override
                 public @NotNull Codec<WaveParticleData<?>> codec() {

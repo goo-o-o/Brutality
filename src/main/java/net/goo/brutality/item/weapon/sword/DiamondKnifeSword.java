@@ -33,9 +33,7 @@ public class DiamondKnifeSword extends BrutalitySwordItem {
 
     @Override
     public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
-        pStack.hurtAndBreak(1, pAttacker, (attacker) -> {
-            attacker.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-        });
+        pStack.hurtAndBreak(1, pAttacker, (attacker) -> attacker.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 
         if (pTarget.hasEffect(BrutalityModMobEffects.SCORED.get())) {
             int amplifier = pTarget.getEffect(BrutalityModMobEffects.SCORED.get()).getAmplifier();

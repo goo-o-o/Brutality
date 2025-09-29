@@ -6,11 +6,10 @@ import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractPhysicsTrident;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 
 import java.util.function.Consumer;
 
-public class BrutalityAbstractPhysicsTridentRenderer<T extends Entity & BrutalityGeoEntity> extends BrutalityEntityRenderer<T> {
+public class BrutalityAbstractPhysicsTridentRenderer<T extends BrutalityAbstractPhysicsTrident & BrutalityGeoEntity> extends BrutalityEntityRenderer<T> {
 
 
     public BrutalityAbstractPhysicsTridentRenderer(EntityRendererProvider.Context context, Consumer<BrutalityEntityRenderer<T>> layerConfigurator) {
@@ -23,13 +22,14 @@ public class BrutalityAbstractPhysicsTridentRenderer<T extends Entity & Brutalit
 
     @Override
     protected void applyRotations(T animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick) {
-        if (animatable instanceof BrutalityAbstractPhysicsTrident object && !object.isNoPhysics()) {
 
-                poseStack.translate(0, (object.getModelHeight() / 2) / 16, 0);
+        if (!animatable.isNoPhysics()) {
 
-                float lerpedRoll = Mth.lerp(partialTick, object.prevRoll, object.roll);
-                float lerpedYaw = Mth.lerp(partialTick, object.prevYaw, object.yaw);
-                float lerpedPitch = Mth.lerp(partialTick, object.prevPitch, object.pitch);
+                poseStack.translate(0, (animatable.getModelHeight() / 2) / 16, 0);
+
+                float lerpedRoll = Mth.lerp(partialTick, animatable.prevRoll, animatable.roll);
+                float lerpedYaw = Mth.lerp(partialTick, animatable.prevYaw, animatable.yaw);
+                float lerpedPitch = Mth.lerp(partialTick, animatable.prevPitch, animatable.pitch);
 
                 // Apply rotations
                 poseStack.mulPose(Axis.YP.rotationDegrees(lerpedYaw));

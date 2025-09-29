@@ -23,6 +23,8 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
+import javax.annotation.Nullable;
+
 import static net.goo.brutality.util.ModResources.RAINBOW_TRAIL_FX;
 
 public class ExobladeBeam extends BrutalityAbstractTrident implements BrutalityGeoEntity {
@@ -55,7 +57,7 @@ public class ExobladeBeam extends BrutalityAbstractTrident implements BrutalityG
         return 0;
     }
 
-    public float getDamage() {
+    public float getDamage(@Nullable LivingEntity livingEntity) {
         return 12F;
     }
 

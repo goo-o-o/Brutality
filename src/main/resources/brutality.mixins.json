@@ -16,6 +16,7 @@
     "LivingEntityMixin",
     "MobEffectInstanceMixin",
     "PlayerMixin",
+    "ServerGamePacketListenerImplMixin",
     "ServerPlayerMixin",
     "VillagerMixin"
   ],
@@ -27,6 +28,7 @@
     "BiomeMixin",
     "HierarchicalModelMixin",
     "HumanoidModelMixin",
+    "ItemInHandRendererMixin",
     "KeyboardInputMixin",
     "LivingEntityRendererMixin",
     "MouseHandlerMixin",

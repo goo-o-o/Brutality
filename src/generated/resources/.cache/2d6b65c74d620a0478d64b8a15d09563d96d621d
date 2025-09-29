@@ -1,7 +1,10 @@
-// 1.20.1	2025-07-22T01:13:24.1828309	Block States: brutality
+// 1.20.1	2025-09-21T04:32:54.1908835	Block States: brutality
 e95bf0d373332a8598a5198c01bbdd712d130fce assets/brutality/blockstates/coffee_machine.json
+082a9c5b255cdab9f80b2c130e6288438ac25456 assets/brutality/blockstates/super_sniffer_figure.json
 53e1d65c02df507b2a4efa03eb9a3d5ee3e9bb87 assets/brutality/blockstates/water_cooler.json
 df4f678ad410d59ea10a198b953ef070a132fa4f assets/brutality/models/block/coffee_machine.json
+10588d77ee3f34b55e352a454ef3656743c6c552 assets/brutality/models/block/super_sniffer_figure.json
 39f2013d40859e9c119f71994bffd18cfeebb728 assets/brutality/models/block/water_cooler.json
 291a34c755f7e03d060a73b473211965cb5b7cea assets/brutality/models/item/coffee_machine.json
+37d6abbd9e1720f7229d91a00963803fcbc7d15e assets/brutality/models/item/super_sniffer_figure.json
 1a90dc1e1a424fe6bfb55bdf669edd8e87e0bbd1 assets/brutality/models/item/water_cooler.json

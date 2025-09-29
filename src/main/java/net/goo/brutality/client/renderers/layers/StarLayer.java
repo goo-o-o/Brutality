@@ -21,11 +21,15 @@ public class StarLayer<T extends LivingEntity, M extends EntityModel<T>> extends
         this.dispatcher = pContext.getEntityRenderDispatcher();
     }
 
-    protected int numStuck(T t) {
-        return t.getCapability(BrutalityCapabilities.ENTITY_STAR_COUNT_CAP)
-                .map(cap -> cap.getAllStarCounts().values().stream().mapToInt(Integer::intValue).sum())
+    @Override
+    protected int numStuck(T entity) {
+        return entity.getCapability(BrutalityCapabilities.ENTITY_STAR_COUNT_CAP)
+                .map(cap -> cap.getAllStarCounts().values().stream()
+                        .mapToInt(entityMap -> entityMap.getOrDefault(entity.getId(), 0))
+                        .sum())
                 .orElse(0);
     }
+
 
     protected void renderStuckItem(PoseStack poseStack, MultiBufferSource multiBufferSource, int pPackedLight, Entity entity, float pX, float pY, float pZ, float pPartialTick) {
         float f = Mth.sqrt(pX * pX + pZ * pZ);

@@ -16,22 +16,18 @@ public class BrutalityShurikenRenderer<T extends BrutalityShuriken & BrutalityGe
         super(context, layerConfigurator);
     }
 
-    public BrutalityShurikenRenderer(EntityRendererProvider.Context context) {
-        super(context);
-    }
-
     @Override
     protected void applyRotations(T animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick) {
         poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTick, animatable.yRotO, animatable.getYRot())));
         poseStack.mulPose(Axis.XN.rotationDegrees(Mth.lerp(partialTick, animatable.xRotO, animatable.getXRot())));
 
 
-        if (animatable.inGround) {
-            if (!animatable.renderForLayer)
+        if (!animatable.renderForLayer)
+            if (animatable.inGround) {
                 poseStack.mulPose(Axis.YP.rotationDegrees(animatable.getRandomYaw()));
-        } else {
-            poseStack.mulPose(Axis.YP.rotationDegrees(Mth.wrapDegrees(Mth.lerp(partialTick, (ageInTicks - 1) * 180F, ageInTicks * 180F))));
-        }
+            } else {
+                poseStack.mulPose(Axis.YP.rotationDegrees(Mth.wrapDegrees(Mth.lerp(partialTick, (ageInTicks - 1) * 180F, ageInTicks * 180F))));
+            }
 
         super.applyRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick);
     }

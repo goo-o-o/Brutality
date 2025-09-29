@@ -2,6 +2,12 @@ package net.goo.brutality.event.mod.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.goo.brutality.Brutality;
+import net.goo.brutality.item.curios.charm.DeckOfCards;
+import net.goo.brutality.item.curios.charm.EmergencyMeeting;
+import net.goo.brutality.item.curios.charm.LightSwitch;
+import net.goo.brutality.item.curios.charm.VindicatorSteroids;
+import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.mcreator.terramity.init.TerramityModKeyMappings;
 import net.minecraft.client.KeyMapping;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -26,6 +32,13 @@ public final class Keybindings {
     @SubscribeEvent
     public static void registerKeys(RegisterKeyMappingsEvent event) {
         event.register(Keybindings.RAGE_ACTIVATE_KEY);
+
+        LightSwitch.keyMappings.put(BrutalityTooltipHelper.ItemDescriptionComponents.ACTIVE, TerramityModKeyMappings.ACTIVE_ABILITY);
+        EmergencyMeeting.keyMappings.put(BrutalityTooltipHelper.ItemDescriptionComponents.ACTIVE, TerramityModKeyMappings.ACTIVE_ABILITY);
+        VindicatorSteroids.keyMappings.put(BrutalityTooltipHelper.ItemDescriptionComponents.ACTIVE, TerramityModKeyMappings.ACTIVE_ABILITY);
+        DeckOfCards.keyMappings.put(BrutalityTooltipHelper.ItemDescriptionComponents.ACTIVE, TerramityModKeyMappings.ACTIVE_ABILITY);
+
+
     }
 
 

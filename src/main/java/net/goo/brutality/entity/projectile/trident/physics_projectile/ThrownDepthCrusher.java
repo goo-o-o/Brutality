@@ -14,7 +14,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
@@ -40,11 +39,6 @@ public class ThrownDepthCrusher extends BrutalityAbstractPhysicsProjectile imple
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_FINAL_ROLL, 0);
-    }
-
-    @Override
-    protected @NotNull ItemStack getPickupItem() {
-        return ItemStack.EMPTY;
     }
 
     @Override
@@ -76,7 +70,7 @@ public class ThrownDepthCrusher extends BrutalityAbstractPhysicsProjectile imple
         super.onHitBlock(hitResult);
 
         for (int i = 0; i < 3; i++) {
-            AbyssProjectile projectile = new AbyssProjectile(BrutalityModEntities.DEPTH_CRUSHER_PROJECTILE.get(), level());
+            AbyssProjectile projectile = new AbyssProjectile(BrutalityModEntities.ABYSS_PROJECTILE.get(), level());
             projectile.shoot(Mth.nextFloat(random, -0.1F, 0.1F), 1, Mth.nextFloat(random, -0.1F, 0.1F),
                     Mth.nextFloat(random, 0.5F, 0.65F), 1);
             projectile.setPos(getX(), getY() + getBbHeight() / 2, getZ());

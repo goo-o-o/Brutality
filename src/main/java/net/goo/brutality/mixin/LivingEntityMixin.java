@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.goo.brutality.event.LivingDodgeEvent;
-import net.goo.brutality.item.BrutalityArmorMaterials;
 import net.goo.brutality.item.base.BrutalityAnkletItem;
 import net.goo.brutality.item.weapon.scythe.DarkinScythe;
 import net.goo.brutality.network.ClientboundDodgePacket;
@@ -30,6 +29,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -102,9 +102,9 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
         if (!pDamageSource.is(DamageTypeTags.BYPASSES_ARMOR)) {
             LivingEntity target = (LivingEntity) (Object) this;
             Entity attacker = pDamageSource.getEntity();
-            if (attacker instanceof LivingEntity livingAttacker) {
-                double lethalityValue = livingAttacker.getAttributeValue(ModAttributes.LETHALITY.get());
-                double armorPenValue = livingAttacker.getAttributeValue(ModAttributes.ARMOR_PENETRATION.get());
+            if (attacker instanceof Player player) {
+                double lethalityValue = player.getAttributeValue(ModAttributes.LETHALITY.get());
+                double armorPenValue = player.getAttributeValue(ModAttributes.ARMOR_PENETRATION.get());
 
                 float modifiedArmor = target.getArmorValue();
                 modifiedArmor *= (float) (2 - armorPenValue);
@@ -127,15 +127,6 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
         return original;
     }
 
-    @Inject(method = "getVisibilityPercent", at = @At("TAIL"), cancellable = true)
-    private void modifyVisibilityPercent(Entity pLookingEntity, CallbackInfoReturnable<Double> cir) {
-        LivingEntity self = (LivingEntity) (Object) this;
-
-
-        if (ModUtils.hasFullArmorSet(self, BrutalityArmorMaterials.NOIR)) {
-            cir.setReturnValue(0D);
-        }
-    }
 
     @Inject(
             method = "hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z",

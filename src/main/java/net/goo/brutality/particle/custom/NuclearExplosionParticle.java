@@ -10,7 +10,6 @@ import net.minecraft.core.particles.SimpleParticleType;
 public class NuclearExplosionParticle extends HugeExplosionParticle {
     protected NuclearExplosionParticle(ClientLevel pLevel, double pX, double pY, double pZ, double pQuadSizeMultiplier, SpriteSet pSprites) {
         super(pLevel, pX, pY, pZ, pQuadSizeMultiplier, pSprites);
-        this.lifetime = 40;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

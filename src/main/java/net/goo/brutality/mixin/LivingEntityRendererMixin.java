@@ -24,6 +24,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
         LivingEntityRenderer<T, M> renderer = (LivingEntityRenderer<T, M>) (Object) this;
 
         this.addLayer(new StarLayer<>(context, renderer));
+        this.addLayer(new StickyBombLayer<>(context, renderer));
         this.addLayer(new LightBoundLayer<>(context, renderer));
         this.addLayer(new EyeOfViolenceLayer<>(renderer));
         this.addLayer(new TheVoidLayer<>(renderer));

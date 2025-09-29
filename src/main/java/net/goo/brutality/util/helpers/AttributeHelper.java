@@ -74,13 +74,4 @@ public class AttributeHelper {
         pStack.getOrCreateTag().put("AttributeModifiers", attributesList);
     }
 
-    public static String ATTACK_DAMAGE_BONUS = "AttackDamageBonus";
-    public static void setAttackDamageBonus(ItemStack stack, float bonus) {
-        stack.getOrCreateTag().putFloat(ATTACK_DAMAGE_BONUS, bonus);
-    }
-
-    public static String ATTACK_SPEED_BONUS = "AttackSpeedBonus";
-    public static void setAttackSpeedBonus(ItemStack stack, float speed) {
-        stack.getOrCreateTag().putFloat(ATTACK_SPEED_BONUS, speed);
-    }
 }

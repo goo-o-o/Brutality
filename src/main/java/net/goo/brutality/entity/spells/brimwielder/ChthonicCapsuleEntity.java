@@ -7,7 +7,7 @@ import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.magic.IBrutalitySpellEntity;
 import net.goo.brutality.magic.spells.voidwalker.GraviticImplosionSpell;
 import net.goo.brutality.registry.BrutalityModSounds;
-import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.util.helpers.ModExplosionHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -131,11 +131,11 @@ public class ChthonicCapsuleEntity extends BrutalityAbstractPhysicsProjectile im
     }
 
     private void doExplosion() {
-        BloodExplosion explosion = new BloodExplosion(level(), getOwner(), null, null, this.getX(), this.getY(), this.getZ(), 3, false, ModUtils.getCorrectExplosionInteraction(level(), getOwner(), Level.ExplosionInteraction.NONE));
+        BloodExplosion explosion = new BloodExplosion(level(), getOwner(), null, null, this.getX(), this.getY(), this.getZ(), 3, false, Level.ExplosionInteraction.NONE);
         explosion.damage = getFinalDamage(getSpell(), getOwner(), getSpellLevel());
 
         explosion.setEntityFilter(e -> (!(e instanceof ChthonicCapsuleEntity)) && e != getOwner());
-        ModUtils.explode(explosion, level(), true);
+        ModExplosionHelper.Server.explode(explosion, level(), true);
 
         float size = getSpell().getFinalStat(getSpellLevel(), getSpell().getStat(SIZE));
 

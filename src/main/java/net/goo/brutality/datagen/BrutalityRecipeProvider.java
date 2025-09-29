@@ -76,24 +76,24 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_slot_machine", has(TerramityModItems.SLOT_MACHINE.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.TERRA_BLADE_SWORD.get())
-                .pattern(" # ")
-                .pattern("#@#")
-                .pattern(" # ")
-                .define('#', TerramityModItems.VIRENTIUM_ALLOY_INGOT.get())
-                .define('@', TerramityModItems.HERO_SWORD.get())
-                .unlockedBy("has_hero_sword", has(TerramityModItems.HERO_SWORD.get()))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.TERRATOMERE_SWORD.get())
-                .pattern("%#%")
-                .pattern("#@#")
-                .pattern("%#%")
-                .define('#', TerramityModItems.VIRENTIUM_ALLOY_INGOT.get())
-                .define('%', TerramityModItems.GAIANITE_CLUSTER.get())
-                .define('@', BrutalityModItems.TERRA_BLADE_SWORD.get())
-                .unlockedBy("has_terra_blade", has(BrutalityModItems.TERRA_BLADE_SWORD.get()))
-                .save(consumer);
+//        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.TERRA_BLADE_SWORD.get())
+//                .pattern(" # ")
+//                .pattern("#@#")
+//                .pattern(" # ")
+//                .define('#', TerramityModItems.VIRENTIUM_ALLOY_INGOT.get())
+//                .define('@', TerramityModItems.HERO_SWORD.get())
+//                .unlockedBy("has_hero_sword", has(TerramityModItems.HERO_SWORD.get()))
+//                .save(consumer);
+//
+//        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.TERRATOMERE_SWORD.get())
+//                .pattern("%#%")
+//                .pattern("#@#")
+//                .pattern("%#%")
+//                .define('#', TerramityModItems.VIRENTIUM_ALLOY_INGOT.get())
+//                .define('%', TerramityModItems.GAIANITE_CLUSTER.get())
+//                .define('@', BrutalityModItems.TERRA_BLADE_SWORD.get())
+//                .unlockedBy("has_terra_blade", has(BrutalityModItems.TERRA_BLADE_SWORD.get()))
+//                .save(consumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.CREASE_OF_CREATION.get())
                 .pattern(" # ")
@@ -217,15 +217,15 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_stratus_storm_ruler", has(TerramityModItems.STRATUS_STORM_RULER.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.MURASAMA_SWORD.get())
-                .pattern(" ##")
-                .pattern("#$#")
-                .pattern("%# ")
-                .define('#', BrutalityModItems.HIGH_FREQUENCY_ALLOY.get())
-                .define('$', TerramityModItems.HELLSPEC_SWORD.get())
-                .define('%', TerramityModItems.MURASAMA.get())
-                .unlockedBy("has_murasama", has(TerramityModItems.MURASAMA.get()))
-                .save(consumer);
+//        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.MURASAMA_SWORD.get())
+//                .pattern(" ##")
+//                .pattern("#$#")
+//                .pattern("%# ")
+//                .define('#', BrutalityModItems.HIGH_FREQUENCY_ALLOY.get())
+//                .define('$', TerramityModItems.HELLSPEC_SWORD.get())
+//                .define('%', TerramityModItems.MURASAMA.get())
+//                .unlockedBy("has_murasama", has(TerramityModItems.MURASAMA.get()))
+//                .save(consumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.PROVIDENCE.get())
                 .pattern("%@#")
@@ -604,7 +604,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_daemonium", has(TerramityModItems.DAEMONIUM.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.PORTABLE_MINING_RIG_CHARM.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.PORTABLE_MINING_RIG.get())
                 .pattern("#$#")
                 .pattern("@!@")
                 .pattern("#$#")
@@ -670,16 +670,16 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('%', TerramityModItems.PRISMATIC_JEWEL.get())
                 .unlockedBy("has_nyxium_glass", has(TerramityModItems.NYXIUM_GLASS.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.EXOBLADE_SWORD.get())
-                .pattern(" @@")
-                .pattern("#!@")
-                .pattern("^# ")
-                .define('#', TerramityModItems.EXODIUM_SUPERALLOY.get())
-                .define('@', TerramityModItems.PRISMATIC_JEWEL.get())
-                .define('!', BrutalityModItems.TERRATOMERE_SWORD.get())
-                .define('^', TerramityModItems.NYXIUM_GREATSWORD.get())
-                .unlockedBy("has_terratomere", has(BrutalityModItems.TERRATOMERE_SWORD.get()))
-                .save(consumer);
+//        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.EXOBLADE_SWORD.get())
+//                .pattern(" @@")
+//                .pattern("#!@")
+//                .pattern("^# ")
+//                .define('#', TerramityModItems.EXODIUM_SUPERALLOY.get())
+//                .define('@', TerramityModItems.PRISMATIC_JEWEL.get())
+//                .define('!', BrutalityModItems.TERRATOMERE_SWORD.get())
+//                .define('^', TerramityModItems.NYXIUM_GREATSWORD.get())
+//                .unlockedBy("has_terratomere", has(BrutalityModItems.TERRATOMERE_SWORD.get()))
+//                .save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.BIOMECH_REACTOR_TRIDENT.get())
                 .pattern("#@#")
                 .pattern("@%@")
@@ -874,25 +874,25 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_archangel_halo", has(TerramityModItems.ARCHANGEL_HALO.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.MARIANAS_TRENCH.get())
-                .pattern("  #")
-                .pattern("!@#")
-                .pattern("$  ")
-                .define('#', TerramityModItems.DIMLITE_INGOT.get())
-                .define('@', Items.HEART_OF_THE_SEA)
-                .define('!', Items.NAUTILUS_SHELL)
-                .define('$', BrutalityModItems.DEPTH_CRUSHER_TRIDENT.get())
-                .unlockedBy("has_depth_crusher", has(BrutalityModItems.DEPTH_CRUSHER_TRIDENT.get()))
-                .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.CHALLENGER_DEEP.get())
-                .pattern("  #")
-                .pattern("%# ")
-                .pattern("$% ")
-                .define('#', TerramityModItems.EXODIUM_SUPERALLOY.get())
-                .define('%', Items.ENDER_EYE)
-                .define('$', BrutalityModItems.MARIANAS_TRENCH.get())
-                .unlockedBy("has_marianas_trench", has(BrutalityModItems.MARIANAS_TRENCH.get()))
-                .save(consumer);
+//        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.MARIANAS_TRENCH.get())
+//                .pattern("  #")
+//                .pattern("!@#")
+//                .pattern("$  ")
+//                .define('#', TerramityModItems.DIMLITE_INGOT.get())
+//                .define('@', Items.HEART_OF_THE_SEA)
+//                .define('!', Items.NAUTILUS_SHELL)
+//                .define('$', BrutalityModItems.DEPTH_CRUSHER_TRIDENT.get())
+//                .unlockedBy("has_depth_crusher", has(BrutalityModItems.DEPTH_CRUSHER_TRIDENT.get()))
+//                .save(consumer);
+//        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.CHALLENGER_DEEP.get())
+//                .pattern("  #")
+//                .pattern("%# ")
+//                .pattern("$% ")
+//                .define('#', TerramityModItems.EXODIUM_SUPERALLOY.get())
+//                .define('%', Items.ENDER_EYE)
+//                .define('$', BrutalityModItems.MARIANAS_TRENCH.get())
+//                .unlockedBy("has_marianas_trench", has(BrutalityModItems.MARIANAS_TRENCH.get()))
+//                .save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.PRIDE_CHARM.get())
                 .pattern("#@#")
                 .pattern("@%@")

@@ -5,6 +5,7 @@ import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.util.ModResources;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
@@ -21,10 +22,7 @@ import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public interface BrutalityGeoItem extends GeoItem, ModResources {
     default String getRegistryName() {
@@ -34,6 +32,8 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
     BrutalityCategories.AttackType getAttackType();
 
     UUID BASE_STUN_CHANCE_UUID = UUID.fromString("6d3d3787-e06f-4111-b03f-aed7c9317416");
+
+    Map<BrutalityTooltipHelper.ItemDescriptionComponents, KeyMapping> keyMappings = new HashMap<>();
 
     BrutalityCategories category();
 
@@ -68,7 +68,6 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
         else
             return BrutalityTooltipHelper.getRarityName("item." + Brutality.MOD_ID + "." + identifier, rarity);
     }
-
 
     default void brutalityTooltipHandler(List<Component> pTooltipComponents, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents, Rarity rarity) {
         String identifier = getRegistryName();
@@ -114,23 +113,21 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
                     }
 
 
-
                     MutableComponent component = Component.literal(" -" + formatted + " ")
                             .append(Component.translatable("message." + Brutality.MOD_ID + ".cooldown"));
 
                     pTooltipComponents.add(component.withStyle(ChatFormatting.DARK_AQUA));
                 }
 
-                if (descriptionComponent.type().equals(BrutalityTooltipHelper.ItemDescriptionComponents.ACTIVE)) {
-                    if (descriptionComponent.keyMapping() != null) {
-                        MutableComponent component = Component.literal("(")
-                                .append(Component.translatable("key.brutality.current_keybind"))
-                                .append(": ")
-                                .append(descriptionComponent.keyMapping().getDisplayName())
-                                .append(")");
+                KeyMapping key = keyMappings.get(descriptionComponent.type());
+                if (key != null) {
+                    MutableComponent component = Component.literal("(")
+                            .append(Component.translatable("key.brutality.current_keybind"))
+                            .append(": ")
+                            .append(key.getKey().getDisplayName())
+                            .append(")");
+                    pTooltipComponents.add(component.withStyle(ChatFormatting.GRAY));
 
-                        pTooltipComponents.add(component.withStyle(ChatFormatting.GRAY));
-                    }
                 }
             } else {
                 for (int i = 1; i <= descriptionComponent.lines(); i++) {

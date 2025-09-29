@@ -16,7 +16,7 @@ public class EntityCapabilities {
     private static final String MIRACLE_BLIGHTED = "isMiracleBlighted", SHOULD_ROTATE = "shouldRotate", RAGE_VALUE = "rageValue", MANA_VALUE = "manaValue";
     private static final String IS_RAGE = "isRage", IS_THE_VOID = "isTheVoid", IS_LIGHT_BOUND = "isBound";
     private static final String HIT_COUNT = "hitCount", LAST_HIT_TIME = "lastHitTime", LAST_VICTIM_ID = "lastVictimId";
-    private static final String CARD_TYPE = "cardType", KIT_TYPE = "kitType";
+    private static final String BOOSTER_TYPE = "boosterType", KIT_TYPE = "kitType";
 
     @AutoRegisterCapability
     public static class EntityEffectCap implements INBTSerializable<CompoundTag> {
@@ -102,7 +102,7 @@ public class EntityCapabilities {
 
     @AutoRegisterCapability
     public static class RespawnCap implements INBTSerializable<CompoundTag> {
-        public enum CARD_TYPE {
+        public enum BOOSTER_TYPE {
             NONE,
             SILVER,
             DIAMOND,
@@ -116,14 +116,14 @@ public class EntityCapabilities {
             EVIL_KING
         }
 
-        private CARD_TYPE cardType = RespawnCap.CARD_TYPE.NONE;
+        private BOOSTER_TYPE boosterType = RespawnCap.BOOSTER_TYPE.NONE;
 
-        public CARD_TYPE getCardType() {
-            return this.cardType;
+        public BOOSTER_TYPE getBoosterType() {
+            return this.boosterType;
         }
 
-        public void setCardType(CARD_TYPE cardType) {
-            this.cardType = cardType;
+        public void setBoosterType(BOOSTER_TYPE boosterType) {
+            this.boosterType = boosterType;
         }
 
         private KIT_TYPE kitType = RespawnCap.KIT_TYPE.NONE;
@@ -139,67 +139,151 @@ public class EntityCapabilities {
         @Override
         public CompoundTag serializeNBT() {
             CompoundTag tag = new CompoundTag();
-            tag.putString(CARD_TYPE, cardType.name()); // Serialize enum as string
+            tag.putString(BOOSTER_TYPE, boosterType.name()); // Serialize enum as string
             tag.putString(KIT_TYPE, kitType.name()); // Serialize enum as string
             return tag;
         }
 
         @Override
         public void deserializeNBT(CompoundTag nbt) {
-            String name = nbt.getString(CARD_TYPE);
+            String name = nbt.getString(BOOSTER_TYPE);
             try {
-                setCardType(RespawnCap.CARD_TYPE.valueOf(name));
+                setBoosterType(RespawnCap.BOOSTER_TYPE.valueOf(name));
                 setKitType(RespawnCap.KIT_TYPE.valueOf(name));
             } catch (IllegalArgumentException e) {
-                setCardType(RespawnCap.CARD_TYPE.NONE);
+                setBoosterType(RespawnCap.BOOSTER_TYPE.NONE);
                 setKitType(RespawnCap.KIT_TYPE.NONE);
             }
         }
     }
-
-
     @AutoRegisterCapability
-    public static class EntityStarCountCap implements INBTSerializable<CompoundTag> {
-        private final Map<UUID, Integer> playerStarCounts = new HashMap<>();
+    public static class EntityStickyBombCap implements INBTSerializable<CompoundTag> {
+        private final Map<UUID, Map<Integer, Integer>> playerStickyBombCounts = new HashMap<>();
 
+        @Override
         public CompoundTag serializeNBT() {
             CompoundTag tag = new CompoundTag();
-            playerStarCounts.forEach((uuid, count) -> tag.putInt(uuid.toString(), count));
+            playerStickyBombCounts.forEach((playerUuid, entityMap) -> {
+                CompoundTag entityTag = new CompoundTag();
+                entityMap.forEach((entityUuid, count) -> entityTag.putInt(entityUuid.toString(), count));
+                tag.put(playerUuid.toString(), entityTag);
+            });
             return tag;
         }
 
+        @Override
         public void deserializeNBT(CompoundTag nbt) {
-            playerStarCounts.clear();
-            for (String key : nbt.getAllKeys()) {
+            playerStickyBombCounts.clear();
+            for (String playerKey : nbt.getAllKeys()) {
                 try {
-                    UUID uuid = UUID.fromString(key);
-                    playerStarCounts.put(uuid, nbt.getInt(key));
-                } catch (IllegalArgumentException ignored) {
-
-                }
+                    UUID playerUuid = UUID.fromString(playerKey);
+                    CompoundTag entityTag = nbt.getCompound(playerKey);
+                    Map<Integer, Integer> entityMap = new HashMap<>();
+                    for (String entityKey : entityTag.getAllKeys()) {
+                        try {
+                            Integer entityId = Integer.parseInt(entityKey);
+                            entityMap.put(entityId, entityTag.getInt(entityKey));
+                        } catch (NumberFormatException ignored) {}
+                    }
+                    playerStickyBombCounts.put(playerUuid, entityMap);
+                } catch (IllegalArgumentException ignored) {}
             }
-
         }
 
-        public Map<UUID, Integer> getAllStarCounts() {
+
+        public Map<UUID, Map<Integer, Integer>> getAllStickyBombCounts() {
+            return playerStickyBombCounts;
+        }
+
+        public int getStickyBombCount(UUID playerId, Integer entityId) {
+            return playerStickyBombCounts.getOrDefault(playerId, new HashMap<>()).getOrDefault(entityId, 0);
+        }
+
+        public void incrementStickyBombCount(UUID playerId, Integer entityId) {
+            setStickyBombCount(playerId, entityId, getStickyBombCount(playerId, entityId) + 1);
+        }
+
+        public void setStickyBombCount(UUID playerId, Integer entityId, int count) {
+            playerStickyBombCounts.computeIfAbsent(playerId, k -> new HashMap<>()).put(entityId, count);
+            if (count == 0) {
+                playerStickyBombCounts.get(playerId).remove(entityId);
+                if (playerStickyBombCounts.get(playerId).isEmpty()) {
+                    playerStickyBombCounts.remove(playerId);
+                }
+            }
+        }
+
+        public void clearStickyBombCount(UUID playerId, Integer entityId) {
+            setStickyBombCount(playerId, entityId, 0);
+        }
+
+        public Map<Integer, Integer> getEntitiesForPlayer(UUID playerId) {
+            return playerStickyBombCounts.getOrDefault(playerId, new HashMap<>());
+        }
+    }
+    @AutoRegisterCapability
+    public static class EntityStarCountCap implements INBTSerializable<CompoundTag> {
+        private final Map<UUID, Map<Integer, Integer>> playerStarCounts = new HashMap<>();
+
+        @Override
+        public CompoundTag serializeNBT() {
+            CompoundTag tag = new CompoundTag();
+            playerStarCounts.forEach((playerUuid, entityMap) -> {
+                CompoundTag entityTag = new CompoundTag();
+                entityMap.forEach((entityUuid, count) -> entityTag.putInt(entityUuid.toString(), count));
+                tag.put(playerUuid.toString(), entityTag);
+            });
+            return tag;
+        }
+
+        @Override
+        public void deserializeNBT(CompoundTag nbt) {
+            playerStarCounts.clear();
+            for (String playerKey : nbt.getAllKeys()) {
+                try {
+                    UUID playerUuid = UUID.fromString(playerKey);
+                    CompoundTag entityTag = nbt.getCompound(playerKey);
+                    Map<Integer, Integer> entityMap = new HashMap<>();
+                    for (String entityKey : entityTag.getAllKeys()) {
+                        try {
+                            Integer entityId = Integer.parseInt(entityKey);
+                            entityMap.put(entityId, entityTag.getInt(entityKey));
+                        } catch (NumberFormatException ignored) {}
+                    }
+                    playerStarCounts.put(playerUuid, entityMap);
+                } catch (IllegalArgumentException ignored) {}
+            }
+        }
+
+
+        public Map<UUID, Map<Integer, Integer>> getAllStarCounts() {
             return playerStarCounts;
         }
 
-        public int getStarCount(UUID playerId) {
-            return this.playerStarCounts.getOrDefault(playerId, 0);
+        public int getStarCount(UUID playerId, Integer entityId) {
+            return playerStarCounts.getOrDefault(playerId, new HashMap<>()).getOrDefault(entityId, 0);
         }
 
-        public void incrementStarCount(UUID playerId) {
-            setStarCount(playerId, getStarCount(playerId) + 1);
+        public void incrementStarCount(UUID playerId, Integer entityId) {
+            setStarCount(playerId, entityId, getStarCount(playerId, entityId) + 1);
         }
 
-
-        public void setStarCount(UUID playerId, int count) {
-            playerStarCounts.put(playerId, count);
+        public void setStarCount(UUID playerId, Integer entityId, int count) {
+            playerStarCounts.computeIfAbsent(playerId, k -> new HashMap<>()).put(entityId, count);
+            if (count == 0) {
+                playerStarCounts.get(playerId).remove(entityId);
+                if (playerStarCounts.get(playerId).isEmpty()) {
+                    playerStarCounts.remove(playerId);
+                }
+            }
         }
 
-        public void clearStarCount(UUID playerId) {
-            playerStarCounts.remove(playerId);
+        public void clearStarCount(UUID playerId, Integer entityId) {
+            setStarCount(playerId, entityId, 0);
+        }
+
+        public Map<Integer, Integer> getEntitiesForPlayer(UUID playerId) {
+            return playerStarCounts.getOrDefault(playerId, new HashMap<>());
         }
     }
 

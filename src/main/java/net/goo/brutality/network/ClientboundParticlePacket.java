@@ -1,7 +1,6 @@
 package net.goo.brutality.network;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.goo.brutality.client.ClientAccess;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,18 +12,18 @@ import java.util.function.Supplier;
 import static net.goo.brutality.Brutality.LOGGER;
 
 public class ClientboundParticlePacket {
-    private final float x;
-    private final float y;
-    private final float z;
-    private final float xDist;
-    private final float yDist;
-    private final float zDist;
-    private final float xSpeed;
-    private final float ySpeed;
-    private final float zSpeed;
-    private final int count;
-    private final boolean overrideLimiter;
-    private final ParticleOptions particle;
+    public final float x;
+    public final float y;
+    public final float z;
+    public final float xDist;
+    public final float yDist;
+    public final float zDist;
+    public final float xSpeed;
+    public final float ySpeed;
+    public final float zSpeed;
+    public final int count;
+    public final boolean overrideLimiter;
+    public final ParticleOptions particle;
 
     /**
      * Allows the sending of particles from the client side to all other clients through the server
@@ -88,24 +87,7 @@ public class ClientboundParticlePacket {
     }
 
     public static void handle(ClientboundParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            if (Minecraft.getInstance().level == null) return;
-            ClientLevel level = Minecraft.getInstance().level;
-
-            for (int i = 0; i < packet.count; ++i) {
-                float xOffset = (float) (level.random.nextGaussian() * packet.xDist);
-                float yOffset = (float) (level.random.nextGaussian() * packet.yDist);
-                float zOffset = (float) (level.random.nextGaussian() * packet.zDist);
-
-                try {
-                    level.addParticle(packet.particle, packet.overrideLimiter, packet.x + xOffset, packet.y + yOffset, packet.z + zOffset, packet.xSpeed, packet.ySpeed, packet.zSpeed);
-                } catch (Throwable throwable) {
-                    LOGGER.warn("Could not spawn particle effect {}: {}", packet.particle, throwable.getMessage());
-                    return;
-                }
-
-            }
-        });
+        ctx.get().enqueueWork(() -> ClientAccess.spawnParticles(packet));
         ctx.get().setPacketHandled(true);
     }
 

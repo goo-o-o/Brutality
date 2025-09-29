@@ -3,7 +3,7 @@ package net.goo.brutality.util;
 import com.lowdragmc.photon.client.fx.EntityEffect;
 import com.lowdragmc.photon.client.fx.FX;
 import com.lowdragmc.photon.client.fx.FXRuntime;
-import net.goo.brutality.entity.explosion.BrutalityExplosion;
+import net.goo.brutality.config.BrutalityCommonConfig;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.*;
 import net.goo.brutality.particle.providers.WaveParticleData;
@@ -39,7 +39,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
@@ -55,6 +54,15 @@ import java.util.stream.Collectors;
 
 public class ModUtils {
     protected static final RandomSource random = RandomSource.create();
+
+
+    public static Level.ExplosionInteraction getThrowingWeaponExplosionInteractionFromConfig() {
+        return BrutalityCommonConfig.THROWING_WEAPONS_BREAK_BLOCKS.get() ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE;
+    }
+
+    public static Explosion.BlockInteraction getThrowingWeaponBlockInteractionFromConfig() {
+        return BrutalityCommonConfig.THROWING_WEAPONS_BREAK_BLOCKS.get() ? Explosion.BlockInteraction.DESTROY_WITH_DECAY : Explosion.BlockInteraction.KEEP;
+    }
 
     public static void handleActiveAbilityWithCd(ICuriosItemHandler handler, Item item, int cooldownTicks, Runnable runnable) {
         if (handler.isEquipped(item)) {
@@ -83,8 +91,8 @@ public class ModUtils {
         return new Random(seed);
     }
 
-    public static double computeAttributes(@Nullable Player player, ItemStack stack, double inputDamage) {
-        if (player == null) return inputDamage;
+    public static double computeAttributes(@Nullable Player player, ItemStack stack, double originalDamage) {
+        if (player == null) return originalDamage;
 
         Map<Predicate<ItemStack>, List<Attribute>> attributeMap = Map.of(
                 s -> s.getItem() instanceof SwordItem || s.is(ItemTags.SWORDS), // Filter
@@ -109,26 +117,39 @@ public class ModUtils {
                 List.of(ModAttributes.BLUNT_DAMAGE.get())  // Attributes that affect it
         );
 
+
         for (var entry : attributeMap.entrySet()) {
             if (entry.getKey().test(stack)) {
                 for (Attribute attribute : entry.getValue()) {
                     AttributeInstance attributeInstance = player.getAttribute(attribute);
                     if (attributeInstance != null) {
-                        for (AttributeModifier modifier : attributeInstance.getModifiers()) {
-                            if (modifier.getOperation() == AttributeModifier.Operation.ADDITION)
-                                inputDamage += (float) modifier.getAmount();
-                            else if (modifier.getOperation() == AttributeModifier.Operation.MULTIPLY_BASE)
-                                inputDamage += (float) (modifier.getAmount() * attributeInstance.getBaseValue());
-                            else if (modifier.getOperation() == AttributeModifier.Operation.MULTIPLY_TOTAL) {
-                                inputDamage *= 1 + (float) modifier.getAmount();
-                            }
-                        }
+                        originalDamage = calculateValue(attributeInstance, originalDamage);
                     }
                 }
             }
         }
-        return inputDamage;
+        return originalDamage;
     }
+
+    private static double calculateValue(AttributeInstance attributeInstance, double baseValue) {
+
+        for (AttributeModifier additionMultiplier : attributeInstance.getModifiersOrEmpty(AttributeModifier.Operation.ADDITION)) {
+            baseValue += additionMultiplier.getAmount();
+        }
+
+        double finalValue = baseValue;
+
+        for (AttributeModifier multiplyBaseModifier : attributeInstance.getModifiersOrEmpty(AttributeModifier.Operation.MULTIPLY_BASE)) {
+            finalValue += baseValue * multiplyBaseModifier.getAmount();
+        }
+
+        for (AttributeModifier multiplyTotalModifier : attributeInstance.getModifiersOrEmpty(AttributeModifier.Operation.MULTIPLY_TOTAL)) {
+            finalValue *= 1.0D + multiplyTotalModifier.getAmount();
+        }
+
+        return attributeInstance.getAttribute().sanitizeValue(finalValue);
+    }
+
 
     private static BrutalityCategories.AttackType getAttackType(Item item, ItemStack stack) {
         if (item == null || stack == null)
@@ -146,36 +167,6 @@ public class ModUtils {
         return BrutalityCategories.AttackType.NONE;
     }
 
-    public static Explosion explode(BrutalityExplosion explosion, Level level, boolean spawnParticles) {
-        try {
-            if (!ForgeEventFactory.onExplosionStart(level, explosion)) {
-                explosion.explode();
-                explosion.finalizeExplosion(spawnParticles);
-            }
-
-            return explosion;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create explosion of type " + explosion, e);
-        }
-    }
-
-    public static Explosion.BlockInteraction getCorrectExplosionInteraction(Level level, Entity source, Level.ExplosionInteraction interaction) {
-        switch (interaction) {
-            case NONE -> {
-                return Explosion.BlockInteraction.KEEP;
-            }
-            case BLOCK -> {
-                return level.getDestroyType(GameRules.RULE_BLOCK_EXPLOSION_DROP_DECAY);
-            }
-            case MOB -> {
-                return ForgeEventFactory.getMobGriefingEvent(level, source) ? level.getDestroyType(GameRules.RULE_MOB_EXPLOSION_DROP_DECAY) : Explosion.BlockInteraction.KEEP;
-            }
-            case TNT -> {
-                return level.getDestroyType(GameRules.RULE_TNT_EXPLOSION_DROP_DECAY);
-            }
-            default -> throw new IncompatibleClassChangeError();
-        }
-    }
 
     public static int calculateFallDamage(LivingEntity living, float pFallDistance, float pDamageMultiplier) {
         if (living.getType().is(EntityTypeTags.FALL_DAMAGE_IMMUNE)) {
@@ -487,7 +478,6 @@ public class ModUtils {
      * @param firstInstance The {@link MobEffectInstance} to apply if the {@link LivingEntity} does not have the effect. Leave empty to not apply
      */
     public static void modifyEffect(LivingEntity livingEntity, MobEffect mobEffect, @Nullable ModValue durationMod, @Nullable ModValue amplifierMod, @Nullable MobEffectInstance firstInstance) {
-        System.out.println(livingEntity + " | " + livingEntity.getActiveEffects());
         if (livingEntity.hasEffect(mobEffect)) {
             MobEffectInstance original = livingEntity.getEffect(mobEffect);
 

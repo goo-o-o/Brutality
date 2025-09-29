@@ -3,11 +3,11 @@ package net.goo.brutality.item;
 public interface BrutalityCategories {
 
     enum ItemType implements BrutalityCategories {
-        ARMOR, AXE, BOW, GENERIC, HAMMER, PICKAXE, SCYTHE, SWORD, TRIDENT, SPEAR, STAFF, BLOCK, TOME
+        ARMOR, AXE, BOW, GENERIC, HAMMER, PICKAXE, SCYTHE, SWORD, TRIDENT, SPEAR, STAFF, BLOCK, TOME, THROWING
     }
 
     enum AttackType implements BrutalityCategories {
-        BLUNT, SLASH, STAB, NONE
+        BLUNT, SLASH, PIERCE, NONE
     }
 
     enum CurioType implements BrutalityCategories {

@@ -26,6 +26,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
 
+import javax.annotation.Nullable;
+
 import static net.goo.brutality.util.ModResources.RAINBOW_TRAIL_FX;
 
 public class ThrownBiomechReactor extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
@@ -81,20 +83,15 @@ public class ThrownBiomechReactor extends BrutalityAbstractPhysicsTrident implem
     @Override
     public void tick() {
         if (firstTick && !(level() instanceof ServerLevel)) {
-//            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> {
-                EntityEffect rainbowTrail = new EntityEffect(RAINBOW_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
-                rainbowTrail.start();
-//            });
+            EntityEffect rainbowTrail = new EntityEffect(RAINBOW_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
+            rainbowTrail.start();
         }
+
 
         int cooldown = this.entityData.get(HOMING_COOLDOWN);
         if (cooldown > 0) {
             this.entityData.set(HOMING_COOLDOWN, cooldown - 1);
-            return;
-        }
-
-
-        if (!this.inGround && !this.dealtDamage) {
+        } else if (!this.inGround && !this.dealtDamage) {
             if (this.entityData.get(HOMING_TARGET_ID) == -1) {
                 LivingEntity nearestMob = this.level().getNearestEntity(
                         LivingEntity.class,
@@ -132,16 +129,16 @@ public class ThrownBiomechReactor extends BrutalityAbstractPhysicsTrident implem
                         Vec3 motion = toVec.normalize().scale(scale);
                         this.addDeltaMovement(motion);
 
-                        if (this.getDeltaMovement().length() > 2) {
+                        if (this.getDeltaMovement().length() > 1) {
                             this.setDeltaMovement(this.getDeltaMovement().scale(0.85));
                         }
-
                     }
                 } else {
                     this.collideWithBlocks = true;
                 }
             }
         }
+
         super.tick();
 
 
@@ -194,7 +191,7 @@ public class ThrownBiomechReactor extends BrutalityAbstractPhysicsTrident implem
     }
 
     @Override
-    public float getDamage() {
+    public float getDamage(@Nullable LivingEntity livingEntity) {
         return 20;
     }
 
