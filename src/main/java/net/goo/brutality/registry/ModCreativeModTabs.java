@@ -308,8 +308,15 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.BEACH_BALL.get());
                         output.accept(BrutalityModItems.BLAST_BARREL.get());
                         output.accept(BrutalityModItems.DECK_OF_FATE.get());
+                        output.accept(BrutalityModItems.APPLE.get());
+                        output.accept(BrutalityModItems.CABBAGE.get());
+                        output.accept(BrutalityModItems.BANANA.get());
+                        output.accept(BrutalityModItems.BUTTER.get());
+                        output.accept(BrutalityModItems.DURIAN.get());
+                        output.accept(BrutalityModItems.WINTERMELON.get());
                         output.accept(BrutalityModItems.ICE_CUBE.get());
                         output.accept(BrutalityModItems.PERMAFROST_CUBE.get());
+                        output.accept(BrutalityModItems.OVERCLOCKED_TOASTER.get());
                         output.accept(BrutalityModItems.HOLY_HAND_GRENADE.get());
                         output.accept(BrutalityModItems.GUNGNIR_TRIDENT.get().getDefaultInstance());
                         output.accept(BrutalityModItems.VAMPIRE_KNIVES.get().getDefaultInstance());

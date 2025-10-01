@@ -7,35 +7,23 @@ import net.goo.brutality.registry.BrutalityModSounds;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class ThrownApple extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
+public class Durian extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
 
-
-    public ThrownApple(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
+    public Durian(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
-    public ThrownApple(EntityType<? extends BrutalityAbstractTrident> pEntityType, Player player, Level pLevel) {
+    public Durian(EntityType<? extends BrutalityAbstractTrident> pEntityType, Player player, Level pLevel) {
         super(pEntityType, player, pLevel);
     }
 
-
     @Override
     public float getModelHeight() {
-        return 6;
+        return 16;
     }
-
-
-    @Override
-    protected @NotNull ItemStack getPickupItem() {
-        return ItemStack.EMPTY;
-    }
-
 
     @Override
     protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
@@ -47,12 +35,6 @@ public class ThrownApple extends BrutalityAbstractPhysicsTrident implements Brut
         return BrutalityModSounds.SQUELCH.get();
     }
 
-    AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
-    }
 
     @Override
     protected float getBounciness() {

@@ -1,6 +1,6 @@
 package net.goo.brutality.item.weapon.trident;
 
-import net.goo.brutality.entity.projectile.trident.physics_projectile.ThrownDepthCrusher;
+import net.goo.brutality.entity.projectile.trident.physics_projectile.DepthCrusher;
 import net.goo.brutality.item.base.BrutalityTridentItem;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -52,7 +52,7 @@ public class DepthCrusherTrident extends BrutalityTridentItem {
     @Override
     public void launchProjectile(Level pLevel, Player player, ItemStack pStack) {
 
-        ThrownDepthCrusher thrownEntity = new ThrownDepthCrusher(BrutalityModEntities.THROWN_DEPTH_CRUSHER.get(), player, pLevel);
+        DepthCrusher thrownEntity = new DepthCrusher(BrutalityModEntities.DEPTH_CRUSHER.get(), player, pLevel);
         thrownEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, getLaunchVel(), 1.0F);
         thrownEntity.setOwner(player);
 

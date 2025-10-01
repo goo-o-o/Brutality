@@ -202,13 +202,14 @@ public class BrutalityModItems {
     )
     ));
 
-    public static final RegistryObject<Item> BIOMECH_REACTOR_TRIDENT = ITEMS.register("biomech_reactor", () -> new BiomechReactorTrident(
+    public static final RegistryObject<Item> BIOMECH_REACTOR_TRIDENT = ITEMS.register("biomech_reactor", () -> new BiomechReactor(
             0, 0, ModRarities.MYTHIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1),
                     new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 2)
             )
     ));
+
     public static final RegistryObject<Item> PLUNDER_CHEST_CHARM = ITEMS.register("plunder_chest_charm", () -> new PlunderChest(
             ModRarities.FABLED,
             List.of(
@@ -1669,6 +1670,39 @@ public class BrutalityModItems {
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 7)
             )
     ));
+    public static final RegistryObject<Item> APPLE = ITEMS.register("apple", () -> new Apple(
+            3, -2, Rarity.EPIC,
+            List.of(
+            )
+    ));
+    public static final RegistryObject<Item> CABBAGE = ITEMS.register("cabbage", () -> new Cabbage(
+            3, -2, Rarity.EPIC,
+            List.of(
+            )
+    ));
+        public static final RegistryObject<Item> BANANA = ITEMS.register("banana", () -> new Banana(
+            3, -2, Rarity.EPIC,
+            List.of(
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
+            )
+    ));
+    public static final RegistryObject<Item> BUTTER = ITEMS.register("butter", () -> new Butter(
+            1, -2, Rarity.EPIC,
+            List.of(
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
+            )
+    ));
+    public static final RegistryObject<Item> WINTERMELON = ITEMS.register("wintermelon", () -> new Wintermelon(
+            5, -3, Rarity.EPIC,
+            List.of(
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
+            )
+    ));
+    public static final RegistryObject<Item> DURIAN = ITEMS.register("durian", () -> new Durian(
+            4, -3, Rarity.EPIC,
+            List.of(
+            )
+    ));
     public static final RegistryObject<Item> STICKY_BOMB = ITEMS.register("sticky_bomb", () -> new StickyBomb(
             3, -3.6F, Rarity.EPIC,
             List.of(
@@ -1692,6 +1726,12 @@ public class BrutalityModItems {
     public static final RegistryObject<Item> CINDER_BLOCK = ITEMS.register("cinder_block", () -> new CinderBlock(
             10, -3.5F, ModRarities.LEGENDARY,
             List.of(
+            )
+    ));
+    public static final RegistryObject<Item> OVERCLOCKED_TOASTER = ITEMS.register("toaster", () -> new OverclockedToaster(
+            10, -3.6F, ModRarities.LEGENDARY,
+            List.of(
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
             )
     ));
     public static final RegistryObject<Item> SCULK_GRENADE = ITEMS.register("sculk_grenade", () -> new SculkGrenade(

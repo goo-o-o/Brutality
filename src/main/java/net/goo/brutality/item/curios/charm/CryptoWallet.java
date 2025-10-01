@@ -1,14 +1,20 @@
 package net.goo.brutality.item.curios.charm;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
@@ -35,37 +41,44 @@ public class CryptoWallet extends BrutalityCurioItem {
     UUID CRYPTO_CHARM_AD_UUID = UUID.fromString("a0dcfef5-8322-4542-a40a-ce5c7f3bb236");
     UUID CRYPTO_CHARM_AS_UUID = UUID.fromString("99e26a45-2d98-4064-b934-2faa1e6dcae3");
 
+    private static final Object2FloatOpenHashMap<UUID> END_COIN_OLD_BONUS_MAP = new Object2FloatOpenHashMap<>();
+    private static final Object2FloatOpenHashMap<UUID> NETHER_COIN_OLD_BONUS_MAP = new Object2FloatOpenHashMap<>();
+
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
-                AttributeInstance attackDamage = player.getAttribute(Attributes.ATTACK_DAMAGE);
-                if (attackDamage != null) {
+        if (slotContext.entity() != null) {
+            LivingEntity livingEntity = slotContext.entity();
+            UUID uuid = livingEntity.getUUID();
+            CuriosApi.getCuriosInventory(livingEntity).ifPresent(handler -> {
+                AttributeInstance attackDamage = livingEntity.getAttribute(Attributes.ATTACK_DAMAGE);
+                float endCoinOriginalBonus = END_COIN_OLD_BONUS_MAP.getOrDefault(uuid, 0);
+                float endCoinNewBonus = stack.getOrCreateTag().getFloat(END_COIN);
+                if (attackDamage != null & endCoinOriginalBonus != endCoinNewBonus) {
+                    END_COIN_OLD_BONUS_MAP.put(uuid, endCoinNewBonus);
                     attackDamage.removeModifier(CRYPTO_CHARM_AD_UUID);
-
                     attackDamage.addTransientModifier(
                             new AttributeModifier(
                                     CRYPTO_CHARM_AD_UUID,
                                     "Temporary AD Bonus",
-                                    stack.getOrCreateTag().getFloat(END_COIN),
+                                    endCoinNewBonus,
                                     AttributeModifier.Operation.ADDITION
                             )
                     );
                 }
 
 
-                AttributeInstance attackSpeed = player.getAttribute(Attributes.ATTACK_SPEED);
+                AttributeInstance attackSpeed = livingEntity.getAttribute(Attributes.ATTACK_SPEED);
+                float netherCoinOriginalBonus = NETHER_COIN_OLD_BONUS_MAP.getOrDefault(uuid, 0);
+                float netherCoinNewBonus = stack.getOrCreateTag().getFloat(NETHER_COIN);
 
-                if (attackSpeed != null) {
-                    // Remove old modifier (if exists)
+                if (attackSpeed != null & netherCoinOriginalBonus != netherCoinNewBonus) {
+                    NETHER_COIN_OLD_BONUS_MAP.put(uuid, netherCoinNewBonus);
                     attackSpeed.removeModifier(CRYPTO_CHARM_AS_UUID);
-
-                    // Add new modifier with dynamic value
                     attackSpeed.addTransientModifier(
                             new AttributeModifier(
                                     CRYPTO_CHARM_AS_UUID,
                                     "Temporary Speed Bonus",
-                                    stack.getOrCreateTag().getFloat(NETHER_COIN),
+                                    netherCoinNewBonus,
                                     AttributeModifier.Operation.ADDITION
                             )
                     );
@@ -75,35 +88,22 @@ public class CryptoWallet extends BrutalityCurioItem {
         }
     }
 
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        AttributeInstance attackSpeed = slotContext.entity().getAttribute(Attributes.ATTACK_SPEED);
-        if (attackSpeed != null) {
-            attackSpeed.removeModifier(CRYPTO_CHARM_AS_UUID);
-        }
-        AttributeInstance attackDamage = slotContext.entity().getAttribute(Attributes.ATTACK_DAMAGE);
-        if (attackDamage != null) {
-            attackDamage.removeModifier(CRYPTO_CHARM_AD_UUID);
-        }
-    }
-
     @Override
-    public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, world, tooltip, flag);
-        tooltip.add(Component.empty());
-        tooltip.add(Component.translatable("curios.modifiers.charm").withStyle(ChatFormatting.GOLD));
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
+        if (slotContext.entity() != null) {
+            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
+            builder.put(Attributes.ATTACK_DAMAGE,
+                    new AttributeModifier(CRYPTO_CHARM_AD_UUID, "Temporary AD Bonus",
+                            stack.getOrCreateTag().getFloat(END_COIN),
+                            AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ATTACK_SPEED,
+                    new AttributeModifier(CRYPTO_CHARM_AS_UUID, "Temporary AS Bonus",
+                            stack.getOrCreateTag().getFloat(NETHER_COIN),
+                            AttributeModifier.Operation.ADDITION));
+            return builder.build();
+        }
 
-        float endCoin = stack.getOrCreateTag().getFloat(END_COIN);
-
-        tooltip.add(Component.literal((endCoin >= 0 ? "+" : "") + endCoin + " ").append(Component.translatable("attribute.name.generic.attack_damage"))
-                .withStyle(ChatFormatting.DARK_RED));
-
-
-        float netherCoin = stack.getOrCreateTag().getFloat(NETHER_COIN);
-
-        tooltip.add(Component.literal((netherCoin >= 0 ? "+" : "") + netherCoin + " ").append(Component.translatable("attribute.name.generic.attack_speed"))
-                .withStyle(ChatFormatting.DARK_PURPLE));
-
+        return super.getAttributeModifiers(slotContext, uuid, stack);
     }
-
 }
 

@@ -1,6 +1,6 @@
 package net.goo.brutality.item.weapon.trident;
 
-import net.goo.brutality.entity.projectile.trident.physics_projectile.ThrownBiomechReactor;
+import net.goo.brutality.entity.projectile.trident.physics_projectile.BiomechReactor;
 import net.goo.brutality.item.base.BrutalityTridentItem;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -70,7 +70,7 @@ public class BiomechReactorTrident extends BrutalityTridentItem {
     @Override
     public void launchProjectile(Level pLevel, Player player, ItemStack pStack) {
 
-        ThrownBiomechReactor thrownEntity = new ThrownBiomechReactor(pLevel, player, pStack, BrutalityModEntities.THROWN_BIOMECH_REACTOR.get());
+        BiomechReactor thrownEntity = new BiomechReactor(pLevel, player, pStack, BrutalityModEntities.BIOMECH_REACTOR.get());
         thrownEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, getLaunchVel(), 1.0F);
 
         pLevel.addFreshEntity(thrownEntity);

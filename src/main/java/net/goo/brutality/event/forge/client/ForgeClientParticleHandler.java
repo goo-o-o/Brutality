@@ -57,16 +57,6 @@ public class ForgeClientParticleHandler {
                 // SUPERNOVA SWORD PARTICLE HANDLER END //
             }
 
-
-            if (tickCount % 7 == 0) {
-                // RUINED PARTICLE HANDLER START //
-                if (player.isHolding(BrutalityModItems.BLADE_OF_THE_RUINED_KING.get())) {
-                    spawnBladeOfTheRuinedParticle(player, level);
-                }
-                // RUINED PARTICLE HANDLER END //
-
-            }
-
             if (tickCount % 2 == 0) {
                 // BLACK HOLE PARTICLE HANDLER START //
                 spawnBlackHoleEntityParticles(player, level);
@@ -84,10 +74,6 @@ public class ForgeClientParticleHandler {
             }
             // ZAP PARTICLE HANDLER END
         }
-    }
-
-    private static void spawnBladeOfTheRuinedParticle(Player player, Level level) {
-//        level.addParticle(new TrailParticleData(BrutalityModParticles.RUINED_PARTICLE.get(), 0.18F, 0.47F, 0.44F, 10, 1, -1, 10), player.getRandomX(2), player.getRandomY(), player.getRandomZ(2), 0, 0, 0);
     }
 
     private static void spawnZeusThunderboltParticle(Player player, Level level) {

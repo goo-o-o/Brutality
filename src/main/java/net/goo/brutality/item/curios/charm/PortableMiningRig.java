@@ -6,6 +6,7 @@ import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -24,14 +25,16 @@ public class PortableMiningRig extends BrutalityCurioItem {
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
-        Entity entity = slotContext.entity();
-
-        if (entity instanceof LivingEntity livingEntity && livingEntity.level() instanceof ServerLevel serverLevel) {
+        if (slotContext.entity() != null) {
+            LivingEntity livingEntity = slotContext.entity();
+            if (!(livingEntity.level() instanceof ServerLevel serverLevel)) return;
+            if (livingEntity.tickCount % 20 != 0) return;
             CuriosApi.getCuriosInventory(livingEntity).ifPresent(handler -> {
                 handler.findFirstCurio(BrutalityModItems.CRYPTO_WALLET_CHARM.get()).ifPresent(slotResult -> {
                             ItemStack cryptoWalletStack = slotResult.stack();
-                            if (serverLevel.getRandom().nextIntBetweenInclusive(0, 100) < 3) {
-                                float baseReward = Mth.nextFloat(serverLevel.getRandom(), 0, 0.005F); // Higher initial reward
+                            RandomSource random = serverLevel.getRandom();
+                            if (random.nextIntBetweenInclusive(0, 100) < 3) {
+                                float baseReward = Mth.nextFloat(random, 0, 0.005F); // Higher initial reward
                                 float cap = 25.0F;
                                 float power = 2.0F;
 
@@ -41,8 +44,8 @@ public class PortableMiningRig extends BrutalityCurioItem {
 
                                 cryptoWalletStack.getOrCreateTag().putFloat(END_COIN, currentEndCoins + adjustedReward);
                             }
-                            if (serverLevel.getRandom().nextIntBetweenInclusive(0, 100) < 2) {
-                                float baseReward = Mth.nextFloat(serverLevel.getRandom(), 0, 0.001F); // Higher initial reward
+                            if (random.nextIntBetweenInclusive(0, 100) < 2) {
+                                float baseReward = Mth.nextFloat(random, 0, 0.001F); // Higher initial reward
                                 float cap = 1.5F;
                                 float power = 2.0F;
 
@@ -55,7 +58,6 @@ public class PortableMiningRig extends BrutalityCurioItem {
                         }
                 );
             });
-            super.curioTick(slotContext, stack);
         }
     }
 

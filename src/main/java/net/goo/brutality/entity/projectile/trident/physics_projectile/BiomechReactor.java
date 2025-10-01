@@ -30,17 +30,17 @@ import javax.annotation.Nullable;
 
 import static net.goo.brutality.util.ModResources.RAINBOW_TRAIL_FX;
 
-public class ThrownBiomechReactor extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
-    private static final EntityDataAccessor<Integer> HOMING_TARGET_ID = SynchedEntityData.defineId(ThrownBiomechReactor.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> HOMING_COOLDOWN = SynchedEntityData.defineId(ThrownBiomechReactor.class, EntityDataSerializers.INT);
+public class BiomechReactor extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
+    private static final EntityDataAccessor<Integer> HOMING_TARGET_ID = SynchedEntityData.defineId(BiomechReactor.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> HOMING_COOLDOWN = SynchedEntityData.defineId(BiomechReactor.class, EntityDataSerializers.INT);
 
-    public ThrownBiomechReactor(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
+    public BiomechReactor(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.entityData.set(HOMING_TARGET_ID, -1);
         this.entityData.set(HOMING_COOLDOWN, 25);
     }
 
-    public ThrownBiomechReactor(Level pLevel, LivingEntity pShooter, ItemStack pStack, EntityType<? extends AbstractArrow> trident) {
+    public BiomechReactor(Level pLevel, LivingEntity pShooter, ItemStack pStack, EntityType<? extends AbstractArrow> trident) {
         super(pLevel, pShooter, pStack, trident);
 
         this.entityData.set(HOMING_TARGET_ID, -1);

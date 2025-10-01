@@ -18,16 +18,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 
-public class ThrownDepthCrusher extends BrutalityAbstractPhysicsProjectile implements BrutalityGeoEntity {
-    private static final EntityDataAccessor<Integer> DATA_FINAL_ROLL = SynchedEntityData.defineId(ThrownDepthCrusher.class, EntityDataSerializers.INT);
+public class DepthCrusher extends BrutalityAbstractPhysicsProjectile implements BrutalityGeoEntity {
+    private static final EntityDataAccessor<Integer> DATA_FINAL_ROLL = SynchedEntityData.defineId(DepthCrusher.class, EntityDataSerializers.INT);
 
-    public ThrownDepthCrusher(EntityType<? extends AbstractArrow> trident, LivingEntity pShooter, Level pLevel) {
+    public DepthCrusher(EntityType<? extends AbstractArrow> trident, LivingEntity pShooter, Level pLevel) {
         super(trident, pShooter, pLevel);
         this.entityData.set(DATA_FINAL_ROLL, level().random.nextIntBetweenInclusive(-50, 50));
         this.pitch = 0;
     }
 
-    public ThrownDepthCrusher(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
+    public DepthCrusher(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.entityData.set(DATA_FINAL_ROLL, level().random.nextIntBetweenInclusive(-50, 50));
         this.pitch = 0;

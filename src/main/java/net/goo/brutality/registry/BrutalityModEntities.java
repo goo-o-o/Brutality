@@ -73,6 +73,16 @@ public class BrutalityModEntities {
                     () -> EntityType.Builder.of(CinderBlock::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
                             .build("cinder_block"));
+    public static final RegistryObject<EntityType<OverclockedToaster>> OVERCLOCKED_TOASTER =
+            ENTITY_TYPES.register("overclocked_toaster",
+                    () -> EntityType.Builder.of(OverclockedToaster::new, MobCategory.MISC)
+                            .sized(0.5F, 0.5F)
+                            .build("overclocked_toaster"));
+    public static final RegistryObject<EntityType<Toast>> TOAST =
+            ENTITY_TYPES.register("toast",
+                    () -> EntityType.Builder.of(Toast::new, MobCategory.MISC)
+                            .sized(0.5F, 0.5F)
+                            .build("toast"));
     public static final RegistryObject<EntityType<StickyBomb>> STICKY_BOMB =
             ENTITY_TYPES.register("sticky_bomb",
                     () -> EntityType.Builder.of(StickyBomb::new, MobCategory.MISC)
@@ -165,47 +175,46 @@ public class BrutalityModEntities {
                             .sized(0.5F, 0.5F)
                             .build("thrown_styrofoam_cup"));
 
-    public static final RegistryObject<EntityType<ThrownCabbage>> THROWN_CABBAGE_ENTITY =
+    public static final RegistryObject<EntityType<Cabbage>> CABBAGE =
             ENTITY_TYPES.register("thrown_cabbage",
-                    () -> EntityType.Builder.<ThrownCabbage>of(ThrownCabbage::new, MobCategory.MISC)
+                    () -> EntityType.Builder.<Cabbage>of(Cabbage::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
                             .build("thrown_cabbage"));
-
-    public static final RegistryObject<EntityType<ThrownWintermelon>> THROWN_WINTERMELON_ENTITY =
+    public static final RegistryObject<EntityType<ThrownWintermelon>> WINTERMELON =
             ENTITY_TYPES.register("thrown_wintermelon",
                     () -> EntityType.Builder.<ThrownWintermelon>of(ThrownWintermelon::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
                             .build("thrown_wintermelon"));
-    public static final RegistryObject<EntityType<ThrownBanana>> THROWN_BANANA_ENTITY =
+    public static final RegistryObject<EntityType<Banana>> BANANA =
             ENTITY_TYPES.register("thrown_banana",
-                    () -> EntityType.Builder.<ThrownBanana>of(ThrownBanana::new, MobCategory.MISC)
+                    () -> EntityType.Builder.<Banana>of(Banana::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
                             .build("thrown_banana"));
-    public static final RegistryObject<EntityType<ThrownButter>> THROWN_BUTTER_ENTITY =
+    public static final RegistryObject<EntityType<Butter>> BUTTER =
             ENTITY_TYPES.register("thrown_butter",
-                    () -> EntityType.Builder.<ThrownButter>of(ThrownButter::new, MobCategory.MISC)
+                    () -> EntityType.Builder.<Butter>of(Butter::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
                             .build("thrown_butter"));
-    public static final RegistryObject<EntityType<ThrownApple>> THROWN_APPLE_ENTITY =
+    public static final RegistryObject<EntityType<Apple>> APPLE =
             ENTITY_TYPES.register("thrown_apple",
-                    () -> EntityType.Builder.<ThrownApple>of(ThrownApple::new, MobCategory.MISC)
+                    () -> EntityType.Builder.<Apple>of(Apple::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
                             .build("thrown_apple"));
-    public static final RegistryObject<EntityType<ThrownDurian>> THROWN_DURIAN_ENTITY =
+    public static final RegistryObject<EntityType<Durian>> DURIAN =
             ENTITY_TYPES.register("thrown_durian",
-                    () -> EntityType.Builder.<ThrownDurian>of(ThrownDurian::new, MobCategory.MISC)
+                    () -> EntityType.Builder.<Durian>of(Durian::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
                             .build("thrown_durian"));
 
-    public static final RegistryObject<EntityType<ThrownBiomechReactor>> THROWN_BIOMECH_REACTOR =
+    public static final RegistryObject<EntityType<BiomechReactor>> BIOMECH_REACTOR =
             ENTITY_TYPES.register("thrown_biomech_reactor",
-                    () -> EntityType.Builder.<ThrownBiomechReactor>of(ThrownBiomechReactor::new, MobCategory.MISC)
+                    () -> EntityType.Builder.<BiomechReactor>of(BiomechReactor::new, MobCategory.MISC)
                             .sized(1F, 1F)
                             .build("thrown_biomech_reactor"));
 
-    public static final RegistryObject<EntityType<ThrownDepthCrusher>> THROWN_DEPTH_CRUSHER =
+    public static final RegistryObject<EntityType<DepthCrusher>> DEPTH_CRUSHER =
             ENTITY_TYPES.register("thrown_depth_crusher",
-                    () -> EntityType.Builder.of((EntityType<ThrownDepthCrusher> entityType, Level level) -> new ThrownDepthCrusher(entityType, level), MobCategory.MISC)
+                    () -> EntityType.Builder.of((EntityType<DepthCrusher> entityType, Level level) -> new DepthCrusher(entityType, level), MobCategory.MISC)
                             .sized(1, 2F)
                             .build("thrown_depth_crusher"));
 

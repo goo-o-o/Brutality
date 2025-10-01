@@ -73,6 +73,7 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
     }
 
 
+
     protected int getLifespan() {
         return 1200;
     }

@@ -20,25 +20,20 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 
-public class ThrownBanana extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
+public class Banana extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
 
 
-    public ThrownBanana(EntityType<? extends BrutalityAbstractTrident> pEntityType, Player player, Level pLevel) {
+    public Banana(EntityType<? extends BrutalityAbstractTrident> pEntityType, Player player, Level pLevel) {
         super(pEntityType, player, pLevel);
     }
 
-    public ThrownBanana(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
+    public Banana(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
     @Override
     public float getModelHeight() {
         return 8;
-    }
-
-    @Override
-    protected @NotNull ItemStack getPickupItem() {
-        return ItemStack.EMPTY;
     }
 
     @Override

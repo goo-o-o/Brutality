@@ -48,11 +48,6 @@ public class BrutalityHammerItem extends TieredItem implements BrutalityGeoItem 
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return super.getAttributeModifiers(slot, stack);
-    }
-
-    @Override
     public @NotNull Rarity getRarity(@NotNull ItemStack pStack) {
         return this.rarity;
     }
