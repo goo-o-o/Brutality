@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "terramity:hellspec_upgrade_smithing_template"
+    },
+    "B": {
+      "item": "terramity:hellspec_shotshells"
+    },
+    "C": {
+      "item": "minecraft:feather"
+    }
+  },
+  "pattern": [
+    "   ",
+    "A B",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:hyperbolic_feather"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_hellspec_alloy": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "terramity:hellspec_alloy"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brutality:stygian_chain"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_hellspec_alloy",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brutality:stygian_chain"
+    ]
+  },
+  "sends_telemetry_event": false
+}

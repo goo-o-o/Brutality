@@ -260,8 +260,8 @@ public class BaseMagicTome extends BrutalityGenericItem {
 
                 if (finalDamage > 0) {
                     String damageOperator = spell.getDamageLevelScaling() > 0 ? " + " : " - ";
-                    tooltip.add(Component.literal("\uD83D\uDDE1 §8|§6 " + (showDamageMulti ? "(" : "") + spell.getBaseDamage() + "§r ❤§6" + damageOperator + "(" +
-                            Mth.abs(spell.getDamageLevelScaling()) + "§r ❤§6 * level)" + (showDamageMulti ? ") * " + String.format("%.2f", spellDamageMultiplier) : "") + " = §2" + finalDamage + "§r ❤"));
+                    tooltip.add(Component.literal("\uD83D\uDDE1 §8|§6 " + (showDamageMulti ? "(" : "") + spell.getBaseDamage() + "§r \u2764§6" + damageOperator + "(" +
+                            Mth.abs(spell.getDamageLevelScaling()) + "§r \u2764§6 * level)" + (showDamageMulti ? ") * " + String.format("%.2f", spellDamageMultiplier) : "") + " = §2" + finalDamage + "§r \u2764"));
 
                 }
                 if (castTime > 0) {
@@ -350,8 +350,8 @@ public class BaseMagicTome extends BrutalityGenericItem {
 
             if (finalDamage > 0) {
                 String damageOperator = spell.getDamageLevelScaling() > 0 ? " + " : " - ";
-                tooltip.add(Component.literal("\uD83D\uDDE1 §8|§6 " + (showDamageMulti ? "(" : "") + spell.getBaseDamage() + "§r ❤§6" + damageOperator + "(" +
-                        Mth.abs(spell.getDamageLevelScaling()) + "§r ❤§6 * level)" + (showDamageMulti ? ") * " + String.format("%.2f", spellDamageMultiplier) : "") + " = §2" + finalDamage + "§r ❤"));
+                tooltip.add(Component.literal("\uD83D\uDDE1 §8|§6 " + (showDamageMulti ? "(" : "") + spell.getBaseDamage() + "§r \u2764§6" + damageOperator + "(" +
+                        Mth.abs(spell.getDamageLevelScaling()) + "§r \u2764§6 * level)" + (showDamageMulti ? ") * " + String.format("%.2f", spellDamageMultiplier) : "") + " = §2" + finalDamage + "§r \u2764"));
 
             }
             if (castTime > 0) {
@@ -403,7 +403,7 @@ public class BaseMagicTome extends BrutalityGenericItem {
         if (type.equals(DURATION)) {
             return input / 20;
         }
-        if (type.unit.contains("❤")) {
+        if (type.unit.contains("\u2764")) {
             return input / 2;
         }
         return input;

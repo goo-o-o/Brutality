@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:hellspec_alloy"
+    },
+    "B": {
+      "item": "terramity:gold_necklace"
+    },
+    "C": {
+      "item": "terramity:stygian_blood_bucket"
+    }
+  },
+  "pattern": [
+    " A ",
+    " B ",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:stygian_chain"
+  },
+  "show_notification": true
+}

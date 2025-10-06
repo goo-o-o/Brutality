@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:honeycomb"
+    },
+    "B": {
+      "item": "brutality:quantite_ingot"
+    },
+    "C": {
+      "item": "terramity:occult_fabric"
+    }
+  },
+  "pattern": [
+    " A ",
+    "BCB",
+    " B "
+  ],
+  "result": {
+    "item": "brutality:quantite_seal"
+  },
+  "show_notification": true
+}

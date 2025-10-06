@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brutality:forbidden_orb"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_void_glass": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "terramity:void_glass"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_void_glass",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brutality:forbidden_orb"
+    ]
+  },
+  "sends_telemetry_event": false
+}

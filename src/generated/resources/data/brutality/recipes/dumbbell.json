@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:daemonium_chunk"
+    },
+    "B": {
+      "item": "terramity:daemonium"
+    }
+  },
+  "pattern": [
+    "A A",
+    "BAB",
+    "A A"
+  ],
+  "result": {
+    "item": "brutality:dumbbell"
+  },
+  "show_notification": true
+}

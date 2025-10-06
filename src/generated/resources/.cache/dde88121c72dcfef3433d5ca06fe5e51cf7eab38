@@ -1,4 +1,4 @@
-// 1.20.1	2025-10-05T16:08:41.683166	Item Models: brutality
+// 1.20.1	2025-10-06T15:22:36.3500619	Item Models: brutality
 4d2cb5931bdfc05b9f9f74aa98fcf2124089e766 assets/brutality/models/item/absolute_zero.json
 b9a228d40051bf608e575ad22195a7f52b0fb3fd assets/brutality/models/item/abyssal_necklace.json
 5881774b34f2bb80a3ac222639c0286b3b9541b7 assets/brutality/models/item/addition_charm.json
@@ -16,7 +16,6 @@ f83e43a01c971f20a9ba39ad0b7b7642cf20358e assets/brutality/models/item/bamboo_ste
 4a17a6d341c15584f5ce5517d3fc7f3f0cc62002 assets/brutality/models/item/battle_scars.json
 7941456fdd581fd515fa8eab3f925043ec6f9b36 assets/brutality/models/item/beach_ball.json
 73ac2176a3277b5179c7cfa1033e817fac8740dc assets/brutality/models/item/big_steppa.json
-ac2af36beb41e083979af291f913ce33622ed5bd assets/brutality/models/item/bikers_helmet.json
 7fffb668df5ef1e5486f5dfbd83e411a132991de assets/brutality/models/item/biomech_reactor.json
 62c7d2e700a477facd1d90ea31872cc6d199345d assets/brutality/models/item/black_hole_orb.json
 84059e0b0dcb577072b36b68b9087b000c92024e assets/brutality/models/item/black_matter_necklace.json
@@ -185,7 +184,6 @@ bdd4a09c256f5a02d30621e9ff6661b24ebbb3bb assets/brutality/models/item/olive_oil_
 0a3dab8ec277f9aeb9f29bf390e6fef026e31d11 assets/brutality/models/item/orange_seal.json
 56d82c9ad2ea7875cae451b92e7e5f38adb9fdeb assets/brutality/models/item/overclocked_toaster.json
 d35e7c4a6ff69fc1520081b84d07ff4bd62c33c6 assets/brutality/models/item/pain_catalyst.json
-c570fb223bf596cb7aee6d1a999b1b6fd0031e27 assets/brutality/models/item/pandoras_cauldron.json
 eeaa7c2c5ec553775f10ab9370eb98f77d36b7f9 assets/brutality/models/item/paper_airplane.json
 a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/paper_cut.json
 0425aa53344ee03ce143e78f3f3cde7e81524393 assets/brutality/models/item/pencil_sharpener.json
@@ -210,6 +208,7 @@ a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/providence
 a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/providence_inventory_pull_1.json
 a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/providence_inventory_pull_2.json
 8cd3f9db537eb491dcf77fc6df0f53bb699f4a6d assets/brutality/models/item/purple_seal.json
+ee305f829c5c97fadc57f320391536161b76d851 assets/brutality/models/item/quantite_ingot.json
 edd789920641a279a998bacb4da66a63648f5980 assets/brutality/models/item/quantite_seal.json
 99b9ed145b44e010baa1bd2eb82967253d4c1229 assets/brutality/models/item/rage_stone.json
 3a5168c310020881e2281a90575c2dabed49e629 assets/brutality/models/item/rainbow_sprinkles.json

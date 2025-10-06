@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:void_glass"
+    },
+    "B": {
+      "item": "terramity:forbidden_fruit"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "item": "brutality:forbidden_orb"
+  },
+  "show_notification": true
+}

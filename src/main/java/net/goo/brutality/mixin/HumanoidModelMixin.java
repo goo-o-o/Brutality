@@ -108,13 +108,13 @@ public class HumanoidModelMixin implements net.goo.brutality.client.models.IRand
 			this.leftArm.zRot = 0;
 		}
 
-		if (player.getMainHandItem().is(BrutalityModItems.PANDORAS_CAULDRON.get())) {
-			this.leftArm.xRot = -(float)Math.PI;
-			this.rightArm.xRot = (float) (-300 * Math.PI / 180);
-		} else if (player.getOffhandItem().is(BrutalityModItems.PANDORAS_CAULDRON.get())) {
-			this.rightArm.xRot = -(float)Math.PI;
-			this.leftArm.xRot = (float) (-300 * Math.PI / 180);
-		}
+//		if (player.getMainHandItem().is(BrutalityModItems.PANDORAS_CAULDRON.get())) {
+//			this.leftArm.xRot = -(float)Math.PI;
+//			this.rightArm.xRot = (float) (-300 * Math.PI / 180);
+//		} else if (player.getOffhandItem().is(BrutalityModItems.PANDORAS_CAULDRON.get())) {
+//			this.rightArm.xRot = -(float)Math.PI;
+//			this.leftArm.xRot = (float) (-300 * Math.PI / 180);
+//		}
 
 		if (player.getMainHandItem().is(BrutalityModItems.STYROFOAM_CUP.get()) || player.getMainHandItem().is(BrutalityModItems.MUG.get())) {
 			this.rightArm.xRot = (float) (-90 * Math.PI / 180);
@@ -143,9 +143,9 @@ public class HumanoidModelMixin implements net.goo.brutality.client.models.IRand
 			}
 
 			// Skip bobbing if holding Pandora's Cauldron
-			if (player.isHolding(BrutalityModItems.PANDORAS_CAULDRON.get())) {
-				return;
-			}
+//			if (player.isHolding(BrutalityModItems.PANDORAS_CAULDRON.get())) {
+//				return;
+//			}
 
 			boolean isRightArm = arm == (player.getMainArm() == HumanoidArm.RIGHT ? this.rightArm : this.leftArm);
 			boolean isPositiveDirection = direction > 0;
@@ -180,10 +180,10 @@ public class HumanoidModelMixin implements net.goo.brutality.client.models.IRand
 
 
 		if (player.isCrouching()) {
-			if (player.isHolding(BrutalityModItems.PANDORAS_CAULDRON.get())) {
-				this.leftArm.xRot -= 2F;
-				this.rightArm.xRot -= 2F;
-			}
+//			if (player.isHolding(BrutalityModItems.PANDORAS_CAULDRON.get())) {
+//				this.leftArm.xRot -= 2F;
+//				this.rightArm.xRot -= 2F;
+//			}
 
 			boolean wearingNoirChestplate = player.getInventory().getArmor(2).getItem() == BrutalityModItems.NOIR_CHESTPLATE.get();
 

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:antiprism"
+    },
+    "B": {
+      "item": "brutality:quantite_ingot"
+    }
+  },
+  "pattern": [
+    "AB ",
+    "BAB",
+    " BA"
+  ],
+  "result": {
+    "item": "brutality:warpslice_scabbard"
+  },
+  "show_notification": true
+}

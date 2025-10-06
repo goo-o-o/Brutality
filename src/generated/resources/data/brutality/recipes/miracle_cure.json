@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:milk_bucket"
+    },
+    "B": {
+      "item": "terramity:music_sheet_of_cleansing"
+    },
+    "C": {
+      "item": "minecraft:glass_bottle"
+    }
+  },
+  "pattern": [
+    " A ",
+    " B ",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:miracle_cure"
+  },
+  "show_notification": true
+}

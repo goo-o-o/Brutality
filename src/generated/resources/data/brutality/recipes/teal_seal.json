@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:honeycomb"
+    },
+    "B": {
+      "item": "minecraft:cyan_dye"
+    },
+    "C": {
+      "item": "terramity:occult_fabric"
+    },
+    "D": {
+      "item": "minecraft:gray_dye"
+    }
+  },
+  "pattern": [
+    " A ",
+    "BCB",
+    " D "
+  ],
+  "result": {
+    "item": "brutality:teal_seal"
+  },
+  "show_notification": true
+}

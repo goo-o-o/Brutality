@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:carton_of_chocolate_milk"
+    },
+    "B": {
+      "tag": "forge:ingots"
+    }
+  },
+  "pattern": [
+    "   ",
+    " A ",
+    " B "
+  ],
+  "result": {
+    "item": "brutality:chocolate_bar"
+  },
+  "show_notification": true
+}

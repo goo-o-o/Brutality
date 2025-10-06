@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "brutality:unbridled_rage"
+    },
+    "B": {
+      "item": "minecraft:golden_helmet"
+    }
+  },
+  "pattern": [
+    "AAA",
+    " B ",
+    "   "
+  ],
+  "result": {
+    "item": "brutality:crown_of_tyranny"
+  },
+  "show_notification": true
+}

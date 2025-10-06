@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_carton_of_chocolate_milk": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "terramity:carton_of_chocolate_milk"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brutality:chocolate_bar"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_carton_of_chocolate_milk",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brutality:chocolate_bar"
+    ]
+  },
+  "sends_telemetry_event": false
+}

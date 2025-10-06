@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brutality:bruteskin_belt"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_uvogre_heart": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "brutality:uvogre_heart"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_uvogre_heart",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brutality:bruteskin_belt"
+    ]
+  },
+  "sends_telemetry_event": false
+}

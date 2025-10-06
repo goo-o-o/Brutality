@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "terramity:dimlite_ingot"
+    },
+    {
+      "item": "brutality:high_frequency_alloy"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "item": "brutality:quantite_ingot"
+  }
+}

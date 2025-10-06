@@ -20,6 +20,7 @@ public class ModCreativeModTabs {
 
                         output.accept(BrutalityModItems.POCKET_BLACK_HOLE.get());
                         output.accept(BrutalityModItems.HIGH_FREQUENCY_ALLOY.get());
+                        output.accept(BrutalityModItems.QUANTITE_INGOT.get());
                         output.accept(BrutalityModItems.UNBRIDLED_RAGE.get());
 
                     })
@@ -48,18 +49,18 @@ public class ModCreativeModTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(BrutalityModItems.SPATULA_HAMMER.get().getDefaultInstance());
                         output.accept(BrutalityModItems.THE_GOLDEN_SPATULA_HAMMER.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.IRON_KNIFE_SWORD.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.GOLD_KNIFE_SWORD.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.DIAMOND_KNIFE_SWORD.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.VOID_KNIFE_SWORD.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.IRON_KNIFE.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.GOLD_KNIFE.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.DIAMOND_KNIFE.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.VOID_KNIFE.get().getDefaultInstance());
                         output.accept(BrutalityModItems.MELONCHOLY_SWORD.get().getDefaultInstance());
                         output.accept(BrutalityModItems.APPLE_CORE_LANCE.get().getDefaultInstance());
                         output.accept(BrutalityModItems.CHOPSTICK_STAFF.get().getDefaultInstance());
                         output.accept(BrutalityModItems.BAMBOO_STAFF.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.FRYING_PAN_HAMMER.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.FRYING_PAN.get().getDefaultInstance());
                         output.accept(BrutalityModItems.POTATO_MASHER_HAMMER.get().getDefaultInstance());
                         output.accept(BrutalityModItems.WHISK_HAMMER.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.PANDORAS_CAULDRON.get());
+//                        output.accept(BrutalityModItems.PANDORAS_CAULDRON.get());
 
                         output.accept(BrutalityModItems.PEPPER_SHAKER_CHARM.get().getDefaultInstance());
                         output.accept(BrutalityModItems.SALT_SHAKER_CHARM.get().getDefaultInstance());
@@ -122,7 +123,7 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.DUMBBELL.get());
                         output.accept(BrutalityModItems.BOX_OF_CHOCOLATES.get());
                         output.accept(BrutalityModItems.BROKEN_HEART.get());
-                        output.accept(BrutalityModItems.BIKERS_HELMET.get());
+//                        output.accept(BrutalityModItems.BIKERS_HELMET.get());
                         output.accept(BrutalityModItems.ESCAPE_KEY.get());
                         output.accept(BrutalityModItems.MIRACLE_CURE.get());
                         output.accept(BrutalityModItems.ESSENTIAL_OILS.get());

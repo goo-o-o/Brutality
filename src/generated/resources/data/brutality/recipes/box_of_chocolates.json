@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "brutality:chocolate_bar"
+    },
+    "B": {
+      "item": "terramity:cardboard_box"
+    }
+  },
+  "pattern": [
+    " A ",
+    "AB ",
+    "   "
+  ],
+  "result": {
+    "item": "brutality:box_of_chocolates"
+  },
+  "show_notification": true
+}

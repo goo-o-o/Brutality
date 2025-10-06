@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:quartz"
+    },
+    "B": {
+      "item": "terramity:electronic_scrap"
+    }
+  },
+  "pattern": [
+    "   ",
+    " A ",
+    " B "
+  ],
+  "result": {
+    "item": "brutality:escape_key"
+  },
+  "show_notification": true
+}

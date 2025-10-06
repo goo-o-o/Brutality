@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "brutality:second_heart"
+    },
+    "B": {
+      "item": "brutality:iron_knife"
+    }
+  },
+  "pattern": [
+    "   ",
+    " A ",
+    " B "
+  ],
+  "result": {
+    "item": "brutality:broken_heart"
+  },
+  "show_notification": true
+}

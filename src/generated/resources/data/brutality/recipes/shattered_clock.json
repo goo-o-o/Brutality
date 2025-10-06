@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:diamond"
+    },
+    "B": {
+      "item": "terramity:dimlite_ingot"
+    },
+    "C": {
+      "item": "brutality:broken_clock"
+    },
+    "D": {
+      "item": "terramity:prismatic_jewel"
+    },
+    "E": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "ECE",
+    "DDD"
+  ],
+  "result": {
+    "item": "brutality:shattered_clock"
+  },
+  "show_notification": true
+}

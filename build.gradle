@@ -247,6 +247,14 @@ publishing {
     }
 }
 
+compileJava {
+    options.encoding = "UTF-8"
+}
+
+compileTestJava {
+    options.encoding = "UTF-8"
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }

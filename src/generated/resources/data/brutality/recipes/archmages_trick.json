@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:dimlite_ingot"
+    },
+    "B": {
+      "item": "terramity:antiprism"
+    },
+    "C": {
+      "item": "terramity:fortunes_favor"
+    },
+    "D": {
+      "item": "terramity:dimlite_block"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABD"
+  ],
+  "result": {
+    "item": "brutality:archmages_trick"
+  },
+  "show_notification": true
+}

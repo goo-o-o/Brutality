@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "brutality:uvogre_heart"
+    },
+    "B": {
+      "item": "terramity:slam_belt"
+    }
+  },
+  "pattern": [
+    " A ",
+    " B ",
+    "   "
+  ],
+  "result": {
+    "item": "brutality:bruteskin_belt"
+  },
+  "show_notification": true
+}

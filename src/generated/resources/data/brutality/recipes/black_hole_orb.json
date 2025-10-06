@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:nyxium_glass"
+    },
+    "B": {
+      "item": "brutality:pocket_black_hole"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "item": "brutality:black_hole_orb"
+  },
+  "show_notification": true
+}

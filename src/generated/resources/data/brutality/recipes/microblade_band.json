@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:daemonium_chunk"
+    },
+    "B": {
+      "item": "terramity:empty_ring"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "item": "brutality:microblade_band"
+  },
+  "show_notification": true
+}

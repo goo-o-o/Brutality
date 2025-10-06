@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_empty_essence": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "terramity:empty_spell_tome"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brutality:portable_quantum_thingamabob"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_empty_essence",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brutality:portable_quantum_thingamabob"
+    ]
+  },
+  "sends_telemetry_event": false
+}

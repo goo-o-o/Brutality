@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "item": "minecraft:redstone_lamp"
+    },
+    "C": {
+      "item": "minecraft:lever"
+    }
+  },
+  "pattern": [
+    "AAB",
+    "A  ",
+    "AAC"
+  ],
+  "result": {
+    "item": "brutality:light_switch"
+  },
+  "show_notification": true
+}

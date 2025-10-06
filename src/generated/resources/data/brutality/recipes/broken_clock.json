@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:dimlite_nugget"
+    },
+    "B": {
+      "item": "terramity:daemonium_chunk"
+    },
+    "C": {
+      "item": "minecraft:clock"
+    },
+    "D": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "BCB",
+    "DDD"
+  ],
+  "result": {
+    "item": "brutality:broken_clock"
+  },
+  "show_notification": true
+}

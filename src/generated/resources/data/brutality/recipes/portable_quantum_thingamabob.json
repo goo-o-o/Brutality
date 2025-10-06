@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "brutality:cosine_charm"
+    },
+    "B": {
+      "item": "terramity:empty_essence"
+    },
+    "C": {
+      "item": "brutality:sine_charm"
+    }
+  },
+  "pattern": [
+    " A ",
+    " B ",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:portable_quantum_thingamabob"
+  },
+  "show_notification": true
+}

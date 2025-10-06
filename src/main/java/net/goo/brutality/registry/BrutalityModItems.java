@@ -18,6 +18,7 @@ import net.goo.brutality.item.curios.ring.*;
 import net.goo.brutality.item.curios.vanity.*;
 import net.goo.brutality.item.material.HighFrequencyAlloyItem;
 import net.goo.brutality.item.material.PocketBlackHoleItem;
+import net.goo.brutality.item.material.QuantiteIngot;
 import net.goo.brutality.item.material.UnbridledRageItem;
 import net.goo.brutality.item.seals.*;
 import net.goo.brutality.item.weapon.axe.OldGpuAxe;
@@ -61,6 +62,7 @@ public class BrutalityModItems {
 
     public static final RegistryObject<Item> POCKET_BLACK_HOLE = ITEMS.register("pocket_black_hole", () -> new PocketBlackHoleItem(new Item.Properties()));
     public static final RegistryObject<Item> HIGH_FREQUENCY_ALLOY = ITEMS.register("high_frequency_alloy", () -> new HighFrequencyAlloyItem(new Item.Properties()));
+    public static final RegistryObject<Item> QUANTITE_INGOT = ITEMS.register("quantite_ingot", () -> new QuantiteIngot(new Item.Properties()));
     public static final RegistryObject<Item> UNBRIDLED_RAGE = ITEMS.register("unbridled_rage", () -> new UnbridledRageItem(new Item.Properties()));
 
 
@@ -1072,12 +1074,12 @@ public class BrutalityModItems {
             List.of(
             )
     ));
-    public static final RegistryObject<Item> BIKERS_HELMET = ITEMS.register("bikers_helmet", () -> new BikersHelmet(
-            ModRarities.LEGENDARY,
-            List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
-            )
-    ));
+//    public static final RegistryObject<Item> BIKERS_HELMET = ITEMS.register("bikers_helmet", () -> new BikersHelmet(
+//            ModRarities.LEGENDARY,
+//            List.of(
+//                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
+//            )
+//    ));
     public static final RegistryObject<Item> ESCAPE_KEY = ITEMS.register("escape_key", () -> new EscapeKey(
             ModRarities.LEGENDARY,
             List.of(
@@ -1563,25 +1565,25 @@ public class BrutalityModItems {
     )
     ));
 
-    public static final RegistryObject<Item> IRON_KNIFE_SWORD = ITEMS.register("iron_knife", () -> new IronKnifeSword(
+    public static final RegistryObject<Item> IRON_KNIFE = ITEMS.register("iron_knife", () -> new IronKnifeSword(
             Tiers.IRON, 3, -2.3F,
             Rarity.EPIC, List.of(
             new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 2)
     )
     ));
-    public static final RegistryObject<Item> GOLD_KNIFE_SWORD = ITEMS.register("gold_knife", () -> new GoldKnifeSword(
+    public static final RegistryObject<Item> GOLD_KNIFE = ITEMS.register("gold_knife", () -> new GoldKnifeSword(
             Tiers.GOLD, 4, -2.3F,
             Rarity.EPIC, List.of(
             new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 2)
     )
     ));
-    public static final RegistryObject<Item> DIAMOND_KNIFE_SWORD = ITEMS.register("diamond_knife", () -> new DiamondKnifeSword(
+    public static final RegistryObject<Item> DIAMOND_KNIFE = ITEMS.register("diamond_knife", () -> new DiamondKnifeSword(
             Tiers.DIAMOND, 5, -2.3F,
             Rarity.EPIC, List.of(
             new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 2)
     )
     ));
-    public static final RegistryObject<Item> VOID_KNIFE_SWORD = ITEMS.register("void_knife", () -> new VoidKnifeSword(
+    public static final RegistryObject<Item> VOID_KNIFE = ITEMS.register("void_knife", () -> new VoidKnifeSword(
             Tiers.NETHERITE, 8, -2.3F,
             ModRarities.MYTHIC, List.of(
             new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 3)
@@ -1597,7 +1599,7 @@ public class BrutalityModItems {
             ModRarities.LEGENDARY, List.of(
     )
     ));
-    public static final RegistryObject<Item> FRYING_PAN_HAMMER = ITEMS.register("frying_pan", () -> new FryingPanHammer(
+    public static final RegistryObject<Item> FRYING_PAN = ITEMS.register("frying_pan", () -> new FryingPanHammer(
             Tiers.IRON, 2, -2.3F,
             Rarity.EPIC, List.of(
             new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 1)
@@ -1633,12 +1635,12 @@ public class BrutalityModItems {
     ));
 
 
-    public static final RegistryObject<Item> PANDORAS_CAULDRON = ITEMS.register("pandoras_cauldron", () -> new PandorasCauldron(
-            0, 0, ModRarities.MYTHIC,
-            List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 2)
-            )
-    ));
+//    public static final RegistryObject<Item> PANDORAS_CAULDRON = ITEMS.register("pandoras_cauldron", () -> new PandorasCauldron(
+//            0, 0, ModRarities.MYTHIC,
+//            List.of(
+//                    new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 2)
+//            )
+//    ));
 //    public static final RegistryObject<Item> COSMIC_NINJA_STAR = ITEMS.register("cosmic_ninja_star", () -> new CosmicNinjaStar(
 //            3, -3, ModRarities.MYTHIC,
 //            List.of(

@@ -101,12 +101,12 @@ public class BrutalityModItemRenderManager {
 
             registerItemLayers(BrutalityModItems.SEVENTH_STAR.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.VOID_KNIFE_SWORD.get(), renderer ->
+            registerItemLayers(BrutalityModItems.VOID_KNIFE.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoEndPortalLayer<>(renderer)));
             registerItemLayers(BrutalityModItems.GUNGNIR_TRIDENT.get(), renderer ->
                     renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.PANDORAS_CAULDRON.get(), renderer ->
-                    renderer.addRenderLayer(new BrutalityAutoEndPortalLayer<>(renderer)));
+//            registerItemLayers(BrutalityModItems.PANDORAS_CAULDRON.get(), renderer ->
+//                    renderer.addRenderLayer(new BrutalityAutoEndPortalLayer<>(renderer)));
             registerItemLayers(BrutalityModItems.THUNDERBOLT_TRIDENT.get(), renderer ->
                     renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer)));
 

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:chthonic_crystal"
+    },
+    "B": {
+      "item": "brutality:unbridled_rage"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "item": "brutality:blood_orb"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:hellspec_alloy"
+    },
+    "B": {
+      "item": "terramity:ruby"
+    },
+    "C": {
+      "item": "terramity:reverium"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "result": {
+    "item": "brutality:divine_immolation"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:iron_ingot"
+    },
+    "B": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "pattern": [
+    "A B",
+    " AB",
+    "BBB"
+  ],
+  "result": {
+    "item": "brutality:miniature_anchor"
+  },
+  "show_notification": true
+}
