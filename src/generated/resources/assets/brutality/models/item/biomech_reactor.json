@@ -1,1 +1,6 @@
-{"parent":"minecraft:item/handheld","loader":"forge:separate_transforms","base":{"parent":"minecraft:item/generated","textures":{"layer0":"brutality:item/trident/biomech_reactor/biomech_reactor_inventory"}},"perspectives":{"ground":{"parent":"brutality:item/trident/biomech_reactor_handheld"},"thirdperson_lefthand":{"parent":"brutality:item/trident/biomech_reactor_handheld"},"thirdperson_righthand":{"parent":"brutality:item/trident/biomech_reactor_handheld"},"firstperson_lefthand":{"parent":"brutality:item/trident/biomech_reactor_handheld"},"firstperson_righthand":{"parent":"brutality:item/trident/biomech_reactor_handheld"}}}
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/throwing/biomech_reactor/biomech_reactor_inventory"
+  }
+}

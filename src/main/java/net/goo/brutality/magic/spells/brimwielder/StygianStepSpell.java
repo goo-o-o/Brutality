@@ -64,7 +64,7 @@ public class StygianStepSpell extends BrutalitySpell {
             ((ServerPlayer) player).connection.send(new ClientboundSetEntityMotionPacket(player));
         }
 
-        DelayedTaskScheduler.queueServerWork(5, () -> {
+        DelayedTaskScheduler.queueServerWork(player.level(), 5, () -> {
             player.level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, player, player.getBoundingBox().inflate(size)).forEach(e -> {
                 e.hurt(e.damageSources().flyIntoWall(), getFinalDamage(player, spellLevel));
                 Vec3 pushAng = e.getPosition(1).subtract(player.getPosition(1));

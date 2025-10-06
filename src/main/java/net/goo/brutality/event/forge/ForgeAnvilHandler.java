@@ -6,6 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 @Mod.EventBusSubscriber (bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeAnvilHandler {
@@ -17,7 +18,7 @@ public class ForgeAnvilHandler {
         ItemStack output = left.copy();
 
 
-        if (right.getItem() instanceof BaseSealItem sealItem) {
+        if (right.getItem() instanceof BaseSealItem sealItem && !(left.getItem() instanceof ICurioItem)) {
             SealUtils.SEAL_TYPE sealType = sealItem.getSealType();
             if (sealType != null && SealUtils.getSealType(left) == null) {
                 SealUtils.addSeal(output, sealType);

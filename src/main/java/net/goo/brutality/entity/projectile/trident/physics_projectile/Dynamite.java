@@ -33,10 +33,11 @@ public class Dynamite extends BrutalityAbstractPhysicsTrident implements Brutali
     @Override
     public float getDamage(@Nullable LivingEntity livingEntity) {
         if (livingEntity != null) {
-            livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
+            return (float) livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
         }
-        return 4;
+        return super.getDamage(null);
     }
+
 
     @Override
     public float getModelHeight() {

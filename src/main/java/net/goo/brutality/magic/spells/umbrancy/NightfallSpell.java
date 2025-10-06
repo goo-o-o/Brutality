@@ -55,7 +55,7 @@ public class NightfallSpell extends BrutalitySpell {
         if (level instanceof ServerLevel serverLevel) {
             serverLevel.setDayTime(18000);
 
-            DelayedTaskScheduler.queueServerWork(duration, () -> serverLevel.setDayTime(originalTime));
+            DelayedTaskScheduler.queueServerWork(serverLevel, duration, () -> serverLevel.setDayTime(originalTime));
         }
         return true;
     }

@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -36,7 +37,12 @@ public interface IBrutalitySpell {
         MagicSchool school = spell.getSchool();
         if (caster == null) return spellLevel;
         if (caster instanceof LivingEntity livingCaster) {
-            return Math.max((int) (spellLevel + livingCaster.getAttributeValue(ModAttributes.getSpellSchoolAttributeMap().get(school))), 0);
+            Attribute attribute = ModAttributes.getSpellSchoolAttributeMap().get(school);
+            AttributeInstance attributeInstance = livingCaster.getAttribute(attribute);
+            if (attributeInstance != null) {
+                return Math.max((int) (spellLevel + attributeInstance.getValue()), 0);
+            }
+            return Math.max(spellLevel, 0);
         }
         return spellLevel;
     }

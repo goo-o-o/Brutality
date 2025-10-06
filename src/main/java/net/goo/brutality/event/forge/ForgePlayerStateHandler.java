@@ -4,7 +4,7 @@ import com.google.common.base.Suppliers;
 import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.weapon.axe.RhittaAxe;
-import net.goo.brutality.item.weapon.generic.CreaseOfCreationItem;
+import net.goo.brutality.item.weapon.generic.CreaseOfCreation;
 import net.goo.brutality.item.weapon.spear.EventHorizonSpear;
 import net.goo.brutality.item.weapon.sword.BladeOfTheRuinedKingSword;
 import net.goo.brutality.item.weapon.sword.DullKnifeSword;
@@ -102,7 +102,7 @@ public class ForgePlayerStateHandler {
         Player player = event.getEntity();
         if (player.level() instanceof ServerLevel serverLevel) {
             SupernovaSword.clearAsteroids(player, serverLevel);
-            CreaseOfCreationItem.handleCreaseOfCreation(player);
+            CreaseOfCreation.handleCreaseOfCreation(player);
         }
 
         resetAllColors();
@@ -132,7 +132,7 @@ public class ForgePlayerStateHandler {
             }
 
             if (shouldSync)
-                DelayedTaskScheduler.queueServerWork(1, () ->
+                DelayedTaskScheduler.queueServerWork(newPlayer.level(), 1, () ->
                         PacketHandler.sendToPlayer(new ClientboundSyncItemCooldownPacket(newCooldowns.cooldowns, newCooldowns.tickCount), ((ServerPlayer) newPlayer)));
         }
     }
@@ -142,7 +142,7 @@ public class ForgePlayerStateHandler {
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             SupernovaSword.clearAsteroids(player, player.serverLevel());
-            CreaseOfCreationItem.handleCreaseOfCreation(player);
+            CreaseOfCreation.handleCreaseOfCreation(player);
 
         }
     }
@@ -169,7 +169,7 @@ public class ForgePlayerStateHandler {
 
     static {
         TOGGLE_ACTIONS.add(new Pair<>(
-                stack -> stack.getItem() instanceof CreaseOfCreationItem,
+                stack -> stack.getItem() instanceof CreaseOfCreation,
                 new HoldToggleAction(
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {

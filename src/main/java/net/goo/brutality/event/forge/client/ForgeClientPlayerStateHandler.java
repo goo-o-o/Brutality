@@ -115,9 +115,9 @@ public class ForgeClientPlayerStateHandler {
         ClientLevel level = mc.level;
         if (level == null || player == null) return;
 
-        if (player.hasEffect(BrutalityModMobEffects.STUNNED.get())) {
-            mc.mouseHandler.setIgnoreFirstMove();
-        }
+//        if (player.hasEffect(BrutalityModMobEffects.STUNNED.get())) {
+//            mc.mouseHandler.setIgnoreFirstMove();
+//        }
 
         boolean isHoldingGpuAxe = player.isHolding(BrutalityModItems.OLD_GPU.get());
 
@@ -220,19 +220,19 @@ public class ForgeClientPlayerStateHandler {
                 if (cooldowns.isOnCooldown(mainHandThrowingItem)) return;
                 if (cooldowns.isOnCooldown(offHandThrowingItem)) return;
                 if (previousHand == InteractionHand.OFF_HAND) { // Throw Main Hand
-                    mainHandThrowingItem.throwProjectileAndHandleAttributesAndAnimation(player, false);
+                    mainHandThrowingItem.throwProjectileAndHandleAttributesAndAnimation(player, mainHand, false);
                     player.resetAttackStrengthTicker();
                     previousHand = InteractionHand.MAIN_HAND;
 
                 } else {
-                    offHandThrowingItem.throwProjectileAndHandleAttributesAndAnimation(player, true);
+                    offHandThrowingItem.throwProjectileAndHandleAttributesAndAnimation(player, offHand, true);
                     player.resetAttackStrengthTicker();
                     previousHand = InteractionHand.OFF_HAND;
                 }
             } else if (mainHand.getItem() instanceof BrutalityThrowingItem mainHandThrowingItem) {
                 if (cooldowns.isOnCooldown(mainHandThrowingItem)) return;
 
-                mainHandThrowingItem.throwProjectileAndHandleAttributesAndAnimation(player, false);
+                mainHandThrowingItem.throwProjectileAndHandleAttributesAndAnimation(player, mainHand, false);
                 player.resetAttackStrengthTicker();
                 previousHand = InteractionHand.OFF_HAND;
             }

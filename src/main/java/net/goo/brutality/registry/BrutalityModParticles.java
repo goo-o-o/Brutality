@@ -52,6 +52,8 @@ public class BrutalityModParticles {
             PARTICLE_TYPES.register("oiled_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> STEAM_PARTICLE =
             PARTICLE_TYPES.register("steam_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> PERFUME_PARTICLE =
+            PARTICLE_TYPES.register("perfume_particle", () -> new SimpleParticleType(true));
 
     public static final RegistryObject<SimpleParticleType> RHAAST_PARTICLE =
             PARTICLE_TYPES.register("rhaast_particle", () -> new SimpleParticleType(true));

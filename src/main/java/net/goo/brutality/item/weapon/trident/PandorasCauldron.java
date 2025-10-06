@@ -85,12 +85,12 @@ public class PandorasCauldron extends BrutalityTridentItem {
 
     private BrutalityAbstractPhysicsTrident getRandomProjectile(Level level, Player player) {
         List<BrutalityAbstractPhysicsTrident> projectiles = List.of(
-                (new Cabbage(BrutalityModEntities.CABBAGE.get(), player, level)),
-                (new ThrownWintermelon(BrutalityModEntities.WINTERMELON.get(), player, level)),
-                (new Banana(BrutalityModEntities.BANANA.get(), player, level)),
-                (new Apple(BrutalityModEntities.APPLE.get(), player, level)),
-                (new Butter(BrutalityModEntities.BUTTER.get(), player, level)),
-                (new Durian(BrutalityModEntities.DURIAN.get(), player, level))
+                (new CannonballCabbage(BrutalityModEntities.CANNONBALL_CABBAGE.get(), player, level)),
+                (new WinterMelon(BrutalityModEntities.WINTER_MELON.get(), player, level)),
+                (new Cavendish(BrutalityModEntities.CAVENDISH.get(), player, level)),
+                (new CrimsonDelight(BrutalityModEntities.CRIMSON_DELIGHT.get(), player, level)),
+                (new StickOfButter(BrutalityModEntities.STICK_OF_BUTTER.get(), player, level)),
+                (new GoldenPhoenix(BrutalityModEntities.GOLDEN_PHOENIX.get(), player, level))
         );
 
         return projectiles.get(level.getRandom().nextInt(projectiles.size()));

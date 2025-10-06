@@ -72,26 +72,38 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
             ICuriosItemHandler handler = CuriosApi.getCuriosInventory(entity).orElse(null);
             if (handler.isEquipped(BrutalityModItems.THE_CLOCK_OF_FROZEN_TIME.get())) {
                 if (effect.getCategory() == MobEffectCategory.HARMFUL) {
-                    modifiedInstance = new MobEffectInstance(effect, (int) (originalDuration * TCOFT_DEBUFF_DURATION),
+                    int duration = (int) (originalDuration * TCOFT_DEBUFF_DURATION);
+                    duration = Math.max(duration, 1);
+
+                    modifiedInstance = new MobEffectInstance(effect, duration,
                             effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.isVisible(), effectInstance.showIcon());
                 } else if (effect.getCategory() == MobEffectCategory.BENEFICIAL) {
-                    modifiedInstance = new MobEffectInstance(effect, (int) (originalDuration * TCOFT_BUFF_DURATION),
+                    int duration = (int) (originalDuration * TCOFT_BUFF_DURATION);
+                    duration = Math.max(duration, 1);
+
+                    modifiedInstance = new MobEffectInstance(effect, duration,
                             effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.isVisible(), effectInstance.showIcon());
                 }
             } else if (handler.isEquipped(BrutalityModItems.TIMEKEEPERS_CLOCK.get()) && effect.getCategory() == MobEffectCategory.HARMFUL) {
-                modifiedInstance = new MobEffectInstance(effect, (int) (originalDuration * TIMEKEEPERS_CLOCK_DEBUFF_DURATION),
+                int duration = (int) (originalDuration * TIMEKEEPERS_CLOCK_DEBUFF_DURATION);
+                duration = Math.max(duration, 1);
+
+                modifiedInstance = new MobEffectInstance(effect, duration,
                         effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.isVisible(), effectInstance.showIcon());
             }
         }
 
         if (effect == BrutalityModMobEffects.STUNNED.get()) {
-            AttributeInstance tenacity = entity.getAttribute(ModAttributes.TENACITY.get());
-            if (tenacity != null) {
-                modifiedInstance = new MobEffectInstance(effect,
-                        (int) (entity.getAttributeValue(ModAttributes.STUN_DURATION.get()) * (1 - tenacity.getValue())),
+            if (entity.getAttribute(ModAttributes.TENACITY.get()) != null) {
+            int duration = (int) (originalDuration * (2 - entity.getAttributeValue(ModAttributes.TENACITY.get())));
+                duration = Math.max(duration, 1);
+
+                modifiedInstance = new MobEffectInstance(effect, duration,
                         effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.isVisible(), effectInstance.showIcon());
+
             }
         }
+
 
         return modifiedInstance;
     }

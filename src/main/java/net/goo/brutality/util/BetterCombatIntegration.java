@@ -77,7 +77,7 @@ public class BetterCombatIntegration {
             } else if (item instanceof AtomicJudgementHammer) {
                 PacketHandler.sendToServer(new ServerboundTriggerAnimationPacket(stack, GeoItem.getId(stack), "controller", "attack"));
             } else if (item instanceof BrutalityThrowingItem throwingItem) {
-                throwingItem.throwProjectile(player);
+                throwingItem.throwProjectile(player, stack);
 
             }
 

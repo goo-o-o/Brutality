@@ -7,6 +7,14 @@
   "item.brutality.beach_ball": "Beach Ball",
   "item.brutality.blast_barrel": "Blast Barrel",
   "item.brutality.blast_barrel.when_thrown.1": "§e -Throws out a Barrel that explodes after 2 bounces or 5 seconds",
+  "item.brutality.perfume_bottle": "Perfume Bottle",
+  "item.brutality.perfume_bottle.when_thrown.1": "§e -Throws out a Bottle of Perfume that causes Mobs to target the nearest Entity",
+  "item.brutality.perfume_bottle.when_thrown.2": "§e -Ignites when near Fire",
+
+  "item.brutality.absolute_zero": "Absolute Zero",
+  "item.brutality.absolute_zero.lore.1": "Freezing to the touch",
+  "item.brutality.absolute_zero.when_thrown.1": "§e -Throws out a Bottle of Liquid Nitrogen that freezes and slows nearby mobs",
+
   "item.brutality.dynamite": "Dynamite",
   "item.brutality.dynamite.when_thrown.1": "§e -Throws out a stick of Dynamite that explodes after 3 seconds",
   "item.brutality.sticky_dynamite": "Sticky Dynamite",
@@ -40,6 +48,25 @@
   "item.brutality.vampire_knives": "Vampire Knives",
   "item.brutality.vampire_knives.when_thrown.1": "§e -Throws out 4 - 8 Vampire Knifes",
   "item.brutality.vampire_knives.when_thrown.2": "§e -Velocity scales with§r ‼§9 Attack Speed",
+
+  "item.brutality.stick_of_butter": "Stick of Butter",
+  "item.brutality.stick_of_butter.when_thrown.1": "§e -Throws out a Stick of Butter that stuns enemies",
+
+  "item.brutality.overclocked_toaster": "Overclocked Toaster",
+  "item.brutality.overclocked_toaster.when_thrown.1": "§e -Throws out an Overclocked Toaster that shoots out Toast at the nearest enemy",
+
+  "item.brutality.cannonball_cabbage": "Cannonball Cabbage",
+  "item.brutality.golden_phoenix": "Golden Phoenix",
+
+
+
+  "item.brutality.winter_melon": "Winter Melon",
+  "item.brutality.winter_melon.when_thrown.1": "§e -Throws out a Winter Melon that slows and freezes nearby enemies",
+
+  "item.brutality.crimson_delight": "Crimson Delight",
+
+  "item.brutality.cavendish": "Cavendish",
+  "item.brutality.cavendish.when_thrown.1": "§e -Throws out a Banana that stays on the ground as a Banana Peel",
 
   "item.brutality.atomic_judgement": "Atomic Judgement",
   "item.brutality.atomic_judgement.lore.1": "Handle with care",
@@ -816,6 +843,7 @@
   "item.brutality.crease_of_creation.lore.1": "Gravity is a harness, I have harnessed the harness.",
   "item.brutality.crease_of_creation.on_shift_right_click.1": "§e -Launches the §rSelected Entity§e away from the player",
   "item.brutality.crease_of_creation.on_hold_right_click.1": "§e -Select an §rEntity§e and manipulate them to your will",
+  "item.brutality.crease_of_creation.on_hold_right_click.2": "§e -The Entity must have less than 50§r ❤§9 Hearts",
 
   "item.brutality.the_cloud": "The Cloud",
   "item.brutality.the_cloud.on_shift_right_click.1": "§e -Stores player data such as§r ❤§9 Health§e, hunger and active effects and uploads them to the cloud",
@@ -942,6 +970,12 @@
 
   "item.brutality.windswept_anklet": "Windswept Anklet",
 
+  "item.brutality.glass_seal": "Glass Seal",
+  "item.brutality.glass_seal.passive.1": "§e -Attach it onto an Item using an anvil to get More§r ❗§9 Attack Damage§e, but More§9 Damage Taken§e and Less§r ❤§9 Health§e and§r 🛡§9 Armor",
+  "item.brutality.quantite_seal": "Quantite Seal",
+  "item.brutality.quantite_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🏹§9 Armor Penetration",
+  "item.brutality.void_seal": "Void Seal",
+  "item.brutality.void_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🏹§9 Armor Penetration",
   "item.brutality.black_seal": "Black Seal",
   "item.brutality.black_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🪡§9 Lethality",
   "item.brutality.blue_seal": "Blue Seal",
@@ -960,6 +994,18 @@
   "item.brutality.yellow_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r ‼§9 Attack Speed",
   "item.brutality.teal_seal": "Teal Seal",
   "item.brutality.teal_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r ❗§9 Attack Damage",
+  "item.brutality.bomb_seal": "Bomb Seal",
+  "item.brutality.bomb_seal.passive.1": "§e -Attach it onto an Item using an anvil to make it Explosive",
+  "brutality.bomb_seal": "§2 Bomb Sealed§r 💣",
+  "brutality.bomb_seal.armor": "§8 -Throws out a Bomb Flower every time you take Damage, stackable",
+  "brutality.bomb_seal.item": "§8 -Throws out a Bomb Flower every time you Melee an enemy",
+  "brutality.bomb_seal.projectile": "§8 -Throws out a Bomb Flower every the Projectile collides",
+  "item.brutality.cosmic_seal": "Cosmic Seal",
+  "item.brutality.cosmic_seal.passive.1": "§e -Attach it onto an Item using an anvil to make it Starry",
+  "brutality.cosmic_seal": "§2 Cosmic Sealed§r 💫",
+  "brutality.cosmic_seal.armor": "§8 -Rains down a Star at the Attacker every time you take Damage, stackable",
+  "brutality.cosmic_seal.item": "§8 -Rains down a Star every time you Melee an enemy",
+  "brutality.cosmic_seal.projectile": "§8 -Rains down a Star every time the Projectile collides",
 
 
   "item.brutality.daemonic_tome": "Daemonic Tome",
@@ -1088,10 +1134,10 @@
   "rarity.cataclysmic.name": "Cataclysmic",
   "rarity.godly.name": "Godly",
   "rarity.dark.name": "Everdark",
-  "rarity.sculk.name": "Gloomy",
+  "rarity.gloomy.name": "Gloomy",
   "rarity.stygian.name": "Stygian",
   "rarity.fire.name": "Smoldering",
-  "rarity.ice.name": "Glacial",
+  "rarity.glacial.name": "Glacial",
   "rarity.prismatic.name": "Prismatic",
 
   "common": "Common",
@@ -1185,6 +1231,7 @@
 
   "attribute.name.generic.entity_visibility": "§f👁§r Entity Visibility",
   "attribute.name.generic.throw_strength": "Throw Strength",
+  "attribute.name.generic.damage_taken": "Damage Taken",
 
   "attribute.name.generic.attack_damage": "§f❗§r Attack Damage",
   "attribute.name.generic.attack_speed": "§f‼§r Attack Speed",

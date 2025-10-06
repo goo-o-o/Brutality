@@ -10,7 +10,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -30,6 +33,14 @@ public class CapabilityAttacher {
                             provider);
                 }
             });
+        } else if (event.getObject() instanceof Projectile projectile){
+            Capability<? extends INBTSerializable<CompoundTag>> capability = BrutalityCapabilities.CapabilitySyncRegistry.get("seal_type");
+            if (!projectile.getCapability(capability).isPresent()) {
+                ICapabilityProvider provider = BrutalityCapabilities.CapabilitySyncRegistry.getProvider(capability);
+                event.addCapability(
+                        ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "seal_type"),
+                        provider);
+            }
         }
     }
 

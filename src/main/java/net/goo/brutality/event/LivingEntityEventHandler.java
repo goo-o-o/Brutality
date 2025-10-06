@@ -2,11 +2,12 @@ package net.goo.brutality.event;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.capabilities.EntityCapabilities;
+import net.goo.brutality.entity.spells.cosmic.StarStreamEntity;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.event.forge.ForgePlayerStateHandler;
 import net.goo.brutality.item.BrutalityArmorMaterials;
 import net.goo.brutality.item.curios.charm.Sine;
-import net.goo.brutality.item.weapon.generic.CreaseOfCreationItem;
+import net.goo.brutality.item.weapon.generic.CreaseOfCreation;
 import net.goo.brutality.item.weapon.hammer.AtomicJudgementHammer;
 import net.goo.brutality.item.weapon.hammer.TeratonHammer;
 import net.goo.brutality.item.weapon.spear.EventHorizonSpear;
@@ -18,19 +19,21 @@ import net.goo.brutality.magic.SpellCooldownTracker;
 import net.goo.brutality.magic.spells.celestia.HolyMantleSpell;
 import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.registry.BrutalityCapabilities;
-import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.ModAttributes;
+import net.goo.brutality.registry.*;
 import net.goo.brutality.util.ModTags;
 import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.util.SealUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.mcreator.terramity.entity.BombFlowerItemProjectileEntity;
+import net.mcreator.terramity.init.TerramityModEntities;
 import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -46,6 +49,7 @@ import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -123,7 +127,7 @@ public class LivingEntityEventHandler {
         Item diamondBooster = BrutalityModItems.DIAMOND_BOOSTER_PACK.get();
         Item evilKingBooster = BrutalityModItems.EVIL_KING_BOOSTER_PACK.get();
 
-        DelayedTaskScheduler.queueServerWork(2, () ->
+        DelayedTaskScheduler.queueServerWork(event.getEntity().level(), 2, () ->
 
                 newPlayer.getCapability(BrutalityCapabilities.RESPAWN_CAP).ifPresent(cap -> {
 
@@ -211,15 +215,90 @@ public class LivingEntityEventHandler {
         });
     }
 
+//    @SubscribeEvent
+//    public static void onArrowLoose(ArrowLooseEvent event) {
+//
+//    }
+
+    @SubscribeEvent
+    public static void onProjectileImpact(ProjectileImpactEvent event) {
+        if (event.getProjectile().getOwner() instanceof LivingEntity owner) {
+            event.getProjectile().getCapability(BrutalityCapabilities.SEAL_TYPE_CAP).ifPresent(cap ->
+                    SealUtils.handleSealProc(owner.level(), owner, event.getEntity(), cap.getSealType()));
+        }
+    }
+
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         LivingEntity victim = event.getEntity();
         Entity attacker = event.getSource().getEntity();
-        Level victimLevel = victim.level();
+        Level level = victim.level();
         final float[] modifiedAmount = {event.getAmount()};
 
-        if (attacker instanceof LivingEntity livingAttacker) {
+        victim.getArmorSlots().forEach(stack -> {
+            SealUtils.SEAL_TYPE sealType = SealUtils.getSealType(stack);
+            RandomSource random = level.getRandom();
+            if (sealType != null) {
+                switch (sealType) {
+                    case BOMB -> {
+                        BombFlowerItemProjectileEntity bombFlower =
+                                new BombFlowerItemProjectileEntity(TerramityModEntities.BOMB_FLOWER_ITEM_PROJECTILE.get(),
+                                        victim.getRandomX(0.5F), victim.getY(0.5F), victim.getRandomZ(0.5F), level);
+                        bombFlower.setOwner(attacker);
+                        bombFlower.setSilent(true);
+                        bombFlower.setBaseDamage(4.0F);
+                        bombFlower.setKnockback(5);
+                        bombFlower.setCritArrow(false);
+                        bombFlower.setDeltaMovement(
+                                Mth.randomBetween(random, -0.5F, 0.5F),
+                                Mth.randomBetween(random, -0.5F, 0.5F),
+                                Mth.randomBetween(random, -0.5F, 0.5F)
+                        );
+                        level.addFreshEntity(bombFlower);
+                        level.playSound(null, victim.getX(), victim.getY(), victim.getZ(), SoundEvents.ENDER_PEARL_THROW, SoundSource.PLAYERS, 1.0F, 1.0F / (RandomSource.create().nextFloat() * 0.5F + 1.0F));
+                    }
+                    case COSMIC -> {
+                        StarStreamEntity spellEntity = new StarStreamEntity(BrutalityModEntities.STAR_STREAM_ENTITY.get(), level);
+                        spellEntity.setSpellLevel(0);
+                        Vec3 randomPos;
+                        if (attacker == null) {
+                            randomPos = new Vec3(
+                                    victim.getRandomX(2),
+                                    victim.getY(0.5F) + Mth.nextFloat(random, 7.5F, 12.5F),
+                                    victim.getRandomZ(2));
+                        } else {
+                            randomPos = new Vec3(
+                                    attacker.getRandomX(2),
+                                    attacker.getY(0.5F) + Mth.nextFloat(random, 7.5F, 12.5F),
+                                    attacker.getRandomZ(2));
+                        }
 
+
+                        spellEntity.setPos(randomPos);
+                        spellEntity.setOwner(victim);
+                        Vec3 targetPos;
+                        if (attacker == null) {
+                            targetPos = new Vec3(victim.getRandomX(10), victim.getY(), victim.getRandomZ(10));
+                        } else {
+                            targetPos = attacker.getPosition(1).add(0, attacker.getBbHeight() * 0.5, 0);
+                        }
+
+                        Vec3 direction = targetPos.subtract(randomPos).normalize();
+
+                        spellEntity.shoot(direction.x, direction.y, direction.z, 1.5F, 1.5F);
+
+                        level.addFreshEntity(spellEntity);
+                        level.playSound(null, victim.getX(), victim.getY(0.5), victim.getZ(),
+                                BrutalityModSounds.BASS_BOP.get(), SoundSource.AMBIENT,
+                                1.5F, Mth.nextFloat(random, 0.7F, 1.2F));
+                    }
+
+                }
+            }
+        });
+
+
+        if (attacker instanceof LivingEntity livingAttacker) {
 
             if (attacker instanceof Player playerAttacker) {
 
@@ -258,7 +337,7 @@ public class LivingEntityEventHandler {
                 }
 
                 if (handler.isEquipped(BrutalityModItems.DUELING_GLOVE.get())) {
-                    LivingEntity nearestEntity = victimLevel.getNearestEntity(
+                    LivingEntity nearestEntity = level.getNearestEntity(
                             LivingEntity.class, TargetingConditions.DEFAULT, livingAttacker, livingAttacker.getX(), livingAttacker.getY(), livingAttacker.getZ(), livingAttacker.getBoundingBox().inflate(100));
 
                     if (nearestEntity == victim) {
@@ -291,7 +370,7 @@ public class LivingEntityEventHandler {
                     slot.stack().getOrCreateTag().putFloat(SUM_DAMAGE, 0);
                 });
 
-                if (victimLevel instanceof ServerLevel serverLevel)
+                if (level instanceof ServerLevel serverLevel)
                     if (handler.isEquipped(BrutalityModItems.SINE_CHARM.get())) {
                         modifiedAmount[0] += Sine.getCurrentBonus(serverLevel);
                     }
@@ -377,7 +456,7 @@ public class LivingEntityEventHandler {
 
                 handler.findFirstCurio(BrutalityModItems.DUELING_GLOVE.get()).ifPresent(slot -> {
 
-                    List<LivingEntity> nearbyEntities = victimLevel.getEntitiesOfClass(LivingEntity.class, victim.getBoundingBox().inflate(100),
+                    List<LivingEntity> nearbyEntities = level.getEntitiesOfClass(LivingEntity.class, victim.getBoundingBox().inflate(100),
                             e -> e != victim && !(e instanceof ArmorStand));
 
                     LivingEntity nearestEntity = nearbyEntities.stream()
@@ -413,7 +492,6 @@ public class LivingEntityEventHandler {
             }
         }
 
-        event.setAmount(Math.max(0, modifiedAmount[0]));
 
         if (event.getSource().getEntity() instanceof Player attackerPlayer) {
             if (!attackerPlayer.hasEffect(BrutalityModMobEffects.ENRAGED.get()))
@@ -450,7 +528,7 @@ public class LivingEntityEventHandler {
 
                 handler.findFirstCurio(BrutalityModItems.HEART_OF_GOLD.get()).ifPresent(slot -> {
                     if (victimPlayer.getAbsorptionAmount() == 0)
-                        DelayedTaskScheduler.queueServerWork(1, () ->
+                        DelayedTaskScheduler.queueServerWork(level, 1, () ->
                                 victimPlayer.setAbsorptionAmount(victimPlayer.getAbsorptionAmount() + modifiedAmount[0] / 2));
                 });
 
@@ -499,7 +577,13 @@ public class LivingEntityEventHandler {
                     }
             });
         }
+        AttributeInstance attributeInstance = victim.getAttribute(ModAttributes.DAMAGE_TAKEN.get());
+        if (attributeInstance != null) {
+            modifiedAmount[0] = (float) (modifiedAmount[0] * attributeInstance.getValue());
+            victim.playSound(SoundEvents.GLASS_BREAK, 1, Mth.randomBetween(victim.getRandom(), 0.8F, 1.2F));
+        }
 
+        event.setAmount(Math.max(0, modifiedAmount[0]));
     }
 
     @SubscribeEvent
@@ -540,7 +624,7 @@ public class LivingEntityEventHandler {
                     if (!player.getCooldowns().isOnCooldown(slotResult.stack().getItem())) {
                         player.getCooldowns().addCooldown(slotResult.stack().getItem(), 80);
 
-                        DelayedTaskScheduler.queueServerWork(1, () ->
+                        DelayedTaskScheduler.queueServerWork(event.getEntity().level(), 1, () ->
                                 player.heal(2 * ModUtils.calculateFallDamage(player, event.getDistance(), event.getDamageMultiplier())));
                     }
                 });
@@ -567,6 +651,7 @@ public class LivingEntityEventHandler {
 
 
         }
+
     }
 
 
@@ -589,9 +674,9 @@ public class LivingEntityEventHandler {
                     tag.putInt(SOULS, souls);
                 });
 
-                handler.findFirstCurio(BrutalityModItems.RAMPAGE_CLOCK.get()).ifPresent(slot -> {
-                            ModUtils.modifyEffect(attackerPlayer, BrutalityModMobEffects.ENRAGED.get(), new ModUtils.ModValue(20, false), null, null);
-                        }
+                handler.findFirstCurio(BrutalityModItems.RAMPAGE_CLOCK.get()).ifPresent(slot ->
+                        ModUtils.modifyEffect(attackerPlayer, BrutalityModMobEffects.ENRAGED.get(),
+                                new ModUtils.ModValue(20, false), null, null, null, null)
                 );
 
             });
@@ -601,7 +686,7 @@ public class LivingEntityEventHandler {
         if (event.getEntity() instanceof Player victimPlayer) {
             if (victimPlayer.level() instanceof ServerLevel serverLevel) {
                 SupernovaSword.clearAsteroids(victimPlayer, serverLevel);
-                CreaseOfCreationItem.handleCreaseOfCreation(victimPlayer);
+                CreaseOfCreation.handleCreaseOfCreation(victimPlayer);
             }
             resetAllColors();
 

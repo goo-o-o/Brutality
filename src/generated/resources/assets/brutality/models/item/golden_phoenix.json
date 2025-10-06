@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/throwing/golden_phoenix/golden_phoenix_inventory"
+  }
+}

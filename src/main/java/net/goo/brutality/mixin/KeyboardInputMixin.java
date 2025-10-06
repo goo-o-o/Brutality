@@ -34,6 +34,29 @@ public abstract class KeyboardInputMixin extends Input {
         if (player == null) {
             return;
         }
+
+
+        boolean isStunnedOrBound = player.hasEffect(BrutalityModMobEffects.STUNNED.get()) || player.hasEffect(BrutalityModMobEffects.LIGHT_BOUND.get());
+
+        ModifierLayer<IAnimation> layer = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData(player).get(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "animation"));
+
+        boolean isLayerActive = layer != null && layer.isActive();
+        boolean isAnimationActive = isLayerActive && layer.getAnimation() != null && layer.isActive();
+
+
+        if (isStunnedOrBound) {
+            this.up = false;
+            this.down = false;
+            this.left = false;
+            this.right = false;
+            this.jumping = false;
+            this.shiftKeyDown = false;
+            this.forwardImpulse = 0;
+            this.leftImpulse = 0;
+            ci.cancel();
+            return;
+        }
+
         // Vanilla logic
         this.up = this.options.keyUp.isDown();
         this.down = this.options.keyDown.isDown();
@@ -42,28 +65,17 @@ public abstract class KeyboardInputMixin extends Input {
         this.forwardImpulse = brutality$calculateImpulse(this.up, this.down);
         this.leftImpulse = brutality$calculateImpulse(this.left, this.right);
         this.jumping = this.options.keyJump.isDown();
-        this.shiftKeyDown = this.options.keyShift.isDown();
+        if (isAnimationActive && player.isHolding(stack -> stack.getItem() instanceof BrutalityThrowingItem) &&
+                !ModList.get().isLoaded("bettercombat")) {
+            this.shiftKeyDown = false;
+        } else {
+            this.shiftKeyDown = this.options.keyShift.isDown();
+        }
+
         if (pIsSneaking) {
             this.leftImpulse *= pSneakingSpeedMultiplier;
             this.forwardImpulse *= pSneakingSpeedMultiplier;
         }
-
-
-        boolean isStunnedOrBound = player.hasEffect(BrutalityModMobEffects.STUNNED.get()) || player.hasEffect(BrutalityModMobEffects.LIGHT_BOUND.get());
-
-        ModifierLayer< IAnimation > layer = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData(player).get(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "animation"));
-
-        boolean isLayerActive = layer != null && layer.isActive();
-        boolean isAnimationActive = isLayerActive && layer.getAnimation() != null && layer.isActive();
-
-
-        if (isStunnedOrBound) {
-            ci.cancel();
-            return;
-        } else if (isAnimationActive && player.isHolding(stack -> stack.getItem() instanceof BrutalityThrowingItem) && !ModList.get().isLoaded("bettercombat")) {
-            this.shiftKeyDown = false;
-        }
-
 
 
         ci.cancel();

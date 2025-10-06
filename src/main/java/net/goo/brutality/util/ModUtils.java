@@ -4,10 +4,12 @@ import com.lowdragmc.photon.client.fx.EntityEffect;
 import com.lowdragmc.photon.client.fx.FX;
 import com.lowdragmc.photon.client.fx.FXRuntime;
 import net.goo.brutality.config.BrutalityCommonConfig;
+import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.*;
 import net.goo.brutality.particle.providers.WaveParticleData;
 import net.goo.brutality.registry.ModAttributes;
+import net.goo.brutality.util.phys.CircleAABB;
 import net.mcreator.terramity.init.TerramityModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -32,7 +34,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.*;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -45,9 +50,6 @@ import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -309,8 +311,6 @@ public class ModUtils {
 
     }
 
-    private static final ScheduledExecutorService EXECUTOR = Executors.newScheduledThreadPool(1);
-
     public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, Vec3 origin, Class<T> clazz, WaveParticleData<?> particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
         return applyWaveEffect(level, origin.x(), origin.y(), origin.z(), clazz, particleData, filter, effect);
     }
@@ -321,43 +321,36 @@ public class ModUtils {
 
     public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, double x, double y, double z, Class<T> clazz, WaveParticleData<?> particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
         float maxRadius = particleData.radius();
-        int lifetimeTicks = particleData.growthDuration();
+        int lifetime = particleData.growthDuration();
+        Set<T> affectedEntities = new HashSet<>();
+        int ticksPerCheck = 1;
+        Vec3 center = new Vec3(x, y, z);
 
-        AABB box = new AABB(
-                new Vec3(x - maxRadius, y, z - maxRadius),
-                new Vec3(x + maxRadius, y, z + maxRadius));
+        for (int age = 0; age <= lifetime; age += ticksPerCheck) {
 
-        List<T> entities = filter != null ? level.getEntitiesOfClass(clazz, box, filter) : level.getEntitiesOfClass(clazz, box);
+            float growthProgress = ((float) age) / lifetime;
+            growthProgress = Mth.clamp(growthProgress, 0.0F, 1.0F);
+            final float currentRadius = maxRadius * ModEasings.easeOut(growthProgress);
+            float previousGrowthProgress = (float) (age - 1) / lifetime;
+            previousGrowthProgress = Mth.clamp(previousGrowthProgress, 0.0F, 1.0F);
+            final float previousRadius = maxRadius * ModEasings.easeOut(previousGrowthProgress);
 
-        entities.forEach(entity -> {
-            float distance = Mth.sqrt((float) entity.distanceToSqr(x, y, z));
+            DelayedTaskScheduler.queueServerWork(level, age, () -> {
+                CircleAABB circle = new CircleAABB(center, currentRadius, previousRadius);
 
-            // Normalize distance (0 to 1)
-            float normalizedDistance = distance / maxRadius;
-            if (normalizedDistance > 1) return;
-            // Use the same easeOut function as the particle
-            // Solve for growthProgress where easeOut(growthProgress) = normalizedDistance
-            // easeOut(t) = 1 - (1 - t)^2
-            // Solve: 1 - (1 - t)^2 = normalizedDistance
-            // (1 - t)^2 = 1 - normalizedDistance
-            // 1 - t = sqrt(1 - normalizedDistance)
-            // t = 1 - sqrt(1 - normalizedDistance)
-            float growthProgress = 1.0F - (float) Math.sqrt(1.0F - normalizedDistance);
-            // Calculate delay in ticks based on growthProgress
-            long delayTicks = (long) (growthProgress * lifetimeTicks);
+                List<T> entities = level.getEntitiesOfClass(clazz, circle, entity ->
+                        (filter == null || filter.test(entity)) && circle.contains(entity.position()));
 
-            // Convert to milliseconds (1 tick = 50ms)
-            long delayMillis = delayTicks * 50L;
-
-            // Schedule the effect
-            EXECUTOR.schedule(() -> {
-                if (entity.isAlive()) {
-                    effect.accept(entity);
+                for (T entity : entities) {
+                    if (affectedEntities.add(entity) && entity.isAlive()) {
+                        effect.accept(entity);
+                    }
                 }
-            }, delayMillis, TimeUnit.MILLISECONDS);
-        });
+            });
 
-        return entities;
+        }
+
+        return new ArrayList<>(affectedEntities);
     }
 
 
@@ -471,13 +464,13 @@ public class ModUtils {
     }
 
     /**
-     * @param livingEntity  The {@link LivingEntity} to add effects to
-     * @param mobEffect     The {@link MobEffect} to add
-     * @param durationMod   A small {@link ModValue} record to pass the duration modifier as well as whether it should overwrite the original instance, the duration will be incremented if overwrite = false
-     * @param amplifierMod  A small {@link ModValue} record to pass the amplifier modifier as well as whether it should overwrite the original instance, the amplifier will be incremented if overwrite = false
-     * @param ifAbsent The code to run on the {@link LivingEntity} if the effect is absent
-     * @param limit The maximum amplifier of the {@link MobEffect}, inclusive
-     * @param ifLimit The code to run on the {@link LivingEntity} if the limit is reached
+     * @param livingEntity The {@link LivingEntity} to add effects to
+     * @param mobEffect    The {@link MobEffect} to add
+     * @param durationMod  A small {@link ModValue} record to pass the duration modifier as well as whether it should overwrite the original instance, the duration will be incremented if overwrite = false
+     * @param amplifierMod A small {@link ModValue} record to pass the amplifier modifier as well as whether it should overwrite the original instance, the amplifier will be incremented if overwrite = false
+     * @param ifAbsent     The code to run on the {@link LivingEntity} if the effect is absent
+     * @param limit        The maximum amplifier of the {@link MobEffect}, inclusive
+     * @param ifLimit      The code to run on the {@link LivingEntity} if the limit is reached
      */
     public static void modifyEffect(LivingEntity livingEntity, MobEffect mobEffect, @Nullable ModValue durationMod, @Nullable ModValue amplifierMod, Integer limit, @Nullable Consumer<LivingEntity> ifAbsent, @Nullable Consumer<LivingEntity> ifLimit) {
         if (livingEntity.hasEffect(mobEffect)) {

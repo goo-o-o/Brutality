@@ -1,4 +1,4 @@
-// 1.20.1	2025-09-21T16:13:46.2242353	Recipes
+// 1.20.1	2025-10-03T11:45:58.4601831	Recipes
 8dd2966020a02758133fbf4fcc4ec908fb5dfa28 data/brutality/advancements/recipes/combat/abyssal_necklace.json
 dd2bd885636bb91acbccb3c25fc5d65098345f60 data/brutality/advancements/recipes/combat/addition_charm.json
 8933c4c18ffe62e462f9b7d1c62bda7c575b396b data/brutality/advancements/recipes/combat/anger_management.json
@@ -173,7 +173,7 @@ b1385e61fd67d26a5c0b45da774cbb53a4cb9f86 data/brutality/recipes/greed.json
 4eebc9c2a3ee975cc208bf195054255fce367566 data/brutality/recipes/gungnir.json
 af69e33ea2fed531eb8cde909321823975b33118 data/brutality/recipes/hate_sigil.json
 08040fad5d15611a199f4d91ac36c7301762fa6a data/brutality/recipes/heart_of_gold.json
-acbf17dd8cd2a8a5a2598f471ba289ec46d397cd data/brutality/recipes/heart_of_wrath.json
+6b59a951a65fb3302a241be1eb7958808661b905 data/brutality/recipes/heart_of_wrath.json
 0ee1d684b0350d9a2119b27c778992c7b8511622 data/brutality/recipes/high_frequency_alloy.json
 8333ec859264f0d713922be5149d72026027201e data/brutality/recipes/hot_sauce_charm.json
 5c22954ff753b4cdcf6358d52db2a97fa50e3f6d data/brutality/recipes/iron_knife.json

@@ -115,7 +115,7 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityTooltipHandler(pTooltipComponents, descriptionComponents, rarity);
+        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
@@ -171,12 +171,12 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
     /**
      * Should be called Clientside
      */
-    public void throwProjectileAndHandleAttributesAndAnimation(Player player, boolean isOffhand) {
-        ClientAccess.ThrowableWeaponHelper.throwProjectileAndHandleAttributesAndAnimation(player, this, isOffhand);
+    public void throwProjectileAndHandleAttributesAndAnimation(Player player, ItemStack stack, boolean isOffhand) {
+        ClientAccess.ThrowableWeaponHelper.throwProjectileAndHandleAttributesAndAnimation(player, this, stack, isOffhand);
     }
 
-    public void throwProjectile(Player player) {
-        ClientAccess.ThrowableWeaponHelper.throwProjectile(player, this);
+    public void throwProjectile(Player player, ItemStack stack) {
+        ClientAccess.ThrowableWeaponHelper.throwProjectile(player, stack, this);
     }
 
 }

@@ -1,6 +1,6 @@
 {
     "name": "throw_drop",
-    "author": "Aurukel",
+    "author": "Aurukel & goo",
     "description": "throw drop",
     "emote":{
         "isLoop": "false",
@@ -604,14 +604,6 @@
                 }
             },
             {
-                "tick":10,
-                "easing": "EASEINOUTQUAD",
-                "turn": 0,
-                "rightItem":{
-                    "x":-739.1699829101562
-                }
-            },
-            {
                 "tick":5,
                 "easing": "EASEINOUTQUAD",
                 "turn": 0,
@@ -625,14 +617,6 @@
                 "turn": 0,
                 "rightItem":{
                     "z":1.0551505088806152
-                }
-            },
-            {
-                "tick":10,
-                "easing": "EASEINOUTQUAD",
-                "turn": 0,
-                "rightItem":{
-                    "z":-4301.17333984375
                 }
             },
             {
@@ -656,7 +640,7 @@
                 "easing": "EASEINOUTQUAD",
                 "turn": 0,
                 "rightItem":{
-                    "y":1008.5421752929688
+                    "y":-400.0
                 }
             },
             {

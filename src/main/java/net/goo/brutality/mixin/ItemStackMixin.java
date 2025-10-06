@@ -1,14 +1,11 @@
 package net.goo.brutality.mixin;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.item.weapon.hammer.JackpotHammer;
-import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.SealUtils;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -39,62 +36,7 @@ public abstract class ItemStackMixin {
     private void addSealAttributeModifiers(EquipmentSlot pSlot, CallbackInfoReturnable<Multimap<Attribute, AttributeModifier>> cir) {
         ItemStack stack = (ItemStack) (Object) this;
         SealUtils.SEAL_TYPE sealType = SealUtils.getSealType(stack);
-        if (sealType != null && pSlot == LivingEntity.getEquipmentSlotForItem(stack)) {
-            Multimap<Attribute, AttributeModifier> modifiers = cir.getReturnValue();
-            Multimap<Attribute, AttributeModifier> newModifiers = ArrayListMultimap.create(modifiers);
-            UUID modifierUUID = UUID.nameUUIDFromBytes(("seal_" + sealType.name()).getBytes());
-
-            switch (sealType) {
-                case BLACK:
-                    newModifiers.put(ModAttributes.LETHALITY.get(), new AttributeModifier(
-                            modifierUUID, "black_seal", 2F, AttributeModifier.Operation.ADDITION
-                    ));
-                    break;
-                case BLUE:
-                    newModifiers.put(Attributes.ARMOR, new AttributeModifier(
-                            modifierUUID, "blue_seal", 3.0F, AttributeModifier.Operation.ADDITION
-                    ));
-                    break;
-                case GREEN:
-                    newModifiers.put(Attributes.LUCK, new AttributeModifier(
-                            modifierUUID, "green_seal", 1.0F, AttributeModifier.Operation.ADDITION
-                    ));
-                    break;
-                case ORANGE:
-                    newModifiers.put(ModAttributes.CRITICAL_STRIKE_CHANCE.get(), new AttributeModifier(
-                            modifierUUID, "orange_seal", 0.05F, AttributeModifier.Operation.MULTIPLY_BASE
-                    ));
-                    break;
-                case PINK:
-                    newModifiers.put(ModAttributes.LIFESTEAL.get(), new AttributeModifier(
-                            modifierUUID, "pink_seal", 0.05F, AttributeModifier.Operation.MULTIPLY_BASE
-                    ));
-                    break;
-                case PURPLE:
-                    newModifiers.put(ModAttributes.TENACITY.get(), new AttributeModifier(
-                            modifierUUID, "purple_seal", 0.15F, AttributeModifier.Operation.MULTIPLY_BASE
-                    ));
-                    break;
-                case RED:
-                    newModifiers.put(Attributes.MAX_HEALTH, new AttributeModifier(
-                            modifierUUID, "red_seal", 3.0F, AttributeModifier.Operation.ADDITION
-                    ));
-                    break;
-                case TEAL:
-                    newModifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(
-                            modifierUUID, "teal_seal", 3.0F, AttributeModifier.Operation.ADDITION
-                    ));
-                    break;
-                case YELLOW:
-                    newModifiers.put(Attributes.ATTACK_SPEED, new AttributeModifier(
-                            modifierUUID, "yellow_seal", 0.1F, AttributeModifier.Operation.MULTIPLY_TOTAL
-                    ));
-                    break;
-                default:
-                    break;
-            }
-            cir.setReturnValue(newModifiers);
-        }
+        SealUtils.handleSealAttributes(sealType, stack, pSlot, cir);
     }
 
     @Redirect(

@@ -27,6 +27,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class StarStreamEntity extends BrutalityAbstractArrow implements BrutalityGeoEntity, IBrutalitySpellEntity {
     private static final EntityDataAccessor<Integer> SPELL_LEVEL_DATA = SynchedEntityData.defineId(StarStreamEntity.class, EntityDataSerializers.INT);
+    private static final BrutalitySpell spell = new StarStreamSpell();
 
     public StarStreamEntity(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -85,7 +86,7 @@ public class StarStreamEntity extends BrutalityAbstractArrow implements Brutalit
 
     @Override
     public BrutalitySpell getSpell() {
-        return new StarStreamSpell();
+        return spell;
     }
 
     @Override
@@ -120,6 +121,7 @@ public class StarStreamEntity extends BrutalityAbstractArrow implements Brutalit
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
         Entity victim = pResult.getEntity();
+        if (victim == getOwner()) return;
         victim.invulnerableTime = 0;
         if (getOwner() != null)
             victim.hurt(victim.damageSources().indirectMagic(getOwner(), getOwner()), getFinalDamage(getSpell(), getOwner(), getSpellLevel()));
@@ -129,7 +131,7 @@ public class StarStreamEntity extends BrutalityAbstractArrow implements Brutalit
     }
 
     @Override
-    public SoundEvent getHitGroundSoundEvent() {
+    public @NotNull SoundEvent getHitGroundSoundEvent() {
         return SoundEvents.EMPTY;
     }
 

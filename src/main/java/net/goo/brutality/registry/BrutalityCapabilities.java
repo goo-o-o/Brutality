@@ -24,6 +24,7 @@ public class BrutalityCapabilities {
     public static final Capability<EntityCapabilities.PlayerManaCap> PLAYER_MANA_CAP = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<EntityCapabilities.PlayerComboCap> PLAYER_COMBO_CAP = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<EntityCapabilities.RespawnCap> RESPAWN_CAP = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<EntityCapabilities.EntitySealTypeCap> SEAL_TYPE_CAP = CapabilityManager.get(new CapabilityToken<>(){});
 
     static {
         CapabilitySyncRegistry.register("effect", ENTITY_EFFECT_CAP, EntityCapabilities.EntityEffectCap::new);
@@ -34,6 +35,7 @@ public class BrutalityCapabilities {
         CapabilitySyncRegistry.register("mana_value", PLAYER_MANA_CAP, EntityCapabilities.PlayerManaCap::new);
         CapabilitySyncRegistry.register("combo", PLAYER_COMBO_CAP, EntityCapabilities.PlayerComboCap::new);
         CapabilitySyncRegistry.register("respawn", RESPAWN_CAP, EntityCapabilities.RespawnCap::new);
+        CapabilitySyncRegistry.register("seal_type", SEAL_TYPE_CAP, EntityCapabilities.EntitySealTypeCap::new);
     }
 
     public static class CapabilitySyncRegistry {

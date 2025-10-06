@@ -59,7 +59,7 @@ public class BrutalityHammerItem extends TieredItem implements BrutalityGeoItem 
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        brutalityTooltipHandler(pTooltipComponents, descriptionComponents, rarity);
+        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 

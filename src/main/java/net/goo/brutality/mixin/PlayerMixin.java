@@ -14,12 +14,12 @@ import net.goo.brutality.item.weapon.sword.MurasamaSword;
 import net.goo.brutality.item.weapon.sword.ShadowstepSword;
 import net.goo.brutality.item.weapon.sword.SupernovaSword;
 import net.goo.brutality.item.weapon.sword.phasesaber.BasePhasesaber;
-import net.goo.brutality.item.weapon.throwing.StickyBomb;
 import net.goo.brutality.magic.SpellCastingHandler;
 import net.goo.brutality.mob_effect.gastronomy.IGastronomyEffect;
 import net.goo.brutality.registry.*;
 import net.goo.brutality.util.ModTags;
 import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.util.SealUtils;
 import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.core.particles.ParticleOptions;
@@ -155,6 +155,8 @@ public abstract class PlayerMixin extends LivingEntity {
         Item item = stack.getItem();
         float[] modifiedAmount = new float[]{pAmount};
 
+        Level level = level();
+
         AttributeInstance lifestealAttr = playerAttacker.getAttribute(ModAttributes.LIFESTEAL.get());
         if (lifestealAttr != null) {
             playerAttacker.heal((float) (modifiedAmount[0] * (lifestealAttr.getValue() - 1)));
@@ -171,8 +173,10 @@ public abstract class PlayerMixin extends LivingEntity {
 
         CuriosApi.getCuriosInventory(playerAttacker).ifPresent(handler -> {
             if (handler.isEquipped(BrutalityModItems.KNUCKLE_WRAPS.get())) {
-                ModUtils.modifyEffect(playerAttacker, BrutalityModMobEffects.PRECISION.get(), new ModUtils.ModValue(80, true), new ModUtils.ModValue(3, false),
-                        new MobEffectInstance(BrutalityModMobEffects.PRECISION.get(), 80, 0));
+                ModUtils.modifyEffect(playerAttacker, BrutalityModMobEffects.PRECISION.get(),
+                        new ModUtils.ModValue(80, true), new ModUtils.ModValue(3, false),
+                        null, livingEntity -> livingEntity.addEffect(new MobEffectInstance(BrutalityModMobEffects.PRECISION.get(), 80, 0)), null);
+
             }
 
 
@@ -189,7 +193,7 @@ public abstract class PlayerMixin extends LivingEntity {
             handler.findFirstCurio(BrutalityModItems.PLUNDER_CHEST_CHARM.get()).ifPresent(slot -> {
                 if (!playerAttacker.getCooldowns().isOnCooldown(slot.stack().getItem())) {
                     int chance = playerAttacker.hasEffect(MobEffects.LUCK) ? 10 + playerAttacker.getEffect(MobEffects.LUCK).getAmplifier() : 10;
-                    if (playerAttacker.level().random.nextIntBetweenInclusive(0, 100) <= chance) {
+                    if (level.random.nextIntBetweenInclusive(0, 100) <= chance) {
 
                         Optional<MobEffectInstance> randomEffect = livingVictim.getActiveEffects().stream().filter(effect -> effect.getEffect().isBeneficial())
                                 .collect(Collectors.collectingAndThen(Collectors.toList(),
@@ -216,7 +220,7 @@ public abstract class PlayerMixin extends LivingEntity {
                     if (!playerAttacker.getCooldowns().isOnCooldown(slot.stack().getItem())) {
 //                    System.out.println("Not on cd");
                         int chance = playerAttacker.hasEffect(MobEffects.LUCK) ? 10 + playerAttacker.getEffect(MobEffects.LUCK).getAmplifier() : 10;
-                        if (playerAttacker.level().random.nextIntBetweenInclusive(0, 100) <= chance) {
+                        if (level.random.nextIntBetweenInclusive(0, 100) <= chance) {
 //                            System.out.println("Rolled successfully, adding effect");
                             livingVictim.addEffect(new MobEffectInstance(BrutalityModMobEffects.STUNNED.get(), 4, 0, false, true));
                             playerAttacker.getCooldowns().addCooldown(slot.stack().getItem(), 60);
@@ -351,9 +355,9 @@ public abstract class PlayerMixin extends LivingEntity {
         } else if (item instanceof BasePhasesaber) {
             return livingVictim.hurt(damageSources().indirectMagic(playerAttacker, null), modifiedAmount[0]);
         } else if (item instanceof RhittaAxe) {
-            modifiedAmount[0] += RhittaAxe.computeAttackDamageBonus(playerAttacker.level());
+            modifiedAmount[0] += RhittaAxe.computeAttackDamageBonus(level);
         } else if (item instanceof JackpotHammer) {
-            modifiedAmount[0] += playerAttacker.level().random.nextInt(-5, 11);
+            modifiedAmount[0] += level.random.nextInt(-5, 11);
             brutality$handleJackpotEffects(playerAttacker, livingVictim, modifiedAmount[0]);
         } else if (item instanceof WoodenRulerHammer || item instanceof MetalRulerSword) {
             modifiedAmount[0] *= livingVictim.getBbHeight() * 0.75F;
@@ -374,6 +378,9 @@ public abstract class PlayerMixin extends LivingEntity {
         } else if (item instanceof AtomicJudgementHammer) {
             AtomicJudgementHammer.doExplosion(playerAttacker, livingVictim.getPosition(1).add(0, livingVictim.getBbHeight() / 2, 0));
         }
+
+        SealUtils.handleSealProc(level, playerAttacker, livingVictim, stack);
+
 
         return livingVictim.hurt(pSource, modifiedAmount[0]);
     }

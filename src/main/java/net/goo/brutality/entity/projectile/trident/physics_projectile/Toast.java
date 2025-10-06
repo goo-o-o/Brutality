@@ -6,11 +6,8 @@ import net.goo.brutality.entity.base.BrutalityAbstractTrident;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class Toast extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
 
@@ -24,14 +21,6 @@ public class Toast extends BrutalityAbstractPhysicsTrident implements BrutalityG
     @Override
     public int getInGroundLifespan() {
         return 200;
-    }
-
-    @Override
-    public float getDamage(@Nullable LivingEntity livingEntity) {
-        if (livingEntity != null) {
-            livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
-        }
-        return 4;
     }
 
     @Override

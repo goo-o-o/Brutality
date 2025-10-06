@@ -20,6 +20,15 @@
     },
     {
       "type": "bitmap",
+      "file": "brutality:font/seal_icons.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": [
+        "💣💫"
+      ]
+    },
+    {
+      "type": "bitmap",
       "file": "brutality:font/school_icons.png",
       "ascent": 7,
       "height": 8,

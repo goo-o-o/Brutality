@@ -144,18 +144,18 @@ public class ClientAccess {
             return true;
         }
 
-        public static void throwProjectileAndHandleAttributesAndAnimation(Player player, BrutalityThrowingItem throwingItem, boolean isOffhand) {
+        public static void throwProjectileAndHandleAttributesAndAnimation(Player player, BrutalityThrowingItem throwingItem, ItemStack stack, boolean isOffhand) {
             if (!player.level().isClientSide()) return; // Exit if server-side
             ResourceLocation animationLocation = throwingItem.getAnimationResourceLocation();
 
 
             if (isOffhand) {
                 offhandAttributes(player, () -> {
-                    throwProjectile(player, throwingItem);
+                    throwProjectile(player, stack, throwingItem);
                     playThrowAnimation(player, animationLocation, true);
                 });
             } else {
-                throwProjectile(player, throwingItem);
+                throwProjectile(player, stack, throwingItem);
                 playThrowAnimation(player, animationLocation, false);
             }
         }
@@ -175,7 +175,7 @@ public class ClientAccess {
             PacketHandler.sendToServer(new ServerboundPlayerAnimationPacket(player.getUUID(), animationLocation, offHand, speed));
         }
 
-        public static void throwProjectile(Player player, BrutalityThrowingItem throwingItem) {
+        public static void throwProjectile(Player player, ItemStack stack, BrutalityThrowingItem throwingItem) {
 
             if (handleCooldown(player, throwingItem)) {
                 playThrowSound(player);
@@ -189,13 +189,13 @@ public class ClientAccess {
                     for (int i = 0; i < quantity; i++) {
                         float angleOffset = (i - (quantity - 1) / 2f) * gap; // Center the arc
                         angleOffset += (player.getRandom().nextFloat() - 0.5F) * 5F;
-                        PacketHandler.sendToServer(new ServerboundShootFromRotationPacket(throwingItem.getThrownEntity(), player.getEyePosition(),
+                        PacketHandler.sendToServer(new ServerboundShootFromRotationPacket(stack, throwingItem.getThrownEntity(), player.getEyePosition(),
                                 player.getXRot(), player.getYRot() + angleOffset, throwingItem.getThrowVelocity(player), throwingItem.getThrowInaccuracy()));
                     }
                     return;
                 }
 
-                PacketHandler.sendToServer(new ServerboundShootFromRotationPacket(throwingItem.getThrownEntity(), player.getEyePosition(),
+                PacketHandler.sendToServer(new ServerboundShootFromRotationPacket(stack, throwingItem.getThrownEntity(), player.getEyePosition(),
                         player.getXRot(), player.getYRot(), throwingItem.getThrowVelocity(player), throwingItem.getThrowInaccuracy()));
             }
         }

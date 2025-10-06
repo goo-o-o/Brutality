@@ -1,4 +1,5 @@
-// 1.20.1	2025-09-28T17:13:49.4467437	Item Models: brutality
+// 1.20.1	2025-10-05T16:08:41.683166	Item Models: brutality
+4d2cb5931bdfc05b9f9f74aa98fcf2124089e766 assets/brutality/models/item/absolute_zero.json
 b9a228d40051bf608e575ad22195a7f52b0fb3fd assets/brutality/models/item/abyssal_necklace.json
 5881774b34f2bb80a3ac222639c0286b3b9541b7 assets/brutality/models/item/addition_charm.json
 274f9e8bf4c41b3a7ab7039f92c585b03f2b6887 assets/brutality/models/item/air_jordan_earrings.json
@@ -16,7 +17,7 @@ f83e43a01c971f20a9ba39ad0b7b7642cf20358e assets/brutality/models/item/bamboo_ste
 7941456fdd581fd515fa8eab3f925043ec6f9b36 assets/brutality/models/item/beach_ball.json
 73ac2176a3277b5179c7cfa1033e817fac8740dc assets/brutality/models/item/big_steppa.json
 ac2af36beb41e083979af291f913ce33622ed5bd assets/brutality/models/item/bikers_helmet.json
-a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/biomech_reactor.json
+7fffb668df5ef1e5486f5dfbd83e411a132991de assets/brutality/models/item/biomech_reactor.json
 62c7d2e700a477facd1d90ea31872cc6d199345d assets/brutality/models/item/black_hole_orb.json
 84059e0b0dcb577072b36b68b9087b000c92024e assets/brutality/models/item/black_matter_necklace.json
 c9d02efb73af8936d5f52a5f447f932456ce04ba assets/brutality/models/item/black_seal.json
@@ -31,6 +32,7 @@ a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/blade_of_t
 6768f78d59774c5eb39c57b69b838689394c84b3 assets/brutality/models/item/blood_pulse_gauntlets.json
 7f3f7102fc13b697671c4f61864f449a1a64b76c assets/brutality/models/item/blood_stone.json
 c9643ede2eab7e4e1a728fa45348cfebe593c045 assets/brutality/models/item/blue_seal.json
+e979228f83bfcac2d398e09948f39e4b3bd6ed7d assets/brutality/models/item/bomb_seal.json
 598d0247326df8a147174d7e50a201249eade4bd assets/brutality/models/item/bouncy_dynamite.json
 f4c35cd41057a22abd28472dea63a69c409b689c assets/brutality/models/item/box_of_chocolates.json
 a901c607f0523f69ce457826e88a88f1d9365023 assets/brutality/models/item/brain_rot.json
@@ -40,9 +42,11 @@ faeade3a8cf1aab41631b7958db74fddbf5b5b66 assets/brutality/models/item/broken_hea
 38b54996a8e039e74d0c903f00fa8efd6a1f95bd assets/brutality/models/item/brutal_heart.json
 e7cb1fa95ebdc094bfd287b2d694328a13e5e1f2 assets/brutality/models/item/bruteskin_belt.json
 b0f45176be819689536ee3be027959e4a1aa86f5 assets/brutality/models/item/butter_gauntlets.json
+903e5c3dd5bc68681ca4c6c51b91fe5e4c1a03c7 assets/brutality/models/item/cannonball_cabbage.json
 a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/canopy_of_shadows.json
 3d75779df3ef4a436a48729f79fde7a9a765bb67 assets/brutality/models/item/caramel_crunch_medallion.json
 af2f7e9004836b3fd3c612936b6447b91541e3bc assets/brutality/models/item/carton_of_prism_solution_milk.json
+b143bcc642d1e2876c0b77554f9eae6c3093a27d assets/brutality/models/item/cavendish.json
 228ce5a29f888bae590fa51e038cb67576500194 assets/brutality/models/item/celestial_starboard.json
 f7404c3bb31505321d47278ec8cdbc53f5d6296f assets/brutality/models/item/celestia_tome.json
 11c01254880723e53b5410b04165238c18709f00 assets/brutality/models/item/cheese_sauce_charm.json
@@ -54,8 +58,10 @@ bb342de327f92fc4fe8c4dce76ad3bf070af51f9 assets/brutality/models/item/conductite
 c9d40787c13436bc91e4efd09d4b5f9786df64bd assets/brutality/models/item/conservative_concoction.json
 87c2fa5bfcd1bdb66eb67b838eb430dfd5f61aaf assets/brutality/models/item/cosine_charm.json
 9f3a22c7e79520fc850530609f7bde27c5f923a6 assets/brutality/models/item/cosmic_anklet.json
+b38d70ca08396d9a7b42d3f282f0ee1970a0e87d assets/brutality/models/item/cosmic_seal.json
 b898ac713cccfcb8c9cf4ebd54c2c5979a8a6ebe assets/brutality/models/item/cosmic_tome.json
 a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/crease_of_creation.json
+c16811afcebb7769b40bbc6e3b65b5d91983368c assets/brutality/models/item/crimson_delight.json
 40809a60781673eecd23f26e507b12d76098b984 assets/brutality/models/item/critical_thinking.json
 c472d10fa209bdf84a34e42eb80e2805494d7898 assets/brutality/models/item/crowbar.json
 3f8507aa83318c51ce9d395f79f0c1803e450037 assets/brutality/models/item/crown_of_tyranny.json
@@ -116,9 +122,11 @@ a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/frying_pan
 96de2b55d908bff6f3949a4b80cc2027e00bb604 assets/brutality/models/item/gamblers_chain.json
 ebe3df1989eed15fd356f0149d19bcfbe048b06b assets/brutality/models/item/gladiators_anklet.json
 3a085130537eda88123adc115a698971354051ae assets/brutality/models/item/glass_heart.json
+752142ae1395eaeeeaa181740254c4248de5650b assets/brutality/models/item/glass_seal.json
 0c9e0afc80d632faa3b2a5d42e64269de0934af0 assets/brutality/models/item/gluttony.json
 537b2ce56fc262c9b1a0f1774264e40511e19d75 assets/brutality/models/item/gnome_kings_anklet.json
 c2e42c40be9f934289885ec3306e7949d79ca18c assets/brutality/models/item/golden_headband.json
+7fb9172f4bdcb97ca5af3764b8fca1622074fc7a assets/brutality/models/item/golden_phoenix.json
 a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/gold_knife.json
 97aa34d71410c82efa83a15605d81945b19b38a0 assets/brutality/models/item/good_book.json
 91235760cc1e47383c5dd429fe9a9935e9339956 assets/brutality/models/item/greed.json
@@ -175,12 +183,14 @@ bdd4a09c256f5a02d30621e9ff6661b24ebbb3bb assets/brutality/models/item/olive_oil_
 71027fee454970838b9ad47a75eed1747cace533 assets/brutality/models/item/onyx_idol.json
 0a978471ac2ad877f998eafba8a7a0bbe2834d83 assets/brutality/models/item/onyx_phasesaber.json
 0a3dab8ec277f9aeb9f29bf390e6fef026e31d11 assets/brutality/models/item/orange_seal.json
+56d82c9ad2ea7875cae451b92e7e5f38adb9fdeb assets/brutality/models/item/overclocked_toaster.json
 d35e7c4a6ff69fc1520081b84d07ff4bd62c33c6 assets/brutality/models/item/pain_catalyst.json
 c570fb223bf596cb7aee6d1a999b1b6fd0031e27 assets/brutality/models/item/pandoras_cauldron.json
 eeaa7c2c5ec553775f10ab9370eb98f77d36b7f9 assets/brutality/models/item/paper_airplane.json
 a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/paper_cut.json
 0425aa53344ee03ce143e78f3f3cde7e81524393 assets/brutality/models/item/pencil_sharpener.json
 3cdd5dbdd23759fa3b1b51d348389898222ca21a assets/brutality/models/item/pepper_shaker_charm.json
+bb07e83225a893b4a029ae0414ac84fa6a94f54b assets/brutality/models/item/perfume_bottle.json
 af0b057fc8f324fa22c92ba721ab6e108656014e assets/brutality/models/item/permafrost_cube.json
 ad3923662e33e2b3907ab2c3c8cba4a02a47c030 assets/brutality/models/item/phantom_finger.json
 a952cfb293d13fc0112bd7e92a30014be313fe79 assets/brutality/models/item/pincushion.json
@@ -200,6 +210,7 @@ a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/providence
 a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/providence_inventory_pull_1.json
 a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/providence_inventory_pull_2.json
 8cd3f9db537eb491dcf77fc6df0f53bb699f4a6d assets/brutality/models/item/purple_seal.json
+edd789920641a279a998bacb4da66a63648f5980 assets/brutality/models/item/quantite_seal.json
 99b9ed145b44e010baa1bd2eb82967253d4c1229 assets/brutality/models/item/rage_stone.json
 3a5168c310020881e2281a90575c2dabed49e629 assets/brutality/models/item/rainbow_sprinkles.json
 33d5c8ceb2a515b3c0ffc2b327d9bbdeeb006de5 assets/brutality/models/item/rampage_clock.json
@@ -247,6 +258,7 @@ a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/spatula.js
 69a900c69c1e60c8bf1a6983f1ec1cd6d3d4f648 assets/brutality/models/item/spite_shard.json
 8e3b38109c5e0e3a2bd153a52d47cfbc0746f0bd assets/brutality/models/item/sticky_bomb.json
 4590e0d94dfe721f747fdd0cf0c6b738cbb435ee assets/brutality/models/item/sticky_dynamite.json
+7b10443c880fd53e2c9b9532e74d938d34cee54a assets/brutality/models/item/stick_of_butter.json
 ef12ebefdbcb1ec20ad26aea65d0ce37fd649b5f assets/brutality/models/item/stygian_chain.json
 097794a54d9220246ed6862a841ae262f748162e assets/brutality/models/item/subtraction_charm.json
 b5aa10d621498e54bdcfb7e4475ce34a56c95963 assets/brutality/models/item/sugar_glaze.json
@@ -287,12 +299,14 @@ de1415ff6304475ac796d9ec12b68057f7286502 assets/brutality/models/item/vampire_kn
 39c9328e99ae105f65fd7f977e56e4b0fd2e3f49 assets/brutality/models/item/virentium_anklet.json
 0b717cb6908524cee23daed1d100e1b85108d0c0 assets/brutality/models/item/void_anklet.json
 a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/void_knife.json
+6a53ee53bed8ea9e0787e20d8c626873b12c9738 assets/brutality/models/item/void_seal.json
 d0e07f76d70f79f47f60601622913cff3c4cb278 assets/brutality/models/item/void_tome.json
 825461806bbea4ff19bd6f6362664aa1b5237af3 assets/brutality/models/item/warpslice_scabbard.json
 30135ef2b3ffd308ffa1b21e640667c57ce855a8 assets/brutality/models/item/water_cooler.json
 a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/whisk.json
 a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/whisperwaltz.json
 4b4895082da6d14f73297ad4cd1d6e5e78e831f4 assets/brutality/models/item/windswept_anklet.json
+4ccda1acfa02d39216363a7a469b24456d62e95c assets/brutality/models/item/winter_melon.json
 5f09b8be104d913398d7cc68ca07b7b28c6e9479 assets/brutality/models/item/wire_cutters.json
 a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/wooden_ruler.json
 ead2cf4dbb1fcb9e80fd5cc77f9d73b9e1e04f75 assets/brutality/models/item/wooly_blindfold.json

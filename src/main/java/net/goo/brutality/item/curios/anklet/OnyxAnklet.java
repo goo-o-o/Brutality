@@ -8,7 +8,6 @@ import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.CrashReport;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -54,10 +53,16 @@ public class OnyxAnklet extends BrutalityAnkletItem {
         return super.getAttributeModifiers(slotContext, uuid, stack);
     }
 
+    private static final List<UUID> THE_LIST = List.of(
+            UUID.fromString("a2177cf2-4ef2-4588-93a2-eb04cf108cf0"), // Jordan
+            UUID.fromString("8d961a89-e771-4c48-9156-900321b5629e"), // Typo
+            UUID.fromString("69191b57-8eb5-4525-a8cb-138f46fd1a64"), // Carroch
+            UUID.fromString("b990fd13-3cf4-418b-ad18-7da93f25da90") // Tenevares
+    );
 
     @Override
     public void onDodgeServer(LivingEntity dodger, DamageSource source, float damage, ItemStack stack) {
-        if (dodger.getName().equals(Component.literal("BestSage223"))|| dodger.getName().equals(Component.literal("TypoMaster69"))) {
+        if (THE_LIST.contains(dodger.getUUID())) {
             Minecraft.crash(CrashReport.forThrowable(new Throwable(), "sybau"));
         }
 
@@ -89,7 +94,6 @@ public class OnyxAnklet extends BrutalityAnkletItem {
 
             }
         }
-        ;
 
     }
 }

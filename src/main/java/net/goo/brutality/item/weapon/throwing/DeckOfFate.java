@@ -4,6 +4,7 @@ import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityThrowingItem;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Rarity;
@@ -24,8 +25,12 @@ public class DeckOfFate extends BrutalityThrowingItem {
 
     @Override
     public EntityType<? extends Projectile> getThrownEntity() {
-
         return BrutalityModEntities.FATE_CARD.get();
+    }
+
+    @Override
+    public ResourceLocation getAnimationResourceLocation() {
+        return THROW_ANIMATION.DROP.getAnimationResource();
     }
 
     @Override

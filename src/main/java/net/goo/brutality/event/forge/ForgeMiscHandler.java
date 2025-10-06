@@ -3,6 +3,7 @@ package net.goo.brutality.event.forge;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
@@ -17,10 +18,9 @@ public class ForgeMiscHandler {
     public static void onItemBreak(PlayerDestroyItemEvent event) {
         if (event.getOriginal().getOrCreateTag().getBoolean("fromDoubleDown")) {
             Player player = event.getEntity();
-            if (!player.level().isClientSide()) {
-                player.level().getServer().tell(new TickTask(1, () -> {
-                    player.getInventory().setItem(player.getInventory().selected, BrutalityModItems.DOUBLE_DOWN.get().getDefaultInstance());
-                }));
+            if (player.level() instanceof ServerLevel serverLevel) {
+                serverLevel.getServer().executeIfPossible(new TickTask(1, () ->
+                        player.getInventory().setItem(player.getInventory().selected, BrutalityModItems.DOUBLE_DOWN.get().getDefaultInstance())));
             }
         }
     }
@@ -31,8 +31,6 @@ public class ForgeMiscHandler {
             event.getEntity().setItem(BrutalityModItems.DOUBLE_DOWN.get().getDefaultInstance());
         }
     }
-
-
 
 
 }

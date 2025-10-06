@@ -166,7 +166,7 @@ public class BrutalityAbstractPhysicsTrident extends BrutalityAbstractTrident im
             inGround = true;
             onFinalBounce(hitResult);
             if (shouldDiscardAfterBounce() && !level().isClientSide()) {
-                DelayedTaskScheduler.queueServerWork(2, this::discard);
+                DelayedTaskScheduler.queueServerWork(level(), 2, this::discard);
             }
         }
         super.onHit(hitResult);

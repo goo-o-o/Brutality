@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/throwing/perfume_bottle/perfume_bottle_inventory"
+  }
+}

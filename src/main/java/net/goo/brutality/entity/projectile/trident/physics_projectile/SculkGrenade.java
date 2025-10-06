@@ -14,12 +14,10 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class SculkGrenade extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
 
@@ -34,13 +32,6 @@ public class SculkGrenade extends BrutalityAbstractPhysicsTrident implements Bru
         return 200;
     }
 
-    @Override
-    public float getDamage(@Nullable LivingEntity livingEntity) {
-        if (livingEntity != null) {
-            livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
-        }
-        return 4;
-    }
 
     @Override
     public float getModelHeight() {

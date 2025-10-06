@@ -191,7 +191,7 @@ public class FrostmourneSword extends BrutalitySwordItem {
         if (level instanceof ServerLevel serverLevel) {
 
             serverLevel.sendParticles(
-                    new WaveParticleData(BrutalityModParticles.FROSTMOURNE_WAVE.get(), 15, 80),
+                    new WaveParticleData<>(BrutalityModParticles.FROSTMOURNE_WAVE.get(), 15, 80),
                     player.getX(),
                     player.getY() + player.getBbHeight() / 3,
                     player.getZ(),
@@ -203,8 +203,8 @@ public class FrostmourneSword extends BrutalitySwordItem {
             player.getCooldowns().addCooldown(stack.getItem(), 80);
             // Get nearby entities within the shockwave radius
 
-            List<? extends Entity> entities = ModUtils.applyWaveEffect(serverLevel, player, Entity.class,
-                    new WaveParticleData(BrutalityModParticles.FROSTMOURNE_WAVE.get(), 15, 80), e -> e != player,entity -> {
+            List<? extends Entity> entities = ModUtils.applyWaveEffect(serverLevel, player.getX(), player.getY(0.33F), player.getZ(), Entity.class,
+                    new WaveParticleData<>(BrutalityModParticles.FROSTMOURNE_WAVE.get(), 15, 80), e -> e != player, entity -> {
                 entity.hurt(player.damageSources().playerAttack(player), 5);
                 entity.setTicksFrozen(40);
                 if (entity instanceof LivingEntity)

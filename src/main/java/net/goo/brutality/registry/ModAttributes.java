@@ -98,7 +98,7 @@ public class ModAttributes {
     public static final RegistryObject<Attribute> STUN_DURATION = ATTRIBUTES.register("stun_duration",
             () -> new RangedAttribute("attribute.name.generic.stun_duration", 0.1, 0.1, 1024F).setSyncable(true));
     public static final RegistryObject<Attribute> TENACITY = ATTRIBUTES.register("tenacity",
-            () -> new RangedAttribute("attribute.name.generic.tenacity", 1, 1, 2F).setSyncable(true));
+            () -> new RangedAttribute("attribute.name.generic.tenacity", 1, 1, 1.99F).setSyncable(true));
 
     public static final RegistryObject<Attribute> BLUNT_DAMAGE = ATTRIBUTES.register("blunt_damage",
             () -> new RangedAttribute("attribute.name.generic.blunt_damage", 0, 0, 1024F).setSyncable(true));
@@ -130,6 +130,8 @@ public class ModAttributes {
     public static final RegistryObject<Attribute> THROW_STRENGTH = ATTRIBUTES.register("throw_strength",
             () -> new RangedAttribute("attribute.name.generic.throw_strength", 1, 0, 1024F).setSyncable(true));
 
+    public static final RegistryObject<Attribute> DAMAGE_TAKEN = ATTRIBUTES.register("damage_taken",
+            () -> new RangedAttribute("attribute.name.generic.damage_taken", 1, 0, 1024F).setSyncable(true));
 
 
     private static final Supplier<Map<IBrutalitySpell.MagicSchool, Attribute>> SPELL_SCHOOL_ATTRIBUTE_MAP_SUPPLIER = () -> ImmutableMap.of(

@@ -3,6 +3,7 @@ package net.goo.brutality.entity.capabilities;
 import net.goo.brutality.event.ConsumeManaEvent;
 import net.goo.brutality.magic.IBrutalitySpell;
 import net.goo.brutality.registry.ModAttributes;
+import net.goo.brutality.util.SealUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
@@ -17,6 +18,7 @@ public class EntityCapabilities {
     private static final String IS_RAGE = "isRage", IS_THE_VOID = "isTheVoid", IS_LIGHT_BOUND = "isBound";
     private static final String HIT_COUNT = "hitCount", LAST_HIT_TIME = "lastHitTime", LAST_VICTIM_ID = "lastVictimId";
     private static final String BOOSTER_TYPE = "boosterType", KIT_TYPE = "kitType";
+    private static final String SEAL_TYPE = "seal_type";
 
     @AutoRegisterCapability
     public static class EntityEffectCap implements INBTSerializable<CompoundTag> {
@@ -156,6 +158,40 @@ public class EntityCapabilities {
             }
         }
     }
+
+
+    @AutoRegisterCapability
+    public static class EntitySealTypeCap implements INBTSerializable<CompoundTag> {
+
+
+        private SealUtils.SEAL_TYPE sealType = SealUtils.SEAL_TYPE.NONE;
+
+        public SealUtils.SEAL_TYPE getSealType() {
+            return this.sealType;
+        }
+
+        public void setSealType(SealUtils.SEAL_TYPE sealType) {
+            this.sealType = sealType;
+        }
+
+        @Override
+        public CompoundTag serializeNBT() {
+            CompoundTag tag = new CompoundTag();
+            tag.putString(BOOSTER_TYPE, sealType.name()); // Serialize enum as string
+            return tag;
+        }
+
+        @Override
+        public void deserializeNBT(CompoundTag nbt) {
+            String name = nbt.getString(SEAL_TYPE);
+            try {
+                setSealType(SealUtils.SEAL_TYPE.valueOf(name));
+            } catch (IllegalArgumentException e) {
+                setSealType(SealUtils.SEAL_TYPE.NONE);
+            }
+        }
+    }
+
     @AutoRegisterCapability
     public static class EntityStickyBombCap implements INBTSerializable<CompoundTag> {
         private final Map<UUID, Map<Integer, Integer>> playerStickyBombCounts = new HashMap<>();

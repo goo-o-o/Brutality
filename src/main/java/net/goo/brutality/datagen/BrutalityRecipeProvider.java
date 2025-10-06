@@ -680,7 +680,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
 //                .define('^', TerramityModItems.NYXIUM_GREATSWORD.get())
 //                .unlockedBy("has_terratomere", has(BrutalityModItems.TERRATOMERE_SWORD.get()))
 //                .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.BIOMECH_REACTOR_TRIDENT.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.BIOMECH_REACTOR.get())
                 .pattern("#@#")
                 .pattern("@%@")
                 .pattern("#@#")
@@ -1140,7 +1140,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .pattern("!#!")
                 .pattern(" ! ")
                 .define('!', BrutalityModItems.UNBRIDLED_RAGE.get())
-                .define('#', BrutalityModItems.HEART_OF_WRATH.get())
+                .define('#', BrutalityModItems.SECOND_HEART.get())
                 .unlockedBy("has_unbridled_rage", has(BrutalityModItems.UNBRIDLED_RAGE.get()))
                 .save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.EYE_FOR_VIOLENCE.get())

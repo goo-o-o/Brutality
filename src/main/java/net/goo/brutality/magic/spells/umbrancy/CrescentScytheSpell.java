@@ -51,7 +51,7 @@ public class CrescentScytheSpell extends BrutalitySpell {
             crescentScythe.shootFromRotation(player, player.getXRot(), player.getYRot() + angleOffset, 0, speed, 0);
 
             if (i > 0) {
-                DelayedTaskScheduler.queueServerWork(i * 2, () -> level.addFreshEntity(crescentScythe)); // Small delay for staggered spawn
+                DelayedTaskScheduler.queueServerWork(level, i * 2, () -> level.addFreshEntity(crescentScythe)); // Small delay for staggered spawn
             } else {
                 level.addFreshEntity(crescentScythe);
             }

@@ -33,6 +33,7 @@ public class BrutalityModParticleFactories {
         event.registerSpriteSet(BrutalityModParticles.OILED_PARTICLE.get(), OiledParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.ENRAGED_PARTICLE.get(), EnragedParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.STEAM_PARTICLE.get(), SteamParticle.Provider::new);
+        event.registerSpriteSet(BrutalityModParticles.PERFUME_PARTICLE.get(), PerfumeParticle.Provider::new);
 
         event.registerSpriteSet(BrutalityModParticles.RHAAST_PARTICLE.get(), RhaastParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.SHADOW_ASSASIN_PARTICLE.get(), ShadowAssassinParticle.Provider::new);

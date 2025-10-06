@@ -69,7 +69,7 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
             return BrutalityTooltipHelper.getRarityName("item." + Brutality.MOD_ID + "." + identifier, rarity);
     }
 
-    default void brutalityTooltipHandler(List<Component> pTooltipComponents, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents, Rarity rarity) {
+    default void brutalityTooltipHandler(ItemStack stack, List<Component> pTooltipComponents, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents, Rarity rarity) {
         String identifier = getRegistryName();
 
         if (!ModList.get().isLoaded("obscuria_tooltips"))
@@ -139,6 +139,9 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
                 pTooltipComponents.add(Component.empty());
         }
 
+        if (stack.isEnchanted() && ((6 & ItemStack.TooltipPart.ENCHANTMENTS.getMask()) == 0)) {
+            pTooltipComponents.add(Component.empty());
+        }
     }
 
     @Override

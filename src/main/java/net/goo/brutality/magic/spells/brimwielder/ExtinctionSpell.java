@@ -98,7 +98,7 @@ public class ExtinctionSpell extends BrutalitySpell {
         super.onEndCast(player, stack, spellLevel);
         if (getSpellEntity(player.level(), player) instanceof ExtinctionEntity extinctionEntity) {
             extinctionEntity.triggerAnim("controller", "despawn");
-            DelayedTaskScheduler.queueServerWork(20, extinctionEntity::discard);
+            DelayedTaskScheduler.queueServerWork(player.level(), 20, extinctionEntity::discard);
         }
 
     }

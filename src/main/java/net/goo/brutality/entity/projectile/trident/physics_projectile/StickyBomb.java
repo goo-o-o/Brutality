@@ -66,7 +66,7 @@ public class StickyBomb extends BrutalityAbstractPhysicsTrident implements Bruta
         super.onHitEntity(pResult);
 
         Entity entity = pResult.getEntity();
-        if (getOwner() instanceof Player owner && entity != owner) {
+        if (getOwner() instanceof Player owner) {
             entity.getCapability(BrutalityCapabilities.ENTITY_STICKY_BOMB_CAP).ifPresent(cap -> {
                 cap.incrementStickyBombCount(owner.getUUID(), entity.getId());
                 if (!level().isClientSide())
