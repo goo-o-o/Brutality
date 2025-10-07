@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:void_alloy"
+    },
+    "B": {
+      "item": "brutality:empty_anklet"
+    },
+    "C": {
+      "item": "terramity:chiseled_void_block"
+    }
+  },
+  "pattern": [
+    " C ",
+    "ABA",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:void_anklet"
+  },
+  "show_notification": true
+}

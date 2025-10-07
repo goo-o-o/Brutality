@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:magenta_concrete"
+    },
+    "B": {
+      "item": "brutality:empty_anklet"
+    },
+    "C": {
+      "item": "minecraft:black_concrete"
+    },
+    "D": {
+      "item": "terramity:null_scarf"
+    }
+  },
+  "pattern": [
+    " C ",
+    "ABA",
+    " D "
+  ],
+  "result": {
+    "item": "brutality:debug_anklet"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:gaianite_cluster"
+    },
+    "B": {
+      "item": "brutality:empty_anklet"
+    },
+    "C": {
+      "item": "minecraft:flowering_azalea_leaves"
+    }
+  },
+  "pattern": [
+    " C ",
+    "ABA",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:virentium_anklet"
+  },
+  "show_notification": true
+}

@@ -55,7 +55,7 @@ public class SealUtils implements IItemDecorator {
         PINK(false),
         PURPLE(false),
         RED(false),
-        TEAL(false),
+        CYAN(false),
         YELLOW(false),
         BOMB(true),
         GLASS(false),
@@ -115,7 +115,7 @@ public class SealUtils implements IItemDecorator {
                 case RED -> newModifiers.put(Attributes.MAX_HEALTH, new AttributeModifier(
                         modifierUUID, "red_seal", 3.0F, AttributeModifier.Operation.ADDITION
                 ));
-                case TEAL -> newModifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(
+                case CYAN -> newModifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(
                         modifierUUID, "teal_seal", 3.0F, AttributeModifier.Operation.ADDITION
                 ));
                 case YELLOW -> newModifiers.put(Attributes.ATTACK_SPEED, new AttributeModifier(

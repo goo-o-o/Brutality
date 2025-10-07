@@ -1,7 +1,10 @@
 {
   "item.brutality.high_frequency_alloy": "High-Frequency Alloy",
+  "item.brutality.quantite_ingot": "Quantite Ingot",
   "item.brutality.unbridled_rage": "Unbridled Rage",
   "item.brutality.pocket_black_hole": "Pocket Black Hole",
+  "item.brutality.blue_slime_ball": "Blue Slimeball",
+  "item.brutality.pink_slime_ball": "Pink Slimeball",
 
   "item.brutality.cinder_block": "Cinder Block",
   "item.brutality.beach_ball": "Beach Ball",
@@ -885,6 +888,7 @@
   "item.brutality.anklet_of_the_imprisoned.passive.1": "§e -Gain 15%§r 💥§9 Critical Chance§e and §r 🧨§9 Critical Damage§e per missing§r ❤§9 Heart",
   "item.brutality.anklet_of_the_imprisoned.passive.2": "§e -Take 1 Damage per second",
 
+  "item.brutality.empty_anklet": "Empty Anklet",
   "item.brutality.davys_anklet": "Davy's Anklet",
   "item.brutality.davys_anklet.on_successful_dodge.1": "§e -Inflicts §fVulnerability§e for 10 seconds on the Attacker",
 
@@ -992,8 +996,8 @@
   "item.brutality.red_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r ❤§9 Health",
   "item.brutality.yellow_seal": "Yellow Seal",
   "item.brutality.yellow_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r ‼§9 Attack Speed",
-  "item.brutality.teal_seal": "Teal Seal",
-  "item.brutality.teal_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r ❗§9 Attack Damage",
+  "item.brutality.cyan_seal": "Cyan Seal",
+  "item.brutality.cyan_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r ❗§9 Attack Damage",
   "item.brutality.bomb_seal": "Bomb Seal",
   "item.brutality.bomb_seal.passive.1": "§e -Attach it onto an Item using an anvil to make it Explosive",
   "brutality.bomb_seal": "§2 Bomb Sealed§r 💣",
@@ -1321,14 +1325,14 @@
   "entity.brutality.spectral_maw": "Spectral Maw",
   "entity.brutality.star": "Star",
   "entity.brutality.terra_beam": "Terra Beam",
-  "entity.brutality.thrown_biomech_reactor": "Thrown Biomechanical Reactor",
-  "entity.brutality.thrown_styrofoam_cup": "Thrown Styrofoam Cup",
-  "entity.brutality.thrown_cabbage": "Thrown Cabbage",
-  "entity.brutality.thrown_depth_crusher": "Thrown Depth Crusher",
-  "entity.brutality.thrown_gungnir": "Thrown Gungnir",
-  "entity.brutality.thrown_knife": "Thrown Knife",
-  "entity.brutality.thrown_thunderbolt": "Thrown Thunderbolt",
-  "entity.brutality.thrown_wintermelon": "Thrown Wintermelon",
+  "entity.brutality.biomech_reactor": "Thrown Biomechanical Reactor",
+  "entity.brutality.styrofoam_cup": "Thrown Styrofoam Cup",
+  "entity.brutality.cabbage": "Thrown Cabbage",
+  "entity.brutality.depth_crusher": "Thrown Depth Crusher",
+  "entity.brutality.gungnir": "Thrown Gungnir",
+  "entity.brutality.knife": "Thrown Knife",
+  "entity.brutality.thunderbolt": "Thrown Thunderbolt",
+  "entity.brutality.wintermelon": "Thrown Wintermelon",
 
 
   "death.attack.dematerialize": "%1$s was dematerialized",

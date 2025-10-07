@@ -3,25 +3,25 @@
   "category": "equipment",
   "key": {
     "A": {
-      "item": "minecraft:honeycomb"
+      "item": "terramity:stone_tiles"
     },
     "B": {
-      "item": "minecraft:cyan_dye"
+      "item": "brutality:empty_anklet"
     },
     "C": {
-      "item": "terramity:occult_fabric"
+      "item": "terramity:dimlite_nugget"
     },
     "D": {
-      "item": "minecraft:gray_dye"
+      "item": "terramity:energized_core"
     }
   },
   "pattern": [
     " A ",
-    "BCB",
-    " D "
+    "ABA",
+    "CDC"
   ],
   "result": {
-    "item": "brutality:teal_seal"
+    "item": "brutality:trial_anklet"
   },
   "show_notification": true
 }

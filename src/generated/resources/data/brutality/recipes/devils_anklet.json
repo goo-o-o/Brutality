@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:chthonic_crystal"
+    },
+    "B": {
+      "item": "brutality:empty_anklet"
+    },
+    "C": {
+      "item": "terramity:anxiety_amulet"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:devils_anklet"
+  },
+  "show_notification": true
+}

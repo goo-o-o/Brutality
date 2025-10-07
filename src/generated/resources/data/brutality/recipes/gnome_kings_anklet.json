@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:gobs_gilded_hat_helmet"
+    },
+    "B": {
+      "item": "terramity:belt_of_the_gnome_king"
+    },
+    "C": {
+      "item": "terramity:gobs_claymore"
+    },
+    "D": {
+      "item": "minecraft:cyan_carpet"
+    }
+  },
+  "pattern": [
+    " A ",
+    "DBD",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:gnome_kings_anklet"
+  },
+  "show_notification": true
+}

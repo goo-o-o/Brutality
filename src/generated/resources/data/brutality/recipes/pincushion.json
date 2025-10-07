@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "brutality:daemonium_sewing_kit"
+    },
+    "B": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "pattern": [
+    "   ",
+    " A ",
+    " B "
+  ],
+  "result": {
+    "item": "brutality:pincushion"
+  },
+  "show_notification": true
+}

@@ -5,12 +5,18 @@ import net.goo.brutality.registry.BrutalityModItems;
 import net.mcreator.terramity.init.TerramityModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.PartialNBTIngredient;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -1553,14 +1559,13 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('C', TerramityModItems.OCCULT_FABRIC.get())
                 .unlockedBy("has_occult_fabric", has(TerramityModItems.OCCULT_FABRIC.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.TEAL_SEAL.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.CYAN_SEAL.get())
                 .pattern(" A ")
                 .pattern("BCB")
-                .pattern(" D ")
+                .pattern(" B ")
                 .define('A', Items.HONEYCOMB)
                 .define('B', Items.CYAN_DYE)
                 .define('C', TerramityModItems.OCCULT_FABRIC.get())
-                .define('D', Items.GRAY_DYE)
                 .unlockedBy("has_occult_fabric", has(TerramityModItems.OCCULT_FABRIC.get()))
                 .save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.YELLOW_SEAL.get())
@@ -1645,9 +1650,737 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('D', TerramityModItems.PRISMATIC_JEWEL.get())
                 .unlockedBy("has_broken_clock", has(BrutalityModItems.BROKEN_CLOCK.get()))
                 .save(consumer);
-        
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.SUNDERED_CLOCK.get())
+                .pattern("ABA")
+                .pattern("CDC")
+                .pattern("CEC")
+                .define('A', TerramityModItems.HELLSPEC_ALLOY.get())
+                .define('B', BrutalityModItems.RAMPAGE_CLOCK.get())
+                .define('C', Items.LAPIS_BLOCK) // TODO: Replace with Cobalt in 1.0
+                .define('D', BrutalityModItems.SHATTERED_CLOCK.get())
+                .define('E', TerramityModItems.ICEBRAND.get())
+                .unlockedBy("has_shattered_clock", has(BrutalityModItems.SHATTERED_CLOCK.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.THE_CLOCK_OF_FROZEN_TIME.get()) // TODO: Replace with 1.0 Materials
+                .pattern("ABC")
+                .pattern("DEF")
+                .pattern("CBA")
+                .define('A', TerramityModItems.REVERIUM_BLOCK.get())
+                .define('B', TerramityModItems.EXODIUM_BLOCK.get())
+                .define('C', TerramityModItems.NYXIUM_BLOCK.get())
+                .define('D', TerramityModItems.STYGIAN_BLOOD_BUCKET.get())
+                .define('E', BrutalityModItems.TIMEKEEPERS_CLOCK.get())
+                .define('F', BrutalityModItems.FORBIDDEN_ORB.get())
+                .unlockedBy("has_timekeepers_clock", has(BrutalityModItems.TIMEKEEPERS_CLOCK.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.TIMEKEEPERS_CLOCK.get())
+                .pattern("ABA")
+                .pattern("BCB")
+                .pattern("ADA")
+                .define('A', TerramityModItems.REVERIUM.get())
+                .define('B', TerramityModItems.ANTIPRISM.get())
+                .define('C', BrutalityModItems.SUNDERED_CLOCK.get())
+                .define('D', TerramityModItems.GOLD_MEDAL.get())
+                .unlockedBy("has_sundered_clock", has(BrutalityModItems.SUNDERED_CLOCK.get()))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, BrutalityModItems.EMPTY_ANKLET.get())
+                .requires(TerramityModItems.EMPTY_RING.get())
+                .unlockedBy("has_empty_ring", has(TerramityModItems.EMPTY_RING.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.ANKLE_MONITOR.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern("CDE")
+                .define('A', Items.BLACK_CONCRETE)
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', Items.REDSTONE)
+                .define('D', TerramityModItems.BALL_N_CHAIN.get())
+                .define('E', BrutalityModItems.SCIENTIFIC_CALCULATOR.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.ANKLENT.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', TerramityModItems.BLANK_VOID.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.ANKLET_OF_THE_IMPRISONED.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" C ")
+                .define('A', TerramityModItems.HELLSPEC_ALLOY.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', TerramityModItems.SWORD_OF_THE_IMPRISONED.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.BASKETBALL_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" C ")
+                .define('A', Items.LEATHER)
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', Items.SLIME_BALL)
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.BLOOD_CLOT_ANKLET.get())
+                .pattern("ABA")
+                .pattern("BCB")
+                .pattern("ABA")
+                .define('A', TerramityModItems.CHTHONIC_CRYSTAL.get())
+                .define('B', BrutalityModItems.UNBRIDLED_RAGE.get())
+                .define('C', BrutalityModItems.EMPTY_ANKLET.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.CONDUCTITE_ANKLET.get())
+                .pattern(" AC")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', TerramityModItems.CONDUCTITE.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', TerramityModItems.CIRCUIT_BOARD.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.COSMIC_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" C ")
+                .define('A', TerramityModItems.RAW_COSMILITE.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', Items.GOLD_BLOCK)
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.DAVYS_ANKLET.get())
+                .pattern("CA ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', Items.KELP)
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', TerramityModItems.DECAYED_BEDROCK_DUST.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.DEBUG_ANKLET.get())
+                .pattern(" C ")
+                .pattern("ABA")
+                .pattern(" D ")
+                .define('C', Items.BLACK_CONCRETE)
+                .define('A', Items.MAGENTA_CONCRETE)
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('D', TerramityModItems.NULL_SCARF.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.DEVILS_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" C ")
+                .define('A', TerramityModItems.CHTHONIC_CRYSTAL.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', TerramityModItems.ANXIETY_AMULET.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.EMERALD_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', Items.EMERALD)
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.EXODIUM_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', TerramityModItems.EXODIUM_SUPERALLOY.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.FIERY_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" C ")
+                .define('A', TerramityModItems.ARTIFICIAL_LAVA_DISPLAY.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', TerramityModItems.POT_OF_HOT_COALS.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.GLADIATORS_ANKLET.get())
+                .pattern(" A ")
+                .pattern("CBC")
+                .pattern(" D ")
+                .define('A', Items.GOLD_INGOT)
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', Items.COPPER_INGOT)
+                .define('D', Items.ENCHANTED_GOLDEN_APPLE)
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.GNOME_KINGS_ANKLET.get())
+                .pattern(" A ")
+                .pattern("DBD")
+                .pattern(" C ")
+                .define('A', TerramityModItems.GOBS_GILDED_HAT_HELMET.get())
+                .define('B', TerramityModItems.BELT_OF_THE_GNOME_KING.get())
+                .define('C', TerramityModItems.GOBS_CLAYMORE.get())
+                .define('D', Items.CYAN_CARPET)
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.GUNDALFS_ANKLET.get())
+                .pattern(" C ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', TerramityModItems.OCCULT_FABRIC.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', TerramityModItems.GUNDALFS_HAT_HELMET.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.IRONCLAD_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" C ")
+                .define('A', TerramityModItems.IRIDIUM_CHUNK.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', Items.NETHERITE_INGOT)
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.NYXIUM_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', TerramityModItems.NYXIUM.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.ONYX_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', TerramityModItems.ONYX.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.RUBY_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', TerramityModItems.RUBY.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.SAPPHIRE_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', TerramityModItems.SAPPHIRE.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.TOPAZ_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', TerramityModItems.TOPAZ.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.REDSTONE_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" C ")
+                .define('A', Items.REDSTONE)
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', TerramityModItems.SHARPENING_STONE.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, BrutalityModItems.SACRED_SPEED_ANKLET.get())
+                .requires(TerramityModItems.SACRED_SPEED_BRACELETS.get())
+                .requires(BrutalityModItems.EMPTY_ANKLET.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+
+        CompoundTag enchantment = EnchantmentHelper.storeEnchantment(ResourceLocation.parse("sharpness"), 1);
+        enchantment.remove("lvl");
+
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.SHARPNESS_ANKLET.get())
+                .pattern(" A ")
+                .pattern("CBC")
+                .pattern("DAD")
+                .define('A', createSharpnessBookIngredient())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', Items.IRON_INGOT)
+                .define('D', Items.GOLD_INGOT)
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.SUPER_DODGE_ANKLET.get())
+                .pattern(" D ")
+                .pattern("ABA")
+                .pattern(" C ")
+                .define('A', Items.TORCHFLOWER)
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', TerramityModItems.GIANT_SNIFFERS_HOOF.get())
+                .define('D', TerramityModItems.SUPER_SNIFFERS_PELT.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.TRIAL_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern("CDC")
+                .define('A', TerramityModItems.STONE_TILES.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', TerramityModItems.DIMLITE_NUGGET.get())
+                .define('D', TerramityModItems.ENERGIZED_CORE.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.ULTRA_DODGE_ANKLET.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" C ")
+                .define('A', Items.DIAMOND_BLOCK)
+                .define('B', TerramityModItems.DRAGON_BAND.get())
+                .define('C', TerramityModItems.ULTRA_SNIFFER_FUR.get())
+                .unlockedBy("has_dragon_band", has(TerramityModItems.DRAGON_BAND.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.VIRENTIUM_ANKLET.get())
+                .pattern(" C ")
+                .pattern("ABA")
+                .pattern(" C ")
+                .define('A', TerramityModItems.GAIANITE_CLUSTER.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', Items.FLOWERING_AZALEA_LEAVES)
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.VOID_ANKLET.get())
+                .pattern(" C ")
+                .pattern("ABA")
+                .pattern(" C ")
+                .define('A', TerramityModItems.VOID_ALLOY.get())
+                .define('B', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('C', TerramityModItems.CHISELED_VOID_BLOCK.get())
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.WINDSWEPT_ANKLET.get())
+                .pattern("ABA")
+                .pattern("BCB")
+                .pattern("ABA")
+                .define('A', Items.BLAZE_POWDER)
+                .define('C', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('B', Items.WATER_BUCKET)
+                .unlockedBy("has_empty_anklet", has(BrutalityModItems.EMPTY_ANKLET.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.SAPPHIRE_PHASESABER.get())
+                .pattern(" A ")
+                .pattern(" A ")
+                .pattern(" B ")
+                .define('A', TerramityModItems.SAPPHIRE_BLOCK.get())
+                .define('B', Items.STICK)
+                .unlockedBy("has_sapphire", has(TerramityModItems.SAPPHIRE.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.TOPAZ_PHASESABER.get())
+                .pattern(" A ")
+                .pattern(" A ")
+                .pattern(" B ")
+                .define('A', TerramityModItems.TOPAZ_BLOCK.get())
+                .define('B', Items.STICK)
+                .unlockedBy("has_topaz", has(TerramityModItems.TOPAZ.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.RUBY_PHASESABER.get())
+                .pattern(" A ")
+                .pattern(" A ")
+                .pattern(" B ")
+                .define('A', TerramityModItems.RUBY_BLOCK.get())
+                .define('B', Items.STICK)
+                .unlockedBy("has_ruby", has(TerramityModItems.RUBY.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.ONYX_PHASESABER.get())
+                .pattern(" A ")
+                .pattern(" A ")
+                .pattern(" B ")
+                .define('A', TerramityModItems.ONYX_BLOCK.get())
+                .define('B', Items.STICK)
+                .unlockedBy("has_onyx", has(TerramityModItems.ONYX.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.VAMPIRE_KNIVES.get())
+                .pattern("CAA")
+                .pattern("CBA")
+                .pattern("CCC")
+                .define('A', BrutalityModItems.IRON_KNIFE.get())
+                .define('B', TerramityModItems.CHTHONIC_NECTAR.get())
+                .define('C', TerramityModItems.CHTHONIC_CRYSTAL.get())
+                .unlockedBy("has_chthonic_nectar", has(TerramityModItems.CHTHONIC_NECTAR.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.DYNAMITE.get())
+                .pattern("  A")
+                .pattern(" B ")
+                .pattern("C  ")
+                .define('A', Items.STRING)
+                .define('B', Items.PAPER)
+                .define('C', Items.TNT)
+                .unlockedBy("has_tnt", has(Items.TNT))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, BrutalityModItems.STICKY_DYNAMITE.get())
+                .requires(BrutalityModItems.BLUE_SLIME_BALL.get(), 8)
+                .requires(BrutalityModItems.DYNAMITE.get())
+                .unlockedBy("has_blue_slime_ball", has(BrutalityModItems.BLUE_SLIME_BALL.get()))
+                .save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, BrutalityModItems.BOUNCY_DYNAMITE.get())
+                .requires(BrutalityModItems.PINK_SLIME_BALL.get(), 8)
+                .requires(BrutalityModItems.DYNAMITE.get())
+                .unlockedBy("has_pink_slime_ball", has(BrutalityModItems.PINK_SLIME_BALL.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.HOLY_HAND_GRENADE.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', TerramityModItems.REVERIUM.get())
+                .define('B', Items.TNT)
+                .unlockedBy("has_tnt", has(Items.TNT))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.OVERCLOCKED_TOASTER.get())
+                .pattern(" T ")
+                .pattern("CBD")
+                .pattern("AAA")
+                .define('A', Items.IRON_BLOCK)
+                .define('B', Items.BREAD)
+                .define('C', Items.LEVER)
+                .define('D', TerramityModItems.CIRCUIT_BOARD.get())
+                .define('T', Items.IRON_TRAPDOOR)
+                .unlockedBy("has_circuit_board", has(TerramityModItems.CIRCUIT_BOARD.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.ICE_CUBE.get()) // TODO: Make Intermediary version for Permafrost cube
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', Items.ICE)
+                .define('B', TerramityModItems.SAPPHIRE_BLOCK.get())
+                .unlockedBy("has_sapphire", has(TerramityModItems.SAPPHIRE.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.PERMAFROST_CUBE.get()) // TODO: Make Intermediary version for Permafrost cube
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', Items.BLUE_ICE)
+                .define('B', BrutalityModItems.ICE_CUBE.get())
+                .unlockedBy("has_ice_cube", has(BrutalityModItems.ICE_CUBE.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.WINTER_MELON.get())
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', Items.PACKED_ICE)
+                .define('B', Items.MELON)
+                .unlockedBy("has_packed_ice", has(Items.PACKED_ICE))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.GOLDEN_PHOENIX.get())
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', TerramityModItems.SPIKES.get())
+                .define('B', Items.MELON)
+                .unlockedBy("has_spikes", has(TerramityModItems.SPIKES.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.STICK_OF_BUTTER.get())
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', Items.HONEYCOMB)
+                .define('B', Items.GOLD_INGOT)
+                .unlockedBy("has_honeycomb", has(Items.HONEYCOMB))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.CAVENDISH.get())
+                .pattern("CCA")
+                .pattern("CBC")
+                .pattern("CCC")
+                .define('A', Items.GOLDEN_PICKAXE)
+                .define('B', Items.SHEARS)
+                .define('C', TerramityModItems.TOPAZ.get())
+                .unlockedBy("has_topaz", has(TerramityModItems.TOPAZ.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.CANNONBALL_CABBAGE.get())
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', ItemTags.LEAVES)
+                .define('B', TerramityModItems.BALL_N_CHAIN.get())
+                .unlockedBy("has_ball_and_chain", has(TerramityModItems.BALL_N_CHAIN.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.CRIMSON_DELIGHT.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', TerramityModItems.RUBY.get())
+                .define('B', Items.APPLE)
+                .unlockedBy("has_ruby", has(TerramityModItems.RUBY.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.ABSOLUTE_ZERO.get())
+                .pattern("CAC")
+                .pattern("ABA")
+                .pattern("CAC")
+                .define('A', Items.BLUE_ICE)
+                .define('B', Items.GLASS_BOTTLE)
+                .define('C', TerramityModItems.SAPPHIRE.get())
+                .unlockedBy("has_sapphire", has(TerramityModItems.SAPPHIRE.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.PERFUME_BOTTLE.get())
+                .pattern("CAC")
+                .pattern("ABA")
+                .pattern("CAC")
+                .define('A', Items.POPPY)
+                .define('B', Items.GLASS_BOTTLE)
+                .define('C', TerramityModItems.RUBY.get())
+                .unlockedBy("has_rubby", has(TerramityModItems.RUBY.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.DECK_OF_FATE.get())
+                .pattern("AGB")
+                .pattern("FCF")
+                .pattern("DGE")
+                .define('A', TerramityModItems.SAPPHIRE.get())
+                .define('B', TerramityModItems.RUBY.get())
+                .define('C', TerramityModItems.TOPAZ.get())
+                .define('D', TerramityModItems.ONYX.get())
+                .define('E', TerramityModItems.GAIANITE_CLUSTER.get())
+                .define('F', TerramityModItems.CARDBOARD.get())
+                .define('G', TerramityModItems.DAEMONIUM_CHUNK.get())
+                .unlockedBy("has_cardboard", has(TerramityModItems.CARDBOARD.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.BLAST_BARREL.get())
+                .pattern("DAD")
+                .pattern("DBD")
+                .pattern("DCD")
+                .define('A', Items.NETHERITE_SCRAP)
+                .define('B', Items.TNT)
+                .define('C', Items.BARREL)
+                .define('D', TerramityModItems.DAEMONIUM_CHUNK.get())
+                .unlockedBy("has_netherite_scrap", has(Items.NETHERITE_SCRAP))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.BEACH_BALL.get())
+                .pattern("AD ")
+                .pattern("DBD")
+                .pattern(" DC")
+                .define('A', Items.LIGHT_BLUE_DYE)
+                .define('B', Items.ORANGE_DYE)
+                .define('C', Items.PINK_DYE)
+                .define('D', Items.WHITE_WOOL)
+                .unlockedBy("has_white_wool", has(Items.WHITE_WOOL))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.STICKY_BOMB.get())
+                .pattern(" A ")
+                .pattern("BDB")
+                .pattern("ECE")
+                .define('A', Items.REDSTONE_TORCH)
+                .define('B', TerramityModItems.CIRCUIT_BOARD.get())
+                .define('C', BrutalityModItems.BLUE_SLIME_BALL.get())
+                .define('D', Items.TNT)
+                .define('E', Items.CLAY_BALL)
+                .unlockedBy("has_circuit_board", has(TerramityModItems.CIRCUIT_BOARD.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.SCULK_GRENADE.get())
+                .pattern(" C ")
+                .pattern("BAB")
+                .pattern(" C ")
+                .define('A', TerramityModItems.THROWING_BOMB.get())
+                .define('B', TerramityModItems.DIMLITE_INGOT.get())
+                .define('C', Items.ECHO_SHARD)
+                .unlockedBy("has_dimlite_ingot", has(TerramityModItems.DIMLITE_INGOT.get()))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, BrutalityModItems.CINDER_BLOCK.get())
+                .requires(Items.STONE)
+                .requires(Items.SMOOTH_STONE)
+                .requires(Items.ANDESITE)
+                .requires(Items.POLISHED_ANDESITE)
+                .requires(Items.CLAY_BALL)
+                .requires(Items.LIGHT_GRAY_CONCRETE_POWDER)
+                .unlockedBy("has_stone", has(Items.STONE))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.DECK_OF_CARDS.get())
+                .pattern(" A ")
+                .pattern("BAB")
+                .pattern(" A ")
+                .define('A', TerramityModItems.CARDBOARD.get())
+                .define('B', TerramityModItems.VOID_ALLOY.get())
+                .unlockedBy("has_void_alloy", has(TerramityModItems.VOID_ALLOY.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.DAEMONIUM_WHETSTONE.get())
+                .pattern(" C ")
+                .pattern("CAC")
+                .pattern(" C ")
+                .define('A', TerramityModItems.SHARPENING_STONE.get())
+                .define('C', TerramityModItems.DAEMONIUM_CHUNK.get())
+                .unlockedBy("has_sharpening_stone", has(TerramityModItems.SHARPENING_STONE.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.KNIGHTS_PENDANT.get())
+                .pattern(" B ")
+                .pattern("BAB")
+                .pattern(" B ")
+                .define('A', TerramityModItems.DIAMOND_PENDANT.get())
+                .define('B', Items.IRON_SWORD)
+                .unlockedBy("has_diamond_pendant", has(TerramityModItems.DIAMOND_PENDANT.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.THE_OATH.get())
+                .pattern(" B ")
+                .pattern("BAB")
+                .pattern(" B ")
+                .define('A', TerramityModItems.TERRAMITY_GUIDEBOOK_ICON.get())
+                .define('B', TerramityModItems.REVERIUM.get())
+                .unlockedBy("has_reverium_ingot", has(TerramityModItems.REVERIUM.get()))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, BrutalityModItems.LUCKY_INSOLES.get())
+                .requires(TerramityModItems.LUCKY_DICE.get(), 2)
+                .requires(Tags.Items.ARMORS_BOOTS)
+                .unlockedBy("has_lucky_dice", has(TerramityModItems.LUCKY_DICE.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.OLD_GUILLOTINE.get())
+                .pattern(" A ")
+                .pattern(" A ")
+                .pattern(" B ")
+                .define('A', Items.NETHERITE_SCRAP)
+                .define('B', Items.IRON_INGOT)
+                .unlockedBy("has_netherite_scrap", has(Items.NETHERITE_SCRAP))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, BrutalityModItems.GAMBLERS_CHAIN.get())
+                .requires(Items.RABBIT_FOOT, 2)
+                .requires(TerramityModItems.LUCKY_DICE.get())
+                .unlockedBy("has_lucky_dice", has(TerramityModItems.LUCKY_DICE.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.DAEMONIUM_SEWING_KIT.get())
+                .pattern("A A")
+                .pattern("B B")
+                .pattern("B B")
+                .define('A', Items.IRON_NUGGET)
+                .define('B', TerramityModItems.DAEMONIUM_CHUNK.get())
+                .unlockedBy("has_daemonium_chunk", has(TerramityModItems.DAEMONIUM_CHUNK.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.PINCUSHION.get())
+                .pattern("   ")
+                .pattern(" A ")
+                .pattern(" B ")
+                .define('A', BrutalityModItems.DAEMONIUM_SEWING_KIT.get())
+                .define('B', ItemTags.WOOL)
+                .unlockedBy("has_daemonium_sewing_kit", has(BrutalityModItems.DAEMONIUM_SEWING_KIT.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.SOLDIERS_SYRINGE.get())
+                .pattern("ECD")
+                .pattern("EAC")
+                .pattern("BEE")
+                .define('A', Items.GLASS_PANE)
+                .define('B', Items.IRON_BARS)
+                .define('C', TerramityModItems.DAEMONIUM_CHUNK.get())
+                .define('D', TerramityModItems.DAEMONIUM.get())
+                .define('E', Items.SUGAR)
+                .unlockedBy("has_daemonium", has(TerramityModItems.DAEMONIUM.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.TARGET_CUBE.get())
+                .pattern(" B ")
+                .pattern("BAB")
+                .pattern(" B ")
+                .define('A', TerramityModItems.LUCKY_DICE.get())
+                .define('B', Items.TARGET)
+                .unlockedBy("has_lucky_dice", has(TerramityModItems.LUCKY_DICE.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.ENERGY_FOCUSER.get())
+                .pattern(" C ")
+                .pattern("BAB")
+                .pattern(" C ")
+                .define('A', TerramityModItems.DAEMONIUM_CHUNK.get())
+                .define('B', Items.LAPIS_LAZULI)
+                .define('C', Items.GOLD_INGOT)
+                .unlockedBy("has_daemonium_chunk", has(TerramityModItems.DAEMONIUM_CHUNK.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.CRITICAL_THINKING.get())
+                .pattern(" B ")
+                .pattern("BAB")
+                .pattern(" B ")
+                .define('A', Items.GLASS_BOTTLE)
+                .define('B', TerramityModItems.CHTHONIC_CRYSTAL.get())
+                .unlockedBy("has_chthonic_crystal", has(TerramityModItems.CHTHONIC_CRYSTAL.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.DEADSHOT_BROOCH.get())
+                .pattern("CBC")
+                .pattern("BAB")
+                .pattern("CBC")
+                .define('A', TerramityModItems.EYEPATCH.get())
+                .define('B', Items.GOLD_INGOT)
+                .define('C', TerramityModItems.DAEMONIUM_CHUNK.get())
+                .unlockedBy("has_daemoniun_chunk", has(TerramityModItems.DAEMONIUM_CHUNK.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.VINDICATOR_STEROIDS.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', Items.EMERALD)
+                .define('B', TerramityModItems.MORPHINE_PILLS.get())
+                .unlockedBy("has_morphine_pills", has(TerramityModItems.MORPHINE_PILLS.get()))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, BrutalityModItems.BLUE_SLIME_BALL.get())
+                .requires(Tags.Items.SLIMEBALLS)
+                .requires(Items.BLUE_DYE)
+                .unlockedBy("has_slimeballs", has(Items.SLIME_BALL))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, BrutalityModItems.PINK_SLIME_BALL.get())
+                .requires(Tags.Items.SLIMEBALLS)
+                .requires(Items.PINK_DYE)
+                .unlockedBy("has_slimeballs", has(Items.SLIME_BALL))
+                .save(consumer);
+
     }
 
+    private static Ingredient createSharpnessBookIngredient() {
+        CompoundTag enchantment = EnchantmentHelper.storeEnchantment(ResourceLocation.parse("sharpness"), 1);
+        enchantment.remove("lvl");
+        ListTag storedEnchantments = new ListTag();
+        storedEnchantments.add(enchantment);
+        CompoundTag nbt = new CompoundTag();
+        nbt.put("StoredEnchantments", storedEnchantments);
+
+        return PartialNBTIngredient.of(Items.ENCHANTED_BOOK, nbt);
+    }
 
     protected static void oreSmelting(Consumer<FinishedRecipe> pFinishedRecipeConsumer, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTIme, String pGroup) {
         oreCooking(pFinishedRecipeConsumer, RecipeSerializer.SMELTING_RECIPE, pIngredients, pCategory, pResult, pExperience, pCookingTIme, pGroup, "_from_smelting");

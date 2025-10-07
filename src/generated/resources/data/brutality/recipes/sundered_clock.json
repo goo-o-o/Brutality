@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:hellspec_alloy"
+    },
+    "B": {
+      "item": "brutality:rampage_clock"
+    },
+    "C": {
+      "item": "minecraft:lapis_block"
+    },
+    "D": {
+      "item": "brutality:shattered_clock"
+    },
+    "E": {
+      "item": "terramity:icebrand"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "CDC",
+    "CEC"
+  ],
+  "result": {
+    "item": "brutality:sundered_clock"
+  },
+  "show_notification": true
+}

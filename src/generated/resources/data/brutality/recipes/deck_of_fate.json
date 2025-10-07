@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "terramity:sapphire"
+    },
+    "B": {
+      "item": "terramity:ruby"
+    },
+    "C": {
+      "item": "terramity:topaz"
+    },
+    "D": {
+      "item": "terramity:onyx"
+    },
+    "E": {
+      "item": "terramity:gaianite_cluster"
+    },
+    "F": {
+      "item": "terramity:cardboard"
+    },
+    "G": {
+      "item": "terramity:daemonium_chunk"
+    }
+  },
+  "pattern": [
+    "AGB",
+    "FCF",
+    "DGE"
+  ],
+  "result": {
+    "item": "brutality:deck_of_fate"
+  },
+  "show_notification": true
+}

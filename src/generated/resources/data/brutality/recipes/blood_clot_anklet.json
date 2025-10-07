@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:chthonic_crystal"
+    },
+    "B": {
+      "item": "brutality:unbridled_rage"
+    },
+    "C": {
+      "item": "brutality:empty_anklet"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "result": {
+    "item": "brutality:blood_clot_anklet"
+  },
+  "show_notification": true
+}

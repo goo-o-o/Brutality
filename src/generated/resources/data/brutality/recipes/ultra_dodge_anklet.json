@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:diamond_block"
+    },
+    "B": {
+      "item": "terramity:dragon_band"
+    },
+    "C": {
+      "item": "terramity:ultra_sniffer_fur"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:ultra_dodge_anklet"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "terramity:spikes"
+    },
+    "B": {
+      "item": "minecraft:melon"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "item": "brutality:golden_phoenix"
+  },
+  "show_notification": true
+}

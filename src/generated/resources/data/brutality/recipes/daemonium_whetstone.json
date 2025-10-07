@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "terramity:sharpening_stone"
+    },
+    "C": {
+      "item": "terramity:daemonium_chunk"
+    }
+  },
+  "pattern": [
+    " C ",
+    "CAC",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:daemonium_whetstone"
+  },
+  "show_notification": true
+}

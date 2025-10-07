@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:gold_ingot"
+    },
+    "B": {
+      "item": "brutality:empty_anklet"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "D": {
+      "item": "minecraft:enchanted_golden_apple"
+    }
+  },
+  "pattern": [
+    " A ",
+    "CBC",
+    " D "
+  ],
+  "result": {
+    "item": "brutality:gladiators_anklet"
+  },
+  "show_notification": true
+}

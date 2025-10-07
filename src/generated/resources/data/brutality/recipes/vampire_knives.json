@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "brutality:iron_knife"
+    },
+    "B": {
+      "item": "terramity:chthonic_nectar"
+    },
+    "C": {
+      "item": "terramity:chthonic_crystal"
+    }
+  },
+  "pattern": [
+    "CAA",
+    "CBA",
+    "CCC"
+  ],
+  "result": {
+    "item": "brutality:vampire_knives"
+  },
+  "show_notification": true
+}

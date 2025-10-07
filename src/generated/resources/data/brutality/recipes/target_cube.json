@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "terramity:lucky_dice"
+    },
+    "B": {
+      "item": "minecraft:target"
+    }
+  },
+  "pattern": [
+    " B ",
+    "BAB",
+    " B "
+  ],
+  "result": {
+    "item": "brutality:target_cube"
+  },
+  "show_notification": true
+}

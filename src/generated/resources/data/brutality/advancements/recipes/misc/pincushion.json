@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_daemonium_sewing_kit": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "brutality:daemonium_sewing_kit"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brutality:pincushion"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_daemonium_sewing_kit",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brutality:pincushion"
+    ]
+  },
+  "sends_telemetry_event": false
+}

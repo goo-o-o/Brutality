@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:artificial_lava_display"
+    },
+    "B": {
+      "item": "brutality:empty_anklet"
+    },
+    "C": {
+      "item": "terramity:pot_of_hot_coals"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:fiery_anklet"
+  },
+  "show_notification": true
+}

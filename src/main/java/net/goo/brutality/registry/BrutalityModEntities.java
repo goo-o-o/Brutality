@@ -215,10 +215,10 @@ public class BrutalityModEntities {
                             .build("biomech_reactor"));
 
     public static final RegistryObject<EntityType<DepthCrusher>> DEPTH_CRUSHER =
-            ENTITY_TYPES.register("thrown_depth_crusher",
+            ENTITY_TYPES.register("depth_crusher",
                     () -> EntityType.Builder.of((EntityType<DepthCrusher> entityType, Level level) -> new DepthCrusher(entityType, level), MobCategory.MISC)
                             .sized(1, 2F)
-                            .build("thrown_depth_crusher"));
+                            .build("depth_crusher"));
 
 
     public static final RegistryObject<EntityType<CruelSunEntity>> CRUEL_SUN_ENTITY =

@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "brutality:pink_slime_ball"
+    },
+    {
+      "item": "brutality:pink_slime_ball"
+    },
+    {
+      "item": "brutality:pink_slime_ball"
+    },
+    {
+      "item": "brutality:pink_slime_ball"
+    },
+    {
+      "item": "brutality:pink_slime_ball"
+    },
+    {
+      "item": "brutality:pink_slime_ball"
+    },
+    {
+      "item": "brutality:pink_slime_ball"
+    },
+    {
+      "item": "brutality:pink_slime_ball"
+    },
+    {
+      "item": "brutality:dynamite"
+    }
+  ],
+  "result": {
+    "item": "brutality:bouncy_dynamite"
+  }
+}

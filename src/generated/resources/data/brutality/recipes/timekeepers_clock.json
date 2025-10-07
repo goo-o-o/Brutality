@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:reverium"
+    },
+    "B": {
+      "item": "terramity:antiprism"
+    },
+    "C": {
+      "item": "brutality:sundered_clock"
+    },
+    "D": {
+      "item": "terramity:gold_medal"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ADA"
+  ],
+  "result": {
+    "item": "brutality:timekeepers_clock"
+  },
+  "show_notification": true
+}

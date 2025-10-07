@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:black_concrete"
+    },
+    "B": {
+      "item": "brutality:empty_anklet"
+    },
+    "C": {
+      "item": "minecraft:redstone"
+    },
+    "D": {
+      "item": "terramity:ball_n_chain"
+    },
+    "E": {
+      "item": "brutality:scientific_calculator"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    "CDE"
+  ],
+  "result": {
+    "item": "brutality:ankle_monitor"
+  },
+  "show_notification": true
+}

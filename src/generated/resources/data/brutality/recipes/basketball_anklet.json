@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:leather"
+    },
+    "B": {
+      "item": "brutality:empty_anklet"
+    },
+    "C": {
+      "item": "minecraft:slime_ball"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:basketball_anklet"
+  },
+  "show_notification": true
+}

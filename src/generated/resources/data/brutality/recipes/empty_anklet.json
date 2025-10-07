@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "terramity:empty_ring"
+    }
+  ],
+  "result": {
+    "item": "brutality:empty_anklet"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:iron_nugget"
+    },
+    "B": {
+      "item": "terramity:daemonium_chunk"
+    }
+  },
+  "pattern": [
+    "A A",
+    "B B",
+    "B B"
+  ],
+  "result": {
+    "item": "brutality:daemonium_sewing_kit"
+  },
+  "show_notification": true
+}

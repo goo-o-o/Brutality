@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:blank_void"
+    },
+    "B": {
+      "item": "brutality:empty_anklet"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "item": "brutality:anklent"
+  },
+  "show_notification": true
+}

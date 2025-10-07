@@ -21,6 +21,8 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.POCKET_BLACK_HOLE.get());
                         output.accept(BrutalityModItems.HIGH_FREQUENCY_ALLOY.get());
                         output.accept(BrutalityModItems.QUANTITE_INGOT.get());
+                        output.accept(BrutalityModItems.BLUE_SLIME_BALL.get());
+                        output.accept(BrutalityModItems.PINK_SLIME_BALL.get());
                         output.accept(BrutalityModItems.UNBRIDLED_RAGE.get());
 
                     })
@@ -190,6 +192,7 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.BRUTAL_HEART.get());
                         output.accept(BrutalityModItems.NINJA_HEART.get());
 
+                        output.accept(BrutalityModItems.EMPTY_ANKLET.get());
                         output.accept(BrutalityModItems.DAVYS_ANKLET.get());
                         output.accept(BrutalityModItems.ANKLET_OF_THE_IMPRISONED.get());
                         output.accept(BrutalityModItems.SHARPNESS_ANKLET.get());
@@ -300,7 +303,7 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.PINK_SEAL.get());
                         output.accept(BrutalityModItems.PURPLE_SEAL.get());
                         output.accept(BrutalityModItems.RED_SEAL.get());
-                        output.accept(BrutalityModItems.TEAL_SEAL.get());
+                        output.accept(BrutalityModItems.CYAN_SEAL.get());
                         output.accept(BrutalityModItems.YELLOW_SEAL.get());
                         output.accept(BrutalityModItems.BOMB_SEAL.get());
                         output.accept(BrutalityModItems.COSMIC_SEAL.get());
@@ -378,7 +381,7 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.LAST_PRISM_ITEM.get().getDefaultInstance());
 //                        output.accept(BrutalityModItems.EXOBLADE_SWORD.get().getDefaultInstance());
 //                        output.accept(BrutalityModItems.BIOMECH_REACTOR_TRIDENT.get().getDefaultInstance());
-//                        output.accept(BrutalityModItems.DEPTH_CRUSHER_TRIDENT.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.DEPTH_CRUSHER_TRIDENT.get().getDefaultInstance());
 //                        output.accept(BrutalityModItems.MARIANAS_TRENCH.get().getDefaultInstance());
 //                        output.accept(BrutalityModItems.CHALLENGER_DEEP.get().getDefaultInstance());
 

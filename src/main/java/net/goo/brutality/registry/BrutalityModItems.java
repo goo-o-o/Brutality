@@ -16,10 +16,7 @@ import net.goo.brutality.item.curios.heart.*;
 import net.goo.brutality.item.curios.necklace.*;
 import net.goo.brutality.item.curios.ring.*;
 import net.goo.brutality.item.curios.vanity.*;
-import net.goo.brutality.item.material.HighFrequencyAlloyItem;
-import net.goo.brutality.item.material.PocketBlackHoleItem;
-import net.goo.brutality.item.material.QuantiteIngot;
-import net.goo.brutality.item.material.UnbridledRageItem;
+import net.goo.brutality.item.material.*;
 import net.goo.brutality.item.seals.*;
 import net.goo.brutality.item.weapon.axe.OldGpuAxe;
 import net.goo.brutality.item.weapon.axe.RhittaAxe;
@@ -64,6 +61,8 @@ public class BrutalityModItems {
     public static final RegistryObject<Item> HIGH_FREQUENCY_ALLOY = ITEMS.register("high_frequency_alloy", () -> new HighFrequencyAlloyItem(new Item.Properties()));
     public static final RegistryObject<Item> QUANTITE_INGOT = ITEMS.register("quantite_ingot", () -> new QuantiteIngot(new Item.Properties()));
     public static final RegistryObject<Item> UNBRIDLED_RAGE = ITEMS.register("unbridled_rage", () -> new UnbridledRageItem(new Item.Properties()));
+    public static final RegistryObject<Item> BLUE_SLIME_BALL = ITEMS.register("blue_slime_ball", () -> new BlueSlimeBall(new Item.Properties()));
+    public static final RegistryObject<Item> PINK_SLIME_BALL = ITEMS.register("pink_slime_ball", () -> new PinkSlimeBall(new Item.Properties()));
 
 
     // region BlockItems
@@ -96,7 +95,7 @@ public class BrutalityModItems {
     public static final RegistryObject<Item> PINK_SEAL = ITEMS.register("pink_seal", () -> new PinkSealItem(new Item.Properties()));
     public static final RegistryObject<Item> PURPLE_SEAL = ITEMS.register("purple_seal", () -> new PurpleSealItem(new Item.Properties()));
     public static final RegistryObject<Item> RED_SEAL = ITEMS.register("red_seal", () -> new RedSealItem(new Item.Properties()));
-    public static final RegistryObject<Item> TEAL_SEAL = ITEMS.register("teal_seal", () -> new TealSealItem(new Item.Properties()));
+    public static final RegistryObject<Item> CYAN_SEAL = ITEMS.register("cyan_seal", () -> new CyanSealItem(new Item.Properties()));
     public static final RegistryObject<Item> YELLOW_SEAL = ITEMS.register("yellow_seal", () -> new YellowSealItem(new Item.Properties()));
     public static final RegistryObject<Item> BOMB_SEAL = ITEMS.register("bomb_seal", () -> new BombSealItem(new Item.Properties()));
     public static final RegistryObject<Item> COSMIC_SEAL = ITEMS.register("cosmic_seal", () -> new CosmicSealItem(new Item.Properties()));
@@ -738,6 +737,11 @@ public class BrutalityModItems {
             Rarity.EPIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(ON_SUCCESSFUL_DODGE, 1, 100)
+            )
+    ));
+    public static final RegistryObject<Item> EMPTY_ANKLET = ITEMS.register("empty_anklet", () -> new EmptyAnklet(
+            Rarity.EPIC,
+            List.of(
             )
     ));
     public static final RegistryObject<Item> ANKLET_OF_THE_IMPRISONED = ITEMS.register("anklet_of_the_imprisoned", () -> new AnkletOfTheImprisoned(
@@ -1543,13 +1547,13 @@ public class BrutalityModItems {
                     new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
             )
     ));
-    public static final RegistryObject<Item> KNIFE_BLOCK_ITEM = ITEMS.register("knife_block", () -> new KnifeBlockItem(
-            Rarity.EPIC,
-            List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_RIGHT_CLICK, 1),
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_SHIFT_RIGHT_CLICK, 2)
-            )
-    ));
+//    public static final RegistryObject<Item> KNIFE_BLOCK_ITEM = ITEMS.register("knife_block", () -> new KnifeBlockItem(
+//            Rarity.EPIC,
+//            List.of(
+//                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_RIGHT_CLICK, 1),
+//                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_SHIFT_RIGHT_CLICK, 2)
+//            )
+//    ));
     public static final RegistryObject<Item> SPATULA_HAMMER = ITEMS.register("spatula", () -> new SpatulaHammer(
             Tiers.IRON, 2, -2.3F,
             Rarity.EPIC, List.of(

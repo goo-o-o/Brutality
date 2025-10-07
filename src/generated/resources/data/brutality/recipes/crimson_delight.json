@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "terramity:ruby"
+    },
+    "B": {
+      "item": "minecraft:apple"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "item": "brutality:crimson_delight"
+  },
+  "show_notification": true
+}

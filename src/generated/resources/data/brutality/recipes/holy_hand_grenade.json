@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "terramity:reverium"
+    },
+    "B": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "item": "brutality:holy_hand_grenade"
+  },
+  "show_notification": true
+}

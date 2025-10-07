@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:occult_fabric"
+    },
+    "B": {
+      "item": "brutality:empty_anklet"
+    },
+    "C": {
+      "item": "terramity:gundalfs_hat_helmet"
+    }
+  },
+  "pattern": [
+    " C ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "item": "brutality:gundalfs_anklet"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:conductite"
+    },
+    "B": {
+      "item": "brutality:empty_anklet"
+    },
+    "C": {
+      "item": "terramity:circuit_board"
+    }
+  },
+  "pattern": [
+    " AC",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "item": "brutality:conductite_anklet"
+  },
+  "show_notification": true
+}

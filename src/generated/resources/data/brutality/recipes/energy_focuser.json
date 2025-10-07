@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "terramity:daemonium_chunk"
+    },
+    "B": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "C": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    " C ",
+    "BAB",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:energy_focuser"
+  },
+  "show_notification": true
+}

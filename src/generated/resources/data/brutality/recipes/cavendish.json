@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:golden_pickaxe"
+    },
+    "B": {
+      "item": "minecraft:shears"
+    },
+    "C": {
+      "item": "terramity:topaz"
+    }
+  },
+  "pattern": [
+    "CCA",
+    "CBC",
+    "CCC"
+  ],
+  "result": {
+    "item": "brutality:cavendish"
+  },
+  "show_notification": true
+}

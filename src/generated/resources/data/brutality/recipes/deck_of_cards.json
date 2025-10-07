@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "terramity:cardboard"
+    },
+    "B": {
+      "item": "terramity:void_alloy"
+    }
+  },
+  "pattern": [
+    " A ",
+    "BAB",
+    " A "
+  ],
+  "result": {
+    "item": "brutality:deck_of_cards"
+  },
+  "show_notification": true
+}

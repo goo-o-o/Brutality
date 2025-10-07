@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "terramity:lucky_dice"
+    },
+    {
+      "item": "terramity:lucky_dice"
+    },
+    {
+      "tag": "forge:armors/boots"
+    }
+  ],
+  "result": {
+    "item": "brutality:lucky_insoles"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:glass_bottle"
+    },
+    "B": {
+      "item": "terramity:chthonic_crystal"
+    }
+  },
+  "pattern": [
+    " B ",
+    "BAB",
+    " B "
+  ],
+  "result": {
+    "item": "brutality:critical_thinking"
+  },
+  "show_notification": true
+}

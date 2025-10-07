@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:string"
+    },
+    "B": {
+      "item": "minecraft:paper"
+    },
+    "C": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "pattern": [
+    "  A",
+    " B ",
+    "C  "
+  ],
+  "result": {
+    "item": "brutality:dynamite"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "minecraft:leaves"
+    },
+    "B": {
+      "item": "terramity:ball_n_chain"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "item": "brutality:cannonball_cabbage"
+  },
+  "show_notification": true
+}

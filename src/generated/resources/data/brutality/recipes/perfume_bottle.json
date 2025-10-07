@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:poppy"
+    },
+    "B": {
+      "item": "minecraft:glass_bottle"
+    },
+    "C": {
+      "item": "terramity:ruby"
+    }
+  },
+  "pattern": [
+    "CAC",
+    "ABA",
+    "CAC"
+  ],
+  "result": {
+    "item": "brutality:perfume_bottle"
+  },
+  "show_notification": true
+}

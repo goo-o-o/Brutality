@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:glass_pane"
+    },
+    "B": {
+      "item": "minecraft:iron_bars"
+    },
+    "C": {
+      "item": "terramity:daemonium_chunk"
+    },
+    "D": {
+      "item": "terramity:daemonium"
+    },
+    "E": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "pattern": [
+    "ECD",
+    "EAC",
+    "BEE"
+  ],
+  "result": {
+    "item": "brutality:soldiers_syringe"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "terramity:sacred_speed_bracelets"
+    },
+    {
+      "item": "brutality:empty_anklet"
+    }
+  ],
+  "result": {
+    "item": "brutality:sacred_speed_anklet"
+  }
+}

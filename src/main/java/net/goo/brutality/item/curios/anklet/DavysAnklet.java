@@ -2,7 +2,6 @@ package net.goo.brutality.item.curios.anklet;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityAnkletItem;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -25,11 +24,6 @@ public class DavysAnklet extends BrutalityAnkletItem {
 
     public DavysAnklet(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.ANKLET;
     }
 
     UUID DAVY_ANKLET_DODGE_UUID = UUID.fromString("b757b3e8-be44-4e14-8fab-864592d7f8c2");

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "terramity:diamond_pendant"
+    },
+    "B": {
+      "item": "minecraft:iron_sword"
+    }
+  },
+  "pattern": [
+    " B ",
+    "BAB",
+    " B "
+  ],
+  "result": {
+    "item": "brutality:knights_pendant"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "terramity:throwing_bomb"
+    },
+    "B": {
+      "item": "terramity:dimlite_ingot"
+    },
+    "C": {
+      "item": "minecraft:echo_shard"
+    }
+  },
+  "pattern": [
+    " C ",
+    "BAB",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:sculk_grenade"
+  },
+  "show_notification": true
+}

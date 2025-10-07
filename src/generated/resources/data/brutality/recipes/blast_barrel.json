@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "B": {
+      "item": "minecraft:tnt"
+    },
+    "C": {
+      "item": "minecraft:barrel"
+    },
+    "D": {
+      "item": "terramity:daemonium_chunk"
+    }
+  },
+  "pattern": [
+    "DAD",
+    "DBD",
+    "DCD"
+  ],
+  "result": {
+    "item": "brutality:blast_barrel"
+  },
+  "show_notification": true
+}

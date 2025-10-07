@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_occult_fabric": {
+    "has_empty_anklet": {
       "conditions": {
         "items": [
           {
             "items": [
-              "terramity:occult_fabric"
+              "brutality:empty_anklet"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "brutality:teal_seal"
+        "recipe": "brutality:blood_clot_anklet"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_occult_fabric",
+      "has_empty_anklet",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "brutality:teal_seal"
+      "brutality:blood_clot_anklet"
     ]
   },
   "sends_telemetry_event": false

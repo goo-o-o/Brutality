@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:blue_ice"
+    },
+    "B": {
+      "item": "minecraft:glass_bottle"
+    },
+    "C": {
+      "item": "terramity:sapphire"
+    }
+  },
+  "pattern": [
+    "CAC",
+    "ABA",
+    "CAC"
+  ],
+  "result": {
+    "item": "brutality:absolute_zero"
+  },
+  "show_notification": true
+}

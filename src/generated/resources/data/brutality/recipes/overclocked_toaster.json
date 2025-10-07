@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:iron_block"
+    },
+    "B": {
+      "item": "minecraft:bread"
+    },
+    "C": {
+      "item": "minecraft:lever"
+    },
+    "D": {
+      "item": "terramity:circuit_board"
+    },
+    "T": {
+      "item": "minecraft:iron_trapdoor"
+    }
+  },
+  "pattern": [
+    " T ",
+    "CBD",
+    "AAA"
+  ],
+  "result": {
+    "item": "brutality:overclocked_toaster"
+  },
+  "show_notification": true
+}

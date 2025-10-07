@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:reverium_block"
+    },
+    "B": {
+      "item": "terramity:exodium_block"
+    },
+    "C": {
+      "item": "terramity:nyxium_block"
+    },
+    "D": {
+      "item": "terramity:stygian_blood_bucket"
+    },
+    "E": {
+      "item": "brutality:timekeepers_clock"
+    },
+    "F": {
+      "item": "brutality:forbidden_orb"
+    }
+  },
+  "pattern": [
+    "ABC",
+    "DEF",
+    "CBA"
+  ],
+  "result": {
+    "item": "brutality:the_clock_of_frozen_time"
+  },
+  "show_notification": true
+}

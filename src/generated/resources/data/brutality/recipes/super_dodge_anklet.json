@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:torchflower"
+    },
+    "B": {
+      "item": "brutality:empty_anklet"
+    },
+    "C": {
+      "item": "terramity:giant_sniffers_hoof"
+    },
+    "D": {
+      "item": "terramity:super_sniffers_pelt"
+    }
+  },
+  "pattern": [
+    " D ",
+    "ABA",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:super_dodge_anklet"
+  },
+  "show_notification": true
+}

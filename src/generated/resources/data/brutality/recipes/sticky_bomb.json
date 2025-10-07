@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:redstone_torch"
+    },
+    "B": {
+      "item": "terramity:circuit_board"
+    },
+    "C": {
+      "item": "brutality:blue_slime_ball"
+    },
+    "D": {
+      "item": "minecraft:tnt"
+    },
+    "E": {
+      "item": "minecraft:clay_ball"
+    }
+  },
+  "pattern": [
+    " A ",
+    "BDB",
+    "ECE"
+  ],
+  "result": {
+    "item": "brutality:sticky_bomb"
+  },
+  "show_notification": true
+}

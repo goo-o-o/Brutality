@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "minecraft:enchanted_book",
+      "nbt": "{StoredEnchantments:[{id:\"minecraft:sharpness\"}]}"
+    },
+    "B": {
+      "item": "brutality:empty_anklet"
+    },
+    "C": {
+      "item": "minecraft:iron_ingot"
+    },
+    "D": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    " A ",
+    "CBC",
+    "DAD"
+  ],
+  "result": {
+    "item": "brutality:sharpness_anklet"
+  },
+  "show_notification": true
+}

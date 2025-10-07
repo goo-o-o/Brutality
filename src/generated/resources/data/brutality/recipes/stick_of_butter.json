@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:honeycomb"
+    },
+    "B": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "item": "brutality:stick_of_butter"
+  },
+  "show_notification": true
+}

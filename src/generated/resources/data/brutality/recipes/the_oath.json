@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "terramity:terramity_guidebook_icon"
+    },
+    "B": {
+      "item": "terramity:reverium"
+    }
+  },
+  "pattern": [
+    " B ",
+    "BAB",
+    " B "
+  ],
+  "result": {
+    "item": "brutality:the_oath"
+  },
+  "show_notification": true
+}

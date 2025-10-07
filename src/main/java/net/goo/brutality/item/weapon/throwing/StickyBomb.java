@@ -49,7 +49,7 @@ public class StickyBomb extends BrutalityThrowingItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand pUsedHand) {
-        List<Entity> entities = level.getEntities(player, player.getBoundingBox().inflate(250));
+        List<Entity> entities = level.getEntities(null, player.getBoundingBox().inflate(250));
         UUID uuid = player.getUUID();
         entities.forEach(entity -> {
             if (entity instanceof net.goo.brutality.entity.projectile.trident.physics_projectile.StickyBomb stickyBomb && stickyBomb.getOwner() == player) {
