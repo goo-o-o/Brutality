@@ -9,7 +9,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.PotionItem;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -17,6 +21,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.PartialNBTIngredient;
+import net.minecraftforge.common.crafting.StrictNBTIngredient;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -2369,6 +2374,150 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy("has_slimeballs", has(Items.SLIME_BALL))
                 .save(consumer);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.SILVER_RESPAWN_CARD.get())
+                .pattern("CAC")
+                .pattern("CBC")
+                .pattern("CAC")
+                .define('A', Items.IRON_BLOCK)
+                .define('B', Items.TOTEM_OF_UNDYING)
+                .define('C', TerramityModItems.CARDBOARD.get())
+                .unlockedBy("has_totem_of_undying", has(Items.TOTEM_OF_UNDYING))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.DIAMOND_RESPAWN_CARD.get())
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', Items.DIAMOND)
+                .define('B', BrutalityModItems.SILVER_RESPAWN_CARD.get())
+                .unlockedBy("has_silver_respawn_card", has(BrutalityModItems.SILVER_RESPAWN_CARD.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.EVIL_KING_RESPAWN_CARD.get())
+                .pattern(" B ")
+                .pattern("EAC")
+                .pattern(" D ")
+                .define('A', BrutalityModItems.DIAMOND_RESPAWN_CARD.get())
+                .define('B', TerramityModItems.EVIL_KING_ARMOR_HELMET.get())
+                .define('C', TerramityModItems.EVIL_KING_ARMOR_CHESTPLATE.get())
+                .define('D', TerramityModItems.EVIL_KING_ARMOR_LEGGINGS.get())
+                .define('E', TerramityModItems.EVIL_KING_ARMOR_BOOTS.get())
+                .unlockedBy("has_diamond_respawn_card", has(BrutalityModItems.DIAMOND_RESPAWN_CARD.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.SILVER_BOOSTER_PACK.get())
+                .pattern("BDB")
+                .pattern("EAC")
+                .pattern("BBB")
+                .define('A', TerramityModItems.CARDBOARD_BOX.get())
+                .define('B', TerramityModItems.CARDBOARD.get())
+                .define('E', Items.GOLDEN_CARROT)
+                .define('C', StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.SWIFTNESS)))
+                .define('D', TerramityModItems.AMP_SHIELD.get())
+                .unlockedBy("has_cardboard_box", has(TerramityModItems.CARDBOARD_BOX.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.DIAMOND_BOOSTER_PACK.get())
+                .pattern("ACA")
+                .pattern("DBD")
+                .pattern("ACA")
+                .define('A', Items.DIAMOND)
+                .define('B', BrutalityModItems.SILVER_BOOSTER_PACK.get())
+                .define('C', StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LEAPING)))
+                .define('D', Items.GOLDEN_APPLE)
+                .unlockedBy("has_silver_booster_pack", has(BrutalityModItems.SILVER_BOOSTER_PACK.get()))
+                .save(consumer);
+
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.EVIL_KING_BOOSTER_PACK.get())
+                .pattern("B C")
+                .pattern(" A ")
+                .pattern("EFD")
+                .define('A', BrutalityModItems.DIAMOND_BOOSTER_PACK.get())
+                .define('B', TerramityModItems.EVIL_KING_ARMOR_HELMET.get())
+                .define('C', TerramityModItems.EVIL_KING_ARMOR_CHESTPLATE.get())
+                .define('D', TerramityModItems.EVIL_KING_ARMOR_LEGGINGS.get())
+                .define('E', TerramityModItems.EVIL_KING_ARMOR_BOOTS.get())
+                .define('F', TerramityModItems.IBUPROFEN_CAPSULES.get())
+                .unlockedBy("has_diamond_booster_pack", has(BrutalityModItems.DIAMOND_BOOSTER_PACK.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.CROWBAR.get())
+                .pattern(" BB")
+                .pattern("  A")
+                .pattern("  A")
+                .define('A', TerramityModItems.DAEMONIUM.get())
+                .define('B', TerramityModItems.DAEMONIUM_CHUNK.get())
+                .unlockedBy("has_diamond_booster_pack", has(BrutalityModItems.DIAMOND_BOOSTER_PACK.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.WIRE_CUTTERS.get())
+                .pattern("B B")
+                .pattern(" A ")
+                .pattern("C C")
+                .define('A', Items.SHEARS)
+                .define('B', TerramityModItems.DAEMONIUM_CHUNK.get())
+                .define('C', Items.RED_CONCRETE)
+                .unlockedBy("has_diamond_booster_pack", has(BrutalityModItems.DIAMOND_BOOSTER_PACK.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.AIR_JORDAN_EARRINGS.get())
+                .pattern("   ")
+                .pattern("BAB")
+                .pattern("DCD")
+                .define('A', TerramityModItems.DIAMOND_EARRINGS.get())
+                .define('B', Items.IRON_NUGGET)
+                .define('C', Items.PHANTOM_MEMBRANE)
+                .define('D', Items.RED_CONCRETE)
+                .unlockedBy("has_raw_cosmilite", has(TerramityModItems.RAW_COSMILITE.get()))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.CROWBAR.get())
+                .pattern(" BB")
+                .pattern("  A")
+                .pattern("  A")
+                .define('A', TerramityModItems.DAEMONIUM.get())
+                .define('B', TerramityModItems.DAEMONIUM_CHUNK.get())
+                .unlockedBy("has_diamond_booster_pack", has(BrutalityModItems.DIAMOND_BOOSTER_PACK.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.JURY_NULLIFIER.get())
+                .pattern("CAC")
+                .pattern(" B ")
+                .pattern(" B ")
+                .define('A', TerramityModItems.HELLROK_GIGATON_HAMMER.get())
+                .define('B', Items.STICK)
+                .define('C', BrutalityModItems.RED_SEAL.get())
+                .unlockedBy("has_hellrok_gigaton_hammer", has(TerramityModItems.HELLROK_GIGATON_HAMMER.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.EYE_OF_THE_DRAGON.get())
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', TerramityModItems.HELLSPEC_ALLOY.get())
+                .define('B', TerramityModItems.SUPER_SNIFFERS_PELT.get())
+                .unlockedBy("has_hellspec_alloy", has(TerramityModItems.HELLSPEC_ALLOY.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.LENS_MAKERS_GLASSES.get())
+                .pattern(" C ")
+                .pattern("BAB")
+                .pattern(" C ")
+                .define('A', TerramityModItems.EYEGLASSES.get())
+                .define('B', Items.RED_STAINED_GLASS)
+                .define('C', TerramityModItems.HELLSPEC_ALLOY.get())
+                .unlockedBy("has_hellspec_alloy", has(TerramityModItems.HELLSPEC_ALLOY.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BrutalityModItems.BIG_STEPPA.get())
+                .pattern(" B ")
+                .pattern("BAB")
+                .pattern(" B ")
+                .define('A', BrutalityModItems.EMPTY_ANKLET.get())
+                .define('B', Items.GOLD_BLOCK)
+                .unlockedBy("has_diamond_booster_pack", has(BrutalityModItems.DIAMOND_BOOSTER_PACK.get()))
+                .save(consumer);
+
     }
 
     private static Ingredient createSharpnessBookIngredient() {
@@ -2391,10 +2540,8 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
     }
 
     protected static void oreCooking(Consumer<FinishedRecipe> pFinishedRecipeConsumer, RecipeSerializer<? extends AbstractCookingRecipe> pCookingSerializer, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTime, String pGroup, String pRecipeName) {
-        Iterator var9 = pIngredients.iterator();
 
-        while (var9.hasNext()) {
-            ItemLike itemlike = (ItemLike) var9.next();
+        for (ItemLike itemlike : pIngredients) {
             SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), pCategory, pResult, pExperience, pCookingTime, pCookingSerializer)
                     .group(pGroup)
                     .unlockedBy(getHasName(itemlike), has(itemlike))
