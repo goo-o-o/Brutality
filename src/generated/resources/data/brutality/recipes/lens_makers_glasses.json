@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:eyeglasses"
+    },
+    "B": {
+      "item": "minecraft:red_stained_glass"
+    },
+    "C": {
+      "item": "terramity:hellspec_alloy"
+    }
+  },
+  "pattern": [
+    " C ",
+    "BAB",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:lens_makers_glasses"
+  },
+  "show_notification": true
+}

@@ -5,15 +5,14 @@ import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -23,8 +22,8 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class BrutalityAbstractPhysicsTrident extends BrutalityAbstractTrident implements BrutalityGeoEntity {
-    private static final EntityDataAccessor<Integer> BOUNCE_COUNT = SynchedEntityData.defineId(BrutalityAbstractPhysicsTrident.class, EntityDataSerializers.INT);
+public class BrutalityAbstractPhysicsThrowingProjectile extends BrutalityAbstractThrowingProjectile implements BrutalityGeoEntity {
+    private static final EntityDataAccessor<Integer> BOUNCE_COUNT = SynchedEntityData.defineId(BrutalityAbstractPhysicsThrowingProjectile.class, EntityDataSerializers.INT);
     protected int bounceCount = 0;
     public float prevRoll;
     public float roll;
@@ -33,17 +32,14 @@ public class BrutalityAbstractPhysicsTrident extends BrutalityAbstractTrident im
     public float prevPitch;
     public float pitch;
 
-    public BrutalityAbstractPhysicsTrident(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public BrutalityAbstractPhysicsThrowingProjectile(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, pLevel, damageTypeResourceKey);
     }
 
-    public BrutalityAbstractPhysicsTrident(EntityType<? extends BrutalityAbstractTrident> pEntityType, Player player, Level pLevel) {
-        super(pEntityType, player, pLevel);
+    public BrutalityAbstractPhysicsThrowingProjectile(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Player player, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, player, pLevel, damageTypeResourceKey);
     }
 
-    public BrutalityAbstractPhysicsTrident(Level pLevel, LivingEntity pShooter, ItemStack pStack, EntityType<? extends AbstractArrow> trident) {
-        super(pLevel, pShooter, pStack, trident);
-    }
 
     @Override
     protected void defineSynchedData() {
@@ -148,17 +144,12 @@ public class BrutalityAbstractPhysicsTrident extends BrutalityAbstractTrident im
         }
     }
 
-    @Override
-    protected @NotNull ItemStack getPickupItem() {
-        return ItemStack.EMPTY;
-    }
-
     protected float getBounciness() {
         return 0.175F;
     }
 
     @Override
-    protected void onHit(HitResult hitResult) {
+    protected void onHit(@NotNull HitResult hitResult) {
         if (inGround) return;
         setBounceCount(getBounceCount() + 1);
 
@@ -169,9 +160,11 @@ public class BrutalityAbstractPhysicsTrident extends BrutalityAbstractTrident im
                 DelayedTaskScheduler.queueServerWork(level(), 2, this::discard);
             }
         }
+
         super.onHit(hitResult);
 
     }
+
 
     protected void onFinalBounce(HitResult result) {
 

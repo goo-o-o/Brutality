@@ -2,26 +2,31 @@ package net.goo.brutality.entity.projectile.trident.physics_projectile;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.config.BrutalityCommonConfig;
-import net.goo.brutality.entity.base.BrutalityAbstractPhysicsTrident;
-import net.goo.brutality.entity.base.BrutalityAbstractTrident;
+import net.goo.brutality.entity.base.BrutalityAbstractPhysicsThrowingProjectile;
+import net.goo.brutality.entity.base.BrutalityAbstractThrowingProjectile;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-public class CinderBlock extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
+public class CinderBlock extends BrutalityAbstractPhysicsThrowingProjectile implements BrutalityGeoEntity {
 
-    public CinderBlock(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
-        this.pickup = Pickup.DISALLOWED;
+
+    public CinderBlock(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, pLevel, damageTypeResourceKey);
     }
 
-
+    public CinderBlock(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Player player, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, player, pLevel, damageTypeResourceKey);
+    }
 
     @Override
     public int getInGroundLifespan() {
@@ -75,7 +80,7 @@ public class CinderBlock extends BrutalityAbstractPhysicsTrident implements Brut
     }
 
     @Override
-    protected Vec3 getTridentBounceStrength() {
-        return super.getTridentBounceStrength().scale(2);
+    protected Vec3 getEntityBounceStrength() {
+        return super.getEntityBounceStrength().scale(2);
     }
 }

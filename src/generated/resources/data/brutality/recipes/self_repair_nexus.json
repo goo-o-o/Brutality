@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:nether_star"
+    },
+    "B": {
+      "item": "terramity:chthonic_crystal"
+    },
+    "C": {
+      "item": "terramity:daemonium_chunk"
+    }
+  },
+  "pattern": [
+    "CBC",
+    "BAB",
+    "CBC"
+  ],
+  "result": {
+    "item": "brutality:self_repair_nexus"
+  },
+  "show_notification": true
+}

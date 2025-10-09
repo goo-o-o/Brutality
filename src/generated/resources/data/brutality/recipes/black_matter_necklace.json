@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:gold_necklace"
+    },
+    "B": {
+      "item": "terramity:black_matter"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "BAB",
+    "BBB"
+  ],
+  "result": {
+    "item": "brutality:black_matter_necklace"
+  },
+  "show_notification": true
+}

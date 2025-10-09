@@ -2,23 +2,30 @@ package net.goo.brutality.entity.projectile.trident.physics_projectile;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.config.BrutalityCommonConfig;
-import net.goo.brutality.entity.base.BrutalityAbstractPhysicsTrident;
-import net.goo.brutality.entity.base.BrutalityAbstractTrident;
+import net.goo.brutality.entity.base.BrutalityAbstractPhysicsThrowingProjectile;
+import net.goo.brutality.entity.base.BrutalityAbstractThrowingProjectile;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public class BeachBall extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
+public class BeachBall extends BrutalityAbstractPhysicsThrowingProjectile implements BrutalityGeoEntity {
 
-    public BeachBall(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
-        this.pickup = Pickup.DISALLOWED;
+
+    public BeachBall(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, pLevel, damageTypeResourceKey);
+        this.damage = 0F;
+    }
+
+    public BeachBall(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Player player, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, player, pLevel, damageTypeResourceKey);
+        this.damage = 0F;
     }
 
     @Override
@@ -26,10 +33,6 @@ public class BeachBall extends BrutalityAbstractPhysicsTrident implements Brutal
         return BrutalityCommonConfig.BEACHBALL_LIFESPAN.get();
     }
 
-    @Override
-    public float getDamage(@Nullable LivingEntity livingEntity) {
-        return 1;
-    }
 
     @Override
     protected boolean canHitEntity(@NotNull Entity entity) {
@@ -78,12 +81,8 @@ public class BeachBall extends BrutalityAbstractPhysicsTrident implements Brutal
     }
 
     @Override
-    protected Vec3 getTridentBounceStrength() {
+    protected Vec3 getEntityBounceStrength() {
         return new Vec3(-0.8D, -0.8D, -0.8D);
     }
 
-    @Override
-    protected int getHitQuota() {
-        return 99;
-    }
 }

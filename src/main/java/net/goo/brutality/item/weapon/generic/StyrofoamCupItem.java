@@ -2,6 +2,7 @@ package net.goo.brutality.item.weapon.generic;
 
 import net.goo.brutality.entity.projectile.trident.physics_projectile.ThrownStyrofoamCup;
 import net.goo.brutality.item.base.BrutalityGenericItem;
+import net.goo.brutality.registry.BrutalityDamageTypes;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -120,7 +121,7 @@ public class StyrofoamCupItem extends BrutalityGenericItem {
     }
 
     public void launchProjectile(Level pLevel, Player player) {
-        ThrownStyrofoamCup thrownEntity = new ThrownStyrofoamCup(BrutalityModEntities.THROWN_STYROFOAM_CUP.get(), player, pLevel);
+        ThrownStyrofoamCup thrownEntity = new ThrownStyrofoamCup(BrutalityModEntities.STYROFOAM_CUP.get(), player, pLevel, BrutalityDamageTypes.THROWING_BLUNT);
         thrownEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 0.75F, 1.0F);
         if (player.getAbilities().instabuild) {
             thrownEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:diamond_gauntlet"
+    },
+    "B": {
+      "item": "terramity:spectral_soul"
+    },
+    "C": {
+      "item": "terramity:lost_soul"
+    }
+  },
+  "pattern": [
+    "CBC",
+    "BAB",
+    "CBC"
+  ],
+  "result": {
+    "item": "brutality:phantom_finger"
+  },
+  "show_notification": true
+}

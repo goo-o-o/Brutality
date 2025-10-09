@@ -1,14 +1,18 @@
 package net.goo.brutality.entity.projectile.trident.physics_projectile;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.entity.base.BrutalityAbstractTrident;
+import net.goo.brutality.entity.base.BrutalityAbstractThrowingProjectile;
 import net.goo.brutality.registry.BrutalityCapabilities;
+import net.goo.brutality.registry.BrutalityDamageTypes;
 import net.goo.brutality.registry.BrutalityModEntities;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -17,12 +21,15 @@ import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 
-public class OverclockedToaster extends BrutalityAbstractTrident implements BrutalityGeoEntity {
+public class OverclockedToaster extends BrutalityAbstractThrowingProjectile implements BrutalityGeoEntity {
     private int lastAnim = 1;
 
-    public OverclockedToaster(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
-        this.pickup = Pickup.DISALLOWED;
+    public OverclockedToaster(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, pLevel, damageTypeResourceKey);
+    }
+
+    public OverclockedToaster(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Player player, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, player, pLevel, damageTypeResourceKey);
     }
 
     @Override
@@ -51,7 +58,7 @@ public class OverclockedToaster extends BrutalityAbstractTrident implements Brut
             if (nearest == null) return;
 
 
-            Toast toast = new Toast(BrutalityModEntities.TOAST.get(), level());
+            Toast toast = new Toast(BrutalityModEntities.TOAST.get(), level(), BrutalityDamageTypes.THROWING_PIERCE);
             toast.setPos(getX(), getY(), getZ());
             Vec3 target = nearest.getPosition(1).add(0, nearest.getBbHeight() / 2, 0);
             Vec3 origin = getPosition(1).add(0, getBbHeight() / 2, 0);

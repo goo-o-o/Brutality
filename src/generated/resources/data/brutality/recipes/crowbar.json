@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:daemonium"
+    },
+    "B": {
+      "item": "terramity:daemonium_chunk"
+    }
+  },
+  "pattern": [
+    " BB",
+    "  A",
+    "  A"
+  ],
+  "result": {
+    "item": "brutality:crowbar"
+  },
+  "show_notification": true
+}

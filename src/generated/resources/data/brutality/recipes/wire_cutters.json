@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:shears"
+    },
+    "B": {
+      "item": "terramity:daemonium_chunk"
+    },
+    "C": {
+      "item": "minecraft:red_concrete"
+    }
+  },
+  "pattern": [
+    "B B",
+    " A ",
+    "C C"
+  ],
+  "result": {
+    "item": "brutality:wire_cutters"
+  },
+  "show_notification": true
+}

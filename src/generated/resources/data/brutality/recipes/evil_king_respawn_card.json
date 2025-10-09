@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "brutality:diamond_respawn_card"
+    },
+    "B": {
+      "item": "terramity:evil_king_armor_helmet"
+    },
+    "C": {
+      "item": "terramity:evil_king_armor_chestplate"
+    },
+    "D": {
+      "item": "terramity:evil_king_armor_leggings"
+    },
+    "E": {
+      "item": "terramity:evil_king_armor_boots"
+    }
+  },
+  "pattern": [
+    " B ",
+    "EAC",
+    " D "
+  ],
+  "result": {
+    "item": "brutality:evil_king_respawn_card"
+  },
+  "show_notification": true
+}

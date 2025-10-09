@@ -1,7 +1,7 @@
 package net.goo.brutality.mixin;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.entity.base.BrutalityAbstractPhysicsTrident;
+import net.goo.brutality.entity.base.BrutalityAbstractPhysicsThrowingProjectile;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -48,7 +48,7 @@ public class ServerGamePacketListenerImplMixin {
             public void onAttack() {
                 boolean first = !(entity instanceof ItemEntity) && !(entity instanceof ExperienceOrb) && !(entity instanceof AbstractArrow) && entity != instance.player;
 
-                boolean second = entity instanceof BrutalityAbstractPhysicsTrident;
+                boolean second = entity instanceof BrutalityAbstractPhysicsThrowingProjectile;
 
                 if (first || second) {
                     ItemStack itemstack = instance.player.getItemInHand(InteractionHand.MAIN_HAND);

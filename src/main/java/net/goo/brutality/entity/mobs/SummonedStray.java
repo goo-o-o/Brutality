@@ -24,6 +24,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -76,25 +77,25 @@ public class SummonedStray extends Stray implements ISummon {
     }
 
     @Override
-    public void die(DamageSource pDamageSource) {
+    public void die(@NotNull DamageSource pDamageSource) {
         this.onDeathHelper();
         super.die(pDamageSource);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag compoundTag) {
+    public void readAdditionalSaveData(@NotNull CompoundTag compoundTag) {
         super.readAdditionalSaveData(compoundTag);
         this.summonerUUID = OwnerHelper.deserializeOwner(compoundTag);
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag compoundTag) {
+    public void addAdditionalSaveData(@NotNull CompoundTag compoundTag) {
         super.addAdditionalSaveData(compoundTag);
         OwnerHelper.serializeOwner(compoundTag, summonerUUID);
     }
 
     @Override
-    public boolean isAlliedTo(Entity pEntity) {
+    public boolean isAlliedTo(@NotNull Entity pEntity) {
         return super.isAlliedTo(pEntity) || this.isAlliedHelper(pEntity);
     }
 

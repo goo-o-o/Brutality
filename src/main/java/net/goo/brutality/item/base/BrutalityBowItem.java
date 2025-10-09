@@ -1,20 +1,17 @@
 package net.goo.brutality.item.base;
 
 import net.goo.brutality.entity.base.BrutalityArrow;
-import net.goo.brutality.entity.projectile.arrow.LightArrow;
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.registry.BrutalityModEntities;
-import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
@@ -123,9 +120,19 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
         });
     }
 
+    protected EntityType<? extends AbstractArrow> getArrowEntity() {
+        return EntityType.ARROW;
+    }
+
+    protected void onFullDraw(Player player, Level level) {
+    }
+
+    protected SoundEvent getShootSound() {
+        return SoundEvents.ARROW_SHOOT;
+    }
 
     @Override
-    public void releaseUsing(@NotNull ItemStack bowStack, @NotNull Level world, @NotNull LivingEntity shooter, int timeLeft) {
+    public void releaseUsing(@NotNull ItemStack bowStack, @NotNull Level level, @NotNull LivingEntity shooter, int timeLeft) {
         if (shooter instanceof Player player) {
             boolean infiniteArrows = player.getAbilities().instabuild
                     || bowStack.getEnchantmentLevel(Enchantments.INFINITY_ARROWS) > 0
@@ -134,7 +141,7 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
             ItemStack arrowStack = player.getProjectile(bowStack);
 
             int chargeTime = this.getUseDuration(bowStack) - timeLeft;
-            chargeTime = ForgeEventFactory.onArrowLoose(bowStack, world, player, chargeTime, !arrowStack.isEmpty() || infiniteArrows);
+            chargeTime = ForgeEventFactory.onArrowLoose(bowStack, level, player, chargeTime, !arrowStack.isEmpty() || infiniteArrows);
             if (chargeTime < 0) return;
 
             if (!arrowStack.isEmpty() || infiniteArrows) {
@@ -147,55 +154,48 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
                     boolean isInfiniteArrow = player.getAbilities().instabuild
                             || (arrowStack.getItem() instanceof ArrowItem && ((ArrowItem) arrowStack.getItem()).isInfinite(arrowStack, bowStack, player));
 
-                    if (!world.isClientSide) {
-                        AbstractArrow arrowEntity = new LightArrow(BrutalityModEntities.LIGHT_ARROW.get(), player, world);
-                        arrowEntity.setOwner(player);
-                        arrowEntity.setBaseDamage(getArrowBaseDamage());
-                        arrowEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, drawPower * getPowerMultiplier(), 0F);
+                    if (!level.isClientSide) {
+                        AbstractArrow arrowEntity = getArrowEntity().create(level);
+                        if (arrowEntity != null) {
+                            arrowEntity.setOwner(player);
+                            arrowEntity.setBaseDamage(getArrowBaseDamage());
+                            arrowEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, drawPower * getPowerMultiplier(), 0F);
 
-                        if (drawPower == 1.0F) {
-                            arrowEntity.setCritArrow(true);
-                            List<LivingEntity> nearbyEntities = world.getNearbyEntities(
-                                    LivingEntity.class,
-                                    TargetingConditions.DEFAULT,
-                                    null,
-                                    player.getBoundingBox().inflate(3)
-                            );
-
-                            for (LivingEntity entity : nearbyEntities) {
-                                entity.addEffect(new MobEffectInstance(MobEffects.HEAL, 1, 0), entity);
+                            if (drawPower == 1.0F) {
+                                arrowEntity.setCritArrow(true);
+                                onFullDraw(player, level);
                             }
+
+                            int powerLevel = bowStack.getEnchantmentLevel(Enchantments.POWER_ARROWS);
+                            if (powerLevel > 0) {
+                                arrowEntity.setBaseDamage(arrowEntity.getBaseDamage() + (powerLevel * 0.5D + 0.5D));
+                            }
+
+                            int punchLevel = bowStack.getEnchantmentLevel(Enchantments.PUNCH_ARROWS);
+                            if (punchLevel > 0) {
+                                arrowEntity.setKnockback(punchLevel);
+                            }
+
+                            if (bowStack.getEnchantmentLevel(Enchantments.FLAMING_ARROWS) > 0) {
+                                arrowEntity.setSecondsOnFire(100);
+                            }
+
+                            bowStack.hurtAndBreak(1, player, (playerEntity) -> {
+                                playerEntity.broadcastBreakEvent(player.getUsedItemHand());
+                            });
+
+                            if (isInfiniteArrow || (player.getAbilities().instabuild
+                                    && (arrowStack.is(Items.SPECTRAL_ARROW) || arrowStack.is(Items.TIPPED_ARROW)))) {
+                                arrowEntity.pickup = BrutalityArrow.Pickup.CREATIVE_ONLY;
+                            }
+
+                            level.addFreshEntity(arrowEntity);
                         }
-
-                        int powerLevel = bowStack.getEnchantmentLevel(Enchantments.POWER_ARROWS);
-                        if (powerLevel > 0) {
-                            arrowEntity.setBaseDamage(arrowEntity.getBaseDamage() + (powerLevel * 0.5D + 0.5D));
-                        }
-
-                        int punchLevel = bowStack.getEnchantmentLevel(Enchantments.PUNCH_ARROWS);
-                        if (punchLevel > 0) {
-                            arrowEntity.setKnockback(punchLevel);
-                        }
-
-                        if (bowStack.getEnchantmentLevel(Enchantments.FLAMING_ARROWS) > 0) {
-                            arrowEntity.setSecondsOnFire(100);
-                        }
-
-                        bowStack.hurtAndBreak(1, player, (playerEntity) -> {
-                            playerEntity.broadcastBreakEvent(player.getUsedItemHand());
-                        });
-
-                        if (isInfiniteArrow || (player.getAbilities().instabuild
-                                && (arrowStack.is(Items.SPECTRAL_ARROW) || arrowStack.is(Items.TIPPED_ARROW)))) {
-                            arrowEntity.pickup = BrutalityArrow.Pickup.CREATIVE_ONLY;
-                        }
-
-                        world.addFreshEntity(arrowEntity);
                     }
 
-                    world.playSound(null, player.getX(), player.getY(), player.getZ(),
-                            BrutalityModSounds.WINGS_FLAP.get(), SoundSource.PLAYERS, 1.0F,
-                            1.0F / (world.getRandom().nextFloat() * 0.4F + 1.2F) + drawPower * 0.5F);
+                    level.playSound(null, player.getX(), player.getY(), player.getZ(),
+                            getShootSound(), SoundSource.PLAYERS, 1.0F,
+                            1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + drawPower * 0.5F);
 
                     if (!isInfiniteArrow && !player.getAbilities().instabuild) {
                         arrowStack.shrink(1);

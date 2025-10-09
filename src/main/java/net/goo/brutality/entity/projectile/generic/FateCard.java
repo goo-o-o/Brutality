@@ -1,25 +1,22 @@
 package net.goo.brutality.entity.projectile.generic;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.entity.base.BrutalityAbstractArrow;
+import net.goo.brutality.entity.base.BrutalityAbstractThrowingProjectile;
 import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.NotNull;
@@ -29,14 +26,14 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Locale;
 
-public class FateCard extends BrutalityAbstractArrow implements BrutalityGeoEntity {
+public class FateCard extends BrutalityAbstractThrowingProjectile implements BrutalityGeoEntity {
     private static final EntityDataAccessor<Integer> CARD_TYPE_INDEX = SynchedEntityData.defineId(FateCard.class, EntityDataSerializers.INT);
 
-    public FateCard(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public FateCard(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, pLevel, damageTypeResourceKey);
         setCardType(Mth.nextInt(RandomSource.create(), 0, CARD_TYPE.values().length - 1));
-
     }
+
 
 
     @Override
@@ -46,22 +43,17 @@ public class FateCard extends BrutalityAbstractArrow implements BrutalityGeoEnti
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt("cardType", getCardIndex());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         if (pCompound.contains("cardType")) {
             this.setCardType(pCompound.getInt("cardType"));
         }
-    }
-
-    @Override
-    protected @NotNull ItemStack getPickupItem() {
-        return ItemStack.EMPTY;
     }
 
     public CARD_TYPE getCardType() {
@@ -120,20 +112,9 @@ public class FateCard extends BrutalityAbstractArrow implements BrutalityGeoEnti
 
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
-        Entity hitEntity = pResult.getEntity();
-        if (getOwner() instanceof LivingEntity livingEntity) {
-            float damage = (float) livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
-            if (livingEntity instanceof Player player)
-                hitEntity.hurt(damageSources().playerAttack(player), damage);
-            else
-                hitEntity.hurt(damageSources().mobAttack(livingEntity), damage);
+        super.onHitEntity(pResult);
 
-
-        } else {
-            hitEntity.hurt(damageSources().generic(), 5);
-        }
-
-        if (hitEntity instanceof LivingEntity livingHit) {
+        if (pResult.getEntity() instanceof LivingEntity livingHit) {
             switch (getCardType()) {
                 case SLOW -> livingHit.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 1));
                 case STUN -> livingHit.addEffect(new MobEffectInstance(BrutalityModMobEffects.STUNNED.get(), 5, 0));

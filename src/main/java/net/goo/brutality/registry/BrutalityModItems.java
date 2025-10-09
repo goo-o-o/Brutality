@@ -20,7 +20,7 @@ import net.goo.brutality.item.material.*;
 import net.goo.brutality.item.seals.*;
 import net.goo.brutality.item.weapon.axe.OldGpuAxe;
 import net.goo.brutality.item.weapon.axe.RhittaAxe;
-import net.goo.brutality.item.weapon.bow.ProvidenceBow;
+import net.goo.brutality.item.weapon.bow.Providence;
 import net.goo.brutality.item.weapon.generic.*;
 import net.goo.brutality.item.weapon.hammer.*;
 import net.goo.brutality.item.weapon.scythe.DarkinScythe;
@@ -209,7 +209,7 @@ public class BrutalityModItems {
     ));
 
     public static final RegistryObject<Item> BIOMECH_REACTOR = ITEMS.register("biomech_reactor", () -> new BiomechReactor(
-            0, 0, ModRarities.MYTHIC,
+            20, 0, ModRarities.MYTHIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1),
                     new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 2)
@@ -1280,7 +1280,7 @@ public class BrutalityModItems {
 
     )
     ));
-    public static final RegistryObject<Item> PROVIDENCE = ITEMS.register("providence", () -> new ProvidenceBow(
+    public static final RegistryObject<Item> PROVIDENCE = ITEMS.register("providence", () -> new Providence(
             ModRarities.MYTHIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 2),
@@ -1676,106 +1676,106 @@ public class BrutalityModItems {
             )
     ));
     public static final RegistryObject<Item> DECK_OF_FATE = ITEMS.register("deck_of_fate", () -> new DeckOfFate(
-            3, -3, ModRarities.GODLY,
+            3, -2.5F, ModRarities.GODLY,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 7)
             )
     ));
     public static final RegistryObject<Item> PERFUME_BOTTLE = ITEMS.register("perfume_bottle", () -> new PerfumeBottle(
-            3, -3.5F, ModRarities.GODLY,
+            3, -3.25F, ModRarities.GODLY,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 2)
             )
     ));
     public static final RegistryObject<Item> ABSOLUTE_ZERO = ITEMS.register("absolute_zero", () -> new AbsoluteZero(
-            3, -3.5F, ModRarities.ICE,
+            3, -3.25F, ModRarities.ICE,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
             )
     ));
     public static final RegistryObject<Item> CRIMSON_DELIGHT = ITEMS.register("crimson_delight", () -> new CrimsonDelight(
-            2, -2F, Rarity.EPIC,
+            2, -1.5F, Rarity.EPIC,
             List.of(
             )
     ));
     public static final RegistryObject<Item> CANNONBALL_CABBAGE = ITEMS.register("cannonball_cabbage", () -> new CannonballCabbage(
-            5, -3.2F, Rarity.EPIC,
+            5, -2.2F, Rarity.EPIC,
             List.of(
             )
     ));
         public static final RegistryObject<Item> CAVENDISH = ITEMS.register("cavendish", () -> new Cavendish(
-            2, -2.75F, Rarity.EPIC,
+            2, -2.2F, Rarity.EPIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
             )
     ));
     public static final RegistryObject<Item> STICK_OF_BUTTER = ITEMS.register("stick_of_butter", () -> new StickOfButter(
-            0, -3.2F, Rarity.EPIC,
+            0, -3F, Rarity.EPIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
             )
     ));
     public static final RegistryObject<Item> WINTER_MELON = ITEMS.register("winter_melon", () -> new WinterMelon(
-            7, -3.5F, Rarity.EPIC,
+            7, -2.75F, Rarity.EPIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
             )
     ));
     public static final RegistryObject<Item> GOLDEN_PHOENIX = ITEMS.register("golden_phoenix", () -> new GoldenPhoenix(
-            9, -3.5F, Rarity.EPIC,
+            9, -2.65F, Rarity.EPIC,
             List.of(
             )
     ));
     public static final RegistryObject<Item> STICKY_BOMB = ITEMS.register("sticky_bomb", () -> new StickyBomb(
-            0, -3.6F, Rarity.EPIC,
+            0, -3.4F, Rarity.EPIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1),
                     new BrutalityTooltipHelper.ItemDescriptionComponent(ON_RIGHT_CLICK, 1)
             )
     ));
     public static final RegistryObject<Item> ICE_CUBE = ITEMS.register("ice_cube", () -> new IceCube(
-            3, -3.4F, Rarity.EPIC,
+            3, -3F, Rarity.EPIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
             )
     ));
     public static final RegistryObject<Item> PERMAFROST_CUBE = ITEMS.register("permafrost_cube", () -> new PermafrostCube(
-            6, -3.2F, ModRarities.LEGENDARY,
+            6, -3F, ModRarities.LEGENDARY,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
             )
     ));
 
     public static final RegistryObject<Item> CINDER_BLOCK = ITEMS.register("cinder_block", () -> new CinderBlock(
-            10, -3.5F, ModRarities.LEGENDARY,
+            10, -3.2F, ModRarities.LEGENDARY,
             List.of(
             )
     ));
     public static final RegistryObject<Item> OVERCLOCKED_TOASTER = ITEMS.register("overclocked_toaster", () -> new OverclockedToaster(
-            10, -3.6F, ModRarities.LEGENDARY,
+            10, -3.5F, ModRarities.LEGENDARY,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
             )
     ));
     public static final RegistryObject<Item> SCULK_GRENADE = ITEMS.register("sculk_grenade", () -> new SculkGrenade(
-            10, -3.5F, ModRarities.SCULK,
+            10, -3F, ModRarities.SCULK,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 2)
             )
     ));
     public static final RegistryObject<Item> BEACH_BALL = ITEMS.register("beach_ball", () -> new BeachBall(
-            10, -3.5F, ModRarities.LEGENDARY,
+            10, -3F, ModRarities.LEGENDARY,
             List.of(
             )
     ));
     public static final RegistryObject<Item> BLAST_BARREL = ITEMS.register("blast_barrel", () -> new BlastBarrel(
-            10, -3.5F, ModRarities.LEGENDARY,
+            10, -3.4F, ModRarities.LEGENDARY,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
             )
     ));
     public static final RegistryObject<Item> HOLY_HAND_GRENADE = ITEMS.register("holy_hand_grenade", () -> new HolyHandGrenade(
-            10, -3.65F, ModRarities.LEGENDARY,
+            10, -3.4F, ModRarities.LEGENDARY,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
             )

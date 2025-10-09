@@ -3,6 +3,7 @@ package net.goo.brutality.client.renderers.layers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.goo.brutality.entity.projectile.trident.physics_projectile.StickyBomb;
 import net.goo.brutality.registry.BrutalityCapabilities;
+import net.goo.brutality.registry.BrutalityDamageTypes;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -33,7 +34,7 @@ public class StickyBombLayer<T extends LivingEntity, M extends EntityModel<T>> e
 
     protected void renderStuckItem(PoseStack poseStack, MultiBufferSource multiBufferSource, int pPackedLight, Entity entity, float pX, float pY, float pZ, float pPartialTick) {
         float f = Mth.sqrt(pX * pX + pZ * pZ);
-        StickyBomb stickyBomb = new StickyBomb(BrutalityModEntities.STICKY_BOMB.get(), entity.level());
+        StickyBomb stickyBomb = new StickyBomb(BrutalityModEntities.STICKY_BOMB.get(), entity.level(), BrutalityDamageTypes.THROWING_BLUNT);
         stickyBomb.setPos(entity.getPosition(1));
         stickyBomb.setYRot((float) (Math.atan2(pX, pZ) * (double) (180F / (float) Math.PI)));
         stickyBomb.setXRot((float) (Math.atan2(pY, f) * (double) (180F / (float) Math.PI)));

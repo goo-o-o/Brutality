@@ -1,40 +1,40 @@
 package net.goo.brutality.entity.projectile.trident.physics_projectile;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.entity.base.BrutalityAbstractPhysicsTrident;
-import net.goo.brutality.entity.base.BrutalityAbstractTrident;
+import net.goo.brutality.entity.base.BrutalityAbstractPhysicsThrowingProjectile;
+import net.goo.brutality.entity.base.BrutalityAbstractThrowingProjectile;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 
-public class HolyHandGrenade extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
+public class HolyHandGrenade extends BrutalityAbstractPhysicsThrowingProjectile implements BrutalityGeoEntity {
 
-    public HolyHandGrenade(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
-        this.pickup = Pickup.DISALLOWED;
+
+    public HolyHandGrenade(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, pLevel, damageTypeResourceKey);
     }
 
+    public HolyHandGrenade(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Player player, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, player, pLevel, damageTypeResourceKey);
+    }
 
     @Override
     protected int getLifespan() {
         return 60;
     }
 
-    @Override
-    public float getDamage(@Nullable LivingEntity livingEntity) {
-        return 1;
-    }
 
     @Override
     public float getModelHeight() {
@@ -66,8 +66,8 @@ public class HolyHandGrenade extends BrutalityAbstractPhysicsTrident implements 
     }
 
     @Override
-    protected Vec3 getTridentBounceStrength() {
-        return super.getTridentBounceStrength().scale(2);
+    protected Vec3 getEntityBounceStrength() {
+        return super.getEntityBounceStrength().scale(2);
     }
 
     @Override

@@ -8,10 +8,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
@@ -37,35 +37,19 @@ public abstract class EntityMixin {
         return instance.hurt(pSource, pAmount);
     }
 
-    @Inject(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setRemainingFireTicks(I)V", shift = At.Shift.AFTER))
-    private void modifyFireTickReduction(CallbackInfo ci) {
-        Entity entity = (Entity) (Object) this;
+    @ModifyVariable(method = "setRemainingFireTicks", at = @At("HEAD"), argsOnly = true)
+    private int modifyFireTime(int value) {
+        Entity entity = (((Entity) (Object) this));
         if (entity instanceof LivingEntity livingEntity) {
-            if (livingEntity.getRemainingFireTicks() > 0 && !livingEntity.fireImmune()) {
-                CuriosApi.getCuriosInventory(livingEntity).ifPresent(handler -> {
-                    if (handler.isEquipped(BrutalityModItems.FIRE_EXTINGUISHER.get())) {
-                        livingEntity.setRemainingFireTicks(livingEntity.getRemainingFireTicks() - 1); // Additional -1 for -2 per tick
-                    }
-                });
+            ICuriosItemHandler handler = CuriosApi.getCuriosInventory(livingEntity).orElse(null);
+            if (handler != null) {
+                if (handler.isEquipped(BrutalityModItems.FIRE_EXTINGUISHER.get())) {
+                    System.out.println("original " + value);
+                    System.out.println("after " + value * 0.5F);
+                    return (int) (value * 0.5);
+                }
             }
         }
+        return value;
     }
-
-    @Inject(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"), cancellable = true)
-    private void adjustFireDamageTiming(CallbackInfo ci) {
-        Entity entity = (Entity) (Object) this;
-        if (entity instanceof LivingEntity livingEntity) {
-            if (livingEntity.getRemainingFireTicks() > 0 && !livingEntity.fireImmune() && !livingEntity.isInLava()) {
-                CuriosApi.getCuriosInventory(livingEntity).ifPresent(handler -> {
-                    if (handler.isEquipped(BrutalityModItems.FIRE_EXTINGUISHER.get())) {
-                        if (livingEntity.getRemainingFireTicks() % 40 == 0) {
-                            livingEntity.hurt(livingEntity.damageSources().onFire(), 1.0F);
-                        }
-                        ci.cancel();
-                    }
-                });
-            }
-        }
-    }
-
 }

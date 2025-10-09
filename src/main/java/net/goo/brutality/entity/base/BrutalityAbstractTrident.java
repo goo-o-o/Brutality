@@ -1,6 +1,7 @@
 package net.goo.brutality.entity.base;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
+import net.goo.brutality.util.ModUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -15,7 +16,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
@@ -40,14 +40,16 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
     public int clientSideReturnTridentTickCount;
     private int targetsHit = 0;
     protected boolean dealtDamage = false;
-
+    protected float damage;
 
     public BrutalityAbstractTrident(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.damage = ModUtils.getAttackDamage(null);
     }
 
     public BrutalityAbstractTrident(EntityType<? extends BrutalityAbstractTrident> pEntityType, Player player, Level pLevel) {
         super(pEntityType, player, pLevel);
+        this.damage = ModUtils.getAttackDamage(player);
     }
 
     public BrutalityAbstractTrident(Level pLevel, LivingEntity pShooter, ItemStack pStack, EntityType<? extends AbstractArrow> trident) {
@@ -55,6 +57,8 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
         this.pickupItem = pStack.copy();
         this.entityData.set(ID_LOYALTY, (byte) EnchantmentHelper.getLoyalty(pStack));
         this.entityData.set(ID_FOIL, pStack.hasFoil());
+        this.damage = ModUtils.getAttackDamage(pShooter);
+
     }
 
     // CHANGE THESE
@@ -64,12 +68,7 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
         return 1200;
     }
 
-    public float getDamage(@Nullable LivingEntity livingEntity) {
-        if (livingEntity != null) {
-            return (float) livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
-        }
-        return 1;
-    }
+
 
     protected float getWaterInertia() {
         return 0.99F;
@@ -239,7 +238,7 @@ public class BrutalityAbstractTrident extends BrutalityAbstractArrow implements 
 
     protected void onHitEntity(EntityHitResult pResult) {
         Entity target = pResult.getEntity();
-        float f = getDamage(getOwner() instanceof LivingEntity owner ? owner : null);
+        float f = damage;
         if (target instanceof LivingEntity livingentity) {
             f += EnchantmentHelper.getDamageBonus(this.pickupItem, livingentity.getMobType());
         }

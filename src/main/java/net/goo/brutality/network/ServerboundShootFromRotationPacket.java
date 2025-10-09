@@ -82,6 +82,7 @@ public class ServerboundShootFromRotationPacket {
                             projectile.getCapability(BrutalityCapabilities.SEAL_TYPE_CAP).ifPresent(cap -> {
                                 cap.setSealType(sealType);
                             });
+
                         }
 
                         level.addFreshEntity(projectile);

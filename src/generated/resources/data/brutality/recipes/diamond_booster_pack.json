@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:diamond"
+    },
+    "B": {
+      "item": "brutality:silver_booster_pack"
+    },
+    "C": {
+      "type": "forge:nbt",
+      "count": 1,
+      "item": "minecraft:potion",
+      "nbt": "{Potion:\"minecraft:leaping\"}"
+    },
+    "D": {
+      "item": "minecraft:golden_apple"
+    }
+  },
+  "pattern": [
+    "ACA",
+    "DBD",
+    "ACA"
+  ],
+  "result": {
+    "item": "brutality:diamond_booster_pack"
+  },
+  "show_notification": true
+}

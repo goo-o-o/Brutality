@@ -1,11 +1,13 @@
 package net.goo.brutality.entity.projectile.trident.physics_projectile;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.entity.base.BrutalityAbstractPhysicsTrident;
-import net.goo.brutality.entity.base.BrutalityAbstractTrident;
+import net.goo.brutality.entity.base.BrutalityAbstractPhysicsThrowingProjectile;
+import net.goo.brutality.entity.base.BrutalityAbstractThrowingProjectile;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -17,14 +19,15 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-public class WinterMelon extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
+public class WinterMelon extends BrutalityAbstractPhysicsThrowingProjectile implements BrutalityGeoEntity {
 
-    public WinterMelon(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+
+    public WinterMelon(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, pLevel, damageTypeResourceKey);
     }
 
-    public WinterMelon(EntityType<? extends BrutalityAbstractTrident> pEntityType, Player player, Level pLevel) {
-        super(pEntityType, player, pLevel);
+    public WinterMelon(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Player player, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, player, pLevel, damageTypeResourceKey);
     }
 
     @Override
@@ -47,7 +50,7 @@ public class WinterMelon extends BrutalityAbstractPhysicsTrident implements Brut
     }
 
     @Override
-    protected void onHit(HitResult hitResult) {
+    protected void onHit(@NotNull HitResult hitResult) {
         super.onHit(hitResult);
 
         Vec3 location = hitResult.getLocation();
@@ -72,7 +75,7 @@ public class WinterMelon extends BrutalityAbstractPhysicsTrident implements Brut
 
     @Override
     protected int getBounceQuota() {
-        return 1;
+        return 3;
     }
 
     @Override

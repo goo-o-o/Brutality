@@ -29,12 +29,14 @@ public class NinjaHeart extends BrutalityCurioItem {
 
     UUID NINJA_HEART_SLASH_DAMAGE = UUID.fromString("adff9854-92f9-11f0-ac42-325096b39f47");
     UUID NINJA_HEART_SPEED = UUID.fromString("adff9a16-92f9-11f0-b386-325096b39f47");
+    UUID NINJA_HEART_STEALTH = UUID.fromString("f5cf139a-f588-428f-94cc-be0b77677ad4");
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
         builder.put(ModAttributes.SLASH_DAMAGE.get(), new AttributeModifier(NINJA_HEART_SLASH_DAMAGE, "Slash Damage Buff", 0.2F, AttributeModifier.Operation.MULTIPLY_TOTAL));
         builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(NINJA_HEART_SPEED, "MS Buff", 0.2, AttributeModifier.Operation.MULTIPLY_TOTAL));
+        builder.put(ModAttributes.ENTITY_VISIBILITY.get(), new AttributeModifier(NINJA_HEART_STEALTH, "Stealth Buff", 0.15, AttributeModifier.Operation.MULTIPLY_BASE));
         return builder.build();
     }
 

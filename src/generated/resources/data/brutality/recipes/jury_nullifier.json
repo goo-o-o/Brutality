@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:hellrok_gigaton_hammer"
+    },
+    "B": {
+      "item": "minecraft:stick"
+    },
+    "C": {
+      "item": "brutality:red_seal"
+    }
+  },
+  "pattern": [
+    "CAC",
+    " B ",
+    " B "
+  ],
+  "result": {
+    "item": "brutality:jury_nullifier"
+  },
+  "show_notification": true
+}

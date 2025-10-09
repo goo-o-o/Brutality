@@ -34,6 +34,7 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
     private final IntOpenHashSet ignoredEntities = new IntOpenHashSet();
     public boolean collideWithBlocks = true;
 
+
     protected BrutalityAbstractArrow(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -71,7 +72,6 @@ public abstract class BrutalityAbstractArrow extends AbstractArrow implements Br
             this.discard();
         }
     }
-
 
 
     protected int getLifespan() {

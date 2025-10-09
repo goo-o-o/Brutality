@@ -1336,5 +1336,45 @@
 
 
   "death.attack.dematerialize": "%1$s was dematerialized",
-  "death.attack.dematerialize.player": "%1$s had their atoms revoked by %2$s"
+  "death.attack.dematerialize.player": "%1$s had their atoms revoked by %2$s",
+
+  "death.attack.throwing_pierce.0": "%1$s was pierced to death",
+  "death.attack.throwing_pierce.1": "%1$s was brutally perforated",
+  "death.attack.throwing_pierce.2": "%1$s got impaled",
+  "death.attack.throwing_pierce.3": "%1$s became swiss cheese",
+  "death.attack.throwing_pierce.4": "%1$s ",
+  "death.attack.throwing_pierce.5": "%1$s was pierced to death",
+  "death.attack.throwing_pierce.6": "%1$s was pierced to death",
+  "death.attack.throwing_pierce.7": "%1$s was pierced to death",
+  "death.attack.throwing_pierce.8": "%1$s was pierced to death",
+
+  "death.attack.throwing_pierce.0.player": "%1$s was made into a pincushion by %2$s",
+  "death.attack.throwing_pierce.1.player": "%1$s was shish kebab'd by %2$s",
+  "death.attack.throwing_pierce.2.player": "%1$s was pierced in the heart by %2$s",
+  "death.attack.throwing_pierce.3.player": "%2$s gave %1$s a new hole",
+  "death.attack.throwing_pierce.4.player": "%1$s was crucified by %2$s",
+  "death.attack.throwing_pierce.5.player": "%2$s was (swiss) cheesed to meet %1$s",
+  "death.attack.throwing_pierce.6.player": "%1$s was made into a pincushion by %2$s",
+  "death.attack.throwing_pierce.7.player": "%1$s was made into a pincushion by %2$s",
+  "death.attack.throwing_pierce.8.player": "%1$s was made into a pincushion by %2$s",
+
+  "death.attack.throwing_blunt.0": "%1$s discovered blunt force",
+  "death.attack.throwing_blunt.1": "%1$s was pierced to death",
+  "death.attack.throwing_blunt.2": "%1$s was pierced to death",
+  "death.attack.throwing_blunt.3": "%1$s was pierced to death",
+  "death.attack.throwing_blunt.4": "%1$s was pierced to death",
+  "death.attack.throwing_blunt.5": "%1$s was pierced to death",
+  "death.attack.throwing_blunt.6": "%1$s was pierced to death",
+  "death.attack.throwing_blunt.7": "%1$s was pierced to death",
+  "death.attack.throwing_blunt.8": "%1$s was pierced to death",
+
+  "death.attack.throwing_blunt.0.player": "%1$s was brutally indented by %2$s",
+  "death.attack.throwing_blunt.1.player": "%1$s was made into a pincushion by %2$s",
+  "death.attack.throwing_blunt.2.player": "%1$s was made into a pincushion by %2$s",
+  "death.attack.throwing_blunt.3.player": "%1$s was made into a pincushion by %2$s",
+  "death.attack.throwing_blunt.4.player": "%1$s was made into a pincushion by %2$s",
+  "death.attack.throwing_blunt.5.player": "%1$s was made into a pincushion by %2$s",
+  "death.attack.throwing_blunt.6.player": "%1$s was made into a pincushion by %2$s",
+  "death.attack.throwing_blunt.7.player": "%1$s was made into a pincushion by %2$s",
+  "death.attack.throwing_blunt.8.player": "%1$s was made into a pincushion by %2$s"
 }

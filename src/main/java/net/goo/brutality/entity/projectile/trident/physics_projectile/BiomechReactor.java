@@ -2,8 +2,8 @@ package net.goo.brutality.entity.projectile.trident.physics_projectile;
 
 import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.entity.base.BrutalityAbstractPhysicsTrident;
-import net.goo.brutality.entity.base.BrutalityAbstractTrident;
+import net.goo.brutality.entity.base.BrutalityAbstractPhysicsThrowingProjectile;
+import net.goo.brutality.entity.base.BrutalityAbstractThrowingProjectile;
 import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
@@ -12,39 +12,33 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import static net.goo.brutality.util.ModResources.RAINBOW_TRAIL_FX;
 
-public class BiomechReactor extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
+public class BiomechReactor extends BrutalityAbstractPhysicsThrowingProjectile implements BrutalityGeoEntity {
     private static final EntityDataAccessor<Integer> HOMING_TARGET_ID = SynchedEntityData.defineId(BiomechReactor.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> HOMING_COOLDOWN = SynchedEntityData.defineId(BiomechReactor.class, EntityDataSerializers.INT);
 
-    public BiomechReactor(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
-        this.entityData.set(HOMING_TARGET_ID, -1);
-        this.entityData.set(HOMING_COOLDOWN, 25);
+    public BiomechReactor(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, pLevel, damageTypeResourceKey);
     }
 
-    public BiomechReactor(Level pLevel, LivingEntity pShooter, ItemStack pStack, EntityType<? extends AbstractArrow> trident) {
-        super(pLevel, pShooter, pStack, trident);
-
-        this.entityData.set(HOMING_TARGET_ID, -1);
-        this.entityData.set(HOMING_COOLDOWN, 25);
+    public BiomechReactor(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Player player, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, player, pLevel, damageTypeResourceKey);
     }
 
 
@@ -54,7 +48,7 @@ public class BiomechReactor extends BrutalityAbstractPhysicsTrident implements B
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
 
         if (pCompound.contains("HomingTargetId", Tag.TAG_INT)) {
@@ -73,7 +67,7 @@ public class BiomechReactor extends BrutalityAbstractPhysicsTrident implements B
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt("HomingTargetId", this.entityData.get(HOMING_TARGET_ID));
         pCompound.putInt("HomingCooldown", this.entityData.get(HOMING_COOLDOWN));
@@ -151,7 +145,7 @@ public class BiomechReactor extends BrutalityAbstractPhysicsTrident implements B
 
 
     @Override
-    protected void onHit(HitResult hitResult) {
+    protected void onHit(@NotNull HitResult hitResult) {
         super.onHit(hitResult);
         if (this.getOwner() instanceof LivingEntity owner) {
             for (LivingEntity livingEntity : level().getNearbyEntities(LivingEntity.class,
@@ -180,6 +174,7 @@ public class BiomechReactor extends BrutalityAbstractPhysicsTrident implements B
     @Override
     protected void onHitEntity(EntityHitResult hitResult) {
         super.onHitEntity(hitResult);
+
         Entity hitEntity = hitResult.getEntity();
         Vec3 location = hitResult.getLocation();
 
@@ -190,10 +185,6 @@ public class BiomechReactor extends BrutalityAbstractPhysicsTrident implements B
         }
     }
 
-    @Override
-    public float getDamage(@Nullable LivingEntity livingEntity) {
-        return 20;
-    }
 
     @Override
     protected float getBounciness() {

@@ -2,13 +2,22 @@ package net.goo.brutality.item.weapon.bow;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalityBowItem;
+import net.goo.brutality.registry.BrutalityModEntities;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
@@ -23,10 +32,10 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
-public class ProvidenceBow extends BrutalityBowItem {
+public class Providence extends BrutalityBowItem {
 
 
-    public ProvidenceBow(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public Providence(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }
@@ -50,7 +59,6 @@ public class ProvidenceBow extends BrutalityBowItem {
     protected float getPowerMultiplier() {
         return 3.5F;
     }
-
 
 
     @Override
@@ -95,12 +103,37 @@ public class ProvidenceBow extends BrutalityBowItem {
         return InteractionResultHolder.fail(bowStack);
     }
 
-//    @Override
-//    public <T extends Item & BrutalityGeoItem> void configureLayers(BrutalityItemRenderer<T> renderer) {
-//        super.configureLayers(renderer);
-//        renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer));
-//        renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
-//    }
+
+    @Override
+    protected SoundEvent getShootSound() {
+        return BrutalityModSounds.WINGS_FLAP.get();
+    }
+
+    @Override
+    protected EntityType<? extends AbstractArrow> getArrowEntity() {
+        return BrutalityModEntities.LIGHT_ARROW.get();
+    }
+
+    @Override
+    protected void onFullDraw(Player player, Level level) {
+        List<LivingEntity> nearbyEntities = level.getNearbyEntities(
+                LivingEntity.class,
+                TargetingConditions.DEFAULT,
+                null,
+                player.getBoundingBox().inflate(3)
+        );
+
+        level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(3), e -> {
+            if (e instanceof Mob mob) {
+                return mob.getTarget() != player || mob.isAlliedTo(player);
+            }
+            return true;
+        });
+
+        for (LivingEntity entity : nearbyEntities) {
+            entity.addEffect(new MobEffectInstance(MobEffects.HEAL, 1, 0), entity);
+        }
+    }
 
     @Override
     public void releaseUsing(@NotNull ItemStack bowStack, @NotNull Level level, @NotNull LivingEntity shooter, int timeLeft) {

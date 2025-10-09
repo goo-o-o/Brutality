@@ -62,8 +62,13 @@ public class StickyBomb extends BrutalityThrowingItem {
             }
 
             entity.getCapability(BrutalityCapabilities.ENTITY_STICKY_BOMB_CAP).ifPresent(cap -> {
+                int stickyBombCount = cap.getStickyBombCount(uuid, entity.getId());
+                if (stickyBombCount <= 0) return;
+
+                stickyBombCount =  Math.min(25, stickyBombCount);
+
                 level.explode(player, null, null,
-                        entity.getPosition(1).add(0, entity.getBbHeight() / 2, 0), Math.min(10, cap.getStickyBombCount(uuid, entity.getId())),
+                        entity.getPosition(1).add(0, entity.getBbHeight() / 2, 0), Math.min(10, stickyBombCount),
                         false, ModUtils.getThrowingWeaponExplosionInteractionFromConfig());
                 cap.clearStickyBombCount(uuid, entity.getId());
                 if (!level.isClientSide()) {

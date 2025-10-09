@@ -35,6 +35,6 @@ public class DeckOfFate extends BrutalityThrowingItem {
 
     @Override
     public float getInitialThrowVelocity() {
-        return 1F;
+        return 2F;
     }
 }

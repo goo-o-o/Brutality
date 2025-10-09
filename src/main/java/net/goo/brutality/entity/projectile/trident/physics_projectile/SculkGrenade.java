@@ -1,15 +1,17 @@
 package net.goo.brutality.entity.projectile.trident.physics_projectile;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.entity.base.BrutalityAbstractPhysicsTrident;
-import net.goo.brutality.entity.base.BrutalityAbstractTrident;
+import net.goo.brutality.entity.base.BrutalityAbstractPhysicsThrowingProjectile;
+import net.goo.brutality.entity.base.BrutalityAbstractThrowingProjectile;
 import net.goo.brutality.particle.providers.WaveParticleData;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -19,13 +21,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 
-public class SculkGrenade extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
+public class SculkGrenade extends BrutalityAbstractPhysicsThrowingProjectile implements BrutalityGeoEntity {
 
-    public SculkGrenade(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
-        this.pickup = Pickup.DISALLOWED;
+
+    public SculkGrenade(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, pLevel, damageTypeResourceKey);
     }
 
+    public SculkGrenade(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Player player, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, player, pLevel, damageTypeResourceKey);
+    }
 
     @Override
     public int getInGroundLifespan() {
@@ -65,20 +70,16 @@ public class SculkGrenade extends BrutalityAbstractPhysicsTrident implements Bru
     }
 
     @Override
-    protected void onHit(HitResult hitResult) {
+    protected void onHit(@NotNull HitResult hitResult) {
         super.onHit(hitResult);
         WaveParticleData<?> waveParticleData = new WaveParticleData<>(BrutalityModParticles.SONIC_WAVE.get(), 2.5F, 50);
         DamageSource damageSource;
-        float damage;
         if (getOwner() instanceof LivingEntity living) {
             damageSource = damageSources().mobAttack(living);
-            damage = getDamage(living);
         } else if (getOwner() instanceof Player player) {
             damageSource = damageSources().playerAttack(player);
-            damage = getDamage(player);
         } else {
             damageSource = damageSources().generic();
-            damage = getDamage(null);
         }
 
 
@@ -87,7 +88,7 @@ public class SculkGrenade extends BrutalityAbstractPhysicsTrident implements Bru
         if (level() instanceof ServerLevel serverLevel) {
             ModUtils.applyWaveEffect(serverLevel, this, LivingEntity.class, waveParticleData, e -> e != getOwner(), e -> {
                 e.invulnerableTime = 0;
-                e.hurt(damageSource, damage);
+                e.hurt(damageSource, this.damage);
                 ((LivingEntity) e).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 10));
             });
         }

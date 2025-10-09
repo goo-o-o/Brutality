@@ -1,13 +1,11 @@
 package net.goo.brutality.entity.projectile.generic;
 
-import net.goo.brutality.client.entity.BrutalityGeoEntity;
+import net.goo.brutality.entity.base.BrutalityAbstractThrowingProjectile;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -16,15 +14,17 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class VampireKnife extends ThrowableProjectile implements BrutalityGeoEntity {
-    public VampireKnife(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+public class VampireKnife extends BrutalityAbstractThrowingProjectile {
+
+
+    public VampireKnife(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, pLevel, damageTypeResourceKey);
     }
 
-    @Override
-    protected void defineSynchedData() {
-
+    public VampireKnife(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Player player, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, player, pLevel, damageTypeResourceKey);
     }
+
 
     AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this, true);
 
@@ -35,7 +35,6 @@ public class VampireKnife extends ThrowableProjectile implements BrutalityGeoEnt
 
     @Override
     public void tick() {
-
         super.tick();
         if (tickCount == 20) triggerAnim("controller", "spin");
         if (tickCount > 40) discard();
@@ -47,18 +46,6 @@ public class VampireKnife extends ThrowableProjectile implements BrutalityGeoEnt
         discard();
     }
 
-    @Override
-    protected void onHitEntity(EntityHitResult pResult) {
-        if (getOwner() instanceof LivingEntity livingEntity) {
-            float damage = (float) livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
-            if (livingEntity instanceof Player player)
-                pResult.getEntity().hurt(damageSources().playerAttack(player), damage);
-            else
-                pResult.getEntity().hurt(damageSources().mobAttack(livingEntity), damage);
-        } else {
-            pResult.getEntity().hurt(damageSources().generic(), 5);
-        }
-    }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {

@@ -1,24 +1,31 @@
 package net.goo.brutality.entity.projectile.trident.physics_projectile;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.entity.base.BrutalityAbstractPhysicsTrident;
-import net.goo.brutality.entity.base.BrutalityAbstractTrident;
+import net.goo.brutality.entity.base.BrutalityAbstractPhysicsThrowingProjectile;
+import net.goo.brutality.entity.base.BrutalityAbstractThrowingProjectile;
 import net.goo.brutality.entity.explosion.NapalmExplosion;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.ModExplosionHelper;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-public class BlastBarrel extends BrutalityAbstractPhysicsTrident implements BrutalityGeoEntity {
+public class BlastBarrel extends BrutalityAbstractPhysicsThrowingProjectile implements BrutalityGeoEntity {
 
-    public BlastBarrel(EntityType<? extends BrutalityAbstractTrident> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
-        this.pickup = Pickup.DISALLOWED;
+
+    public BlastBarrel(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, pLevel, damageTypeResourceKey);
+    }
+
+    public BlastBarrel(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Player player, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
+        super(pEntityType, player, pLevel, damageTypeResourceKey);
     }
 
     @Override
@@ -49,11 +56,6 @@ public class BlastBarrel extends BrutalityAbstractPhysicsTrident implements Brut
     @Override
     public float getGravity() {
         return 0.065F;
-    }
-
-    @Override
-    protected int getHitQuota() {
-        return 2;
     }
 
     @Override

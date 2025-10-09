@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:iron_block"
+    },
+    "B": {
+      "item": "minecraft:totem_of_undying"
+    },
+    "C": {
+      "item": "terramity:cardboard"
+    }
+  },
+  "pattern": [
+    "CAC",
+    "CBC",
+    "CAC"
+  ],
+  "result": {
+    "item": "brutality:silver_respawn_card"
+  },
+  "show_notification": true
+}

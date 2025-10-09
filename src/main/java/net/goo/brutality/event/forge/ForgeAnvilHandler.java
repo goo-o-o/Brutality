@@ -18,13 +18,14 @@ public class ForgeAnvilHandler {
         ItemStack output = left.copy();
 
 
-        if (right.getItem() instanceof BaseSealItem sealItem && !(left.getItem() instanceof ICurioItem)) {
+
+        if (right.getItem() instanceof BaseSealItem sealItem && !(left.getItem() instanceof ICurioItem || left.getItem() instanceof BaseSealItem)) {
             SealUtils.SEAL_TYPE sealType = sealItem.getSealType();
             if (sealType != null && SealUtils.getSealType(left) == null) {
                 SealUtils.addSeal(output, sealType);
                 event.setOutput(output);
                 event.setCost(5);
-                event.setMaterialCost(1);
+                event.setMaterialCost(left.getCount());
             }
         }
     }

@@ -37,7 +37,7 @@ public class BrutalityModEntityRenderManager {
         event.registerEntityRenderer(BrutalityModEntities.GOLDEN_PHOENIX.get(), BrutalityAbstractPhysicsTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.CAVENDISH.get(), BrutalityAbstractPhysicsTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.WINTER_MELON.get(), BrutalityAbstractPhysicsTridentRenderer::new);
-        event.registerEntityRenderer(BrutalityModEntities.THROWN_STYROFOAM_CUP.get(), BrutalityAbstractPhysicsTridentRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.STYROFOAM_CUP.get(), BrutalityAbstractPhysicsTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.CINDER_BLOCK.get(), BrutalityAbstractPhysicsTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.STICKY_BOMB.get(), BrutalityAbstractPhysicsTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.BEACH_BALL.get(), BrutalityAbstractPhysicsTridentRenderer::new);
@@ -75,7 +75,6 @@ public class BrutalityModEntityRenderManager {
 
         event.registerEntityRenderer(BrutalityModEntities.PI_ENTITY.get(), BrutalityEntityRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.ABYSS_PROJECTILE.get(), BrutalityEntityRenderer::new);
-        event.registerEntityRenderer(BrutalityModEntities.VAMPIRE_HEAL_PROJECTILE.get(), BrutalityEntityRenderer::new);
 
         event.registerEntityRenderer(BrutalityModEntities.TERRA_BEAM.get(), BrutalitySwordBeamRenderer::new);
 

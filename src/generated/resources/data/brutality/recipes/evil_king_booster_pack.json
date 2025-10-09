@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "brutality:diamond_booster_pack"
+    },
+    "B": {
+      "item": "terramity:evil_king_armor_helmet"
+    },
+    "C": {
+      "item": "terramity:evil_king_armor_chestplate"
+    },
+    "D": {
+      "item": "terramity:evil_king_armor_leggings"
+    },
+    "E": {
+      "item": "terramity:evil_king_armor_boots"
+    },
+    "F": {
+      "item": "terramity:ibuprofen_capsules"
+    }
+  },
+  "pattern": [
+    "B C",
+    " A ",
+    "EFD"
+  ],
+  "result": {
+    "item": "brutality:evil_king_booster_pack"
+  },
+  "show_notification": true
+}

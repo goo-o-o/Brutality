@@ -2,6 +2,7 @@ package net.goo.brutality.item.weapon.trident;
 
 import net.goo.brutality.entity.projectile.trident.physics_projectile.BiomechReactor;
 import net.goo.brutality.item.base.BrutalityTridentItem;
+import net.goo.brutality.registry.BrutalityDamageTypes;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.util.RandomSource;
@@ -13,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
@@ -70,7 +72,7 @@ public class BiomechReactorTrident extends BrutalityTridentItem {
     @Override
     public void launchProjectile(Level pLevel, Player player, ItemStack pStack) {
 
-        BiomechReactor thrownEntity = new BiomechReactor(pLevel, player, pStack, BrutalityModEntities.BIOMECH_REACTOR.get());
+        BiomechReactor thrownEntity = new BiomechReactor(BrutalityModEntities.BIOMECH_REACTOR.get(), player, pLevel, BrutalityDamageTypes.THROWING_BLUNT);
         thrownEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, getLaunchVel(), 1.0F);
 
         pLevel.addFreshEntity(thrownEntity);
@@ -82,7 +84,7 @@ public class BiomechReactorTrident extends BrutalityTridentItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         if (itemstack.getDamageValue() >= itemstack.getMaxDamage() - 1) {
             return InteractionResultHolder.fail(itemstack);

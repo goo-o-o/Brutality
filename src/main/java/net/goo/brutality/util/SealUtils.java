@@ -7,12 +7,9 @@ import net.goo.brutality.entity.spells.cosmic.StarStreamEntity;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.registry.ModAttributes;
-import net.mcreator.terramity.entity.BombFlowerItemProjectileEntity;
-import net.mcreator.terramity.init.TerramityModEntities;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -61,7 +58,7 @@ public class SealUtils implements IItemDecorator {
         GLASS(false),
         QUANTITE(false),
         VOID(true),
-        COSMIC(false);
+        COSMIC(true);
 
         private final boolean showDescription;
 
@@ -148,22 +145,22 @@ public class SealUtils implements IItemDecorator {
         if (sealType != null) {
             RandomSource random = level.getRandom();
             switch (sealType) {
-                case BOMB -> {
-                    BombFlowerItemProjectileEntity bombFlower =
-                            new BombFlowerItemProjectileEntity(TerramityModEntities.BOMB_FLOWER_ITEM_PROJECTILE.get(), victim.getRandomX(0.5F), victim.getY(0.5F), victim.getRandomZ(0.5F), level);
-                    bombFlower.setOwner(attacker);
-                    bombFlower.setSilent(true);
-                    bombFlower.setBaseDamage(4.0F);
-                    bombFlower.setKnockback(5);
-                    bombFlower.setCritArrow(false);
-                    bombFlower.setDeltaMovement(
-                            Mth.randomBetween(random, -0.5F, 0.5F),
-                            Mth.randomBetween(random, -0.5F, 0.5F),
-                            Mth.randomBetween(random, -0.5F, 0.5F)
-                    );
-                    level.addFreshEntity(bombFlower);
-                    level.playSound(null, victim.getX(), victim.getY(), victim.getZ(), SoundEvents.ENDER_PEARL_THROW, SoundSource.PLAYERS, 1.0F, 1.0F / (RandomSource.create().nextFloat() * 0.5F + 1.0F));
-                }
+                case BOMB ->
+                    //                    BombFlowerItemProjectileEntity bombFlower =
+                    //                            new BombFlowerItemProjectileEntity(TerramityModEntities.BOMB_FLOWER_ITEM_PROJECTILE.get(), victim.getRandomX(0.5F), victim.getY(0.5F), victim.getRandomZ(0.5F), level);
+                    //                    bombFlower.setOwner(attacker);
+                    //                    bombFlower.setSilent(true);
+                    //                    bombFlower.setBaseDamage(4.0F);
+                    //                    bombFlower.setKnockback(5);
+                    //                    bombFlower.setCritArrow(false);
+                    //                    bombFlower.setDeltaMovement(
+                    //                            Mth.randomBetween(random, -0.5F, 0.5F),
+                    //                            Mth.randomBetween(random, -0.5F, 0.5F),
+                    //                            Mth.randomBetween(random, -0.5F, 0.5F)
+                    //                    );
+                    //                    level.addFreshEntity(bombFlower);
+                    //                    level.playSound(null, victim.getX(), victim.getY(), victim.getZ(), SoundEvents.ENDER_PEARL_THROW, SoundSource.PLAYERS, 1.0F, 1.0F / (RandomSource.create().nextFloat() * 0.5F + 1.0F));
+                        level.explode(victim, victim.getRandomX(2), victim.getY(0.5), victim.getZ(2), 2, Level.ExplosionInteraction.NONE);
                 case COSMIC -> {
                     StarStreamEntity spellEntity = new StarStreamEntity(BrutalityModEntities.STAR_STREAM_ENTITY.get(), level);
                     spellEntity.setSpellLevel(0);

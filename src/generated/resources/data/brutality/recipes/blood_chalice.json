@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:holy_chalice"
+    },
+    "B": {
+      "item": "terramity:chthonic_crystal"
+    },
+    "C": {
+      "item": "terramity:hellspec_alloy"
+    }
+  },
+  "pattern": [
+    "CBC",
+    "BAB",
+    "CBC"
+  ],
+  "result": {
+    "item": "brutality:blood_chalice"
+  },
+  "show_notification": true
+}

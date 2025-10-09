@@ -33,7 +33,7 @@ public class IncognitoMode extends BrutalityCurioItem {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
         builder.put(ModAttributes.ENTITY_VISIBILITY.get(), new AttributeModifier(INCOGNITO_MODE,
-                "Visibility Buff", -0.25F, AttributeModifier.Operation.MULTIPLY_BASE));
+                "Visibility Buff", -0.65F, AttributeModifier.Operation.MULTIPLY_BASE));
         return builder.build();
     }
 

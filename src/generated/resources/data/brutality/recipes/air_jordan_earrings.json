@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:diamond_earrings"
+    },
+    "B": {
+      "item": "minecraft:iron_nugget"
+    },
+    "C": {
+      "item": "minecraft:phantom_membrane"
+    },
+    "D": {
+      "item": "minecraft:red_concrete"
+    }
+  },
+  "pattern": [
+    "   ",
+    "BAB",
+    "DCD"
+  ],
+  "result": {
+    "item": "brutality:air_jordan_earrings"
+  },
+  "show_notification": true
+}

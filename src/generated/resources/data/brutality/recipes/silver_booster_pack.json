@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:cardboard_box"
+    },
+    "B": {
+      "item": "terramity:cardboard"
+    },
+    "C": {
+      "type": "forge:nbt",
+      "count": 1,
+      "item": "minecraft:potion",
+      "nbt": "{Potion:\"minecraft:swiftness\"}"
+    },
+    "D": {
+      "item": "terramity:amp_shield"
+    },
+    "E": {
+      "item": "minecraft:golden_carrot"
+    }
+  },
+  "pattern": [
+    "BDB",
+    "EAC",
+    "BBB"
+  ],
+  "result": {
+    "item": "brutality:silver_booster_pack"
+  },
+  "show_notification": true
+}

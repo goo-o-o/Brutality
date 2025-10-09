@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "brutality:second_heart"
+    },
+    "B": {
+      "item": "terramity:spiteful_soul"
+    },
+    "C": {
+      "item": "terramity:forbidden_fruit"
+    }
+  },
+  "pattern": [
+    " C ",
+    "BAB",
+    " B "
+  ],
+  "result": {
+    "item": "brutality:brutal_heart"
+  },
+  "show_notification": true
+}
