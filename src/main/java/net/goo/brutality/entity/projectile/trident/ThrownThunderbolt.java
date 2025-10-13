@@ -47,7 +47,6 @@ public class ThrownThunderbolt extends BrutalityAbstractTrident implements Bruta
         return 8F;
     }
 
-
     public void tick() {
         if (firstTick && !(level() instanceof ServerLevel)) {
             EntityEffect lightningTrail = new EntityEffect(LIGHTNING_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);

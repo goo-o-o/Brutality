@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:energized_core"
+    },
+    "B": {
+      "item": "terramity:profaned_ore"
+    },
+    "C": {
+      "item": "minecraft:magma_block"
+    }
+  },
+  "pattern": [
+    " C ",
+    "BAB",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:profanum_reactor"
+  },
+  "show_notification": true
+}

@@ -1,10 +1,13 @@
 package net.goo.brutality.item.base;
 
+import net.goo.brutality.Brutality;
 import net.goo.brutality.client.renderers.armor.BrutalityArmorRenderer;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
@@ -18,6 +21,7 @@ import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInst
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 public class BrutalityArmorItem extends ArmorItem implements BrutalityGeoItem {
@@ -31,6 +35,12 @@ public class BrutalityArmorItem extends ArmorItem implements BrutalityGeoItem {
         this.rarity = rarity;
         this.descriptionComponents = descriptionComponents;
     }
+
+    @Override
+    public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+        return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/armor/" + getMaterial().toString().toLowerCase(Locale.ROOT) + "_armor.png").toString();
+    }
+
 
     @Override
     public boolean isDamageable(ItemStack stack) {

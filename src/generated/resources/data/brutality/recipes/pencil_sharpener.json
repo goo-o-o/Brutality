@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:daemonium_chunk"
+    },
+    "B": {
+      "item": "minecraft:iron_sword"
+    },
+    "C": {
+      "item": "minecraft:light_blue_concrete"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "BAB",
+    "CCC"
+  ],
+  "result": {
+    "item": "brutality:pencil_sharpener"
+  },
+  "show_notification": true
+}

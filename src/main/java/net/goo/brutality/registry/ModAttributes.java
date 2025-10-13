@@ -126,10 +126,8 @@ public class ModAttributes {
     public static final RegistryObject<Attribute> ENTITY_VISIBILITY = ATTRIBUTES.register("entity_visibility",
             () -> new RangedAttribute("attribute.name.generic.entity_visibility", 1, 0, 1).setSyncable(true));
 
-
     public static final RegistryObject<Attribute> THROW_STRENGTH = ATTRIBUTES.register("throw_strength",
             () -> new RangedAttribute("attribute.name.generic.throw_strength", 1, 0, 1024F).setSyncable(true));
-
     public static final RegistryObject<Attribute> DAMAGE_TAKEN = ATTRIBUTES.register("damage_taken",
             () -> new RangedAttribute("attribute.name.generic.damage_taken", 1, 0, 1024F).setSyncable(true));
 

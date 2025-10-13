@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:circuit_board"
+    },
+    "B": {
+      "item": "minecraft:cyan_terracotta"
+    },
+    "C": {
+      "item": "minecraft:mangrove_button"
+    }
+  },
+  "pattern": [
+    " C ",
+    "BAB",
+    "BBB"
+  ],
+  "result": {
+    "item": "brutality:emergency_meeting"
+  },
+  "show_notification": true
+}

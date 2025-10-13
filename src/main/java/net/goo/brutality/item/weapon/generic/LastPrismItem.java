@@ -1,8 +1,13 @@
 package net.goo.brutality.item.weapon.generic;
 
+import net.goo.brutality.entity.capabilities.EntityCapabilities;
 import net.goo.brutality.entity.projectile.ray.LastPrismRay;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.base.BrutalityGenericItem;
+import net.goo.brutality.magic.SpellCastingHandler;
+import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
+import net.goo.brutality.network.PacketHandler;
+import net.goo.brutality.registry.BrutalityDamageTypes;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
@@ -43,12 +48,12 @@ public class LastPrismItem extends BrutalityGenericItem {
 
 
     @Override
-    public int getUseDuration(ItemStack pStack) {
+    public int getUseDuration(@NotNull ItemStack pStack) {
         return 72000;
     }
 
     @Override
-    public @NotNull UseAnim getUseAnimation(ItemStack pStack) {
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack) {
         return UseAnim.BOW;
     }
 
@@ -61,9 +66,9 @@ public class LastPrismItem extends BrutalityGenericItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-
+    public InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
+        if (SpellCastingHandler.getManaHandler(pPlayer).manaValue() < 15) return InteractionResultHolder.fail(stack);
         pPlayer.getCooldowns().addCooldown(stack.getItem(), 20);
 
         LastPrismRay lastPrismRay = new LastPrismRay(BrutalityModEntities.LAST_PRISM_RAY.get(), pLevel);
@@ -76,14 +81,13 @@ public class LastPrismItem extends BrutalityGenericItem {
 //            triggerAnim(pPlayer, GeoItem.getOrAssignId(stack, serverLevel), "controller", "use");
 
         pPlayer.startUsingItem(pUsedHand);
-        return InteractionResultHolder.pass(pPlayer.getItemInHand(pUsedHand));
+        return InteractionResultHolder.pass(stack);
     }
 
     @Override
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {
-        super.releaseUsing(pStack, pLevel, pLivingEntity, pTimeCharged);
         if (getLastPrismRay(pLevel, pStack) instanceof LastPrismRay lastPrismRay) {
-            lastPrismRay.triggerAnim(null, "despawn");
+            lastPrismRay.triggerAnim("controller", "despawn");
             DelayedTaskScheduler.queueServerWork(pLevel, 20, lastPrismRay::discard);
         }
 
@@ -97,7 +101,20 @@ public class LastPrismItem extends BrutalityGenericItem {
 
     @Override
     public void onUseTick(Level pLevel, LivingEntity owner, ItemStack pStack, int pRemainingUseDuration) {
-        super.onUseTick(pLevel, owner, pStack, pRemainingUseDuration);
+        if (!(owner instanceof Player player)) return;
+
+        if (pRemainingUseDuration % 10 == 0) {
+            if (!player.level().isClientSide())
+                PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(player.getId(), player));
+            EntityCapabilities.PlayerManaCap playerManaCap = SpellCastingHandler.getManaHandler(player);
+            if (playerManaCap.manaValue() > 15) {
+                playerManaCap.decrementMana(15);
+            } else {
+                player.releaseUsingItem();
+                return;
+            }
+        }
+
         if (getLastPrismRay(pLevel, pStack) instanceof LastPrismRay lastPrismRay) {
             if (pLevel instanceof ServerLevel serverLevel) {
 
@@ -114,16 +131,13 @@ public class LastPrismItem extends BrutalityGenericItem {
                 if (rayData.entityList() == null) return;
 
                 for (LivingEntity target : rayData.entityList()) {
-                    target.invulnerableTime = 0;
-                    target.hurt(target.damageSources().indirectMagic(owner, null), 8);
+                    target.hurt(BrutalityDamageTypes.last_prism(owner), 2);
                 }
 
                 Vec3 endPos = rayData.endPos();
                 serverLevel.sendParticles(
                         BrutalityModParticles.LAST_PRISM_RAY_PARTICLE.get(), endPos.x, endPos.y, endPos.z, 5, 1, 1, 1, 0);
 
-
-                pStack.hurtAndBreak(1, owner, e -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
             }
             if ((this.getUseDuration(pStack) - pRemainingUseDuration) % 6 == 0) {
 //                pLevel.playSound(owner, owner.getOnPos(), BrutalityModSounds.LAST_PRISM_USE.get(), SoundSource.PLAYERS, 2F, 1F);
@@ -133,6 +147,10 @@ public class LastPrismItem extends BrutalityGenericItem {
         }
     }
 
+    @Override
+    public boolean isDamageable(ItemStack stack) {
+        return false;
+    }
 
     @Override
     public boolean canEquip(ItemStack stack, EquipmentSlot slot, Entity entity) {

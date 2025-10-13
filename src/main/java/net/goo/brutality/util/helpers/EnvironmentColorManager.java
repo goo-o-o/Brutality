@@ -7,18 +7,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.util.FastColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.joml.Vector3f;
 
-import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.rgbToInt;
+import java.util.Objects;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, value = Dist.CLIENT)
 public class EnvironmentColorManager {
@@ -38,13 +37,13 @@ public class EnvironmentColorManager {
         }
     }
 
-    // Color storage (-1 means no override)
+    // Color storage (null means no override)
     private static final EnumMap<ColorType, Integer> COLOR_OVERRIDES = new EnumMap<>(ColorType.class);
 
     static {
-        // Initialize all color types to -1 (no override)
+        // Initialize all color types to null (no override)
         for (ColorType type : ColorType.values()) {
-            COLOR_OVERRIDES.put(type, -1);
+            COLOR_OVERRIDES.put(type, null);
         }
     }
 
@@ -52,14 +51,10 @@ public class EnvironmentColorManager {
      * Set a color override
      *
      * @param type The color type to modify
-     * @param r    red component
-     * @param g    green component
-     * @param b    blue component
      */
-    public static void setColor(ColorType type, int r, int g, int b) {
-        int rgbColor = rgbToInt(r, g, b);
+    public static void setColor(ColorType type, int rgbColor) {
         int clampedColor = rgbColor & 0xFFFFFF; // Ensure valid RGB
-        if (COLOR_OVERRIDES.get(type) != clampedColor) {
+        if (!Integer.valueOf(clampedColor).equals(COLOR_OVERRIDES.get(type))) {
             COLOR_OVERRIDES.put(type, clampedColor);
 
             // Update rendering if needed
@@ -75,9 +70,9 @@ public class EnvironmentColorManager {
     }
 
     public static void setColor(ColorType type, int[] rgb) {
-        int rgbColor = rgbToInt(rgb[0], rgb[1], rgb[2]);
+        int rgbColor = FastColor.ARGB32.color(255, rgb[0], rgb[1], rgb[2]);
         int clampedColor = rgbColor & 0xFFFFFF; // Ensure valid RGB
-        if (COLOR_OVERRIDES.get(type) != clampedColor) {
+        if (!Integer.valueOf(clampedColor).equals(COLOR_OVERRIDES.get(type))) {
             COLOR_OVERRIDES.put(type, clampedColor);
 
             // Update rendering if needed
@@ -96,8 +91,8 @@ public class EnvironmentColorManager {
      * Reset a color to default
      */
     public static void resetColor(ColorType type) {
-        if (COLOR_OVERRIDES.get(type) != -1) {
-            COLOR_OVERRIDES.put(type, -1);
+        if (COLOR_OVERRIDES.get(type) != null) {
+            COLOR_OVERRIDES.put(type, null);
 
             if (type.requiresReload) {
                 Minecraft.getInstance().levelRenderer.allChanged();
@@ -110,8 +105,8 @@ public class EnvironmentColorManager {
      */
     public static void resetAllColors() {
         boolean needsReload = COLOR_OVERRIDES.entrySet().stream()
-                .filter(entry -> entry.getValue() != -1) // Only changed colors
-                .peek(entry -> entry.setValue(-1)) // Reset them
+                .filter(entry -> entry.getValue() != null) // Only changed colors
+                .peek(entry -> entry.setValue(null)) // Reset them
                 .anyMatch(entry -> entry.getKey().requiresReload); // Check if any need reload
 
         if (needsReload) {
@@ -122,9 +117,9 @@ public class EnvironmentColorManager {
     /**
      * Get the current override for a color type
      *
-     * @return The override color or -1 if not set
+     * @return The override color or null if not set
      */
-    public static int getColorOverride(ColorType type) {
+    public static Integer getColorOverride(ColorType type) {
         return COLOR_OVERRIDES.get(type);
     }
 
@@ -168,27 +163,26 @@ public class EnvironmentColorManager {
         }
     }
 
-
     public static class ProximityColorSet {
-        public final EnumMap<ColorType, int[]> inRangeColors = new EnumMap<>(ColorType.class);
-        public final EnumMap<ColorType, int[]> outOfRangeColors = new EnumMap<>(ColorType.class);
+        public final EnumMap<ColorType, Integer> inRangeColors = new EnumMap<>(ColorType.class);
+        public final EnumMap<ColorType, Integer> outOfRangeColors = new EnumMap<>(ColorType.class);
         public final EnumMap<ColorType, Boolean> shouldReset = new EnumMap<>(ColorType.class);
 
-        public ProximityColorSet setColor(ColorType type, int[] inRange, int[] outOfRange) {
-            inRangeColors.put(type, inRange);
-            outOfRangeColors.put(type, outOfRange);
+        public ProximityColorSet setColor(ColorType type, int inRangeColor, int outOfRangeColor) {
+            inRangeColors.put(type, inRangeColor);
+            outOfRangeColors.put(type, outOfRangeColor);
             shouldReset.put(type, false); // default: do NOT reset
             return this;
         }
 
-        public ProximityColorSet setColorAutoReset(ColorType type, int[] inRange) {
-            inRangeColors.put(type, inRange);
+        public ProximityColorSet setColorAutoReset(ColorType type, int inRangeColor) {
+            inRangeColors.put(type, inRangeColor);
             shouldReset.put(type, true);
             return this;
         }
     }
 
-    private static final EnumMap<ColorType, int[]> lastApplied = new EnumMap<>(ColorType.class);
+    private static final EnumMap<ColorType, Integer> lastApplied = new EnumMap<>(ColorType.class);
 
     static {
         for (ColorType type : ColorType.values()) {
@@ -196,10 +190,10 @@ public class EnvironmentColorManager {
         }
     }
 
-    public static final Map<Object, EnumMap<ColorType, int[]>> activeColorSources = new HashMap<>();
+    public static final Map<Object, EnumMap<ColorType, Integer>> activeColorSources = new HashMap<>();
 
     public static void apply(Object source, boolean inRange, ProximityColorSet colors) {
-        EnumMap<ColorType, int[]> newColors = new EnumMap<>(ColorType.class);
+        EnumMap<ColorType, Integer> newColors = new EnumMap<>(ColorType.class);
 
         for (ColorType type : ColorType.values()) {
             if (inRange && colors.inRangeColors.containsKey(type)) {
@@ -217,21 +211,21 @@ public class EnvironmentColorManager {
     }
 
     public static void resolveAndApplyColors() {
-        EnumMap<ColorType, int[]> resolvedColors = new EnumMap<>(ColorType.class);
+        EnumMap<ColorType, Integer> resolvedColors = new EnumMap<>(ColorType.class);
 
         for (ColorType type : ColorType.values()) {
             for (var entry : activeColorSources.values()) {
-                int[] color = entry.get(type);
+                Integer color = entry.get(type);
                 if (color != null) {
                     resolvedColors.put(type, color);
                     break; // Only the first (highest priority) active one
                 }
             }
 
-            int[] resolved = resolvedColors.get(type);
-            int[] current = lastApplied.get(type);
+            Integer resolved = resolvedColors.get(type);
+            Integer current = lastApplied.get(type);
 
-            if (!Arrays.equals(resolved, current)) {
+            if (!Objects.equals(resolved, current)) {
                 if (resolved == null) {
                     resetColor(type);
                 } else {
@@ -241,6 +235,4 @@ public class EnvironmentColorManager {
             }
         }
     }
-
-
 }

@@ -46,6 +46,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
@@ -221,8 +222,17 @@ public class LivingEntityEventHandler {
     @SubscribeEvent
     public static void onProjectileImpact(ProjectileImpactEvent event) {
         if (event.getProjectile().getOwner() instanceof LivingEntity owner) {
-            event.getProjectile().getCapability(BrutalityCapabilities.SEAL_TYPE_CAP).ifPresent(cap ->
-                    SealUtils.handleSealProc(owner.level(), owner, event.getEntity(), cap.getSealType()));
+            event.getProjectile().getCapability(BrutalityCapabilities.SEAL_TYPE_CAP).ifPresent(cap -> {
+                Vec3 location;
+                if (event.getRayTraceResult() instanceof EntityHitResult entityHitResult) {
+                    location = entityHitResult.getEntity().getPosition(1).add(0, entityHitResult.getEntity().getY(0.5F), 0);
+                } else {
+                    location = event.getRayTraceResult().getLocation();
+                }
+
+                SealUtils.handleSealProc(owner.level(), owner, location, cap.getSealType());
+
+            });
         }
     }
 
@@ -686,6 +696,7 @@ public class LivingEntityEventHandler {
                 SupernovaSword.clearAsteroids(victimPlayer, serverLevel);
                 CreaseOfCreation.handleCreaseOfCreation(victimPlayer);
             }
+
             resetAllColors();
 
             if (victimPlayer.hasEffect(BrutalityModMobEffects.ENRAGED.get())) {

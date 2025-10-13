@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:hellspec_alloy"
+    },
+    "B": {
+      "item": "minecraft:ender_eye"
+    },
+    "C": {
+      "item": "minecraft:black_wool"
+    }
+  },
+  "pattern": [
+    " A ",
+    "CBC",
+    "CAC"
+  ],
+  "result": {
+    "item": "brutality:vampiric_talisman"
+  },
+  "show_notification": true
+}

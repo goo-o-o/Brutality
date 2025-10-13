@@ -4,6 +4,7 @@ import com.lowdragmc.photon.client.fx.FX;
 import com.lowdragmc.photon.client.fx.FXHelper;
 import net.goo.brutality.Brutality;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 
 public interface ModResources {
     // Fonts
@@ -15,6 +16,7 @@ public interface ModResources {
     ResourceLocation RARITY_FONT = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "gamer"); // Font used: Gamer https://www.dafont.com/gamer-2.font
 
     FX CREASE_OF_CREATION_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "crease_of_creation_particle"));
+    FX PHOTON_TRAIL_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "photon_trail"));
     FX VAMPIRE_TRIAL_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "vampire_trail"));
     FX CELESTIAL_STARBOARD_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "celestial_starboard_trail"));
     FX LIGHTNING_STRIKE_BURST_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "lightning_strike_burst"));
@@ -26,4 +28,13 @@ public interface ModResources {
     FX ABYSS_TRAIL_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "abyss_trail"));
     FX RUINED_AURA_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "ruined_particle"));
 
+    int[] rainbowColor = new int[]{
+            FastColor.ARGB32.color(255, 255, 0, 0),
+            FastColor.ARGB32.color(255, 255, 127, 0),
+            FastColor.ARGB32.color(255, 255, 255, 0),
+            FastColor.ARGB32.color(255, 0, 255, 0),
+            FastColor.ARGB32.color(255, 0, 0, 255),
+            FastColor.ARGB32.color(255, 75, 0, 130),
+            FastColor.ARGB32.color(255, 148, 0, 21)
+    };
 }

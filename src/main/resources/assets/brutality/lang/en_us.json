@@ -13,6 +13,12 @@
   "item.brutality.perfume_bottle": "Perfume Bottle",
   "item.brutality.perfume_bottle.when_thrown.1": "§e -Throws out a Bottle of Perfume that causes Mobs to target the nearest Entity",
   "item.brutality.perfume_bottle.when_thrown.2": "§e -Ignites when near Fire",
+  "item.brutality.photon": "Photon",
+  "item.brutality.photon.when_thrown.1": "§e -Throws out a single Photon that is unaffected by gravity",
+  "item.brutality.photon.when_thrown.2": "§e -Damage scales based on projectile speed",
+  "item.brutality.pouch_o_photons": "Pouch O' Photons",
+  "item.brutality.pouch_o_photons.when_thrown.1": "§e -Throws out (3 - 10) Photons",
+  "item.brutality.pouch_o_photons.when_thrown.2": "§e -Damage scales based on projectile speed",
 
   "item.brutality.absolute_zero": "Absolute Zero",
   "item.brutality.absolute_zero.lore.1": "Freezing to the touch",
@@ -207,6 +213,7 @@
 
   "item.brutality.last_prism": "Last Prism",
   "item.brutality.last_prism.on_hold_right_click.1": "§e -Fire a disintegrating ray of light",
+  "item.brutality.last_prism.mana_cost.1": "§730/s",
 
   "item.brutality.spatula": "Spatula",
   "item.brutality.spatula.on_hit.1": "§e -Knocks enemies up",
@@ -358,7 +365,7 @@
   "item.brutality.celestial_starboard.dash_ability.1": "§7(Crouch while holding Space)",
 
   "item.brutality.jackpot": "Jackpot",
-  "item.brutality.jackpot.lore": "Just give me one more chance...",
+  "item.brutality.jackpot.lore.1": "Just give me one more chance...",
   "item.brutality.jackpot.on_hit.1": "§e -Randomly an additional (-5 to 10) Damage",
 
   "item.brutality.double_down": "Double Down",
@@ -764,37 +771,29 @@
   "item.brutality.shadowstep.passive.1": "§e -Backstabs do 7x Damage",
   "item.brutality.shadowstep.invalid": "You cannot teleport there",
 
-  "item.brutality.noir_helmet": "The Gentleman's Eclipse",
+  "item.brutality.noir_helmet": "Noir Mask",
   "item.brutality.noir_helmet.full_set_passive.1": "§e -Conceals the wearer's nametag from others",
-  "item.brutality.noir_helmet.full_set_passive.2": "§e -Massively reduced detection range from regular mobs",
 
-  "item.brutality.noir_chestplate": "The Drape of Dissonance",
+  "item.brutality.noir_chestplate": "Noir Cloak",
   "item.brutality.noir_chestplate.full_set_passive.1": "§e -Conceals the wearer's nametag from others",
-  "item.brutality.noir_chestplate.full_set_passive.2": "§e -Massively reduced detection range from regular mobs",
 
-  "item.brutality.noir_leggings": "Midnight Slacks",
+  "item.brutality.noir_leggings": "Noir Slacks",
   "item.brutality.noir_leggings.full_set_passive.1": "§e -Conceals the wearer's nametag from others",
-  "item.brutality.noir_leggings.full_set_passive.2": "§e -Massively reduced detection range from regular mobs",
 
-  "item.brutality.noir_boots": "Heels of the Hollow Guest",
+  "item.brutality.noir_boots": "Noir Boots",
   "item.brutality.noir_boots.full_set_passive.1": "§e -Conceals the wearer's nametag from others",
-  "item.brutality.noir_boots.full_set_passive.2": "§e -Massively reduced detection range from regular mobs",
 
-  "item.brutality.terra_helmet": "Crown of the Deep Root",
-  "item.brutality.terra_helmet.full_set_passive.1": "§e -Increased knockback resistance and armor",
-  "item.brutality.terra_helmet.full_set_passive.2": "§e -Crouching grants Stoneform",
+  "item.brutality.terra_helmet": "Terra Defender Helmet",
+  "item.brutality.terra_helmet.full_set_passive.1": "§e -Grants Stoneform when crouching, increasing§9 Armor Toughness§e and§9 Damage Resistance§e, but you are unable to move",
 
-  "item.brutality.terra_chestplate": "Earthrender Carapace",
-  "item.brutality.terra_chestplate.full_set_passive.1": "§e -Increased knockback resistance and armor",
-  "item.brutality.terra_chestplate.full_set_passive.2": "§e -Crouching grants Stoneform",
+  "item.brutality.terra_chestplate": "Terra Defender Carapace",
+  "item.brutality.terra_chestplate.full_set_passive.1": "§e -Grants Stoneform when crouching, increasing§9 Armor Toughness§e and§9 Damage Resistance§e, but you are unable to move",
 
-  "item.brutality.terra_leggings": "Gait of the Bedrock Ward",
-  "item.brutality.terra_leggings.full_set_passive.1": "§e -Increased knockback resistance and armor",
-  "item.brutality.terra_leggings.full_set_passive.2": "§e -Crouching grants Stoneform",
+  "item.brutality.terra_leggings": "Terra Greaves",
+  "item.brutality.terra_leggings.full_set_passive.1": "§e -Grants Stoneform when crouching, increasing§9 Armor Toughness§e and§9 Damage Resistance§e, but you are unable to move",
 
-  "item.brutality.terra_boots": "Seismstep Boots",
-  "item.brutality.terra_boots.full_set_passive.1": "§e -Increased knockback resistance and armor",
-  "item.brutality.terra_boots.full_set_passive.2": "§e -Crouching grants Stoneform",
+  "item.brutality.terra_boots": "Terra Boots",
+  "item.brutality.terra_boots.full_set_passive.1": "§e -Grants Stoneform when crouching, increasing§9 Armor Toughness§e and§9 Damage Resistance§e, but you are unable to move",
 
   "item.brutality.terra_blade": "Terra Blade",
   "item.brutality.terra_blade.on_swing.1": "§e -Shoots out a powerful wave of sword energy",
@@ -1302,6 +1301,7 @@
   "brutality.description.type.on_shoot": "§6On Shoot:",
   "brutality.description.type.dash_ability": "§6Dash Ability:",
   "brutality.description.type.on_successful_dodge": "§6On Successful Dodge:",
+  "brutality.description.type.mana_cost": "§7Mana Cost§f 💧§7 :",
 
   "brutality.description.type.shift_for_info": "§8Hold SHIFT for more info",
   "brutality.description.type.ctrl_for_info": "§8Hold CTRL for more info",
@@ -1337,6 +1337,9 @@
 
   "death.attack.dematerialize": "%1$s was dematerialized",
   "death.attack.dematerialize.player": "%1$s had their atoms revoked by %2$s",
+
+  "death.attack.last_prism": "%1$s faced the light",
+  "death.attack.last_prism.player": "%1$s had their body disintegrated by %2$s",
 
   "death.attack.throwing_pierce.0": "%1$s was pierced to death",
   "death.attack.throwing_pierce.1": "%1$s was brutally perforated",

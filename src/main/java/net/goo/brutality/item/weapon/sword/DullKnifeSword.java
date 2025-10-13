@@ -12,6 +12,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -30,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Locale;
 
@@ -55,18 +57,18 @@ public class DullKnifeSword extends BrutalitySwordItem {
     }
 
     public enum EmotionColor {
-        NEUTRAL(new int[]{255, 255, 255}, new int[]{34, 34, 34}, BrutalityModMobEffects.NEUTRAL.get()),
-        HAPPY(new int[]{255, 226, 0}, new int[]{255, 48, 251}, BrutalityModMobEffects.HAPPY.get()),
-        SAD(new int[]{0, 26, 127}, new int[]{0, 242, 255}, BrutalityModMobEffects.SAD.get()),
-        ANGRY(new int[]{255, 201, 0}, new int[]{215, 0, 0}, BrutalityModMobEffects.ANGRY.get());
+        NEUTRAL(new Color(255, 255, 255), new Color(34, 34, 34), BrutalityModMobEffects.NEUTRAL.get()),
+        HAPPY(new Color(255, 226, 0), new Color(255, 48, 251), BrutalityModMobEffects.HAPPY.get()),
+        SAD(new Color(0, 26, 127), new Color(0, 242, 255), BrutalityModMobEffects.SAD.get()),
+        ANGRY(new Color(255, 201, 0), new Color(215, 0, 0), BrutalityModMobEffects.ANGRY.get());
 
-        public final int[] primaryColor;
-        public final int[] secondaryColor;
+        public final int primaryColor;
+        public final int secondaryColor;
         private final MobEffect effect;
 
-        EmotionColor(int[] primaryColor, int[] secondaryColor, MobEffect effect) {
-            this.primaryColor = primaryColor;
-            this.secondaryColor = secondaryColor;
+        EmotionColor(Color primaryColor, Color secondaryColor, MobEffect effect) {
+            this.primaryColor = FastColor.ARGB32.color(255, primaryColor.getRed(), primaryColor.getGreen(), primaryColor.getBlue());
+            this.secondaryColor = FastColor.ARGB32.color(255, secondaryColor.getRed(), secondaryColor.getGreen(), secondaryColor.getBlue());
             this.effect = effect;
         }
 
@@ -81,9 +83,8 @@ public class DullKnifeSword extends BrutalitySwordItem {
         EmotionColor emotionColor = EmotionColor.byId(ModUtils.getTextureIdx(pStack));
 
         return BrutalityTooltipHelper.tooltipHelper(
-                "item." + Brutality.MOD_ID + "." + identifier, false, null, 0.5F, 2, emotionColor.primaryColor, emotionColor.secondaryColor);
+                "item." + Brutality.MOD_ID + "." + identifier, false, null, 0.5F, 2F, emotionColor.primaryColor, emotionColor.secondaryColor);
     }
-
 
 
     @Override
@@ -94,7 +95,8 @@ public class DullKnifeSword extends BrutalitySwordItem {
         for (EmotionColor emotion : EmotionColor.values()) {
             String emotionKey = emotion.name().toLowerCase(Locale.ROOT);
 
-            pTooltipComponents.add(BrutalityTooltipHelper.tooltipHelper("item." + Brutality.MOD_ID + ".dull_knife." + emotionKey, true, null, emotion.primaryColor, emotion.secondaryColor));
+            pTooltipComponents.add(
+                    BrutalityTooltipHelper.tooltipHelper("item." + Brutality.MOD_ID + ".dull_knife." + emotionKey, true, null, 0F, 1F, emotion.primaryColor, emotion.secondaryColor));
 
             for (int j = 1; j <= 3; j++) {
                 MutableComponent component = Component.translatable("item." + Brutality.MOD_ID + ".dull_knife." + emotionKey + ".desc." + j);
@@ -169,7 +171,6 @@ public class DullKnifeSword extends BrutalitySwordItem {
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entity) {
         return super.onEntityItemUpdate(stack, entity);
     }
-
 
 
 }

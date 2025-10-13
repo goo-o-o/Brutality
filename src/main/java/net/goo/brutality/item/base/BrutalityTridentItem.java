@@ -56,13 +56,6 @@ public class BrutalityTridentItem extends TridentItem implements BrutalityGeoIte
     }
 
 
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-
-
-        return super.getAttributeModifiers(slot, stack);
-    }
-
     public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot pEquipmentSlot) {
         return pEquipmentSlot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(pEquipmentSlot);
     }

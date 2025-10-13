@@ -1,4 +1,4 @@
-// 1.20.1	2025-10-07T02:49:46.4688291	Item Models: brutality
+// 1.20.1	2025-10-12T02:24:32.4788288	Item Models: brutality
 4d2cb5931bdfc05b9f9f74aa98fcf2124089e766 assets/brutality/models/item/absolute_zero.json
 b9a228d40051bf608e575ad22195a7f52b0fb3fd assets/brutality/models/item/abyssal_necklace.json
 5881774b34f2bb80a3ac222639c0286b3b9541b7 assets/brutality/models/item/addition_charm.json
@@ -193,6 +193,7 @@ a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/paper_cut.
 bb07e83225a893b4a029ae0414ac84fa6a94f54b assets/brutality/models/item/perfume_bottle.json
 af0b057fc8f324fa22c92ba721ab6e108656014e assets/brutality/models/item/permafrost_cube.json
 ad3923662e33e2b3907ab2c3c8cba4a02a47c030 assets/brutality/models/item/phantom_finger.json
+33e322f87ebc6b65ef3b467981da7fffe235cd32 assets/brutality/models/item/photon.json
 a952cfb293d13fc0112bd7e92a30014be313fe79 assets/brutality/models/item/pincushion.json
 87ccb8c119068873ec902ce7a9c70ff47831f05d assets/brutality/models/item/pink_seal.json
 b390bf014881ec786262cb89b8b83ecd51d0a0fd assets/brutality/models/item/pink_slime_ball.json
@@ -203,6 +204,7 @@ bde9dc93a7579073eb6152a6165aae1da5409b45 assets/brutality/models/item/pocket_bla
 3eca2f9529fd086b7055ea87d031912d8b555e16 assets/brutality/models/item/portable_mining_rig_charm.json
 f767d850c146e5665d92200a5b351bf14014a1a7 assets/brutality/models/item/portable_quantum_thingamabob.json
 a163c9ce1e63e428f3fa804b66e491b455f18540 assets/brutality/models/item/potato_masher.json
+26b13722293982903c529fc603d3e7ada66c9a87 assets/brutality/models/item/pouch_o_photons.json
 41c6d938735c5c6164cbeba2463657675106fc57 assets/brutality/models/item/pride.json
 20b5261f5734ce5e5313eb0a65696d5c310ca9f2 assets/brutality/models/item/profanum_reactor.json
 f4d5d1e7e2cbeff8f082fc8176e91187f0739352 assets/brutality/models/item/progenitors_earrings.json

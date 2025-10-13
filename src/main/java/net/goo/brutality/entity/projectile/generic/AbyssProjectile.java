@@ -44,10 +44,8 @@ public class AbyssProjectile extends ThrowableProjectile implements BrutalityGeo
     public void tick() {
 
         if (firstTick && !(level() instanceof ServerLevel)) {
-//            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> {
-                EntityEffect abyssTrail = new EntityEffect(ABYSS_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
-                abyssTrail.start();
-//            });
+            EntityEffect abyssTrail = new EntityEffect(ABYSS_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
+            abyssTrail.start();
         }
 
 

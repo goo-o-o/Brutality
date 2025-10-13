@@ -2,7 +2,7 @@ package net.goo.brutality.event.forge.client;
 
 import net.goo.brutality.item.base.BrutalityGeoItem;
 import net.goo.brutality.registry.ModRarities;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.ColorUtils;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -24,11 +24,10 @@ public class ForgeClientTooltipHandler {
 
         if (item instanceof BrutalityGeoItem) {
             if (!(rarity.equals(Rarity.COMMON) | rarity.equals(Rarity.UNCOMMON) | rarity.equals(Rarity.RARE) | rarity.equals(Rarity.EPIC))) {
-                int[][] colors = ModRarities.getGradientForRarity(rarity).colors;
-                event.setBorderStart(BrutalityTooltipHelper.argbToInt(
-                        BrutalityTooltipHelper.getCyclingColorFromGradient(0.05f, colors[0], colors[1])));
-                event.setBorderEnd(BrutalityTooltipHelper.argbToInt(
-                        BrutalityTooltipHelper.getCyclingColorFromGradient(0.05f, colors[1], colors[0])));
+                int[] colors = ModRarities.getGradientForRarity(rarity).colors;
+
+                event.setBorderStart(ColorUtils.getCyclingColor(0.05f, colors[0], colors[1]));
+                event.setBorderEnd(ColorUtils.getCyclingColor(0.05f, colors[1], colors[0]));
 
             }
         }

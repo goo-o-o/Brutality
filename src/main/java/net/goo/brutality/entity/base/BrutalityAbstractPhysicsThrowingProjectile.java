@@ -15,6 +15,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -66,6 +67,17 @@ public class BrutalityAbstractPhysicsThrowingProjectile extends BrutalityAbstrac
             return false;
         }
         return super.hurt(source, pAmount);
+    }
+
+    protected Vec3 getEntityBounceStrength() {
+        return new Vec3(-0.01D, -0.1D, -0.01D);
+    }
+
+    @Override
+    protected void onHitEntity(EntityHitResult pResult) {
+        super.onHitEntity(pResult);
+        if (!inGround)
+            this.setDeltaMovement(getDeltaMovement().multiply(getEntityBounceStrength()));
     }
 
     @Override

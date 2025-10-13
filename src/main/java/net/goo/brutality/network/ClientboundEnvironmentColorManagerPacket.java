@@ -2,6 +2,7 @@ package net.goo.brutality.network;
 
 import net.goo.brutality.util.helpers.EnvironmentColorManager;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.FastColor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -40,7 +41,7 @@ public class ClientboundEnvironmentColorManagerPacket {
             if (isReset)
                 EnvironmentColorManager.resetAllColors();
             else
-                EnvironmentColorManager.setColor(type, r, g, b);
+                EnvironmentColorManager.setColor(type, FastColor.ARGB32.color(255, r, g, b));
         });
         context.get().setPacketHandled(true);
     }

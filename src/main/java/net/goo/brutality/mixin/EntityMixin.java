@@ -6,12 +6,12 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.enchantment.ProtectionEnchantment;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
@@ -37,19 +37,25 @@ public abstract class EntityMixin {
         return instance.hurt(pSource, pAmount);
     }
 
-    @ModifyVariable(method = "setRemainingFireTicks", at = @At("HEAD"), argsOnly = true)
-    private int modifyFireTime(int value) {
-        Entity entity = (((Entity) (Object) this));
+    @ModifyArg(
+            method = "setSecondsOnFire(I)V",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/Entity;setRemainingFireTicks(I)V"
+            ),
+            index = 0
+    )
+    private int halveFireTicks(int pRemainingFireTicks) {
+        Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity livingEntity) {
-            ICuriosItemHandler handler = CuriosApi.getCuriosInventory(livingEntity).orElse(null);
-            if (handler != null) {
-                if (handler.isEquipped(BrutalityModItems.FIRE_EXTINGUISHER.get())) {
-                    System.out.println("original " + value);
-                    System.out.println("after " + value * 0.5F);
-                    return (int) (value * 0.5);
-                }
-            }
+            int i = ProtectionEnchantment.getFireAfterDampener(livingEntity, pRemainingFireTicks);
+
+            return CuriosApi.getCuriosInventory(livingEntity)
+                    .filter(handler -> handler.isEquipped(BrutalityModItems.FIRE_EXTINGUISHER.get()))
+                    .map(handler -> Math.max(1, ((int) (i * 0.5))))
+                    .orElse(pRemainingFireTicks);
+
         }
-        return value;
+        return pRemainingFireTicks;
     }
 }

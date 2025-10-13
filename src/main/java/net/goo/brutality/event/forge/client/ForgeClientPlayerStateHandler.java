@@ -21,6 +21,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemCooldowns;
@@ -171,8 +172,8 @@ public class ForgeClientPlayerStateHandler {
                     .anyMatch(e -> e.getType() == BrutalityModEntities.BLACK_HOLE_ENTITY.get() && e.distanceToSqr(player) <= 10 * 10);
 
             apply("black_hole", blackHoleNearby, new ProximityColorSet()
-                    .setColorAutoReset(ColorType.SKY, new int[]{0, 0, 0})
-                    .setColorAutoReset(ColorType.FOG, new int[]{0, 0, 0})
+                    .setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255,0, 0, 0))
+                    .setColorAutoReset(ColorType.FOG, FastColor.ARGB32.color(255,0, 0, 0))
             );
         }
 
@@ -185,19 +186,19 @@ public class ForgeClientPlayerStateHandler {
 
             apply("bork", playerNearEntityWithBork,
                     new ProximityColorSet().
-                            setColorAutoReset(ColorType.FOG, new int[]{32, 92, 91}).
-                            setColorAutoReset(ColorType.WATER, new int[]{32, 92, 91}).
-                            setColorAutoReset(ColorType.GRASS, new int[]{32, 92, 91}).
-                            setColorAutoReset(ColorType.FOLIAGE, new int[]{32, 92, 91}).
-                            setColorAutoReset(ColorType.SKY, new int[]{0, 0, 0}));
+                            setColorAutoReset(ColorType.FOG, FastColor.ARGB32.color(255,32, 92, 91)).
+//                            setColorAutoReset(ColorType.WATER, FastColor.ARGB32.color(255,32, 92, 91)).
+//                            setColorAutoReset(ColorType.GRASS, FastColor.ARGB32.color(255,32, 92, 91)).
+//                            setColorAutoReset(ColorType.FOLIAGE, FastColor.ARGB32.color(255,32, 92, 91)).
+                            setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255,0, 0, 0)));
         }
 
         boolean rayNearby = StreamSupport.stream(level.entitiesForRendering().spliterator(), false)
                 .anyMatch(e -> e.getType() == BrutalityModEntities.EXPLOSION_RAY.get() && e.distanceToSqr(player) <= 50 * 50);
 
         apply("explosion_ray", rayNearby, new ProximityColorSet()
-                .setColorAutoReset(ColorType.SKY, new int[]{255, 140, 0})
-                .setColorAutoReset(ColorType.FOG, new int[]{0, 0, 0})
+                .setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255,255, 140, 0))
+                .setColorAutoReset(ColorType.FOG, FastColor.ARGB32.color(255,0, 0, 0))
         );
 
         resolveAndApplyColors();
@@ -220,19 +221,19 @@ public class ForgeClientPlayerStateHandler {
                 if (cooldowns.isOnCooldown(mainHandThrowingItem)) return;
                 if (cooldowns.isOnCooldown(offHandThrowingItem)) return;
                 if (previousHand == InteractionHand.OFF_HAND) { // Throw Main Hand
-                    mainHandThrowingItem.throwProjectileAndHandleAttributesAndAnimation(player, mainHand, false);
+                    mainHandThrowingItem.handleAttributesAndAnimation(player, mainHand, false);
                     player.resetAttackStrengthTicker();
                     previousHand = InteractionHand.MAIN_HAND;
 
                 } else {
-                    offHandThrowingItem.throwProjectileAndHandleAttributesAndAnimation(player, offHand, true);
+                    offHandThrowingItem.handleAttributesAndAnimation(player, offHand, true);
                     player.resetAttackStrengthTicker();
                     previousHand = InteractionHand.OFF_HAND;
                 }
             } else if (mainHand.getItem() instanceof BrutalityThrowingItem mainHandThrowingItem) {
                 if (cooldowns.isOnCooldown(mainHandThrowingItem)) return;
 
-                mainHandThrowingItem.throwProjectileAndHandleAttributesAndAnimation(player, mainHand, false);
+                mainHandThrowingItem.handleAttributesAndAnimation(player, mainHand, false);
                 player.resetAttackStrengthTicker();
                 previousHand = InteractionHand.OFF_HAND;
             }

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:totem_of_undying"
+    },
+    "B": {
+      "item": "terramity:onyx"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "BAB",
+    "BBB"
+  ],
+  "result": {
+    "item": "brutality:onyx_idol"
+  },
+  "show_notification": true
+}

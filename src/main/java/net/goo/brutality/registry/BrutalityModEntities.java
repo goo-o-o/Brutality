@@ -56,8 +56,8 @@ public class BrutalityModEntities {
             ENTITY_TYPES.register("dynamite", () -> EntityType.Builder.of(
                     (EntityType<Dynamite> entityType, Level level) -> new Dynamite(entityType, level, BrutalityDamageTypes.THROWING_BLUNT),
                     MobCategory.MISC).sized(0.125F, 0.125F).build("dynamite"));
-    public static final RegistryObject<EntityType<StickyDynamite>> STICKY_DYNAMITE =
 
+    public static final RegistryObject<EntityType<StickyDynamite>> STICKY_DYNAMITE =
             ENTITY_TYPES.register("sticky_dynamite", () -> EntityType.Builder.of(
                     (EntityType<StickyDynamite> entityType, Level level) -> new StickyDynamite(entityType, level, BrutalityDamageTypes.THROWING_BLUNT),
                     MobCategory.MISC).sized(0.125F, 0.125F).build("sticky_dynamite"));
@@ -66,6 +66,11 @@ public class BrutalityModEntities {
             ENTITY_TYPES.register("bouncy_dynamite", () -> EntityType.Builder.of(
                     (EntityType<BouncyDynamite> entityType, Level level) -> new BouncyDynamite(entityType, level, BrutalityDamageTypes.THROWING_BLUNT),
                     MobCategory.MISC).sized(0.125F, 0.125F).build("bouncy_dynamite"));
+
+    public static final RegistryObject<EntityType<Photon>> PHOTON =
+            ENTITY_TYPES.register("photon", () -> EntityType.Builder.of(
+                    (EntityType<Photon> entityType, Level level) -> new Photon(entityType, level, BrutalityDamageTypes.THROWING_BLUNT),
+                    MobCategory.MISC).sized(0.1F, 0.1F).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("photon"));
 
     public static final RegistryObject<EntityType<CinderBlock>> CINDER_BLOCK =
             ENTITY_TYPES.register("cinder_block", () -> EntityType.Builder.of(

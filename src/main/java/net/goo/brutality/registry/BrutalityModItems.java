@@ -173,7 +173,8 @@ public class BrutalityModItems {
     public static final RegistryObject<Item> LAST_PRISM_ITEM = ITEMS.register("last_prism", () -> new LastPrismItem(
             ModRarities.LEGENDARY,
             List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1)
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1),
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(MANA_COST, 1)
             )
     ));
 
@@ -1344,7 +1345,7 @@ public class BrutalityModItems {
             ArmorItem.Type.HELMET,
             ModRarities.FABLED,
             List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 2)
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 1)
             )
     ));
     public static final RegistryObject<Item> NOIR_CHESTPLATE = ITEMS.register("noir_chestplate", () -> new NoirArmorItem(
@@ -1352,7 +1353,7 @@ public class BrutalityModItems {
             ArmorItem.Type.CHESTPLATE,
             ModRarities.FABLED,
             List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 2)
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 1)
             )
     ));
     public static final RegistryObject<Item> NOIR_LEGGINGS = ITEMS.register("noir_leggings", () -> new NoirArmorItem(
@@ -1360,7 +1361,7 @@ public class BrutalityModItems {
             ArmorItem.Type.LEGGINGS,
             ModRarities.FABLED,
             List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 2)
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 1)
             )
     ));
     public static final RegistryObject<Item> NOIR_BOOTS = ITEMS.register("noir_boots", () -> new NoirArmorItem(
@@ -1368,7 +1369,7 @@ public class BrutalityModItems {
             ArmorItem.Type.BOOTS,
             ModRarities.FABLED,
             List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 2)
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 1)
             )
     ));
     public static final RegistryObject<Item> TERRA_HELMET = ITEMS.register("terra_helmet", () -> new TerraArmorItem(
@@ -1376,7 +1377,7 @@ public class BrutalityModItems {
             ArmorItem.Type.HELMET,
             ModRarities.FABLED,
             List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 2)
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 1)
             )
     ));
 
@@ -1385,7 +1386,7 @@ public class BrutalityModItems {
             ArmorItem.Type.CHESTPLATE,
             ModRarities.FABLED,
             List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 2)
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 1)
             )
     ));
     public static final RegistryObject<Item> TERRA_LEGGINGS = ITEMS.register("terra_leggings", () -> new TerraArmorItem(
@@ -1393,7 +1394,7 @@ public class BrutalityModItems {
             ArmorItem.Type.LEGGINGS,
             ModRarities.FABLED,
             List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 2)
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 1)
             )
     ));
     public static final RegistryObject<Item> TERRA_BOOTS = ITEMS.register("terra_boots", () -> new TerraArmorItem(
@@ -1401,7 +1402,7 @@ public class BrutalityModItems {
             ArmorItem.Type.BOOTS,
             ModRarities.FABLED,
             List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 2)
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(FULL_SET_PASSIVE, 1)
             )
     ));
     // endregion
@@ -1651,6 +1652,20 @@ public class BrutalityModItems {
 //                    new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 2)
 //            )
 //    ));
+
+    public static final RegistryObject<Item> PHOTON = ITEMS.register("photon", () -> new Photon(
+            0, 0, ModRarities.DIVINE,
+            List.of(
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 2)
+            )
+    ));
+    public static final RegistryObject<Item> POUCH_O_PHOTONS = ITEMS.register("pouch_o_photons", () -> new PouchOPhotons(
+            0, -3, ModRarities.DIVINE,
+            List.of(
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 2)
+            )
+    ));
+
     public static final RegistryObject<Item> VAMPIRE_KNIVES = ITEMS.register("vampire_knives", () -> new VampireKnives(
             3, 0, ModRarities.STYGIAN,
             List.of(

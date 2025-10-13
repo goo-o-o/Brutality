@@ -24,7 +24,6 @@ public class CinderBlock extends BrutalityThrowingItem {
         return THROW_ANIMATION.DROP.getAnimationResource();
     }
 
-
     @Override
     public BrutalityCategories.AttackType getAttackType() {
         return BrutalityCategories.AttackType.BLUNT;

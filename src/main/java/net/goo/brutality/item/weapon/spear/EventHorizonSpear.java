@@ -19,6 +19,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -48,7 +49,7 @@ public class EventHorizonSpear extends BrutalitySpearItem {
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack pStack) {
+    public @NotNull UseAnim getUseAnimation(ItemStack pStack) {
         return UseAnim.BOW;
     }
 

@@ -58,7 +58,7 @@ public class ThunderboltTrident extends BrutalityTridentItem {
 
     @Override
     public float getLaunchVel() {
-        return 3.5F;
+        return 8F;
     }
 
     @Override

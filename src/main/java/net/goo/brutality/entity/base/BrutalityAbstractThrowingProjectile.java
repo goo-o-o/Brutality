@@ -18,7 +18,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.util.GeckoLibUtil;
@@ -45,11 +44,11 @@ public class BrutalityAbstractThrowingProjectile extends BrutalityAbstractArrow 
 
     }
 
-
-
-    protected Vec3 getEntityBounceStrength() {
-        return new Vec3(-0.01D, -0.1D, -0.01D);
+    protected float getDamageMultiplier() {
+        return 1;
     }
+
+
 
     @Override
     public @NotNull SoundEvent getHitGroundSoundEvent() {
@@ -65,6 +64,11 @@ public class BrutalityAbstractThrowingProjectile extends BrutalityAbstractArrow 
     public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         this.dealtDamage = pCompound.getBoolean("DealtDamage");
+    }
+
+    @Override
+    protected boolean canHitEntity(@NotNull Entity entity) {
+        return entity != getOwner() && !this.getClass().isInstance(entity);
     }
 
     @Override
@@ -110,7 +114,7 @@ public class BrutalityAbstractThrowingProjectile extends BrutalityAbstractArrow 
         SoundEvent soundEvent = getHitEntitySoundEvent();
 
 
-        if (target.hurt(damagesource, damage)) {
+        if (target.hurt(damagesource, damage * getDamageMultiplier())) {
             if (target.getType() == EntityType.ENDERMAN) {
                 return;
             }
@@ -121,13 +125,10 @@ public class BrutalityAbstractThrowingProjectile extends BrutalityAbstractArrow 
                 this.doPostHurtEffects(livingEntity);
             }
         }
-        if (!inGround)
-            this.setDeltaMovement(this.getDeltaMovement().multiply(getEntityBounceStrength().x, getEntityBounceStrength().y, getEntityBounceStrength().z));
         float volume = 1.0F;
 
         this.playSound(soundEvent, volume, 1.0F);
 
     }
-
 
 }

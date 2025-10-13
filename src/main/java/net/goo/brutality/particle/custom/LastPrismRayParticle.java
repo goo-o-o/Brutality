@@ -1,40 +1,34 @@
 package net.goo.brutality.particle.custom;
 
+import net.goo.brutality.util.ColorUtils;
+import net.goo.brutality.util.ModResources;
 import net.mcreator.terramity.client.particle.KamehamehaParticleParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
-
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.getCyclingColors;
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.intToRgb;
+import net.minecraft.util.FastColor;
 
 public class LastPrismRayParticle extends KamehamehaParticleParticle {
     SpriteSet spriteSet;
+
     protected LastPrismRayParticle(ClientLevel world, double x, double y, double z, double vx, double vy, double vz, SpriteSet spriteSet) {
         super(world, x, y, z, vx, vy, vz, spriteSet);
         this.spriteSet = spriteSet;
     }
 
 
-    int[][] colors = new int[][]{
-            {255, 0, 0},
-            {255, 127, 0},
-            {255, 255, 0},
-            {0, 255, 0},
-            {0, 0, 255},
-            {75, 0, 130},
-            {148, 0, 211}
-    };
-
     @Override
     public void tick() {
         super.tick();
 
-        int[] currentColor = intToRgb(getCyclingColors(1, colors));
+        int currentColor = ColorUtils.getCyclingColor(0.1F, ModResources.rainbowColor);
 
-        this.setColor((float) currentColor[0] / 255, (float) currentColor[1] / 255, (float) currentColor[2] / 255);
+        this.setColor(
+                FastColor.ARGB32.red(currentColor) / 255F,
+                FastColor.ARGB32.green(currentColor) / 255F,
+                FastColor.ARGB32.blue(currentColor) / 255F);
 
         this.setSpriteFromAge(spriteSet);
     }

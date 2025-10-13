@@ -18,6 +18,8 @@ public class BrutalityClientConfig {
     public static final ForgeConfigSpec.BooleanValue BORK_SKY_COLOR;
     public static final ForgeConfigSpec.BooleanValue THROWING_ANIMATION_SHOW_ARMS;
     public static final ForgeConfigSpec.BooleanValue THROWING_ANIMATION_SHOW_ITEMS;
+    public static final ForgeConfigSpec.DoubleValue MANA_BAR_X, MANA_BAR_Y;
+
 
     static {
         BUILDER.push("Brutality Client Config");
@@ -26,6 +28,10 @@ public class BrutalityClientConfig {
         BORK_SKY_COLOR = BUILDER.comment("Should the Blade of the Ruined King change the color of the environment").define("shouldBORKChangeEnvironmentColor", true);
         THROWING_ANIMATION_SHOW_ARMS = BUILDER.comment("Should Throwing animations show Arms in First Person?").define("showFirstPersonArmThrowingAnimation", true);
         THROWING_ANIMATION_SHOW_ITEMS = BUILDER.comment("Should Throwing animations show Items in First Person?").define("showFirstPersonItemThrowingAnimation", true);
+
+        MANA_BAR_X = BUILDER.comment("Mana bar X position (0.0 to 1.0, percentage of screen width)").defineInRange("mana_bar_x", 0.5, 0.0, 1.0);
+        MANA_BAR_Y = BUILDER.comment("Mana bar Y position (0.0 to 1.0, percentage of screen height)").defineInRange("mana_bar_y", 0.5, 0.0, 1.0);
+
 
         BUILDER.pop();
         SPEC = BUILDER.build();

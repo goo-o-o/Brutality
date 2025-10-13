@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:daemonium_glass"
+    },
+    "B": {
+      "item": "terramity:chthonian_void"
+    },
+    "C": {
+      "item": "terramity:hellspec_alloy"
+    },
+    "D": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    " CD",
+    "BAB",
+    "DC "
+  ],
+  "result": {
+    "item": "brutality:bloodstained_mirror"
+  },
+  "show_notification": true
+}

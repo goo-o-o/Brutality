@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "brutality:red_seal"
+    },
+    "B": {
+      "item": "terramity:occult_fabric"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "BAB",
+    "BBB"
+  ],
+  "result": {
+    "item": "brutality:scribes_index"
+  },
+  "show_notification": true
+}

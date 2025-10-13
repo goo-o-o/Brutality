@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityThrowingItem;
+import net.goo.brutality.network.PacketHandler;
+import net.goo.brutality.network.ServerboundShootFromRotationPacket;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -57,4 +59,19 @@ public class VampireKnives extends BrutalityThrowingItem {
         return (float) Math.min(3, player.getAttributeValue(Attributes.ATTACK_SPEED));
     }
 
+    @Override
+    public void throwProjectile(ItemStack stack, Player player) {
+        int quantity = 4;
+        quantity += player.getRandom().nextFloat() < 0.5F ? 1 : 0;
+        quantity += player.getRandom().nextFloat() < 0.25F ? 1 : 0;
+        quantity += player.getRandom().nextFloat() < 0.125F ? 1 : 0;
+        quantity += player.getRandom().nextFloat() < 0.0625F ? 1 : 0;
+        float gap = 7.5F;
+        for (int i = 0; i < quantity; i++) {
+            float angleOffset = (i - (quantity - 1) / 2f) * gap; // Center the arc
+            angleOffset += (player.getRandom().nextFloat() - 0.5F) * 5F;
+            PacketHandler.sendToServer(new ServerboundShootFromRotationPacket(stack, this.getThrownEntity(), player.getEyePosition(),
+                    player.getXRot(), player.getYRot() + angleOffset, this.getThrowVelocity(player), this.getThrowInaccuracy()));
+        }
+    }
 }

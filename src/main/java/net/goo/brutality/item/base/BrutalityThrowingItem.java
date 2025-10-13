@@ -6,6 +6,8 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.client.ClientAccess;
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.item.BrutalityCategories;
+import net.goo.brutality.network.PacketHandler;
+import net.goo.brutality.network.ServerboundShootFromRotationPacket;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -53,6 +55,11 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", pAttackSpeedModifier, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
 
+    }
+
+    public void throwProjectile(ItemStack stack, Player player) {
+        PacketHandler.sendToServer(new ServerboundShootFromRotationPacket(stack, this.getThrownEntity(), player.getEyePosition(),
+                player.getXRot(), player.getYRot(), this.getThrowVelocity(player), this.getThrowInaccuracy()));
     }
 
     public ResourceLocation getAnimationResourceLocation() {
@@ -134,13 +141,14 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
     }
 
     public float getThrowVelocity(Player player) {
-        return Math.min(3.5F, (float) (getInitialThrowVelocity() * player.getAttributeValue(ModAttributes.THROW_STRENGTH.get())));
+        return (float) (getInitialThrowVelocity() * player.getAttributeValue(ModAttributes.THROW_STRENGTH.get()));
     }
 
     @Override
     public boolean canAttackBlock(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer) {
         return false;
     }
+
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
@@ -171,12 +179,12 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
     /**
      * Should be called Clientside
      */
-    public void throwProjectileAndHandleAttributesAndAnimation(Player player, ItemStack stack, boolean isOffhand) {
-        ClientAccess.ThrowableWeaponHelper.throwProjectileAndHandleAttributesAndAnimation(player, this, stack, isOffhand);
+    public void handleAttributesAndAnimation(Player player, ItemStack stack, boolean isOffhand) {
+        ClientAccess.ThrowableWeaponHelper.handleAttributesAndAnimation(player, this, stack, isOffhand);
     }
 
-    public void throwProjectile(Player player, ItemStack stack) {
-        ClientAccess.ThrowableWeaponHelper.throwProjectile(player, stack, this);
+    public void handleCooldownAndSound(Player player, ItemStack stack) {
+        ClientAccess.ThrowableWeaponHelper.handleCooldownAndSound(player, stack, this);
     }
 
 }

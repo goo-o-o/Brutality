@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/throwing/pouch_o_photons/pouch_o_photons_inventory"
+  }
+}

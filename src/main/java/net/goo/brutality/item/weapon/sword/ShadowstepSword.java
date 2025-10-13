@@ -4,6 +4,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
@@ -87,7 +88,7 @@ public class ShadowstepSword extends BrutalitySwordItem {
                     pPlayer.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 5, 0), pPlayer);
                 }
             } else {
-                pPlayer.displayClientMessage(Component.translatable("item." + Brutality.MOD_ID + "." + getRegistryName() + ".invalid").withStyle(Style.EMPTY.withColor(BrutalityTooltipHelper.rgbToInt(new int[]{200, 50, 50}))), true);
+                pPlayer.displayClientMessage(Component.translatable("item." + Brutality.MOD_ID + "." + getRegistryName() + ".invalid").withStyle(Style.EMPTY.withColor(ChatFormatting.RED)), true);
             }
         }
     }

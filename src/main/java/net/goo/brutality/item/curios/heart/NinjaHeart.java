@@ -36,7 +36,7 @@ public class NinjaHeart extends BrutalityCurioItem {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
         builder.put(ModAttributes.SLASH_DAMAGE.get(), new AttributeModifier(NINJA_HEART_SLASH_DAMAGE, "Slash Damage Buff", 0.2F, AttributeModifier.Operation.MULTIPLY_TOTAL));
         builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(NINJA_HEART_SPEED, "MS Buff", 0.2, AttributeModifier.Operation.MULTIPLY_TOTAL));
-        builder.put(ModAttributes.ENTITY_VISIBILITY.get(), new AttributeModifier(NINJA_HEART_STEALTH, "Stealth Buff", 0.15, AttributeModifier.Operation.MULTIPLY_BASE));
+        builder.put(ModAttributes.ENTITY_VISIBILITY.get(), new AttributeModifier(NINJA_HEART_STEALTH, "Stealth Buff", -0.15, AttributeModifier.Operation.MULTIPLY_BASE));
         return builder.build();
     }
 

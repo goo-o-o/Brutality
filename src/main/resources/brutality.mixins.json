@@ -8,6 +8,7 @@
     "AbstractArrowMixin",
     "AnvilMenuMixin",
     "BowItemMixin",
+    "ClientboundSetEntityMotionPacketMixin",
     "CombatTrackerMixin",
     "DigDurabilityEnchantmentMixin",
     "EggItemMixin",
@@ -20,10 +21,10 @@
     "LivingEntityMixin",
     "MobEffectInstanceMixin",
     "PlayerMixin",
-    "ThrowablePotionItemMixin",
     "ServerGamePacketListenerImplMixin",
     "ServerPlayerMixin",
     "SnowballItemMixin",
+    "ThrowablePotionItemMixin",
     "TridentItemMixin",
     "VillagerMixin"
   ],
@@ -41,4 +42,5 @@
     "MouseHandlerMixin",
     "QuadrupedModelMixin"
   ]
+
 }

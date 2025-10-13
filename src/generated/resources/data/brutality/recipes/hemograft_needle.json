@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:hellspec_alloy"
+    },
+    "B": {
+      "item": "terramity:chthonic_crystal"
+    }
+  },
+  "pattern": [
+    "  B",
+    " A ",
+    "A  "
+  ],
+  "result": {
+    "item": "brutality:hemograft_needle"
+  },
+  "show_notification": true
+}

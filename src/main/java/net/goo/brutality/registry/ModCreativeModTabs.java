@@ -332,6 +332,8 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.HOLY_HAND_GRENADE.get());
                         output.accept(BrutalityModItems.GUNGNIR_TRIDENT.get().getDefaultInstance());
                         output.accept(BrutalityModItems.VAMPIRE_KNIVES.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.PHOTON.get());
+                        output.accept(BrutalityModItems.POUCH_O_PHOTONS.get());
                         output.accept(BrutalityModItems.DYNAMITE.get());
                         output.accept(BrutalityModItems.STICKY_DYNAMITE.get());
                         output.accept(BrutalityModItems.BOUNCY_DYNAMITE.get());
@@ -364,6 +366,7 @@ public class ModCreativeModTabs {
 
 
                         output.accept(BrutalityModItems.WATER_COOLER_ITEM.get().getDefaultInstance());
+                        output.accept(ModBlocks.CUBICLE_PANEL.get());
                         output.accept(BrutalityModItems.STYROFOAM_CUP.get().getDefaultInstance());
                         output.accept(BrutalityModItems.COFFEE_MACHINE_ITEM.get().getDefaultInstance());
                         output.accept(BrutalityModItems.MUG.get().getDefaultInstance());
@@ -385,6 +388,10 @@ public class ModCreativeModTabs {
 //                        output.accept(BrutalityModItems.MARIANAS_TRENCH.get().getDefaultInstance());
 //                        output.accept(BrutalityModItems.CHALLENGER_DEEP.get().getDefaultInstance());
 
+                        output.accept(BrutalityModItems.TERRA_HELMET.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.TERRA_CHESTPLATE.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.TERRA_LEGGINGS.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.TERRA_BOOTS.get().getDefaultInstance());
 
                         output.accept(BrutalityModItems.NOIR_HELMET.get().getDefaultInstance());
                         output.accept(BrutalityModItems.NOIR_CHESTPLATE.get().getDefaultInstance());

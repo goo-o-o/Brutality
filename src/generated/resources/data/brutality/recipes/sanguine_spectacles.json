@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "brutality:lens_makers_glasses"
+    },
+    "B": {
+      "item": "minecraft:red_stained_glass"
+    },
+    "C": {
+      "item": "terramity:hellspec_alloy"
+    },
+    "D": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    "DCD",
+    "BAB",
+    "DCD"
+  ],
+  "result": {
+    "item": "brutality:sanguine_spectacles"
+  },
+  "show_notification": true
+}

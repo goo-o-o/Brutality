@@ -5,7 +5,7 @@ import net.goo.brutality.mob_effect.*;
 import net.goo.brutality.mob_effect.gastronomy.*;
 import net.goo.brutality.mob_effect.gastronomy.dry.*;
 import net.goo.brutality.mob_effect.gastronomy.wet.*;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -17,98 +17,98 @@ public class BrutalityModMobEffects {
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Brutality.MOD_ID);
 
     public static final RegistryObject<MobEffect> RADIATION = EFFECTS.register("radiation",
-            () -> new RadiationEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{0, 250, 68})));
+            () -> new RadiationEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 0, 250, 68)));
     public static final RegistryObject<MobEffect> STONEFORM = EFFECTS.register("stoneform",
-            () -> new StoneformEffect(MobEffectCategory.BENEFICIAL, BrutalityTooltipHelper.rgbToInt(new int[]{210, 160, 100})));
+            () -> new StoneformEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 210, 160, 100)));
 
 
     public static final RegistryObject<MobEffect> NEUTRAL = EFFECTS.register("neutral",
-            () -> new NeutralEffect(MobEffectCategory.NEUTRAL, BrutalityTooltipHelper.rgbToInt(new int[]{150, 150, 150})));
+            () -> new NeutralEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 150, 150, 150)));
     public static final RegistryObject<MobEffect> HAPPY = EFFECTS.register("happy",
-            () -> new HappyEffect(MobEffectCategory.NEUTRAL, BrutalityTooltipHelper.rgbToInt(new int[]{255, 220, 20})));
+            () -> new HappyEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 255, 220, 20)));
     public static final RegistryObject<MobEffect> SAD = EFFECTS.register("sad",
-            () -> new SadEffect(MobEffectCategory.NEUTRAL, BrutalityTooltipHelper.rgbToInt(new int[]{0, 50, 150})));
+            () -> new SadEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 0, 50, 150)));
     public static final RegistryObject<MobEffect> ANGRY = EFFECTS.register("angry",
-            () -> new AngryEffect(MobEffectCategory.NEUTRAL, BrutalityTooltipHelper.rgbToInt(new int[]{255, 40, 0})));
+            () -> new AngryEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 255, 40, 0)));
 
     public static final RegistryObject<MobEffect> ENRAGED = EFFECTS.register("enraged",
-            () -> new EnragedEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{255, 0, 0})));
+            () -> new EnragedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 0, 0)));
 
 
     public static final RegistryObject<MobEffect> THE_VOID = EFFECTS.register("the_void",
-            () -> new TheVoidEffect(MobEffectCategory.BENEFICIAL, BrutalityTooltipHelper.rgbToInt(new int[]{0, 0, 0})));
+            () -> new TheVoidEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 0, 0)));
 
     public static final RegistryObject<MobEffect> PULVERIZED = EFFECTS.register("pulverized",
-            () -> new PulverizedEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{200, 200, 200})));
+            () -> new PulverizedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 200, 200)));
 
     public static final RegistryObject<MobEffect> RUINED = EFFECTS.register("ruined",
-            () -> new RuinedEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{12, 29, 28})));
+            () -> new RuinedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 12, 29, 28)));
 
     public static final RegistryObject<MobEffect> STUNNED = EFFECTS.register("stunned",
-            () -> new StunnedEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{255, 255, 0})));
+            () -> new StunnedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 0)));
 
     public static final RegistryObject<MobEffect> MIRACLE_BLIGHT = EFFECTS.register("miracle_blight",
-            () -> new MiracleBlightEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{200, 255, 0})));
+            () -> new MiracleBlightEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 255, 0)));
     public static final RegistryObject<MobEffect> CAFFEINATED = EFFECTS.register("caffeinated",
-            () -> new CaffeinatedEffect(MobEffectCategory.BENEFICIAL, BrutalityTooltipHelper.rgbToInt(new int[]{140, 33, 0})));
+            () -> new CaffeinatedEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 140, 33, 0)));
     public static final RegistryObject<MobEffect> HOT_AND_SPICY = EFFECTS.register("hot_and_spicy",
-            () -> new HotAndSpicyEffect(MobEffectCategory.BENEFICIAL, BrutalityTooltipHelper.rgbToInt(new int[]{255, 68, 13})));
+            () -> new HotAndSpicyEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 255, 68, 13)));
 
     public static final RegistryObject<MobEffect> SALTED = EFFECTS.register("salted",
-            () -> new SaltedEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{255, 255, 255})));
+            () -> new SaltedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 255)));
     public static final RegistryObject<MobEffect> PEPPERED = EFFECTS.register("peppered",
-            () -> new PepperedEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{126, 116, 93})));
+            () -> new PepperedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 126, 116, 93)));
     public static final RegistryObject<MobEffect> SCORED = EFFECTS.register("scored",
-            () -> new ScoredEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{200, 200, 200})));
+            () -> new ScoredEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 200, 200)));
     public static final RegistryObject<MobEffect> MASHED = EFFECTS.register("mashed",
-            () -> new MashedEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{200, 200, 200})));
+            () -> new MashedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 200, 200)));
 
     public static final RegistryObject<MobEffect> SLICKED = EFFECTS.register("slicked",
-            () -> new SlickedEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{222, 131, 4})));
+            () -> new SlickedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 222, 131, 4)));
     public static final RegistryObject<MobEffect> OILED = EFFECTS.register("oiled",
-            () -> new OiledEffect(MobEffectCategory.NEUTRAL, BrutalityTooltipHelper.rgbToInt(new int[]{80, 82, 37})));
+            () -> new OiledEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 80, 82, 37)));
     public static final RegistryObject<MobEffect> MARINATED = EFFECTS.register("marinated",
-            () -> new MarinatedEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{125, 150, 0})));
+            () -> new MarinatedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 125, 150, 0)));
     public static final RegistryObject<MobEffect> STEAMED = EFFECTS.register("steamed",
-            () -> new SteamedEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{189, 205, 222})));
+            () -> new SteamedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 189, 205, 222)));
     public static final RegistryObject<MobEffect> SMOKED = EFFECTS.register("smoked",
-            () -> new SmokedEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{75, 75, 75})));
+            () -> new SmokedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 75, 75, 75)));
     public static final RegistryObject<MobEffect> CANDIED = EFFECTS.register("candied",
-            () -> new CandiedEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{255,192,203})));
+            () -> new CandiedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 192, 203)));
     public static final RegistryObject<MobEffect> CARAMELIZED = EFFECTS.register("caramelized",
-            () -> new CaramelizedEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{204, 156, 80})));
+            () -> new CaramelizedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 204, 156, 80)));
     public static final RegistryObject<MobEffect> GLAZED = EFFECTS.register("glazed",
-            () -> new GlazedEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{255,255,255})));
+            () -> new GlazedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 255)));
     public static final RegistryObject<MobEffect> SPRINKLED = EFFECTS.register("sprinkled",
-            () -> new SprinkledEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{97, 255, 160})));
+            () -> new SprinkledEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 97, 255, 160)));
 
     public static final RegistryObject<MobEffect> GRACE = EFFECTS.register("grace",
-            () -> new GraceEffect(MobEffectCategory.BENEFICIAL, BrutalityTooltipHelper.rgbToInt(new int[]{255, 253, 153})));
+            () -> new GraceEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 255, 253, 153)));
     public static final RegistryObject<MobEffect> LIGHT_BOUND = EFFECTS.register("light_bound",
-            () -> new LightBoundEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{255, 253, 153})));
+            () -> new LightBoundEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 253, 153)));
 
     public static final RegistryObject<MobEffect> WEIGHTLESSNESS = EFFECTS.register("weightlessness",
-            () -> new WeightlessnessEffect(MobEffectCategory.NEUTRAL, BrutalityTooltipHelper.rgbToInt(new int[]{0, 200, 0}), -0.1));
+            () -> new WeightlessnessEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 0, 200, 0), -0.1));
     public static final RegistryObject<MobEffect> HYPERGRAVITY = EFFECTS.register("hypergravity",
-            () -> new HypergravityEffect(MobEffectCategory.NEUTRAL, BrutalityTooltipHelper.rgbToInt(new int[]{200, 0, 0}), 0.25));
+            () -> new HypergravityEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 200, 0, 0), 0.25));
 
     public static final RegistryObject<MobEffect> MANA_FATIGUE = EFFECTS.register("mana_fatigue",
-            () -> new ManaFatigueEffect(MobEffectCategory.NEUTRAL, BrutalityTooltipHelper.rgbToInt(new int[]{200, 0, 0})));
+            () -> new ManaFatigueEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 200, 0, 0)));
     public static final RegistryObject<MobEffect> FRUGAL_MANA = EFFECTS.register("frugal_mana",
-            () -> new FrugalManaEffect(MobEffectCategory.NEUTRAL, BrutalityTooltipHelper.rgbToInt(new int[]{0, 200, 0})));
+            () -> new FrugalManaEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 0, 200, 0)));
 
     public static final RegistryObject<MobEffect> ULTRA_DODGE = EFFECTS.register("ultra_dodge",
-            () -> new UltraDodgeEffect(MobEffectCategory.BENEFICIAL, BrutalityTooltipHelper.rgbToInt(new int[]{255, 245, 255})));
+            () -> new UltraDodgeEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 255, 245, 255)));
     public static final RegistryObject<MobEffect> DODGE_COOLDOWN = EFFECTS.register("dodge_cooldown",
             () -> new DodgeCooldownEffect(MobEffectCategory.HARMFUL, -16750951));
 
     public static final RegistryObject<MobEffect> PRECISION = EFFECTS.register("precision",
-            () -> new PrecisionEffect(MobEffectCategory.BENEFICIAL, BrutalityTooltipHelper.rgbToInt(new int[]{255, 0, 0})));
+            () -> new PrecisionEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 255, 0, 0)));
 
     public static final RegistryObject<MobEffect> MAGIC_POWER = EFFECTS.register("magic_power",
-            () -> new MagicPowerEffect(MobEffectCategory.BENEFICIAL, BrutalityTooltipHelper.rgbToInt(new int[]{200, 0, 0})));
+            () -> new MagicPowerEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 200, 0, 0)));
     public static final RegistryObject<MobEffect> MAGIC_SICKNESS = EFFECTS.register("magic_sickness",
-            () -> new MagicSicknessEffect(MobEffectCategory.HARMFUL, BrutalityTooltipHelper.rgbToInt(new int[]{0, 200, 0})));
+            () -> new MagicSicknessEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 0, 200, 0)));
 
     public static void register(IEventBus eventBus) {
         EFFECTS.register(eventBus);

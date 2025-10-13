@@ -20,6 +20,10 @@ public class BrutalityDamageTypes {
             Registries.DAMAGE_TYPE,
             ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "dematerialize")
     );
+    public static final ResourceKey<DamageType> LAST_PRISM = ResourceKey.create(
+            Registries.DAMAGE_TYPE,
+            ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "last_prism")
+    );
 
     public static final ResourceKey<DamageType> THROWING_PIERCE = ResourceKey.create(
             Registries.DAMAGE_TYPE,
@@ -30,6 +34,11 @@ public class BrutalityDamageTypes {
             ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "throwing_blunt")
     );
 
+    public static DamageSource last_prism(Entity indirectEntity) {
+        return new DamageSource(indirectEntity.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(LAST_PRISM),
+                indirectEntity
+        );
+    }
     public static DamageSource throwing_pierce(@Nullable Entity indirectEntity, Entity directEntity) {
         return new RandomDeathMessageDamageSource(directEntity.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(THROWING_PIERCE),
                 directEntity,
@@ -64,6 +73,9 @@ public class BrutalityDamageTypes {
             helper.register(
                     BrutalityDamageTypes.THROWING_BLUNT.location(),
                     new DamageType("brutality.throwing_blunt", 0.1F));
+            helper.register(
+                    BrutalityDamageTypes.LAST_PRISM.location(),
+                    new DamageType("brutality.last_prism", 0));
         });
     }
 

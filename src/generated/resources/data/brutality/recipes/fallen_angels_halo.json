@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:archangel_halo"
+    },
+    "B": {
+      "item": "terramity:hellspec_alloy"
+    }
+  },
+  "pattern": [
+    " B ",
+    "BAB",
+    " B "
+  ],
+  "result": {
+    "item": "brutality:fallen_angels_halo"
+  },
+  "show_notification": true
+}

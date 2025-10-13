@@ -126,7 +126,6 @@ public class FateCard extends BrutalityAbstractThrowingProjectile implements Bru
             }
 
         }
-        discard();
     }
 
 

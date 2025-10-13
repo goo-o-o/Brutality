@@ -1,23 +1,21 @@
 package net.goo.brutality.item.armor;
 
-import net.goo.brutality.Brutality;
-import net.goo.brutality.item.BrutalityArmorMaterials;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import net.goo.brutality.item.base.BrutalityArmorItem;
-import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
+import java.util.UUID;
 
-@Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
 public class TerraArmorItem extends BrutalityArmorItem {
 
 
@@ -26,22 +24,17 @@ public class TerraArmorItem extends BrutalityArmorItem {
     }
 
 
-
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (!event.player.level().isClientSide()) {
-            Player player = event.player;
-            if (ModUtils.hasFullArmorSet(event.player, BrutalityArmorMaterials.TERRA)) {
-                if (player.isCrouching()) {
-                        event.player.addEffect(new MobEffectInstance(BrutalityModMobEffects.STONEFORM.get(), 20, 0, false, true));
-                } else {
-                    event.player.removeEffect(BrutalityModMobEffects.STONEFORM.get());
-                }
-            }
+    @Override
+    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot pEquipmentSlot) {
+        if (pEquipmentSlot == type.getSlot()) {
+            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
+            UUID modifierUUID = UUID.nameUUIDFromBytes((this.getType().getName() + this.getMaterial() + pEquipmentSlot).getBytes());
+            builder.putAll(super.getDefaultAttributeModifiers(pEquipmentSlot));
+            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(modifierUUID, "KB Resist buff", 0.25F, AttributeModifier.Operation.MULTIPLY_TOTAL));
+            return builder.build();
         }
+        return super.getDefaultAttributeModifiers(pEquipmentSlot);
     }
-
-
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {

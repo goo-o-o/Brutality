@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "  A",
+    "AA ",
+    "AA "
+  ],
+  "result": {
+    "item": "brutality:paper_airplane"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:stygian_blood_bucket"
+    },
+    "B": {
+      "item": "minecraft:glass"
+    },
+    "C": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "BAB",
+    " C "
+  ],
+  "result": {
+    "item": "brutality:blood_pack"
+  },
+  "show_notification": true
+}

@@ -156,8 +156,8 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
         return withExistingParent(item.getId().getPath(), "item/handheld").texture("layer0", ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "item/" + item.getId().getPath() + "_inventory"));
     }
 
-    private ItemModelBuilder generatedItem(RegistryObject<Item> item) {
-        return withExistingParent(item.getId().getPath(), "item/generated").texture("layer0", ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "item/" + item.getId().getPath() + "_inventory"));
+    private void generatedItem(RegistryObject<Item> item) {
+        withExistingParent(item.getId().getPath(), "item/generated").texture("layer0", ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "item/" + item.getId().getPath() + "_inventory"));
     }
 
     private ItemModelBuilder geoBlockItem(RegistryObject<Block> item) {

@@ -379,7 +379,7 @@ public abstract class PlayerMixin extends LivingEntity {
             AtomicJudgementHammer.doExplosion(playerAttacker, livingVictim.getPosition(1).add(0, livingVictim.getBbHeight() / 2, 0));
         }
 
-        SealUtils.handleSealProc(level, playerAttacker, livingVictim, stack);
+        SealUtils.handleSealProc(level, playerAttacker, livingVictim.getPosition(1).add(0, livingVictim.getBbHeight() * 0.5F, 0), stack);
 
 
         return livingVictim.hurt(pSource, modifiedAmount[0]);

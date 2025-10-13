@@ -35,8 +35,8 @@ public abstract class BiomeMixin {
      */
     @Overwrite
     public int getSkyColor() {
-        int color = EnvironmentColorManager.getColorOverride(net.goo.brutality.util.helpers.EnvironmentColorManager.ColorType.SKY);
-        return color == -1 ? this.specialEffects.getSkyColor() : color;
+        Integer color = EnvironmentColorManager.getColorOverride(net.goo.brutality.util.helpers.EnvironmentColorManager.ColorType.SKY);
+        return color == null ? this.specialEffects.getSkyColor() : color;
     }
 
     /**
@@ -45,8 +45,8 @@ public abstract class BiomeMixin {
      */
     @Overwrite
     public int getWaterColor() {
-        int color = EnvironmentColorManager.getColorOverride(net.goo.brutality.util.helpers.EnvironmentColorManager.ColorType.WATER);
-        return color == -1 ? this.specialEffects.getWaterColor() : color;
+        Integer color = EnvironmentColorManager.getColorOverride(net.goo.brutality.util.helpers.EnvironmentColorManager.ColorType.WATER);
+        return color == null ? this.specialEffects.getWaterColor() : color;
     }
 
     /**
@@ -55,8 +55,8 @@ public abstract class BiomeMixin {
      */
     @Overwrite
     public int getWaterFogColor() {
-        int color = EnvironmentColorManager.getColorOverride(net.goo.brutality.util.helpers.EnvironmentColorManager.ColorType.WATER_FOG);
-        return color == -1 ? this.specialEffects.getWaterFogColor() : color;
+        Integer color = EnvironmentColorManager.getColorOverride(net.goo.brutality.util.helpers.EnvironmentColorManager.ColorType.WATER_FOG);
+        return color == null ? this.specialEffects.getWaterFogColor() : color;
     }
 
     /**
@@ -65,8 +65,8 @@ public abstract class BiomeMixin {
      */
     @Overwrite
     public int getFogColor() {
-        int color = net.goo.brutality.util.helpers.EnvironmentColorManager.getColorOverride(EnvironmentColorManager.ColorType.FOG);
-        return color == -1 ? this.specialEffects.getFogColor() : color;
+        Integer color = net.goo.brutality.util.helpers.EnvironmentColorManager.getColorOverride(EnvironmentColorManager.ColorType.FOG);
+        return color == null ? this.specialEffects.getFogColor() : color;
     }
 
     /**
@@ -75,8 +75,8 @@ public abstract class BiomeMixin {
      */
     @Overwrite
     public int getFoliageColor() {
-        int color = net.goo.brutality.util.helpers.EnvironmentColorManager.getColorOverride(EnvironmentColorManager.ColorType.FOLIAGE);
-        return color == -1 ? this.specialEffects.getFoliageColorOverride().orElseGet(this::getFoliageColorFromTexture) : color;
+        Integer color = net.goo.brutality.util.helpers.EnvironmentColorManager.getColorOverride(EnvironmentColorManager.ColorType.FOLIAGE);
+        return color == null ? this.specialEffects.getFoliageColorOverride().orElseGet(this::getFoliageColorFromTexture) : color;
     }
 
     /**
@@ -85,7 +85,7 @@ public abstract class BiomeMixin {
      */
     @Overwrite
     public int getGrassColor(double posX, double posY) {
-        int color = EnvironmentColorManager.getColorOverride(EnvironmentColorManager.ColorType.GRASS);
-        return color == -1 ? this.specialEffects.getGrassColorModifier().modifyColor(posX, posY, this.specialEffects.getGrassColorOverride().orElseGet(this::getGrassColorFromTexture)) : color;
+        Integer color = EnvironmentColorManager.getColorOverride(EnvironmentColorManager.ColorType.GRASS);
+        return color == null ? this.specialEffects.getGrassColorModifier().modifyColor(posX, posY, this.specialEffects.getGrassColorOverride().orElseGet(this::getGrassColorFromTexture)) : color;
     }
 }

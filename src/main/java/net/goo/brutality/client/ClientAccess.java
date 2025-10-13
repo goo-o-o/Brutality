@@ -144,18 +144,16 @@ public class ClientAccess {
             return true;
         }
 
-        public static void throwProjectileAndHandleAttributesAndAnimation(Player player, BrutalityThrowingItem throwingItem, ItemStack stack, boolean isOffhand) {
+        public static void handleAttributesAndAnimation(Player player, BrutalityThrowingItem throwingItem, ItemStack stack, boolean isOffhand) {
             if (!player.level().isClientSide()) return; // Exit if server-side
             ResourceLocation animationLocation = throwingItem.getAnimationResourceLocation();
-
-
             if (isOffhand) {
                 offhandAttributes(player, () -> {
-                    throwProjectile(player, stack, throwingItem);
+                    handleCooldownAndSound(player, stack, throwingItem);
                     playThrowAnimation(player, animationLocation, true);
                 });
             } else {
-                throwProjectile(player, stack, throwingItem);
+                handleCooldownAndSound(player, stack, throwingItem);
                 playThrowAnimation(player, animationLocation, false);
             }
         }
@@ -175,28 +173,10 @@ public class ClientAccess {
             PacketHandler.sendToServer(new ServerboundPlayerAnimationPacket(player.getUUID(), animationLocation, offHand, speed));
         }
 
-        public static void throwProjectile(Player player, ItemStack stack, BrutalityThrowingItem throwingItem) {
-
+        public static void handleCooldownAndSound(Player player, ItemStack stack, BrutalityThrowingItem throwingItem) {
             if (handleCooldown(player, throwingItem)) {
                 playThrowSound(player);
-                if (throwingItem instanceof VampireKnives) {
-                    int quantity = 4;
-                    quantity += player.getRandom().nextFloat() < 0.5F ? 1 : 0;
-                    quantity += player.getRandom().nextFloat() < 0.25F ? 1 : 0;
-                    quantity += player.getRandom().nextFloat() < 0.125F ? 1 : 0;
-                    quantity += player.getRandom().nextFloat() < 0.0625F ? 1 : 0;
-                    float gap = 7.5F;
-                    for (int i = 0; i < quantity; i++) {
-                        float angleOffset = (i - (quantity - 1) / 2f) * gap; // Center the arc
-                        angleOffset += (player.getRandom().nextFloat() - 0.5F) * 5F;
-                        PacketHandler.sendToServer(new ServerboundShootFromRotationPacket(stack, throwingItem.getThrownEntity(), player.getEyePosition(),
-                                player.getXRot(), player.getYRot() + angleOffset, throwingItem.getThrowVelocity(player), throwingItem.getThrowInaccuracy()));
-                    }
-                    return;
-                }
-
-                PacketHandler.sendToServer(new ServerboundShootFromRotationPacket(stack, throwingItem.getThrownEntity(), player.getEyePosition(),
-                        player.getXRot(), player.getYRot(), throwingItem.getThrowVelocity(player), throwingItem.getThrowInaccuracy()));
+                throwingItem.throwProjectile(stack, player);
             }
         }
 

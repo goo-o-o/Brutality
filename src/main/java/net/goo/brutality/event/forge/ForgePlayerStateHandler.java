@@ -3,6 +3,7 @@ package net.goo.brutality.event.forge;
 import com.google.common.base.Suppliers;
 import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.Brutality;
+import net.goo.brutality.item.BrutalityArmorMaterials;
 import net.goo.brutality.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.item.weapon.generic.CreaseOfCreation;
 import net.goo.brutality.item.weapon.spear.EventHorizonSpear;
@@ -17,21 +18,20 @@ import net.goo.brutality.network.ClientboundSyncItemCooldownPacket;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModItems;
+import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.EnvironmentColorManager;
 import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerListener;
@@ -44,7 +44,6 @@ import net.minecraftforge.event.entity.living.LivingSwapItemsEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import oshi.util.tuples.Pair;
@@ -65,7 +64,7 @@ public class ForgePlayerStateHandler {
             BrutalityModItems.EVIL_KING_BOOSTER_PACK.get(), BrutalityModItems.EVIL_KING_RESPAWN_CARD.get(),
             BrutalityModItems.DIAMOND_BOOSTER_PACK.get(), BrutalityModItems.DIAMOND_RESPAWN_CARD.get(),
             BrutalityModItems.SILVER_BOOSTER_PACK.get(), BrutalityModItems.SILVER_RESPAWN_CARD.get()
-            ));
+    ));
     public static final Supplier<List<MobEffect>> boosterPackEffects = Suppliers.memoize(() -> List.of(
             MobEffects.SATURATION, MobEffects.MOVEMENT_SPEED, MobEffects.ABSORPTION, MobEffects.JUMP, MobEffects.DAMAGE_RESISTANCE, TerramityModMobEffects.IMMUNITY.get()));
 
@@ -107,8 +106,6 @@ public class ForgePlayerStateHandler {
 
         resetAllColors();
     }
-
-
 
 
     @SubscribeEvent
@@ -288,14 +285,14 @@ public class ForgePlayerStateHandler {
         });
     }
 
-    @SubscribeEvent
-    public static void onItemPutInFrame(PlayerInteractEvent.EntityInteract event) {
-        if (event.getTarget() instanceof ItemFrame) {
-            if (isSpecificItem(event.getItemStack())) {
-                triggerItemLeftInventory(event.getEntity(), event.getItemStack());
-            }
-        }
-    }
+//    @SubscribeEvent
+//    public static void onItemPutInFrame(PlayerInteractEvent.EntityInteractSpecific event) {
+//        if (event.getTarget() instanceof ItemFrame) {
+//            if (isSpecificItem(event.getItemStack())) {
+//                triggerItemLeftInventory(event.getEntity(), event.getItemStack());
+//            }
+//        }
+//    }
 
     private static boolean isSpecificItem(ItemStack stack) {
         if (stack.isEmpty()) return false;
@@ -344,43 +341,15 @@ public class ForgePlayerStateHandler {
                 }
             }
 
-
-            AttributeInstance knockback = player.getAttribute(Attributes.ATTACK_KNOCKBACK);
-            AttributeInstance attackSpeed = player.getAttribute(Attributes.ATTACK_SPEED);
-            boolean hasASMult = attackSpeed != null && attackSpeed.getModifier(CHOPSTICK_AS_UUID) != null;
-            boolean hasKBMult = knockback != null && knockback.getModifier(CHOPSTICK_KB_UUID) != null;
-
-            if (player.getMainHandItem().
-
-                    is(BrutalityModItems.CHOPSTICK_STAFF.get()) && player.getOffhandItem().
-
-                    is(BrutalityModItems.CHOPSTICK_STAFF.get())) {
-                if (attackSpeed != null & !hasASMult) {
-                    attackSpeed.addTransientModifier(
-                            new AttributeModifier(
-                                    CHOPSTICK_AS_UUID,
-                                    "Temporary AS Bonus",
-                                    0.5,
-                                    AttributeModifier.Operation.ADDITION
-                            )
-                    );
+            if (ModUtils.hasFullArmorSet(player, BrutalityArmorMaterials.TERRA)) {
+                if (player.isCrouching()) {
+                    if (!player.hasEffect(BrutalityModMobEffects.STONEFORM.get()))
+                        player.playSound(SoundEvents.STONE_PLACE);
+                    player.addEffect(new MobEffectInstance(BrutalityModMobEffects.STONEFORM.get(), 20, 0, false, true));
+                } else if (player.hasEffect(BrutalityModMobEffects.STONEFORM.get())) {
+                    player.removeEffect(BrutalityModMobEffects.STONEFORM.get());
                 }
-
-                if (knockback != null && !hasKBMult) {
-                    knockback.addTransientModifier(
-                            new AttributeModifier(
-                                    CHOPSTICK_KB_UUID,
-                                    "Temporary KB Bonus",
-                                    2,
-                                    AttributeModifier.Operation.ADDITION
-                            )
-                    );
-                }
-            } else {
-                if (attackSpeed != null) attackSpeed.removeModifier(CHOPSTICK_AS_UUID);
-                if (knockback != null) knockback.removeModifier(CHOPSTICK_KB_UUID);
             }
-
 
             player.getCapability(BrutalityCapabilities.PLAYER_MANA_CAP).
                     ifPresent(cap ->

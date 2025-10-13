@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:glass_pane"
+    },
+    "B": {
+      "item": "minecraft:iron_bars"
+    },
+    "C": {
+      "item": "terramity:daemonium_chunk"
+    },
+    "D": {
+      "item": "terramity:daemonium"
+    },
+    "E": {
+      "item": "terramity:onyx_block"
+    }
+  },
+  "pattern": [
+    "ECD",
+    "EAC",
+    "BEE"
+  ],
+  "result": {
+    "item": "brutality:mana_syringe"
+  },
+  "show_notification": true
+}

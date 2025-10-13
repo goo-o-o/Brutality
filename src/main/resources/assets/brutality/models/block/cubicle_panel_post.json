@@ -1,0 +1,21 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "brutality:block/cubicle_panel",
+    "bars": "brutality:block/cubicle_panel",
+    "post": "brutality:block/cubicle_panel_post"
+  },
+  "elements": [
+    {   "from": [ 7, 0, 7 ],
+      "to": [ 9, 16, 9 ],
+      "faces": {
+        "up": { "uv": [ 7, 0, 9, 1 ], "texture": "#post", "cullface": "up" },
+        "down": { "uv": [ 7, 1, 9, 16 ], "texture": "#post", "cullface": "down" },
+        "west": { "uv": [ 7, 0, 9, 16 ], "texture": "#post" },
+        "south": { "uv": [ 7, 0, 9, 16 ], "texture": "#post" },
+        "east": { "uv": [ 9, 0, 7, 16 ], "texture": "#post" },
+        "north": { "uv": [ 9, 0, 7, 16 ], "texture": "#post" }
+      }
+    }
+  ]
+}

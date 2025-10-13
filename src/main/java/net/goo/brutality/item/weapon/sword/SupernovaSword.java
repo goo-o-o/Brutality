@@ -4,6 +4,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.projectile.generic.SupernovaAsteroid;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.registry.BrutalityModEntities;
+import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
@@ -61,7 +62,6 @@ public class SupernovaSword extends BrutalitySwordItem {
         stack.enchant(Enchantments.KNOCKBACK, 3);
         return stack;
     }
-
 
 
     @Override
@@ -151,8 +151,14 @@ public class SupernovaSword extends BrutalitySwordItem {
 
     @SubscribeEvent
     public void onPlayerDeath(LivingDeathEvent event) {
-        if (event.getEntity() instanceof Player player && !player.level().isClientSide()) {
-            clearAsteroids(player, ((ServerLevel) player.level()));
+        if (event.getEntity() instanceof Player player) {
+
+            if (player.hasEffect(BrutalityModMobEffects.STUNNED.get()))
+                player.removeEffect(BrutalityModMobEffects.STUNNED.get());
+
+            if (player.level() instanceof ServerLevel serverLevel) {
+                clearAsteroids(player, serverLevel);
+            }
         }
     }
 

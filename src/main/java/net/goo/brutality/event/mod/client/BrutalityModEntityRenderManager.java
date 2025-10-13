@@ -16,6 +16,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
+import static net.goo.brutality.util.ModResources.rainbowColor;
+
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class BrutalityModEntityRenderManager {
     @SubscribeEvent
@@ -29,6 +31,8 @@ public class BrutalityModEntityRenderManager {
 
         event.registerEntityRenderer(BrutalityModEntities.EXOBLADE_BEAM.get(), context -> new BrutalityTridentRenderer<>(context,
                 renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer))));
+        event.registerEntityRenderer(BrutalityModEntities.PHOTON.get(), context -> new BrutalityTridentRenderer<>(context,
+                renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer))));
 
 
         event.registerEntityRenderer(BrutalityModEntities.CANNONBALL_CABBAGE.get(), BrutalityAbstractPhysicsTridentRenderer::new);
@@ -91,20 +95,12 @@ public class BrutalityModEntityRenderManager {
                 renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer))));
 
 
-        int[][] colors = new int[][]{
-                {255, 0, 0},
-                {255, 127, 0},
-                {255, 255, 0},
-                {0, 255, 0},
-                {0, 0, 255},
-                {75, 0, 130},
-                {148, 0, 211}
-        };
+
 
         event.registerEntityRenderer(BrutalityModEntities.LAST_PRISM_RAY.get(), context -> new BrutalityRayRenderer<>(context,
                 renderer -> {
-                    renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
-                    renderer.addRenderLayer(new BrutalityAutoColorShiftFullbrightNoDepthLayer<>(renderer, 1, colors[0], colors[1], colors[2], colors[3], colors[4], colors[5], colors[6]));
+                    renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
+                    renderer.addRenderLayer(new BrutalityAutoColorShiftFullbrightNoDepthLayer<>(renderer, 0.1F, rainbowColor[0], rainbowColor[1], rainbowColor[2], rainbowColor[3], rainbowColor[4], rainbowColor[5], rainbowColor[6]));
                 }));
 
         event.registerEntityRenderer(BrutalityModEntities.EXTINCTION_ENTITY.get(), context -> new BrutalityRayRenderer<>(context,

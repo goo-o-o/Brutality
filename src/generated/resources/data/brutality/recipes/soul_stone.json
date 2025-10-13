@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:magma_stone"
+    },
+    "B": {
+      "item": "terramity:spiteful_soul"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "BAB",
+    "BBB"
+  ],
+  "result": {
+    "item": "brutality:soul_stone"
+  },
+  "show_notification": true
+}
