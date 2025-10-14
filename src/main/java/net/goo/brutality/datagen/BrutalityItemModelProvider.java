@@ -11,7 +11,7 @@ import net.goo.brutality.item.weapon.generic.TheCloudItem;
 import net.goo.brutality.item.weapon.scythe.DarkinScythe;
 import net.goo.brutality.item.weapon.sword.DullKnifeSword;
 import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.registry.ModBlocks;
+import net.goo.brutality.registry.BrutalityModBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -65,7 +65,7 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         Collection<RegistryObject<Item>> items = BrutalityModItems.ITEMS.getEntries();
-        Collection<RegistryObject<Block>> blocks = ModBlocks.BLOCKS.getEntries();
+        Collection<RegistryObject<Block>> blocks = BrutalityModBlocks.BLOCKS.getEntries();
 
         for (RegistryObject<Item> item : items) {
             Item rawItem = item.get();

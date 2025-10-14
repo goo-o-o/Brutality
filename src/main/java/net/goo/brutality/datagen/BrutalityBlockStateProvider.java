@@ -1,7 +1,7 @@
 package net.goo.brutality.datagen;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.registry.ModBlocks;
+import net.goo.brutality.registry.BrutalityModBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -16,9 +16,9 @@ public class BrutalityBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        blockWithItem(ModBlocks.WATER_COOLER_BLOCK);
-        blockWithItem(ModBlocks.COFFEE_MACHINE_BLOCK);
-        blockWithItem(ModBlocks.SUPER_SNIFFER_FIGURE_BLOCK);
+        blockWithItem(BrutalityModBlocks.WATER_COOLER_BLOCK);
+        blockWithItem(BrutalityModBlocks.COFFEE_MACHINE_BLOCK);
+        blockWithItem(BrutalityModBlocks.SUPER_SNIFFER_FIGURE_BLOCK);
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {

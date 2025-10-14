@@ -2,8 +2,11 @@ package net.goo.brutality.event.mod.client;
 
 import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
+import net.goo.brutality.gui.screen.FilingCabinetScreen;
+import net.goo.brutality.registry.BrutalityMenuTypes;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.BetterCombatIntegration;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -21,6 +24,8 @@ public class ModClientSetup {
         if (ModList.get().isLoaded("bettercombat")) {
             BetterCombatIntegration.register();
         }
+
+
 
         event.enqueueWork(() -> ItemProperties.register(BrutalityModItems.DULL_KNIFE_DAGGER.get(), ResourceLocation.parse("texture"),
                 ((pStack, pLevel, pEntity, pSeed) -> pStack.getOrCreateTag().getInt("texture"))));
@@ -44,6 +49,8 @@ public class ModClientSetup {
             });
 
             ItemProperties.register(BrutalityModItems.PROVIDENCE.get(), ResourceLocation.parse("pulling"), (stack, level, entity, seed) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
+
+            MenuScreens.register(BrutalityMenuTypes.FILING_CABINET_MENU.get(), FilingCabinetScreen::new);
         });
 
 

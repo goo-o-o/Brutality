@@ -15,7 +15,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
 
-public class ModBlocks {
+public class BrutalityModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, Brutality.MOD_ID);
 
@@ -65,6 +65,9 @@ public class ModBlocks {
             registerBlock("gray_office_carpet", () -> new OfficeCarpetBlock(DyeColor.GRAY, BlockBehaviour.Properties.copy(Blocks.GRAY_CARPET).noOcclusion()));
     public static final RegistryObject<Block> LIGHT_GRAY_OFFICE_CARPET =
             registerBlock("light_gray_office_carpet", () -> new OfficeCarpetBlock(DyeColor.LIGHT_GRAY, BlockBehaviour.Properties.copy(Blocks.LIGHT_GRAY_CARPET).noOcclusion()));
+
+    public static final RegistryObject<Block> FILING_CABINET_BLOCK =
+            registerBlock("filing_cabinet", () -> new FilingCabinetBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
 
 
     public static final RegistryObject<Block> WATER_COOLER_BLOCK =

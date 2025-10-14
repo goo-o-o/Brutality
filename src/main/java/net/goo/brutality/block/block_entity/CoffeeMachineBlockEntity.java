@@ -1,4 +1,4 @@
-package net.goo.brutality.block.entity;
+package net.goo.brutality.block.block_entity;
 
 import net.goo.brutality.block.BrutalityGeoBlockEntity;
 import net.minecraft.core.BlockPos;

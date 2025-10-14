@@ -7,7 +7,7 @@ public class CommonRegistry {
     public static void register(IEventBus modEventBus) {
         ModCreativeModTabs.register(modEventBus);
         BrutalityModItems.register(modEventBus);
-        ModBlocks.register(modEventBus);
+        BrutalityModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModVillagers.register(modEventBus);
         ModLootModifiers.register(modEventBus);
@@ -17,6 +17,7 @@ public class CommonRegistry {
         ModAttributes.register(modEventBus);
         SpellRegistry.register();
         BrutalityModParticles.register(modEventBus);
+        BrutalityMenuTypes.register(modEventBus);
     }
 
 

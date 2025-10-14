@@ -1,6 +1,6 @@
 package net.goo.brutality.block.custom;
 
-import net.goo.brutality.block.entity.SuperSnifferFigureBlockEntity;
+import net.goo.brutality.block.block_entity.SuperSnifferFigureBlockEntity;
 import net.goo.brutality.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

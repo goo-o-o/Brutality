@@ -1,6 +1,6 @@
 package net.goo.brutality.datagen.loot;
 
-import net.goo.brutality.registry.ModBlocks;
+import net.goo.brutality.registry.BrutalityModBlocks;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
@@ -22,19 +22,19 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        this.add(ModBlocks.WATER_COOLER_BLOCK.get(), block -> this.createNameableBlockEntityTable(ModBlocks.WATER_COOLER_BLOCK.get()));
-        this.add(ModBlocks.COFFEE_MACHINE_BLOCK.get(), block -> this.createNameableBlockEntityTable(ModBlocks.COFFEE_MACHINE_BLOCK.get()));
-        this.add(ModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get(), block -> this.createNameableBlockEntityTable(ModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get()));
+        this.add(BrutalityModBlocks.WATER_COOLER_BLOCK.get(), block -> this.createNameableBlockEntityTable(BrutalityModBlocks.WATER_COOLER_BLOCK.get()));
+        this.add(BrutalityModBlocks.COFFEE_MACHINE_BLOCK.get(), block -> this.createNameableBlockEntityTable(BrutalityModBlocks.COFFEE_MACHINE_BLOCK.get()));
+        this.add(BrutalityModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get(), block -> this.createNameableBlockEntityTable(BrutalityModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get()));
 
-        this.add(ModBlocks.GREEN_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(ModBlocks.GREEN_CUBICLE_PANEL.get()));
-        this.add(ModBlocks.WHITE_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(ModBlocks.WHITE_CUBICLE_PANEL.get()));
-        this.add(ModBlocks.GRAY_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(ModBlocks.GRAY_CUBICLE_PANEL.get()));
-        this.add(ModBlocks.LIGHT_GRAY_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(ModBlocks.LIGHT_GRAY_CUBICLE_PANEL.get()));
-        this.add(ModBlocks.BLUE_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(ModBlocks.BLUE_CUBICLE_PANEL.get()));
-        this.add(ModBlocks.RED_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(ModBlocks.RED_CUBICLE_PANEL.get()));
+        this.add(BrutalityModBlocks.GREEN_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(BrutalityModBlocks.GREEN_CUBICLE_PANEL.get()));
+        this.add(BrutalityModBlocks.WHITE_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(BrutalityModBlocks.WHITE_CUBICLE_PANEL.get()));
+        this.add(BrutalityModBlocks.GRAY_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(BrutalityModBlocks.GRAY_CUBICLE_PANEL.get()));
+        this.add(BrutalityModBlocks.LIGHT_GRAY_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(BrutalityModBlocks.LIGHT_GRAY_CUBICLE_PANEL.get()));
+        this.add(BrutalityModBlocks.BLUE_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(BrutalityModBlocks.BLUE_CUBICLE_PANEL.get()));
+        this.add(BrutalityModBlocks.RED_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(BrutalityModBlocks.RED_CUBICLE_PANEL.get()));
 
-        this.add(ModBlocks.GRAY_OFFICE_CARPET.get(), block -> this.createSingleItemTable(ModBlocks.GRAY_OFFICE_CARPET.get()));
-        this.add(ModBlocks.LIGHT_GRAY_OFFICE_CARPET.get(), block -> this.createSingleItemTable(ModBlocks.LIGHT_GRAY_OFFICE_CARPET.get()));
+        this.add(BrutalityModBlocks.GRAY_OFFICE_CARPET.get(), block -> this.createSingleItemTable(BrutalityModBlocks.GRAY_OFFICE_CARPET.get()));
+        this.add(BrutalityModBlocks.LIGHT_GRAY_OFFICE_CARPET.get(), block -> this.createSingleItemTable(BrutalityModBlocks.LIGHT_GRAY_OFFICE_CARPET.get()));
 
     }
 
@@ -48,6 +48,6 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     @Override
     protected Iterable<Block> getKnownBlocks() {
-        return ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
+        return BrutalityModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
     }
 }

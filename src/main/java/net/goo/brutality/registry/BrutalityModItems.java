@@ -73,15 +73,15 @@ public class BrutalityModItems {
 //
     public static final RegistryObject<Item> WATER_COOLER_ITEM =
             ITEMS.register("water_cooler", () ->
-                    new WaterCoolerBlockItem(ModBlocks.WATER_COOLER_BLOCK.get(), new Item.Properties()));
+                    new WaterCoolerBlockItem(BrutalityModBlocks.WATER_COOLER_BLOCK.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> COFFEE_MACHINE_ITEM =
             ITEMS.register("coffee_machine", () ->
-                    new CoffeeMachineBlockItem(ModBlocks.COFFEE_MACHINE_BLOCK.get(), new Item.Properties()));
+                    new CoffeeMachineBlockItem(BrutalityModBlocks.COFFEE_MACHINE_BLOCK.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> SUPER_SNIFFER_FIGURE_ITEM =
             ITEMS.register("super_sniffer_figure", () ->
-                    new SuperSnifferFigureBlockItem(ModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get(), new Item.Properties()));
+                    new SuperSnifferFigureBlockItem(BrutalityModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get(), new Item.Properties()));
 
     // endregion
 

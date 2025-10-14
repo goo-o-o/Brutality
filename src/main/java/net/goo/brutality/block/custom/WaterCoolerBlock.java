@@ -1,6 +1,6 @@
 package net.goo.brutality.block.custom;
 
-import net.goo.brutality.block.entity.WaterCoolerBlockEntity;
+import net.goo.brutality.block.block_entity.WaterCoolerBlockEntity;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.registry.ModBlockEntities;
 import net.goo.brutality.util.ModUtils;
@@ -26,7 +26,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 
 public class WaterCoolerBlock extends BaseEntityBlock {
     public WaterCoolerBlock(Properties pProperties) {
