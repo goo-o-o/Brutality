@@ -56,7 +56,7 @@ public class FilingCabinetOpenersCounter extends ContainerOpenersCounter {
             lowerOpenCount++;
             if (lowerOpenCount == 1) {
                 playSound(level, pos, SoundEvents.BARREL_OPEN);
-                blockEntity.updateBlockState(state,false, true);
+                blockEntity.updateBlockState(state, false, true);
                 level.gameEvent(player, GameEvent.CONTAINER_OPEN, pos);
             }
         }
@@ -68,7 +68,7 @@ public class FilingCabinetOpenersCounter extends ContainerOpenersCounter {
             if (upperOpenCount <= 0) {
                 upperOpenCount = 0;
                 playSound(level, pos, SoundEvents.BARREL_CLOSE);
-                blockEntity.updateBlockState(state,true, false);
+                blockEntity.updateBlockState(state, true, false);
                 level.gameEvent(player, GameEvent.CONTAINER_CLOSE, pos);
             }
         } else {
@@ -76,7 +76,7 @@ public class FilingCabinetOpenersCounter extends ContainerOpenersCounter {
             if (lowerOpenCount <= 0) {
                 lowerOpenCount = 0;
                 playSound(level, pos, SoundEvents.BARREL_CLOSE);
-                blockEntity.updateBlockState(state,false, false);
+                blockEntity.updateBlockState(state, false, false);
                 level.gameEvent(player, GameEvent.CONTAINER_CLOSE, pos);
             }
         }
