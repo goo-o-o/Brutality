@@ -11,6 +11,7 @@ import net.goo.brutality.item.weapon.generic.TheCloudItem;
 import net.goo.brutality.item.weapon.scythe.DarkinScythe;
 import net.goo.brutality.item.weapon.sword.DullKnifeSword;
 import net.goo.brutality.registry.BrutalityModItems;
+import net.goo.brutality.registry.ModBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -64,19 +65,25 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         Collection<RegistryObject<Item>> items = BrutalityModItems.ITEMS.getEntries();
+        Collection<RegistryObject<Block>> blocks = ModBlocks.BLOCKS.getEntries();
 
         for (RegistryObject<Item> item : items) {
             Item rawItem = item.get();
-            if (rawItem instanceof BrutalityGeoItem armaItem) {
-                if (!isExcluded(armaItem)) {
-                    generateBrutalityGeoItemModel(armaItem);
+            if (rawItem instanceof BrutalityGeoItem geoItem) {
+                if (!isExcluded(geoItem)) {
+                    generateBrutalityGeoItemModel(geoItem);
                 }
-            } else if (rawItem instanceof BlockItem blockItem) {
-                System.out.println("simpleBlockItem(" + blockItem.getBlock() + ")");
+            } else if (rawItem instanceof BrutalityBlockItem blockItem) {
                 geoBlockItem(blockItem.getBlock());
             } else {
                 System.out.println("generatedItem(" + item + ")");
                 generatedItem(item);
+            }
+        }
+
+        for (RegistryObject<Block> block : blocks) {
+            if (!(block.get().asItem() instanceof BrutalityBlockItem)) {
+                simpleBlockItemBlockTexture(block);
             }
         }
     }
@@ -171,8 +178,10 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
     }
 
 
-    private ItemModelBuilder simpleBlockItemBlockTexture(RegistryObject<Block> item) {
-        return withExistingParent(item.getId().getPath(), "item/generated").texture("layer0", ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + item.getId().getPath()));
+    private void simpleBlockItemBlockTexture(RegistryObject<Block> item) {
+        if (item.getId() != null) {
+            withExistingParent(item.getId().getPath(), "item/generated").texture("layer0", ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + item.getId().getPath()));
+        }
     }
 
     private void generateBrutalityGeoItemModel(BrutalityGeoItem item) {

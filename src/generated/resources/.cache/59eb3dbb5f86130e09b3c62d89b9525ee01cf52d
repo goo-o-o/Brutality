@@ -1,4 +1,10 @@
-// 1.20.1	2025-09-21T04:32:54.1928933	Loot Tables
+// 1.20.1	2025-10-14T05:43:42.7470564	Loot Tables
+fb2995e6d83e835bc13eda27b6913604c4af119a data/brutality/loot_tables/blocks/blue_cubicle_panel.json
 5e41b5d459406bb80d5b1fdf2a72e0bb0b2010c6 data/brutality/loot_tables/blocks/coffee_machine.json
+343a670eedb7d6ba2cd03aeac7d2fb2b0b0e09e4 data/brutality/loot_tables/blocks/gray_cubicle_panel.json
+03785b2524e4c5afdf63331f982aa7eeb75fc64a data/brutality/loot_tables/blocks/green_cubicle_panel.json
+fe21065b660ec5137ff2325055838444979b7a04 data/brutality/loot_tables/blocks/light_gray_cubicle_panel.json
+be503e234c8adc11b45ac3efee772292856bd9be data/brutality/loot_tables/blocks/red_cubicle_panel.json
 cd06aa1ebaccf95f1afbd19421cfa15c279fd7fe data/brutality/loot_tables/blocks/super_sniffer_figure.json
 01ed594e4367f283a928921c55920bbf96f3781e data/brutality/loot_tables/blocks/water_cooler.json
+814f228ceae8bb7dca05320f8b7f85bbcd93e685 data/brutality/loot_tables/blocks/white_cubicle_panel.json

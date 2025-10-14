@@ -1,0 +1,7 @@
+{
+  "parent": "brutality:block/template_panel_cap",
+  "textures": {
+    "panel": "brutality:block/gray_cubicle_panel",
+    "post": "brutality:block/cubicle_panel_post"
+  }
+}

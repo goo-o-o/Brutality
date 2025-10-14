@@ -1,15 +1,12 @@
 package net.goo.brutality.registry;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.block.custom.CoffeeMachineBlock;
-import net.goo.brutality.block.custom.CubiclePanel;
-import net.goo.brutality.block.custom.SuperSnifferFigureBlock;
-import net.goo.brutality.block.custom.WaterCoolerBlock;
+import net.goo.brutality.block.custom.*;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -45,9 +42,29 @@ public class ModBlocks {
         return block;
     }
 
-    public static final RegistryObject<Block> CUBICLE_PANEL =
-            registerBlock("cubicle_panel", () -> new CubiclePanel(BlockBehaviour.Properties.of()
-                    .requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.WOOL).noOcclusion()));
+    public static final RegistryObject<Block> GRAY_CUBICLE_PANEL =
+            registerBlock("gray_cubicle_panel", () -> new CubiclePanelBlock(BlockBehaviour.Properties
+                    .copy(Blocks.WHITE_WOOL).noOcclusion()));
+    public static final RegistryObject<Block> LIGHT_GRAY_CUBICLE_PANEL =
+            registerBlock("light_gray_cubicle_panel", () -> new CubiclePanelBlock(BlockBehaviour.Properties
+                    .copy(Blocks.WHITE_WOOL).noOcclusion()));
+    public static final RegistryObject<Block> BLUE_CUBICLE_PANEL =
+            registerBlock("blue_cubicle_panel", () -> new CubiclePanelBlock(BlockBehaviour.Properties
+                    .copy(Blocks.WHITE_WOOL).noOcclusion()));
+    public static final RegistryObject<Block> GREEN_CUBICLE_PANEL =
+            registerBlock("green_cubicle_panel", () -> new CubiclePanelBlock(BlockBehaviour.Properties
+                    .copy(Blocks.WHITE_WOOL).noOcclusion()));
+    public static final RegistryObject<Block> WHITE_CUBICLE_PANEL =
+            registerBlock("white_cubicle_panel", () -> new CubiclePanelBlock(BlockBehaviour.Properties
+                    .copy(Blocks.WHITE_WOOL).noOcclusion()));
+    public static final RegistryObject<Block> RED_CUBICLE_PANEL =
+            registerBlock("red_cubicle_panel", () -> new CubiclePanelBlock(BlockBehaviour.Properties
+                    .copy(Blocks.WHITE_WOOL).noOcclusion()));
+
+    public static final RegistryObject<Block> GRAY_OFFICE_CARPET =
+            registerBlock("gray_office_carpet", () -> new OfficeCarpetBlock(DyeColor.GRAY, BlockBehaviour.Properties.copy(Blocks.GRAY_CARPET).noOcclusion()));
+    public static final RegistryObject<Block> LIGHT_GRAY_OFFICE_CARPET =
+            registerBlock("light_gray_office_carpet", () -> new OfficeCarpetBlock(DyeColor.LIGHT_GRAY, BlockBehaviour.Properties.copy(Blocks.LIGHT_GRAY_CARPET).noOcclusion()));
 
 
     public static final RegistryObject<Block> WATER_COOLER_BLOCK =

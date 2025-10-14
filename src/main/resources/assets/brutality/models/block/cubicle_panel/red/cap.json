@@ -1,0 +1,7 @@
+{
+  "parent": "brutality:block/template_panel_cap",
+  "textures": {
+    "panel": "minecraft:block/red_concrete",
+    "post": "brutality:block/black_cubicle_panel_post"
+  }
+}

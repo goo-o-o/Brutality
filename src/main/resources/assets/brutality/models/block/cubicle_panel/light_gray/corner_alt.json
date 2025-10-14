@@ -1,0 +1,7 @@
+{
+  "parent": "brutality:block/template_panel_corner_alt",
+  "textures": {
+    "panel": "brutality:block/light_gray_cubicle_panel",
+    "post": "brutality:block/cubicle_panel_post"
+  }
+}

@@ -25,6 +25,17 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.add(ModBlocks.WATER_COOLER_BLOCK.get(), block -> this.createNameableBlockEntityTable(ModBlocks.WATER_COOLER_BLOCK.get()));
         this.add(ModBlocks.COFFEE_MACHINE_BLOCK.get(), block -> this.createNameableBlockEntityTable(ModBlocks.COFFEE_MACHINE_BLOCK.get()));
         this.add(ModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get(), block -> this.createNameableBlockEntityTable(ModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get()));
+
+        this.add(ModBlocks.GREEN_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(ModBlocks.GREEN_CUBICLE_PANEL.get()));
+        this.add(ModBlocks.WHITE_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(ModBlocks.WHITE_CUBICLE_PANEL.get()));
+        this.add(ModBlocks.GRAY_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(ModBlocks.GRAY_CUBICLE_PANEL.get()));
+        this.add(ModBlocks.LIGHT_GRAY_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(ModBlocks.LIGHT_GRAY_CUBICLE_PANEL.get()));
+        this.add(ModBlocks.BLUE_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(ModBlocks.BLUE_CUBICLE_PANEL.get()));
+        this.add(ModBlocks.RED_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(ModBlocks.RED_CUBICLE_PANEL.get()));
+
+        this.add(ModBlocks.GRAY_OFFICE_CARPET.get(), block -> this.createSingleItemTable(ModBlocks.GRAY_OFFICE_CARPET.get()));
+        this.add(ModBlocks.LIGHT_GRAY_OFFICE_CARPET.get(), block -> this.createSingleItemTable(ModBlocks.LIGHT_GRAY_OFFICE_CARPET.get()));
+
     }
 
 

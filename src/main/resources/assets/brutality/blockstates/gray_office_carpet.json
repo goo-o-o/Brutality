@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "axis=x": { "model": "brutality:block/gray_office_carpet" },
+    "axis=z": { "model": "brutality:block/gray_office_carpet", "y": 90 }
+  }
+}

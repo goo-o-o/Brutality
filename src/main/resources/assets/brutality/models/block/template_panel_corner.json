@@ -1,0 +1,18 @@
+{
+  "ambientocclusion": true,
+  "textures": {
+    "particle": "#panel",
+    "post": "#post"
+  },
+  "elements": [
+    {   "from": [ 7, 0, 8 ],
+      "to": [ 8, 16, 9 ],
+      "faces": {
+        "south": { "uv": [ 8, 0, 9, 16 ], "texture": "#post" },
+        "west": { "uv": [  8, 0, 9, 16 ], "texture": "#post" },
+        "up"  : { "uv": [  8, 0, 9, 1 ], "texture": "#post" },
+        "down": { "uv": [  8, 15, 9, 16 ], "texture": "#post" }
+      }
+    }
+  ]
+}

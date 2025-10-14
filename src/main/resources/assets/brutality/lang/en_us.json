@@ -67,8 +67,6 @@
   "item.brutality.cannonball_cabbage": "Cannonball Cabbage",
   "item.brutality.golden_phoenix": "Golden Phoenix",
 
-
-
   "item.brutality.winter_melon": "Winter Melon",
   "item.brutality.winter_melon.when_thrown.1": "§e -Throws out a Winter Melon that slows and freezes nearby enemies",
 
@@ -1022,6 +1020,12 @@
   "item.brutality.umbral_tome": "Umbral Tome",
 
 
+  "block.brutality.gray_cubicle_panel": "Gray Cubicle Panel",
+  "block.brutality.light_gray_cubicle_panel": "Light Gray Cubicle Panel",
+  "block.brutality.blue_cubicle_panel": "Blue Cubicle Panel",
+  "block.brutality.green_cubicle_panel": "Green Cubicle Panel",
+  "block.brutality.red_cubicle_panel": "Red Cubicle Panel",
+  "block.brutality.white_cubicle_panel": "White Cubicle Panel",
   "block.brutality.water_cooler": "Water Cooler",
   "block.brutality.coffee_machine": "Coffee Machine",
   "block.brutality.eeffoc_machine": "Eeffoc Machine",

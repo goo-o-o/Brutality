@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/carpet",
+  "textures": {
+    "wool": "brutality:block/light_gray_office_carpet"
+  }
+}
