@@ -2,6 +2,7 @@ package net.goo.brutality.event.mod.client;
 
 import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
+import net.goo.brutality.block.custom.DustbinBlock;
 import net.goo.brutality.gui.screen.FilingCabinetScreen;
 import net.goo.brutality.registry.BrutalityMenuTypes;
 import net.goo.brutality.registry.BrutalityModItems;
@@ -19,6 +20,7 @@ import static net.goo.brutality.Brutality.MOD_ID;
 
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModClientSetup {
+
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         if (ModList.get().isLoaded("bettercombat")) {
@@ -26,21 +28,32 @@ public class ModClientSetup {
         }
 
 
+        event.enqueueWork(DustbinBlock::bootStrap);
 
         event.enqueueWork(() -> ItemProperties.register(BrutalityModItems.DULL_KNIFE_DAGGER.get(), ResourceLocation.parse("texture"),
-                ((pStack, pLevel, pEntity, pSeed) -> pStack.getOrCreateTag().getInt("texture"))));
+                ((pStack, pLevel, pEntity, pSeed) -> pStack.getOrCreateTag().
+
+                        getInt("texture"))));
         event.enqueueWork(() -> ItemProperties.register(BrutalityModItems.DARKIN_SCYTHE.get(), ResourceLocation.parse("texture"),
-                ((pStack, pLevel, pEntity, pSeed) -> pStack.getOrCreateTag().getInt("texture"))));
+                ((pStack, pLevel, pEntity, pSeed) -> pStack.getOrCreateTag().
+
+                        getInt("texture"))));
         event.enqueueWork(() -> ItemProperties.register(BrutalityModItems.STYROFOAM_CUP.get(), ResourceLocation.parse("texture"),
-                ((pStack, pLevel, pEntity, pSeed) -> pStack.getOrCreateTag().getInt("texture"))));
+                ((pStack, pLevel, pEntity, pSeed) -> pStack.getOrCreateTag().
+
+                        getInt("texture"))));
         event.enqueueWork(() -> ItemProperties.register(BrutalityModItems.MUG.get(), ResourceLocation.parse("texture"),
-                ((pStack, pLevel, pEntity, pSeed) -> pStack.getOrCreateTag().getInt("texture"))));
+                ((pStack, pLevel, pEntity, pSeed) -> pStack.getOrCreateTag().
+
+                        getInt("texture"))));
 
 
         PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(ResourceLocation.fromNamespaceAndPath(MOD_ID, "animation"), 42,
                 (player) -> new ModifierLayer<>());
 
-        event.enqueueWork(() -> {
+        event.enqueueWork(() ->
+
+        {
             ItemProperties.register(BrutalityModItems.PROVIDENCE.get(), ResourceLocation.parse("pull"), (stack, level, entity, seed) -> {
                 if (entity == null) {
                     return 0.0F;

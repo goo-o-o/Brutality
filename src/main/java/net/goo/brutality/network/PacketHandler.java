@@ -20,6 +20,7 @@ public class PacketHandler {
 
     public static void register() {
         NETWORK_CHANNEL.registerMessage(id++, ServerboundShootFromRotationPacket.class, ServerboundShootFromRotationPacket::encode, ServerboundShootFromRotationPacket::new, ServerboundShootFromRotationPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundHandleThrowingProjectilePacket.class, ServerboundHandleThrowingProjectilePacket::encode, ServerboundHandleThrowingProjectilePacket::new, ServerboundHandleThrowingProjectilePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundTriggerAnimationPacket.class, ServerboundTriggerAnimationPacket::encode, ServerboundTriggerAnimationPacket::new, ServerboundTriggerAnimationPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundShootProjectilePacket.class, ServerboundShootProjectilePacket::encode, ServerboundShootProjectilePacket::new, ServerboundShootProjectilePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundChangeNBTPacket.class, ServerboundChangeNBTPacket::encode, ServerboundChangeNBTPacket::new, ServerboundChangeNBTPacket::handle);

@@ -1,9 +1,5 @@
 {
   "parent": "minecraft:item/generated",
-  "loader": "forge:separate_transforms",
-  "base": {
-    "parent": "brutality:item/generic/mug_handheld"
-  },
   "overrides": [
     {
       "predicate": {
@@ -23,13 +19,5 @@
       },
       "model": "brutality:item/mug_eeffoc_inventory"
     }
-  ],
-  "perspectives": {
-    "gui": {
-      "parent": "brutality:item/mug_inventory"
-    },
-    "fixed": {
-      "parent": "brutality:item/mug_inventory"
-    }
-  }
+  ]
 }

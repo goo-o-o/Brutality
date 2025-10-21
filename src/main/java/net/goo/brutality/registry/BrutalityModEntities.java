@@ -1,6 +1,7 @@
 package net.goo.brutality.registry;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.entity.ChairSeatEntity;
 import net.goo.brutality.entity.base.BrutalityAbstractTrident;
 import net.goo.brutality.entity.base.BrutalityArrow;
 import net.goo.brutality.entity.mobs.SummonedStray;
@@ -37,6 +38,12 @@ import net.minecraftforge.registries.RegistryObject;
 public class BrutalityModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Brutality.MOD_ID);
+
+    public static final RegistryObject<EntityType<ChairSeatEntity>> CHAIR_SEAT =
+            ENTITY_TYPES.register("chair_seat",
+                    () -> EntityType.Builder.<ChairSeatEntity>of(ChairSeatEntity::new, MobCategory.MISC)
+                            .sized(0.0F, 0.0F)
+                            .build("chair_seat"));
 
     public static final RegistryObject<EntityType<SummonedStray>> SUMMONED_STRAY =
             ENTITY_TYPES.register("summoned_stray", () -> EntityType.Builder.<SummonedStray>of(SummonedStray::new, MobCategory.MONSTER)
@@ -143,10 +150,15 @@ public class BrutalityModEntities {
                     (EntityType<VampireKnife> entityType, Level level) -> new VampireKnife(entityType, level, BrutalityDamageTypes.THROWING_PIERCE),
                     MobCategory.MISC).sized(0.5F, 0.5F).build("vampire_knife"));
 
-    public static final RegistryObject<EntityType<ThrownStyrofoamCup>> STYROFOAM_CUP =
-            ENTITY_TYPES.register("thrown_styrofoam_cup", () -> EntityType.Builder.of(
-                    (EntityType<ThrownStyrofoamCup> entityType, Level level) -> new ThrownStyrofoamCup(entityType, level, BrutalityDamageTypes.THROWING_BLUNT),
-                    MobCategory.MISC).sized(0.5F, 0.5F).build("thrown_styrofoam_cup"));
+    public static final RegistryObject<EntityType<StyrofoamCup>> STYROFOAM_CUP =
+            ENTITY_TYPES.register("styrofoam_cup", () -> EntityType.Builder.of(
+                    (EntityType<StyrofoamCup> entityType, Level level) -> new StyrofoamCup(entityType, level, BrutalityDamageTypes.THROWING_BLUNT),
+                    MobCategory.MISC).sized(0.5F, 0.5F).build("styrofoam_cup"));
+
+    public static final RegistryObject<EntityType<Mug>> MUG =
+            ENTITY_TYPES.register("mug", () -> EntityType.Builder.of(
+                    (EntityType<Mug> entityType, Level level) -> new Mug(entityType, level, BrutalityDamageTypes.THROWING_BLUNT),
+                    MobCategory.MISC).sized(0.5F, 0.5F).build("mug"));
 
     public static final RegistryObject<EntityType<CannonballCabbage>> CANNONBALL_CABBAGE =
             ENTITY_TYPES.register("cannonball_cabbage", () -> EntityType.Builder.of(

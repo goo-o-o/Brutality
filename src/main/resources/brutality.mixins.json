@@ -7,6 +7,7 @@
   "mixins": [
     "AbstractArrowMixin",
     "AnvilMenuMixin",
+    "BedBlockMixin",
     "BowItemMixin",
     "ClientboundSetEntityMotionPacketMixin",
     "CombatTrackerMixin",
@@ -34,6 +35,7 @@
   },
   "client": [
     "BiomeMixin",
+    "ClientPacketListenerMixin",
     "HierarchicalModelMixin",
     "HumanoidModelMixin",
     "ItemInHandRendererMixin",

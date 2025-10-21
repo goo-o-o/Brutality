@@ -1,0 +1,116 @@
+{
+  "variants": {
+    "papers=1,axis=x": {
+      "model": "brutality:block/important_documents/one"
+    },
+    "papers=2,axis=x": {
+      "model": "brutality:block/important_documents/two"
+    },
+    "papers=3,axis=x": {
+      "model": "brutality:block/important_documents/three"
+    },
+    "papers=4,axis=x": {
+      "model": "brutality:block/important_documents/four"
+    },
+    "papers=5,axis=x": {
+      "model": "brutality:block/important_documents/five"
+    },
+    "papers=6,axis=x": {
+      "model": "brutality:block/important_documents/six"
+    },
+    "papers=7,axis=x": {
+      "model": "brutality:block/important_documents/seven"
+    },
+    "papers=8,axis=x": {
+      "model": "brutality:block/important_documents/eight"
+    },
+    "papers=9,axis=x": {
+      "model": "brutality:block/important_documents/nine"
+    },
+    "papers=10,axis=x": {
+      "model": "brutality:block/important_documents/ten"
+    },
+    "papers=11,axis=x": {
+      "model": "brutality:block/important_documents/eleven"
+    },
+    "papers=12,axis=x": {
+      "model": "brutality:block/important_documents/twelve"
+    },
+    "papers=13,axis=x": {
+      "model": "brutality:block/important_documents/thirteen"
+    },
+    "papers=14,axis=x": {
+      "model": "brutality:block/important_documents/fourteen"
+    },
+    "papers=15,axis=x": {
+      "model": "brutality:block/important_documents/fifteen"
+    },
+    "papers=16,axis=x": {
+      "model": "brutality:block/important_documents/sixteen"
+    },
+    "papers=1,axis=z": {
+      "model": "brutality:block/important_documents/one",
+      "y": 90
+    },
+    "papers=2,axis=z": {
+      "model": "brutality:block/important_documents/two",
+      "y": 90
+    },
+    "papers=3,axis=z": {
+      "model": "brutality:block/important_documents/three",
+      "y": 90
+    },
+    "papers=4,axis=z": {
+      "model": "brutality:block/important_documents/four",
+      "y": 90
+    },
+    "papers=5,axis=z": {
+      "model": "brutality:block/important_documents/five",
+      "y": 90
+    },
+    "papers=6,axis=z": {
+      "model": "brutality:block/important_documents/six",
+      "y": 90
+    },
+    "papers=7,axis=z": {
+      "model": "brutality:block/important_documents/seven",
+      "y": 90
+    },
+    "papers=8,axis=z": {
+      "model": "brutality:block/important_documents/eight",
+      "y": 90
+    },
+    "papers=9,axis=z": {
+      "model": "brutality:block/important_documents/nine",
+      "y": 90
+    },
+    "papers=10,axis=z": {
+      "model": "brutality:block/important_documents/ten",
+      "y": 90
+    },
+    "papers=11,axis=z": {
+      "model": "brutality:block/important_documents/eleven",
+      "y": 90
+    },
+    "papers=12,axis=z": {
+      "model": "brutality:block/important_documents/twelve",
+      "y": 90
+    },
+    "papers=13,axis=z": {
+      "model": "brutality:block/important_documents/thirteen",
+      "y": 90
+    },
+    "papers=14,axis=z": {
+      "model": "brutality:block/important_documents/fourteen",
+      "y": 90
+    },
+    "papers=15,axis=z": {
+      "model": "brutality:block/important_documents/fifteen",
+      "y": 90
+    },
+    "papers=16,axis=z": {
+      "model": "brutality:block/important_documents/sixteen",
+      "y": 90
+    }
+  }
+}

@@ -372,8 +372,18 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModBlocks.GREEN_CUBICLE_PANEL.get());
                         output.accept(BrutalityModBlocks.RED_CUBICLE_PANEL.get());
                         output.accept(BrutalityModBlocks.WHITE_CUBICLE_PANEL.get());
+                        output.accept(BrutalityModBlocks.CRT_MONITOR.get());
+                        output.accept(BrutalityModBlocks.LCD_MONITOR.get());
+                        output.accept(BrutalityModBlocks.DUSTBIN.get());
+                        output.accept(BrutalityModBlocks.WET_FLOOR_SIGN.get());
+                        output.accept(BrutalityModBlocks.WHITE_OFFICE_CHAIR.get());
+                        output.accept(BrutalityModBlocks.BLACK_OFFICE_CHAIR.get());
+                        output.accept(BrutalityModBlocks.WHITE_FILING_CABINET.get());
+                        output.accept(BrutalityModBlocks.GRAY_FILING_CABINET.get());
+                        output.accept(BrutalityModBlocks.OFFICE_LIGHT.get());
                         output.accept(BrutalityModBlocks.GRAY_OFFICE_CARPET.get());
                         output.accept(BrutalityModBlocks.LIGHT_GRAY_OFFICE_CARPET.get());
+                        output.accept(BrutalityModItems.IMPORTANT_DOCUMENTS.get().getDefaultInstance());
                         output.accept(BrutalityModItems.STYROFOAM_CUP.get().getDefaultInstance());
                         output.accept(BrutalityModItems.COFFEE_MACHINE_ITEM.get().getDefaultInstance());
                         output.accept(BrutalityModItems.MUG.get().getDefaultInstance());

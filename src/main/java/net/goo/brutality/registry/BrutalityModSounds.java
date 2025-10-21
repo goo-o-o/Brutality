@@ -16,6 +16,7 @@ public class BrutalityModSounds {
     public static final RegistryObject<SoundEvent> METAL_PIPE = registerSoundEvents("metal_pipe");
     public static final RegistryObject<SoundEvent> TREASURE_CHEST_LOCK = registerSoundEvents("treasure_chest_lock");
     public static final RegistryObject<SoundEvent> LIGHT_SWITCH = registerSoundEvents("light_switch");
+    public static final RegistryObject<SoundEvent> LIGHT_SWITCH_MONO = registerSoundEvents("light_switch_mono");
     public static final RegistryObject<SoundEvent> EMERGENCY_MEETING = registerSoundEvents("emergency_meeting");
     public static final RegistryObject<SoundEvent> THROW = registerSoundEvents("throw");
     public static final RegistryObject<SoundEvent> ZAP = registerSoundEvents("zap");

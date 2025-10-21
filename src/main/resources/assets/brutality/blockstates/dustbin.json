@@ -1,0 +1,137 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/none"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/one"
+      },
+      "when": {
+        "papers": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/two"
+      },
+      "when": {
+        "papers": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/three"
+      },
+      "when": {
+        "papers": "3"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/four"
+      },
+      "when": {
+        "papers": "4"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/five"
+      },
+      "when": {
+        "papers": "5"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/six"
+      },
+      "when": {
+        "papers": "6"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/seven"
+      },
+      "when": {
+        "papers": "7"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/eight"
+      },
+      "when": {
+        "papers": "8"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/nine"
+      },
+      "when": {
+        "papers": "9"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/ten"
+      },
+      "when": {
+        "papers": "10"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/eleven"
+      },
+      "when": {
+        "papers": "11"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/twelve"
+      },
+      "when": {
+        "papers": "12"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/thirteen"
+      },
+      "when": {
+        "papers": "13"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/fourteen"
+      },
+      "when": {
+        "papers": "14"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/fifteen"
+      },
+      "when": {
+        "papers": "15"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/dustbin/fifteen"
+      },
+      "when": {
+        "papers": "16"
+      }
+    }
+  ]
+}

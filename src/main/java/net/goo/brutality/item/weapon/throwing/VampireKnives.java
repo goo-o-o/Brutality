@@ -4,8 +4,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityThrowingItem;
-import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.ServerboundShootFromRotationPacket;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -18,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.UUID;
@@ -60,18 +59,33 @@ public class VampireKnives extends BrutalityThrowingItem {
     }
 
     @Override
-    public void throwProjectile(ItemStack stack, Player player) {
+    public void handleThrowPacket(ItemStack stack, Player player) {
+        EntityType<? extends Projectile> entityType = this.getThrownEntity();
+        Level level = player.level();
+
         int quantity = 4;
         quantity += player.getRandom().nextFloat() < 0.5F ? 1 : 0;
         quantity += player.getRandom().nextFloat() < 0.25F ? 1 : 0;
         quantity += player.getRandom().nextFloat() < 0.125F ? 1 : 0;
         quantity += player.getRandom().nextFloat() < 0.0625F ? 1 : 0;
+
         float gap = 7.5F;
         for (int i = 0; i < quantity; i++) {
             float angleOffset = (i - (quantity - 1) / 2f) * gap; // Center the arc
             angleOffset += (player.getRandom().nextFloat() - 0.5F) * 5F;
-            PacketHandler.sendToServer(new ServerboundShootFromRotationPacket(stack, this.getThrownEntity(), player.getEyePosition(),
-                    player.getXRot(), player.getYRot() + angleOffset, this.getThrowVelocity(player), this.getThrowInaccuracy()));
+
+            Projectile projectile = entityType.create(level);
+            if (projectile != null) {
+                projectile.setPos(player.getEyePosition());
+                projectile.shootFromRotation(player, player.getXRot(), player.getYRot() + angleOffset, 0, getThrowVelocity(player), getThrowInaccuracy());
+                projectile.setOwner(player);
+
+                handleSealType(projectile, stack);
+
+
+                level.addFreshEntity(projectile);
+            }
         }
     }
+
 }

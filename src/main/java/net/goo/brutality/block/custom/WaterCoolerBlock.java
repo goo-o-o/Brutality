@@ -2,7 +2,7 @@ package net.goo.brutality.block.custom;
 
 import net.goo.brutality.block.block_entity.WaterCoolerBlockEntity;
 import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.registry.ModBlockEntities;
+import net.goo.brutality.registry.BrutalityModBlockEntities;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -68,7 +68,7 @@ public class WaterCoolerBlock extends BaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new WaterCoolerBlockEntity(ModBlockEntities.WATER_COOLER_BLOCK_ENTITY.get(), pos, state);
+        return new WaterCoolerBlockEntity(BrutalityModBlockEntities.WATER_COOLER_BLOCK_ENTITY.get(), pos, state);
     }
 
     @Override

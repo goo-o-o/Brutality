@@ -1020,16 +1020,38 @@
   "item.brutality.umbral_tome": "Umbral Tome",
 
 
+  "item.brutality.important_documents": "Important Documents",
+  "item.brutality.important_documents.description.1": "§e -Can be placed",
+  "block.brutality.important_documents": "Important Documents",
+  "block.brutality.white_filing_cabinet": "White Filing Cabinet",
+  "block.brutality.gray_filing_cabinet": "Gray Filing Cabinet",
+  "block.brutality.filing_cabinet.description.1": "§e -Stores 32 Stacks per Drawer",
+  "block.brutality.filing_cabinet.description.2": "§e -Can only store Books and similar items",
+
+  "block.brutality.office_light": "Office Light",
+  "block.brutality.white_office_chair": "White Office Chair",
+  "block.brutality.white_office_chair.description.1": "§e -Can be sat in",
+  "block.brutality.black_office_chair": "Black Office Chair",
+  "block.brutality.black_office_chair.description.1": "§e -Can be sat in",
   "block.brutality.gray_cubicle_panel": "Gray Cubicle Panel",
   "block.brutality.light_gray_cubicle_panel": "Light Gray Cubicle Panel",
   "block.brutality.blue_cubicle_panel": "Blue Cubicle Panel",
   "block.brutality.green_cubicle_panel": "Green Cubicle Panel",
   "block.brutality.red_cubicle_panel": "Red Cubicle Panel",
   "block.brutality.white_cubicle_panel": "White Cubicle Panel",
+  "block.brutality.gray_office_carpet": "Gray Office Carpet",
+  "block.brutality.light_gray_office_carpet": "Light Gray Office Carpet",
+  "block.brutality.gray_office_rug": "Gray Office Rug",
+  "block.brutality.light_gray_office_rug": "Light Gray Office Rug",
+  "block.brutality.wet_floor_sign": "Wet Floor Sign",
+  "block.brutality.dustbin": "Dustbin",
   "block.brutality.water_cooler": "Water Cooler",
   "block.brutality.coffee_machine": "Coffee Machine",
   "block.brutality.eeffoc_machine": "Eeffoc Machine",
   "block.brutality.super_sniffer_figure": "Super Sniffer Figurine",
+  "block.brutality.lcd_monitor": "LCD Monitor",
+  "block.brutality.crt_monitor": "CRT Monitor",
+  "block.brutality.monitor.description.1": "§e -Can be switched on and off",
 
   "spell.brutality.empty": "§8No available spells",
 
@@ -1116,7 +1138,7 @@
   "spell.brutality.moonlit_mending.description.1": "§8§aHeals§8 the caster depending on the time of day (Noon = 10% Max§r ❤§9 Health§e | Midnight 100% Max§r ❤§9 Health§e) excess healing is converted into absorption level",
 
 
-
+  "message.brutality.caffeine_sleep": "You are caffeinated!",
   "message.brutality.condition.on_ground": "§cOnly Castable when on the ground",
 
   "message.brutality.last_death_location": "Last Death Location: ",
@@ -1339,6 +1361,9 @@
   "entity.brutality.wintermelon": "Thrown Wintermelon",
 
 
+  "container.brutality.filing_cabinet": "Filing Cabinet",
+
+
   "death.attack.dematerialize": "%1$s was dematerialized",
   "death.attack.dematerialize.player": "%1$s had their atoms revoked by %2$s",
 
@@ -1349,39 +1374,39 @@
   "death.attack.throwing_pierce.1": "%1$s was brutally perforated",
   "death.attack.throwing_pierce.2": "%1$s got impaled",
   "death.attack.throwing_pierce.3": "%1$s became swiss cheese",
-  "death.attack.throwing_pierce.4": "%1$s ",
-  "death.attack.throwing_pierce.5": "%1$s was pierced to death",
-  "death.attack.throwing_pierce.6": "%1$s was pierced to death",
-  "death.attack.throwing_pierce.7": "%1$s was pierced to death",
-  "death.attack.throwing_pierce.8": "%1$s was pierced to death",
+  "death.attack.throwing_pierce.4": "%1$s was given a new hole",
+  "death.attack.throwing_pierce.5": "%1$s got swooned",
+  "death.attack.throwing_pierce.6": "%1$s got their organs poked",
+  "death.attack.throwing_pierce.7": "",
+  "death.attack.throwing_pierce.8": "",
 
   "death.attack.throwing_pierce.0.player": "%1$s was made into a pincushion by %2$s",
   "death.attack.throwing_pierce.1.player": "%1$s was shish kebab'd by %2$s",
   "death.attack.throwing_pierce.2.player": "%1$s was pierced in the heart by %2$s",
   "death.attack.throwing_pierce.3.player": "%2$s gave %1$s a new hole",
   "death.attack.throwing_pierce.4.player": "%1$s was crucified by %2$s",
-  "death.attack.throwing_pierce.5.player": "%2$s was (swiss) cheesed to meet %1$s",
-  "death.attack.throwing_pierce.6.player": "%1$s was made into a pincushion by %2$s",
-  "death.attack.throwing_pierce.7.player": "%1$s was made into a pincushion by %2$s",
-  "death.attack.throwing_pierce.8.player": "%1$s was made into a pincushion by %2$s",
+  "death.attack.throwing_pierce.5.player": "%2$s was swiss cheesed by %1$s",
+  "death.attack.throwing_pierce.6.player": "%1$s got swooned by %2$s",
+  "death.attack.throwing_pierce.7.player": "%1$s got their utensils poked by %2$s",
+  "death.attack.throwing_pierce.8.player": "",
 
   "death.attack.throwing_blunt.0": "%1$s discovered blunt force",
-  "death.attack.throwing_blunt.1": "%1$s was pierced to death",
-  "death.attack.throwing_blunt.2": "%1$s was pierced to death",
-  "death.attack.throwing_blunt.3": "%1$s was pierced to death",
-  "death.attack.throwing_blunt.4": "%1$s was pierced to death",
-  "death.attack.throwing_blunt.5": "%1$s was pierced to death",
-  "death.attack.throwing_blunt.6": "%1$s was pierced to death",
-  "death.attack.throwing_blunt.7": "%1$s was pierced to death",
-  "death.attack.throwing_blunt.8": "%1$s was pierced to death",
+  "death.attack.throwing_blunt.1": "%1$s was brutally indented",
+  "death.attack.throwing_blunt.2": "%1$s was folded like laundry",
+  "death.attack.throwing_blunt.3": "%1$s got isekai'd",
+  "death.attack.throwing_blunt.4": "%1$s experienced Newton's second law",
+  "death.attack.throwing_blunt.5": "",
+  "death.attack.throwing_blunt.6": "",
+  "death.attack.throwing_blunt.7": "",
+  "death.attack.throwing_blunt.8": "",
 
   "death.attack.throwing_blunt.0.player": "%1$s was brutally indented by %2$s",
-  "death.attack.throwing_blunt.1.player": "%1$s was made into a pincushion by %2$s",
-  "death.attack.throwing_blunt.2.player": "%1$s was made into a pincushion by %2$s",
-  "death.attack.throwing_blunt.3.player": "%1$s was made into a pincushion by %2$s",
-  "death.attack.throwing_blunt.4.player": "%1$s was made into a pincushion by %2$s",
-  "death.attack.throwing_blunt.5.player": "%1$s was made into a pincushion by %2$s",
-  "death.attack.throwing_blunt.6.player": "%1$s was made into a pincushion by %2$s",
-  "death.attack.throwing_blunt.7.player": "%1$s was made into a pincushion by %2$s",
-  "death.attack.throwing_blunt.8.player": "%1$s was made into a pincushion by %2$s"
+  "death.attack.throwing_blunt.1.player": "%1$s was folded like laundry by %2$s",
+  "death.attack.throwing_blunt.2.player": "%1$s got isekai'd by %2$s",
+  "death.attack.throwing_blunt.3.player": "",
+  "death.attack.throwing_blunt.4.player": "",
+  "death.attack.throwing_blunt.5.player": "",
+  "death.attack.throwing_blunt.6.player": "",
+  "death.attack.throwing_blunt.7.player": "",
+  "death.attack.throwing_blunt.8.player": ""
 }

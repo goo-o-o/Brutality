@@ -3,15 +3,15 @@ package net.goo.brutality.datagen;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.goo.brutality.Brutality;
+import net.goo.brutality.block.custom.WhiteFilingCabinetBlock;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.*;
-import net.goo.brutality.item.weapon.generic.MugItem;
-import net.goo.brutality.item.weapon.generic.StyrofoamCupItem;
 import net.goo.brutality.item.weapon.generic.TheCloudItem;
 import net.goo.brutality.item.weapon.scythe.DarkinScythe;
 import net.goo.brutality.item.weapon.sword.DullKnifeSword;
-import net.goo.brutality.registry.BrutalityModItems;
+import net.goo.brutality.item.weapon.throwing.Mug;
 import net.goo.brutality.registry.BrutalityModBlocks;
+import net.goo.brutality.registry.BrutalityModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -33,10 +33,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class BrutalityItemModelProvider extends ItemModelProvider {
     private static final LinkedHashMap<ResourceKey<TrimMaterial>, Float> trimMaterials = new LinkedHashMap<>();
@@ -58,8 +55,12 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
         super(output, Brutality.MOD_ID, existingFileHelper);
     }
 
+    private static final Set<Class<? extends BrutalityGeoItem>> EXCLUDED_ITEMS =
+            Set.of(DullKnifeSword.class, DarkinScythe.class, TheCloudItem.class,
+                    Mug.class, Mug.class);
+
     private boolean isExcluded(BrutalityGeoItem item) {
-        return item instanceof DullKnifeSword || item instanceof DarkinScythe || item instanceof TheCloudItem || item instanceof StyrofoamCupItem || item instanceof MugItem;
+        return EXCLUDED_ITEMS.contains(item.getClass());
     }
 
     @Override
@@ -75,18 +76,22 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
                 }
             } else if (rawItem instanceof BrutalityBlockItem blockItem) {
                 geoBlockItem(blockItem.getBlock());
-            } else {
-                System.out.println("generatedItem(" + item + ")");
+            } else if (!(item.get() instanceof BlockItem)) {
                 generatedItem(item);
             }
         }
 
-        for (RegistryObject<Block> block : blocks) {
-            if (!(block.get().asItem() instanceof BrutalityBlockItem)) {
-                simpleBlockItemBlockTexture(block);
-            }
-        }
+//        for (RegistryObject<Block> block : blocks) {
+//            Item item = block.get().asItem();
+//            if (!(item instanceof BrutalityBlockItem)) {
+//                if (!excludedBlocks.contains(block)) {
+//                    simpleBlockItemBlockTexture(block);
+//                }
+//            }
+//        }
     }
+
+    private final List<RegistryObject<Block>> excludedBlocks = List.of(BrutalityModBlocks.GRAY_OFFICE_CARPET, BrutalityModBlocks.LIGHT_GRAY_OFFICE_CARPET);
 
 
     // Shoutout to El_Redstoniano for making this
@@ -178,9 +183,12 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
     }
 
 
-    private void simpleBlockItemBlockTexture(RegistryObject<Block> item) {
-        if (item.getId() != null) {
-            withExistingParent(item.getId().getPath(), "item/generated").texture("layer0", ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + item.getId().getPath()));
+    private void simpleBlockItemBlockTexture(RegistryObject<Block> block) {
+        if (block.getId() != null) {
+            if (block.get() instanceof WhiteFilingCabinetBlock) {
+                return;
+            }
+            withExistingParent(block.getId().getPath(), "item/generated").texture("layer0", ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + block.getId().getPath()));
         }
     }
 

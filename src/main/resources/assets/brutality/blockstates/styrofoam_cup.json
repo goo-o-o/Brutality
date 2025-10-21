@@ -1,0 +1,47 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "brutality:block/styrofoam_cup/cup",
+        "y": 270
+      },
+      "when": {
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/styrofoam_cup/cup",
+        "y": 180
+      },
+      "when": {
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/styrofoam_cup/cup",
+        "y": 90
+      },
+      "when": {
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/styrofoam_cup/cup"
+      },
+      "when": {
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/styrofoam_cup/water"
+      },
+      "when": {
+        "type": 1
+      }
+    }
+  ]
+}

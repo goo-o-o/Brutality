@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "brutality:block/light_gray_office_rug",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "brutality:block/light_gray_office_rug"
+    },
+    "axis=z": {
+      "model": "brutality:block/light_gray_office_rug",
+      "x": 90
+    }
+  }
+}

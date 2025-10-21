@@ -4,9 +4,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.item.BrutalityArmorMaterials;
 import net.goo.brutality.item.armor.NoirArmorItem;
 import net.goo.brutality.item.armor.TerraArmorItem;
-import net.goo.brutality.item.block.CoffeeMachineBlockItem;
-import net.goo.brutality.item.block.SuperSnifferFigureBlockItem;
-import net.goo.brutality.item.block.WaterCoolerBlockItem;
+import net.goo.brutality.item.block.*;
 import net.goo.brutality.item.curios.anklet.*;
 import net.goo.brutality.item.curios.belt.*;
 import net.goo.brutality.item.curios.charm.*;
@@ -35,7 +33,9 @@ import net.goo.brutality.item.weapon.sword.phasesaber.SapphirePhasesaber;
 import net.goo.brutality.item.weapon.sword.phasesaber.TopazPhasesaber;
 import net.goo.brutality.item.weapon.throwing.*;
 import net.goo.brutality.item.weapon.tome.*;
-import net.goo.brutality.item.weapon.trident.*;
+import net.goo.brutality.item.weapon.trident.DepthCrusherTrident;
+import net.goo.brutality.item.weapon.trident.GungnirTrident;
+import net.goo.brutality.item.weapon.trident.ThunderboltTrident;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
@@ -82,6 +82,17 @@ public class BrutalityModItems {
     public static final RegistryObject<Item> SUPER_SNIFFER_FIGURE_ITEM =
             ITEMS.register("super_sniffer_figure", () ->
                     new SuperSnifferFigureBlockItem(BrutalityModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> WHITE_FILING_CABINET_ITEM =
+            ITEMS.register("white_filing_cabinet", () ->
+                    new FilingCabinetBlockItem(BrutalityModBlocks.WHITE_FILING_CABINET.get(), new Item.Properties()));
+    public static final RegistryObject<Item> GRAY_FILING_CABINET_ITEM =
+            ITEMS.register("gray_filing_cabinet", () ->
+                    new FilingCabinetBlockItem(BrutalityModBlocks.GRAY_FILING_CABINET.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> IMPORTANT_DOCUMENTS = ITEMS.register("important_documents", () ->
+            new ImportantDocumentsBlockItem(BrutalityModBlocks.IMPORTANT_DOCUMENTS_BLOCK.get(), new Item.Properties()));
+
 
     // endregion
 
@@ -1079,7 +1090,7 @@ public class BrutalityModItems {
             List.of(
             )
     ));
-//    public static final RegistryObject<Item> BIKERS_HELMET = ITEMS.register("bikers_helmet", () -> new BikersHelmet(
+    //    public static final RegistryObject<Item> BIKERS_HELMET = ITEMS.register("bikers_helmet", () -> new BikersHelmet(
 //            ModRarities.LEGENDARY,
 //            List.of(
 //                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
@@ -1548,7 +1559,7 @@ public class BrutalityModItems {
                     new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
             )
     ));
-//    public static final RegistryObject<Item> KNIFE_BLOCK_ITEM = ITEMS.register("knife_block", () -> new KnifeBlockItem(
+    //    public static final RegistryObject<Item> KNIFE_BLOCK_ITEM = ITEMS.register("knife_block", () -> new KnifeBlockItem(
 //            Rarity.EPIC,
 //            List.of(
 //                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_RIGHT_CLICK, 1),
@@ -1718,7 +1729,7 @@ public class BrutalityModItems {
             List.of(
             )
     ));
-        public static final RegistryObject<Item> CAVENDISH = ITEMS.register("cavendish", () -> new Cavendish(
+    public static final RegistryObject<Item> CAVENDISH = ITEMS.register("cavendish", () -> new Cavendish(
             2, -2.2F, Rarity.EPIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
@@ -1766,6 +1777,19 @@ public class BrutalityModItems {
             List.of(
             )
     ));
+
+    public static final RegistryObject<Item> STYROFOAM_CUP = ITEMS.register("styrofoam_cup", () -> new StyrofoamCup(
+            1, -3.2F, Rarity.COMMON,
+            List.of(new BrutalityTooltipHelper.ItemDescriptionComponent(LORE, 1)),
+            BrutalityModBlocks.STYROFOAM_CUP.get()
+    ));
+
+    public static final RegistryObject<Item> MUG = ITEMS.register("mug", () -> new Mug(
+            1, -3.2F, Rarity.COMMON,
+            List.of(new BrutalityTooltipHelper.ItemDescriptionComponent(LORE, 1)),
+            BrutalityModBlocks.MUG.get()
+    ));
+
     public static final RegistryObject<Item> OVERCLOCKED_TOASTER = ITEMS.register("overclocked_toaster", () -> new OverclockedToaster(
             10, -3.5F, ModRarities.LEGENDARY,
             List.of(
@@ -1940,22 +1964,6 @@ public class BrutalityModItems {
     )));
     // endregion
 
-    // region Office Items
-    public static final RegistryObject<Item> STYROFOAM_CUP = ITEMS.register("styrofoam_cup", () -> new StyrofoamCupItem(
-            Rarity.COMMON,
-            List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(LORE, 1),
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
-            )
-    ));
-    public static final RegistryObject<Item> MUG = ITEMS.register("mug", () -> new MugItem(
-            Rarity.COMMON,
-            List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
-            )
-    ));
-
-    // endregion
 
     // region Magic Items
 

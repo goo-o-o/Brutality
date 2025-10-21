@@ -2,13 +2,13 @@ package net.goo.brutality.client.models;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.block.BrutalityGeoBlockEntity;
-import net.goo.brutality.client.renderers.block.BrutalityBlockRenderer;
+import net.goo.brutality.client.renderers.block.BrutalityGeoBlockRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import software.bernie.geckolib.model.GeoModel;
 
 public class BrutalityBlockModel<T extends BlockEntity & BrutalityGeoBlockEntity> extends GeoModel<T> {
-    public BrutalityBlockRenderer<T> renderer;
+    public BrutalityGeoBlockRenderer<T> renderer;
 
     @Override
     public ResourceLocation getModelResource(T animatable) {

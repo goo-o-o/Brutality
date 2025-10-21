@@ -4,7 +4,9 @@ import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.entity.base.BrutalityShuriken;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModParticles;
+import net.goo.brutality.registry.BrutalityModSounds;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -37,6 +39,16 @@ public class StarEntity extends BrutalityShuriken implements BrutalityGeoEntity 
         return cache;
     }
 
+
+    @Override
+    public SoundEvent getHitGroundSoundEvent() {
+        return BrutalityModSounds.SHURIKEN_IMPACT.get();
+    }
+
+    @Override
+    public SoundEvent getHitEntitySoundEvent() {
+        return BrutalityModSounds.SHURIKEN_IMPACT.get();
+    }
 
     @Override
     public void tick() {

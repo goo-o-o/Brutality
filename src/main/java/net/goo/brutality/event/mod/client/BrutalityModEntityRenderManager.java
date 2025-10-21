@@ -1,14 +1,14 @@
 package net.goo.brutality.event.mod.client;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.renderers.block.BrutalityBlockRenderer;
+import net.goo.brutality.client.renderers.block.BrutalityGeoBlockRenderer;
 import net.goo.brutality.client.renderers.entity.*;
 import net.goo.brutality.client.renderers.layers.BrutalityAutoColorShiftFullbrightNoDepthLayer;
 import net.goo.brutality.client.renderers.layers.BrutalityAutoFullbrightAlphaLayer;
 import net.goo.brutality.client.renderers.layers.BrutalityAutoFullbrightLayer;
 import net.goo.brutality.client.renderers.layers.BrutalityAutoFullbrightNoDepthLayer;
+import net.goo.brutality.registry.BrutalityModBlockEntities;
 import net.goo.brutality.registry.BrutalityModEntities;
-import net.goo.brutality.registry.ModBlockEntities;
 import net.minecraft.client.renderer.entity.StrayRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -20,6 +20,8 @@ import static net.goo.brutality.util.ModResources.rainbowColor;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class BrutalityModEntityRenderManager {
+
+
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(BrutalityModEntities.THROWN_THUNDERBOLT_ENTITY.get(), context -> new BrutalityTridentRenderer<>(context,
@@ -35,6 +37,8 @@ public class BrutalityModEntityRenderManager {
                 renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer))));
 
 
+        event.registerEntityRenderer(BrutalityModEntities.CHAIR_SEAT.get(), BrutalityEntityRenderer::new);
+
         event.registerEntityRenderer(BrutalityModEntities.CANNONBALL_CABBAGE.get(), BrutalityAbstractPhysicsTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.STICK_OF_BUTTER.get(), BrutalityAbstractPhysicsTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.CRIMSON_DELIGHT.get(), BrutalityAbstractPhysicsTridentRenderer::new);
@@ -42,6 +46,7 @@ public class BrutalityModEntityRenderManager {
         event.registerEntityRenderer(BrutalityModEntities.CAVENDISH.get(), BrutalityAbstractPhysicsTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.WINTER_MELON.get(), BrutalityAbstractPhysicsTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.STYROFOAM_CUP.get(), BrutalityAbstractPhysicsTridentRenderer::new);
+        event.registerEntityRenderer(BrutalityModEntities.MUG.get(), BrutalityAbstractPhysicsTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.CINDER_BLOCK.get(), BrutalityAbstractPhysicsTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.STICKY_BOMB.get(), BrutalityAbstractPhysicsTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.BEACH_BALL.get(), BrutalityAbstractPhysicsTridentRenderer::new);
@@ -124,8 +129,8 @@ public class BrutalityModEntityRenderManager {
                 renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer))));
 
 
-        event.registerBlockEntityRenderer(ModBlockEntities.COFFEE_MACHINE_BLOCK_ENTITY.get(), BrutalityBlockRenderer::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.WATER_COOLER_BLOCK_ENTITY.get(), BrutalityBlockRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityModBlockEntities.COFFEE_MACHINE_BLOCK_ENTITY.get(), BrutalityGeoBlockRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityModBlockEntities.WATER_COOLER_BLOCK_ENTITY.get(), BrutalityGeoBlockRenderer::new);
 
 
         event.registerEntityRenderer(BrutalityModEntities.GRAVITIC_IMPLOSION_ENTITY.get(), context -> new BrutalityAbstractPhysicsProjectileRenderer<>(context,

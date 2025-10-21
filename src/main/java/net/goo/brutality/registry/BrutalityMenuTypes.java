@@ -1,7 +1,7 @@
 package net.goo.brutality.registry;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.block.block_entity.FilingCabinetBlockEntity;
+import net.goo.brutality.block.block_entity.WhiteFilingCabinetBlockEntity;
 import net.goo.brutality.gui.menu.FilingCabinetMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.inventory.MenuType;
@@ -22,7 +22,7 @@ public class BrutalityMenuTypes {
                         }
                         BlockPos pos = data.readBlockPos();
                         boolean isUpper = data.readBoolean();
-                        FilingCabinetBlockEntity blockEntity = (FilingCabinetBlockEntity) inv.player.level().getBlockEntity(pos);
+                        WhiteFilingCabinetBlockEntity blockEntity = (WhiteFilingCabinetBlockEntity) inv.player.level().getBlockEntity(pos);
                         if (blockEntity == null) {
                             return new FilingCabinetMenu(windowId, inv, null, isUpper);
                         }

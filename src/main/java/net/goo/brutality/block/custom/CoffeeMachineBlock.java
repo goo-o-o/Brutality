@@ -1,8 +1,8 @@
 package net.goo.brutality.block.custom;
 
 import net.goo.brutality.block.block_entity.CoffeeMachineBlockEntity;
+import net.goo.brutality.registry.BrutalityModBlockEntities;
 import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.registry.ModBlockEntities;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -66,7 +67,7 @@ public class CoffeeMachineBlock extends BaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CoffeeMachineBlockEntity(ModBlockEntities.COFFEE_MACHINE_BLOCK_ENTITY.get(), pos, state);
+        return new CoffeeMachineBlockEntity(BrutalityModBlockEntities.COFFEE_MACHINE_BLOCK_ENTITY.get(), pos, state);
     }
 
     @Override
@@ -78,6 +79,16 @@ public class CoffeeMachineBlock extends BaseEntityBlock {
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return SHAPE;
+    }
+
+    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, LivingEntity pPlacer, ItemStack pStack) {
+        if (pStack.hasCustomHoverName()) {
+            BlockEntity blockentity = pLevel.getBlockEntity(pPos);
+            if (blockentity instanceof CoffeeMachineBlockEntity blockEntity) {
+                blockEntity.setCustomName(pStack.getHoverName());
+            }
+        }
+
     }
 
     @Override

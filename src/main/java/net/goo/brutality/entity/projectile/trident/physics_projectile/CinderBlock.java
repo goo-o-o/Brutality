@@ -1,6 +1,5 @@
 package net.goo.brutality.entity.projectile.trident.physics_projectile;
 
-import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.config.BrutalityCommonConfig;
 import net.goo.brutality.entity.base.BrutalityAbstractPhysicsThrowingProjectile;
 import net.goo.brutality.entity.base.BrutalityAbstractThrowingProjectile;
@@ -17,7 +16,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-public class CinderBlock extends BrutalityAbstractPhysicsThrowingProjectile implements BrutalityGeoEntity {
+public class CinderBlock extends BrutalityAbstractPhysicsThrowingProjectile {
 
 
     public CinderBlock(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
@@ -44,7 +43,6 @@ public class CinderBlock extends BrutalityAbstractPhysicsThrowingProjectile impl
     public @NotNull SoundEvent getHitGroundSoundEvent() {
         return SoundEvents.STONE_HIT;
     }
-
 
     @Override
     public SoundEvent getHitEntitySoundEvent() {

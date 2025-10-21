@@ -29,8 +29,8 @@ public class BrutalityClientConfig {
         THROWING_ANIMATION_SHOW_ARMS = BUILDER.comment("Should Throwing animations show Arms in First Person?").define("showFirstPersonArmThrowingAnimation", true);
         THROWING_ANIMATION_SHOW_ITEMS = BUILDER.comment("Should Throwing animations show Items in First Person?").define("showFirstPersonItemThrowingAnimation", true);
 
-        MANA_BAR_X = BUILDER.comment("Mana bar X position (0.0 to 1.0, percentage of screen width)").defineInRange("mana_bar_x", 0.5, 0.0, 1.0);
-        MANA_BAR_Y = BUILDER.comment("Mana bar Y position (0.0 to 1.0, percentage of screen height)").defineInRange("mana_bar_y", 0.5, 0.0, 1.0);
+        MANA_BAR_X = BUILDER.comment("Mana bar X position (0.0 to 1.0, percentage of screen width)").defineInRange("mana_bar_x", 0.2, 0.0, 1.0);
+        MANA_BAR_Y = BUILDER.comment("Mana bar Y position (0.0 to 1.0, percentage of screen height)").defineInRange("mana_bar_y", 0.2, 0.0, 1.0);
 
 
         BUILDER.pop();

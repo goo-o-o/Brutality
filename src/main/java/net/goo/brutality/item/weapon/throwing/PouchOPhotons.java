@@ -15,9 +15,9 @@ public class PouchOPhotons extends Photon {
     }
 
     @Override
-    public void throwProjectile(ItemStack stack, Player player) {
+    public void handleThrowPacket(ItemStack stack, Player player) {
         for (int i = 0; i < player.getRandom().nextIntBetweenInclusive(3, 10); i++) {
-            super.throwProjectile(stack, player);
+            super.handleThrowPacket(stack, player);
         }
     }
 

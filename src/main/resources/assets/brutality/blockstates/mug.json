@@ -1,0 +1,133 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "brutality:block/mug/mug",
+        "y": 270
+      },
+      "when": {
+        "type": 0,
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/mug/mug",
+        "y": 180
+      },
+      "when": {
+        "type": 0,
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/mug/mug",
+        "y": 90
+      },
+      "when": {
+        "type": 0,
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/mug/mug"
+      },
+      "when": {
+        "type": 0,
+        "facing": "south"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "brutality:block/mug/mug",
+        "y": 270
+      },
+      "when": {
+        "type": 1,
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/mug/mug",
+        "y": 180
+      },
+      "when": {
+        "type": 1,
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/mug/mug",
+        "y": 90
+      },
+      "when": {
+        "type": 1,
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/mug/mug"
+      },
+      "when": {
+        "type": 1,
+        "facing": "south"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "brutality:block/mug/coffee"
+      },
+      "when": {
+        "type": 1
+      }
+    },
+
+
+    {
+      "apply": {
+        "model": "brutality:block/mug/mug_eeffoc",
+        "y": 270
+      },
+      "when": {
+        "type": 2,
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/mug/mug_eeffoc",
+        "y": 180
+      },
+      "when": {
+        "type": 2,
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/mug/mug_eeffoc",
+        "y": 90
+      },
+      "when": {
+        "type": 2,
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "brutality:block/mug/mug_eeffoc"
+      },
+      "when": {
+        "type": 2,
+        "facing": "south"
+      }
+    }
+  ]
+}

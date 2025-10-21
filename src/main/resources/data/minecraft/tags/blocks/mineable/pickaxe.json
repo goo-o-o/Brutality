@@ -2,6 +2,14 @@
   "replace": false,
   "values": [
     "brutality:water_cooler",
-    "brutality:coffee_machine"
+    "brutality:coffee_machine",
+    "brutality:dustbin",
+    "brutality:wet_floor_sign",
+    "brutality:crt_monitor",
+    "brutality:lcd_monitor",
+    "brutality:white_office_chair",
+    "brutality:black_office_chair",
+    "brutality:white_filing_cabinet",
+    "brutality:gray_filing_cabinet"
   ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "pose_two_handed_dragable",
-  "author": "Daedelus, modified by Sweenuss, from SimplySwords, modified by goo",
+  "author": "Daedelus, modified by Sweenuss, from SimplySwords, modified by goo, from Brutality",
   "description": "Two-handed dragable pose",
   "emote":{
     "isLoop": "true",

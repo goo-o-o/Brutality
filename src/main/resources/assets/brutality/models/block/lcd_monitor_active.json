@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:block/template_lcd_monitor",
+  "textures": {
+    "block": "brutality:block/lcd_monitor_active"
+  }
+}

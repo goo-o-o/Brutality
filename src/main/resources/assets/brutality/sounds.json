@@ -633,5 +633,13 @@
         "name": "brutality:zap"
       }
     ]
+  },
+  "light_switch_mono": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:light_switch_mono"
+      }
+    ]
   }
 }

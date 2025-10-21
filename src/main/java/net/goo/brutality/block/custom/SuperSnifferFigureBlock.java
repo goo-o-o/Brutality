@@ -1,7 +1,7 @@
 package net.goo.brutality.block.custom;
 
 import net.goo.brutality.block.block_entity.SuperSnifferFigureBlockEntity;
-import net.goo.brutality.registry.ModBlockEntities;
+import net.goo.brutality.registry.BrutalityModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -63,7 +63,7 @@ public class SuperSnifferFigureBlock extends BaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new SuperSnifferFigureBlockEntity(ModBlockEntities.SUPER_SNIFFER_FIGURE_BLOCK_ENTITY.get(), pos, state);
+        return new SuperSnifferFigureBlockEntity(BrutalityModBlockEntities.SUPER_SNIFFER_FIGURE_BLOCK_ENTITY.get(), pos, state);
     }
 
     @Override

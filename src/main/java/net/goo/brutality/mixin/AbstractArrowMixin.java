@@ -33,16 +33,6 @@ public abstract class AbstractArrowMixin {
         instance.addParticle(particle, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
     }
 
-    @Redirect(method = "tick()V", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/projectile/AbstractArrow;setDeltaMovement(DDD)V", ordinal = 0))
-    private void changeGravity(AbstractArrow arrow, double x, double y, double z) {
-        if (arrow instanceof BrutalityArrow brutalityArrow) {
-            arrow.setDeltaMovement(x, y - brutalityArrow.getGravity(), z);
-        } else {
-            arrow.setDeltaMovement(x, y - 0.05, z);
-        }
-    }
-
     @Redirect(
             method = "tick",
             at = @At(

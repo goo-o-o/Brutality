@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "brutality:block/lcd_monitor"
+    },
+    "active=true": {
+      "model": "brutality:block/lcd_monitor_active"
+    }
+  }
+}

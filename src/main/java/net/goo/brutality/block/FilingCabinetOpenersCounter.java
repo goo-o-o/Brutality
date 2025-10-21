@@ -1,6 +1,6 @@
 package net.goo.brutality.block;
 
-import net.goo.brutality.block.block_entity.FilingCabinetBlockEntity;
+import net.goo.brutality.block.block_entity.WhiteFilingCabinetBlockEntity;
 import net.goo.brutality.gui.menu.FilingCabinetMenu;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -13,11 +13,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 public class FilingCabinetOpenersCounter extends ContainerOpenersCounter {
-    private final FilingCabinetBlockEntity blockEntity;
+    private final WhiteFilingCabinetBlockEntity blockEntity;
     private int upperOpenCount = 0;
     private int lowerOpenCount = 0;
 
-    public FilingCabinetOpenersCounter(FilingCabinetBlockEntity blockEntity) {
+    public FilingCabinetOpenersCounter(WhiteFilingCabinetBlockEntity blockEntity) {
         this.blockEntity = blockEntity;
     }
 

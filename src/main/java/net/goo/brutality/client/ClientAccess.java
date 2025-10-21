@@ -176,7 +176,7 @@ public class ClientAccess {
         public static void handleCooldownAndSound(Player player, ItemStack stack, BrutalityThrowingItem throwingItem) {
             if (handleCooldown(player, throwingItem)) {
                 playThrowSound(player);
-                throwingItem.throwProjectile(stack, player);
+                PacketHandler.sendToServer(new ServerboundHandleThrowingProjectilePacket(stack));
             }
         }
 

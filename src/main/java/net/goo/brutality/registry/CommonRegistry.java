@@ -8,7 +8,7 @@ public class CommonRegistry {
         ModCreativeModTabs.register(modEventBus);
         BrutalityModItems.register(modEventBus);
         BrutalityModBlocks.register(modEventBus);
-        ModBlockEntities.register(modEventBus);
+        BrutalityModBlockEntities.register(modEventBus);
         ModVillagers.register(modEventBus);
         ModLootModifiers.register(modEventBus);
         BrutalityModEntities.register(modEventBus);

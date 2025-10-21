@@ -32,6 +32,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerListener;
@@ -44,6 +45,7 @@ import net.minecraftforge.event.entity.living.LivingSwapItemsEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import oshi.util.tuples.Pair;
@@ -285,14 +287,15 @@ public class ForgePlayerStateHandler {
         });
     }
 
-//    @SubscribeEvent
-//    public static void onItemPutInFrame(PlayerInteractEvent.EntityInteractSpecific event) {
-//        if (event.getTarget() instanceof ItemFrame) {
-//            if (isSpecificItem(event.getItemStack())) {
-//                triggerItemLeftInventory(event.getEntity(), event.getItemStack());
-//            }
-//        }
-//    }
+
+    @SubscribeEvent
+    public static void onItemPutInFrame(PlayerInteractEvent.EntityInteractSpecific event) {
+        if (event.getTarget() instanceof ItemFrame) {
+            if (isSpecificItem(event.getItemStack())) {
+                triggerItemLeftInventory(event.getEntity(), event.getItemStack());
+            }
+        }
+    }
 
     private static boolean isSpecificItem(ItemStack stack) {
         if (stack.isEmpty()) return false;
@@ -313,8 +316,6 @@ public class ForgePlayerStateHandler {
         }
     }
 
-    private static final UUID CHOPSTICK_AS_UUID = UUID.fromString("cd9b5958-a78b-4391-af97-826d4379f7f0");
-    private static final UUID CHOPSTICK_KB_UUID = UUID.fromString("3f0426a3-2e8a-4d29-b06e-7a470bf28015");
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {

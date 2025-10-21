@@ -6,9 +6,9 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.client.ClientAccess;
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.ServerboundShootFromRotationPacket;
+import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.ModAttributes;
+import net.goo.brutality.util.SealUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
@@ -57,9 +57,27 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
 
     }
 
-    public void throwProjectile(ItemStack stack, Player player) {
-        PacketHandler.sendToServer(new ServerboundShootFromRotationPacket(stack, this.getThrownEntity(), player.getEyePosition(),
-                player.getXRot(), player.getYRot(), this.getThrowVelocity(player), this.getThrowInaccuracy()));
+    public void handleThrowPacket(ItemStack stack, Player player) {
+        EntityType<? extends Projectile> entityType = this.getThrownEntity();
+        Level level = player.level();
+        Projectile projectile = entityType.create(level);
+
+        if (projectile != null) {
+            projectile.setPos(player.getEyePosition());
+            projectile.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, getThrowVelocity(player), getThrowInaccuracy());
+            projectile.setOwner(player);
+
+            handleSealType(projectile, stack);
+
+            level.addFreshEntity(projectile);
+        }
+    }
+
+    protected void handleSealType(Projectile projectile, ItemStack stack) {
+        SealUtils.SEAL_TYPE sealType = SealUtils.getSealType(stack);
+        if (sealType != null) {
+            projectile.getCapability(BrutalityCapabilities.SEAL_TYPE_CAP).ifPresent(cap -> cap.setSealType(sealType));
+        }
     }
 
     public ResourceLocation getAnimationResourceLocation() {

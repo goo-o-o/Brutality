@@ -1,0 +1,19 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "brutality:block/mug",
+		"particle": "brutality:block/mug"
+	},
+	"elements": [
+		{
+			"name": "coffee",
+			"from": [7, 4.75, 7],
+			"to": [9, 4.75, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 2.75, 8]},
+			"faces": {
+				"up": {"uv": [2, 0, 4, 2], "texture": "#0"}
+			}
+		}
+	]
+}

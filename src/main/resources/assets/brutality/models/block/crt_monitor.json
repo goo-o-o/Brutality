@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:block/template_crt_monitor",
+  "textures": {
+    "block": "brutality:block/crt_monitor"
+  }
+}

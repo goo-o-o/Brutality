@@ -75,8 +75,6 @@ public class BrutalityModParticles {
     public static final RegistryObject<SimpleParticleType> RADIATION_PARTICLE =
             PARTICLE_TYPES.register("radiation_particle", () -> new SimpleParticleType(true));
 
-    public static final RegistryObject<SimpleParticleType> STARBURST_PARTICLE =
-            PARTICLE_TYPES.register("starburst_particle", () -> new SimpleParticleType(true));
 
     public static final RegistryObject<SimpleParticleType> NUCLEAR_EXPLOSION_PARTICLE =
             PARTICLE_TYPES.register("nuclear_explosion_particle", () -> new SimpleParticleType(true));

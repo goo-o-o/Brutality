@@ -46,7 +46,6 @@ public class BrutalityModParticleFactories {
         event.registerSpriteSet(BrutalityModParticles.SOUL_SWEEP_PARTICLE.get(), SoulSweepParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.MURASAMA_SWEEP_PARTICLE.get(), MurasamaSweepParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.RADIATION_PARTICLE.get(), RadiationParticle.Provider::new);
-        event.registerSpriteSet(BrutalityModParticles.STARBURST_PARTICLE.get(), StarburstParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.MURASAMA_PARTICLE.get(0).get(), MurasamaParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.MURASAMA_PARTICLE.get(1).get(), MurasamaParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.MURASAMA_PARTICLE.get(2).get(), MurasamaParticle.Provider::new);

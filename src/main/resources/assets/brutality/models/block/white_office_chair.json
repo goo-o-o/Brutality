@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:block/template_office_chair",
+  "textures": {
+    "chair": "brutality:block/white_office_chair"
+  }
+}

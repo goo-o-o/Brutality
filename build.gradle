@@ -156,6 +156,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:mmmmmmmmmmmm-225738:6237015")
     implementation fg.deobf("curse.maven:selene-499980:6507197")
+//    implementation fg.deobf("curse.maven:cofh-core-69162:5374122")
 
     // Clientside (Disable when running Server)
 //    implementation fg.deobf("curse.maven:embeddium-908741:5681725")
@@ -168,7 +169,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:attributefix-280510:4911084")
     implementation fg.deobf("curse.maven:bookshelf-228525:5423987")
-
+    implementation fg.deobf("curse.maven:effortless-building-302113:6330928")
 
     implementation fg.deobf("curse.maven:puzzles-lib-495476:6387081")
 
