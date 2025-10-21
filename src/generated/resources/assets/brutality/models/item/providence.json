@@ -1,1 +1,27 @@
-{"parent":"minecraft:item/handheld","loader":"forge:separate_transforms","base":{"parent":"minecraft:item/generated","textures":{"layer0":"brutality:item/bow/providence/providence_inventory"},"overrides":[{"predicate":{"pulling":1,"pull":0.0},"model":"brutality:item/providence_inventory_pull_0"},{"predicate":{"pulling":1,"pull":0.65},"model":"brutality:item/providence_inventory_pull_1"},{"predicate":{"pulling":1,"pull":0.9},"model":"brutality:item/providence_inventory_pull_2"}]},"perspectives":{"ground":{"parent":"brutality:item/bow/providence_handheld"},"thirdperson_lefthand":{"parent":"brutality:item/bow/providence_handheld"},"thirdperson_righthand":{"parent":"brutality:item/bow/providence_handheld"},"firstperson_lefthand":{"parent":"brutality:item/bow/providence_handheld"},"firstperson_righthand":{"parent":"brutality:item/bow/providence_handheld"}}}
+{
+  "parent": "minecraft:item/handheld",
+  "base": {
+    "parent": "minecraft:item/generated",
+    "textures": {
+      "layer0": "brutality:item/bow/providence/providence_inventory"
+    }
+  },
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "firstperson_lefthand": {
+      "parent": "brutality:item/bow/providence_handheld"
+    },
+    "firstperson_righthand": {
+      "parent": "brutality:item/bow/providence_handheld"
+    },
+    "ground": {
+      "parent": "brutality:item/bow/providence_handheld"
+    },
+    "thirdperson_lefthand": {
+      "parent": "brutality:item/bow/providence_handheld"
+    },
+    "thirdperson_righthand": {
+      "parent": "brutality:item/bow/providence_handheld"
+    }
+  }
+}

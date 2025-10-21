@@ -353,7 +353,7 @@ public abstract class PlayerMixin extends LivingEntity {
                 modifiedAmount[0] *= 7;
             }
         } else if (item instanceof BasePhasesaber) {
-            return livingVictim.hurt(damageSources().indirectMagic(playerAttacker, null), modifiedAmount[0]);
+            return livingVictim.hurt(damageSources().indirectMagic(playerAttacker, playerAttacker), modifiedAmount[0]);
         } else if (item instanceof RhittaAxe) {
             modifiedAmount[0] += RhittaAxe.computeAttackDamageBonus(level);
         } else if (item instanceof JackpotHammer) {

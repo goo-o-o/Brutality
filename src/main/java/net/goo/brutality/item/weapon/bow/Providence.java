@@ -21,6 +21,7 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -89,7 +90,7 @@ public class Providence extends BrutalityBowItem {
         ItemStack bowStack = player.getItemInHand(hand);
 
         if (level instanceof ServerLevel serverLevel) {
-            InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(bowStack, level, player, hand, true);
+            InteractionResultHolder<ItemStack> ret = ForgeEventFactory.onArrowNock(bowStack, level, player, hand, true);
             if (ret != null) return ret;
 
             if (level.isDay() && level.canSeeSky(player.blockPosition().above())) {
@@ -102,7 +103,6 @@ public class Providence extends BrutalityBowItem {
 
         return InteractionResultHolder.fail(bowStack);
     }
-
 
     @Override
     protected SoundEvent getShootSound() {

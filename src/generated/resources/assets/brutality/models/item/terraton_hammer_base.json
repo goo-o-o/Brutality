@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/hammer/terraton_hammer/terraton_hammer_inventory"
+  }
+}

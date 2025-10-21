@@ -2,6 +2,7 @@ package net.goo.brutality.entity.projectile.trident.physics_projectile;
 
 import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
+import net.goo.brutality.config.BrutalityCommonConfig;
 import net.goo.brutality.entity.base.BrutalityAbstractPhysicsThrowingProjectile;
 import net.goo.brutality.entity.base.BrutalityAbstractThrowingProjectile;
 import net.goo.brutality.registry.BrutalityModMobEffects;
@@ -73,6 +74,10 @@ public class BiomechReactor extends BrutalityAbstractPhysicsThrowingProjectile i
         pCompound.putInt("HomingCooldown", this.entityData.get(HOMING_COOLDOWN));
     }
 
+    @Override
+    protected int getLifespan() {
+        return 200;
+    }
 
     @Override
     public void tick() {
@@ -150,7 +155,7 @@ public class BiomechReactor extends BrutalityAbstractPhysicsThrowingProjectile i
         if (this.getOwner() instanceof LivingEntity owner) {
             for (LivingEntity livingEntity : level().getNearbyEntities(LivingEntity.class,
                     TargetingConditions.DEFAULT.ignoreInvisibilityTesting().ignoreLineOfSight(), owner, this.getBoundingBox().inflate(10))) {
-                livingEntity.hurt(livingEntity.damageSources().explosion(owner, livingEntity), 30);
+                livingEntity.hurt(livingEntity.damageSources().explosion(owner, livingEntity), BrutalityCommonConfig.BIOMECH_REACTOR_DAMAGE.get());
                 livingEntity.addEffect(new MobEffectInstance(BrutalityModMobEffects.MIRACLE_BLIGHT.get(), 40, 0, false, false));
             }
 

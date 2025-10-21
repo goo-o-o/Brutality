@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/trident/thunderbolt/thunderbolt_inventory"
+  }
+}

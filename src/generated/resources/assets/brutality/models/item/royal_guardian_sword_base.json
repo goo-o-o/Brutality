@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/sword/royal_guardian_sword/royal_guardian_sword_inventory"
+  }
+}

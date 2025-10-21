@@ -221,7 +221,7 @@ public class BrutalityModItems {
     ));
 
     public static final RegistryObject<Item> BIOMECH_REACTOR = ITEMS.register("biomech_reactor", () -> new BiomechReactor(
-            20, 0, ModRarities.MYTHIC,
+            20, -3, ModRarities.MYTHIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1),
                     new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 2)

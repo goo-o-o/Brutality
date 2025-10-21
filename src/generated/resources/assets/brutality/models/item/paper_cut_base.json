@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/sword/paper_cut/paper_cut_inventory"
+  }
+}

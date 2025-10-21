@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/unbridled_rage_inventory"
+    "layer0": "brutality:item/unbridled_rage"
   }
 }

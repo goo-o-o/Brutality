@@ -134,11 +134,12 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
     @Override
     public void releaseUsing(@NotNull ItemStack bowStack, @NotNull Level level, @NotNull LivingEntity shooter, int timeLeft) {
         if (shooter instanceof Player player) {
-            boolean infiniteArrows = player.getAbilities().instabuild
-                    || bowStack.getEnchantmentLevel(Enchantments.INFINITY_ARROWS) > 0
-                    || !requiresArrows();
 
             ItemStack arrowStack = player.getProjectile(bowStack);
+            boolean infiniteArrows = player.getAbilities().instabuild
+                    || bowStack.getEnchantmentLevel(Enchantments.INFINITY_ARROWS) > 0
+                    || (arrowStack.getItem() instanceof ArrowItem arrowItem && (arrowItem).isInfinite(arrowStack, bowStack, player))
+                    || !requiresArrows();
 
             int chargeTime = this.getUseDuration(bowStack) - timeLeft;
             chargeTime = ForgeEventFactory.onArrowLoose(bowStack, level, player, chargeTime, !arrowStack.isEmpty() || infiniteArrows);
@@ -151,8 +152,7 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
 
                 float drawPower = getPowerForTime(chargeTime, getFullDrawTicks());
                 if (drawPower >= 0.1F) {
-                    boolean isInfiniteArrow = player.getAbilities().instabuild
-                            || (arrowStack.getItem() instanceof ArrowItem && ((ArrowItem) arrowStack.getItem()).isInfinite(arrowStack, bowStack, player));
+
 
                     if (!level.isClientSide) {
                         AbstractArrow arrowEntity = getArrowEntity().create(level);
@@ -184,7 +184,7 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
                                 playerEntity.broadcastBreakEvent(player.getUsedItemHand());
                             });
 
-                            if (isInfiniteArrow || (player.getAbilities().instabuild
+                            if (infiniteArrows || (player.getAbilities().instabuild
                                     && (arrowStack.is(Items.SPECTRAL_ARROW) || arrowStack.is(Items.TIPPED_ARROW)))) {
                                 arrowEntity.pickup = BrutalityArrow.Pickup.CREATIVE_ONLY;
                             }
@@ -197,7 +197,7 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
                             getShootSound(), SoundSource.PLAYERS, 1.0F,
                             1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + drawPower * 0.5F);
 
-                    if (!isInfiniteArrow && !player.getAbilities().instabuild) {
+                    if (!infiniteArrows  && !player.getAbilities().instabuild) {
                         arrowStack.shrink(1);
                         if (arrowStack.isEmpty()) {
                             player.getInventory().removeItem(arrowStack);

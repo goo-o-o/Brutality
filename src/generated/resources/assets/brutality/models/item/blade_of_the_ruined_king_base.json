@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/sword/blade_of_the_ruined_king/blade_of_the_ruined_king_inventory"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/green_seal_inventory"
+    "layer0": "brutality:item/green_seal"
   }
 }

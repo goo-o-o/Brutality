@@ -15,6 +15,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
@@ -60,7 +61,8 @@ public class BasePhasesaber extends BrutalitySwordItem {
 
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
-        entity.playSound(BrutalityModSounds.PHASESABER_SWING.get(), 1.0F, 1.0F);
+        if (!ModList.get().isLoaded("bettercombat"))
+            entity.playSound(BrutalityModSounds.PHASESABER_SWING.get(), 1.0F, 1.0F);
         return super.onEntitySwing(stack, entity);
     }
 

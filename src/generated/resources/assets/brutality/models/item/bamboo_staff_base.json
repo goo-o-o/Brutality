@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/staff/bamboo_staff/bamboo_staff_inventory"
+  }
+}

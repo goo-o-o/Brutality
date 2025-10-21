@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/armor/noir_leggings_inventory"
+    "layer0": "brutality:item/armor/noir/noir_leggings_inventory"
   }
 }

@@ -19,6 +19,8 @@ public class BrutalityCommonConfig {
 
     public static final ForgeConfigSpec.DoubleValue BLACK_HOLE_PULL_STRENGTH;
     public static final ForgeConfigSpec.IntValue BLACK_HOLE_TICK_DAMAGE;
+    public static final ForgeConfigSpec.IntValue BIOMECH_REACTOR_DAMAGE;
+    public static final ForgeConfigSpec.IntValue LAST_PRISM_TICK_DAMAGE;
     public static final ForgeConfigSpec.IntValue GUNGNIR_HIT_QUOTA;
 
     static {
@@ -43,6 +45,14 @@ public class BrutalityCommonConfig {
         BLACK_HOLE_TICK_DAMAGE = BUILDER
                 .comment("Black Hole Tick Damage (Default = 2)")
                 .defineInRange("blackHoleTickDamage", 2, 0, 10);
+
+        BIOMECH_REACTOR_DAMAGE = BUILDER
+                .comment("Biomech Reactor Damage (Default = 30)")
+                .defineInRange("biomechReactorDamage", 30, 0, 1000);
+
+        LAST_PRISM_TICK_DAMAGE = BUILDER
+                .comment("Last Prism Tick Damage (Default = 2)")
+                .defineInRange("lastPrismTickDamage", 2, 0, 100);
 
         GUNGNIR_HIT_QUOTA = BUILDER
                 .comment("How many times Gungnir will hit before returning (Default = 3)")

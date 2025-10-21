@@ -1,5 +1,6 @@
 package net.goo.brutality.item.weapon.generic;
 
+import net.goo.brutality.config.BrutalityCommonConfig;
 import net.goo.brutality.entity.capabilities.EntityCapabilities;
 import net.goo.brutality.entity.projectile.ray.LastPrismRay;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
@@ -131,7 +132,7 @@ public class LastPrismItem extends BrutalityGenericItem {
                 if (rayData.entityList() == null) return;
 
                 for (LivingEntity target : rayData.entityList()) {
-                    target.hurt(BrutalityDamageTypes.last_prism(owner), 2);
+                    target.hurt(BrutalityDamageTypes.last_prism(owner), BrutalityCommonConfig.LAST_PRISM_TICK_DAMAGE.get());
                 }
 
                 Vec3 endPos = rayData.endPos();

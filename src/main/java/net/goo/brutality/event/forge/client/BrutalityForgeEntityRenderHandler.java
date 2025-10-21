@@ -5,12 +5,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.capabilities.EntityCapabilities;
+import net.goo.brutality.item.BrutalityArmorMaterials;
 import net.goo.brutality.item.weapon.generic.LastPrismItem;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.magic.IBrutalitySpellEntity;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.BrutalityEntityRotations;
+import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -110,6 +112,7 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
             poseStack.scale(1.25F, 1.25F, 1.25F);
         }
 
+        if (ModUtils.hasFullArmorSet(entity, BrutalityArmorMaterials.NOIR)) event.setCanceled(true);
 
         if (entity instanceof BrutalityEntityRotations rotations) {
             entity.getCapability(BrutalityCapabilities.ENTITY_SHOULD_ROTATE_CAP).ifPresent(entityShouldRotateCap -> {

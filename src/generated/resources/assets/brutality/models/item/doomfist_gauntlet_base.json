@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/generic/doomfist_gauntlet/doomfist_gauntlet_inventory"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/armor/terra_boots_inventory"
+    "layer0": "brutality:item/armor/terra/terra_boots_inventory"
   }
 }
