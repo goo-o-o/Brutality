@@ -7,13 +7,12 @@ import net.goo.brutality.item.weapon.scythe.DarkinScythe;
 import net.goo.brutality.item.weapon.sword.DullKnifeSword;
 import net.goo.brutality.item.weapon.throwing.Mug;
 import net.goo.brutality.item.weapon.throwing.StyrofoamCup;
+import net.goo.brutality.registry.BrutalityModBlocks;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -39,6 +38,7 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         registerItemModels();
+        registerConcreteVariantModels();
     }
 
     protected void registerItemModels() {
@@ -65,14 +65,14 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
                 boolean hasHandheldModel = existingFileHelper.exists(handheldModel, MODEL);
 
 
-                System.out.println(basePath);
-                System.out.println("handheldModelPath: " + handheldModel);
-                System.out.println("hasHandheldModel: " + hasHandheldModel);
-                System.out.println("inventoryTexturePath: " + inventoryTexture);
-                System.out.println("hasInventoryTexture: " + hasInventoryTexture);
-                System.out.println("handheldTexturePath: " + handheldTexture);
-                System.out.println("hasHandheldTexture: " + hasHandheldTexture);
-                System.out.println("-------------------------------------------------------------");
+//                System.out.println(basePath);
+//                System.out.println("handheldModelPath: " + handheldModel);
+//                System.out.println("hasHandheldModel: " + hasHandheldModel);
+//                System.out.println("inventoryTexturePath: " + inventoryTexture);
+//                System.out.println("hasInventoryTexture: " + hasInventoryTexture);
+//                System.out.println("handheldTexturePath: " + handheldTexture);
+//                System.out.println("hasHandheldTexture: " + hasHandheldTexture);
+//                System.out.println("-------------------------------------------------------------");
 
                 if (hasHandheldTexture && hasInventoryTexture && hasHandheldModel) {
                     Brutality.LOGGER.info("generateSeparateTransforms({})", registryName);
@@ -87,6 +87,18 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
             } else {
                 basicItem(item);
             }
+
+        }
+    }
+
+    protected void registerConcreteVariantModels() {
+        for (DyeColor dyeColor : DyeColor.values()) {
+            ResourceLocation stairName =  BrutalityModBlocks.CONCRETE_STAIRS.get(dyeColor.ordinal()).getId();
+            withExistingParent(String.valueOf(stairName), ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + stairName.getPath()));
+
+            // Slabs
+            ResourceLocation slabName =  BrutalityModBlocks.CONCRETE_SLABS.get(dyeColor.ordinal()).getId();
+            withExistingParent(String.valueOf(slabName), ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + slabName.getPath()));
 
         }
     }

@@ -25,6 +25,7 @@ public class DataGenerators {
 
         generator.addProvider(event.includeClient(), new BrutalityBlockStateProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new BrutalityItemModelProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeClient(), new BrutalityBlockModelProvider(packOutput, Brutality.MOD_ID, existingFileHelper));
 
         BrutalityBlockTagGenerator blockTagGenerator = generator.addProvider(event.includeServer(),
                 new BrutalityBlockTagGenerator(packOutput, lookupProvider, existingFileHelper));

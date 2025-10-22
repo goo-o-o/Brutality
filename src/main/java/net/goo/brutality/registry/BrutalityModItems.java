@@ -1780,13 +1780,21 @@ public class BrutalityModItems {
 
     public static final RegistryObject<Item> STYROFOAM_CUP = ITEMS.register("styrofoam_cup", () -> new StyrofoamCup(
             1, -3.2F, Rarity.COMMON,
-            List.of(new BrutalityTooltipHelper.ItemDescriptionComponent(LORE, 1)),
+            List.of(
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(LORE, 1),
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 2),
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
+            ),
             BrutalityModBlocks.STYROFOAM_CUP.get()
     ));
 
     public static final RegistryObject<Item> MUG = ITEMS.register("mug", () -> new Mug(
             1, -3.2F, Rarity.COMMON,
-            List.of(new BrutalityTooltipHelper.ItemDescriptionComponent(LORE, 1)),
+            List.of(
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(LORE, 1),
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 2),
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
+            ),
             BrutalityModBlocks.MUG.get()
     ));
 

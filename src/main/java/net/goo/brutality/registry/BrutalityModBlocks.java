@@ -7,10 +7,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;
@@ -19,16 +16,60 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class BrutalityModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, Brutality.MOD_ID);
 
+    public static List<RegistryObject<Block>> CONCRETE_SLABS;
+    public static List<RegistryObject<Block>> CONCRETE_STAIRS;
+
 
     // Block item registration moved to BrutalityModItems (better organization)
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);
+
+        CONCRETE_SLABS = List.of(
+                BrutalityModBlocks.WHITE_CONCRETE_SLAB,
+                BrutalityModBlocks.ORANGE_CONCRETE_SLAB,
+                BrutalityModBlocks.MAGENTA_CONCRETE_SLAB,
+                BrutalityModBlocks.LIGHT_BLUE_CONCRETE_SLAB,
+                BrutalityModBlocks.YELLOW_CONCRETE_SLAB,
+                BrutalityModBlocks.LIME_CONCRETE_SLAB,
+                BrutalityModBlocks.PINK_CONCRETE_SLAB,
+                BrutalityModBlocks.GRAY_CONCRETE_SLAB,
+                BrutalityModBlocks.LIGHT_GRAY_CONCRETE_SLAB,
+                BrutalityModBlocks.CYAN_CONCRETE_SLAB,
+                BrutalityModBlocks.PURPLE_CONCRETE_SLAB,
+                BrutalityModBlocks.BLUE_CONCRETE_SLAB,
+                BrutalityModBlocks.BROWN_CONCRETE_SLAB,
+                BrutalityModBlocks.GREEN_CONCRETE_SLAB,
+                BrutalityModBlocks.RED_CONCRETE_SLAB,
+                BrutalityModBlocks.BLACK_CONCRETE_SLAB
+        );
+
+        CONCRETE_STAIRS = List.of(
+                BrutalityModBlocks.WHITE_CONCRETE_STAIRS,
+                BrutalityModBlocks.ORANGE_CONCRETE_STAIRS,
+                BrutalityModBlocks.MAGENTA_CONCRETE_STAIRS,
+                BrutalityModBlocks.LIGHT_BLUE_CONCRETE_STAIRS,
+                BrutalityModBlocks.YELLOW_CONCRETE_STAIRS,
+                BrutalityModBlocks.LIME_CONCRETE_STAIRS,
+                BrutalityModBlocks.PINK_CONCRETE_STAIRS,
+                BrutalityModBlocks.GRAY_CONCRETE_STAIRS,
+                BrutalityModBlocks.LIGHT_GRAY_CONCRETE_STAIRS,
+                BrutalityModBlocks.CYAN_CONCRETE_STAIRS,
+                BrutalityModBlocks.PURPLE_CONCRETE_STAIRS,
+                BrutalityModBlocks.BLUE_CONCRETE_STAIRS,
+                BrutalityModBlocks.BROWN_CONCRETE_STAIRS,
+                BrutalityModBlocks.GREEN_CONCRETE_STAIRS,
+                BrutalityModBlocks.RED_CONCRETE_STAIRS,
+                BrutalityModBlocks.BLACK_CONCRETE_STAIRS
+        );
     }
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
@@ -41,13 +82,59 @@ public class BrutalityModBlocks {
         BrutalityModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
-
-    // Helper method if you need to register multiple similar blocks
-    private static RegistryObject<Block> registerGlassVariant(String name, Supplier<Block> blockSupplier) {
-        RegistryObject<Block> block = BLOCKS.register(name, blockSupplier);
-        BrutalityModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
-        return block;
+    private static RegistryObject<Block> registerSlab(Block parent) {
+        return registerBlock(ForgeRegistries.BLOCKS.getKey(parent).getPath() + "_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(parent)));
     }
+
+    private static RegistryObject<Block> registerStair(Block parent) {
+        return registerBlock(ForgeRegistries.BLOCKS.getKey(parent).getPath() + "_stair", () -> new StairBlock(parent::defaultBlockState, BlockBehaviour.Properties.copy(parent)));
+    }
+
+
+//    public static void registerConcreteSlabs() {
+//        for (DyeColor dyeColor : DyeColor.values()) {
+//            Block parentBlock = getConcreteBlock(dyeColor);
+//            RegistryObject<Block> slab = registerSlab(parentBlock);
+//            RegistryObject<Block> stair = registerStair(parentBlock);
+//            CONCRETE_SLABS.put(dyeColor, slab);
+//            CONCRETE_STAIRS.put(dyeColor, stair);
+//        }
+//    }
+
+    public static RegistryObject<Block> WHITE_CONCRETE_STAIRS = registerStair(Blocks.WHITE_CONCRETE);
+    public static RegistryObject<Block> ORANGE_CONCRETE_STAIRS = registerStair(Blocks.ORANGE_CONCRETE);
+    public static RegistryObject<Block> MAGENTA_CONCRETE_STAIRS = registerStair(Blocks.MAGENTA_CONCRETE);
+    public static RegistryObject<Block> LIGHT_BLUE_CONCRETE_STAIRS = registerStair(Blocks.LIGHT_BLUE_CONCRETE);
+    public static RegistryObject<Block> YELLOW_CONCRETE_STAIRS = registerStair(Blocks.YELLOW_CONCRETE);
+    public static RegistryObject<Block> LIME_CONCRETE_STAIRS = registerStair(Blocks.LIME_CONCRETE);
+    public static RegistryObject<Block> PINK_CONCRETE_STAIRS = registerStair(Blocks.PINK_CONCRETE);
+    public static RegistryObject<Block> GRAY_CONCRETE_STAIRS = registerStair(Blocks.GRAY_CONCRETE);
+    public static RegistryObject<Block> LIGHT_GRAY_CONCRETE_STAIRS = registerStair(Blocks.LIGHT_GRAY_CONCRETE);
+    public static RegistryObject<Block> CYAN_CONCRETE_STAIRS = registerStair(Blocks.CYAN_CONCRETE);
+    public static RegistryObject<Block> PURPLE_CONCRETE_STAIRS = registerStair(Blocks.PURPLE_CONCRETE);
+    public static RegistryObject<Block> BLUE_CONCRETE_STAIRS = registerStair(Blocks.BLUE_CONCRETE);
+    public static RegistryObject<Block> BROWN_CONCRETE_STAIRS = registerStair(Blocks.BROWN_CONCRETE);
+    public static RegistryObject<Block> GREEN_CONCRETE_STAIRS = registerStair(Blocks.GREEN_CONCRETE);
+    public static RegistryObject<Block> RED_CONCRETE_STAIRS = registerStair(Blocks.RED_CONCRETE);
+    public static RegistryObject<Block> BLACK_CONCRETE_STAIRS = registerStair(Blocks.BLACK_CONCRETE);
+
+    public static RegistryObject<Block> WHITE_CONCRETE_SLAB = registerSlab(Blocks.WHITE_CONCRETE);
+    public static RegistryObject<Block> ORANGE_CONCRETE_SLAB = registerSlab(Blocks.ORANGE_CONCRETE);
+    public static RegistryObject<Block> MAGENTA_CONCRETE_SLAB = registerSlab(Blocks.MAGENTA_CONCRETE);
+    public static RegistryObject<Block> LIGHT_BLUE_CONCRETE_SLAB = registerSlab(Blocks.LIGHT_BLUE_CONCRETE);
+    public static RegistryObject<Block> YELLOW_CONCRETE_SLAB = registerSlab(Blocks.YELLOW_CONCRETE);
+    public static RegistryObject<Block> LIME_CONCRETE_SLAB = registerSlab(Blocks.LIME_CONCRETE);
+    public static RegistryObject<Block> PINK_CONCRETE_SLAB = registerSlab(Blocks.PINK_CONCRETE);
+    public static RegistryObject<Block> GRAY_CONCRETE_SLAB = registerSlab(Blocks.GRAY_CONCRETE);
+    public static RegistryObject<Block> LIGHT_GRAY_CONCRETE_SLAB = registerSlab(Blocks.LIGHT_GRAY_CONCRETE);
+    public static RegistryObject<Block> CYAN_CONCRETE_SLAB = registerSlab(Blocks.CYAN_CONCRETE);
+    public static RegistryObject<Block> PURPLE_CONCRETE_SLAB = registerSlab(Blocks.PURPLE_CONCRETE);
+    public static RegistryObject<Block> BLUE_CONCRETE_SLAB = registerSlab(Blocks.BLUE_CONCRETE);
+    public static RegistryObject<Block> BROWN_CONCRETE_SLAB = registerSlab(Blocks.BROWN_CONCRETE);
+    public static RegistryObject<Block> GREEN_CONCRETE_SLAB = registerSlab(Blocks.GREEN_CONCRETE);
+    public static RegistryObject<Block> RED_CONCRETE_SLAB = registerSlab(Blocks.RED_CONCRETE);
+    public static RegistryObject<Block> BLACK_CONCRETE_SLAB = registerSlab(Blocks.BLACK_CONCRETE);
+
 
     public static final RegistryObject<Block> STYROFOAM_CUP =
             BLOCKS.register("styrofoam_cup", () -> new MugBlock(BlockBehaviour.Properties
@@ -81,7 +168,6 @@ public class BrutalityModBlocks {
 
     public static final RegistryObject<Block> LCD_MONITOR = registerBlock("lcd_monitor", () -> new LCDMonitorBlock(BlockBehaviour.Properties
             .copy(Blocks.TERRACOTTA).noOcclusion().sound(SoundType.DEEPSLATE_BRICKS)));
-
 
 
     public static final RegistryObject<Block> DUSTBIN = registerBlock("dustbin", () -> new DustbinBlock(BlockBehaviour.Properties

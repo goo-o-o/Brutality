@@ -6,6 +6,7 @@ import net.goo.brutality.registry.BrutalityModItems;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
@@ -19,6 +20,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePrope
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Set;
@@ -30,6 +32,8 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
+
+
         this.add(BrutalityModBlocks.WATER_COOLER_BLOCK.get(), block -> this.createNameableBlockEntityTable(BrutalityModBlocks.WATER_COOLER_BLOCK.get()));
         this.add(BrutalityModBlocks.COFFEE_MACHINE_BLOCK.get(), block -> this.createNameableBlockEntityTable(BrutalityModBlocks.COFFEE_MACHINE_BLOCK.get()));
         this.add(BrutalityModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get(), block -> this.createNameableBlockEntityTable(BrutalityModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get()));
@@ -65,6 +69,10 @@ public class ModBlockLootTables extends BlockLootSubProvider {
                                 (integer) -> SetItemCountFunction.setCount(ConstantValue.exactly((float) integer))
                                         .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
                                                 .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ImportantDocumentsBlock.PAPERS, integer))))))));
+
+        BrutalityModBlocks.CONCRETE_SLABS.forEach(registryObject -> this.add(registryObject.get(), this::createSlabItemTable));
+        BrutalityModBlocks.CONCRETE_STAIRS.forEach(registryObject -> this.add(registryObject.get(), this::createSingleItemTable));
+
     }
 
     protected LootTable.Builder createCopperLikeOreDrops(Block pBlock, Item item) {
@@ -75,7 +83,9 @@ public class ModBlockLootTables extends BlockLootSubProvider {
     }
 
     @Override
-    protected Iterable<Block> getKnownBlocks() {
+    protected @NotNull Iterable<Block> getKnownBlocks() {
         return BrutalityModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
     }
+
+
 }

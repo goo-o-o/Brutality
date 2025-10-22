@@ -29,6 +29,42 @@ public class ModCreativeModTabs {
                     .build());
 
 
+    public static final RegistryObject<CreativeModeTab> BRUTALITY_BLOCK_TAB = CREATIVE_MODE_TABS.register("brutality_block_tab",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(BrutalityModBlocks.CRT_MONITOR.get()))
+                    .title(Component.translatable("creativeTab.brutality_block_tab"))
+                    .displayItems((itemDisplayParameters, output) -> {
+
+                        BrutalityModBlocks.CONCRETE_SLABS.forEach(block -> output.accept(block.get()));
+                        BrutalityModBlocks.CONCRETE_STAIRS.forEach(block -> output.accept(block.get()));
+
+                        output.accept(BrutalityModItems.WATER_COOLER_ITEM.get());
+                        output.accept(BrutalityModBlocks.GRAY_CUBICLE_PANEL.get());
+                        output.accept(BrutalityModBlocks.LIGHT_GRAY_CUBICLE_PANEL.get());
+                        output.accept(BrutalityModBlocks.BLUE_CUBICLE_PANEL.get());
+                        output.accept(BrutalityModBlocks.GREEN_CUBICLE_PANEL.get());
+                        output.accept(BrutalityModBlocks.RED_CUBICLE_PANEL.get());
+                        output.accept(BrutalityModBlocks.WHITE_CUBICLE_PANEL.get());
+                        output.accept(BrutalityModBlocks.CRT_MONITOR.get());
+                        output.accept(BrutalityModBlocks.LCD_MONITOR.get());
+                        output.accept(BrutalityModBlocks.DUSTBIN.get());
+                        output.accept(BrutalityModBlocks.WET_FLOOR_SIGN.get());
+                        output.accept(BrutalityModBlocks.WHITE_OFFICE_CHAIR.get());
+                        output.accept(BrutalityModBlocks.BLACK_OFFICE_CHAIR.get());
+                        output.accept(BrutalityModBlocks.WHITE_FILING_CABINET.get());
+                        output.accept(BrutalityModBlocks.GRAY_FILING_CABINET.get());
+                        output.accept(BrutalityModBlocks.OFFICE_LIGHT.get());
+                        output.accept(BrutalityModBlocks.GRAY_OFFICE_CARPET.get());
+                        output.accept(BrutalityModBlocks.LIGHT_GRAY_OFFICE_CARPET.get());
+                        output.accept(BrutalityModItems.IMPORTANT_DOCUMENTS.get());
+
+                        output.accept(BrutalityModItems.COFFEE_MACHINE_ITEM.get().getDefaultInstance());
+                        output.accept(BrutalityModItems.SUPER_SNIFFER_FIGURE_ITEM.get().getDefaultInstance());
+
+
+                    })
+                    .build());
+
+
     public static final RegistryObject<CreativeModeTab> BRUTALITY_VANITY_TAB = CREATIVE_MODE_TABS.register("brutality_vanity_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(BrutalityModItems.GOLDEN_HEADBAND.get()))
                     .title(Component.translatable("creativeTab.brutality_vanity_tab"))
@@ -364,30 +400,8 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.DULL_KNIFE_DAGGER.get().getDefaultInstance());
                         output.accept(BrutalityModItems.ROYAL_GUARDIAN_SWORD.get().getDefaultInstance());
 
-
-                        output.accept(BrutalityModItems.WATER_COOLER_ITEM.get().getDefaultInstance());
-                        output.accept(BrutalityModBlocks.GRAY_CUBICLE_PANEL.get());
-                        output.accept(BrutalityModBlocks.LIGHT_GRAY_CUBICLE_PANEL.get());
-                        output.accept(BrutalityModBlocks.BLUE_CUBICLE_PANEL.get());
-                        output.accept(BrutalityModBlocks.GREEN_CUBICLE_PANEL.get());
-                        output.accept(BrutalityModBlocks.RED_CUBICLE_PANEL.get());
-                        output.accept(BrutalityModBlocks.WHITE_CUBICLE_PANEL.get());
-                        output.accept(BrutalityModBlocks.CRT_MONITOR.get());
-                        output.accept(BrutalityModBlocks.LCD_MONITOR.get());
-                        output.accept(BrutalityModBlocks.DUSTBIN.get());
-                        output.accept(BrutalityModBlocks.WET_FLOOR_SIGN.get());
-                        output.accept(BrutalityModBlocks.WHITE_OFFICE_CHAIR.get());
-                        output.accept(BrutalityModBlocks.BLACK_OFFICE_CHAIR.get());
-                        output.accept(BrutalityModBlocks.WHITE_FILING_CABINET.get());
-                        output.accept(BrutalityModBlocks.GRAY_FILING_CABINET.get());
-                        output.accept(BrutalityModBlocks.OFFICE_LIGHT.get());
-                        output.accept(BrutalityModBlocks.GRAY_OFFICE_CARPET.get());
-                        output.accept(BrutalityModBlocks.LIGHT_GRAY_OFFICE_CARPET.get());
-                        output.accept(BrutalityModItems.IMPORTANT_DOCUMENTS.get().getDefaultInstance());
                         output.accept(BrutalityModItems.STYROFOAM_CUP.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.COFFEE_MACHINE_ITEM.get().getDefaultInstance());
                         output.accept(BrutalityModItems.MUG.get().getDefaultInstance());
-                        output.accept(BrutalityModItems.SUPER_SNIFFER_FIGURE_ITEM.get().getDefaultInstance());
 
                         output.accept(BrutalityModItems.ONYX_PHASESABER.get().getDefaultInstance());
                         output.accept(BrutalityModItems.RUBY_PHASESABER.get().getDefaultInstance());
