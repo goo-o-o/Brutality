@@ -114,7 +114,7 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
         getBuilder(name)
                 .parent(new ModelFile.UncheckedModelFile("minecraft:item/handheld"))
                 .customLoader(SeparateTransformsModelBuilder::begin)
-                .base(baseModel)                                      // ← pre-built
+                .base(baseModel)                                      // <- pre-built
                 .perspective(ItemDisplayContext.GROUND, handModelBuilder)
                 .perspective(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, handModelBuilder)
                 .perspective(ItemDisplayContext.THIRD_PERSON_LEFT_HAND, handModelBuilder)

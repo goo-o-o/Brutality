@@ -91,9 +91,10 @@ public class ColorUtils {
 
     // Helper to get tick count safely
     private static int getTickCount() {
-        return DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
+        Integer tickCount = DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
             if (Minecraft.getInstance().player != null) return Minecraft.getInstance().player.tickCount;
             return (int) (System.currentTimeMillis() / 50L);
         });
+        return tickCount != null ? tickCount : (int) (System.currentTimeMillis() / 50L);
     }
 }
