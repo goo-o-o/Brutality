@@ -2,6 +2,7 @@ package net.goo.brutality.registry;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.block.custom.*;
+import net.goo.brutality.block.HorizontalDirectionalBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
@@ -16,9 +17,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public class BrutalityModBlocks {
@@ -90,17 +89,6 @@ public class BrutalityModBlocks {
         return registerBlock(ForgeRegistries.BLOCKS.getKey(parent).getPath() + "_stair", () -> new StairBlock(parent::defaultBlockState, BlockBehaviour.Properties.copy(parent)));
     }
 
-
-//    public static void registerConcreteSlabs() {
-//        for (DyeColor dyeColor : DyeColor.values()) {
-//            Block parentBlock = getConcreteBlock(dyeColor);
-//            RegistryObject<Block> slab = registerSlab(parentBlock);
-//            RegistryObject<Block> stair = registerStair(parentBlock);
-//            CONCRETE_SLABS.put(dyeColor, slab);
-//            CONCRETE_STAIRS.put(dyeColor, stair);
-//        }
-//    }
-
     public static RegistryObject<Block> WHITE_CONCRETE_STAIRS = registerStair(Blocks.WHITE_CONCRETE);
     public static RegistryObject<Block> ORANGE_CONCRETE_STAIRS = registerStair(Blocks.ORANGE_CONCRETE);
     public static RegistryObject<Block> MAGENTA_CONCRETE_STAIRS = registerStair(Blocks.MAGENTA_CONCRETE);
@@ -135,6 +123,18 @@ public class BrutalityModBlocks {
     public static RegistryObject<Block> RED_CONCRETE_SLAB = registerSlab(Blocks.RED_CONCRETE);
     public static RegistryObject<Block> BLACK_CONCRETE_SLAB = registerSlab(Blocks.BLACK_CONCRETE);
 
+
+    public static final RegistryObject<Block> UPPER_HVAC = registerBlock("upper_hvac", () -> new HorizontalDirectionalBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> LOWER_HVAC = registerBlock("lower_hvac", () -> new HorizontalDirectionalBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> OLD_AIR_CONDITIONER = registerBlock("old_air_conditioner", () -> new OldAirConditionerBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> EXIT_SIGN = registerBlock("exit_sign", () -> new ExitSignBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+
+    public static final RegistryObject<Block> OLD_SERVER_CASING = registerBlock("old_server_casing", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> OLD_SERVER_PANEL = registerBlock("old_server_panel", () -> new HorizontalDirectionalBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).lightLevel(state -> 3)));
+
+//    public static final RegistryObject<Block> PLASTERBOARD = registerBlock("plasterboard", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO_BLOCK)));
+
+    public static final RegistryObject<Block> PUDDLE = registerBlock("puddle", () -> new PuddleBlock(Block.Properties.of().liquid().sound(SoundType.WOOL).noCollission().strength(100F).noLootTable().replaceable()));
 
     public static final RegistryObject<Block> STYROFOAM_CUP =
             BLOCKS.register("styrofoam_cup", () -> new MugBlock(BlockBehaviour.Properties

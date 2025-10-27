@@ -20,6 +20,10 @@ public class BrutalityDamageTypes {
             Registries.DAMAGE_TYPE,
             ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "dematerialize")
     );
+    public static final ResourceKey<DamageType> DEATHSAW = ResourceKey.create(
+            Registries.DAMAGE_TYPE,
+            ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "deathsaw")
+    );
     public static final ResourceKey<DamageType> LAST_PRISM = ResourceKey.create(
             Registries.DAMAGE_TYPE,
             ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "last_prism")
@@ -60,6 +64,11 @@ public class BrutalityDamageTypes {
                 causer.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DEMATERIALIZE),
                 causer);
     }
+    public static DamageSource deathsaw(Entity causer) {
+        return new DamageSource(
+                causer.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DEATHSAW),
+                causer);
+    }
 
     @SubscribeEvent
     public static void registerDamageTypes(RegisterEvent event) {
@@ -67,6 +76,9 @@ public class BrutalityDamageTypes {
             helper.register(
                     BrutalityDamageTypes.DEMATERIALIZE.location(),
                     new DamageType("brutality.dematerialize", 0.1F));
+            helper.register(
+                    BrutalityDamageTypes.DEATHSAW.location(),
+                    new DamageType("brutality.deathsaw", 0.1F));
             helper.register(
                     BrutalityDamageTypes.THROWING_PIERCE.location(),
                     new DamageType("brutality.throwing_pierce", 0.1F));

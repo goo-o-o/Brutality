@@ -1,0 +1,23 @@
+{
+  "parent": "minecraft:item/generated",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "brutality:item/deathsaw_inactive"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "brutality:item/deathsaw_inventory"
+    },
+    "fixed": {
+      "parent": "brutality:item/deathsaw_inventory"
+    }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "texture": 1
+      },
+      "model": "brutality:item/deathsaw_active"
+    }
+  ]
+}

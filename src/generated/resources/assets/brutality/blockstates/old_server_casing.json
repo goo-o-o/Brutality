@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "brutality:block/old_server_casing"
+      },
+      {
+        "model": "brutality:block/old_server_casing",
+        "y": 90
+      },
+      {
+        "model": "brutality:block/old_server_casing",
+        "y": 180
+      },
+      {
+        "model": "brutality:block/old_server_casing",
+        "y": 270
+      }
+    ]
+  }
+}

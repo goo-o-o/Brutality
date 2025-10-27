@@ -1,5 +1,8 @@
 {
   "replace": false,
   "values": [
+    "brutality:lower_hvac",
+    "brutality:upper_hvac",
+    "brutality:old_air_conditioner"
   ]
 }

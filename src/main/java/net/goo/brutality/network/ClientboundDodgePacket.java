@@ -34,18 +34,17 @@ public class ClientboundDodgePacket {
     public ClientboundDodgePacket(FriendlyByteBuf buf) {
         this.entityId = buf.readInt();
         this.damageTypeId = buf.readResourceLocation();
-        this.amount = buf.readFloat();
         this.hasDirectEntity = buf.readBoolean();
         this.directEntityId = hasDirectEntity ? buf.readInt() : null;
         this.hasCausingEntity = buf.readBoolean();
         this.causingEntityId = hasCausingEntity ? buf.readInt() : null;
+        this.amount = buf.readFloat();
         this.anklet = buf.readItem();
     }
 
     public void write(FriendlyByteBuf buf) {
         buf.writeInt(entityId);
         buf.writeResourceLocation(damageTypeId);
-        buf.writeFloat(amount);
         buf.writeBoolean(hasDirectEntity);
         if (hasDirectEntity) {
             buf.writeInt(directEntityId);
@@ -53,6 +52,7 @@ public class ClientboundDodgePacket {
         if (hasCausingEntity) {
             buf.writeInt(causingEntityId);
         }
+        buf.writeFloat(amount);
         buf.writeItem(this.anklet);
     }
 

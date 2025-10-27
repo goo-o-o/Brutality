@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "brutality:block/old_air_conditioner",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "brutality:block/old_air_conditioner"
+    },
+    "facing=south": {
+      "model": "brutality:block/old_air_conditioner",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "brutality:block/old_air_conditioner",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:block/template_old_server_panel",
+  "textures": {
+    "block": "brutality:block/old_server_panel_one"
+  }
+}

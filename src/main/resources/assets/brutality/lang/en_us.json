@@ -1024,6 +1024,15 @@
   "item.brutality.umbral_tome": "Umbral Tome",
 
 
+  "block.brutality.puddle": "Puddle",
+  "block.brutality.exit_sign": "Exit Sign",
+  "block.brutality.plasterboard": "Plasterboard",
+  "block.brutality.old_server_panel": "Old Server Panel",
+  "block.brutality.old_server_casing": "Old Server Casing",
+  "block.brutality.upper_hvac": "Upper HVAC",
+  "block.brutality.lower_hvac": "Lower HVAC",
+  "block.brutality.old_air_conditioner": "Old Air Conditioner",
+
   "block.brutality.white_concrete_stair": "White Concrete Stair",
   "block.brutality.white_concrete_slab": "White Concrete Slab",
   "block.brutality.orange_concrete_stair": "Orange Concrete Stair",

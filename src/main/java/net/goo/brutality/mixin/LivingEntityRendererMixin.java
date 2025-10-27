@@ -1,6 +1,8 @@
 package net.goo.brutality.mixin;
 
 import net.goo.brutality.client.renderers.layers.*;
+import net.goo.brutality.item.BrutalityArmorMaterials;
+import net.goo.brutality.util.ModUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -12,6 +14,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extends EntityModel<T>> {
@@ -34,4 +37,10 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
         }
     }
 
+    @Inject(method = "isBodyVisible", at = @At("HEAD"), cancellable = true)
+    private void modifyIsBodyVisible(T pLivingEntity, CallbackInfoReturnable<Boolean> cir) {
+        if (ModUtils.hasFullArmorSet(pLivingEntity, BrutalityArmorMaterials.NOIR)) {
+            cir.setReturnValue(false);
+        }
+    }
 }

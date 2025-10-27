@@ -1,5 +1,6 @@
 package net.goo.brutality.block.custom;
 
+import net.goo.brutality.block.HorizontalDirectionalBlock;
 import net.goo.brutality.block.block_entity.WaterCoolerBlockEntity;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.registry.BrutalityModBlockEntities;

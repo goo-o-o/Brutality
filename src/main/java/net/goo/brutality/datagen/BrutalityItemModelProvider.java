@@ -2,6 +2,7 @@ package net.goo.brutality.datagen;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalityGeoItem;
+import net.goo.brutality.item.weapon.axe.Deathsaw;
 import net.goo.brutality.item.weapon.generic.TheCloudItem;
 import net.goo.brutality.item.weapon.scythe.DarkinScythe;
 import net.goo.brutality.item.weapon.sword.DullKnifeSword;
@@ -12,7 +13,6 @@ import net.goo.brutality.registry.BrutalityModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -32,13 +32,30 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
 
     private static final Set<Class<? extends BrutalityGeoItem>> EXCLUDED_ITEMS =
             Set.of(DullKnifeSword.class, DarkinScythe.class, TheCloudItem.class,
-                    Mug.class, StyrofoamCup.class);
+                    Mug.class, StyrofoamCup.class, Deathsaw.class);
 
 
     @Override
     protected void registerModels() {
         registerItemModels();
         registerConcreteVariantModels();
+
+        withExistingParent(BrutalityModBlocks.UPPER_HVAC.getId().getPath(),
+                modLoc("block/" + BrutalityModBlocks.UPPER_HVAC.getId().getPath()));
+        withExistingParent(BrutalityModBlocks.LOWER_HVAC.getId().getPath(),
+                modLoc("block/" + BrutalityModBlocks.LOWER_HVAC.getId().getPath()));
+        withExistingParent(BrutalityModBlocks.OLD_AIR_CONDITIONER.getId().getPath(),
+                modLoc("block/" + BrutalityModBlocks.OLD_AIR_CONDITIONER.getId().getPath()));
+        withExistingParent(BrutalityModBlocks.EXIT_SIGN.getId().getPath(),
+                modLoc("block/" + BrutalityModBlocks.EXIT_SIGN.getId().getPath()));
+        withExistingParent(BrutalityModBlocks.OLD_SERVER_CASING.getId().getPath(),
+                modLoc("block/" + BrutalityModBlocks.OLD_SERVER_CASING.getId().getPath()));
+        withExistingParent(BrutalityModBlocks.OLD_SERVER_PANEL.getId().getPath(),
+                modLoc("block/" + BrutalityModBlocks.OLD_SERVER_PANEL.getId().getPath() + "_one"));
+
+        withExistingParent(BrutalityModBlocks.PUDDLE.getId().getPath(),
+                modLoc("block/" + BrutalityModBlocks.PUDDLE.getId().getPath())).renderType(mcLoc("translucent"));
+
     }
 
     protected void registerItemModels() {
@@ -94,11 +111,15 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
     protected void registerConcreteVariantModels() {
         for (DyeColor dyeColor : DyeColor.values()) {
             ResourceLocation stairName =  BrutalityModBlocks.CONCRETE_STAIRS.get(dyeColor.ordinal()).getId();
-            withExistingParent(String.valueOf(stairName), ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + stairName.getPath()));
+            if (stairName != null) {
+                withExistingParent(String.valueOf(stairName), ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + stairName.getPath()));
+            }
 
             // Slabs
             ResourceLocation slabName =  BrutalityModBlocks.CONCRETE_SLABS.get(dyeColor.ordinal()).getId();
-            withExistingParent(String.valueOf(slabName), ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + slabName.getPath()));
+            if (slabName != null) {
+                withExistingParent(String.valueOf(slabName), ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + slabName.getPath()));
+            }
 
         }
     }

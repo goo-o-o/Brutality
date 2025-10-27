@@ -1,0 +1,42 @@
+{
+  "variants": {
+    "facing=east": [
+      {
+        "model": "brutality:block/old_server_panel_one",
+        "y": 270
+      },
+      {
+        "model": "brutality:block/old_server_panel_two",
+        "y": 270
+      }
+    ],
+    "facing=north": [
+      {
+        "model": "brutality:block/old_server_panel_one",
+        "y": 180
+      },
+      {
+        "model": "brutality:block/old_server_panel_two",
+        "y": 180
+      }
+    ],
+    "facing=south": [
+      {
+        "model": "brutality:block/old_server_panel_one"
+      },
+      {
+        "model": "brutality:block/old_server_panel_two"
+      }
+    ],
+    "facing=west": [
+      {
+        "model": "brutality:block/old_server_panel_one",
+        "y": 90
+      },
+      {
+        "model": "brutality:block/old_server_panel_two",
+        "y": 90
+      }
+    ]
+  }
+}

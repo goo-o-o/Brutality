@@ -1,4 +1,4 @@
-// 1.20.1	2025-10-22T12:18:44.5471416	Item Models: brutality
+// 1.20.1	2025-10-25T20:28:13.9332145	Item Models: brutality
 4d2cb5931bdfc05b9f9f74aa98fcf2124089e766 assets/brutality/models/item/absolute_zero.json
 b9a228d40051bf608e575ad22195a7f52b0fb3fd assets/brutality/models/item/abyssal_necklace.json
 5881774b34f2bb80a3ac222639c0286b3b9541b7 assets/brutality/models/item/addition_charm.json
@@ -137,6 +137,7 @@ c2678e8cbef18740e3f10c9069455d662455eb65 assets/brutality/models/item/event_hori
 acf0d2798bae7d6ea1080471a7e479c3f84ad003 assets/brutality/models/item/evergreen_tome.json
 dc973eac90fcaf6d69c0fbaab4b166a2803d1212 assets/brutality/models/item/evil_king_booster_pack.json
 3f57ac07cbb2c1ae350bb98399d359ce65ae9e51 assets/brutality/models/item/evil_king_respawn_card.json
+e4b5035851d2626e673ec92a0c6606dcd98fd6af assets/brutality/models/item/exit_sign.json
 9d100fabfdb13a630e60e7ba42defab46dd3c2d6 assets/brutality/models/item/exodic_tome.json
 9bf3c85e45dbb89edaed682e78f4a72a6fbffe77 assets/brutality/models/item/exodium_anklet.json
 943a86569d53d2a1e5b8ad7f5257994b4587f733 assets/brutality/models/item/exponential_charm.json
@@ -218,6 +219,7 @@ f8794f8321c47cbe57594102764f02f11ad99f6d assets/brutality/models/item/light_swit
 146cc4b7084ef5619a437eb0273028bd6e776bbc assets/brutality/models/item/lime_concrete_slab.json
 dcbe15b7a35c31236674be6e0c3928a816a9d1ba assets/brutality/models/item/lime_concrete_stair.json
 b9a2dc1dfa8a33b3b3765e5c9d289dac9b6396c2 assets/brutality/models/item/lollipop_of_eternity.json
+6daccd90619c2bead97b0de9f2be27ca7c4a34c4 assets/brutality/models/item/lower_hvac.json
 412910683c0f26f241ed590799426b1c2022d30b assets/brutality/models/item/lucky_insoles.json
 0a3a77ec3271c8b509c608aa32664319efbe4147 assets/brutality/models/item/lust.json
 73e2e18686d4414aa8ab99ec8f3230e18a77f4c3 assets/brutality/models/item/magenta_concrete_slab.json
@@ -242,10 +244,13 @@ cac84f74065b65bb30050166362d1730ca6f5553 assets/brutality/models/item/noir_boots
 4428f60e262645afe183be735f60d3ba06118100 assets/brutality/models/item/noir_helmet.json
 9b8c1407a44791bac2cf9d43effb9b7bd1e7c311 assets/brutality/models/item/noir_leggings.json
 515b19350eea219a09d30d11be74621aa6d72afb assets/brutality/models/item/nyxium_anklet.json
+c8396e8d2e9fd4b8fe664e9a25e68804cb49ec41 assets/brutality/models/item/old_air_conditioner.json
 5feb095077bf75d878159304c21d9fa04c718799 assets/brutality/models/item/old_gpu.json
 e43c91997387372d63cbc430118afc03274e2fc5 assets/brutality/models/item/old_gpu_base.json
 6ca50f4a2b7cff7291899b3ad8bdb4406ad08646 assets/brutality/models/item/old_gpu_handheld.json
 e040a88ea80d246990b1b8b109d6b0b046d6398a assets/brutality/models/item/old_guillotine.json
+88aeeb92ba2f79e3b926624e6bd924bf1cdf4dd1 assets/brutality/models/item/old_server_casing.json
+44e0cdfd89cdb9061f6d8f09ce6276a2c4295c21 assets/brutality/models/item/old_server_panel.json
 bdd4a09c256f5a02d30621e9ff6661b24ebbb3bb assets/brutality/models/item/olive_oil_charm.json
 0b8a0de599ece8a3602ec0107954dd7ad7fb7b73 assets/brutality/models/item/onyx_anklet.json
 71027fee454970838b9ad47a75eed1747cace533 assets/brutality/models/item/onyx_idol.json
@@ -286,6 +291,7 @@ f4d5d1e7e2cbeff8f082fc8176e91187f0739352 assets/brutality/models/item/progenitor
 e77b9e5d590f6505e76090d2cc34e9aef42d1e9d assets/brutality/models/item/providence.json
 b547a6c09d7c8f46f34bea173d3637913bf8e742 assets/brutality/models/item/providence_base.json
 a58976db209ce6bc0b96012124c42212f9d804e6 assets/brutality/models/item/providence_handheld.json
+f40aa8981fa218bb0011730da1fa5db2b2383a3f assets/brutality/models/item/puddle.json
 1fb3df27554a341ac336dfa7ff6b267c76012301 assets/brutality/models/item/purple_concrete_slab.json
 78aa92036c2384a28995d045b0315b315432e7a2 assets/brutality/models/item/purple_concrete_stair.json
 a56bd27dee9a4638953b37f1b65ff6977350495d assets/brutality/models/item/purple_seal.json
@@ -391,6 +397,7 @@ a24e2980a30249d17f6b6017f492eddf6848cc47 assets/brutality/models/item/trial_guar
 c2f543ec7756a625e38a3bdb4061206dae0a1d01 assets/brutality/models/item/ultra_dodge_anklet.json
 ad676537368eb4b3b16370ba3766b84b2520689f assets/brutality/models/item/umbral_tome.json
 b1b61b689659a41cfda4fe2f794f3646a90685c2 assets/brutality/models/item/unbridled_rage.json
+5fd323434887eee3eb4a55dfd40158e075ab00b6 assets/brutality/models/item/upper_hvac.json
 e9d2166ff5c750b7c16b129c75226a1fab3e6288 assets/brutality/models/item/uvogre_heart.json
 f6fb7c2050d86e34595f658240c0782fd6d97f34 assets/brutality/models/item/vampire_fang.json
 de1415ff6304475ac796d9ec12b68057f7286502 assets/brutality/models/item/vampire_knives.json

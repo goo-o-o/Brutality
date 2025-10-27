@@ -21,6 +21,7 @@ public class BrutalityCommonConfig {
     public static final ForgeConfigSpec.IntValue BLACK_HOLE_TICK_DAMAGE;
     public static final ForgeConfigSpec.IntValue BIOMECH_REACTOR_DAMAGE;
     public static final ForgeConfigSpec.IntValue LAST_PRISM_TICK_DAMAGE;
+    public static final ForgeConfigSpec.IntValue CREASE_OF_CREATION_THRESHOLD;
     public static final ForgeConfigSpec.IntValue GUNGNIR_HIT_QUOTA;
 
     static {
@@ -61,6 +62,10 @@ public class BrutalityCommonConfig {
         BEACHBALL_LIFESPAN = BUILDER
                 .comment("Beachball Lifespan in Ticks")
                 .defineInRange("beachBallLifeSpan", 1200, 20, 20000);
+
+        CREASE_OF_CREATION_THRESHOLD = BUILDER
+                .comment("Entities above this Health Point threshold will be unaffected by Crease of Creation")
+                .defineInRange("creaseOfCreationThreshold", 200, 1, 20000);
 
         THROWING_WEAPONS_BREAK_BLOCKS = BUILDER
                 .comment("Should Throwing Weapons break blocks, this includes things such as On Hit Block effects or Explosions breaking blocks")

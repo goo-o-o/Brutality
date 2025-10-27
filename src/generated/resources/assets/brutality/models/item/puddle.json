@@ -1,0 +1,4 @@
+{
+  "parent": "brutality:block/puddle",
+  "render_type": "minecraft:translucent"
+}

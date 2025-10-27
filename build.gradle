@@ -190,7 +190,7 @@ dependencies {
     implementation fg.deobf("curse.maven:curios-309927:6418456")
     implementation fg.deobf("curse.maven:caelus-308989:5281700")
     implementation fg.deobf("curse.maven:lethality-a-terramity-addon-1282036:6766042")
-//    implementation fg.deobf("curse.maven:azurelib-817423:6849107")
+    implementation fg.deobf("curse.maven:azurelib-817423:6849107")
 
     // compile against the JEI API but do not include it at runtime
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))

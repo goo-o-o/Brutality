@@ -16,6 +16,7 @@ import net.goo.brutality.item.curios.ring.*;
 import net.goo.brutality.item.curios.vanity.*;
 import net.goo.brutality.item.material.*;
 import net.goo.brutality.item.seals.*;
+import net.goo.brutality.item.weapon.axe.Deathsaw;
 import net.goo.brutality.item.weapon.axe.OldGpuAxe;
 import net.goo.brutality.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.item.weapon.bow.Providence;
@@ -139,12 +140,12 @@ public class BrutalityModItems {
             new BrutalityTooltipHelper.ItemDescriptionComponent(ON_SHIFT_RIGHT_CLICK, 1)
     )
     ));
-    public static final RegistryObject<Item> DOOMFIST_GAUNTLET_ITEM = ITEMS.register("doomfist_gauntlet", () -> new DoomfistGauntletItem(
-            ModRarities.LEGENDARY,
-            List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1)
-            )
-    ));
+//    public static final RegistryObject<Item> DOOMFIST_GAUNTLET_ITEM = ITEMS.register("doomfist_gauntlet", () -> new DoomfistGauntletItem(
+//            ModRarities.LEGENDARY,
+//            List.of(
+//                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1)
+//            )
+//    ));
     public static final RegistryObject<Item> FROSTMOURNE_SWORD = ITEMS.register("frostmourne", () -> new FrostmourneSword(
             Tiers.NETHERITE, 5, -3F,
             ModRarities.FABLED, List.of(
@@ -249,6 +250,12 @@ public class BrutalityModItems {
             )
     ));
     public static final RegistryObject<Item> RHITTA_AXE = ITEMS.register("rhitta", () -> new RhittaAxe(
+            Tiers.DIAMOND, 10, -3F, ModRarities.MYTHIC,
+            List.of(new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1),
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
+            )
+    ));
+    public static final RegistryObject<Item> DEATHSAW = ITEMS.register("deathsaw", () -> new Deathsaw(
             Tiers.DIAMOND, 10, -3F, ModRarities.MYTHIC,
             List.of(new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1),
                     new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)

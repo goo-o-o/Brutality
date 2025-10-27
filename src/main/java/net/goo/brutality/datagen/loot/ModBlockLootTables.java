@@ -6,7 +6,6 @@ import net.goo.brutality.registry.BrutalityModItems;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
@@ -38,9 +37,16 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.add(BrutalityModBlocks.COFFEE_MACHINE_BLOCK.get(), block -> this.createNameableBlockEntityTable(BrutalityModBlocks.COFFEE_MACHINE_BLOCK.get()));
         this.add(BrutalityModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get(), block -> this.createNameableBlockEntityTable(BrutalityModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get()));
 
+        this.add(BrutalityModBlocks.OLD_SERVER_CASING.get(), block -> this.createSingleItemTable(BrutalityModBlocks.OLD_SERVER_CASING.get()));
+        this.add(BrutalityModBlocks.OLD_SERVER_PANEL.get(), block -> this.createSingleItemTable(BrutalityModBlocks.OLD_SERVER_PANEL.get()));
+//        this.add(BrutalityModBlocks.PLASTERBOARD.get(), block -> this.createSingleItemTable(BrutalityModBlocks.PLASTERBOARD.get()));
         this.add(BrutalityModBlocks.GREEN_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(BrutalityModBlocks.GREEN_CUBICLE_PANEL.get()));
         this.add(BrutalityModBlocks.WHITE_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(BrutalityModBlocks.WHITE_CUBICLE_PANEL.get()));
         this.add(BrutalityModBlocks.GRAY_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(BrutalityModBlocks.GRAY_CUBICLE_PANEL.get()));
+        this.add(BrutalityModBlocks.OLD_AIR_CONDITIONER.get(), block -> this.createSingleItemTable(BrutalityModBlocks.OLD_AIR_CONDITIONER.get()));
+        this.add(BrutalityModBlocks.EXIT_SIGN.get(), block -> this.createSingleItemTable(BrutalityModBlocks.EXIT_SIGN.get()));
+        this.add(BrutalityModBlocks.UPPER_HVAC.get(), block -> this.createSingleItemTable(BrutalityModBlocks.UPPER_HVAC.get()));
+        this.add(BrutalityModBlocks.LOWER_HVAC.get(), block -> this.createSingleItemTable(BrutalityModBlocks.LOWER_HVAC.get()));
         this.add(BrutalityModBlocks.STYROFOAM_CUP.get(), block -> this.createSingleItemTable(BrutalityModItems.STYROFOAM_CUP.get()));
         this.add(BrutalityModBlocks.MUG.get(), block -> this.createSingleItemTable(BrutalityModItems.MUG.get()));
         this.add(BrutalityModBlocks.LIGHT_GRAY_CUBICLE_PANEL.get(), block -> this.createSingleItemTable(BrutalityModBlocks.LIGHT_GRAY_CUBICLE_PANEL.get()));

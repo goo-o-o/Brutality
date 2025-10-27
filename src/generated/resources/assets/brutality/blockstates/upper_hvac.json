@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "brutality:block/upper_hvac",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "brutality:block/upper_hvac"
+    },
+    "facing=south": {
+      "model": "brutality:block/upper_hvac",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "brutality:block/upper_hvac",
+      "y": 270
+    }
+  }
+}

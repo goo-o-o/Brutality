@@ -9,6 +9,10 @@
     "brutality:lcd_monitor",
     "brutality:white_office_chair",
     "brutality:black_office_chair",
+    "brutality:lower_hvac",
+    "brutality:upper_hvac",
+    "brutality:old_air_conditioner",
+    "brutality:exit_sign",
     "brutality:white_filing_cabinet",
     "brutality:gray_filing_cabinet"
   ]

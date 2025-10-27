@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "brutality:block/hvac/border_top_left",
+    "east": "brutality:block/hvac/right",
+    "north": "brutality:block/hvac/lower/north",
+    "particle": "brutality:block/hvac/lower/north",
+    "south": "brutality:block/hvac/left",
+    "up": "brutality:block/hvac/border_top_left",
+    "west": "brutality:block/hvac/lower/west"
+  }
+}

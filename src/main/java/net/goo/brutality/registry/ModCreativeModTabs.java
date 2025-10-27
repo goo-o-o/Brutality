@@ -38,6 +38,14 @@ public class ModCreativeModTabs {
                         BrutalityModBlocks.CONCRETE_STAIRS.forEach(block -> output.accept(block.get()));
 
                         output.accept(BrutalityModItems.WATER_COOLER_ITEM.get());
+                        output.accept(BrutalityModBlocks.OLD_SERVER_CASING.get());
+                        output.accept(BrutalityModBlocks.OLD_SERVER_PANEL.get());
+                        output.accept(BrutalityModBlocks.PUDDLE.get());
+//                        output.accept(BrutalityModBlocks.PLASTERBOARD.get());
+                        output.accept(BrutalityModBlocks.EXIT_SIGN.get());
+                        output.accept(BrutalityModBlocks.LOWER_HVAC.get());
+                        output.accept(BrutalityModBlocks.UPPER_HVAC.get());
+                        output.accept(BrutalityModBlocks.OLD_AIR_CONDITIONER.get());
                         output.accept(BrutalityModBlocks.GRAY_CUBICLE_PANEL.get());
                         output.accept(BrutalityModBlocks.LIGHT_GRAY_CUBICLE_PANEL.get());
                         output.accept(BrutalityModBlocks.BLUE_CUBICLE_PANEL.get());
@@ -375,6 +383,7 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModItems.BOUNCY_DYNAMITE.get());
                         output.accept(BrutalityModItems.THUNDERBOLT_TRIDENT.get().getDefaultInstance());
 
+                        output.accept(BrutalityModItems.DEATHSAW.get());
                         output.accept(BrutalityModItems.WOODEN_RULER.get());
                         output.accept(BrutalityModItems.METAL_RULER.get().getDefaultInstance());
                         // region Original Items

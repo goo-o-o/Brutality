@@ -52,7 +52,10 @@ import oshi.util.tuples.Pair;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -80,6 +83,7 @@ public class ForgePlayerStateHandler {
             }
         }
     }
+
 
 
     @SubscribeEvent

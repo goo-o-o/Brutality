@@ -1,5 +1,6 @@
 package net.goo.brutality.item.weapon.generic;
 
+import net.goo.brutality.config.BrutalityCommonConfig;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.network.PacketHandler;
@@ -104,7 +105,7 @@ public class CreaseOfCreation extends BrutalityGenericItem {
                     }
                 }
                 if (target instanceof LivingEntity livingEntity) {
-                    if (livingEntity.getMaxHealth() > 100) {
+                    if (livingEntity.getMaxHealth() > BrutalityCommonConfig.CREASE_OF_CREATION_THRESHOLD.get()) {
                         return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
                     }
                 }

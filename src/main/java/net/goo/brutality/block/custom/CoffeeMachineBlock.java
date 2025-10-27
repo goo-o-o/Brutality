@@ -1,5 +1,6 @@
 package net.goo.brutality.block.custom;
 
+import net.goo.brutality.block.HorizontalDirectionalBlock;
 import net.goo.brutality.block.block_entity.CoffeeMachineBlockEntity;
 import net.goo.brutality.registry.BrutalityModBlockEntities;
 import net.goo.brutality.registry.BrutalityModItems;
