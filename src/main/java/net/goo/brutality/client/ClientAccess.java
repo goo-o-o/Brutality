@@ -12,6 +12,7 @@ import net.goo.brutality.item.weapon.throwing.VampireKnives;
 import net.goo.brutality.network.*;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModSounds;
+import net.goo.brutality.sounds.DeathsawSoundInstance;
 import net.goo.brutality.sounds.ExtinctionSpellSoundInstance;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -44,7 +45,8 @@ import static net.goo.brutality.Brutality.LOGGER;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class ClientAccess {
-    private static ExtinctionSpellSoundInstance sound;
+    private static ExtinctionSpellSoundInstance extinctionSpellSoundInstance;
+    private static DeathsawSoundInstance deathsawSoundInstance;
 
 
     public static void syncCapabilities(int entityId, Map<String, CompoundTag> data) {
@@ -68,14 +70,26 @@ public class ClientAccess {
     }
 
     public static void playExtinctionSpellSound(ExtinctionEntity extinctionEntity) {
-        ExtinctionSpellSoundInstance sound = new ExtinctionSpellSoundInstance(extinctionEntity);
-        ClientAccess.sound = sound;
-        Minecraft.getInstance().getSoundManager().play(sound);
+        ClientAccess.extinctionSpellSoundInstance = new ExtinctionSpellSoundInstance(extinctionEntity);
+        Minecraft.getInstance().getSoundManager().queueTickingSound(ClientAccess.extinctionSpellSoundInstance);
     }
 
+
     public static void stopExtinctionSpellSound() {
-        Minecraft.getInstance().getSoundManager().stop(sound);
+        Minecraft.getInstance().getSoundManager().stop(extinctionSpellSoundInstance);
     }
+    public static void startDeathsawSound(Player player) {
+        ClientAccess.deathsawSoundInstance = new DeathsawSoundInstance(player);
+        // TODO: Play start sound
+        Minecraft.getInstance().getSoundManager().playDelayed(ClientAccess.extinctionSpellSoundInstance, 5);
+    }
+
+    public static void stopDeathsawSound() {
+        // TODO: Play stop sound
+        Minecraft.getInstance().getSoundManager().stop(ClientAccess.extinctionSpellSoundInstance);
+    }
+
+
 
     public static void syncItemCooldowns(Map<Item, ItemCooldowns.CooldownInstance> cooldowns, int tickCount) {
         Player player = Minecraft.getInstance().player;

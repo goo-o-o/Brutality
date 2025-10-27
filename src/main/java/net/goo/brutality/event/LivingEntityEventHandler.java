@@ -601,11 +601,8 @@ public class LivingEntityEventHandler {
         if (lastAttacker instanceof Player player) {
             Item item = player.getMainHandItem().getItem();
 
-            if (item instanceof TeratonHammer) {
-                float kbMult = ((float) Math.pow(player.getAttackStrengthScale(0.5F), 3));
-
-                event.setStrength((event.getOriginalStrength() * 10) * kbMult);
-
+            if (victim.getLastDamageSource() != null && victim.getLastDamageSource().is(BrutalityDamageTypes.DEATHSAW)) {
+                event.setCanceled(true);
             }
 
             if (item instanceof EventHorizonSpear) {
