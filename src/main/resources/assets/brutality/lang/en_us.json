@@ -83,6 +83,12 @@
   "item.brutality.atomic_judgement.passive.1": "§e -Immunity to §aRadiation",
   "item.brutality.atomic_judgement.passive.2": "§e -Reduced fall Damage",
 
+  "item.brutality.deathsaw": "Deathsaw",
+  "item.brutality.deathsaw.lore.1": "Handle with care",
+  "item.brutality.deathsaw.on_hit.1": "§e -Inflicts §7Pulverized I§e for 5 ticks",
+  "item.brutality.deathsaw.on_hold_right_click.1": "§e -Start the Deathsaw, dealing damage to all mobs in 5 blocks in front of the user",
+  "item.brutality.deathsaw.on_hold_right_click.2": "§e -Looking up while next to a wall causes the user to climb it",
+
   "item.brutality.rhitta": "Divine Axe Rhitta",
   "item.brutality.rhitta.lore": "The one who stands at the pinnacle of all races",
   "item.brutality.rhitta.on_hold_right_click.1": "§e -Summons a miniature §6Sun above the user",

@@ -1,3 +1,8 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package net.goo.brutality.util.phys;
 
 import net.minecraft.world.entity.Entity;
@@ -33,28 +38,33 @@ public class OrientedBoundingBox {
     public OrientedBoundingBox(Vec3 center, double width, double height, double depth, float yaw, float pitch) {
         this.rotation = new Matrix3f();
         this.center = center;
-        this.extent = new Vec3(width / (double)2.0F, height / (double)2.0F, depth / (double)2.0F);
+        this.extent = new Vec3(width / (double) 2.0F, height / (double) 2.0F, depth / (double) 2.0F);
         this.axisZ = Vec3.directionFromRotation(yaw, pitch).normalize();
         this.axisY = Vec3.directionFromRotation(yaw + 90.0F, pitch).reverse().normalize();
         this.axisX = this.axisZ.cross(this.axisY);
-    }
-
-    public static Vec3 getInitialTracingPoint(Player player) {
-        double shoulderHeight = player.getBbHeight() * 0.15 * player.getScale();
-        return player.getEyePosition().subtract(0, shoulderHeight, 0);
     }
 
     public OrientedBoundingBox(Vec3 center, Vec3 size, float yaw, float pitch) {
         this(center, size.x, size.y, size.z, yaw, pitch);
     }
 
+    public static Vec3 getInitialTracingPoint(Player player) {
+        double shoulderHeight = (double) player.getBbHeight() * 0.15 * (double) player.getScale();
+        return player.getEyePosition().subtract(0.0F, shoulderHeight, 0.0F);
+    }
+
+
+    public List<Entity> filter(List<Entity> entities) {
+        return entities.stream().filter((entity) -> intersects(entity.getBoundingBox().inflate(entity.getPickRadius())) || contains(entity.position().add(0.0F, (entity.getBbHeight() / 2.0F), 0.0F))).collect(Collectors.toList());
+    }
+
     public OrientedBoundingBox(AABB box) {
         this.rotation = new Matrix3f();
-        this.center = new Vec3((box.maxX + box.minX) / (double)2.0F, (box.maxY + box.minY) / (double)2.0F, (box.maxZ + box.minZ) / (double)2.0F);
-        this.extent = new Vec3(Math.abs(box.maxX - box.minX) / (double)2.0F, Math.abs(box.maxY - box.minY) / (double)2.0F, Math.abs(box.maxZ - box.minZ) / (double)2.0F);
-        this.axisX = new Vec3((double)1.0F, (double)0.0F, (double)0.0F);
-        this.axisY = new Vec3((double)0.0F, (double)1.0F, (double)0.0F);
-        this.axisZ = new Vec3((double)0.0F, (double)0.0F, (double)1.0F);
+        this.center = new Vec3((box.maxX + box.minX) / (double) 2.0F, (box.maxY + box.minY) / (double) 2.0F, (box.maxZ + box.minZ) / (double) 2.0F);
+        this.extent = new Vec3(Math.abs(box.maxX - box.minX) / (double) 2.0F, Math.abs(box.maxY - box.minY) / (double) 2.0F, Math.abs(box.maxZ - box.minZ) / (double) 2.0F);
+        this.axisX = new Vec3(1.0F, 0.0F, 0.0F);
+        this.axisY = new Vec3(0.0F, 1.0F, 0.0F);
+        this.axisZ = new Vec3(0.0F, 0.0F, 1.0F);
     }
 
     public OrientedBoundingBox(OrientedBoundingBox obb) {
@@ -64,14 +74,6 @@ public class OrientedBoundingBox {
         this.axisX = obb.axisX;
         this.axisY = obb.axisY;
         this.axisZ = obb.axisZ;
-    }
-
-    public List<? extends Entity> filterEntities(List<? extends Entity> entities) {
-        return entities.stream()
-                .filter(entity -> intersects(entity.getBoundingBox())
-                        || contains(entity.getPosition(0).add(0, entity.getBbHeight() / 2F, 0))
-                )
-                .collect(Collectors.toList());
     }
 
     public OrientedBoundingBox copy() {
@@ -103,16 +105,44 @@ public class OrientedBoundingBox {
         return this;
     }
 
+    public static RayData findRayTargets(Player player, double width, double height, double length) {
+        return findRayTargets(player, new Vec3(width, height, length));
+    }
+
+    public static class RayData {
+        public List<Entity> entityList;
+        public OrientedBoundingBox obb;
+
+        public RayData(List<Entity> entityList, OrientedBoundingBox obb) {
+            this.entityList = entityList;
+            this.obb = obb;
+        }
+    }
+
+    public static RayData findRayTargets(Player player, Vec3 hitbox) {
+        Vec3 origin = player.getEyePosition();
+
+        OrientedBoundingBox obb = new OrientedBoundingBox(origin, hitbox, player.getXRot(), player.getYRot());
+        obb.offsetAlongAxisZ(hitbox.z / 2.0);
+        obb.updateVertex();
+
+        AABB broadBox = player.getBoundingBox().inflate(hitbox.z + 1.0, hitbox.y + 1.0, hitbox.z + 1.0);
+        List<Entity> entities = player.level().getEntities(player, broadBox,
+                entity -> !entity.isSpectator() && entity.isPickable() && entity.isAttackable() && entity != player);
+
+        return new RayData(obb.filter(entities), obb);
+    }
+
     public OrientedBoundingBox updateVertex() {
-        this.rotation.set(0, 0, (float)this.axisX.x);
-        this.rotation.set(0, 1, (float)this.axisX.y);
-        this.rotation.set(0, 2, (float)this.axisX.z);
-        this.rotation.set(1, 0, (float)this.axisY.x);
-        this.rotation.set(1, 1, (float)this.axisY.y);
-        this.rotation.set(1, 2, (float)this.axisY.z);
-        this.rotation.set(2, 0, (float)this.axisZ.x);
-        this.rotation.set(2, 1, (float)this.axisZ.y);
-        this.rotation.set(2, 2, (float)this.axisZ.z);
+        this.rotation.set(0, 0, (float) this.axisX.x);
+        this.rotation.set(0, 1, (float) this.axisX.y);
+        this.rotation.set(0, 2, (float) this.axisX.z);
+        this.rotation.set(1, 0, (float) this.axisY.x);
+        this.rotation.set(1, 1, (float) this.axisY.y);
+        this.rotation.set(1, 2, (float) this.axisY.z);
+        this.rotation.set(2, 0, (float) this.axisZ.x);
+        this.rotation.set(2, 1, (float) this.axisZ.y);
+        this.rotation.set(2, 2, (float) this.axisZ.z);
         this.scaledAxisX = this.axisX.scale(this.extent.x);
         this.scaledAxisY = this.axisY.scale(this.extent.y);
         this.scaledAxisZ = this.axisZ.scale(this.extent.z);
@@ -131,7 +161,7 @@ public class OrientedBoundingBox {
     public boolean contains(Vec3 point) {
         Vector3f distance = point.subtract(this.center).toVector3f();
         distance.mulTranspose(this.rotation);
-        return (double)Math.abs(distance.x()) < this.extent.x && (double)Math.abs(distance.y()) < this.extent.y && (double)Math.abs(distance.z()) < this.extent.z;
+        return (double) Math.abs(distance.x()) < this.extent.x && (double) Math.abs(distance.y()) < this.extent.y && (double) Math.abs(distance.z()) < this.extent.z;
     }
 
     public boolean intersects(AABB boundingBox) {
@@ -186,7 +216,7 @@ public class OrientedBoundingBox {
             double bMin = Double.POSITIVE_INFINITY;
             double bMax = Double.NEGATIVE_INFINITY;
 
-            for(int i = 0; i < 8; ++i) {
+            for (int i = 0; i < 8; ++i) {
                 double aDist = vertsA[i].dot(axis);
                 aMin = Math.min(aDist, aMin);
                 aMax = Math.max(aDist, aMax);

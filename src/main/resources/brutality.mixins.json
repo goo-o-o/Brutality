@@ -36,6 +36,7 @@
   "client": [
     "BiomeMixin",
     "ClientPacketListenerMixin",
+    "DebugRendererMixin",
     "HierarchicalModelMixin",
     "HumanoidModelMixin",
     "ItemInHandRendererMixin",

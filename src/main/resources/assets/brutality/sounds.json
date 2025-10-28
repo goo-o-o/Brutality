@@ -641,5 +641,29 @@
         "name": "brutality:light_switch_mono"
       }
     ]
+  },
+  "chainsaw_start": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:chainsaw_start"
+      }
+    ]
+  },
+  "chainsaw_loop": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:chainsaw_loop"
+      }
+    ]
+  },
+  "chainsaw_stop": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:chainsaw_stop"
+      }
+    ]
   }
 }

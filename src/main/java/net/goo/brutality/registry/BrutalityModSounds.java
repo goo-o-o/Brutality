@@ -24,6 +24,9 @@ public class BrutalityModSounds {
     public static final RegistryObject<SoundEvent> LEAF_BLOWER_ON = registerSoundEvents("leaf_blower_on");
     public static final RegistryObject<SoundEvent> LEAF_BLOWER_ACTIVE = registerSoundEvents("leaf_blower_active");
     public static final RegistryObject<SoundEvent> LEAF_BLOWER_OFF = registerSoundEvents("leaf_blower_off");
+    public static final RegistryObject<SoundEvent> CHAINSAW_START = registerSoundEvents("chainsaw_start");
+    public static final RegistryObject<SoundEvent> CHAINSAW_LOOP = registerSoundEvents("chainsaw_loop");
+    public static final RegistryObject<SoundEvent> CHAINSAW_STOP = registerSoundEvents("chainsaw_stop");
 
     public static final List<RegistryObject<SoundEvent>> JACKPOT_SOUNDS = List.of(
             registerSoundEvents("jackpot_sound_1"),

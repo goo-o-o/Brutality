@@ -16,6 +16,7 @@ import net.goo.brutality.sounds.DeathsawSoundInstance;
 import net.goo.brutality.sounds.ExtinctionSpellSoundInstance;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -78,15 +79,21 @@ public class ClientAccess {
     public static void stopExtinctionSpellSound() {
         Minecraft.getInstance().getSoundManager().stop(extinctionSpellSoundInstance);
     }
+
     public static void startDeathsawSound(Player player) {
         ClientAccess.deathsawSoundInstance = new DeathsawSoundInstance(player);
-        // TODO: Play start sound
-        Minecraft.getInstance().getSoundManager().playDelayed(ClientAccess.extinctionSpellSoundInstance, 5);
+        player.playSound(BrutalityModSounds.CHAINSAW_START.get(), 1.0F, 1.0F);
+        SoundManager soundManager = Minecraft.getInstance().getSoundManager();
+
+        if (deathsawSoundInstance.canPlaySound() && !soundManager.isActive(deathsawSoundInstance))
+            Minecraft.getInstance().getSoundManager().playDelayed(ClientAccess.deathsawSoundInstance, 23);
     }
 
-    public static void stopDeathsawSound() {
-        // TODO: Play stop sound
-        Minecraft.getInstance().getSoundManager().stop(ClientAccess.extinctionSpellSoundInstance);
+    public static void stopDeathsawSound(LivingEntity livingEntity) {
+        livingEntity.playSound(BrutalityModSounds.CHAINSAW_STOP.get(), 1.0F, 1.0F);
+        SoundManager soundManager = Minecraft.getInstance().getSoundManager();
+        if (soundManager.isActive(deathsawSoundInstance))
+            soundManager.stop(ClientAccess.deathsawSoundInstance);
     }
 
 

@@ -18,8 +18,10 @@ public class BrutalityCommonConfig {
     public static final ForgeConfigSpec.IntValue BEACHBALL_LIFESPAN;
 
     public static final ForgeConfigSpec.DoubleValue BLACK_HOLE_PULL_STRENGTH;
+    public static final ForgeConfigSpec.DoubleValue DEATHSAW_WALL_CLIMB_SPEED;
     public static final ForgeConfigSpec.IntValue BLACK_HOLE_TICK_DAMAGE;
     public static final ForgeConfigSpec.IntValue BIOMECH_REACTOR_DAMAGE;
+    public static final ForgeConfigSpec.IntValue DEATHSAW_TICK_DAMAGE;
     public static final ForgeConfigSpec.IntValue LAST_PRISM_TICK_DAMAGE;
     public static final ForgeConfigSpec.IntValue CREASE_OF_CREATION_THRESHOLD;
     public static final ForgeConfigSpec.IntValue GUNGNIR_HIT_QUOTA;
@@ -30,6 +32,10 @@ public class BrutalityCommonConfig {
         SEVENTH_STAR_GRIEFING = BUILDER
                 .comment("Should Seventh Star Projectiles break blocks (Default = False)")
                 .define("seventhStarShouldBreakBlocks", false);
+
+        DEATHSAW_WALL_CLIMB_SPEED = BUILDER
+                .comment("Deathsaw Wall Climb Speed Multiplier (Default = 0.8)")
+                .defineInRange("deathsawWallClimbSpeed", 0.8, 0, 100);
 
         ATOMIC_JUDGEMENT_GRIEFING = BUILDER
                 .comment("Should Atomic Judgement break blocks (Default = False)")
@@ -54,6 +60,10 @@ public class BrutalityCommonConfig {
         LAST_PRISM_TICK_DAMAGE = BUILDER
                 .comment("Last Prism Tick Damage (Default = 2)")
                 .defineInRange("lastPrismTickDamage", 2, 0, 100);
+
+        DEATHSAW_TICK_DAMAGE = BUILDER
+                .comment("Deathsaw Tick Damage (Default = 1)")
+                .defineInRange("deathsawTickDamage", 1, 0, 100);
 
         GUNGNIR_HIT_QUOTA = BUILDER
                 .comment("How many times Gungnir will hit before returning (Default = 3)")

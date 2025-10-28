@@ -257,16 +257,16 @@ public class BrutalityModItems {
     ));
     public static final RegistryObject<Item> DEATHSAW = ITEMS.register("deathsaw", () -> new Deathsaw(
             Tiers.DIAMOND, 10, -3F, ModRarities.MYTHIC,
-            List.of(new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1),
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
+            List.of(new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 2),
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 1)
             )
     ));
-    public static final RegistryObject<Item> FIRST_EXPLOSION_STAFF = ITEMS.register("first_explosion", () -> new FirstExplosionStaff(
-            ModRarities.FABLED,
-            List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1)
-            )
-    ));
+//    public static final RegistryObject<Item> FIRST_EXPLOSION_STAFF = ITEMS.register("first_explosion", () -> new FirstExplosionStaff(
+//            ModRarities.FABLED,
+//            List.of(
+//                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1)
+//            )
+//    ));
     public static final RegistryObject<Item> JACKPOT_HAMMER = ITEMS.register("jackpot", () -> new JackpotHammer(
             Tiers.DIAMOND, 0, -2.6F,
             ModRarities.LEGENDARY, List.of(
