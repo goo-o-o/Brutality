@@ -293,6 +293,15 @@ public class BrutalityModItems {
             List.of(
             )
     ));
+
+
+    public static final RegistryObject<Item> HANDCUFFS = ITEMS.register("handcuffs", () -> new Handcuffs(
+            ModRarities.LEGENDARY,
+            List.of(
+            )
+    ));
+
+
     public static final RegistryObject<Item> YATA_NO_KAGAMI = ITEMS.register("yata_no_kagami", () -> new YataNoKagami(
             ModRarities.FABLED, List.of(
             new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
