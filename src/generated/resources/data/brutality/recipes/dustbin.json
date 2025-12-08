@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "minecraft:chain"
+    },
+    "B": {
+      "item": "minecraft:polished_blackstone_pressure_plate"
+    }
+  },
+  "pattern": [
+    "A A",
+    "A A",
+    "ABA"
+  ],
+  "result": {
+    "item": "brutality:dustbin"
+  },
+  "show_notification": true
+}

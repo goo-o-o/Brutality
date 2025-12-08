@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "brutality:item/generic/crease_of_creation/crease_of_creation_inventory"
-  }
-}

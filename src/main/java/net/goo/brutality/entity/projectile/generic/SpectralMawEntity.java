@@ -51,8 +51,6 @@ public class SpectralMawEntity extends ThrowableProjectile implements BrutalityG
         return true;
     }
 
-    private boolean trailSpawned = false;
-
     @Override
     protected void defineSynchedData() {
         this.entityData.define(LIFESPAN, 20);

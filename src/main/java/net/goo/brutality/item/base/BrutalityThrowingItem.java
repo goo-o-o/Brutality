@@ -3,13 +3,13 @@ package net.goo.brutality.item.base;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.ClientAccess;
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.SealUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.ThrowableWeaponHelper;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -198,11 +198,11 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
      * Should be called Clientside
      */
     public void handleAttributesAndAnimation(Player player, ItemStack stack, boolean isOffhand) {
-        ClientAccess.ThrowableWeaponHelper.handleAttributesAndAnimation(player, this, stack, isOffhand);
+        ThrowableWeaponHelper.handleAttributesAndAnimation(player, this, stack, isOffhand);
     }
 
     public void handleCooldownAndSound(Player player, ItemStack stack) {
-        ClientAccess.ThrowableWeaponHelper.handleCooldownAndSound(player, stack, this);
+        ThrowableWeaponHelper.handleCooldownAndSound(player, stack, this);
     }
 
 }

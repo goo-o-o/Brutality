@@ -9,19 +9,34 @@
   "loader": "forge:separate_transforms",
   "perspectives": {
     "firstperson_lefthand": {
-      "parent": "brutality:item/sword/paper_cut_handheld"
+      "parent": "brutality:item/sword/paper_cut_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/paper_cut/paper_cut_handheld"
+      }
     },
     "firstperson_righthand": {
-      "parent": "brutality:item/sword/paper_cut_handheld"
+      "parent": "brutality:item/sword/paper_cut_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/paper_cut/paper_cut_handheld"
+      }
     },
     "ground": {
-      "parent": "brutality:item/sword/paper_cut_handheld"
+      "parent": "brutality:item/sword/paper_cut_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/paper_cut/paper_cut_handheld"
+      }
     },
     "thirdperson_lefthand": {
-      "parent": "brutality:item/sword/paper_cut_handheld"
+      "parent": "brutality:item/sword/paper_cut_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/paper_cut/paper_cut_handheld"
+      }
     },
     "thirdperson_righthand": {
-      "parent": "brutality:item/sword/paper_cut_handheld"
+      "parent": "brutality:item/sword/paper_cut_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/paper_cut/paper_cut_handheld"
+      }
     }
   }
 }

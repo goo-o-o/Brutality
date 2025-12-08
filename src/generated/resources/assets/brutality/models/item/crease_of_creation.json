@@ -9,19 +9,34 @@
   "loader": "forge:separate_transforms",
   "perspectives": {
     "firstperson_lefthand": {
-      "parent": "brutality:item/generic/crease_of_creation_handheld"
+      "parent": "brutality:item/generic/crease_of_creation_handheld",
+      "textures": {
+        "layer0": "brutality:item/generic/crease_of_creation/crease_of_creation_handheld"
+      }
     },
     "firstperson_righthand": {
-      "parent": "brutality:item/generic/crease_of_creation_handheld"
+      "parent": "brutality:item/generic/crease_of_creation_handheld",
+      "textures": {
+        "layer0": "brutality:item/generic/crease_of_creation/crease_of_creation_handheld"
+      }
     },
     "ground": {
-      "parent": "brutality:item/generic/crease_of_creation_handheld"
+      "parent": "brutality:item/generic/crease_of_creation_handheld",
+      "textures": {
+        "layer0": "brutality:item/generic/crease_of_creation/crease_of_creation_handheld"
+      }
     },
     "thirdperson_lefthand": {
-      "parent": "brutality:item/generic/crease_of_creation_handheld"
+      "parent": "brutality:item/generic/crease_of_creation_handheld",
+      "textures": {
+        "layer0": "brutality:item/generic/crease_of_creation/crease_of_creation_handheld"
+      }
     },
     "thirdperson_righthand": {
-      "parent": "brutality:item/generic/crease_of_creation_handheld"
+      "parent": "brutality:item/generic/crease_of_creation_handheld",
+      "textures": {
+        "layer0": "brutality:item/generic/crease_of_creation/crease_of_creation_handheld"
+      }
     }
   }
 }

@@ -32,6 +32,7 @@ public class BrutalityModBlockRenderManager {
     @SubscribeEvent
     public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(BrutalityModBlockEntities.WHITE_FILING_CABINET_BLOCK_ENTITY.get(), FilingCabinetBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityModBlockEntities.LIGHT_GRAY_FILING_CABINET_BLOCK_ENTITY.get(), FilingCabinetBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BrutalityModBlockEntities.GRAY_FILING_CABINET_BLOCK_ENTITY.get(), FilingCabinetBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BrutalityModBlockEntities.WATER_COOLER_BLOCK_ENTITY.get(), BrutalityGeoBlockRenderer::new);
         event.registerBlockEntityRenderer(BrutalityModBlockEntities.COFFEE_MACHINE_BLOCK_ENTITY.get(), BrutalityGeoBlockRenderer::new);

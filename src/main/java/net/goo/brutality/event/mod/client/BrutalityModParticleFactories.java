@@ -5,6 +5,7 @@ import net.goo.brutality.particle.custom.*;
 import net.goo.brutality.particle.custom.flat.HexingCircleParticle;
 import net.goo.brutality.particle.custom.flat.MurasamaSlashParticle;
 import net.goo.brutality.particle.custom.flat.StygianStepParticle;
+import net.goo.brutality.particle.custom.flat.VoidSlashParticle;
 import net.goo.brutality.particle.custom.flat.waves.*;
 import net.goo.brutality.particle.providers.FlatParticleData;
 import net.goo.brutality.registry.BrutalityModParticles;
@@ -37,6 +38,8 @@ public class BrutalityModParticleFactories {
 
         event.registerSpriteSet(BrutalityModParticles.RHAAST_PARTICLE.get(), RhaastParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.SHADOW_ASSASIN_PARTICLE.get(), ShadowAssassinParticle.Provider::new);
+        event.registerSpriteSet(BrutalityModParticles.YIN_PARTICLE.get(), YinParticle.Provider::new);
+        event.registerSpriteSet(BrutalityModParticles.YANG_PARTICLE.get(), YangParticle.Provider::new);
 
         event.registerSpriteSet(BrutalityModParticles.BLACK_HOLE_PARTICLE.get(), BlackholeParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.MIRACLE_BLIGHT_PARTICLE.get(), MiracleBlightParticle.Provider::new);
@@ -57,6 +60,7 @@ public class BrutalityModParticleFactories {
 
         event.registerSpriteSet(BrutalityModParticles.EXPLOSION_MAGIC_CIRCLE_PARTICLE.get(), FlatParticleData.FlatParticleProvider::new);
         event.registerSpriteSet(BrutalityModParticles.MURASAMA_SLASH_PARTICLE.get(), MurasamaSlashParticle.MurasamaSlashParticleProvider::new);
+        event.registerSpriteSet(BrutalityModParticles.VOID_SLASH_PARTICLE.get(), VoidSlashParticle.VoidSlashParticleProvider::new);
         event.registerSpriteSet(BrutalityModParticles.HEXING_CIRCLE_PARTICLE.get(), HexingCircleParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.STYGIAN_STEP_PARTICLE.get(), StygianStepParticle.Provider::new);
 

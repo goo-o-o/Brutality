@@ -11,35 +11,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.UUID;
 
 public class AttributeHelper {
-    public static void removeModifier(ItemStack pStack, UUID id) {
-        if (!pStack.hasTag() || !pStack.getOrCreateTag().contains("AttributeModifiers", 9)) {
-            return; // No attribute modifiers exist
-        }
-
-        ListTag attributesList = pStack.getOrCreateTag().getList("AttributeModifiers", 10);
-        boolean removed = false;
-
-        for (int i = 0; i < attributesList.size(); i++) {
-            CompoundTag modifierTag = attributesList.getCompound(i);
-            UUID modifierId = modifierTag.getUUID("UUID");
-
-            if (modifierId.equals(id)) {
-                attributesList.remove(i); // Remove the modifier
-                removed = true;
-                break; // Exit after removing the first matching modifier
-            }
-        }
-
-        if (removed) {
-            // Update the ItemStack's NBT
-            if (attributesList.isEmpty()) {
-                pStack.getOrCreateTag().remove("AttributeModifiers"); // Remove the list if empty
-            } else {
-                pStack.getOrCreateTag().put("AttributeModifiers", attributesList);
-            }
-        }
-
-    }
 
     public static void replaceOrAddModifier(ItemStack pStack, Attribute pAttribute, UUID id, double newAmount, @javax.annotation.Nullable EquipmentSlot pSlot, AttributeModifier.Operation operation) {
         // Access the existing attribute modifiers

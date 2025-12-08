@@ -351,9 +351,6 @@ public class Mug extends BrutalityThrowingItem {
         blockToItemMap.remove(this.getBlock());
     }
 
-    public boolean canFitInsideContainerItems() {
-        return !(this.block instanceof ShulkerBoxBlock);
-    }
 
     public void onDestroyed(ItemEntity pItemEntity) {
         if (this.block instanceof ShulkerBoxBlock) {

@@ -41,7 +41,7 @@ public class ChairSeatEntity extends Entity implements BrutalityGeoEntity {
         super.tick();
         if (!level().isClientSide && tickCount % 10 == 0) {
             BlockState state = level().getBlockState(chairPos);
-            if (!(state.is(BrutalityModBlocks.WHITE_OFFICE_CHAIR.get()) || state.is(BrutalityModBlocks.BLACK_OFFICE_CHAIR.get()))) {
+            if (!(state.is(BrutalityModBlocks.WHITE_OFFICE_CHAIR.get()) || state.is(BrutalityModBlocks.BLACK_OFFICE_CHAIR.get()) || state.is(BrutalityModBlocks.TOILET.get()))) {
                 this.discard();
             }
 

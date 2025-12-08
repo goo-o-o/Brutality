@@ -13,9 +13,7 @@
     }
   },
   "pattern": [
-    "   ",
-    "%@^",
-    "   "
+    "%@^"
   ],
   "result": {
     "item": "brutality:second_heart"

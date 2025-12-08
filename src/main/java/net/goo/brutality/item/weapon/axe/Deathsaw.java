@@ -22,6 +22,7 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -30,7 +31,8 @@ public class Deathsaw extends BrutalityAxeItem {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
-    public static Vec3 hitbox = new Vec3(1, 1, 5);
+    public static final OrientedBoundingBox HITBOX = new OrientedBoundingBox(Vec3.ZERO, new Vec3(1 / 8F, 0.75, 2.5F).scale(0.5F), 0, 0, 0);
+
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
@@ -47,7 +49,7 @@ public class Deathsaw extends BrutalityAxeItem {
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack pStack) {
+    public @NotNull UseAnim getUseAnimation(ItemStack pStack) {
         return UseAnim.BOW;
     }
 
@@ -55,8 +57,8 @@ public class Deathsaw extends BrutalityAxeItem {
     @Override
     public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
         if (pLivingEntity instanceof Player player) {
-            OrientedBoundingBox.RayData targets = OrientedBoundingBox.findRayTargets(player, hitbox);
-            targets.entityList.forEach(e -> e.hurt(BrutalityDamageTypes.deathsaw(player), BrutalityCommonConfig.DEATHSAW_TICK_DAMAGE.get()));
+            OrientedBoundingBox.TargetResult<LivingEntity> targets = OrientedBoundingBox.findAttackTargetResult(player, LivingEntity.class, HITBOX, new Vec3(0, 0, 1), true);
+            targets.entities.forEach(e -> e.hurt(BrutalityDamageTypes.deathsaw(player), BrutalityCommonConfig.DEATHSAW_TICK_DAMAGE.get()));
 
             Direction lookDir = pLivingEntity.getDirection();
             BlockPos pos = pLivingEntity.blockPosition().relative(lookDir, 1);
@@ -74,6 +76,12 @@ public class Deathsaw extends BrutalityAxeItem {
         }
     }
 
+    @Override
+    public boolean onDroppedByPlayer(ItemStack item, Player player) {
+        ModUtils.removeTextureIdx(item);
+
+        return super.onDroppedByPlayer(item, player);
+    }
 
     @Override
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {

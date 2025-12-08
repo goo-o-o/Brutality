@@ -40,6 +40,10 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
         registerItemModels();
         registerConcreteVariantModels();
 
+        withExistingParent(BrutalityModBlocks.TOILET.getId().getPath(),
+                modLoc("block/" + BrutalityModBlocks.TOILET.getId().getPath()));
+        withExistingParent(BrutalityModBlocks.URINAL.getId().getPath(),
+                modLoc("block/" + BrutalityModBlocks.URINAL.getId().getPath()));
         withExistingParent(BrutalityModBlocks.UPPER_HVAC.getId().getPath(),
                 modLoc("block/" + BrutalityModBlocks.UPPER_HVAC.getId().getPath()));
         withExistingParent(BrutalityModBlocks.LOWER_HVAC.getId().getPath(),
@@ -53,10 +57,50 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
         withExistingParent(BrutalityModBlocks.OLD_SERVER_PANEL.getId().getPath(),
                 modLoc("block/" + BrutalityModBlocks.OLD_SERVER_PANEL.getId().getPath() + "_one"));
 
+        cubeAll(BrutalityModBlocks.PLASTERBOARD.getId().getPath(),
+                modLoc("block/" + BrutalityModBlocks.PLASTERBOARD.getId().getPath()));
+
+        BrutalityModBlocks.FILING_CABINETS.forEach(blockRegistryObject -> {
+            String name = blockRegistryObject.getId().getPath();
+            getBuilder(name)
+                    .parent(new ModelFile.UncheckedModelFile(mcLoc("builtin/entity")))
+                    .texture("particle", modLoc("block/" + name))
+                    .transforms()
+                    .transform(ItemDisplayContext.GUI)
+                    .rotation(30, -135, 0)
+                    .scale(0.625f)
+                    .end()
+                    .transform(ItemDisplayContext.GROUND)
+                    .translation(0, 3, 0)
+                    .scale(0.25f)
+                    .end()
+                    .transform(ItemDisplayContext.FIXED)
+                    .rotation(0, 180, 0)
+                    .scale(0.5f)
+                    .end()
+                    .transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND)
+                    .rotation(75, 45, 0)
+                    .translation(0, 2.5f, 0)
+                    .scale(0.375f)
+                    .end()
+                    .transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND)
+                    .rotation(0, 45, 0)
+                    .scale(0.4f)
+                    .end();
+        });
+
         withExistingParent(BrutalityModBlocks.PUDDLE.getId().getPath(),
                 modLoc("block/" + BrutalityModBlocks.PUDDLE.getId().getPath())).renderType(mcLoc("translucent"));
 
+        withExistingParent(BrutalityModBlocks.SMALL_OFFICE_LIGHT.getId().getPath(),
+                modLoc("block/" + BrutalityModBlocks.SMALL_OFFICE_LIGHT.getId().getPath()));
+
+        withExistingParent(BrutalityModBlocks.LIGHT_GRAY_OFFICE_RUG.getId().getPath(),
+                modLoc("block/" + BrutalityModBlocks.LIGHT_GRAY_OFFICE_RUG.getId().getPath()));
+        withExistingParent(BrutalityModBlocks.GRAY_OFFICE_RUG.getId().getPath(),
+                modLoc("block/" + BrutalityModBlocks.GRAY_OFFICE_RUG.getId().getPath()));
     }
+
 
     protected void registerItemModels() {
         Collection<RegistryObject<Item>> itemsEntries = BrutalityModItems.ITEMS.getEntries();
@@ -90,18 +134,22 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
 //                System.out.println("handheldTexturePath: " + handheldTexture);
 //                System.out.println("hasHandheldTexture: " + hasHandheldTexture);
 //                System.out.println("-------------------------------------------------------------");
-
                 if (hasHandheldTexture && hasInventoryTexture && hasHandheldModel) {
                     Brutality.LOGGER.info("generateSeparateTransforms({})", registryName);
-                    generateSeparateTransforms(registryName, inventoryTexture, handheldModel);
+                    generateSeparateTransforms(registryName, handheldTexture, inventoryTexture, handheldModel);
                 } else if (hasHandheldTexture) {
-                    Brutality.LOGGER.info("withExistingParentHandheld({})", registryName);
-                    withExistingParent(registryName, handheldModel).texture("layer0", handheldTexture);
+                    if (hasHandheldModel) {
+                        Brutality.LOGGER.info("withExistingParentHandheld({})", registryName);
+                        withExistingParent(registryName, handheldModel).texture("layer0", handheldTexture);
+                    } else {
+                        withExistingParent(registryName, "item/handheld").texture("layer0", handheldTexture);
+                    }
                 } else if (hasInventoryTexture) {
                     Brutality.LOGGER.info("withExistingParentGenerated({})", registryName);
                     withExistingParent(registryName, mcLoc("item/generated")).texture("layer0", inventoryTexture);
                 }
             } else {
+                Brutality.LOGGER.info("basicItem({})", item);
                 basicItem(item);
             }
 
@@ -110,13 +158,13 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
 
     protected void registerConcreteVariantModels() {
         for (DyeColor dyeColor : DyeColor.values()) {
-            ResourceLocation stairName =  BrutalityModBlocks.CONCRETE_STAIRS.get(dyeColor.ordinal()).getId();
+            ResourceLocation stairName = BrutalityModBlocks.CONCRETE_STAIRS.get(dyeColor.ordinal()).getId();
             if (stairName != null) {
                 withExistingParent(String.valueOf(stairName), ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + stairName.getPath()));
             }
 
             // Slabs
-            ResourceLocation slabName =  BrutalityModBlocks.CONCRETE_SLABS.get(dyeColor.ordinal()).getId();
+            ResourceLocation slabName = BrutalityModBlocks.CONCRETE_SLABS.get(dyeColor.ordinal()).getId();
             if (slabName != null) {
                 withExistingParent(String.valueOf(slabName), ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + slabName.getPath()));
             }
@@ -124,18 +172,19 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
         }
     }
 
-    private void generateSeparateTransforms(String name, ResourceLocation inventoryTexture, ResourceLocation handheldModel) {
-        ItemModelBuilder baseModel = getBuilder(name + "_base")
+    private void generateSeparateTransforms(String name, ResourceLocation handheldTexture, ResourceLocation inventoryTexture, ResourceLocation handheldModel) {
+        ItemModelBuilder baseModel = new ItemModelBuilder(modLoc(name + "_inventory"), existingFileHelper)
                 .parent(new ModelFile.UncheckedModelFile("minecraft:item/generated"))
                 .texture("layer0", inventoryTexture);
 
-        ItemModelBuilder handModelBuilder = getBuilder(name + "_handheld")
-                .parent(new ModelFile.UncheckedModelFile(handheldModel));
+        ItemModelBuilder handModelBuilder = new ItemModelBuilder(modLoc(name + "_handheld"), existingFileHelper)
+                .parent(new ModelFile.UncheckedModelFile(handheldModel))
+                .texture("layer0", handheldTexture);
 
         getBuilder(name)
                 .parent(new ModelFile.UncheckedModelFile("minecraft:item/handheld"))
                 .customLoader(SeparateTransformsModelBuilder::begin)
-                .base(baseModel)                                      // ← pre-built
+                .base(baseModel)                   // ← pre-built
                 .perspective(ItemDisplayContext.GROUND, handModelBuilder)
                 .perspective(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, handModelBuilder)
                 .perspective(ItemDisplayContext.THIRD_PERSON_LEFT_HAND, handModelBuilder)

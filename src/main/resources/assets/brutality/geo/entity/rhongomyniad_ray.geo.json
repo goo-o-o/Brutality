@@ -1,0 +1,47 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.last_prism_ray",
+				"texture_width": 32,
+				"texture_height": 32,
+				"visible_bounds_width": 5,
+				"visible_bounds_height": 101.5,
+				"visible_bounds_offset": [0, 50.25, 0]
+			},
+			"bones": [
+				{
+					"name": "main_beam",
+					"pivot": [0, 0.5, 0],
+					"cubes": [
+						{
+							"origin": [-1, 0.5, -1],
+							"size": [2, 16, 2],
+							"uv": {
+								"north": {"uv": [3, 0], "uv_size": [2, 16]},
+								"east": {"uv": [5, 0], "uv_size": [-2, 16]},
+								"south": {"uv": [3, 0], "uv_size": [2, 16]},
+								"west": {"uv": [5, 0], "uv_size": [-2, 16]},
+								"up": {"uv": [5, 0], "uv_size": [2, 2]},
+								"down": {"uv": [5, 2], "uv_size": [2, -2]}
+							}
+						},
+						{
+							"origin": [1.25, 16.75, 1.25],
+							"size": [-2.5, -16.5, -2.5],
+							"uv": {
+								"north": {"uv": [0, 0], "uv_size": [3, 17]},
+								"east": {"uv": [0, 0], "uv_size": [3, 17]},
+								"south": {"uv": [0, 0], "uv_size": [3, 17]},
+								"west": {"uv": [0, 0], "uv_size": [3, 17]},
+								"up": {"uv": [0, 17], "uv_size": [3, 3]},
+								"down": {"uv": [0, 20], "uv_size": [3, -3]}
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

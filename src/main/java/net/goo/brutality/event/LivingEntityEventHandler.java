@@ -9,7 +9,6 @@ import net.goo.brutality.item.BrutalityArmorMaterials;
 import net.goo.brutality.item.curios.charm.Sine;
 import net.goo.brutality.item.weapon.generic.CreaseOfCreation;
 import net.goo.brutality.item.weapon.hammer.AtomicJudgementHammer;
-import net.goo.brutality.item.weapon.hammer.TeratonHammer;
 import net.goo.brutality.item.weapon.spear.EventHorizonSpear;
 import net.goo.brutality.item.weapon.sword.SupernovaSword;
 import net.goo.brutality.magic.BrutalitySpell;
@@ -122,6 +121,9 @@ public class LivingEntityEventHandler {
         Player newPlayer = event.getEntity();
         ItemCooldowns newCooldowns = newPlayer.getCooldowns();
 
+        newPlayer.getCapability(BrutalityCapabilities.PLAYER_MANA_CAP).ifPresent(cap -> {
+            cap.setManaValue((float) newPlayer.getAttributeValue(ModAttributes.MAX_MANA.get()));
+        });
 
         Item diamondBooster = BrutalityModItems.DIAMOND_BOOSTER_PACK.get();
         Item evilKingBooster = BrutalityModItems.EVIL_KING_BOOSTER_PACK.get();
@@ -535,9 +537,10 @@ public class LivingEntityEventHandler {
 
 
                 handler.findFirstCurio(BrutalityModItems.HEART_OF_GOLD.get()).ifPresent(slot -> {
-                    if (victimPlayer.getAbsorptionAmount() == 0)
-                        DelayedTaskScheduler.queueServerWork(level, 1, () ->
-                                victimPlayer.setAbsorptionAmount(victimPlayer.getAbsorptionAmount() + modifiedAmount[0] / 2));
+                    float toHeal = modifiedAmount[0] * 0.25F;
+                    float maxPossible = Math.max(victimPlayer.getMaxHealth() - victimPlayer.getAbsorptionAmount(), 0);
+                    float finalToHeal = Math.min(toHeal, maxPossible);
+                    DelayedTaskScheduler.queueServerWork(level, 1, () -> victimPlayer.setAbsorptionAmount(victimPlayer.getAbsorptionAmount() + finalToHeal));
                 });
 
 

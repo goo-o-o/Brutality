@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "minecraft:stone_button"
+    },
+    "B": {
+      "item": "minecraft:water_bucket"
+    },
+    "C": {
+      "item": "minecraft:quartz_block"
+    },
+    "D": {
+      "item": "minecraft:iron_bars"
+    }
+  },
+  "pattern": [
+    "CAC",
+    "CBC",
+    "CDC"
+  ],
+  "result": {
+    "item": "brutality:urinal"
+  },
+  "show_notification": true
+}

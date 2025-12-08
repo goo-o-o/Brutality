@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/axe/deathsaw/deathsaw_active_inventory"
+  }
+}

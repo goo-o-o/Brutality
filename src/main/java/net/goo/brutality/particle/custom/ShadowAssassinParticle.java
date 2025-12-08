@@ -3,6 +3,7 @@ package net.goo.brutality.particle.custom;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
+import org.jetbrains.annotations.NotNull;
 
 import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
 
@@ -26,7 +27,7 @@ public class ShadowAssassinParticle extends TextureSheetParticle {
         this.setSpriteFromAge(spriteSet);
     }
 
-    public ParticleRenderType getRenderType() {
+    public @NotNull ParticleRenderType getRenderType() {
         return ParticleRenderType.PARTICLE_SHEET_LIT;
     }
 

@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_fridge": {
+    "has_fridge_charm": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_fridge",
+      "has_fridge_charm",
       "has_the_recipe"
     ]
   ],

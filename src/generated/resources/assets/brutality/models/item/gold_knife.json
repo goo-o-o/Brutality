@@ -9,19 +9,34 @@
   "loader": "forge:separate_transforms",
   "perspectives": {
     "firstperson_lefthand": {
-      "parent": "brutality:item/sword/gold_knife_handheld"
+      "parent": "brutality:item/sword/gold_knife_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/gold_knife/gold_knife_handheld"
+      }
     },
     "firstperson_righthand": {
-      "parent": "brutality:item/sword/gold_knife_handheld"
+      "parent": "brutality:item/sword/gold_knife_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/gold_knife/gold_knife_handheld"
+      }
     },
     "ground": {
-      "parent": "brutality:item/sword/gold_knife_handheld"
+      "parent": "brutality:item/sword/gold_knife_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/gold_knife/gold_knife_handheld"
+      }
     },
     "thirdperson_lefthand": {
-      "parent": "brutality:item/sword/gold_knife_handheld"
+      "parent": "brutality:item/sword/gold_knife_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/gold_knife/gold_knife_handheld"
+      }
     },
     "thirdperson_righthand": {
-      "parent": "brutality:item/sword/gold_knife_handheld"
+      "parent": "brutality:item/sword/gold_knife_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/gold_knife/gold_knife_handheld"
+      }
     }
   }
 }

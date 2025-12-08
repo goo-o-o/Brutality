@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:item/handheld",
+  "base": {
+    "parent": "minecraft:item/generated",
+    "textures": {
+      "layer0": "brutality:item/sword/tsukuyomi/tsukuyomi_inventory"
+    }
+  },
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "firstperson_lefthand": {
+      "parent": "brutality:item/sword/tsukuyomi_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/tsukuyomi/tsukuyomi_handheld"
+      }
+    },
+    "firstperson_righthand": {
+      "parent": "brutality:item/sword/tsukuyomi_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/tsukuyomi/tsukuyomi_handheld"
+      }
+    },
+    "ground": {
+      "parent": "brutality:item/sword/tsukuyomi_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/tsukuyomi/tsukuyomi_handheld"
+      }
+    },
+    "thirdperson_lefthand": {
+      "parent": "brutality:item/sword/tsukuyomi_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/tsukuyomi/tsukuyomi_handheld"
+      }
+    },
+    "thirdperson_righthand": {
+      "parent": "brutality:item/sword/tsukuyomi_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/tsukuyomi/tsukuyomi_handheld"
+      }
+    }
+  }
+}

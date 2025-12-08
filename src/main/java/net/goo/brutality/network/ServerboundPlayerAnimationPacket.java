@@ -49,7 +49,6 @@ public class ServerboundPlayerAnimationPacket {
                 if (player != ctx.get().getSender()) {
                     PacketHandler.sendToPlayer(new ClientboundPlayerAnimationPacket(packet.playerId, packet.animation, packet.mirrored, packet.speed), player);
                 }
-
             }
         });
         ctx.get().setPacketHandled(true);

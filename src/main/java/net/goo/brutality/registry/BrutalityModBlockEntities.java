@@ -40,6 +40,13 @@ public class BrutalityModBlockEntities {
                             BrutalityModBlocks.WHITE_FILING_CABINET.get()
                     ).build(null));
 
+    public static final RegistryObject<BlockEntityType<LightGrayFilingCabinetBlockEntity>> LIGHT_GRAY_FILING_CABINET_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("light_gray_filing_cabinet",
+                    () -> BlockEntityType.Builder.of(
+                            LightGrayFilingCabinetBlockEntity::create,
+                            BrutalityModBlocks.LIGHT_GRAY_FILING_CABINET.get()
+                    ).build(null));
+
     public static final RegistryObject<BlockEntityType<GrayFilingCabinetBlockEntity>> GRAY_FILING_CABINET_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("gray_filing_cabinet",
                     () -> BlockEntityType.Builder.of(

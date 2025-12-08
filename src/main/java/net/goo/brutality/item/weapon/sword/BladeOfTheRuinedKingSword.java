@@ -26,6 +26,7 @@ import net.minecraft.world.level.Level;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
+import java.util.UUID;
 
 public class BladeOfTheRuinedKingSword extends BrutalitySwordItem {
 
@@ -95,6 +96,8 @@ public class BladeOfTheRuinedKingSword extends BrutalitySwordItem {
         super.releaseUsing(pStack, pLevel, pLivingEntity, pTimeCharged);
     }
 
+    UUID BORK_LIFESTEAL_UUID = UUID.fromString("b38bb68d-31fd-4647-9fb2-655110b69fcb");
+
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> original = super.getAttributeModifiers(slot, stack);
@@ -103,7 +106,7 @@ public class BladeOfTheRuinedKingSword extends BrutalitySwordItem {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> newAttributes = ImmutableMultimap.builder();
             newAttributes.putAll(original);
             newAttributes.put(ModAttributes.LIFESTEAL.get(),
-                    new AttributeModifier("Lifesteal buff", 0.1, AttributeModifier.Operation.MULTIPLY_BASE));
+                    new AttributeModifier(BORK_LIFESTEAL_UUID, "Lifesteal buff", 0.1, AttributeModifier.Operation.MULTIPLY_BASE));
 
             return newAttributes.build();
         }

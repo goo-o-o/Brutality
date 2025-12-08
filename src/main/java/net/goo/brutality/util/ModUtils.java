@@ -4,12 +4,14 @@ import com.lowdragmc.photon.client.fx.EntityEffect;
 import com.lowdragmc.photon.client.fx.FX;
 import com.lowdragmc.photon.client.fx.FXRuntime;
 import net.goo.brutality.config.BrutalityCommonConfig;
+import net.goo.brutality.entity.base.BrutalityRay;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.*;
 import net.goo.brutality.particle.providers.WaveParticleData;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.phys.CircleAABB;
+import net.goo.brutality.util.phys.OrientedBoundingBox;
 import net.mcreator.terramity.init.TerramityModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,32 +26,41 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Container;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.inventory.PlayerEnderChestContainer;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import javax.annotation.Nullable;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -58,6 +69,82 @@ import java.util.stream.Collectors;
 public class ModUtils {
     protected static final RandomSource random = RandomSource.create();
 
+    private static final boolean HAS_BETTER_COMBAT = ModList.get().isLoaded("bettercombat");
+    private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
+    private static MethodHandle getComboCount;
+    private static MethodHandle getCurrentAttack;
+    private static MethodHandle shouldAttackWithOffHand;
+    private static MethodHandle getItemStack;
+
+    static {
+        if (HAS_BETTER_COMBAT) {
+            try {
+                // PlayerAttackProperties.getComboCount()
+                Class<?> propsClass = Class.forName("net.bettercombat.logic.PlayerAttackProperties");
+                Class<?> helperClass = Class.forName("net.bettercombat.logic.PlayerAttackHelper");
+                Class<?> handClass = Class.forName("net.bettercombat.api.AttackHand");
+                MethodHandles.Lookup lookup = MethodHandles.lookup();
+
+                getComboCount = lookup.findVirtual(propsClass, "getComboCount", MethodType.methodType(int.class));
+                getCurrentAttack = lookup.findStatic(helperClass, "getCurrentAttack", MethodType.methodType(handClass, Player.class, int.class));
+
+                shouldAttackWithOffHand = lookup.findStatic(helperClass, "shouldAttackWithOffHand", MethodType.methodType(boolean.class, Player.class, int.class));
+                getItemStack = lookup.findVirtual(handClass, "itemStack", MethodType.methodType(ItemStack.class));
+
+
+            } catch (Throwable t) {
+                getComboCount = null;
+            }
+        }
+    }
+
+    public static ItemStack getAttackStack(Player player) {
+        if (!HAS_BETTER_COMBAT || getComboCount == null) {
+            return player.getMainHandItem();
+        }
+
+        try {
+            // 1. Cast player to PlayerAttackProperties via unreflect + bind
+            int combo = (int) getComboCount.invoke((Object) player);
+
+            // 2. Get AttackHand
+            Object hand = getCurrentAttack.invoke(player, combo);
+            if (hand != null) {
+                return (ItemStack) getItemStack.invoke(hand);
+            }
+
+            // 3. Fallback: off-hand check
+            boolean offHand = (boolean) shouldAttackWithOffHand.invoke(player, combo);
+            return offHand ? player.getOffhandItem() : player.getMainHandItem();
+
+        } catch (Throwable t) {
+            return player.getMainHandItem(); // safe fallback
+        }
+    }
+
+    public static <T extends Entity> OrientedBoundingBox.TargetResult<T> handleRay(Player player, Class<T> clazz, OrientedBoundingBox hitbox, float zOffset, EntityType<? extends BrutalityRay> rayType, boolean shouldCollide) {
+        OrientedBoundingBox.TargetResult<T> targets = OrientedBoundingBox.findAttackTargetResult(player, clazz, hitbox, new Vec3(0,0, zOffset), shouldCollide);
+
+        if (player.level() instanceof ServerLevel serverLevel && targets.distance > 0) {
+            BrutalityRay ray = rayType.create(serverLevel);
+
+            if (ray != null) {
+                ray.setOwner(player);
+                ray.setPos(OrientedBoundingBox.getShoulderPosition(player).add(player.getLookAngle().scale(zOffset)));
+                ray.setYRot(player.getYRot());
+                ray.setXRot(player.getXRot());
+                ray.setDataMaxLength(targets.distance - zOffset);
+                serverLevel.addFreshEntity(ray);
+            }
+        }
+        return targets;
+    }
+
+    public static boolean doubleDownRestricted(Container c) {
+        return
+                c instanceof CraftingContainer || c instanceof PlayerEnderChestContainer
+                        || c instanceof BaseContainerBlockEntity;
+    }
 
     public static float getAttackDamage(@Nullable Entity entity) {
         if (entity instanceof LivingEntity livingEntity) {
@@ -483,28 +570,33 @@ public class ModUtils {
     public static void modifyEffect(LivingEntity livingEntity, MobEffect mobEffect, @Nullable ModValue durationMod, @Nullable ModValue amplifierMod, Integer limit, @Nullable Consumer<LivingEntity> ifAbsent, @Nullable Consumer<LivingEntity> ifLimit) {
         if (livingEntity.hasEffect(mobEffect)) {
             MobEffectInstance original = livingEntity.getEffect(mobEffect);
-            if (original.getAmplifier() >= limit && ifLimit != null) {
-                ifLimit.accept(livingEntity);
+            if (original != null) {
+                if (limit != null && ifLimit != null) {
+                    if (original.getAmplifier() >= limit) {
+                        ifLimit.accept(livingEntity);
+                    }
+                    return;
+                }
+
+                int newDuration = original.getDuration();
+                int newAmplifier = original.getAmplifier();
+
+                if (durationMod != null)
+                    if (durationMod.overwrite()) {
+                        newDuration = durationMod.value;
+                    } else {
+                        newDuration += durationMod.value;
+                    }
+
+                if (amplifierMod != null)
+                    if (amplifierMod.overwrite()) {
+                        newAmplifier = amplifierMod.value;
+                    } else {
+                        newAmplifier += amplifierMod.value;
+                    }
+
+                livingEntity.addEffect(new MobEffectInstance(mobEffect, newDuration, newAmplifier, original.isAmbient(), original.isVisible(), original.showIcon()));
             }
-
-            int newDuration = original.getDuration();
-            int newAmplifier = original.getAmplifier();
-
-            if (durationMod != null)
-                if (durationMod.overwrite()) {
-                    newDuration = durationMod.value;
-                } else {
-                    newDuration += durationMod.value;
-                }
-
-            if (amplifierMod != null)
-                if (amplifierMod.overwrite()) {
-                    newAmplifier = amplifierMod.value;
-                } else {
-                    newAmplifier += amplifierMod.value;
-                }
-
-            livingEntity.addEffect(new MobEffectInstance(mobEffect, newDuration, newAmplifier, original.isAmbient(), original.isVisible(), original.showIcon()));
         } else if (ifAbsent != null) {
             ifAbsent.accept(livingEntity);
         }

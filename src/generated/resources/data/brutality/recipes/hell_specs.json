@@ -14,8 +14,7 @@
   },
   "pattern": [
     "A A",
-    "BCB",
-    "   "
+    "BCB"
   ],
   "result": {
     "item": "brutality:hell_specs"

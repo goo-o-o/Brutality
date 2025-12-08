@@ -1,17 +1,18 @@
 package net.goo.brutality.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.goo.brutality.event.LivingDodgeEvent;
 import net.goo.brutality.item.base.BrutalityAnkletItem;
 import net.goo.brutality.item.weapon.scythe.DarkinScythe;
-import net.goo.brutality.network.ClientboundDodgePacket;
-import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.BrutalityEntityRotations;
 import net.goo.brutality.util.ModUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
@@ -29,6 +30,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,8 +43,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
-
-import java.lang.reflect.Method;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements BrutalityEntityRotations {
@@ -90,7 +91,7 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
 
         if (effect == BrutalityModMobEffects.STUNNED.get()) {
             if (entity.getAttribute(ModAttributes.TENACITY.get()) != null) {
-            int duration = (int) (originalDuration * (2 - entity.getAttributeValue(ModAttributes.TENACITY.get())));
+                int duration = (int) (originalDuration * (2 - entity.getAttributeValue(ModAttributes.TENACITY.get())));
                 duration = Math.max(duration, 1);
 
                 modifiedInstance = new MobEffectInstance(effect, duration,
@@ -109,15 +110,22 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
         if (!pDamageSource.is(DamageTypeTags.BYPASSES_ARMOR)) {
             LivingEntity target = (LivingEntity) (Object) this;
             Entity attacker = pDamageSource.getEntity();
-            if (attacker instanceof Player player) {
-                double lethalityValue = player.getAttributeValue(ModAttributes.LETHALITY.get());
-                double armorPenValue = player.getAttributeValue(ModAttributes.ARMOR_PENETRATION.get());
 
-                float modifiedArmor = target.getArmorValue();
-                modifiedArmor *= (float) (2 - armorPenValue);
-                modifiedArmor -= (float) lethalityValue;
-                float modifiedDamage = CombatRules.getDamageAfterAbsorb(pDamageAmount, modifiedArmor, (float) target.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
-                cir.setReturnValue(modifiedDamage);
+            if (attacker instanceof Player player) {
+                // Check if attacker has the custom attributes before accessing them
+                AttributeInstance lethalityAttr = player.getAttribute(ModAttributes.LETHALITY.get());
+                AttributeInstance armorPenAttr = player.getAttribute(ModAttributes.ARMOR_PENETRATION.get());
+
+                if (lethalityAttr != null && armorPenAttr != null) {
+                    double lethalityValue = lethalityAttr.getValue();
+                    double armorPenValue = armorPenAttr.getValue();
+
+                    float modifiedArmor = target.getArmorValue();
+                    modifiedArmor *= (float) (2 - armorPenValue);
+                    modifiedArmor -= (float) lethalityValue;
+                    float modifiedDamage = CombatRules.getDamageAfterAbsorb(pDamageAmount, modifiedArmor, (float) target.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
+                    cir.setReturnValue(modifiedDamage);
+                }
             }
         }
     }
@@ -128,7 +136,6 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
         LivingEntity livingEntity = (LivingEntity) (Object) this;
         AttributeInstance jumpAttr = livingEntity.getAttribute(ModAttributes.JUMP_HEIGHT.get());
         if (jumpAttr != null) {
-
             return (float) (original + ((jumpAttr.getValue() - 1.2522) * 0.159)); // 0.159 jump power = 1 block
         }
         return original;
@@ -159,16 +166,8 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
                             for (int i = 0; i < stacksHandler.getSlots(); i++) {
                                 ItemStack stack = stacksHandler.getStacks().getStackInSlot(i);
                                 if (stack.getItem() instanceof BrutalityAnkletItem ankletItem) {
-
-                                    try {
-                                        Method method = ankletItem.getClass().getDeclaredMethod("onDodgeServer", LivingEntity.class, DamageSource.class, float.class, ItemStack.class);
-                                        if (method.getDeclaringClass() != BrutalityAnkletItem.class) {
-                                            ankletItem.onDodgeServer(livingEntity, pSource, pAmount, stack);
-                                            PacketHandler.sendToAllClients(new ClientboundDodgePacket(livingEntity.getId(), pSource, pAmount, stack));
-                                        }
-                                    } catch (NoSuchMethodException ignored) {
-
-                                    }
+                                    ankletItem.onDodgeServer(livingEntity, pSource, pAmount, stack);
+//                                            PacketHandler.sendToAllClients(new ClientboundDodgePacket(livingEntity.getId(), pSource, pAmount, stack));
                                 }
                             }
                         }));
@@ -195,27 +194,17 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
                 cir.setReturnValue(false);
     }
 
-//    @WrapOperation(
-//            method = "travel",
-//            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F")
-//    )
-//    private float wrapGetFriction(BlockState state, LevelReader level, BlockPos pos, Entity entity, Operation<Float> original) {
-//        float friction = original.call(state, level, pos, entity);
-//        if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(BrutalityModMobEffects.OILED.get())) {
-//            return (float) Math.min(1.099, 1F + livingEntity.getEffect(BrutalityModMobEffects.OILED.get()).getAmplifier() * 0.02F);
-//        }
-//        return friction;
-//    }
 
-//    @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F"))
-//    private float getFriction(BlockState state, LevelReader level, BlockPos pos, Entity entity) {
-//        if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(BrutalityModMobEffects.OILED.get())) {
-//            return (float) Math.min(1.099, 1F + livingEntity.getEffect(BrutalityModMobEffects.OILED.get()).getAmplifier() * 0.2F);
-//        }
-//
-//        return state.getFriction(level, pos, entity);
-//    }
-
+    @WrapOperation(
+            method = "travel",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F")
+    )
+    private float wrapGetFriction(BlockState instance, LevelReader levelReader, BlockPos blockPos, Entity entity, Operation<Float> original) {
+        if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(BrutalityModMobEffects.OILED.get())) {
+            return (float) Math.min(1.099, 1F + livingEntity.getEffect(BrutalityModMobEffects.OILED.get()).getAmplifier() * 0.02F);
+        }
+        return original.call(instance, levelReader, blockPos, entity);
+    }
 
     @Inject(
             method = "getJumpPower",

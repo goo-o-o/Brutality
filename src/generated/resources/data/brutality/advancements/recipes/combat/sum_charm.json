@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_conductite_smithing_template": {
+    "has_conductite_upgrade_smithing_template": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_conductite_smithing_template",
+      "has_conductite_upgrade_smithing_template",
       "has_the_recipe"
     ]
   ],

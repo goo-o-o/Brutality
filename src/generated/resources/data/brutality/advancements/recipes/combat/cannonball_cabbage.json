@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_ball_and_chain": {
+    "has_ball_n_chain": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_ball_and_chain",
+      "has_ball_n_chain",
       "has_the_recipe"
     ]
   ],

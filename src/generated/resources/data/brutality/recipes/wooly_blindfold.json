@@ -7,9 +7,7 @@
     }
   },
   "pattern": [
-    "   ",
-    "###",
-    "   "
+    "###"
   ],
   "result": {
     "item": "brutality:wooly_blindfold"

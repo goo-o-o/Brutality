@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_pepper_shaker": {
+    "has_pepper_shaker_charm": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_pepper_shaker",
+      "has_pepper_shaker_charm",
       "has_the_recipe"
     ]
   ],

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "minecraft:black_concrete"
+    },
+    "B": {
+      "item": "minecraft:redstone_lamp"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "item": "brutality:lcd_monitor"
+  },
+  "show_notification": true
+}

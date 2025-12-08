@@ -665,5 +665,21 @@
         "name": "brutality:chainsaw_stop"
       }
     ]
+  },
+  "blood_magic_missile": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:blood_magic_missile"
+      }
+    ]
+  },
+  "void_slash": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:void_slash"
+      }
+    ]
   }
 }

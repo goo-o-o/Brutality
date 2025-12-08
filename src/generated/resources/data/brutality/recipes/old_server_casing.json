@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "minecraft:iron_ingot"
+    },
+    "B": {
+      "item": "terramity:conductite"
+    },
+    "C": {
+      "item": "minecraft:gray_dye"
+    }
+  },
+  "pattern": [
+    "ACA",
+    "ABA",
+    "ACA"
+  ],
+  "result": {
+    "count": 9,
+    "item": "brutality:old_server_casing"
+  },
+  "show_notification": true
+}

@@ -9,19 +9,34 @@
   "loader": "forge:separate_transforms",
   "perspectives": {
     "firstperson_lefthand": {
-      "parent": "brutality:item/trident/depth_crusher_handheld"
+      "parent": "brutality:item/trident/depth_crusher_handheld",
+      "textures": {
+        "layer0": "brutality:item/trident/depth_crusher/depth_crusher_handheld"
+      }
     },
     "firstperson_righthand": {
-      "parent": "brutality:item/trident/depth_crusher_handheld"
+      "parent": "brutality:item/trident/depth_crusher_handheld",
+      "textures": {
+        "layer0": "brutality:item/trident/depth_crusher/depth_crusher_handheld"
+      }
     },
     "ground": {
-      "parent": "brutality:item/trident/depth_crusher_handheld"
+      "parent": "brutality:item/trident/depth_crusher_handheld",
+      "textures": {
+        "layer0": "brutality:item/trident/depth_crusher/depth_crusher_handheld"
+      }
     },
     "thirdperson_lefthand": {
-      "parent": "brutality:item/trident/depth_crusher_handheld"
+      "parent": "brutality:item/trident/depth_crusher_handheld",
+      "textures": {
+        "layer0": "brutality:item/trident/depth_crusher/depth_crusher_handheld"
+      }
     },
     "thirdperson_righthand": {
-      "parent": "brutality:item/trident/depth_crusher_handheld"
+      "parent": "brutality:item/trident/depth_crusher_handheld",
+      "textures": {
+        "layer0": "brutality:item/trident/depth_crusher/depth_crusher_handheld"
+      }
     }
   }
 }

@@ -3,6 +3,9 @@ package net.goo.brutality.event.mod.client;
 import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
 import net.goo.brutality.block.custom.DustbinBlock;
+import net.goo.brutality.config.BrutalityClientConfig;
+import net.goo.brutality.datagen.ingredients.AnySharpnessBookIngredient;
+import net.goo.brutality.gui.RageMeter;
 import net.goo.brutality.gui.screen.FilingCabinetScreen;
 import net.goo.brutality.registry.BrutalityMenuTypes;
 import net.goo.brutality.registry.BrutalityModBlocks;
@@ -14,15 +17,43 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 
 import static net.goo.brutality.Brutality.MOD_ID;
 
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModClientSetup {
+    @SubscribeEvent
+    public static void onConfigReload(ModConfigEvent.Reloading event) {
+        if (event.getConfig().getSpec() == BrutalityClientConfig.SPEC) {
+            RageMeter.updateConfig();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onConfigLoad(ModConfigEvent.Loading event) {
+        if (event.getConfig().getSpec() == BrutalityClientConfig.SPEC) {
+            RageMeter.updateConfig();
+        }
+    }
+
+
+    @SubscribeEvent
+    public static void register(RegisterEvent event) {
+        event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS, reg -> {
+            CraftingHelper.register(
+                    AnySharpnessBookIngredient.Serializer.ID,
+                    AnySharpnessBookIngredient.Serializer.INSTANCE
+            );
+        });
+    }
 
     @SubscribeEvent
     public static void registerBlockColorHandlersEvent(RegisterColorHandlersEvent.Block event) {

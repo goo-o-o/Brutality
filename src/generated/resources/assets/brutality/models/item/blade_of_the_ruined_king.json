@@ -9,19 +9,34 @@
   "loader": "forge:separate_transforms",
   "perspectives": {
     "firstperson_lefthand": {
-      "parent": "brutality:item/sword/blade_of_the_ruined_king_handheld"
+      "parent": "brutality:item/sword/blade_of_the_ruined_king_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/blade_of_the_ruined_king/blade_of_the_ruined_king_handheld"
+      }
     },
     "firstperson_righthand": {
-      "parent": "brutality:item/sword/blade_of_the_ruined_king_handheld"
+      "parent": "brutality:item/sword/blade_of_the_ruined_king_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/blade_of_the_ruined_king/blade_of_the_ruined_king_handheld"
+      }
     },
     "ground": {
-      "parent": "brutality:item/sword/blade_of_the_ruined_king_handheld"
+      "parent": "brutality:item/sword/blade_of_the_ruined_king_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/blade_of_the_ruined_king/blade_of_the_ruined_king_handheld"
+      }
     },
     "thirdperson_lefthand": {
-      "parent": "brutality:item/sword/blade_of_the_ruined_king_handheld"
+      "parent": "brutality:item/sword/blade_of_the_ruined_king_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/blade_of_the_ruined_king/blade_of_the_ruined_king_handheld"
+      }
     },
     "thirdperson_righthand": {
-      "parent": "brutality:item/sword/blade_of_the_ruined_king_handheld"
+      "parent": "brutality:item/sword/blade_of_the_ruined_king_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/blade_of_the_ruined_king/blade_of_the_ruined_king_handheld"
+      }
     }
   }
 }

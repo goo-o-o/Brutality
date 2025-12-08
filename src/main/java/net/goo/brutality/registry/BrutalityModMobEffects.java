@@ -32,7 +32,7 @@ public class BrutalityModMobEffects {
             () -> new AngryEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 255, 40, 0)));
 
     public static final RegistryObject<MobEffect> ENRAGED = EFFECTS.register("enraged",
-            () -> new EnragedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 0, 0)));
+            () -> new EnragedEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 255, 0, 0)));
 
 
     public static final RegistryObject<MobEffect> THE_VOID = EFFECTS.register("the_void",

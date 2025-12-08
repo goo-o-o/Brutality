@@ -7,7 +7,7 @@
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_tomato_sauce": {
+    "has_tomato_sauce_charm": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_tomato_sauce",
+      "has_tomato_sauce_charm",
       "has_the_recipe"
     ]
   ],

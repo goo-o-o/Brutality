@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:excalibur"
+    },
+    "B": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "  A",
+    " B ",
+    "B  "
+  ],
+  "result": {
+    "item": "brutality:rhongomyniad"
+  },
+  "show_notification": true
+}

@@ -7,7 +7,9 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.util.FastColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class ColorUtils {
     private static final int WHITE = FastColor.ARGB32.color(255, 255, 255, 255);
 
@@ -91,9 +93,10 @@ public class ColorUtils {
 
     // Helper to get tick count safely
     private static int getTickCount() {
-        return DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
-            if (Minecraft.getInstance().player != null) return Minecraft.getInstance().player.tickCount;
-            return (int) (System.currentTimeMillis() / 50L);
+        Integer clientTicks = DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
+            var mc = Minecraft.getInstance();
+            return mc.player != null ? mc.player.tickCount : (int) (System.currentTimeMillis() / 50L);
         });
+        return clientTicks != null ? clientTicks : (int) (System.currentTimeMillis() / 50L);
     }
 }

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:sharpening_stone"
+    },
+    "B": {
+      "item": "terramity:hellspec_alloy"
+    }
+  },
+  "pattern": [
+    " AB",
+    " B ",
+    "B  "
+  ],
+  "result": {
+    "item": "brutality:crimson_scissor_blade"
+  },
+  "show_notification": true
+}

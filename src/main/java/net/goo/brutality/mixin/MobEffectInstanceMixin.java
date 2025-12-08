@@ -32,26 +32,29 @@ public class MobEffectInstanceMixin {
 
         CuriosApi.getCuriosInventory(pEntity).ifPresent(handler -> {
             Random random = ModUtils.getSyncedSeededRandom(pEntity);
-            if (handler.findFirstCurio(BrutalityModItems.THE_CLOCK_OF_FROZEN_TIME.get()).isPresent() && random.nextFloat() < TCOFT_TICK_CHANCE) {
-                if (effectInstance.getEffect().isBeneficial()) {
+            if (!effectInstance.isInfiniteDuration()) {
+                if (handler.findFirstCurio(BrutalityModItems.THE_CLOCK_OF_FROZEN_TIME.get()).isPresent() && random.nextFloat() < TCOFT_TICK_CHANCE) {
+                    if (effectInstance.getEffect().isBeneficial()) {
+                        cir.setReturnValue(effectInstance.getDuration() > 0);
+                    }
+                } else if (handler.findFirstCurio(BrutalityModItems.TIMEKEEPERS_CLOCK.get()).isPresent() && random.nextFloat() < TIMEKEEPERS_CLOCK_TICK_CHANCE) {
+                    if (effectInstance.getEffect().isBeneficial()) {
+                        cir.setReturnValue(effectInstance.getDuration() > 0);
+                    }
+                } else if (handler.findFirstCurio(BrutalityModItems.SUNDERED_CLOCK.get()).isPresent() && random.nextFloat() < SUNDERED_CLOCK_TICK_CHANCE) {
+                    if (effectInstance.getEffect().isBeneficial()) {
+                        cir.setReturnValue(effectInstance.getDuration() > 0);
+                    }
+                } else if (handler.findFirstCurio(BrutalityModItems.SHATTERED_CLOCK.get()).isPresent() && random.nextFloat() < SHATTERED_CLOCK_TICK_CHANCE) {
+                    if (effectInstance.getEffect().isBeneficial()) {
+                        cir.setReturnValue(effectInstance.getDuration() > 0);
+                    }
+                } else if (handler.findFirstCurio(BrutalityModItems.BROKEN_CLOCK.get()).isPresent() && random.nextFloat() < BROKEN_CLOCK_TICK_CHANCE) {
                     cir.setReturnValue(effectInstance.getDuration() > 0);
                 }
-            } else if (handler.findFirstCurio(BrutalityModItems.TIMEKEEPERS_CLOCK.get()).isPresent() && random.nextFloat() < TIMEKEEPERS_CLOCK_TICK_CHANCE) {
-                if (effectInstance.getEffect().isBeneficial()) {
-                    cir.setReturnValue(effectInstance.getDuration() > 0);
-                }
-            } else if (handler.findFirstCurio(BrutalityModItems.SUNDERED_CLOCK.get()).isPresent() && random.nextFloat() < SUNDERED_CLOCK_TICK_CHANCE) {
-                if (effectInstance.getEffect().isBeneficial()) {
-                    cir.setReturnValue(effectInstance.getDuration() > 0);
-                }
-            } else if (handler.findFirstCurio(BrutalityModItems.SHATTERED_CLOCK.get()).isPresent() && random.nextFloat() < SHATTERED_CLOCK_TICK_CHANCE) {
-                if (effectInstance.getEffect().isBeneficial()) {
-                    cir.setReturnValue(effectInstance.getDuration() > 0);
-                }
-            } else if (handler.findFirstCurio(BrutalityModItems.BROKEN_CLOCK.get()).isPresent() && random.nextFloat() < BROKEN_CLOCK_TICK_CHANCE) {
-                cir.setReturnValue(effectInstance.getDuration() > 0);
             }
         });
 
     }
+
 }

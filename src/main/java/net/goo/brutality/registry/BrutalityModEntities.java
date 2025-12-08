@@ -6,7 +6,6 @@ import net.goo.brutality.entity.base.BrutalityAbstractTrident;
 import net.goo.brutality.entity.base.BrutalityArrow;
 import net.goo.brutality.entity.mobs.SummonedStray;
 import net.goo.brutality.entity.projectile.arrow.LightArrow;
-import net.goo.brutality.entity.projectile.beam.TerraBeam;
 import net.goo.brutality.entity.projectile.generic.*;
 import net.goo.brutality.entity.projectile.ray.ExplosionRay;
 import net.goo.brutality.entity.projectile.ray.LastPrismRay;
@@ -205,6 +204,19 @@ public class BrutalityModEntities {
             ENTITY_TYPES.register("abyss_projectile", () -> EntityType.Builder.of(AbyssProjectile::new,
                     MobCategory.MISC).sized(0.25F, 0.25F).build("abyss_projectile"));
 
+    public static final RegistryObject<EntityType<RhongomyniadRay>> RHONGOMYNIAD_RAY =
+            ENTITY_TYPES.register("rhongomyniad_ray", () -> EntityType.Builder.of(RhongomyniadRay::new,
+                            MobCategory.MISC).sized(0, 0).setCustomClientFactory((packet, level) ->
+                            new RhongomyniadRay(BrutalityModEntities.RHONGOMYNIAD_RAY.get(), level))
+                    .build("rhongomyniad_ray"));
+
+    public static final RegistryObject<EntityType<Bloodslash>> BLOODSLASH =
+            ENTITY_TYPES.register("bloodslash", () -> EntityType.Builder.of(Bloodslash::new,
+                    MobCategory.MISC).sized(3, 0.0625F).build("bloodslash"));
+    public static final RegistryObject<EntityType<ShadowflameSlash>> SHADOWFLAME_SLASH =
+            ENTITY_TYPES.register("shadowflame_slash", () -> EntityType.Builder.of(ShadowflameSlash::new,
+                    MobCategory.MISC).sized(3, 0.0625F).build("shadowflame_slash"));
+
     public static final RegistryObject<EntityType<ThrownThunderbolt>> THROWN_THUNDERBOLT_ENTITY =
             ENTITY_TYPES.register("thrown_thunderbolt",
                     () -> EntityType.Builder.<ThrownThunderbolt>of(ThrownThunderbolt::new, MobCategory.MISC)
@@ -243,9 +255,6 @@ public class BrutalityModEntities {
                             .sized(3.0f, 3.0f)
                             .build("cruel_sun"));
 
-    public static final RegistryObject<EntityType<TerraBeam>> TERRA_BEAM =
-            ENTITY_TYPES.register("terra_beam", () -> EntityType.Builder.of(TerraBeam::new,
-                    MobCategory.MISC).sized(1F, 3F).build("terra_beam"));
 
 //    public static final RegistryObject<EntityType<ExcaliburBeam>> EXCALIBUR_BEAM =
 //            ENTITY_TYPES.register("excalibur_beam", () -> EntityType.Builder.of(ExcaliburBeam::new,

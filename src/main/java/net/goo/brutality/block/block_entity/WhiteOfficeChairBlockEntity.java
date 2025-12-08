@@ -26,6 +26,7 @@ public class WhiteOfficeChairBlockEntity extends BlockEntity implements PreciseR
     }
 
 
+
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag) {
         super.saveAdditional(tag);

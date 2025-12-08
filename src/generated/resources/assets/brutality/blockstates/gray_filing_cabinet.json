@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=east,lower_open=false,upper_open=false": {
+      "model": "brutality:block/gray_filing_cabinet"
+    },
+    "facing=east,lower_open=false,upper_open=true": {
+      "model": "brutality:block/gray_filing_cabinet"
+    },
+    "facing=east,lower_open=true,upper_open=false": {
+      "model": "brutality:block/gray_filing_cabinet"
+    },
+    "facing=east,lower_open=true,upper_open=true": {
+      "model": "brutality:block/gray_filing_cabinet"
+    },
+    "facing=north,lower_open=false,upper_open=false": {
+      "model": "brutality:block/gray_filing_cabinet",
+      "y": 270
+    },
+    "facing=north,lower_open=false,upper_open=true": {
+      "model": "brutality:block/gray_filing_cabinet",
+      "y": 270
+    },
+    "facing=north,lower_open=true,upper_open=false": {
+      "model": "brutality:block/gray_filing_cabinet",
+      "y": 270
+    },
+    "facing=north,lower_open=true,upper_open=true": {
+      "model": "brutality:block/gray_filing_cabinet",
+      "y": 270
+    },
+    "facing=south,lower_open=false,upper_open=false": {
+      "model": "brutality:block/gray_filing_cabinet",
+      "y": 90
+    },
+    "facing=south,lower_open=false,upper_open=true": {
+      "model": "brutality:block/gray_filing_cabinet",
+      "y": 90
+    },
+    "facing=south,lower_open=true,upper_open=false": {
+      "model": "brutality:block/gray_filing_cabinet",
+      "y": 90
+    },
+    "facing=south,lower_open=true,upper_open=true": {
+      "model": "brutality:block/gray_filing_cabinet",
+      "y": 90
+    },
+    "facing=west,lower_open=false,upper_open=false": {
+      "model": "brutality:block/gray_filing_cabinet",
+      "y": 180
+    },
+    "facing=west,lower_open=false,upper_open=true": {
+      "model": "brutality:block/gray_filing_cabinet",
+      "y": 180
+    },
+    "facing=west,lower_open=true,upper_open=false": {
+      "model": "brutality:block/gray_filing_cabinet",
+      "y": 180
+    },
+    "facing=west,lower_open=true,upper_open=true": {
+      "model": "brutality:block/gray_filing_cabinet",
+      "y": 180
+    }
+  }
+}

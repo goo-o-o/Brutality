@@ -1,5 +1,6 @@
 package net.goo.brutality.mixin;
 
+import net.goo.brutality.util.helpers.NbtHelper;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,11 +22,9 @@ public abstract class ExperienceOrbMixin {
             value = "INVOKE",
             target = "Lnet/minecraft/world/item/enchantment/EnchantmentHelper;getRandomItemWith(Lnet/minecraft/world/item/enchantment/Enchantment;Lnet/minecraft/world/entity/LivingEntity;Ljava/util/function/Predicate;)Ljava/util/Map$Entry;"))
     private Map.Entry<EquipmentSlot, ItemStack> modifyMendingSelection(Enchantment enchantment, LivingEntity entity, Predicate<ItemStack> originalPredicate) {
-        Predicate<ItemStack> combinedPredicate = stack ->
-                originalPredicate.test(stack) &&
-                        (stack.getTag() == null || !stack.getTag().contains("fromDoubleDown"));
+        Predicate<ItemStack> combinedPredicate = stack -> originalPredicate.test(stack) && !NbtHelper.getBool(stack, "fromDoubleDown", false);
 
         return EnchantmentHelper.getRandomItemWith(Enchantments.MENDING, entity, combinedPredicate);
     }
-    
+
 }

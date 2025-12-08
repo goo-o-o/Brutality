@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:hellspec_alloy"
+    },
+    "B": {
+      "item": "terramity:diamond_gauntlet"
+    },
+    "C": {
+      "item": "terramity:occult_fabric"
+    }
+  },
+  "pattern": [
+    " A ",
+    "CBC",
+    " A "
+  ],
+  "result": {
+    "item": "brutality:knuckle_wraps"
+  },
+  "show_notification": true
+}

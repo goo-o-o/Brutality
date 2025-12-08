@@ -7,13 +7,20 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.item.Rarity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class BrutalityTooltipHelper {
-
+    private static final int WHITE = FastColor.ARGB32.color(255, 255, 255, 255);
     public static Component getRarityName(String translationKey, Rarity rarity) {
         assert Minecraft.getInstance().player != null;
         ModRarities.RarityData rarityData = ModRarities.getGradientForRarity(rarity);
+        if (rarityData == null) {
+            return BrutalityTooltipHelper.tooltipHelper(translationKey, false, null, 1F, 1F, WHITE);
+        }
         return BrutalityTooltipHelper.tooltipHelper(translationKey, rarityData.bold, null, rarityData.waveSpeed, rarityData.spread, rarityData.colors);
     }
 
@@ -33,7 +40,7 @@ public class BrutalityTooltipHelper {
     }
 
     public enum ItemDescriptionComponents {
-        ACTIVE, PASSIVE, FULL_SET_PASSIVE, FULL_SET_ACTIVE, ON_HIT, WHEN_THROWN, ON_SWING, ON_RIGHT_CLICK, ON_SHIFT_RIGHT_CLICK, LORE, ON_KILL, ON_SHOOT, ON_HOLD_RIGHT_CLICK, CHARM, DASH_ABILITY, ON_SUCCESSFUL_DODGE, MANA_COST
+        ACTIVE, PASSIVE, FULL_SET_PASSIVE, FULL_SET_ACTIVE, ON_HIT, WHEN_THROWN, ON_SWING, ON_LEFT_CLICKING_ENTITY, ON_RIGHT_CLICK, ON_SHIFT_RIGHT_CLICK, LORE, ON_KILL, ON_SHOOT, ON_HOLD_RIGHT_CLICK, CHARM, DASH_ABILITY, ON_SUCCESSFUL_DODGE, MANA_COST
     }
 
     public record SpellStatComponent(SpellStatComponents type, float base, float levelDelta, Float min, Float max) {

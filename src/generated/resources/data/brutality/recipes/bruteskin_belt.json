@@ -11,8 +11,7 @@
   },
   "pattern": [
     " A ",
-    " B ",
-    "   "
+    " B "
   ],
   "result": {
     "item": "brutality:bruteskin_belt"

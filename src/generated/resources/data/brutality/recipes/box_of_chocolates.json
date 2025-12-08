@@ -10,9 +10,8 @@
     }
   },
   "pattern": [
-    " A ",
-    "AB ",
-    "   "
+    " A",
+    "AB"
   ],
   "result": {
     "item": "brutality:box_of_chocolates"

@@ -29,13 +29,13 @@ public class ForgeGrindstoneHandler {
                     Map.of(Enchantments.LOYALTY, 5, Enchantments.INFINITY_ARROWS, 1), // Allowed enchantments
                     Map.of(Enchantments.LOYALTY, 5, Enchantments.INFINITY_ARROWS, 1)  // Forced enchantments
             );
-        } else if (targetStack.getItem() == BrutalityModItems.TERRATON_HAMMER.get()) {
-            handleGrindstoneEvent(
-                    event,
-                    targetStack,
-                    Map.of(Enchantments.KNOCKBACK, 4), // Allowed enchantments
-                    Map.of(Enchantments.KNOCKBACK, 4)  // Forced enchantments
-            );
+//        } else if (targetStack.getItem() == BrutalityModItems.TERRATON_HAMMER.get()) {
+//            handleGrindstoneEvent(
+//                    event,
+//                    targetStack,
+//                    Map.of(Enchantments.KNOCKBACK, 4), // Allowed enchantments
+//                    Map.of(Enchantments.KNOCKBACK, 4)  // Forced enchantments
+//            );
         } else if (targetStack.getItem() instanceof BrutalityScytheItem) {
             handleGrindstoneEvent(
                     event,

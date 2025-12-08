@@ -2,6 +2,7 @@ package net.goo.brutality.gui.menu;
 
 import net.goo.brutality.block.block_entity.WhiteFilingCabinetBlockEntity;
 import net.goo.brutality.registry.BrutalityMenuTypes;
+import net.goo.brutality.registry.BrutalityModItems;
 import net.mcreator.terramity.item.CardboardItem;
 import net.minecraft.core.NonNullList;
 import net.minecraft.tags.ItemTags;
@@ -73,7 +74,7 @@ public class FilingCabinetMenu extends AbstractContainerMenu {
 
                             @Override
                             public boolean canPlaceItem(int pIndex, ItemStack pStack) {
-                                return pStack.is(Items.PAPER) || pStack.is(ItemTags.LECTERN_BOOKS) ||
+                                return pStack.is(Items.PAPER) || pStack.is(ItemTags.LECTERN_BOOKS) || pStack.is(BrutalityModItems.IMPORTANT_DOCUMENTS.get()) ||
                                         pStack.is(Items.ENCHANTED_BOOK) || pStack.is(Items.BOOK) || pStack.getItem() instanceof CardboardItem;
                             }
 

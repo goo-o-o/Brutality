@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:stick"
+    },
+    "B": {
+      "item": "terramity:prismatic_jewel"
+    },
+    "C": {
+      "item": "terramity:iridescent_shard"
+    }
+  },
+  "pattern": [
+    "CBC",
+    "CBC",
+    " A "
+  ],
+  "result": {
+    "item": "brutality:prismatic_greatsword"
+  },
+  "show_notification": true
+}

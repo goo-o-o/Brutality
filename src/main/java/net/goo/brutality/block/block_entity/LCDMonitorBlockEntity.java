@@ -30,6 +30,7 @@ public class LCDMonitorBlockEntity extends BlockEntity implements PreciseRotatab
         tag.putInt(ROTATION_KEY, rotation);
     }
 
+
     @Override
     public void load(@NotNull CompoundTag tag) {
         super.load(tag);

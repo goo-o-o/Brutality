@@ -17,7 +17,7 @@ import static net.goo.brutality.Brutality.MOD_ID;
 public class ForgeClientTooltipHandler {
 
     @SubscribeEvent
-    public static void tooltipColorHandler(RenderTooltipEvent.Color event) {
+    public static void onRenderTooltipColor(RenderTooltipEvent.Color event) {
         ItemStack stack = event.getItemStack();
         Item item = stack.getItem();
         Rarity rarity = item.getRarity(stack);
@@ -29,8 +29,9 @@ public class ForgeClientTooltipHandler {
                 event.setBorderStart(ColorUtils.getCyclingColor(0.05f, colors[0], colors[1]));
                 event.setBorderEnd(ColorUtils.getCyclingColor(0.05f, colors[1], colors[0]));
 
+
+
             }
         }
     }
-
 }

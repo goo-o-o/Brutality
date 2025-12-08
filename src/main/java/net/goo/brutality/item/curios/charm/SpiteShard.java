@@ -4,11 +4,12 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityCurioItem;
-import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
+import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -49,7 +50,7 @@ public class SpiteShard extends BrutalityCurioItem {
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
+        if (slotContext.entity() instanceof Player player && player.level() instanceof ServerLevel) {
             if (player.tickCount % 20 == 0) {
                 List<Mob> aggroEntities =
                         player.level().getNearbyEntities(Mob.class, TargetingConditions.forCombat().selector(e -> e instanceof Mob mob && mob.getTarget() == player),

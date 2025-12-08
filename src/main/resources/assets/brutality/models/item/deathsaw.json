@@ -2,14 +2,23 @@
   "parent": "minecraft:item/generated",
   "loader": "forge:separate_transforms",
   "base": {
-    "parent": "brutality:item/deathsaw_inactive"
+    "parent": "brutality:item/deathsaw_inactive_inventory"
   },
   "perspectives": {
-    "gui": {
-      "parent": "brutality:item/deathsaw_inventory"
+    "firstperson_lefthand": {
+      "parent": "brutality:item/deathsaw_inactive_handheld"
     },
-    "fixed": {
-      "parent": "brutality:item/deathsaw_inventory"
+    "firstperson_righthand": {
+      "parent": "brutality:item/deathsaw_inactive_handheld"
+    },
+    "ground": {
+      "parent": "brutality:item/deathsaw_inactive_handheld"
+    },
+    "thirdperson_lefthand": {
+      "parent": "brutality:item/deathsaw_inactive_handheld"
+    },
+    "thirdperson_righthand": {
+      "parent": "brutality:item/deathsaw_inactive_handheld"
     }
   },
   "overrides": [
@@ -17,7 +26,7 @@
       "predicate": {
         "texture": 1
       },
-      "model": "brutality:item/deathsaw_active"
+      "model": "brutality:item/deathsaw_active_handheld"
     }
   ]
 }

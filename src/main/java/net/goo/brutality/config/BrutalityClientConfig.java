@@ -5,11 +5,14 @@
 
 package net.goo.brutality.config;
 
+import net.goo.brutality.gui.RageMeter;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber (value = Dist.CLIENT)
+import java.awt.*;
+
+@Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class BrutalityClientConfig {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
@@ -19,10 +22,60 @@ public class BrutalityClientConfig {
     public static final ForgeConfigSpec.BooleanValue THROWING_ANIMATION_SHOW_ARMS;
     public static final ForgeConfigSpec.BooleanValue THROWING_ANIMATION_SHOW_ITEMS;
     public static final ForgeConfigSpec.DoubleValue MANA_BAR_X, MANA_BAR_Y;
-
+    public static final ForgeConfigSpec.EnumValue<RageMeter.Style> RAGE_METER_STYLE;
+    public static final ForgeConfigSpec.EnumValue<RageMeter.Position> RAGE_METER_POSITION;
+    public static final ForgeConfigSpec.ConfigValue<String> RAGE_METER_FIRE_OUTER;
+    public static final ForgeConfigSpec.ConfigValue<String> RAGE_METER_FIRE_INNER;
+    public static final ForgeConfigSpec.IntValue RAGE_METER_X_OFFSET;
+    public static final ForgeConfigSpec.IntValue RAGE_METER_Y_OFFSET;
+    public static final ForgeConfigSpec.DoubleValue RAGE_METER_FIRE_INTENSITY;
 
     static {
         BUILDER.push("Brutality Client Config");
+
+        RAGE_METER_STYLE = BUILDER
+                .comment("Rage meter HUD style")
+                .defineEnum("rage_meter_style", RageMeter.Style.CLASSIC);
+
+        RAGE_METER_POSITION = BUILDER
+                .comment("Rage meter position")
+                .defineEnum("rage_meter_position", RageMeter.Position.HOTBAR_RIGHT);
+
+        RAGE_METER_X_OFFSET = BUILDER.comment("Rage Meter X Offset").defineInRange("rage_meter_x_offset", 0, -1000, 1000);
+        RAGE_METER_Y_OFFSET = BUILDER.comment("Rage Meter Y Offset").defineInRange("rage_meter_y_offset", 0, -1000, 1000);
+
+
+        RAGE_METER_FIRE_OUTER = BUILDER
+                .comment("Rage meter fire outer color (hex format, e.g., '#FFFF00' for yellow)")
+                .define("rage_meter_fire_outer_color", "#FFFF00",
+                        input -> {
+                            if (!(input instanceof String str)) return false;
+                            try {
+                                Color.decode(str);
+                                return true;
+                            } catch (NumberFormatException e) {
+                                return false;
+                            }
+                        });
+
+        RAGE_METER_FIRE_INNER = BUILDER
+                .comment("Rage meter fire inner color (hex format, e.g., '#FF4B00' for orange-red)")
+                .define("rage_meter_fire_inner_color", "#FF4B00",
+                        input -> {
+                            if (!(input instanceof String str)) return false;
+                            try {
+                                Color.decode(str);
+                                return true;
+                            } catch (NumberFormatException e) {
+                                return false;
+                            }
+                        });
+
+
+
+        RAGE_METER_FIRE_INTENSITY = BUILDER.comment("Rage meter fire intensity multiplier (0 to disable)")
+                .defineInRange("rage_meter_fire_intensity", 2.5, 0, 5);
+
 
         BLACK_HOLE_SKY_COLOR = BUILDER.comment("Should the Black Hole change the color of the Sky and Fog").define("shouldBlackHoleChangeSkyColor", true);
         BORK_SKY_COLOR = BUILDER.comment("Should the Blade of the Ruined King change the color of the environment").define("shouldBORKChangeEnvironmentColor", true);
@@ -36,4 +89,6 @@ public class BrutalityClientConfig {
         BUILDER.pop();
         SPEC = BUILDER.build();
     }
+
+
 }

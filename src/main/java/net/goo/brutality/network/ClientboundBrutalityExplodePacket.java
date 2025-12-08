@@ -4,6 +4,7 @@ import net.goo.brutality.entity.explosion.BrutalityExplosion;
 import net.goo.brutality.util.helpers.ModExplosionHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundExplodePacket;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent;
@@ -39,6 +40,12 @@ public class ClientboundBrutalityExplodePacket extends ClientboundExplodePacket 
     }
     public boolean isSpawnParticles() {
         return spawnParticles;
+    }
+
+
+    @Override
+    public void handle(ClientGamePacketListener pHandler) {
+
     }
 
     public static void handle(ClientboundBrutalityExplodePacket packet, Supplier<NetworkEvent.Context> ctx) {

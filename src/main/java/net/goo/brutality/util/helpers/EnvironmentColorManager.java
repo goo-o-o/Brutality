@@ -59,9 +59,11 @@ public class EnvironmentColorManager {
 
             // Update rendering if needed
             if (type.requiresReload) {
-                Minecraft.getInstance().levelRenderer.allChanged();
+                Minecraft minecraft = Minecraft.getInstance();
+                if (minecraft != null) {
+                    minecraft.execute(minecraft.levelRenderer::allChanged);
+                }
             }
-
             // Special case for water fog
             if (type == ColorType.WATER_FOG) {
                 FogRenderer.biomeChangedTime = -1L; // Force fog update
@@ -77,7 +79,8 @@ public class EnvironmentColorManager {
 
             // Update rendering if needed
             if (type.requiresReload) {
-                Minecraft.getInstance().levelRenderer.allChanged();
+                Minecraft minecraft = Minecraft.getInstance();
+                minecraft.execute(minecraft.levelRenderer::allChanged);
             }
 
             // Special case for water fog
@@ -95,7 +98,10 @@ public class EnvironmentColorManager {
             COLOR_OVERRIDES.put(type, null);
 
             if (type.requiresReload) {
-                Minecraft.getInstance().levelRenderer.allChanged();
+                Minecraft minecraft = Minecraft.getInstance();
+                if (minecraft != null) {
+                    minecraft.execute(minecraft.levelRenderer::allChanged);
+                }
             }
         }
     }
@@ -110,7 +116,10 @@ public class EnvironmentColorManager {
                 .anyMatch(entry -> entry.getKey().requiresReload); // Check if any need reload
 
         if (needsReload) {
-            Minecraft.getInstance().levelRenderer.allChanged();
+            Minecraft minecraft = Minecraft.getInstance();
+            if (minecraft != null) {
+                minecraft.execute(minecraft.levelRenderer::allChanged);
+            }
         }
     }
 

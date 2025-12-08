@@ -19,11 +19,12 @@ public class PacketHandler {
     public static int id = 0;
 
     public static void register() {
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundSetHealthPacket.class, ServerboundSetHealthPacket::encode, ServerboundSetHealthPacket::new, ServerboundSetHealthPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundShootFromRotationPacket.class, ServerboundShootFromRotationPacket::encode, ServerboundShootFromRotationPacket::new, ServerboundShootFromRotationPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundHandleThrowingProjectilePacket.class, ServerboundHandleThrowingProjectilePacket::encode, ServerboundHandleThrowingProjectilePacket::new, ServerboundHandleThrowingProjectilePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundTriggerAnimationPacket.class, ServerboundTriggerAnimationPacket::encode, ServerboundTriggerAnimationPacket::new, ServerboundTriggerAnimationPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ServerboundShootProjectilePacket.class, ServerboundShootProjectilePacket::encode, ServerboundShootProjectilePacket::new, ServerboundShootProjectilePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundChangeNBTPacket.class, ServerboundChangeNBTPacket::encode, ServerboundChangeNBTPacket::new, ServerboundChangeNBTPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundBetterCombatAttackStartListenerPacket.class, ServerboundBetterCombatAttackStartListenerPacket::encode, ServerboundBetterCombatAttackStartListenerPacket::new, ServerboundBetterCombatAttackStartListenerPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundDamageEntityPacket.class, ServerboundDamageEntityPacket::encode, ServerboundDamageEntityPacket::new, ServerboundDamageEntityPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundParticlePacket.class, ServerboundParticlePacket::encode, ServerboundParticlePacket::new, ServerboundParticlePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundActivateRagePacket.class, ServerboundActivateRagePacket::encode, ServerboundActivateRagePacket::new, ServerboundActivateRagePacket::handle);

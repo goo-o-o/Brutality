@@ -20,6 +20,8 @@ public class BrutalityModSounds {
     public static final RegistryObject<SoundEvent> EMERGENCY_MEETING = registerSoundEvents("emergency_meeting");
     public static final RegistryObject<SoundEvent> THROW = registerSoundEvents("throw");
     public static final RegistryObject<SoundEvent> ZAP = registerSoundEvents("zap");
+    public static final RegistryObject<SoundEvent> BLOOD_MAGIC_MISSILE = registerSoundEvents("blood_magic_missile");
+    public static final RegistryObject<SoundEvent> VOID_SLASH = registerSoundEvents("void_slash");
 
     public static final RegistryObject<SoundEvent> LEAF_BLOWER_ON = registerSoundEvents("leaf_blower_on");
     public static final RegistryObject<SoundEvent> LEAF_BLOWER_ACTIVE = registerSoundEvents("leaf_blower_active");

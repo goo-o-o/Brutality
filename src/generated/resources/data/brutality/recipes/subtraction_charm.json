@@ -10,9 +10,7 @@
     }
   },
   "pattern": [
-    "   ",
-    "#@#",
-    "   "
+    "#@#"
   ],
   "result": {
     "item": "brutality:subtraction_charm"

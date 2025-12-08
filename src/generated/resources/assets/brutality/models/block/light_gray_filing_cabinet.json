@@ -1,0 +1,6 @@
+{
+  "parent": "brutality:block/template_filing_cabinet",
+  "textures": {
+    "block": "brutality:block/light_gray_filing_cabinet"
+  }
+}

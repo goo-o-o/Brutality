@@ -39,15 +39,11 @@ public class FilingCabinetBlockEntityRenderer<T extends WhiteFilingCabinetBlockE
     private static final Map<Block, Material> MATERIAL_MAP = new HashMap<>();
 
     static {
-        MATERIAL_MAP.put(BrutalityModBlocks.WHITE_FILING_CABINET.get(), new Material(
+        BrutalityModBlocks.FILING_CABINETS.forEach(blockRegistryObject ->
+                MATERIAL_MAP.put(blockRegistryObject.get(), new Material(
                 ResourceLocation.parse("textures/atlas/blocks.png"),
-                ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/white_filing_cabinet")
-        ));
-        MATERIAL_MAP.put(BrutalityModBlocks.GRAY_FILING_CABINET.get(), new Material(
-                ResourceLocation.parse("textures/atlas/blocks.png"),
-                ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/gray_filing_cabinet")
-        ));
-
+                ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + blockRegistryObject.getId().getPath())
+        )));
     }
 
 

@@ -4,8 +4,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.entity.projectile.generic.AbyssProjectile;
 import net.goo.brutality.item.base.BrutalitySwordItem;
-import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.ServerboundShootProjectilePacket;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.ProjectileHelper;
@@ -19,6 +17,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.fml.ModList;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
@@ -62,23 +61,24 @@ public class MarianasTrenchSword extends BrutalitySwordItem {
 
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
-        if (entity instanceof Player player) {
-            performMarianasTrenchAttack(stack, player);
-        }
+        if (!ModList.get().isLoaded("bettercombat"))
+            if (entity instanceof Player player) {
+                performMarianasTrenchAttack(stack, player);
+            }
         return super.onEntitySwing(stack, entity);
     }
 
     public void performMarianasTrenchAttack(ItemStack stack, Player player) {
         Level level = player.level();
         if (player.getCooldowns().isOnCooldown(stack.getItem())) return;
-        if (level.isClientSide()) {
-            for (int i = 1; i <= 360; i += 45)
-                PacketHandler.sendToServer(new ServerboundShootProjectilePacket(BrutalityModEntities.ABYSS_PROJECTILE.getId(), 0.5F, false, 0F, i));
-        } else {
-            for (int i = 1; i <= 360; i += 45) {
-                ProjectileHelper.shootProjectile(() ->
-                        new AbyssProjectile(BrutalityModEntities.ABYSS_PROJECTILE.get(), level), player, level, 0.5F, false, 0F, i);
-            }
+//        if (level.isClientSide()) {
+//            for (int i = 1; i <= 360; i += 45)
+//                PacketHandler.sendToServer(new ServerboundShootProjectilePacket(BrutalityModEntities.ABYSS_PROJECTILE.getId(), 0.5F, false, 0F, i));
+//        } else {
+        for (int i = 1; i <= 360; i += 45) {
+            ProjectileHelper.shootProjectile(() ->
+                    new AbyssProjectile(BrutalityModEntities.ABYSS_PROJECTILE.get(), level), player, level, 0.5F, false, 0F, i);
+//            }
         }
         player.getCooldowns().addCooldown(stack.getItem(), 10);
     }

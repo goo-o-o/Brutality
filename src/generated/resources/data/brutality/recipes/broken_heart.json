@@ -10,9 +10,8 @@
     }
   },
   "pattern": [
-    "   ",
-    " A ",
-    " B "
+    "A",
+    "B"
   ],
   "result": {
     "item": "brutality:broken_heart"

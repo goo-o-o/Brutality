@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "minecraft:feather"
+    },
+    "B": {
+      "item": "minecraft:ink_sac"
+    },
+    "C": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "CAC",
+    "CBC",
+    "CCC"
+  ],
+  "result": {
+    "count": 8,
+    "item": "brutality:important_documents"
+  },
+  "show_notification": true
+}

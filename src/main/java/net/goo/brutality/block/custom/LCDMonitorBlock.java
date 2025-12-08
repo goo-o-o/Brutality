@@ -25,7 +25,6 @@ import net.minecraft.world.level.block.state.properties.RotationSegment;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -69,11 +68,6 @@ public class LCDMonitorBlock extends BaseEntityBlock implements PreciseRotatable
     //    public static final VoxelShape X_AABB = Block.box(0, 3.5, 7.5, 16, 13.5, 8.5);
 //    public static final VoxelShape Z_AABB = Block.box(7.5, 3.5, 0, 8.5, 13.5, 16);
     public static final VoxelShape SHAPE = Block.box(7, 0, 7, 9, 13.5, 9);
-
-    @Override
-    public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return Shapes.empty();
-    }
 
     @Override
     public @NotNull VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {

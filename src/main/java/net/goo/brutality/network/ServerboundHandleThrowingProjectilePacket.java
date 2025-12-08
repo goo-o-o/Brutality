@@ -3,7 +3,6 @@ package net.goo.brutality.network;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.base.BrutalityThrowingItem;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
@@ -29,8 +28,7 @@ public class ServerboundHandleThrowingProjectilePacket {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
             if (player == null || !(packet.stack.getItem() instanceof BrutalityThrowingItem throwingItem)) return;
-            ServerLevel level = player.serverLevel();
-            DelayedTaskScheduler.queueServerWork(level, 6, () -> throwingItem.handleThrowPacket(packet.stack, player));
+            DelayedTaskScheduler.queueServerWork(player.serverLevel(), 6, () -> throwingItem.handleThrowPacket(packet.stack, player));
             ctx.get().setPacketHandled(true);
         });
     }

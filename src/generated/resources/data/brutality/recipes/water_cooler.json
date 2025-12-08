@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "minecraft:bucket"
+    },
+    "B": {
+      "item": "minecraft:tripwire_hook"
+    },
+    "C": {
+      "item": "minecraft:iron_block"
+    },
+    "D": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    " A ",
+    "DBD",
+    "DCD"
+  ],
+  "result": {
+    "item": "brutality:water_cooler"
+  },
+  "show_notification": true
+}

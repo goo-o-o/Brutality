@@ -4,14 +4,16 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.capabilities.EntityCapabilities;
 import net.goo.brutality.event.SpellCastEvent;
 import net.goo.brutality.item.weapon.tome.BaseMagicTome;
-import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
+import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.LazyOptional;
+import org.jetbrains.annotations.NotNull;
 
 public class SpellCastingHandler {
     public static boolean castInstantSpell(Player player, ItemStack stack, IBrutalitySpell spell, int spellLevel) {
@@ -94,16 +96,16 @@ public class SpellCastingHandler {
     }
 
     private static void handleSpellManaCost(Player player, IBrutalitySpell spell, int spellLevel) {
-        EntityCapabilities.PlayerManaCap manaHandler = getManaHandler(player);
-        manaHandler.decrementMana(player, spell, spellLevel, IBrutalitySpell.getActualManaCost(player, spell, spellLevel));
+        getManaHandler(player).ifPresent(cap -> cap.decrementMana(player, spell, spellLevel, IBrutalitySpell.getActualManaCost(player, spell, spellLevel)));
+
         if (!player.level().isClientSide()) {
             PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(player.getId(), player));
         }
     }
 
     public static void addMana(Player player, float amount) {
-        EntityCapabilities.PlayerManaCap manaHandler = getManaHandler(player);
-        manaHandler.incrementMana(amount);
+        getManaHandler(player).ifPresent(cap -> cap.incrementMana(amount));
+
         if (!player.level().isClientSide()) {
             PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(player.getId(), player));
         }
@@ -117,17 +119,26 @@ public class SpellCastingHandler {
         SpellCooldownTracker.setCooldown(player, spell, spellLevel);
     }
 
-    public static EntityCapabilities.PlayerManaCap getManaHandler(Player player) {
-        return player.getCapability(BrutalityCapabilities.PLAYER_MANA_CAP).orElse(null);
+    public static @NotNull LazyOptional<EntityCapabilities.PlayerManaCap> getManaHandler(Player player) {
+        return player.getCapability(BrutalityCapabilities.PLAYER_MANA_CAP);
     }
 
-    public static boolean hasEnoughMana(Player player, IBrutalitySpell spell, int spellLevel) {
-        if (!player.level().isClientSide())
-            PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(player.getId(), player));
-        EntityCapabilities.PlayerManaCap manaHandler = getManaHandler(player);
-        return manaHandler.manaValue() >= IBrutalitySpell.getActualManaCost(player, spell, spellLevel);
-    }
+    public static boolean hasEnoughMana(Player player, IBrutalitySpell spell, int level) {
+        if (player.level().isClientSide()) return false;
 
+        return getManaHandler(player)
+                .map(cap -> {
+                    float cost = IBrutalitySpell.getActualManaCost(player, spell, level);
+                    if (cap.manaValue() >= cost) {
+                        PacketHandler.sendToAllClients(
+                                new ClientboundSyncCapabilitiesPacket(player.getId(), player)
+                        );
+                        return true;
+                    }
+                    return false;
+                })
+                .orElse(false);
+    }
 
     public record CastConditionResult(boolean canCast, Component feedback) {
     }

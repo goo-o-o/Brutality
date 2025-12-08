@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_reverium_ingot": {
+    "has_reverium": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_reverium_ingot",
+      "has_reverium",
       "has_the_recipe"
     ]
   ],

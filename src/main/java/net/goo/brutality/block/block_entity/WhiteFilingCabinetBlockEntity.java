@@ -5,6 +5,7 @@ import net.goo.brutality.block.FilingCabinetOpenersCounter;
 import net.goo.brutality.block.custom.WhiteFilingCabinetBlock;
 import net.goo.brutality.gui.menu.FilingCabinetMenu;
 import net.goo.brutality.registry.BrutalityModBlockEntities;
+import net.goo.brutality.util.helpers.NbtHelper;
 import net.mcreator.terramity.item.CardboardItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -65,8 +66,8 @@ public class WhiteFilingCabinetBlockEntity extends RandomizableContainerBlockEnt
 
     @Override
     public boolean canPlaceItem(int pIndex, ItemStack pStack) {
-        return pStack.is(Items.PAPER) || pStack.is(ItemTags.LECTERN_BOOKS) ||
-                pStack.is(Items.ENCHANTED_BOOK) || pStack.is(Items.BOOK) || pStack.getItem() instanceof CardboardItem;
+        return (pStack.is(Items.PAPER) || pStack.is(ItemTags.LECTERN_BOOKS) ||
+                pStack.is(Items.ENCHANTED_BOOK) || pStack.is(Items.BOOK) || pStack.getItem() instanceof CardboardItem) && !NbtHelper.getBool(pStack, "fromDoubleDown", false);
     }
 
     @Override

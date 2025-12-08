@@ -2,8 +2,11 @@ package net.goo.brutality.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import net.bettercombat.mixin.client.MinecraftClientAccessor;
 import net.goo.brutality.item.weapon.axe.Deathsaw;
+import net.goo.brutality.item.weapon.generic.LastPrism;
+import net.goo.brutality.item.weapon.scythe.Schism;
+import net.goo.brutality.item.weapon.spear.Caldrith;
+import net.goo.brutality.item.weapon.spear.Rhongomyniad;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.phys.OrientedBoundingBox;
 import net.minecraft.client.Camera;
@@ -12,6 +15,8 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.debug.DebugRenderer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,6 +24,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
 
 @Mixin(DebugRenderer.class)
 public class DebugRendererMixin {
@@ -29,18 +36,29 @@ public class DebugRendererMixin {
     )
     public void renderColliderDebug(PoseStack matrixStack, MultiBufferSource.BufferSource vertexConsumers, double cameraX, double cameraY, double cameraZ, CallbackInfo ci) {
         Minecraft client = Minecraft.getInstance();
-        if (((MinecraftClientAccessor) client).getEntityRenderDispatcher().shouldRenderHitBoxes()) {
+        if ((client).getEntityRenderDispatcher().shouldRenderHitBoxes()) {
             LocalPlayer player = client.player;
             if (player != null) {
                 Camera camera = client.gameRenderer.getMainCamera();
                 if (camera.isInitialized()) {
+                    OrientedBoundingBox.TargetResult<LivingEntity> targetResult;
+
                     if (player.isHolding(BrutalityModItems.DEATHSAW.get())) {
+                        targetResult = OrientedBoundingBox.findAttackTargetResult(player, LivingEntity.class, Deathsaw.HITBOX, new Vec3(0, 0, 1), true);
+                    } else if (player.isHolding(BrutalityModItems.RHONGOMYNIAD.get())) {
+                        targetResult = OrientedBoundingBox.findAttackTargetResult(player, LivingEntity.class, Rhongomyniad.HITBOX, new Vec3(0, 0, 3), true);
+                    } else if (player.isHolding(BrutalityModItems.LAST_PRISM_ITEM.get())) {
+                        targetResult = OrientedBoundingBox.findAttackTargetResult(player, LivingEntity.class, LastPrism.HITBOX, new Vec3(0, 0, 3), true);
+                    } else if (player.isHolding(BrutalityModItems.CALDRITH.get())) {
+                        targetResult = OrientedBoundingBox.findAttackTargetResult(player, LivingEntity.class, Caldrith.HITBOX, new Vec3(0, 2.5, -9), 0, player.getYRot(), 0, false);
+                    } else if (player.isHolding(BrutalityModItems.SCHISM.get())) {
+                        targetResult = OrientedBoundingBox.findAttackTargetResult(player, LivingEntity.class, Schism.ARC_SWEEP_45, new Vec3(0, 0, 8), false);
+                    } else {
+                        targetResult = null;
+                    }
 
-                        OrientedBoundingBox.RayData rayData = OrientedBoundingBox.findRayTargets(player, Deathsaw.hitbox);
-
-                        Vec3 cameraOffset = camera.getPosition().reverse();
-                        OrientedBoundingBox offsetObb = rayData.obb.offset(cameraOffset).updateVertex();
-                        this.brutality$drawOutline(matrixStack, offsetObb, !rayData.entityList.isEmpty());
+                    if (targetResult != null) {
+                        this.brutality$drawOutline(camera, matrixStack, targetResult);
                     }
                 }
             }
@@ -48,72 +66,63 @@ public class DebugRendererMixin {
     }
 
     @Unique
-    private void brutality$outlineOBB(PoseStack matrixStack, OrientedBoundingBox box, BufferBuilder buffer, float red1, float green1, float blue1, float red2, float green2, float blue2, float alpha) {
-        Matrix4f matrix4f = matrixStack.last().pose();
-        buffer.vertex(matrix4f, (float) box.vertex1.x, (float) box.vertex1.y, (float) box.vertex1.z).color(0, 0, 0, 0).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex1.x, (float) box.vertex1.y, (float) box.vertex1.z).color(red1, green1, blue1, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex2.x, (float) box.vertex2.y, (float) box.vertex2.z).color(red1, green1, blue1, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex3.x, (float) box.vertex3.y, (float) box.vertex3.z).color(red1, green1, blue1, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex4.x, (float) box.vertex4.y, (float) box.vertex4.z).color(red1, green1, blue1, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex1.x, (float) box.vertex1.y, (float) box.vertex1.z).color(red1, green1, blue1, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex5.x, (float) box.vertex5.y, (float) box.vertex5.z).color(red2, green2, blue2, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex6.x, (float) box.vertex6.y, (float) box.vertex6.z).color(red2, green2, blue2, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex2.x, (float) box.vertex2.y, (float) box.vertex2.z).color(red1, green1, blue1, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex6.x, (float) box.vertex6.y, (float) box.vertex6.z).color(red2, green2, blue2, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex7.x, (float) box.vertex7.y, (float) box.vertex7.z).color(red2, green2, blue2, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex3.x, (float) box.vertex3.y, (float) box.vertex3.z).color(red1, green1, blue1, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex7.x, (float) box.vertex7.y, (float) box.vertex7.z).color(red2, green2, blue2, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex8.x, (float) box.vertex8.y, (float) box.vertex8.z).color(red2, green2, blue2, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex4.x, (float) box.vertex4.y, (float) box.vertex4.z).color(red1, green1, blue1, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex8.x, (float) box.vertex8.y, (float) box.vertex8.z).color(red2, green2, blue2, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex5.x, (float) box.vertex5.y, (float) box.vertex5.z).color(red2, green2, blue2, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.vertex5.x, (float) box.vertex5.y, (float) box.vertex5.z).color(0, 0, 0, 0).endVertex();
-        buffer.vertex(matrix4f, (float) box.center.x, (float) box.center.y, (float) box.center.z).color(0, 0, 0, 0).endVertex();
+    private static void brutality$renderOBB(PoseStack pose, OrientedBoundingBox obb, BufferBuilder buffer, float r, float g, float b, float a) {
+        Matrix4f m = pose.last().pose();
+        Vec3 c = obb.center;
+        Vec3 hx = obb.getLocalAxis(0).scale(obb.halfExtents.x); // right
+        Vec3 hy = obb.getLocalAxis(1).scale(obb.halfExtents.y); // up
+        Vec3 hz = obb.getLocalAxis(2).scale(obb.halfExtents.z); // forward
+
+        Vec3 v000 = c.subtract(hx).subtract(hy).subtract(hz);
+        Vec3 v100 = c.add(hx).subtract(hy).subtract(hz);
+        Vec3 v110 = c.add(hx).add(hy).subtract(hz);
+        Vec3 v010 = c.subtract(hx).add(hy).subtract(hz);
+        Vec3 v001 = c.subtract(hx).subtract(hy).add(hz);
+        Vec3 v101 = c.add(hx).subtract(hy).add(hz);
+        Vec3 v111 = c.add(hx).add(hy).add(hz);
+        Vec3 v011 = c.subtract(hx).add(hy).add(hz);
+
+        Vec3[] verts = {v000, v100, v110, v010, v001, v101, v111, v011};
+
+        int[] indices = {
+                0, 1, 1, 2, 2, 3, 3, 0, // bottom
+                4, 5, 5, 6, 6, 7, 7, 4, // top
+                0, 4, 1, 5, 2, 6, 3, 7  // sides
+        };
+
+        for (int i : indices) {
+            Vec3 v = verts[i];
+            buffer.vertex(m, (float) v.x, (float) v.y, (float) v.z).color(r, g, b, a).endVertex();
+        }
     }
 
     @Unique
-    private void brutality$look(PoseStack matrixStack, OrientedBoundingBox box, BufferBuilder buffer, float alpha) {
-        Matrix4f matrix4f = matrixStack.last().pose();
+    private <T extends Entity> void brutality$drawOutline(Camera camera, PoseStack matrixStack, OrientedBoundingBox.TargetResult<T> targetResult) {
 
-        // Center to axisZ end (red - forward)
-        buffer.vertex(matrix4f, (float) box.center.x, (float) box.center.y, (float) box.center.z).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
-        buffer.vertex(matrix4f, (float) box.center.x, (float) box.center.y, (float) box.center.z).color(1.0F, 0.0F, 0.0F, alpha).endVertex();
-        Vec3 zEnd = box.center.add(box.axisZ.scale(1.0));  // Scale to visible length
-        buffer.vertex(matrix4f, (float) zEnd.x, (float) zEnd.y, (float) zEnd.z).color(1.0F, 0.0F, 0.0F, alpha).endVertex();
 
-        // Center to axisY (green - up)
-        buffer.vertex(matrix4f, (float) box.center.x, (float) box.center.y, (float) box.center.z).color(0.0F, 1.0F, 0.0F, alpha).endVertex();
-        Vec3 yEnd = box.center.add(box.axisY.scale(1.0));
-        buffer.vertex(matrix4f, (float) yEnd.x, (float) yEnd.y, (float) yEnd.z).color(0.0F, 1.0F, 0.0F, alpha).endVertex();
+        boolean collides = !targetResult.entities.isEmpty();
+        List<OrientedBoundingBox> hitboxes = targetResult.hitboxes;
 
-        // Center to axisX (blue - right)
-        buffer.vertex(matrix4f, (float) box.center.x, (float) box.center.y, (float) box.center.z).color(0.0F, 0.0F, 1.0F, alpha).endVertex();
-        Vec3 xEnd = box.center.add(box.axisX.scale(1.0));
-        buffer.vertex(matrix4f, (float) xEnd.x, (float) xEnd.y, (float) xEnd.z).color(0.0F, 0.0F, 1.0F, alpha).endVertex();
-    }
-
-    @Unique
-    private void brutality$drawOutline(PoseStack matrixStack, OrientedBoundingBox obb, boolean collides) {
         RenderSystem.enableDepthTest();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        Tesselator tesselator = Tesselator.getInstance();
-        BufferBuilder bufferBuilder = tesselator.getBuilder();
         RenderSystem.disableBlend();
         RenderSystem.lineWidth(1.0F);
-        bufferBuilder.begin(VertexFormat.Mode.DEBUG_LINE_STRIP, DefaultVertexFormat.POSITION_COLOR);
-        if (collides) {
-            this.brutality$outlineOBB(matrixStack, obb, bufferBuilder, 1.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.5F);
-        } else {
-            this.brutality$outlineOBB(matrixStack, obb, bufferBuilder, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 0.0F, 0.5F);
-        }
 
-        this.brutality$look(matrixStack, obb, bufferBuilder, 0.5F);
+        Tesselator tesselator = Tesselator.getInstance();
+        BufferBuilder bufferBuilder = tesselator.getBuilder();
 
-//        for(OrientedBoundingBox otherObb : otherObbs) {
-//            this.brutality$outlineOBB(matrixStack, otherObb, bufferBuilder, 1.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.5F);
-//        }
 
-        tesselator.end();
+        hitboxes.forEach(obb -> {
+            OrientedBoundingBox offset = obb.translateWorld(camera.getPosition().reverse());
+
+            bufferBuilder.begin(VertexFormat.Mode.DEBUG_LINE_STRIP, DefaultVertexFormat.POSITION_COLOR);
+            brutality$renderOBB(matrixStack, offset, bufferBuilder,
+                    collides ? 1f : 0f,
+                    collides ? 0f : 1f,
+                    0f, 0.5f);
+            tesselator.end();
+        });
+
         RenderSystem.lineWidth(1.0F);
         RenderSystem.enableBlend();
     }

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "brutality:office_light"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "item": "brutality:small_office_light"
+  }
+}

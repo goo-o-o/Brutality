@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:item/handheld",
+  "base": {
+    "parent": "minecraft:item/generated",
+    "textures": {
+      "layer0": "brutality:item/axe/deathsaw/deathsaw_active_inventory"
+    }
+  },
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "firstperson_lefthand": {
+      "parent": "brutality:item/axe/deathsaw_active_handheld",
+      "textures": {
+        "layer0": "brutality:item/axe/deathsaw/deathsaw_active_handheld"
+      }
+    },
+    "firstperson_righthand": {
+      "parent": "brutality:item/axe/deathsaw_active_handheld",
+      "textures": {
+        "layer0": "brutality:item/axe/deathsaw/deathsaw_active_handheld"
+      }
+    },
+    "ground": {
+      "parent": "brutality:item/axe/deathsaw_active_handheld",
+      "textures": {
+        "layer0": "brutality:item/axe/deathsaw/deathsaw_active_handheld"
+      }
+    },
+    "thirdperson_lefthand": {
+      "parent": "brutality:item/axe/deathsaw_active_handheld",
+      "textures": {
+        "layer0": "brutality:item/axe/deathsaw/deathsaw_active_handheld"
+      }
+    },
+    "thirdperson_righthand": {
+      "parent": "brutality:item/axe/deathsaw_active_handheld",
+      "textures": {
+        "layer0": "brutality:item/axe/deathsaw/deathsaw_active_handheld"
+      }
+    }
+  }
+}

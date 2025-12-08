@@ -2,6 +2,7 @@ package net.goo.brutality.entity.capabilities;
 
 import net.goo.brutality.event.ConsumeManaEvent;
 import net.goo.brutality.magic.IBrutalitySpell;
+import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.SealUtils;
 import net.minecraft.nbt.CompoundTag;
@@ -219,10 +220,12 @@ public class EntityCapabilities {
                         try {
                             Integer entityId = Integer.parseInt(entityKey);
                             entityMap.put(entityId, entityTag.getInt(entityKey));
-                        } catch (NumberFormatException ignored) {}
+                        } catch (NumberFormatException ignored) {
+                        }
                     }
                     playerStickyBombCounts.put(playerUuid, entityMap);
-                } catch (IllegalArgumentException ignored) {}
+                } catch (IllegalArgumentException ignored) {
+                }
             }
         }
 
@@ -257,6 +260,7 @@ public class EntityCapabilities {
             return playerStickyBombCounts.getOrDefault(playerId, new HashMap<>());
         }
     }
+
     @AutoRegisterCapability
     public static class EntityStarCountCap implements INBTSerializable<CompoundTag> {
         private final Map<UUID, Map<Integer, Integer>> playerStarCounts = new HashMap<>();
@@ -284,10 +288,12 @@ public class EntityCapabilities {
                         try {
                             Integer entityId = Integer.parseInt(entityKey);
                             entityMap.put(entityId, entityTag.getInt(entityKey));
-                        } catch (NumberFormatException ignored) {}
+                        } catch (NumberFormatException ignored) {
+                        }
                     }
                     playerStarCounts.put(playerUuid, entityMap);
-                } catch (IllegalArgumentException ignored) {}
+                } catch (IllegalArgumentException ignored) {
+                }
             }
         }
 
@@ -329,6 +335,17 @@ public class EntityCapabilities {
 
         public float rageValue() {
             return this.rageValue;
+        }
+
+        public float getRagePercentage(Player player) {
+            return player.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP)
+                    .resolve()
+                    .map(cap -> {
+                        float current = cap.rageValue();
+                        float max = (float) player.getAttributeValue(ModAttributes.MAX_RAGE.get());
+                        return max > 0 ? current / max : 0.0f;
+                    })
+                    .orElse(0.0f);
         }
 
         public void setRageValue(float rageValue) {

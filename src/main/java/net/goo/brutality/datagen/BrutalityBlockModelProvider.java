@@ -26,7 +26,15 @@ public class BrutalityBlockModelProvider extends BlockModelProvider {
     @Override
     protected void registerModels() {
 
-//        cubeAll(BrutalityModBlocks.PLASTERBOARD.getId().getPath(), modLoc("block/plasterboard"));
+        cubeAll(BrutalityModBlocks.PLASTERBOARD.getId().getPath(), modLoc("block/" + BrutalityModBlocks.PLASTERBOARD.getId().getPath()));
+
+//        cubeColumn(BrutalityModBlocks.GRAY_OFFICE_RUG.getId().getPath(),
+//                modLoc("block/" + BrutalityModBlocks.GRAY_OFFICE_CARPET.getId().getPath()),
+//                modLoc("block/" + BrutalityModBlocks.GRAY_OFFICE_CARPET.getId().getPath()));
+//
+//        cubeColumn(BrutalityModBlocks.LIGHT_GRAY_OFFICE_RUG.getId().getPath(),
+//                modLoc("block/" + BrutalityModBlocks.LIGHT_GRAY_OFFICE_CARPET.getId().getPath()),
+//                modLoc("block/" + BrutalityModBlocks.LIGHT_GRAY_OFFICE_CARPET.getId().getPath()));
 
         cubeWithParticle(
                 BrutalityModBlocks.UPPER_HVAC.getId().getPath(),
@@ -49,6 +57,20 @@ public class BrutalityBlockModelProvider extends BlockModelProvider {
                 modLoc("block/hvac/lower/west"),
                 modLoc("block/hvac/lower/north")
         );
+
+        singleTexture(BrutalityModBlocks.WHITE_FILING_CABINET.getId().getPath(),
+                modLoc("block/template_filing_cabinet"),
+                "block", modLoc("block/" + BrutalityModBlocks.WHITE_FILING_CABINET.getId().getPath()));
+
+        singleTexture(BrutalityModBlocks.LIGHT_GRAY_FILING_CABINET.getId().getPath(),
+                modLoc("block/template_filing_cabinet"),
+                "block", modLoc("block/" + BrutalityModBlocks.LIGHT_GRAY_FILING_CABINET.getId().getPath()));
+
+        singleTexture(BrutalityModBlocks.GRAY_FILING_CABINET.getId().getPath(),
+                modLoc("block/template_filing_cabinet"),
+                "block", modLoc("block/" + BrutalityModBlocks.GRAY_FILING_CABINET.getId().getPath()));
+
+
 
         for (DyeColor dyeColor : DyeColor.values()) {
             String colorName = dyeColor.getName();

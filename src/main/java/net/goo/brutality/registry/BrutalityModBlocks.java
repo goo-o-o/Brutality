@@ -1,8 +1,8 @@
 package net.goo.brutality.registry;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.block.custom.*;
 import net.goo.brutality.block.HorizontalDirectionalBlock;
+import net.goo.brutality.block.custom.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
@@ -26,11 +26,37 @@ public class BrutalityModBlocks {
 
     public static List<RegistryObject<Block>> CONCRETE_SLABS;
     public static List<RegistryObject<Block>> CONCRETE_STAIRS;
-
+    public static List<Block> CONCRETE_BLOCKS;
+    public static List<RegistryObject<Block>> FILING_CABINETS;
 
     // Block item registration moved to BrutalityModItems (better organization)
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);
+
+        FILING_CABINETS = List.of(
+                BrutalityModBlocks.WHITE_FILING_CABINET,
+                BrutalityModBlocks.LIGHT_GRAY_FILING_CABINET,
+                BrutalityModBlocks.GRAY_FILING_CABINET
+        );
+
+        CONCRETE_BLOCKS = List.of(
+                Blocks.WHITE_CONCRETE,
+                Blocks.ORANGE_CONCRETE,
+                Blocks.MAGENTA_CONCRETE,
+                Blocks.LIGHT_BLUE_CONCRETE,
+                Blocks.YELLOW_CONCRETE,
+                Blocks.LIME_CONCRETE,
+                Blocks.PINK_CONCRETE,
+                Blocks.GRAY_CONCRETE,
+                Blocks.LIGHT_GRAY_CONCRETE,
+                Blocks.CYAN_CONCRETE,
+                Blocks.PURPLE_CONCRETE,
+                Blocks.BLUE_CONCRETE,
+                Blocks.BROWN_CONCRETE,
+                Blocks.GREEN_CONCRETE,
+                Blocks.RED_CONCRETE,
+                Blocks.BLACK_CONCRETE
+        );
 
         CONCRETE_SLABS = List.of(
                 BrutalityModBlocks.WHITE_CONCRETE_SLAB,
@@ -132,16 +158,15 @@ public class BrutalityModBlocks {
     public static final RegistryObject<Block> OLD_SERVER_CASING = registerBlock("old_server_casing", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> OLD_SERVER_PANEL = registerBlock("old_server_panel", () -> new HorizontalDirectionalBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).lightLevel(state -> 3)));
 
-//    public static final RegistryObject<Block> PLASTERBOARD = registerBlock("plasterboard", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO_BLOCK)));
+    public static final RegistryObject<Block> PLASTERBOARD = registerBlock("plasterboard", () -> new Block(BlockBehaviour.Properties.of().sound(SoundType.BAMBOO)));
 
     public static final RegistryObject<Block> PUDDLE = registerBlock("puddle", () -> new PuddleBlock(Block.Properties.of().liquid().sound(SoundType.WOOL).noCollission().strength(100F).noLootTable().replaceable()));
 
-    public static final RegistryObject<Block> STYROFOAM_CUP =
-            BLOCKS.register("styrofoam_cup", () -> new MugBlock(BlockBehaviour.Properties
-                    .copy(Blocks.WHITE_WOOL).noOcclusion()));
-    public static final RegistryObject<Block> MUG =
-            BLOCKS.register("mug", () -> new MugBlock(BlockBehaviour.Properties
-                    .copy(Blocks.TERRACOTTA).noOcclusion().strength(0.1F)));
+    public static final RegistryObject<Block> STYROFOAM_CUP = BLOCKS.register("styrofoam_cup", () -> new MugBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL).noOcclusion()));
+    public static final RegistryObject<Block> MUG = BLOCKS.register("mug", () -> new MugBlock(BlockBehaviour.Properties.copy(Blocks.TERRACOTTA).noOcclusion().strength(0.1F)));
+
+
+
 
     public static final RegistryObject<Block> GRAY_CUBICLE_PANEL =
             registerBlock("gray_cubicle_panel", () -> new CubiclePanelBlock(BlockBehaviour.Properties
@@ -162,6 +187,11 @@ public class BrutalityModBlocks {
             registerBlock("red_cubicle_panel", () -> new CubiclePanelBlock(BlockBehaviour.Properties
                     .copy(Blocks.WHITE_WOOL).noOcclusion()));
 
+
+    public static final RegistryObject<Block> TOILET = registerBlock("toilet", () -> new ToiletBlock(BlockBehaviour.Properties
+            .copy(Blocks.TERRACOTTA).noOcclusion().sound(SoundType.DEEPSLATE_BRICKS)));
+    public static final RegistryObject<Block> URINAL = registerBlock("urinal", () -> new UrinalBlock(BlockBehaviour.Properties
+            .copy(Blocks.TERRACOTTA).noOcclusion().sound(SoundType.DEEPSLATE_BRICKS)));
 
     public static final RegistryObject<Block> CRT_MONITOR = registerBlock("crt_monitor", () -> new CRTMonitorBlock(BlockBehaviour.Properties
             .copy(Blocks.TERRACOTTA).noOcclusion().sound(SoundType.DEEPSLATE_BRICKS)));
@@ -194,11 +224,16 @@ public class BrutalityModBlocks {
 
     public static final RegistryObject<Block> OFFICE_LIGHT =
             registerBlock("office_light", () -> new Block(BlockBehaviour.Properties.of().strength(0.3F).sound(SoundType.GLASS).lightLevel((blockState) -> 15).isRedstoneConductor(BrutalityModBlocks::never)));
+    public static final RegistryObject<Block> SMALL_OFFICE_LIGHT =
+            registerBlock("small_office_light", () -> new SmallOfficeLightBlock(BlockBehaviour.Properties.of().strength(0.3F).sound(SoundType.GLASS).lightLevel((blockState) -> 15).isRedstoneConductor(BrutalityModBlocks::never)));
+
 
     public static final RegistryObject<Block> WHITE_FILING_CABINET =
             BLOCKS.register("white_filing_cabinet", () -> new WhiteFilingCabinetBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> LIGHT_GRAY_FILING_CABINET =
+            BLOCKS.register("light_gray_filing_cabinet", () -> new LightGrayFilingCabinetBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> GRAY_FILING_CABINET =
-            BLOCKS.register("gray_filing_cabinet", () -> new GrayFilingCabinetBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+            BLOCKS.register("gray_filing_cabinet", () -> new DarkGrayFilingCabinetBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
 
     public static final RegistryObject<Block> WATER_COOLER_BLOCK =
             BLOCKS.register("water_cooler", () -> new WaterCoolerBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));

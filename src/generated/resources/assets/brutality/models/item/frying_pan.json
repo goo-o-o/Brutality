@@ -9,19 +9,34 @@
   "loader": "forge:separate_transforms",
   "perspectives": {
     "firstperson_lefthand": {
-      "parent": "brutality:item/hammer/frying_pan_handheld"
+      "parent": "brutality:item/hammer/frying_pan_handheld",
+      "textures": {
+        "layer0": "brutality:item/hammer/frying_pan/frying_pan_handheld"
+      }
     },
     "firstperson_righthand": {
-      "parent": "brutality:item/hammer/frying_pan_handheld"
+      "parent": "brutality:item/hammer/frying_pan_handheld",
+      "textures": {
+        "layer0": "brutality:item/hammer/frying_pan/frying_pan_handheld"
+      }
     },
     "ground": {
-      "parent": "brutality:item/hammer/frying_pan_handheld"
+      "parent": "brutality:item/hammer/frying_pan_handheld",
+      "textures": {
+        "layer0": "brutality:item/hammer/frying_pan/frying_pan_handheld"
+      }
     },
     "thirdperson_lefthand": {
-      "parent": "brutality:item/hammer/frying_pan_handheld"
+      "parent": "brutality:item/hammer/frying_pan_handheld",
+      "textures": {
+        "layer0": "brutality:item/hammer/frying_pan/frying_pan_handheld"
+      }
     },
     "thirdperson_righthand": {
-      "parent": "brutality:item/hammer/frying_pan_handheld"
+      "parent": "brutality:item/hammer/frying_pan_handheld",
+      "textures": {
+        "layer0": "brutality:item/hammer/frying_pan/frying_pan_handheld"
+      }
     }
   }
 }

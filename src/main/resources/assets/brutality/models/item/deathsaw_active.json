@@ -1,6 +1,0 @@
-{
-  "parent": "brutality:item/axe/deathsaw_active_handheld",
-  "textures": {
-    "layer0": "brutality:item/axe/deathsaw/deathsaw_active"
-  }
-}

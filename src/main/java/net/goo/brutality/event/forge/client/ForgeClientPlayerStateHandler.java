@@ -33,7 +33,6 @@ import net.minecraftforge.client.event.RenderNameTagEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
 
@@ -211,7 +210,7 @@ public class ForgeClientPlayerStateHandler {
         // If only in Offhand, then don't throw, I don't want to interfere with regular vanilla sword swinging and tool actions
         // Edit: Whatever I wrote above is now incorrect
 
-        if (ModList.get().isLoaded("bettercombat")) return;
+//        if (ModList.get().isLoaded("bettercombat")) return;
         if (mc.options.keyAttack.isDown()) {
             ItemStack mainHand = player.getMainHandItem();
             ItemStack offHand = player.getOffhandItem();

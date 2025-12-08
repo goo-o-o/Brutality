@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "terramity:sharpening_stone"
+    },
+    "B": {
+      "item": "terramity:nyxium"
+    }
+  },
+  "pattern": [
+    " AB",
+    " B ",
+    "B  "
+  ],
+  "result": {
+    "item": "brutality:shadowflame_scissor_blade"
+  },
+  "show_notification": true
+}

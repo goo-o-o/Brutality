@@ -26,6 +26,7 @@ public class BrutalityBlockEntityWithoutLevelRenderer extends BlockEntityWithout
         super(context.getBlockEntityRenderDispatcher(), context.getModelSet());
         this.dispatcher = context.getBlockEntityRenderDispatcher();
         registerBlockEntity(BrutalityModBlocks.WHITE_FILING_CABINET.get(), BrutalityModBlockEntities.WHITE_FILING_CABINET_BLOCK_ENTITY.get());
+        registerBlockEntity(BrutalityModBlocks.LIGHT_GRAY_FILING_CABINET.get(), BrutalityModBlockEntities.LIGHT_GRAY_FILING_CABINET_BLOCK_ENTITY.get());
         registerBlockEntity(BrutalityModBlocks.GRAY_FILING_CABINET.get(), BrutalityModBlockEntities.GRAY_FILING_CABINET_BLOCK_ENTITY.get());
     }
 

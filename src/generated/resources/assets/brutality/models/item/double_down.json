@@ -9,19 +9,34 @@
   "loader": "forge:separate_transforms",
   "perspectives": {
     "firstperson_lefthand": {
-      "parent": "brutality:item/sword/double_down_handheld"
+      "parent": "brutality:item/sword/double_down_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/double_down/double_down_handheld"
+      }
     },
     "firstperson_righthand": {
-      "parent": "brutality:item/sword/double_down_handheld"
+      "parent": "brutality:item/sword/double_down_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/double_down/double_down_handheld"
+      }
     },
     "ground": {
-      "parent": "brutality:item/sword/double_down_handheld"
+      "parent": "brutality:item/sword/double_down_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/double_down/double_down_handheld"
+      }
     },
     "thirdperson_lefthand": {
-      "parent": "brutality:item/sword/double_down_handheld"
+      "parent": "brutality:item/sword/double_down_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/double_down/double_down_handheld"
+      }
     },
     "thirdperson_righthand": {
-      "parent": "brutality:item/sword/double_down_handheld"
+      "parent": "brutality:item/sword/double_down_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/double_down/double_down_handheld"
+      }
     }
   }
 }

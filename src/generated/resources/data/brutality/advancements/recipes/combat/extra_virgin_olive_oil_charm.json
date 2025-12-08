@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_olive_oil": {
+    "has_olive_oil_charm": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_olive_oil",
+      "has_olive_oil_charm",
       "has_the_recipe"
     ]
   ],

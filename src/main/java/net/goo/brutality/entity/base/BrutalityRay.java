@@ -1,6 +1,7 @@
 package net.goo.brutality.entity.base;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
+import net.goo.brutality.util.phys.OrientedBoundingBox;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -19,17 +20,19 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class BrutalityRay extends Projectile implements BrutalityGeoEntity {
-    public static final EntityDataAccessor<Integer> DATA_MAX_LENGTH = SynchedEntityData.defineId(BrutalityRay.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Float> DATA_MAX_LENGTH = SynchedEntityData.defineId(BrutalityRay.class, EntityDataSerializers.FLOAT);
     public boolean shouldFollowOwner = true;
+    protected float offset;
 
     protected BrutalityRay(EntityType<? extends Projectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.noCulling = true;
+        this.offset = 3;
     }
 
     @Override
     protected void defineSynchedData() {
-        this.entityData.define(DATA_MAX_LENGTH, 0);
+        this.entityData.define(DATA_MAX_LENGTH, 0F);
     }
 
     @Override
@@ -65,20 +68,16 @@ public class BrutalityRay extends Projectile implements BrutalityGeoEntity {
         return true;
     }
 
-    public void setDataMaxLength(int length) {
+    public void setDataMaxLength(float length) {
         this.entityData.set(DATA_MAX_LENGTH, length);
     }
 
-    public int getDataMaxLength() {
+    public float getDataMaxLength() {
         return this.entityData.get(DATA_MAX_LENGTH);
     }
 
     @Override
     public void tick() {
-
-
-
-
         Entity owner = this.getOwner();
 
         if (shouldFollowOwner) {
@@ -89,10 +88,11 @@ public class BrutalityRay extends Projectile implements BrutalityGeoEntity {
                     double d0 = this.getY() + vec3.y;
                     double d1 = this.getZ() + vec3.z;
                     this.setDeltaMovement(vec3.scale(0.99F));
+                    double halfWidth = player.getBbWidth() * 0.5F * player.getScale();
 
                     this.setPos(d2, d0, d1);
 
-                    Vec3 targetPos = player.getEyePosition().add(player.getLookAngle().scale(3.0));
+                    Vec3 targetPos = OrientedBoundingBox.getShoulderPosition(player).add(player.getLookAngle().scale(offset + halfWidth));
 
                     Vec3 currentPos = this.position();
                     Vector3f newPos = currentPos.lerp(targetPos, 0.2).toVector3f();

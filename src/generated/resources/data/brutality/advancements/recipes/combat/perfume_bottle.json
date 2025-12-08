@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_rubby": {
+    "has_ruby": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_rubby",
+      "has_ruby",
       "has_the_recipe"
     ]
   ],

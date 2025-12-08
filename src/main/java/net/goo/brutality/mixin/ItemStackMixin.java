@@ -5,6 +5,7 @@ import net.goo.brutality.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.item.weapon.hammer.JackpotHammer;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.SealUtils;
+import net.goo.brutality.util.helpers.NbtHelper;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -83,27 +84,36 @@ public abstract class ItemStackMixin {
         return player.getAttributeBaseValue(attribute);
     }
 
-    @Redirect(
-            method = "getTooltipLines",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/player/Player;getAttributeBaseValue(Lnet/minecraft/world/entity/ai/attributes/Attribute;)D",
-                    ordinal = 1
-            )
-    )
-    private double modifyAttackSpeedValue(Player player, Attribute attribute) {
-        ItemStack stack = (ItemStack) (Object) this;
-        return player.getAttributeBaseValue(attribute);
-    }
+//    @Redirect(
+//            method = "getTooltipLines",
+//            at = @At(
+//                    value = "INVOKE",
+//                    target = "Lnet/minecraft/world/entity/player/Player;getAttributeBaseValue(Lnet/minecraft/world/entity/ai/attributes/Attribute;)D",
+//                    ordinal = 1
+//            )
+//    )
+//    private double modifyAttackSpeedValue(Player player, Attribute attribute) {
+//        ItemStack stack = (ItemStack) (Object) this;
+//        return player.getAttributeBaseValue(attribute);
+//    }
 
 
     @Inject(method = "getMaxDamage()I", at = @At("HEAD"), cancellable = true)
     private void onGetMaxDamage(CallbackInfoReturnable<Integer> cir) {
         ItemStack stack = (ItemStack) (Object) this;
-        if (stack.getTag() != null && stack.getTag().getBoolean("fromDoubleDown")) {
+
+        boolean fromDoubleDown = NbtHelper.getBool(stack, "fromDoubleDown", false);
+        if (fromDoubleDown) {
             int original = this.getItem().getMaxDamage(stack);
             cir.setReturnValue(Math.min(50, original));
         }
+
     }
 
+    @Inject(method = "isEnchantable", at = @At("HEAD"), cancellable = true)
+    private void restrictDoubleDown(CallbackInfoReturnable<Boolean> cir) {
+        if (NbtHelper.getBool((((ItemStack) (Object) this)), "fromDoubleDown", false)) {
+            cir.setReturnValue(false);
+        }
+    }
 }

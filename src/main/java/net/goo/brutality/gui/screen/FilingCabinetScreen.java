@@ -2,6 +2,7 @@ package net.goo.brutality.gui.screen;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.block.block_entity.GrayFilingCabinetBlockEntity;
+import net.goo.brutality.block.block_entity.LightGrayFilingCabinetBlockEntity;
 import net.goo.brutality.block.block_entity.WhiteFilingCabinetBlockEntity;
 import net.goo.brutality.gui.menu.FilingCabinetMenu;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,15 +14,23 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.Map;
+
 @OnlyIn(Dist.CLIENT)
 public class FilingCabinetScreen extends AbstractContainerScreen<FilingCabinetMenu> implements MenuAccess<FilingCabinetMenu> {
     private static final ResourceLocation WHITE_CONTAINER_BACKGROUND = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/white_filing_cabinet.png");
+    private static final ResourceLocation LIGHT_GRAY_CONTAINER_BACKGROUND = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/light_gray_filing_cabinet.png");
     private static final ResourceLocation GRAY_CONTAINER_BACKGROUND = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/gray_filing_cabinet.png");
     /**
      * Window height is calculated with these values" the more rows, the higher
      */
     private final int containerRows;
     private final WhiteFilingCabinetBlockEntity blockEntity;
+    private static final Map<Class<? extends WhiteFilingCabinetBlockEntity>, ResourceLocation> BG_MAP = Map.of(
+            WhiteFilingCabinetBlockEntity.class, WHITE_CONTAINER_BACKGROUND,
+            LightGrayFilingCabinetBlockEntity.class, LIGHT_GRAY_CONTAINER_BACKGROUND,
+            GrayFilingCabinetBlockEntity.class, GRAY_CONTAINER_BACKGROUND
+    );
 
     public FilingCabinetScreen(FilingCabinetMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -48,7 +57,7 @@ public class FilingCabinetScreen extends AbstractContainerScreen<FilingCabinetMe
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
-        ResourceLocation bg = blockEntity instanceof GrayFilingCabinetBlockEntity ? GRAY_CONTAINER_BACKGROUND : WHITE_CONTAINER_BACKGROUND;
+        ResourceLocation bg = BG_MAP.getOrDefault(blockEntity.getClass(), WHITE_CONTAINER_BACKGROUND);
         pGuiGraphics.blit(bg, i, j, 0, 0, this.imageWidth, this.containerRows * 18 + 17);
         pGuiGraphics.blit(bg, i, j + this.containerRows * 18 + 17, 0, 126, this.imageWidth, 96);
     }

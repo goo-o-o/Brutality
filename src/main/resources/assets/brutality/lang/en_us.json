@@ -6,6 +6,13 @@
   "item.brutality.blue_slime_ball": "Blue Slimeball",
   "item.brutality.pink_slime_ball": "Pink Slimeball",
 
+  "item.brutality.prison_key": "Prison Key",
+  "item.brutality.prison_key.on_left_clicking_entity.1": "§e -Drops all equipped Handcuffs",
+  "item.brutality.handcuffs": "Handcuffs",
+  "item.brutality.handcuffs.passive.1": "§e -Can only be Unequipped through Death or by using a Prison Key",
+  "item.brutality.handcuffs.passive.2": "§e -Grants §8Weakness II",
+  "item.brutality.handcuffs.passive.3": "§e -Grants §fMining Fatigue III",
+
   "item.brutality.cinder_block": "Cinder Block",
   "item.brutality.beach_ball": "Beach Ball",
   "item.brutality.blast_barrel": "Blast Barrel",
@@ -88,6 +95,15 @@
   "item.brutality.deathsaw.on_hit.1": "§e -Inflicts §7Pulverized I§e for 5 ticks",
   "item.brutality.deathsaw.on_hold_right_click.1": "§e -Start the Deathsaw, dealing damage to all mobs in 5 blocks in front of the user",
   "item.brutality.deathsaw.on_hold_right_click.2": "§e -Looking up while next to a wall causes the user to climb it",
+
+  "item.brutality.rhongomyniad": "Rhongomyniad",
+  "item.brutality.rhongomyniad.on_swing.1": "§e -Fire a Piercing Ray of Holy Light",
+
+  "item.brutality.schism": "Schism",
+  "item.brutality.schism.on_swing.1": "§e -Perform a Spatial Slash 8 blocks in front of the user",
+
+  "item.brutality.caldrith": "Caldrith",
+  "item.brutality.caldrith.on_right_click.1": "§e -Perform a downward Spatial Slash, damaging all mobs 5 blocks in front and behind the user",
 
   "item.brutality.rhitta": "Divine Axe Rhitta",
   "item.brutality.rhitta.lore": "The one who stands at the pinnacle of all races",
@@ -180,7 +196,7 @@
   "item.brutality.frostmourne": "Frostmourne",
   "item.brutality.frostmourne.lore.1": "All will serve in death",
   "item.brutality.frostmourne.on_right_click.1": "§e -Right click to unleash a wave of icy death, damaging enemies in a 15 block radius.",
-  "item.brutality.frostmourne.on_right_click.2": "§e -You gain §bResistance§e and §cStrength§e and §aheal §escaling with each enemy hit",
+  "item.brutality.frostmourne.on_right_click.2": "§e -You gain §bResistance§e and §cStrength§e and §aheal§e scaling with each enemy hit",
   "item.brutality.frostmourne.on_shift_right_click.1": "§e -Summons several strays that fight for the user",
   "item.brutality.frostmourne.on_shift_right_click.2": "§e -A maximum of 10 strays can be summoned at a time",
   "entity.brutality.summoned_stray": "Summoned Stray",
@@ -382,6 +398,17 @@
   "item.brutality.double_down.on_hold_right_click.3": "§e -The random sword §ccannot §ebe repaired",
   "item.brutality.double_down.on_hold_right_click.4": "§e -Stronger swords are §eharder to roll, chances are increased with each level of §aLuck",
 
+  "item.brutality.prismatic_greatsword": "Prismatic Greatsword",
+  "item.brutality.prismatic_greatsword.on_hit.1": "§e -Reduce Ability Cooldowns by 1 second per Enemy hit",
+
+  "item.brutality.crimson_scissor_blade": "Crimson Scissorblade",
+  "item.brutality.crimson_scissor_blade.on_swing.1": "§e -Consume 4§r ❤§9 Health§e to launch a Bloodslash",
+  "item.brutality.crimson_scissor_blade.on_swing.2": "§e -Bloodslashes §aheal§e 4§r ❤§9 Health§e per Enemy hit",
+
+  "item.brutality.shadowflame_scissor_blade": "Shadowflame Scissorblade",
+  "item.brutality.shadowflame_scissor_blade.on_swing.1": "§e -Launch a Shadowflame Slash that inflicts §dShadowflame",
+  "item.brutality.shadowflame_scissor_blade.on_hit.1": "§e -Inflicts §dShadowflame",
+
   "item.brutality.darkin_blade": "The Darkin Blade",
   "item.brutality.darkin_blade.lore": "I am not your enemy, I am The Enemy!",
   "item.brutality.darkin_blade.passive.1": "§e -Every few seconds, charge up an empowered attack",
@@ -408,6 +435,7 @@
   "item.brutality.portable_mining_rig_charm.passive.3": "§e -Mines less coins the more your §6Crypto Wallet§e has",
   "item.brutality.crypto_wallet_charm": "Crypto Wallet",
   "item.brutality.crypto_wallet_charm.passive.1": "§e -Converts §5EndCoins§e and §4NetherCoins§e into Attack Damage and Attack Speed respectively",
+  "item.brutality.crypto_wallet_charm.passive.2": "§e -Gain §5EndCoins§e and §4NetherCoins§e by equipping the Portable Mining Rig",
 
 
 
@@ -461,7 +489,7 @@
 
   "item.brutality.abyssal_necklace": "Abyssal Necklace",
   "item.brutality.abyssal_necklace.lore.1": "It stares back",
-  "item.brutality.abyssal_necklace.passive.1": "§e -Grants more Damage the are",
+  "item.brutality.abyssal_necklace.passive.1": "§e -Grants more Damage the deeper you are in water",
 
   "item.brutality.solar_system": "The Solar System",
   "item.brutality.yata_no_kagami": "Yata no Kagami",
@@ -535,7 +563,7 @@
 
   "item.brutality.blood_chalice": "Blood Chalice",
   "item.brutality.self_repair_nexus": "Self-Repair Nexus",
-  "item.brutality.self_repair_nexus.passive.1": "§e -Heal 1 heart whenever a mob dies within 3 blocks of the wearer",
+  "item.brutality.self_repair_nexus.passive.1": "§e -§aHeal§e 1 heart whenever a mob dies within 3 blocks of the wearer",
   "item.brutality.fallen_angels_halo": "Fallen Angels Halo",
   "item.brutality.bloodstained_mirror": "Bloodstained Mirror",
   "item.brutality.bloodstained_mirror.passive.1": "§e -10% of damage taken is returned back to the attacker",
@@ -709,7 +737,7 @@
 
 
   "item.brutality.heart_of_gold": "Heart of Gold",
-  "item.brutality.heart_of_gold.passive.1": "§e -50% of Damage taken is reapplied as §6Absorption",
+  "item.brutality.heart_of_gold.passive.1": "§e -25% of Damage taken is reapplied as §6Absorption, maxes out when equivalent to your Max§r ❤§9 Health§e",
 
   "item.brutality.resplendent_feather_charm": "Resplendent Feather",
   "item.brutality.resplendent_feather_charm.lore.1": "Toasty",
@@ -957,6 +985,17 @@
   "item.brutality.ironclad_anklet": "Ironclad Anklet",
   "item.brutality.ironclad_anklet.on_successful_dodge.1": "§e -Grants §bResistance I§e for 3 seconds",
 
+
+  "item.brutality.amaterasu": "Amaterasu",
+  "item.brutality.amaterasu.on_hit.1": "§e -Inflicts§f Glowing§e for 5 seconds",
+  "item.brutality.amaterasu.on_hit.2": "§e -Cleanses§8 Darkness§e from the target",
+  "item.brutality.amaterasu.passive.1": "§e -Deal 2x Damage to targets inflicted with§8 Darkness",
+
+  "item.brutality.tsukuyomi": "Tsukuyomi",
+  "item.brutality.tsukuyomi.on_hit.1": "§e -Inflicts§8 Darkness§e for 5 seconds",
+  "item.brutality.tsukuyomi.on_hit.2": "§e -Cleanses§f Glowing§e from the target",
+  "item.brutality.tsukuyomi.passive.1": "§e -Deal 2x Damage to targets inflicted with§f Glowing",
+
   "item.brutality.conductite_anklet": "Conductite Anklet",
   "item.brutality.conductite_anklet.on_successful_dodge.1": "§e -Grants §fAmped§e for 3 seconds",
 
@@ -1030,6 +1069,8 @@
   "item.brutality.umbral_tome": "Umbral Tome",
 
 
+  "block.brutality.toilet": "Toilet",
+  "block.brutality.urinal": "Urinal",
   "block.brutality.puddle": "Puddle",
   "block.brutality.exit_sign": "Exit Sign",
   "block.brutality.plasterboard": "Plasterboard",
@@ -1077,11 +1118,13 @@
   "item.brutality.important_documents.description.1": "§e -Can be placed",
   "block.brutality.important_documents": "Important Documents",
   "block.brutality.white_filing_cabinet": "White Filing Cabinet",
+  "block.brutality.light_gray_filing_cabinet": "Light Gray Filing Cabinet",
   "block.brutality.gray_filing_cabinet": "Gray Filing Cabinet",
   "block.brutality.filing_cabinet.description.1": "§e -Stores 32 Stacks per Drawer",
   "block.brutality.filing_cabinet.description.2": "§e -Can only store Books and similar items",
 
   "block.brutality.office_light": "Office Light",
+  "block.brutality.small_office_light": "Small Office Light",
   "block.brutality.white_office_chair": "White Office Chair",
   "block.brutality.white_office_chair.description.1": "§e -Can be sat in",
   "block.brutality.black_office_chair": "Black Office Chair",
@@ -1221,6 +1264,7 @@
   "rarity.fire.name": "Smoldering",
   "rarity.glacial.name": "Glacial",
   "rarity.prismatic.name": "Prismatic",
+  "rarity.nocturnal.name": "Nocturnal",
 
   "common": "Common",
   "uncommon": "Uncommon",
@@ -1237,6 +1281,7 @@
   "stygian": "Stygian",
   "fire": "Smoldering",
   "ice": "Glacial",
+  "nocturnal": "Nocturnal",
   "prismatic": "Prismatic",
 
   "lootbeams.rarity.common": "Common",
@@ -1252,6 +1297,7 @@
   "lootbeams.rarity.dark": "Everdark",
   "lootbeams.rarity.sculk": "Gloomy",
   "lootbeams.rarity.stygian": "Stygian",
+  "lootbeams.rarity.nocturnal": "Nocturnal",
   "lootbeams.rarity.fire": "Smoldering",
   "lootbeams.rarity.ice": "Glacial",
   "lootbeams.rarity.prismatic": "Prismatic",
@@ -1375,6 +1421,7 @@
   "brutality.description.type.on_swing": "§6On Swing:",
   "brutality.description.type.when_thrown": "§6When Thrown:",
   "brutality.description.type.on_right_click": "§6On Right Click:",
+  "brutality.description.type.on_left_clicking_entity": "§6On Left Clicking Entity:",
   "brutality.description.type.on_shift_right_click": "§6On Shift Right Click:",
   "brutality.description.type.on_hold_right_click": "§6On Holding Right Click:",
   "brutality.description.type.on_kill": "§6On Kill:",

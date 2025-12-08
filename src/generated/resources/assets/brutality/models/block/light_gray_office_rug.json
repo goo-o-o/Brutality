@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "brutality:block/light_gray_office_carpet",
+    "side": "brutality:block/light_gray_office_carpet"
+  }
+}

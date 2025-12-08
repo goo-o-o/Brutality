@@ -59,6 +59,10 @@ public class BrutalityModParticles {
             PARTICLE_TYPES.register("rhaast_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> SHADOW_ASSASIN_PARTICLE =
             PARTICLE_TYPES.register("shadow_assassin_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> YIN_PARTICLE =
+            PARTICLE_TYPES.register("yin_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> YANG_PARTICLE =
+            PARTICLE_TYPES.register("yang_particle", () -> new SimpleParticleType(true));
 
 
     public static final RegistryObject<SimpleParticleType> ENRAGED_PARTICLE =
@@ -124,6 +128,13 @@ public class BrutalityModParticles {
             });
 
     public static final RegistryObject<ParticleType<FlatParticleData<?>>> MURASAMA_SLASH_PARTICLE = PARTICLE_TYPES.register("murasama_slash_particle", () ->
+            new ParticleType<>(false, FlatParticleData.DESERIALIZER) {
+                @Override
+                public @NotNull Codec<FlatParticleData<?>> codec() {
+                    return FlatParticleData.CODEC;
+                }
+            });
+    public static final RegistryObject<ParticleType<FlatParticleData<?>>> VOID_SLASH_PARTICLE = PARTICLE_TYPES.register("void_slash_particle", () ->
             new ParticleType<>(false, FlatParticleData.DESERIALIZER) {
                 @Override
                 public @NotNull Codec<FlatParticleData<?>> codec() {

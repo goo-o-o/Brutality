@@ -9,19 +9,34 @@
   "loader": "forge:separate_transforms",
   "perspectives": {
     "firstperson_lefthand": {
-      "parent": "brutality:item/hammer/whisk_handheld"
+      "parent": "brutality:item/hammer/whisk_handheld",
+      "textures": {
+        "layer0": "brutality:item/hammer/whisk/whisk_handheld"
+      }
     },
     "firstperson_righthand": {
-      "parent": "brutality:item/hammer/whisk_handheld"
+      "parent": "brutality:item/hammer/whisk_handheld",
+      "textures": {
+        "layer0": "brutality:item/hammer/whisk/whisk_handheld"
+      }
     },
     "ground": {
-      "parent": "brutality:item/hammer/whisk_handheld"
+      "parent": "brutality:item/hammer/whisk_handheld",
+      "textures": {
+        "layer0": "brutality:item/hammer/whisk/whisk_handheld"
+      }
     },
     "thirdperson_lefthand": {
-      "parent": "brutality:item/hammer/whisk_handheld"
+      "parent": "brutality:item/hammer/whisk_handheld",
+      "textures": {
+        "layer0": "brutality:item/hammer/whisk/whisk_handheld"
+      }
     },
     "thirdperson_righthand": {
-      "parent": "brutality:item/hammer/whisk_handheld"
+      "parent": "brutality:item/hammer/whisk_handheld",
+      "textures": {
+        "layer0": "brutality:item/hammer/whisk/whisk_handheld"
+      }
     }
   }
 }

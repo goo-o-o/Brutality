@@ -44,6 +44,6 @@
     }
   },
   "textures": {
-    "particle": "brutality:item/blade_of_the_ruined_king_handheld"
+    "particle": "brutality:item/sword/blade_of_the_ruined_king/blade_of_the_ruined_king_handheld"
   }
 }

@@ -3,9 +3,7 @@
   "category": "equipment",
   "key": {
     "A": {
-      "type": "forge:partial_nbt",
-      "item": "minecraft:enchanted_book",
-      "nbt": "{StoredEnchantments:[{id:\"minecraft:sharpness\"}]}"
+      "type": "brutality:any_sharpness_book"
     },
     "B": {
       "item": "brutality:empty_anklet"

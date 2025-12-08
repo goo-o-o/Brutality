@@ -6,17 +6,18 @@
   "refmap": "brutality.refmap.json",
   "mixins": [
     "AbstractArrowMixin",
-    "AnvilMenuMixin",
     "BedBlockMixin",
     "BowItemMixin",
     "ClientboundSetEntityMotionPacketMixin",
     "CombatTrackerMixin",
     "DigDurabilityEnchantmentMixin",
     "EggItemMixin",
-    "EnderpearlItemMixin",
+    "EnderPearlItemMixin",
     "EntityMixin",
     "ExperienceOrbMixin",
     "InfinityEnchantmentMixin",
+    "ItemCombinerMenuSlotDefinitionBuilderMixin",
+    "ItemHandlerHelperMixin",
     "ItemMixin",
     "ItemStackMixin",
     "LivingEntityMixin",
@@ -24,9 +25,12 @@
     "PlayerMixin",
     "ServerGamePacketListenerImplMixin",
     "ServerPlayerMixin",
+    "ShulkerBoxSlotMixin",
+    "SlotMixin",
     "SnowballItemMixin",
     "ThrowablePotionItemMixin",
     "TridentItemMixin",
+    "VanillaHopperItemHandlerMixin",
     "VillagerMixin"
   ],
   "priority": 1200,
@@ -43,7 +47,8 @@
     "KeyboardInputMixin",
     "LivingEntityRendererMixin",
     "MouseHandlerMixin",
-    "QuadrupedModelMixin"
+    "QuadrupedModelMixin",
+    "TooltipRenderUtilMixin"
   ]
 
 }

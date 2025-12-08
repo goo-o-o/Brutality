@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "minecraft:iron_bars"
+    },
+    "B": {
+      "item": "minecraft:lever"
+    },
+    "C": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "pattern": [
+    "CCB",
+    "C  ",
+    "CCA"
+  ],
+  "result": {
+    "item": "brutality:coffee_machine"
+  },
+  "show_notification": true
+}

@@ -9,10 +9,7 @@ import net.goo.brutality.item.weapon.hammer.JackpotHammer;
 import net.goo.brutality.item.weapon.hammer.WoodenRulerHammer;
 import net.goo.brutality.item.weapon.scythe.DarkinScythe;
 import net.goo.brutality.item.weapon.scythe.FallenScythe;
-import net.goo.brutality.item.weapon.sword.MetalRulerSword;
-import net.goo.brutality.item.weapon.sword.MurasamaSword;
-import net.goo.brutality.item.weapon.sword.ShadowstepSword;
-import net.goo.brutality.item.weapon.sword.SupernovaSword;
+import net.goo.brutality.item.weapon.sword.*;
 import net.goo.brutality.item.weapon.sword.phasesaber.BasePhasesaber;
 import net.goo.brutality.magic.SpellCastingHandler;
 import net.goo.brutality.mob_effect.gastronomy.IGastronomyEffect;
@@ -63,7 +60,7 @@ public abstract class PlayerMixin extends LivingEntity {
 
 
     @Unique
-    private static Map<Class<? extends Item>, Supplier<ParticleOptions>> PARTICLE_SUPPLIERS = Map.of(
+    private static final Map<Class<? extends Item>, Supplier<ParticleOptions>> PARTICLE_SUPPLIERS = Map.of(
             FallenScythe.class, BrutalityModParticles.SOUL_SWEEP_PARTICLE::get,
             ShadowstepSword.class, BrutalityModParticles.SHADOW_SWEEP_PARTICLE::get,
             MurasamaSword.class, BrutalityModParticles.MURASAMA_SWEEP_PARTICLE::get,
@@ -151,8 +148,11 @@ public abstract class PlayerMixin extends LivingEntity {
         Player playerAttacker = (Player) pSource.getEntity();
         if (playerAttacker == null) return entity.hurt(pSource, pAmount);
 
-        ItemStack stack = playerAttacker.getMainHandItem();
+        ItemStack stack = ModUtils.getAttackStack(playerAttacker);
+//        ItemStack stack = playerAttacker.getMainHandItem();
         Item item = stack.getItem();
+
+
         float[] modifiedAmount = new float[]{pAmount};
 
         Level level = level();
@@ -310,6 +310,7 @@ public abstract class PlayerMixin extends LivingEntity {
 
         });
 
+
         if (stack.is(ModTags.Items.GASTRONOMIST_ITEMS)) {
 //            System.out.println("Entered Tag check");
             float scoredBoost = 0, mashedBoost = 0;
@@ -377,6 +378,18 @@ public abstract class PlayerMixin extends LivingEntity {
             }
         } else if (item instanceof AtomicJudgementHammer) {
             AtomicJudgementHammer.doExplosion(playerAttacker, livingVictim.getPosition(1).add(0, livingVictim.getBbHeight() / 2, 0));
+        } else if (item instanceof Tsukuyomi) {
+            if (livingVictim.hasEffect(MobEffects.GLOWING)) {
+                modifiedAmount[0] *= 2F;
+                if (level instanceof ServerLevel serverLevel)
+                    serverLevel.sendParticles(BrutalityModParticles.YANG_PARTICLE.get(), entity.getX(), entity.getY(0.5), entity.getZ(), 10, 1, 1, 1, 0.15);
+            }
+        } else if (item instanceof Amaterasu) {
+            if (livingVictim.hasEffect(MobEffects.DARKNESS)) {
+                modifiedAmount[0] *= 2F;
+                if (level instanceof ServerLevel serverLevel)
+                    serverLevel.sendParticles(BrutalityModParticles.YIN_PARTICLE.get(), entity.getX(), entity.getY(0.5), entity.getZ(), 10, 1, 1, 1, 0.15);
+            }
         }
 
         SealUtils.handleSealProc(level, playerAttacker, livingVictim.getPosition(1).add(0, livingVictim.getBbHeight() * 0.5F, 0), stack);

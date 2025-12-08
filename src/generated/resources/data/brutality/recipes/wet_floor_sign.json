@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "minecraft:yellow_concrete"
+    },
+    "B": {
+      "tag": "minecraft:signs"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    "A A"
+  ],
+  "result": {
+    "count": 2,
+    "item": "brutality:wet_floor_sign"
+  },
+  "show_notification": true
+}

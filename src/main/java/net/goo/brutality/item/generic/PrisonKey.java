@@ -1,18 +1,27 @@
 package net.goo.brutality.item.generic;
 
+import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.registry.BrutalityModItems;
+import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import top.theillusivec4.curios.api.CuriosApi;
 
-public class PrisonKey extends Item {
-    public PrisonKey(Properties pProperties) {
-        super(pProperties.durability(1));
+import java.util.List;
+
+public class PrisonKey extends BrutalityGenericItem {
+
+    public PrisonKey(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+        super(rarity, descriptionComponents);
+    }
+
+    @Override
+    public int getMaxDamage(ItemStack stack) {
+        return 1;
     }
 
     @Override

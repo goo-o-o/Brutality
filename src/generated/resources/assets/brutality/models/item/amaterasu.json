@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:item/handheld",
+  "base": {
+    "parent": "minecraft:item/generated",
+    "textures": {
+      "layer0": "brutality:item/sword/amaterasu/amaterasu_inventory"
+    }
+  },
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "firstperson_lefthand": {
+      "parent": "brutality:item/sword/amaterasu_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/amaterasu/amaterasu_handheld"
+      }
+    },
+    "firstperson_righthand": {
+      "parent": "brutality:item/sword/amaterasu_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/amaterasu/amaterasu_handheld"
+      }
+    },
+    "ground": {
+      "parent": "brutality:item/sword/amaterasu_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/amaterasu/amaterasu_handheld"
+      }
+    },
+    "thirdperson_lefthand": {
+      "parent": "brutality:item/sword/amaterasu_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/amaterasu/amaterasu_handheld"
+      }
+    },
+    "thirdperson_righthand": {
+      "parent": "brutality:item/sword/amaterasu_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/amaterasu/amaterasu_handheld"
+      }
+    }
+  }
+}

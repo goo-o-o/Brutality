@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "brutality:old_server_casing"
+    },
+    "B": {
+      "item": "terramity:conductite_upgrade_smithing_template"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "count": 9,
+    "item": "brutality:old_server_panel"
+  },
+  "show_notification": true
+}

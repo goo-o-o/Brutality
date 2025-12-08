@@ -11,8 +11,7 @@
   },
   "pattern": [
     "AAA",
-    " B ",
-    "   "
+    " B "
   ],
   "result": {
     "item": "brutality:crown_of_tyranny"

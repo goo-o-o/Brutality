@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_prism_solution": {
+    "has_prism_solution_bucket": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_prism_solution",
+      "has_prism_solution_bucket",
       "has_the_recipe"
     ]
   ],

@@ -7,9 +7,9 @@
     }
   },
   "pattern": [
-    " # ",
-    " # ",
-    " # "
+    "#",
+    "#",
+    "#"
   ],
   "result": {
     "item": "brutality:paper_cut"

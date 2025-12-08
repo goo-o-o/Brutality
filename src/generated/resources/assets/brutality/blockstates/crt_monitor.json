@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "active=false,facing=east": {
+      "model": "brutality:block/crt_monitor",
+      "y": 270
+    },
+    "active=false,facing=north": {
+      "model": "brutality:block/crt_monitor",
+      "y": 180
+    },
+    "active=false,facing=south": {
+      "model": "brutality:block/crt_monitor"
+    },
+    "active=false,facing=west": {
+      "model": "brutality:block/crt_monitor",
+      "y": 90
+    },
+    "active=true,facing=east": {
+      "model": "brutality:block/crt_monitor_active",
+      "y": 270
+    },
+    "active=true,facing=north": {
+      "model": "brutality:block/crt_monitor_active",
+      "y": 180
+    },
+    "active=true,facing=south": {
+      "model": "brutality:block/crt_monitor_active"
+    },
+    "active=true,facing=west": {
+      "model": "brutality:block/crt_monitor_active",
+      "y": 90
+    }
+  }
+}

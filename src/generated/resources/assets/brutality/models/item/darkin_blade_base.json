@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "brutality:item/sword/darkin_blade/darkin_blade_inventory"
-  }
-}

@@ -1,0 +1,51 @@
+{
+  "blend": {
+    "func": "add",
+    "srcrgb": "srcalpha",
+    "dstrgb": "oneminussrcalpha"
+  },
+  "vertex": "brutality:foil",
+  "fragment": "brutality:foil",
+  "attributes": [
+    "Position",
+    "UV0",
+    "Color"
+  ],
+  "samplers": [
+    {
+      "name": "DiffuseSampler"
+    }
+  ],
+  "uniforms": [
+    {
+      "name": "Time",
+      "type": "float",
+      "count": 1,
+      "values": [0.0]
+    },
+    {
+      "name": "FoilIntensity",
+      "type": "float",
+      "count": 1,
+      "values": [0.5]
+    },
+    {
+      "name": "Dissolve",
+      "type": "float",
+      "count": 1,
+      "values": [0.0]
+    },
+    {
+      "name": "BurnColor1",
+      "type": "float",
+      "count": 4,
+      "values": [1.0, 0.0, 0.0, 0.8]
+    },
+    {
+      "name": "BurnColor2",
+      "type": "float",
+      "count": 4,
+      "values": [1.0, 0.5, 0.0, 0.8]
+    }
+  ]
+}

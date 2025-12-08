@@ -8,9 +8,7 @@ import net.goo.brutality.item.base.BrutalityCurioItem;
 import net.goo.brutality.magic.SpellCastingHandler;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -38,27 +36,30 @@ public class ScribesIndex extends BrutalityCurioItem {
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            if (!player.level().isClientSide() && player.tickCount % 10 == 0) {
-                AttributeInstance spellDamage = player.getAttribute(ModAttributes.SPELL_DAMAGE.get());
-                boolean isMaxMana = SpellCastingHandler.getManaHandler(player).isMaxMana(player);
-                float newBonus = isMaxMana ? 0.25F : -0.1F;
-                UUID uuid = player.getUUID();
-                boolean wasMaxMana = MANA_STATE_MAP.getOrDefault(uuid, false);
-                if (spellDamage != null && wasMaxMana != isMaxMana) {
-                    MANA_STATE_MAP.put(uuid, isMaxMana);
-                    spellDamage.removeModifier(SCRIBES_INDEX_SPELL_DAMAGE_UUID);
-                    spellDamage.addTransientModifier(
-                            new AttributeModifier(
-                                    SCRIBES_INDEX_SPELL_DAMAGE_UUID,
-                                    "Spell Damage Bonus",
-                                    newBonus,
-                                    AttributeModifier.Operation.MULTIPLY_TOTAL
-                            )
-                    );
-                }
-            }
-        }
+        if (!(slotContext.entity() instanceof Player player)) return;
+        if (player.level().isClientSide() || player.tickCount % 10 != 0) return;
+
+        var spellDamage = player.getAttribute(ModAttributes.SPELL_DAMAGE.get());
+        if (spellDamage == null) return;
+
+        boolean isMaxMana = SpellCastingHandler.getManaHandler(player)
+                .map(cap -> cap.isMaxMana(player))
+                .orElse(false);
+
+        UUID uuid = player.getUUID();
+        boolean wasMaxMana = MANA_STATE_MAP.getOrDefault(uuid, false);
+        if (wasMaxMana == isMaxMana) return; // No change
+
+        MANA_STATE_MAP.put(uuid, isMaxMana);
+        spellDamage.removeModifier(SCRIBES_INDEX_SPELL_DAMAGE_UUID);
+
+        float bonus = isMaxMana ? 0.25F : -0.1F;
+        spellDamage.addTransientModifier(new AttributeModifier(
+                SCRIBES_INDEX_SPELL_DAMAGE_UUID,
+                "Scribes Index Bonus",
+                bonus,
+                AttributeModifier.Operation.MULTIPLY_TOTAL
+        ));
     }
 
     @Override
@@ -70,7 +71,7 @@ public class ScribesIndex extends BrutalityCurioItem {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-            boolean isMaxMana = SpellCastingHandler.getManaHandler(player).isMaxMana(player);
+            boolean isMaxMana = SpellCastingHandler.getManaHandler(player).map(cap -> cap.isMaxMana(player)).orElse(false);
             float newBonus = isMaxMana ? 0.25F : -0.1F;
 
             builder.put(ModAttributes.SPELL_DAMAGE.get(), new AttributeModifier(SCRIBES_INDEX_SPELL_DAMAGE_UUID, "Spell Damage Buff", newBonus, AttributeModifier.Operation.MULTIPLY_TOTAL));

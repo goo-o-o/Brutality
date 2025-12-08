@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_chcolate_bar": {
+    "has_chocolate_bar": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_chcolate_bar",
+      "has_chocolate_bar",
       "has_the_recipe"
     ]
   ],

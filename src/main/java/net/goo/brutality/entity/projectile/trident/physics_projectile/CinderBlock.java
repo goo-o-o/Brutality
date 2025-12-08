@@ -66,7 +66,7 @@ public class CinderBlock extends BrutalityAbstractPhysicsThrowingProjectile {
         BlockPos pos = hitResult.getBlockPos();
         BlockState state = level().getBlockState(pos);
         float destroySpeed = state.getDestroySpeed(level(), pos);
-        if (destroySpeed <= 0.3F) {
+        if (destroySpeed <= 0.3F && state.getBlock().getExplosionResistance() < 1000) {
             // Glass is 0.3
             level().destroyBlock(pos, true);
         }

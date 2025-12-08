@@ -9,19 +9,34 @@
   "loader": "forge:separate_transforms",
   "perspectives": {
     "firstperson_lefthand": {
-      "parent": "brutality:item/axe/old_gpu_handheld"
+      "parent": "brutality:item/axe/old_gpu_handheld",
+      "textures": {
+        "layer0": "brutality:item/axe/old_gpu/old_gpu_handheld"
+      }
     },
     "firstperson_righthand": {
-      "parent": "brutality:item/axe/old_gpu_handheld"
+      "parent": "brutality:item/axe/old_gpu_handheld",
+      "textures": {
+        "layer0": "brutality:item/axe/old_gpu/old_gpu_handheld"
+      }
     },
     "ground": {
-      "parent": "brutality:item/axe/old_gpu_handheld"
+      "parent": "brutality:item/axe/old_gpu_handheld",
+      "textures": {
+        "layer0": "brutality:item/axe/old_gpu/old_gpu_handheld"
+      }
     },
     "thirdperson_lefthand": {
-      "parent": "brutality:item/axe/old_gpu_handheld"
+      "parent": "brutality:item/axe/old_gpu_handheld",
+      "textures": {
+        "layer0": "brutality:item/axe/old_gpu/old_gpu_handheld"
+      }
     },
     "thirdperson_righthand": {
-      "parent": "brutality:item/axe/old_gpu_handheld"
+      "parent": "brutality:item/axe/old_gpu_handheld",
+      "textures": {
+        "layer0": "brutality:item/axe/old_gpu/old_gpu_handheld"
+      }
     }
   }
 }

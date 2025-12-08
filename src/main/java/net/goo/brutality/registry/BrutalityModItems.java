@@ -14,6 +14,7 @@ import net.goo.brutality.item.curios.heart.*;
 import net.goo.brutality.item.curios.necklace.*;
 import net.goo.brutality.item.curios.ring.*;
 import net.goo.brutality.item.curios.vanity.*;
+import net.goo.brutality.item.generic.PrisonKey;
 import net.goo.brutality.item.material.*;
 import net.goo.brutality.item.seals.*;
 import net.goo.brutality.item.weapon.axe.Deathsaw;
@@ -23,8 +24,11 @@ import net.goo.brutality.item.weapon.bow.Providence;
 import net.goo.brutality.item.weapon.generic.*;
 import net.goo.brutality.item.weapon.hammer.*;
 import net.goo.brutality.item.weapon.scythe.DarkinScythe;
+import net.goo.brutality.item.weapon.scythe.Schism;
 import net.goo.brutality.item.weapon.spear.AppleCoreSpear;
+import net.goo.brutality.item.weapon.spear.Caldrith;
 import net.goo.brutality.item.weapon.spear.EventHorizonSpear;
+import net.goo.brutality.item.weapon.spear.Rhongomyniad;
 import net.goo.brutality.item.weapon.staff.BambooStaff;
 import net.goo.brutality.item.weapon.staff.ChopstickStaff;
 import net.goo.brutality.item.weapon.sword.*;
@@ -87,6 +91,9 @@ public class BrutalityModItems {
     public static final RegistryObject<Item> WHITE_FILING_CABINET_ITEM =
             ITEMS.register("white_filing_cabinet", () ->
                     new FilingCabinetBlockItem(BrutalityModBlocks.WHITE_FILING_CABINET.get(), new Item.Properties()));
+    public static final RegistryObject<Item> LIGHT_GRAY_FILING_CABINET_ITEM =
+            ITEMS.register("light_gray_filing_cabinet", () ->
+                    new FilingCabinetBlockItem(BrutalityModBlocks.LIGHT_GRAY_FILING_CABINET.get(), new Item.Properties()));
     public static final RegistryObject<Item> GRAY_FILING_CABINET_ITEM =
             ITEMS.register("gray_filing_cabinet", () ->
                     new FilingCabinetBlockItem(BrutalityModBlocks.GRAY_FILING_CABINET.get(), new Item.Properties()));
@@ -124,12 +131,68 @@ public class BrutalityModItems {
 
             )
     ));
+
+    public static final RegistryObject<Item> TSUKUYOMI = ITEMS.register("tsukuyomi", () -> new Tsukuyomi(
+            Tiers.NETHERITE, 3, -2.25F,
+            ModRarities.FABLED, List.of(
+            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 2),
+            new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
+    )
+    ));
+    
+    public static final RegistryObject<Item> AMATERASU = ITEMS.register("amaterasu", () -> new Amaterasu(
+            Tiers.NETHERITE, 3, -2.25F,
+            ModRarities.FABLED, List.of(
+            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 2),
+            new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
+    )
+    ));
+
     public static final RegistryObject<Item> DARKIN_BLADE_SWORD = ITEMS.register("darkin_blade", () -> new DarkinBladeSword(
             Tiers.NETHERITE, 10, -3.15F,
             ModRarities.FABLED, List.of(
             new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 2)
     )
     ));
+    public static final RegistryObject<Item> PRISMATIC_GREATSWORD = ITEMS.register("prismatic_greatsword", () -> new PrismaticGreatsword(
+            Tiers.NETHERITE, 10, -3.2F,
+            ModRarities.PRISMATIC, List.of(
+            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 1)
+    )
+    ));
+
+    public static final RegistryObject<Item> CRIMSON_SCISSOR_BLADE = ITEMS.register("crimson_scissor_blade", () -> new CrimsonScissorBlade(
+            Tiers.NETHERITE, 6, -3F,
+            ModRarities.STYGIAN, List.of(
+            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_SWING, 2)
+    )
+    ));
+    public static final RegistryObject<Item> RHONGOMYNIAD = ITEMS.register("rhongomyniad", () -> new Rhongomyniad(
+            Tiers.NETHERITE, 6, -3F,
+            ModRarities.DIVINE, List.of(
+            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_SWING, 1)
+    )
+    ));
+    public static final RegistryObject<Item> CALDRITH = ITEMS.register("caldrith", () -> new Caldrith(
+            Tiers.NETHERITE, 6, -3F,
+            ModRarities.DIVINE, List.of(
+            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_RIGHT_CLICK, 1)
+    )
+    ));
+    public static final RegistryObject<Item> SCHISM = ITEMS.register("schism", () -> new Schism(
+            Tiers.NETHERITE, 8, -3.5F,
+            ModRarities.DIVINE, List.of(
+            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_SWING, 1)
+    )
+    ));
+    public static final RegistryObject<Item> SHADOWFLAME_SCISSOR_BLADE = ITEMS.register("shadowflame_scissor_blade", () -> new ShadowflameScissorBlade(
+            Tiers.NETHERITE, 6, -3F,
+            ModRarities.NOCTURNAL, List.of(
+            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_SWING, 1),
+            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 1)
+    )
+    ));
+
     public static final RegistryObject<Item> DARKIN_SCYTHE = ITEMS.register("darkin_scythe", () -> new DarkinScythe(
             Tiers.NETHERITE, 3, -3F,
             ModRarities.MYTHIC, List.of(
@@ -140,7 +203,7 @@ public class BrutalityModItems {
             new BrutalityTooltipHelper.ItemDescriptionComponent(ON_SHIFT_RIGHT_CLICK, 1)
     )
     ));
-//    public static final RegistryObject<Item> DOOMFIST_GAUNTLET_ITEM = ITEMS.register("doomfist_gauntlet", () -> new DoomfistGauntletItem(
+    //    public static final RegistryObject<Item> DOOMFIST_GAUNTLET_ITEM = ITEMS.register("doomfist_gauntlet", () -> new DoomfistGauntletItem(
 //            ModRarities.LEGENDARY,
 //            List.of(
 //                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1)
@@ -182,7 +245,7 @@ public class BrutalityModItems {
 //    )
 //    ));
 
-    public static final RegistryObject<Item> LAST_PRISM_ITEM = ITEMS.register("last_prism", () -> new LastPrismItem(
+    public static final RegistryObject<Item> LAST_PRISM_ITEM = ITEMS.register("last_prism", () -> new LastPrism(
             ModRarities.LEGENDARY,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1),
@@ -261,7 +324,7 @@ public class BrutalityModItems {
                     new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 1)
             )
     ));
-//    public static final RegistryObject<Item> FIRST_EXPLOSION_STAFF = ITEMS.register("first_explosion", () -> new FirstExplosionStaff(
+    //    public static final RegistryObject<Item> FIRST_EXPLOSION_STAFF = ITEMS.register("first_explosion", () -> new FirstExplosionStaff(
 //            ModRarities.FABLED,
 //            List.of(
 //                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1)
@@ -289,13 +352,6 @@ public class BrutalityModItems {
 
     // region Mythology
     public static final RegistryObject<Item> GOLDEN_HEADBAND = ITEMS.register("golden_headband", () -> new GoldenHeadband(
-            ModRarities.LEGENDARY,
-            List.of(
-            )
-    ));
-
-
-    public static final RegistryObject<Item> HANDCUFFS = ITEMS.register("handcuffs", () -> new Handcuffs(
             ModRarities.LEGENDARY,
             List.of(
             )
@@ -672,25 +728,25 @@ public class BrutalityModItems {
                     new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
             )
     ));
-    public static final RegistryObject<Item> SHATTERED_CLOCK = ITEMS.register("shattered_clock", () -> new ShatteredClock(
+    public static final RegistryObject<Item> SHATTERED_CLOCK = ITEMS.register("shattered_clock", () -> new BrokenClock(
             Rarity.EPIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
             )
     ));
-    public static final RegistryObject<Item> SUNDERED_CLOCK = ITEMS.register("sundered_clock", () -> new SunderedClock(
+    public static final RegistryObject<Item> SUNDERED_CLOCK = ITEMS.register("sundered_clock", () -> new BrokenClock(
             Rarity.EPIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
             )
     ));
-    public static final RegistryObject<Item> TIMEKEEPERS_CLOCK = ITEMS.register("timekeepers_clock", () -> new TimekeepersClock(
+    public static final RegistryObject<Item> TIMEKEEPERS_CLOCK = ITEMS.register("timekeepers_clock", () -> new BrokenClock(
             Rarity.EPIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 2)
             )
     ));
-    public static final RegistryObject<Item> THE_CLOCK_OF_FROZEN_TIME = ITEMS.register("the_clock_of_frozen_time", () -> new TheClockOfFrozenTime(
+    public static final RegistryObject<Item> THE_CLOCK_OF_FROZEN_TIME = ITEMS.register("the_clock_of_frozen_time", () -> new BrokenClock(
             Rarity.EPIC,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 3)
@@ -1138,7 +1194,7 @@ public class BrutalityModItems {
     public static final RegistryObject<Item> CRYPTO_WALLET_CHARM = ITEMS.register("crypto_wallet_charm", () -> new CryptoWallet(
             ModRarities.LEGENDARY,
             List.of(
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1)
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 2)
             )
     ));
     public static final RegistryObject<Item> DIVINE_IMMOLATION = ITEMS.register("divine_immolation", () -> new DivineImmolation(
@@ -1242,12 +1298,12 @@ public class BrutalityModItems {
             new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 2)
     )
     ));
-    public static final RegistryObject<Item> TRUTHSEEKER = ITEMS.register("truthseeker", () -> new TruthseekerSword(
-            Tiers.DIAMOND, 0, -2.3F,
-            ModRarities.LEGENDARY, List.of(
-            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_KILL, 1)
-    )
-    ));
+//    public static final RegistryObject<Item> TRUTHSEEKER = ITEMS.register("truthseeker", () -> new TruthseekerSword(
+//            Tiers.DIAMOND, 0, -2.3F,
+//            ModRarities.LEGENDARY, List.of(
+//            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_KILL, 1)
+//    )
+//    ));
     public static final RegistryObject<Item> SUPERNOVA = ITEMS.register("supernova", () -> new SupernovaSword(
             Tiers.NETHERITE, 10, -3.1F,
             ModRarities.MYTHIC, List.of(
@@ -1268,12 +1324,12 @@ public class BrutalityModItems {
                     new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 2)
             )
     ));
-    public static final RegistryObject<Item> TERRATON_HAMMER = ITEMS.register("terraton_hammer", () -> new TeratonHammer(
-            Tiers.NETHERITE, 20, -2,
-            ModRarities.MYTHIC, List.of(
-            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 1)
-    )
-    ));
+//    public static final RegistryObject<Item> TERRATON_HAMMER = ITEMS.register("terraton_hammer", () -> new TeratonHammer(
+//            Tiers.NETHERITE, 20, -2,
+//            ModRarities.MYTHIC, List.of(
+//            new BrutalityTooltipHelper.ItemDescriptionComponent(ON_HIT, 1)
+//    )
+//    ));
     public static final RegistryObject<Item> WOODEN_RULER = ITEMS.register("wooden_ruler", () -> new WoodenRulerHammer(
             Tiers.DIAMOND, -1, -3,
             ModRarities.LEGENDARY, List.of(
@@ -1352,6 +1408,20 @@ public class BrutalityModItems {
                     new BrutalityTooltipHelper.ItemDescriptionComponent(ON_RIGHT_CLICK, 1)
             )
     ));
+    public static final RegistryObject<Item> PRISON_KEY = ITEMS.register("prison_key", () -> new PrisonKey(
+            Rarity.EPIC,
+            List.of(
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(ON_LEFT_CLICKING_ENTITY, 1)
+            )
+    ));
+
+    public static final RegistryObject<Item> HANDCUFFS = ITEMS.register("handcuffs", () -> new Handcuffs(
+            ModRarities.LEGENDARY,
+            List.of(
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 3)
+            )
+    ));
+
 
     public static final RegistryObject<Item> EVENT_HORIZON = ITEMS.register("event_horizon", () -> new EventHorizonSpear(
             Tiers.NETHERITE,
@@ -1798,7 +1868,7 @@ public class BrutalityModItems {
             1, -3.2F, Rarity.COMMON,
             List.of(
                     new BrutalityTooltipHelper.ItemDescriptionComponent(LORE, 1),
-                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 2),
+                    new BrutalityTooltipHelper.ItemDescriptionComponent(PASSIVE, 1),
                     new BrutalityTooltipHelper.ItemDescriptionComponent(WHEN_THROWN, 1)
             ),
             BrutalityModBlocks.STYROFOAM_CUP.get()

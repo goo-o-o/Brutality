@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "minecraft:gray_concrete"
+    },
+    "B": {
+      "tag": "forge:chests"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "A A",
+    "ABA"
+  ],
+  "result": {
+    "item": "brutality:gray_filing_cabinet"
+  },
+  "show_notification": true
+}
