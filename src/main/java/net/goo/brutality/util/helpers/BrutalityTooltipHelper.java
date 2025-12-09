@@ -17,7 +17,7 @@ public class BrutalityTooltipHelper {
     private static final int WHITE = FastColor.ARGB32.color(255, 255, 255, 255);
     public static Component getRarityName(String translationKey, Rarity rarity) {
         assert Minecraft.getInstance().player != null;
-        ModRarities.RarityData rarityData = ModRarities.getGradientForRarity(rarity);
+        ModRarities.RarityData rarityData = ModRarities.from(rarity);
         if (rarityData == null) {
             return BrutalityTooltipHelper.tooltipHelper(translationKey, false, null, 1F, 1F, WHITE);
         }

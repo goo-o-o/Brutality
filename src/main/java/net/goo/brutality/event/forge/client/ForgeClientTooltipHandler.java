@@ -24,7 +24,7 @@ public class ForgeClientTooltipHandler {
 
         if (item instanceof BrutalityGeoItem) {
             if (!(rarity.equals(Rarity.COMMON) | rarity.equals(Rarity.UNCOMMON) | rarity.equals(Rarity.RARE) | rarity.equals(Rarity.EPIC))) {
-                int[] colors = ModRarities.getGradientForRarity(rarity).colors;
+                int[] colors = ModRarities.from(rarity).colors;
 
                 event.setBorderStart(ColorUtils.getCyclingColor(0.05f, colors[0], colors[1]));
                 event.setBorderEnd(ColorUtils.getCyclingColor(0.05f, colors[1], colors[0]));

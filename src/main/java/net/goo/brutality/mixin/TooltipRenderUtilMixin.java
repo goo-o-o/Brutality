@@ -1,10 +1,12 @@
 package net.goo.brutality.mixin;
 
-import net.goo.brutality.Brutality;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.goo.brutality.client.BrutalityShaders;
+import net.goo.brutality.registry.ModRarities;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.texture.SpriteContents;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,9 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(TooltipRenderUtil.class)
 public abstract class TooltipRenderUtilMixin {
-    @Unique
-    private static final long brutality$startTime = System.currentTimeMillis();
-
     @Inject(method = "renderTooltipBackground(Lnet/minecraft/client/gui/GuiGraphics;IIIIIIIII)V",
             at = @At("HEAD"), cancellable = true, remap = false)
     private static void mymod$addCornerDecorations(
@@ -39,7 +38,7 @@ public abstract class TooltipRenderUtilMixin {
         brutality$renderFrameGradient(guiGraphics, i, j + 1, k, l, z, borderStart, borderEnd);
 
 
-        brutality$drawFancyBorder(guiGraphics, x, y, width, height, z + 1, 4);
+        brutality$drawFancyBorder(guiGraphics, x, y, z + 1, width, height, 4, ModRarities.RarityData.FABLED.default_sprite);
 
 
         BrutalityShaders.applyFoilToTooltip(guiGraphics, x, y, z, width, height);
@@ -47,41 +46,26 @@ public abstract class TooltipRenderUtilMixin {
     }
 
     @Unique
-    private static void brutality$drawFancyBorder(GuiGraphics guiGraphics, int x, int y, int width, int height, int z, int padding) {
-        ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/tooltip/decoration/fabled.png");
-        int cornerSize = 8;
-        int textureWidth = 64;
-        int textureHeight = 16;
-        int middleTextureWidth = 48; // The middle section in your texture
+    private static void brutality$drawFancyBorder(GuiGraphics guiGraphics,
+                                                  int x, int y, int z, int width, int height, int padding,
+                                                  TextureAtlasSprite sprite) {  // <-- pass the sprite (animated!)
 
-        // Cap middle width at texture size or available space
-        int middleWidth = Math.min(width - 2 * cornerSize, middleTextureWidth);
 
-        // Draw corners
-        guiGraphics.blit(texture, x - padding, y - padding, z, 0, 0, cornerSize, cornerSize, textureWidth, textureHeight);
-        guiGraphics.blit(texture, x + width - cornerSize + padding, y - padding, z, 56, 0, cornerSize, cornerSize, textureWidth, textureHeight);
-        guiGraphics.blit(texture, x - padding, y + height - cornerSize + padding, z, 0, 8, cornerSize, cornerSize, textureWidth, textureHeight);
-        guiGraphics.blit(texture, x + width - cornerSize + padding, y + height - cornerSize + padding, z, 56, 8, cornerSize, cornerSize, textureWidth, textureHeight);
+        PoseStack pose = guiGraphics.pose();
+        pose.pushPose();
 
-        // Draw middle sections (centered, blit once)
-        if (middleWidth > 0) {
-            int middleU = 8; // Start UV position
-            int middleUSize = middleTextureWidth;
+        guiGraphics.blit(x, y, z + 1, 64, 16, sprite);
 
-            // Center the source region if we're drawing less than full width
-            if (middleWidth < middleTextureWidth) {
-                middleU = 8 + (middleTextureWidth - middleWidth) / 2;
-                middleUSize = middleWidth;
-            }
+        pose.popPose();
+    }
 
-            // Center horizontally
-            int middleX = x + (width - middleWidth) / 2;
 
-            // Top middle
-            guiGraphics.blit(texture, middleX, y, z, middleU, 0, middleWidth, cornerSize, textureWidth, textureHeight);
-            // Bottom middle
-            guiGraphics.blit(texture, middleX, y + height - cornerSize, z, middleU, 8, middleWidth, cornerSize, textureWidth, textureHeight);
-        }
+    @Unique
+    private static void brutality$blitSpriteSection(GuiGraphics graphics, int x, int y, int w, int h, float u, float v, int uW, int vH, TextureAtlasSprite sprite) {
+        SpriteContents c = sprite.contents();
+        int width = (int) ((float) c.width() / (sprite.getU1() - sprite.getU0()));
+        int height = (int) ((float) c.height() / (sprite.getV1() - sprite.getV0()));
+        graphics.blit(sprite.atlasLocation(), x, y, w, h, sprite.getU(u) * (float) width, (float) height * sprite.getV(v), uW, vH, width, height);
     }
 
     @Unique
