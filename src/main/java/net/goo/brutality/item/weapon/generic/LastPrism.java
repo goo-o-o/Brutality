@@ -1,17 +1,15 @@
 package net.goo.brutality.item.weapon.generic;
 
-import net.goo.brutality.config.BrutalityCommonConfig;
 import net.goo.brutality.entity.projectile.ray.LastPrismRay;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.magic.SpellCastingHandler;
 import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
 import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.registry.BrutalityDamageTypes;
 import net.goo.brutality.registry.BrutalityModEntities;
-import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.phys.HitboxUtils;
 import net.goo.brutality.util.phys.OrientedBoundingBox;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -74,7 +72,7 @@ public class LastPrism extends BrutalityGenericItem {
 
         LastPrismRay lastPrismRay = new LastPrismRay(BrutalityModEntities.LAST_PRISM_RAY.get(), pLevel);
         lastPrismRay.setOwner(pPlayer);
-        lastPrismRay.setPos(OrientedBoundingBox.getShoulderPosition(pPlayer));
+        lastPrismRay.setPos(HitboxUtils.getShoulderPosition(pPlayer));
         setLastPrismRay(stack, lastPrismRay.getId());
         pLevel.addFreshEntity(lastPrismRay);
 
@@ -120,20 +118,20 @@ public class LastPrism extends BrutalityGenericItem {
         if (getLastPrismRay(pLevel, pStack) instanceof LastPrismRay lastPrismRay) {
             if (pLevel instanceof ServerLevel serverLevel) {
 
-                OrientedBoundingBox.TargetResult<LivingEntity> targetResult = OrientedBoundingBox.findAttackTargetResult(player, LivingEntity.class, HITBOX, new Vec3(0, 0, 3), true);
-
-                targetResult.entities.forEach(e -> {
-                    e.hurt(BrutalityDamageTypes.last_prism(owner), BrutalityCommonConfig.LAST_PRISM_TICK_DAMAGE.get());
-
-                    serverLevel.sendParticles(BrutalityModParticles.LAST_PRISM_RAY_PARTICLE.get(), e.getX(), e.getY(0.5F), e.getZ(),
-                            1, 1, 1, 1, 0);
-                });
-
-                lastPrismRay.setDataMaxLength(targetResult.distance);
-
-                Vec3 endPos = targetResult.endPos;
-                serverLevel.sendParticles(
-                        BrutalityModParticles.LAST_PRISM_RAY_PARTICLE.get(), endPos.x, endPos.y, endPos.z, 5, 1, 1, 1, 0);
+//                OrientedBoundingBox.TargetResult<LivingEntity> targetResult = OrientedBoundingBox.findEntitiesHit(player, LivingEntity.class, HITBOX, new Vec3(0, 0, 3), true);
+//
+//                targetResult.entities.forEach(e -> {
+//                    e.hurt(BrutalityDamageTypes.last_prism(owner), BrutalityCommonConfig.LAST_PRISM_TICK_DAMAGE.get());
+//
+//                    serverLevel.sendParticles(BrutalityModParticles.LAST_PRISM_RAY_PARTICLE.get(), e.getX(), e.getY(0.5F), e.getZ(),
+//                            1, 1, 1, 1, 0);
+//                });
+//
+//                lastPrismRay.setDataMaxLength(targetResult.distance);
+//
+//                Vec3 endPos = targetResult.endPos;
+//                serverLevel.sendParticles(
+//                        BrutalityModParticles.LAST_PRISM_RAY_PARTICLE.get(), endPos.x, endPos.y, endPos.z, 5, 1, 1, 1, 0);
 
             }
             if ((this.getUseDuration(pStack) - pRemainingUseDuration) % 6 == 0) {

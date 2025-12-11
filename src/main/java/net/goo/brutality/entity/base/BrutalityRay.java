@@ -1,7 +1,7 @@
 package net.goo.brutality.entity.base;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.util.phys.OrientedBoundingBox;
+import net.goo.brutality.util.phys.HitboxUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -92,7 +92,7 @@ public class BrutalityRay extends Projectile implements BrutalityGeoEntity {
 
                     this.setPos(d2, d0, d1);
 
-                    Vec3 targetPos = OrientedBoundingBox.getShoulderPosition(player).add(player.getLookAngle().scale(offset + halfWidth));
+                    Vec3 targetPos = HitboxUtils.getShoulderPosition(player).add(player.getLookAngle().scale(offset + halfWidth));
 
                     Vec3 currentPos = this.position();
                     Vector3f newPos = currentPos.lerp(targetPos, 0.2).toVector3f();

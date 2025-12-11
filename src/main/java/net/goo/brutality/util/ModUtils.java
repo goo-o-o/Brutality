@@ -122,23 +122,7 @@ public class ModUtils {
         }
     }
 
-    public static <T extends Entity> OrientedBoundingBox.TargetResult<T> handleRay(Player player, Class<T> clazz, OrientedBoundingBox hitbox, float zOffset, EntityType<? extends BrutalityRay> rayType, boolean shouldCollide) {
-        OrientedBoundingBox.TargetResult<T> targets = OrientedBoundingBox.findAttackTargetResult(player, clazz, hitbox, new Vec3(0,0, zOffset), shouldCollide);
 
-        if (player.level() instanceof ServerLevel serverLevel && targets.distance > 0) {
-            BrutalityRay ray = rayType.create(serverLevel);
-
-            if (ray != null) {
-                ray.setOwner(player);
-                ray.setPos(OrientedBoundingBox.getShoulderPosition(player).add(player.getLookAngle().scale(zOffset)));
-                ray.setYRot(player.getYRot());
-                ray.setXRot(player.getXRot());
-                ray.setDataMaxLength(targets.distance - zOffset);
-                serverLevel.addFreshEntity(ray);
-            }
-        }
-        return targets;
-    }
 
     public static boolean doubleDownRestricted(Container c) {
         return

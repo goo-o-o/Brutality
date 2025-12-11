@@ -11,21 +11,15 @@ import net.goo.brutality.registry.BrutalityMenuTypes;
 import net.goo.brutality.registry.BrutalityModBlocks;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.BetterCombatIntegration;
-import net.minecraft.client.Minecraft;
+import net.goo.brutality.util.RarityBorderManager;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ReloadableResourceManager;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
@@ -33,8 +27,6 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
-
-import java.util.concurrent.CompletableFuture;
 
 import static net.goo.brutality.Brutality.MOD_ID;
 
@@ -56,27 +48,17 @@ public class ModClientSetup {
 
 
     @SubscribeEvent
-    public static void onTextureStitchPost(TextureStitchEvent event) {
-        System.out.println(event.getAtlas().location());
-
-
-//        for (ModRarities.RarityData data : ModRarities.RarityData.values()) {
-//            String name = data.name().toLowerCase(Locale.ROOT);
-//            ResourceLocation id = new ResourceLocation(Brutality.MOD_ID, name); // → brutality:fabled
-//
-//            data.default_sprite = atlas.getSprite(id);
-//            data.open_sprite   = atlas.getSprite(id.withSuffix("_open"));
-//        }
+    public static void onAddReloadListeners(RegisterClientReloadListenersEvent event) {
+        event.registerReloadListener(new RarityBorderManager());
     }
+
 
     @SubscribeEvent
     public static void register(RegisterEvent event) {
-        event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS, reg -> {
-            CraftingHelper.register(
-                    AnySharpnessBookIngredient.Serializer.ID,
-                    AnySharpnessBookIngredient.Serializer.INSTANCE
-            );
-        });
+        event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS, reg -> CraftingHelper.register(
+                AnySharpnessBookIngredient.Serializer.ID,
+                AnySharpnessBookIngredient.Serializer.INSTANCE
+        ));
     }
 
     @SubscribeEvent
@@ -90,32 +72,12 @@ public class ModClientSetup {
         event.register((itemStack, tintIndex) -> 4159204, BrutalityModBlocks.PUDDLE.get());
     }
 
-    public static final ResourceLocation GUI_ATLAS = ResourceLocation.fromNamespaceAndPath(MOD_ID, "gui");
-
-    @SubscribeEvent
-    public static  void addReloadListener(AddReloadListenerEvent event) {
-        event.addListener(new ReloadableResourceManager() {
-            @Override
-            public Identifier getFabricId() { return GUI_ATLAS; }
-            @Override
-            public CompletableFuture<Void> reload(Preparer preparer, ResourceManager rm, ProfilerFiller gf, ProfilerFiller gg, IStage stage, Set<Identifier> set) {
-                return CompletableFuture.runAsync(() -> ((TextureAtlas) Minecraft.getInstance().getTextureManager().getTexture(GUI_ATLAS)).reload(rm));
-            }
-        });
-    }
-
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         if (ModList.get().isLoaded("bettercombat")) {
             BetterCombatIntegration.register();
         }
 
-
-        event.enqueueWork(() -> {
-            TextureManager tm = Minecraft.getInstance().getTextureManager();
-            TextureAtlas atlas = new TextureAtlas(GUI_ATLAS);
-            tm.register(GUI_ATLAS, atlas);  // this makes it load the json above
-        });
 
         event.enqueueWork(DustbinBlock::bootStrap);
 

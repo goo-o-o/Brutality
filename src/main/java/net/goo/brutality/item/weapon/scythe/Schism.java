@@ -1,15 +1,11 @@
 package net.goo.brutality.item.weapon.scythe;
 
-import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.base.BrutalityScytheItem;
 import net.goo.brutality.particle.providers.FlatParticleData;
 import net.goo.brutality.registry.BrutalityModParticles;
-import net.goo.brutality.registry.BrutalityModSounds;
-import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.phys.OrientedBoundingBox;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -52,24 +48,24 @@ public class Schism extends BrutalityScytheItem {
         FlatParticleData<?> data = new FlatParticleData<>(BrutalityModParticles.VOID_SLASH_PARTICLE.get(),
                 3F, -pPlayer.getViewXRot(0), -pPlayer.getViewYRot(0) + 180F, 0);
 
-        OrientedBoundingBox.TargetResult<LivingEntity> targets = OrientedBoundingBox.findAttackTargetResult(pPlayer, LivingEntity.class, ARC_SWEEP_45, new Vec3(0, 0, 8), false);
-
-        double x = targets.hitboxes.get(0).center.x();
-        double y = targets.hitboxes.get(0).center.y();
-        double z = targets.hitboxes.get(0).center.z();
-        int delay = (int) (pPlayer.getCurrentItemAttackStrengthDelay() * 0.25F);
-
-        DelayedTaskScheduler.queueServerWork(serverLevel, delay, () -> {
-
-            targets.entities.forEach(livingEntity -> livingEntity.hurt(livingEntity.damageSources().playerAttack(pPlayer), 5));
-
-
-            ModUtils.sendParticles(serverLevel, data, true,
-                    x, y, z, 1, 0);
-            serverLevel.playSound(null, pPlayer.getX(), pPlayer.getY(0.5), pPlayer.getZ(), BrutalityModSounds.VOID_SLASH.get(), SoundSource.PLAYERS, 10F, 1F);
-
-
-        });
+//        OrientedBoundingBox.TargetResult<LivingEntity> targets = OrientedBoundingBox.findEntitiesHit(pPlayer, LivingEntity.class, ARC_SWEEP_45, new Vec3(0, 0, 8), false);
+//
+//        double x = targets.hitboxes.get(0).center.x();
+//        double y = targets.hitboxes.get(0).center.y();
+//        double z = targets.hitboxes.get(0).center.z();
+//        int delay = (int) (pPlayer.getCurrentItemAttackStrengthDelay() * 0.25F);
+//
+//        DelayedTaskScheduler.queueServerWork(serverLevel, delay, () -> {
+//
+//            targets.entities.forEach(livingEntity -> livingEntity.hurt(livingEntity.damageSources().playerAttack(pPlayer), 5));
+//
+//
+//            ModUtils.sendParticles(serverLevel, data, true,
+//                    x, y, z, 1, 0);
+//            serverLevel.playSound(null, pPlayer.getX(), pPlayer.getY(0.5), pPlayer.getZ(), BrutalityModSounds.VOID_SLASH.get(), SoundSource.PLAYERS, 10F, 1F);
+//
+//
+//        });
 
         pPlayer.getCooldowns().addCooldown(this, (int) (pPlayer.getCurrentItemAttackStrengthDelay()));
 

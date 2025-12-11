@@ -4,6 +4,7 @@ import net.goo.brutality.item.base.BrutalitySpearItem;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.phys.HitboxUtils;
 import net.goo.brutality.util.phys.OrientedBoundingBox;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.mcreator.terramity.init.TerramityModSounds;
@@ -40,8 +41,9 @@ public class Rhongomyniad extends BrutalitySpearItem {
 
     public void performRayAttack(Player player) {
         if (player.level() instanceof ServerLevel serverLevel) {
-            ModUtils.handleRay(player, LivingEntity.class, Rhongomyniad.HITBOX, 3, BrutalityModEntities.RHONGOMYNIAD_RAY.get(), true).entities.forEach(e -> {
+            HitboxUtils.handleRay(player, LivingEntity.class, Rhongomyniad.HITBOX, 3, BrutalityModEntities.RHONGOMYNIAD_RAY.get(), true).forEach(e -> {
                 e.hurt(e.damageSources().playerAttack(player), 5);
+
                 for (int i = 0; i < 5; i++)
                     serverLevel.sendParticles(TerramityModParticleTypes.HOLY_GLINT.get(), e.getX(), e.getY(0.5), e.getZ(), 3, 1, 1, 1, 0);
             });

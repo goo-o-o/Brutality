@@ -32,7 +32,7 @@ public class Deathsaw extends BrutalityAxeItem {
     }
 
     public static final OrientedBoundingBox HITBOX = new OrientedBoundingBox(Vec3.ZERO, new Vec3(1 / 8F, 0.75, 2.5F).scale(0.5F), 0, 0, 0);
-
+    public static final Vec3 OFFSET = new Vec3(0,0,1 + HITBOX.halfExtents.z);
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
@@ -57,8 +57,9 @@ public class Deathsaw extends BrutalityAxeItem {
     @Override
     public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
         if (pLivingEntity instanceof Player player) {
-            OrientedBoundingBox.TargetResult<LivingEntity> targets = OrientedBoundingBox.findAttackTargetResult(player, LivingEntity.class, HITBOX, new Vec3(0, 0, 1), true);
-            targets.entities.forEach(e -> e.hurt(BrutalityDamageTypes.deathsaw(player), BrutalityCommonConfig.DEATHSAW_TICK_DAMAGE.get()));
+
+            HITBOX.inWorld(player, OFFSET).findEntitiesHit(player, LivingEntity.class, true, null)
+                            .forEach(e -> e.hurt(BrutalityDamageTypes.deathsaw(player), BrutalityCommonConfig.DEATHSAW_TICK_DAMAGE.get()));
 
             Direction lookDir = pLivingEntity.getDirection();
             BlockPos pos = pLivingEntity.blockPosition().relative(lookDir, 1);

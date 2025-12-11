@@ -41,14 +41,14 @@
     "BiomeMixin",
     "ClientPacketListenerMixin",
     "DebugRendererMixin",
+    "GuiGraphicsMixin",
     "HierarchicalModelMixin",
     "HumanoidModelMixin",
     "ItemInHandRendererMixin",
     "KeyboardInputMixin",
     "LivingEntityRendererMixin",
     "MouseHandlerMixin",
-    "QuadrupedModelMixin",
-    "TooltipRenderUtilMixin"
+    "QuadrupedModelMixin"
   ]
 
 }

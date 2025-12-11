@@ -1,12 +1,13 @@
 package net.goo.brutality.registry;
 
 import com.google.common.collect.Maps;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.goo.brutality.util.RarityBorderManager;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Locale;
 import java.util.Map;
@@ -28,7 +29,7 @@ public final class ModRarities {
     public static final Rarity STYGIAN;
     public static final Rarity NOCTURNAL;
 
-    private static final Map<Rarity, RarityData> BY_RARITY = Maps.newIdentityHashMap();
+    public static final Map<Rarity, RarityData> BY_RARITY = Maps.newIdentityHashMap();
 
     static {
         LEGENDARY = create("legendary", RarityData.LEGENDARY);
@@ -48,6 +49,7 @@ public final class ModRarities {
         // Now safely populate the map
         for (RarityData data : RarityData.values()) {
             BY_RARITY.put(data.rarity, data);
+
         }
     }
 
@@ -61,11 +63,11 @@ public final class ModRarities {
         return rarity;
     }
 
-    public static RarityData from(Rarity rarity) {
-        return BY_RARITY.getOrDefault(rarity, RarityData.DARK);
+    public static @Nullable RarityData from(Rarity rarity) {
+        return BY_RARITY.get(rarity);
     }
 
-    public static RarityData fromStack(ItemStack stack) {
+    public static @Nullable RarityData from(ItemStack stack) {
         return from(stack.getRarity());
     }
 
@@ -90,11 +92,10 @@ public final class ModRarities {
         public final float spread;
         public final boolean bold;
         public final boolean shouldCycle;
-        public volatile TextureAtlasSprite default_sprite;
-        public volatile TextureAtlasSprite open_sprite;
 
         // Make this mutable so we can assign it later
         public transient Rarity rarity;
+        public volatile RarityBorderManager.BorderData idle, open;
 
         RarityData(Color[] inputColors, float waveSpeed, float spread, boolean bold, boolean shouldCycle) {
             this.colors = new int[inputColors.length];
@@ -108,7 +109,10 @@ public final class ModRarities {
             this.shouldCycle = shouldCycle;
         }
 
-
+        public void setBorders(RarityBorderManager.BorderData idle, RarityBorderManager.BorderData open) {
+            this.idle = idle;
+            this.open = open;
+        }
     }
 
 }

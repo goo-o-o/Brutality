@@ -43,11 +43,8 @@ public class Brutality {
                 "brutality-client.toml"
         );
 
-        // Register network-related classes
-//        PacketHandler.register();  // Ensure packets are properly registered
         modEventBus.addListener(this::commonSetup);
 
-        // Register general Forge event handlers (e.g., for item/ block registration)
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -68,19 +65,5 @@ public class Brutality {
     public void onServerStarting(ServerStartingEvent event) {
         LOGGER.info("Brutality: Server is starting!");
     }
-
-
-//    @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-//    public static class ConfigSetup {
-//        @SubscribeEvent
-//        public static void onLoad(final ModConfigEvent.Loading configEvent) {
-//            // Config loaded
-//        }
-//
-//        @SubscribeEvent
-//        public static void onReload(final ModConfigEvent.Reloading configEvent) {
-//            // Config reloaded
-//        }
-//    }
 
 }
