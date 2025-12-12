@@ -4,14 +4,12 @@ import com.lowdragmc.photon.client.fx.EntityEffect;
 import com.lowdragmc.photon.client.fx.FX;
 import com.lowdragmc.photon.client.fx.FXRuntime;
 import net.goo.brutality.config.BrutalityCommonConfig;
-import net.goo.brutality.entity.base.BrutalityRay;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.*;
 import net.goo.brutality.particle.providers.WaveParticleData;
 import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.phys.CircleAABB;
-import net.goo.brutality.util.phys.OrientedBoundingBox;
+import net.goo.brutality.util.phys.CylindricalBoundingBox;
 import net.mcreator.terramity.init.TerramityModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -31,7 +29,6 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -415,7 +412,7 @@ public class ModUtils {
             final float previousRadius = maxRadius * ModEasings.easeOut(previousGrowthProgress);
 
             DelayedTaskScheduler.queueServerWork(level, age, () -> {
-                CircleAABB circle = new CircleAABB(center, currentRadius, previousRadius);
+                CylindricalBoundingBox circle = new CylindricalBoundingBox(center, currentRadius, previousRadius);
 
                 List<T> entities = level.getEntitiesOfClass(clazz, circle, entity ->
                         (filter == null || filter.test(entity)) && circle.contains(entity.position()));

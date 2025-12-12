@@ -65,18 +65,18 @@ public class RageMeter {
         private void renderFire(GuiGraphics gui, int x, int bottomY, int width, float percent) {
             int fireY = bottomY - width;                // bottom-aligned, never moves
 
-            var shader = BrutalityShaders.getFireShader();
-            if (shader != null) {
-                float time = (System.currentTimeMillis() - startTime) / 1000f;
-                shader.safeGetUniform("time").set(time);
-                shader.safeGetUniform("intensity").set((float) (percent * 3 * BrutalityClientConfig.RAGE_METER_FIRE_INTENSITY.get()));  // intensity scales with rage
-                shader.safeGetUniform("colour_1").set(innerColor[0], innerColor[1], innerColor[2], 1.0F);
-                shader.safeGetUniform("colour_2").set(outerColor[0], outerColor[1], outerColor[2], 1.0F);
-//                shader.safeGetUniform("colour_1").set(OUTER_COLOR[0], OUTER_COLOR[1], OUTER_COLOR[2], 1.0F);
-//                shader.safeGetUniform("colour_2").set(INNER_COLOR[0], INNER_COLOR[1], INNER_COLOR[2], 1.0F);
-            }
-
-            RenderSystem.setShader(BrutalityShaders::getFireShader);
+//            var shader = BrutalityShaders.getFireShader();
+//            if (shader != null) {
+//                float time = (System.currentTimeMillis() - startTime) / 1000f;
+//                shader.safeGetUniform("time").set(time);
+//                shader.safeGetUniform("intensity").set((float) (percent * 3 * BrutalityClientConfig.RAGE_METER_FIRE_INTENSITY.get()));  // intensity scales with rage
+//                shader.safeGetUniform("colour_1").set(innerColor[0], innerColor[1], innerColor[2], 1.0F);
+//                shader.safeGetUniform("colour_2").set(outerColor[0], outerColor[1], outerColor[2], 1.0F);
+////                shader.safeGetUniform("colour_1").set(OUTER_COLOR[0], OUTER_COLOR[1], OUTER_COLOR[2], 1.0F);
+////                shader.safeGetUniform("colour_2").set(INNER_COLOR[0], INNER_COLOR[1], INNER_COLOR[2], 1.0F);
+//            }
+//
+//            RenderSystem.setShader(BrutalityShaders::getFireShader);
             var matrix = gui.pose().last().pose();
 
             BufferBuilder builder = Tesselator.getInstance().getBuilder();

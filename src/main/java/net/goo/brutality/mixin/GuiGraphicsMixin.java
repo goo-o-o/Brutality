@@ -28,7 +28,7 @@ public abstract class GuiGraphicsMixin {
     private static long brutality$hoverTime = 0;
 
     @Shadow
-    private ItemStack tooltipStack;
+    public ItemStack tooltipStack;
 
 
     @Inject(method = "lambda$renderTooltipInternal$5", at = @At("HEAD"))
@@ -77,11 +77,6 @@ public abstract class GuiGraphicsMixin {
         if (borderToRender != null) {
             brutality$renderBorder(pGuiGraphics, pX, pY, pZ + 10, pWidth, pHeight, borderToRender, timeMs);
         }
-
-        System.out.println("TOP: " + borderTop);
-        System.out.println("BOTTOM: " + borderBottom);
-
-
         brutality$renderHorizontalLine(pGuiGraphics, i, j - 1, k, pZ, backgroundTop);
         brutality$renderHorizontalLine(pGuiGraphics, i, j + l, k, pZ, backgroundBottom);
         brutality$renderRectangle(pGuiGraphics, i, j, k, l, pZ, backgroundTop, backgroundBottom);
