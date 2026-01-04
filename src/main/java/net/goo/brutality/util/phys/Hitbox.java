@@ -1,7 +1,6 @@
 package net.goo.brutality.util.phys;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
@@ -14,13 +13,13 @@ import java.util.function.Predicate;
 
 public abstract class Hitbox {
     public Vec3 center;
-    public final Matrix3f rotation = new Matrix3f(); // every hitbox can be rotated
+    public Matrix3f rotation = new Matrix3f(); // every hitbox can be rotated
 
     public abstract AABB getAABB();
 
     public abstract Hitbox copy();
 
-    public abstract void render(PoseStack poseStack, VertexConsumer consumer, int light, int overlay);
+    public abstract void render(PoseStack poseStack);
 
     public Hitbox translateWorld(Vec3 v) {
         center = center.add(v);
@@ -56,10 +55,24 @@ public abstract class Hitbox {
                 .translateLocal(localOffset.add(0,0, player.getBbWidth() / 2));
     }
 
-    public <T extends Entity> List<T> filter(Player player, List<T> entities, boolean needsLos) {
-        return entities.stream().filter(entity -> intersectsAABB(entity.getBoundingBox()) && (!needsLos || player.hasLineOfSight(entity))).toList();
+    public Hitbox inWorld(Player player, Vec3 localOffset, float xRot, float yRot) {
+        return this.copy()
+                .translateWorld(HitboxUtils.getShoulderPosition(player))
+                .rotateWorld(HitboxUtils.fromAngle(xRot, yRot, 0))
+                .translateLocal(localOffset.add(0,0, player.getBbWidth() / 2));
     }
 
-    public abstract <T extends Entity> List<T> findEntitiesHit(Player player, Class<T> clazz, boolean needsLos, Predicate<? super T> filter);
+    public Hitbox inWorld(Player player, Vec3 origin, Vec3 localOffset) {
+        return this.copy()
+                .translateWorld(origin)
+                .rotateWorld(HitboxUtils.fromAngle(player.getXRot(), player.getYRot(), 0))
+                .translateLocal(localOffset.add(0,0, player.getBbWidth() / 2));
+    }
+
+    public <T extends Entity> List<T> filter(List<T> entities) {
+        return entities.stream().filter(entity -> intersectsAABB(entity.getBoundingBox())).toList();
+    }
+
+    public abstract <T extends Entity> List<T> findEntitiesHit(Player player, Class<T> clazz, Predicate<? super T> filter);
 
 }

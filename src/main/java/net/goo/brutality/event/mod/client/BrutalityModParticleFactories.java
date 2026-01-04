@@ -1,12 +1,12 @@
 package net.goo.brutality.event.mod.client;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.particle.base.WaveParticle;
 import net.goo.brutality.particle.custom.*;
 import net.goo.brutality.particle.custom.flat.HexingCircleParticle;
 import net.goo.brutality.particle.custom.flat.MurasamaSlashParticle;
 import net.goo.brutality.particle.custom.flat.StygianStepParticle;
 import net.goo.brutality.particle.custom.flat.VoidSlashParticle;
-import net.goo.brutality.particle.custom.flat.waves.*;
 import net.goo.brutality.particle.providers.FlatParticleData;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.minecraftforge.api.distmarker.Dist;
@@ -42,6 +42,7 @@ public class BrutalityModParticleFactories {
         event.registerSpriteSet(BrutalityModParticles.YANG_PARTICLE.get(), YangParticle.Provider::new);
 
         event.registerSpriteSet(BrutalityModParticles.BLACK_HOLE_PARTICLE.get(), BlackholeParticle.Provider::new);
+        event.registerSpriteSet(BrutalityModParticles.HEALING_PARTICLE.get(), HealingParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.MIRACLE_BLIGHT_PARTICLE.get(), MiracleBlightParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.LAST_PRISM_RAY_PARTICLE.get(), LastPrismRayParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.DEPTH_CRUSHER_PARTICLE.get(), DepthCrusherParticle.Provider::new);
@@ -64,11 +65,12 @@ public class BrutalityModParticleFactories {
         event.registerSpriteSet(BrutalityModParticles.HEXING_CIRCLE_PARTICLE.get(), HexingCircleParticle.Provider::new);
         event.registerSpriteSet(BrutalityModParticles.STYGIAN_STEP_PARTICLE.get(), StygianStepParticle.Provider::new);
 
-        event.registerSpriteSet(BrutalityModParticles.HEAL_WAVE.get(), HealWave.Provider::new);
-        event.registerSpriteSet(BrutalityModParticles.FROSTMOURNE_WAVE.get(), FrostmourneWave.Provider::new);
-        event.registerSpriteSet(BrutalityModParticles.COSMIC_WAVE.get(), CosmicWave.Provider::new);
-        event.registerSpriteSet(BrutalityModParticles.SONIC_WAVE.get(), SonicWave.Provider::new);
-        event.registerSpriteSet(BrutalityModParticles.ANTIMATTER_WAVE.get(), AntiMatterWave.Provider::new);
+        event.registerSpriteSet(BrutalityModParticles.BLOOD_WAVE.get(), WaveParticle.Provider::new);
+        event.registerSpriteSet(BrutalityModParticles.HEAL_WAVE.get(), WaveParticle.Provider::new);
+        event.registerSpriteSet(BrutalityModParticles.FROSTMOURNE_WAVE.get(), WaveParticle.Provider::new);
+        event.registerSpriteSet(BrutalityModParticles.COSMIC_WAVE.get(), WaveParticle.Provider::new);
+        event.registerSpriteSet(BrutalityModParticles.SONIC_WAVE.get(), WaveParticle.Provider::new);
+        event.registerSpriteSet(BrutalityModParticles.ANTIMATTER_WAVE.get(), WaveParticle.Provider::new);
 
         event.registerSpecial(BrutalityModParticles.NUCLEAR_EXPLOSION_EMITTER.get(), new NuclearExplosionParticleEmitter.Provider());
         event.registerSpriteSet(BrutalityModParticles.NUCLEAR_EXPLOSION_PARTICLE.get(), NuclearExplosionParticle.Provider::new);

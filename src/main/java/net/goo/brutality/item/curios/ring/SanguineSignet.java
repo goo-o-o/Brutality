@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.ring;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseRingCurio;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -16,16 +15,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class SanguineSignet extends BrutalityCurioItem {
+public class SanguineSignet extends BaseRingCurio {
 
 
     public SanguineSignet(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.RING;
     }
 
     UUID SANGUINE_SIGNET_MAX_HEALTH = UUID.fromString("f14cfed5-6d9e-49de-bdea-16f60d2161e2");

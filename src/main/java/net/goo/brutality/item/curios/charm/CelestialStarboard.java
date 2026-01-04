@@ -2,13 +2,15 @@ package net.goo.brutality.item.curios.charm;
 
 import com.lowdragmc.photon.PhotonNetworking;
 import com.lowdragmc.photon.client.fx.EntityEffect;
+import com.lowdragmc.photon.client.fx.FX;
+import com.lowdragmc.photon.client.fx.FXHelper;
 import com.lowdragmc.photon.command.EntityEffectCommand;
 import com.lowdragmc.photon.command.RemoveEntityEffectCommand;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
-import net.goo.brutality.util.ModResources;
+import net.goo.brutality.Brutality;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +28,7 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class CelestialStarboard extends BrutalityCurioItem {
+public class CelestialStarboard extends BaseCharmCurio {
 
     public CelestialStarboard(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
@@ -42,20 +44,21 @@ public class CelestialStarboard extends BrutalityCurioItem {
     }
 
     @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
-    }
-
-    @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         super.onEquip(slotContext, prevStack, stack);
         if (ModList.get().isLoaded("photon")) {
             if (!(slotContext.entity() instanceof Player player)) return;
-            EntityEffectCommand command = new EntityEffectCommand();
-            command.setLocation(ModResources.CELESTIAL_STARBOARD_FX.getFxLocation());
-            command.setEntities(List.of(player));
-            command.setAutoRotate(EntityEffect.AutoRotate.FORWARD);
-            PhotonNetworking.NETWORK.sendToAll(command);
+
+            if (!(player.level() instanceof ServerLevel)) {
+                EntityEffectCommand command = new EntityEffectCommand();
+
+                FX effect = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "celestial_starboard_trail"));
+                if (effect == null) return;
+                command.setLocation(effect.getFxLocation());
+                command.setEntities(List.of(player));
+                command.setAutoRotate(EntityEffect.AutoRotate.FORWARD);
+                PhotonNetworking.NETWORK.sendToAll(command);
+            }
         }
     }
 
@@ -63,7 +66,9 @@ public class CelestialStarboard extends BrutalityCurioItem {
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (ModList.get().isLoaded("photon")) {
             RemoveEntityEffectCommand command = new RemoveEntityEffectCommand();
-            command.setLocation(ModResources.CELESTIAL_STARBOARD_FX.getFxLocation());
+            FX effect = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "celestial_starboard_trail"));
+            if (effect == null) return;
+            command.setLocation(effect.getFxLocation());
             command.setEntities(List.of(slotContext.entity()));
             PhotonNetworking.NETWORK.sendToAll(command);
         }

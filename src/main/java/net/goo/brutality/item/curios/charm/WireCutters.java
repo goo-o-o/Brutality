@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.charm;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -15,16 +14,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class WireCutters extends BrutalityCurioItem {
+public class WireCutters extends BaseCharmCurio {
 
 
     public WireCutters(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
     }
 
 

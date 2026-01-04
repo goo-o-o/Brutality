@@ -1,7 +1,6 @@
 package net.goo.brutality.item.curios.charm;
 
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.ChatFormatting;
@@ -16,7 +15,7 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class Sum extends BrutalityCurioItem {
+public class Sum extends BaseCharmCurio {
     public static String SUM_DAMAGE = "sumDamage";
 
     public Sum(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
@@ -42,8 +41,4 @@ public class Sum extends BrutalityCurioItem {
         pTooltipComponents.add(Component.literal(String.valueOf(pStack.getOrCreateTag().getFloat(SUM_DAMAGE))).withStyle(ChatFormatting.DARK_GRAY));
     }
 
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
-    }
 }

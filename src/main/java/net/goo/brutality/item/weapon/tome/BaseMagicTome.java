@@ -139,9 +139,8 @@ public class BaseMagicTome extends BrutalityGenericItem {
         int spellLevel = IBrutalitySpell.getActualSpellLevel(player, spell, spellEntry.level());
 
         if (spell.getCategories().contains(IBrutalitySpell.SpellCategory.CHANNELLING)) {
-            if (SpellCastingHandler.castChannellingSpell(player, stack, spell, spellLevel, remainingTicks)) {
-                player.releaseUsingItem();
-            }
+            SpellCastingHandler.castChannellingSpell(player, stack, spell, spellLevel, remainingTicks);
+
         } else if (spell.getCategories().contains(IBrutalitySpell.SpellCategory.CONTINUOUS)) {
             SpellCastingHandler.tickContinuousCast(player, stack, spell, spellLevel);
         }

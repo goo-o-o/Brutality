@@ -48,7 +48,12 @@ public class OiledEffect extends MobEffect implements IGastronomyEffect {
 
     @Override
     public float baseMultiplier() {
-        return 0.05F;
+        return 0.10F;
+    }
+
+    @Override
+    public float multiplierPerLevel() {
+        return 0;
     }
 
 }

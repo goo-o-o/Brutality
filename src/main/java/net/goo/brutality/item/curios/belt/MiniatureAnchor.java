@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.belt;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseBeltCurio;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -18,16 +17,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class MiniatureAnchor extends BrutalityCurioItem {
+public class MiniatureAnchor extends BaseBeltCurio {
 
 
     public MiniatureAnchor(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.BELT;
     }
 
     UUID MINIATURE_ANCHOR_SWIM_SPEED = UUID.fromString("bcece337-55e7-4246-ab1e-09b3faace18b");

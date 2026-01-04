@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.ring;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseRingCurio;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -15,18 +14,12 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class MicrobladeBand extends BrutalityCurioItem {
+public class MicrobladeBand extends BaseRingCurio {
 
 
     public MicrobladeBand(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.RING;
-    }
-
     UUID MICROBLADE_BAND_LETHALITY_UUID = UUID.fromString("9753458f-5839-4d24-92e5-e934a59a249c");
 
     @Override

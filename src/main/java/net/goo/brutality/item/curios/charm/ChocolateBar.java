@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.charm;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -15,16 +14,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class ChocolateBar extends BrutalityCurioItem {
+public class ChocolateBar extends BaseCharmCurio {
 
 
     public ChocolateBar(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
     }
 
     UUID CHOCOBAR_MS = UUID.fromString("78730b04-de4d-4f55-9d9c-d771150623f0");

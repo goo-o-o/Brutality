@@ -3,8 +3,7 @@ package net.goo.brutality.item.curios.charm;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,15 +18,10 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class TargetCube extends BrutalityCurioItem {
+public class TargetCube extends BaseCharmCurio {
 
     public TargetCube(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
     }
 
     UUID TARGET_CUBE_CRIT_CHANCE_UUID = UUID.fromString("fd88bba5-e451-4ed7-aa8a-b3f19e14a5ee");

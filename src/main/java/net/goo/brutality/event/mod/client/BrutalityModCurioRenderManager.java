@@ -2,7 +2,6 @@ package net.goo.brutality.event.mod.client;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.renderers.curio.BrutalityCurioRenderer;
-import net.goo.brutality.client.renderers.curio.SuspiciousSlotMachineRenderer;
 import net.goo.brutality.client.renderers.layers.BrutalityAutoFullbrightAlphaLayer;
 import net.goo.brutality.client.renderers.layers.BrutalityAutoFullbrightLayer;
 import net.goo.brutality.registry.BrutalityModItems;
@@ -34,7 +33,7 @@ public class BrutalityModCurioRenderManager {
         CuriosRendererRegistry.register(BrutalityModItems.SOLAR_SYSTEM.get(), BrutalityCurioRenderer::new);
         CuriosRendererRegistry.register(BrutalityModItems.GOLDEN_HEADBAND.get(), BrutalityCurioRenderer::new);
         CuriosRendererRegistry.register(BrutalityModItems.TRIAL_GUARDIAN_EYEBROWS.get(), BrutalityCurioRenderer::new);
-        CuriosRendererRegistry.register(BrutalityModItems.SUSPICIOUS_SLOT_MACHINE.get(), SuspiciousSlotMachineRenderer::new);
+//        CuriosRendererRegistry.register(BrutalityModItems.SUSPICIOUS_SLOT_MACHINE.get(), SuspiciousSlotMachineRenderer::new);
         CuriosRendererRegistry.register(BrutalityModItems.TRIAL_GUARDIAN_HANDS.get(), BrutalityCurioRenderer::new);
 
         CuriosRendererRegistry.register(BrutalityModItems.HELLSPEC_TIE.get(), BrutalityCurioRenderer::new);

@@ -10,12 +10,19 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumMap;
 import java.util.function.Supplier;
 
 public enum BrutalityArmorMaterials implements ArmorMaterial {
-    NOIR("noir", 5, Util.make(new EnumMap<>(ArmorItem.Type.class), (protectionBaseMap) -> {
+    VAMPIRE_LORD("vampire_lord", 12, Util.make(new EnumMap<>(ArmorItem.Type.class), (protectionBaseMap) -> {
+        protectionBaseMap.put(ArmorItem.Type.BOOTS, 1);
+        protectionBaseMap.put(ArmorItem.Type.LEGGINGS, 2);
+        protectionBaseMap.put(ArmorItem.Type.CHESTPLATE, 3);
+        protectionBaseMap.put(ArmorItem.Type.HELMET, 1);
+    }), 15, SoundEvents.ARMOR_EQUIP_NETHERITE, 0.0F, 0.0F, () -> Ingredient.of(Items.LEATHER)),
+    NOIR("noir", 25, Util.make(new EnumMap<>(ArmorItem.Type.class), (protectionBaseMap) -> {
         protectionBaseMap.put(ArmorItem.Type.BOOTS, 2);
         protectionBaseMap.put(ArmorItem.Type.LEGGINGS, 4);
         protectionBaseMap.put(ArmorItem.Type.CHESTPLATE, 6);
@@ -68,15 +75,15 @@ public enum BrutalityArmorMaterials implements ArmorMaterial {
         return this.enchantmentValue;
     }
 
-    public SoundEvent getEquipSound() {
+    public @NotNull SoundEvent getEquipSound() {
         return this.sound;
     }
 
-    public Ingredient getRepairIngredient() {
+    public @NotNull Ingredient getRepairIngredient() {
         return this.repairIngredient.get();
     }
 
-    public String getName() {
+    public @NotNull String getName() {
         return this.name;
     }
 

@@ -58,7 +58,7 @@ public class Deathsaw extends BrutalityAxeItem {
     public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
         if (pLivingEntity instanceof Player player) {
 
-            HITBOX.inWorld(player, OFFSET).findEntitiesHit(player, LivingEntity.class, true, null)
+            HITBOX.inWorld(player, OFFSET).findEntitiesHit(player, LivingEntity.class, null)
                             .forEach(e -> e.hurt(BrutalityDamageTypes.deathsaw(player), BrutalityCommonConfig.DEATHSAW_TICK_DAMAGE.get()));
 
             Direction lookDir = pLivingEntity.getDirection();

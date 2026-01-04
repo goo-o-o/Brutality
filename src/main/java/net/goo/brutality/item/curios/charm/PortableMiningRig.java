@@ -1,13 +1,11 @@
 package net.goo.brutality.item.curios.charm;
 
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -16,7 +14,7 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class PortableMiningRig extends BrutalityCurioItem {
+public class PortableMiningRig extends BaseCharmCurio {
     public PortableMiningRig(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
@@ -30,7 +28,7 @@ public class PortableMiningRig extends BrutalityCurioItem {
             if (!(livingEntity.level() instanceof ServerLevel serverLevel)) return;
             if (livingEntity.tickCount % 20 != 0) return;
             CuriosApi.getCuriosInventory(livingEntity).ifPresent(handler -> {
-                handler.findFirstCurio(BrutalityModItems.CRYPTO_WALLET_CHARM.get()).ifPresent(slotResult -> {
+                handler.findFirstCurio(BrutalityModItems.CRYPTO_WALLET.get()).ifPresent(slotResult -> {
                             ItemStack cryptoWalletStack = slotResult.stack();
                             RandomSource random = serverLevel.getRandom();
                             if (random.nextIntBetweenInclusive(0, 100) < 3) {
@@ -61,9 +59,5 @@ public class PortableMiningRig extends BrutalityCurioItem {
         }
     }
 
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
-    }
 }
 

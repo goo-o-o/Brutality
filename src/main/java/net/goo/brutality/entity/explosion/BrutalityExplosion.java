@@ -42,6 +42,7 @@ import java.util.function.Predicate;
 public class BrutalityExplosion extends Explosion {
     private final Map<Entity, Vec3> hitEntities = Maps.newHashMap();
     public float damageScale = 1;
+    public float knockbackScale = 1;
     public Float damage = null;
     Predicate<Entity> entityFilter = e -> true;
     protected Level.ExplosionInteraction explosionInteraction;
@@ -263,6 +264,8 @@ public class BrutalityExplosion extends Explosion {
                         } else {
                             knockbackFactor = impactFactor;
                         }
+
+                        knockbackFactor *= knockbackScale;
 
                         deltaX *= knockbackFactor;
                         deltaY *= knockbackFactor;

@@ -1,31 +1,19 @@
 package net.goo.brutality.particle.custom;
 
+import net.goo.brutality.particle.base.GenericCircleParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 
-public class BlackholeParticle extends TextureSheetParticle {
+public class BlackholeParticle extends GenericCircleParticle {
     protected BlackholeParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed);
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
 
-        this.friction = 1.5F; // Determines particle movement slowdown
-        this.xd = xSpeed;
-        this.yd = ySpeed;
-        this.zd = zSpeed;
-        this.quadSize *= (level.random.nextFloat() * 2); // Adjust particle size
-        this.lifetime = 5; // Number of ticks the particle will live
-        this.setSpriteFromAge(spriteSet);
-        this.rCol = 0;
-        this.gCol = 0;
-        this.bCol = 0;
+        this.friction = 1.5F;
+        this.quadSize *= (level.random.nextFloat() * 2);
 
     }
 
-
-    @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT; // Translucent particles
-    }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;

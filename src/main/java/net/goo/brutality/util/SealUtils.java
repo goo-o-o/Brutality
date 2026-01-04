@@ -140,25 +140,11 @@ public class SealUtils implements IItemDecorator {
         stack.getOrCreateTag().putString(SEAL, type.name());
     }
 
-    public static void handleSealProc(Level level, LivingEntity attacker, Vec3 location, @Nullable SEAL_TYPE sealType) {
+    public static void handleSealProcOffensive(Level level, LivingEntity attacker, Vec3 location, @Nullable SEAL_TYPE sealType) {
         if (sealType != null) {
             RandomSource random = level.getRandom();
             switch (sealType) {
                 case BOMB ->
-                    //                    BombFlowerItemProjectileEntity bombFlower =
-                    //                            new BombFlowerItemProjectileEntity(TerramityModEntities.BOMB_FLOWER_ITEM_PROJECTILE.get(), victim.getRandomX(0.5F), victim.getY(0.5F), victim.getRandomZ(0.5F), level);
-                    //                    bombFlower.setOwner(attacker);
-                    //                    bombFlower.setSilent(true);
-                    //                    bombFlower.setBaseDamage(4.0F);
-                    //                    bombFlower.setKnockback(5);
-                    //                    bombFlower.setCritArrow(false);
-                    //                    bombFlower.setDeltaMovement(
-                    //                            Mth.randomBetween(random, -0.5F, 0.5F),
-                    //                            Mth.randomBetween(random, -0.5F, 0.5F),
-                    //                            Mth.randomBetween(random, -0.5F, 0.5F)
-                    //                    );
-                    //                    level.addFreshEntity(bombFlower);
-                    //                    level.playSound(null, victim.getX(), victim.getY(), victim.getZ(), SoundEvents.ENDER_PEARL_THROW, SoundSource.PLAYERS, 1.0F, 1.0F / (RandomSource.create().nextFloat() * 0.5F + 1.0F));
                         level.explode(attacker, location.x(), location.y(), location.z(), 0.25F, Level.ExplosionInteraction.NONE);
                 case COSMIC -> {
                     StarStreamEntity spellEntity = new StarStreamEntity(BrutalityModEntities.STAR_STREAM_ENTITY.get(), level);
@@ -168,7 +154,7 @@ public class SealUtils implements IItemDecorator {
                             Mth.randomBetween(attacker.getRandom(), -1, 1),
                             Mth.randomBetween(attacker.getRandom(), 7.5F, 12F),
                             Mth.randomBetween(attacker.getRandom(), -1, 1)
-                            );
+                    );
 
                     spellEntity.setPos(randomPos);
                     spellEntity.setOwner(attacker);
@@ -186,10 +172,56 @@ public class SealUtils implements IItemDecorator {
         }
     }
 
+    public static void handleSealProcDefensive(Level level, LivingEntity attacker, LivingEntity victim, @Nullable SEAL_TYPE sealType) {
+        if (sealType != null) {
+            RandomSource random = level.getRandom();
+            switch (sealType) {
+                case BOMB ->
+                        level.explode(victim, victim.getRandomX(2), victim.getY(0.5), victim.getZ(2), 2, Level.ExplosionInteraction.NONE);
+                case COSMIC -> {
+                    StarStreamEntity spellEntity = new StarStreamEntity(BrutalityModEntities.STAR_STREAM_ENTITY.get(), level);
+                    spellEntity.setSpellLevel(0);
+                    Vec3 randomPos;
+                    if (attacker == null) {
+                        randomPos = new Vec3(
+                                victim.getRandomX(2),
+                                victim.getY(0.5F) + Mth.nextFloat(random, 7.5F, 12.5F),
+                                victim.getRandomZ(2));
+                    } else {
+                        randomPos = new Vec3(
+                                attacker.getRandomX(2),
+                                attacker.getY(0.5F) + Mth.nextFloat(random, 7.5F, 12.5F),
+                                attacker.getRandomZ(2));
+                    }
 
-    public static void handleSealProc(Level level, LivingEntity attacker, Vec3 location, ItemStack stack) {
+
+                    spellEntity.setPos(randomPos);
+                    spellEntity.setOwner(victim);
+                    Vec3 targetPos;
+                    if (attacker == null) {
+                        targetPos = new Vec3(victim.getRandomX(10), victim.getY(), victim.getRandomZ(10));
+                    } else {
+                        targetPos = attacker.getPosition(1).add(0, attacker.getBbHeight() * 0.5, 0);
+                    }
+
+                    Vec3 direction = targetPos.subtract(randomPos).normalize();
+
+                    spellEntity.shoot(direction.x, direction.y, direction.z, 1.5F, 1.5F);
+
+                    level.addFreshEntity(spellEntity);
+                    level.playSound(null, victim.getX(), victim.getY(0.5), victim.getZ(),
+                            BrutalityModSounds.BASS_BOP.get(), SoundSource.AMBIENT,
+                            1.5F, Mth.nextFloat(random, 0.7F, 1.2F));
+                }
+
+            }
+        }
+    }
+
+
+    public static void handleSealProcOffensive(Level level, LivingEntity attacker, Vec3 location, ItemStack stack) {
         SealUtils.SEAL_TYPE sealType = SealUtils.getSealType(stack);
-        handleSealProc(level, attacker, location, sealType);
+        handleSealProcOffensive(level, attacker, location, sealType);
     }
 
 }

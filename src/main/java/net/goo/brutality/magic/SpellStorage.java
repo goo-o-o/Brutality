@@ -17,7 +17,14 @@ public class SpellStorage {
     private static final String SPELL_LEVEL_TAG = "SpellLevel";
     private static final String SELECTED_SPELL_INDEX = "SelectedSpellIndex";
 
-    public record SpellEntry(IBrutalitySpell spell, int level) {}
+    public record SpellEntry(IBrutalitySpell spell, int level) {
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof SpellEntry spellEntry && spellEntry.spell() == spell && spellEntry.level() == level;
+        }
+    }
+
+
 
     public static List<SpellEntry> getSpells(ItemStack stack) {
         List<SpellEntry> spells = new ArrayList<>();

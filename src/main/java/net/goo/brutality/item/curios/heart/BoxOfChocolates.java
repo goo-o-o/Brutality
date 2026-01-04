@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.heart;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseHeartCurio;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -15,16 +14,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class BoxOfChocolates extends BrutalityCurioItem {
+public class BoxOfChocolates extends BaseHeartCurio {
 
 
     public BoxOfChocolates(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.HEART;
     }
 
     UUID BOX_OF_CHOCOLATES_VISIBILITY = UUID.fromString("59d9cded-4a6a-4d6e-86b1-861e83a4cfa1");

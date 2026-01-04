@@ -47,7 +47,7 @@ public class ServerboundPlayerAnimationPacket {
             ServerLevel level = sender.serverLevel();
             for (ServerPlayer player : level.players()) {
                 if (player != ctx.get().getSender()) {
-                    PacketHandler.sendToPlayer(new ClientboundPlayerAnimationPacket(packet.playerId, packet.animation, packet.mirrored, packet.speed), player);
+                    PacketHandler.sendToPlayerClient(new ClientboundPlayerAnimationPacket(packet.playerId, packet.animation, packet.mirrored, packet.speed), player);
                 }
             }
         });

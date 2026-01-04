@@ -49,6 +49,11 @@ public class SaltedEffect extends MobEffect implements IGastronomyEffect {
 
     @Override
     public float baseMultiplier() {
+        return 0.25F;
+    }
+
+    @Override
+    public float multiplierPerLevel() {
         return 0.05F;
     }
 }

@@ -21,6 +21,7 @@ public class BrutalityCapabilities {
     public static final Capability<EntityCapabilities.EntityStickyBombCap> ENTITY_STICKY_BOMB_CAP = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<EntityCapabilities.EntityShouldRotateCap> ENTITY_SHOULD_ROTATE_CAP = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<EntityCapabilities.PlayerRageCap> PLAYER_RAGE_CAP = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<EntityCapabilities.PlayerBloodCap> PLAYER_BLOOD_CAP = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<EntityCapabilities.PlayerManaCap> PLAYER_MANA_CAP = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<EntityCapabilities.PlayerComboCap> PLAYER_COMBO_CAP = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<EntityCapabilities.RespawnCap> RESPAWN_CAP = CapabilityManager.get(new CapabilityToken<>(){});
@@ -32,6 +33,7 @@ public class BrutalityCapabilities {
         CapabilitySyncRegistry.register("sticky_bomb", ENTITY_STICKY_BOMB_CAP, EntityCapabilities.EntityStickyBombCap::new);
         CapabilitySyncRegistry.register("should_rotate", ENTITY_SHOULD_ROTATE_CAP, EntityCapabilities.EntityShouldRotateCap::new);
         CapabilitySyncRegistry.register("rage_value", PLAYER_RAGE_CAP, EntityCapabilities.PlayerRageCap::new);
+        CapabilitySyncRegistry.register("blood_value", PLAYER_BLOOD_CAP, EntityCapabilities.PlayerBloodCap::new);
         CapabilitySyncRegistry.register("mana_value", PLAYER_MANA_CAP, EntityCapabilities.PlayerManaCap::new);
         CapabilitySyncRegistry.register("combo", PLAYER_COMBO_CAP, EntityCapabilities.PlayerComboCap::new);
         CapabilitySyncRegistry.register("respawn", RESPAWN_CAP, EntityCapabilities.RespawnCap::new);

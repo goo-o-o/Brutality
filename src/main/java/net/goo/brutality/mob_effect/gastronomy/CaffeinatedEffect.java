@@ -2,7 +2,6 @@ package net.goo.brutality.mob_effect.gastronomy;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
@@ -17,19 +16,6 @@ public class CaffeinatedEffect extends MobEffect implements IGastronomyEffect {
 
         this.addAttributeModifier(Attributes.MOVEMENT_SPEED, String.valueOf(CAFFEINATED_MS_UUID), 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL);
         this.addAttributeModifier(Attributes.ATTACK_SPEED, String.valueOf(CAFFEINATED_AS_UUID), 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL);
-    }
-
-    @Override
-    public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
-        super.applyEffectTick(pLivingEntity, pAmplifier);
-
-//        if (pLivingEntity.spellLevel() instanceof ServerLevel serverLevel) {
-//            serverLevel.sendParticles(ParticleTypes.LARGE_SMOKE,
-//                    pLivingEntity.getX(), pLivingEntity.getY() + pLivingEntity.getBbHeight() / 2, pLivingEntity.getZ(), 1,
-//                    0.5, 0.5, 0.5
-//                    ,0);
-//
-//        }
     }
 
     @Override
@@ -55,6 +41,11 @@ public class CaffeinatedEffect extends MobEffect implements IGastronomyEffect {
     @Override
     public float baseMultiplier() {
         return 0.05F;
+    }
+
+    @Override
+    public float multiplierPerLevel() {
+        return 0;
     }
 
 }

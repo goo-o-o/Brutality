@@ -28,7 +28,7 @@ public class ClientboundEnvironmentColorManagerPacket {
         this.isReset = buf.readBoolean();
     }
 
-    public void encode(FriendlyByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
         buf.writeEnum(type);
         buf.writeInt(r);
         buf.writeInt(g);

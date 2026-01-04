@@ -85,7 +85,6 @@ public class ForgePlayerStateHandler {
     }
 
 
-
     @SubscribeEvent
     public static void onAddEffect(MobEffectEvent.Added event) {
         LivingEntity entity = event.getEntity();
@@ -136,7 +135,7 @@ public class ForgePlayerStateHandler {
 
             if (shouldSync)
                 DelayedTaskScheduler.queueServerWork(newPlayer.level(), 1, () ->
-                        PacketHandler.sendToPlayer(new ClientboundSyncItemCooldownPacket(newCooldowns.cooldowns, newCooldowns.tickCount), ((ServerPlayer) newPlayer)));
+                        PacketHandler.sendToPlayerClient(new ClientboundSyncItemCooldownPacket(newCooldowns.cooldowns, newCooldowns.tickCount), ((ServerPlayer) newPlayer)));
         }
     }
 
@@ -154,7 +153,7 @@ public class ForgePlayerStateHandler {
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             ItemCooldowns itemCooldowns = player.getCooldowns();
-            PacketHandler.sendToPlayer(new ClientboundSyncItemCooldownPacket(itemCooldowns.cooldowns, itemCooldowns.tickCount), player);
+            PacketHandler.sendToPlayerClient(new ClientboundSyncItemCooldownPacket(itemCooldowns.cooldowns, itemCooldowns.tickCount), player);
         }
 
     }
@@ -354,8 +353,12 @@ public class ForgePlayerStateHandler {
                 } else if (player.hasEffect(BrutalityModMobEffects.STONEFORM.get())) {
                     player.removeEffect(BrutalityModMobEffects.STONEFORM.get());
                 }
-            }
 
+            } else if (ModUtils.hasFullArmorSet(player, BrutalityArmorMaterials.VAMPIRE_LORD)) {
+                if (player.tickCount % 20 == 0) {
+                    player.addEffect(new MobEffectInstance(MobEffects.HUNGER, 21, 1, true, false, false));
+                }
+            }
             player.getCapability(BrutalityCapabilities.PLAYER_MANA_CAP).
                     ifPresent(cap ->
                     {

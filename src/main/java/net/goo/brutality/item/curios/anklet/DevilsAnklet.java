@@ -35,16 +35,11 @@ public class DevilsAnklet extends BrutalityAnkletItem {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        if (slotContext.entity() != null) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-            builder.put(ModAttributes.DODGE_CHANCE.get(),
-                    new AttributeModifier(DEVILS_ANKLET_DODGE_UUID, "Dodge Buff", 0.25, AttributeModifier.Operation.MULTIPLY_BASE));
-            return builder.build();
-
-        }
-        return super.getAttributeModifiers(slotContext, uuid, stack);
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
+        builder.put(ModAttributes.DODGE_CHANCE.get(),
+                new AttributeModifier(DEVILS_ANKLET_DODGE_UUID, "Dodge Buff", 0.25, AttributeModifier.Operation.MULTIPLY_BASE));
+        return builder.build();
     }
-
 
 
     @Override

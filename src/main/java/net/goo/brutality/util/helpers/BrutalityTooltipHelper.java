@@ -1,5 +1,6 @@
 package net.goo.brutality.util.helpers;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.goo.brutality.registry.ModRarities;
 import net.goo.brutality.util.ColorUtils;
 import net.minecraft.client.Minecraft;
@@ -11,6 +12,9 @@ import net.minecraft.util.FastColor;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
+
+import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class BrutalityTooltipHelper {
@@ -33,9 +37,22 @@ public class BrutalityTooltipHelper {
     }
 
 
-    public record ItemDescriptionComponent(ItemDescriptionComponents type, int lines, Integer cooldownTicks) {
+    public record ItemDescriptionComponent(
+            ItemDescriptionComponents type,
+            int lines,
+            Integer cooldownTicks,
+            @Nullable Supplier<InputConstants.Key> keySupplier  // Supplier, not direct Key
+    ) {
         public ItemDescriptionComponent(ItemDescriptionComponents type, int lines) {
-            this(type, lines, null);
+            this(type, lines, null, null);
+        }
+
+        public ItemDescriptionComponent(ItemDescriptionComponents type, int lines, int cooldownTicks) {
+            this(type, lines, cooldownTicks, null);
+        }
+
+        public ItemDescriptionComponent(ItemDescriptionComponents type, int lines, Supplier<InputConstants.Key> keySupplier) {
+            this(type, lines, null, keySupplier);
         }
     }
 

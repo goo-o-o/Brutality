@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.hands;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseHandsCurio;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -16,16 +15,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class PhantomFinger extends BrutalityCurioItem {
+public class PhantomFinger extends BaseHandsCurio {
 
 
     public PhantomFinger(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.HANDS;
     }
 
     UUID PHANTOM_FINGER_ENTITY_REACH = UUID.fromString("03337d07-7d18-44a6-9cb3-9ac9e9c35795");

@@ -34,7 +34,7 @@ public class ServerboundDamageEntityPacket {
         );
     }
 
-    public void encode(FriendlyByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
         buf.writeVarInt(entityId);
         buf.writeFloat(damage);
         buf.writeResourceLocation(damageTypeKey.location());

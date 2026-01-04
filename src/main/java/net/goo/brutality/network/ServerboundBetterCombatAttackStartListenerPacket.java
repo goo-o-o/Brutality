@@ -29,7 +29,7 @@ public class ServerboundBetterCombatAttackStartListenerPacket {
         this.combo = buf.readInt();
     }
 
-    public void encode(FriendlyByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
         buf.writeItem(stack);
         buf.writeInt(combo);
     }
@@ -68,7 +68,7 @@ public class ServerboundBetterCombatAttackStartListenerPacket {
             } else if (item instanceof Rhongomyniad rhongomyniad) {
                 rhongomyniad.performRayAttack(player);
             } else if (item instanceof Schism schism) {
-                schism.performVoidSlash(player, serverLevel);
+                schism.performVoidSlash(player, serverLevel, packet.combo);
             }
         });
         context.setPacketHandled(true);

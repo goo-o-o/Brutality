@@ -25,9 +25,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.Map;
@@ -38,6 +38,7 @@ import static net.goo.brutality.Brutality.LOGGER;
 public class ClientAccess {
     private static ExtinctionSpellSoundInstance extinctionSpellSoundInstance;
     private static DeathsawSoundInstance deathsawSoundInstance;
+
 
 
     public static void syncCapabilities(int entityId, Map<String, CompoundTag> data) {
@@ -128,7 +129,7 @@ public class ClientAccess {
         DamageSource source = new DamageSource(damageType, directEntity, causingEntity);
         if (level.getEntity(packet.entityId) instanceof LivingEntity livingEntity) {
             LivingDodgeEvent.Client client = new LivingDodgeEvent.Client(livingEntity, source, packet.amount);
-            MinecraftForge.EVENT_BUS.post(client);
+            ModLoader.get().postEvent(client);
             if (packet.anklet.getItem() instanceof BrutalityAnkletItem ankletItem) {
                 ankletItem.onDodgeClient(livingEntity, source, packet.amount, packet.anklet);
             }

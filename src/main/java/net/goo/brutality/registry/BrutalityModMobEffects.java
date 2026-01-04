@@ -67,8 +67,6 @@ public class BrutalityModMobEffects {
             () -> new SlickedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 222, 131, 4)));
     public static final RegistryObject<MobEffect> OILED = EFFECTS.register("oiled",
             () -> new OiledEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 80, 82, 37)));
-    public static final RegistryObject<MobEffect> MARINATED = EFFECTS.register("marinated",
-            () -> new MarinatedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 125, 150, 0)));
     public static final RegistryObject<MobEffect> STEAMED = EFFECTS.register("steamed",
             () -> new SteamedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 189, 205, 222)));
     public static final RegistryObject<MobEffect> SMOKED = EFFECTS.register("smoked",
@@ -109,6 +107,12 @@ public class BrutalityModMobEffects {
             () -> new MagicPowerEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 200, 0, 0)));
     public static final RegistryObject<MobEffect> MAGIC_SICKNESS = EFFECTS.register("magic_sickness",
             () -> new MagicSicknessEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 0, 200, 0)));
+
+    public static final RegistryObject<MobEffect> SIPHONED = EFFECTS.register("siphoned",
+            () -> new SiphonedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));
+    public static final RegistryObject<MobEffect> TERRAMITICULOSIS = EFFECTS.register("terramiticulosis",
+            () -> new TerramiticulosisEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 255)));
+
 
     public static void register(IEventBus eventBus) {
         EFFECTS.register(eventBus);

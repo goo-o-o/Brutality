@@ -6,7 +6,6 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.config.BrutalityClientConfig;
 import net.goo.brutality.entity.capabilities.EntityCapabilities;
 import net.goo.brutality.event.forge.client.ClientTickHandler;
-import net.goo.brutality.item.weapon.tome.BaseMagicTome;
 import net.goo.brutality.magic.IBrutalitySpell;
 import net.goo.brutality.magic.SpellCastingHandler;
 import net.goo.brutality.magic.SpellCooldownTracker;
@@ -14,7 +13,6 @@ import net.goo.brutality.magic.SpellStorage;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.ModTags;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -110,23 +108,23 @@ public class ForgeGui {
         cachedWindowWidth = window.getGuiScaledWidth();
         cachedWindowHeight = window.getGuiScaledHeight();
 
-        if (player.isHolding(itemStack -> itemStack.is(ModTags.Items.MAGIC_ITEMS))) {
-            renderManaBar(gui, player);
-
-            if (mainHand.getItem() instanceof BaseMagicTome) {
-                renderSpellSelection(gui, player, mainHand);
-                if (SpellCastingHandler.currentlyChannellingSpell(player, mainHand)) {
-                    float channelProgress = SpellCastingHandler.getChannellingProgress(player, mainHand);
-                    RadialProgressBarRenderer.renderProgressBar(mainHand, gui, getPixelX(BrutalityClientConfig.MANA_BAR_X.get()), getPixelY(BrutalityClientConfig.MANA_BAR_Y.get()), 0, channelProgress);
-                }
-            } else if (offHand.getItem() instanceof BaseMagicTome) {
-                renderSpellSelection(gui, player, offHand);
-                if (SpellCastingHandler.currentlyChannellingSpell(player, offHand)) {
-                    float channelProgress = SpellCastingHandler.getChannellingProgress(player, offHand);
-                    RadialProgressBarRenderer.renderProgressBar(offHand, gui, getPixelX(BrutalityClientConfig.MANA_BAR_X.get()), getPixelY(BrutalityClientConfig.MANA_BAR_Y.get()), 0, channelProgress);
-                }
-            }
-        }
+//        if (player.isHolding(itemStack -> itemStack.is(ModTags.Items.MAGIC_ITEMS))) {
+//            renderManaBar(gui, player);
+//
+//            if (mainHand.getItem() instanceof BaseMagicTome) {
+//                renderSpellSelection(gui, player, mainHand);
+//                if (SpellCastingHandler.currentlyChannellingSpell(player, mainHand)) {
+//                    float channelProgress = SpellCastingHandler.getChannellingProgress(player, mainHand);
+//                    RadialProgressBarRenderer.renderProgressBar(mainHand, gui, getPixelX(BrutalityClientConfig.MANA_BAR_X.get()), getPixelY(BrutalityClientConfig.MANA_BAR_Y.get()), 0, channelProgress);
+//                }
+//            } else if (offHand.getItem() instanceof BaseMagicTome) {
+//                renderSpellSelection(gui, player, offHand);
+//                if (SpellCastingHandler.currentlyChannellingSpell(player, offHand)) {
+//                    float channelProgress = SpellCastingHandler.getChannellingProgress(player, offHand);
+//                    RadialProgressBarRenderer.renderProgressBar(offHand, gui, getPixelX(BrutalityClientConfig.MANA_BAR_X.get()), getPixelY(BrutalityClientConfig.MANA_BAR_Y.get()), 0, channelProgress);
+//                }
+//            }
+//        }
 
 
 
@@ -134,10 +132,10 @@ public class ForgeGui {
             if (handler.isEquipped(BrutalityModItems.SCIENTIFIC_CALCULATOR.get())) {
                 computeVariables();
                 renderAxesAndTexture(gui);
-                handler.findFirstCurio(BrutalityModItems.SUM_CHARM.get()).ifPresent(slot -> renderSumDamageStored(gui, slot));
+                handler.findFirstCurio(BrutalityModItems.SUM.get()).ifPresent(slot -> renderSumDamageStored(gui, slot));
                 handler.findFirstCurio(BrutalityModItems.EXPONENTIAL_CHARM.get()).ifPresent(slot -> renderComboCount(gui, player));
-                handler.findFirstCurio(BrutalityModItems.SINE_CHARM.get()).ifPresent(slot -> renderSineWave(gui));
-                handler.findFirstCurio(BrutalityModItems.COSINE_CHARM.get()).ifPresent(slot -> renderCosineWave(gui));
+                handler.findFirstCurio(BrutalityModItems.SINE.get()).ifPresent(slot -> renderSineWave(gui));
+                handler.findFirstCurio(BrutalityModItems.COSINE.get()).ifPresent(slot -> renderCosineWave(gui));
             }
         });
     }
@@ -223,6 +221,7 @@ public class ForgeGui {
             if (SpellCooldownTracker.isOnCooldown(player, spellEntry.spell())) {
                 float progress = 1 - SpellCooldownTracker.getCooldownProgress(player, spellEntry.spell());
                 int visibleHeight = Math.round(iconDiameter * progress);
+
                 gui.blit(SPELL_CONTAINER_CD_TEXTURE,
                         (int) (xComponent - baseIconRadius),
                         (int) (yComponent + (iconDiameter - visibleHeight) - baseIconRadius),

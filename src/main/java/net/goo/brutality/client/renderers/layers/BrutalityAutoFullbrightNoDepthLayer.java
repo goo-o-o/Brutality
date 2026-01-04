@@ -13,7 +13,7 @@ import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
 
-public class BrutalityAutoFullbrightNoDepthLayer<T extends GeoAnimatable> extends AutoGlowingGeoLayer<T>{
+public class BrutalityAutoFullbrightNoDepthLayer<T extends GeoAnimatable> extends AutoGlowingGeoLayer<T> {
 
     public BrutalityAutoFullbrightNoDepthLayer(GeoRenderer<T> renderer) {
         super(renderer);
@@ -26,6 +26,7 @@ public class BrutalityAutoFullbrightNoDepthLayer<T extends GeoAnimatable> extend
 
     @Override
     public void render(PoseStack poseStack, T animatable, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
+
         RenderType fullbrightRenderType = getRenderType(animatable);
 
         getRenderer().reRender(bakedModel, poseStack, bufferSource, animatable, fullbrightRenderType,

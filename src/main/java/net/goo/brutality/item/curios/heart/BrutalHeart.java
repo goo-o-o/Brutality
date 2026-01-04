@@ -3,8 +3,7 @@ package net.goo.brutality.item.curios.heart;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseHeartCurio;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,15 +18,10 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class BrutalHeart extends BrutalityCurioItem {
+public class BrutalHeart extends BaseHeartCurio {
 
     public BrutalHeart(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.HEART;
     }
 
     UUID BRUTAL_HEART_CRIT_CHANCE_UUID = UUID.fromString("ef1d5c30-926e-11f0-9a87-325096b39f47");

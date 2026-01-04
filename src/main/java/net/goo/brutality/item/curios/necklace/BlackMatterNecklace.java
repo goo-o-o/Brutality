@@ -3,8 +3,7 @@ package net.goo.brutality.item.curios.necklace;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseNecklaceCurio;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,16 +17,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class BlackMatterNecklace extends BrutalityCurioItem {
+public class BlackMatterNecklace extends BaseNecklaceCurio {
 
 
     public BlackMatterNecklace(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.NECKLACE;
     }
 
     UUID BLACK_MATTER_NECKLACE_CRIT_CHANCE = UUID.fromString("c224324e-92fa-11f0-a121-325096b39f47");
@@ -69,18 +63,16 @@ public class BlackMatterNecklace extends BrutalityCurioItem {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        if (slotContext.entity() != null) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-            LivingEntity livingEntity = slotContext.entity();
-            float armor = livingEntity.getArmorValue();
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
+        LivingEntity livingEntity = slotContext.entity();
+        if (livingEntity == null) return super.getAttributeModifiers(slotContext, uuid, stack);
+        float armor = livingEntity.getArmorValue();
 
-            builder.put(ModAttributes.CRITICAL_STRIKE_CHANCE.get(),
-                    new AttributeModifier(BLACK_MATTER_NECKLACE_CRIT_CHANCE, "Crit Chance Buff", armor * 0.02F, AttributeModifier.Operation.MULTIPLY_BASE));
-            builder.put(ModAttributes.CRITICAL_STRIKE_DAMAGE.get(),
-                    new AttributeModifier(BLACK_MATTER_NECKLACE_CRIT_DAMAGE, "Crit Damage Buff", armor * -0.01F, AttributeModifier.Operation.MULTIPLY_BASE));
-            return builder.build();
-        }
-        return super.getAttributeModifiers(slotContext, uuid, stack);
+        builder.put(ModAttributes.CRITICAL_STRIKE_CHANCE.get(),
+                new AttributeModifier(BLACK_MATTER_NECKLACE_CRIT_CHANCE, "Crit Chance Buff", armor * 0.02F, AttributeModifier.Operation.MULTIPLY_BASE));
+        builder.put(ModAttributes.CRITICAL_STRIKE_DAMAGE.get(),
+                new AttributeModifier(BLACK_MATTER_NECKLACE_CRIT_DAMAGE, "Crit Damage Buff", armor * -0.01F, AttributeModifier.Operation.MULTIPLY_BASE));
+        return builder.build();
     }
 
 }

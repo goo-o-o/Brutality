@@ -1,0 +1,7 @@
+{
+  "frame_width": 96,
+  "frame_height": 64,
+  "corner_size": 32,
+  "frame_time": 3,
+  "color_shift": false
+}

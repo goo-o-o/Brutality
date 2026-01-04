@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "brutality:item/curio/charm/resplendent_feather_charm/resplendent_feather_charm_inventory"
-  }
-}

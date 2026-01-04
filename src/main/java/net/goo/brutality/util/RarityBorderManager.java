@@ -58,6 +58,7 @@ public class RarityBorderManager extends SimpleJsonResourceReloadListener {
                 int frameHeight = GsonHelper.getAsInt(json, "frame_height");
                 int cornerSize = GsonHelper.getAsInt(json, "corner_size");
                 int frameTime = GsonHelper.getAsInt(json, "frame_time", 2);
+                boolean colorShift = GsonHelper.getAsBoolean(json, "color_shift", true);
 
                 ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(
                         resourceLocation.getNamespace(),
@@ -70,7 +71,7 @@ public class RarityBorderManager extends SimpleJsonResourceReloadListener {
                 BorderData data = new BorderData(
                         rarity, type, frameWidth, frameHeight,
                         cornerSize, frameTime, texture,
-                        resourceLocation, frameCount
+                        resourceLocation, frameCount, colorShift
                 );
 
                 borderDataMap.put(Pair.of(rarity, type), data);
@@ -127,7 +128,8 @@ public class RarityBorderManager extends SimpleJsonResourceReloadListener {
             int frameTime,
             ResourceLocation texture,
             ResourceLocation source,
-            int frameCount
+            int frameCount,
+            boolean colorShift
     ) {
         public boolean hasAnimation() {
             return frameCount > 1;

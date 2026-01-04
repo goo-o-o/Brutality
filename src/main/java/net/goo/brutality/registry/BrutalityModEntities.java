@@ -204,6 +204,10 @@ public class BrutalityModEntities {
             ENTITY_TYPES.register("abyss_projectile", () -> EntityType.Builder.of(AbyssProjectile::new,
                     MobCategory.MISC).sized(0.25F, 0.25F).build("abyss_projectile"));
 
+    public static final RegistryObject<EntityType<HealingProjectile>> HEALING_PROJECTILE =
+            ENTITY_TYPES.register("healing_projectile", () -> EntityType.Builder.of(HealingProjectile::new,
+                    MobCategory.MISC).sized(0F, 0F).build("healing_projectile"));
+
     public static final RegistryObject<EntityType<RhongomyniadRay>> RHONGOMYNIAD_RAY =
             ENTITY_TYPES.register("rhongomyniad_ray", () -> EntityType.Builder.of(RhongomyniadRay::new,
                             MobCategory.MISC).sized(0, 0).setCustomClientFactory((packet, level) ->

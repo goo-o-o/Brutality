@@ -38,7 +38,6 @@ public class BrutalityStaffItem extends AxeItem implements BrutalityGeoItem {
             }
         });
     }
-
     @Override
     public BrutalityCategories.AttackType getAttackType() {
         return BrutalityCategories.AttackType.BLUNT;

@@ -33,8 +33,7 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new BrutalityItemTagProvider(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
 
         generator.addProvider(event.includeServer(), new BrutalityGlobalLootModifiersProvider(packOutput));
-        generator.addProvider(event.includeServer(), new BrutalityPoiTypeTagsProvider(packOutput, lookupProvider, existingFileHelper));
-//        generator.addProvider(event.includeServer(), new BrutalityDataFetcher(packOutput));
+        generator.addProvider(event.includeServer(), new BrutalityDataFetcher(packOutput));
         
     }
 }

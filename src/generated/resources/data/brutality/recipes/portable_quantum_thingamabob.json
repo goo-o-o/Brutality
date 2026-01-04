@@ -3,13 +3,13 @@
   "category": "equipment",
   "key": {
     "A": {
-      "item": "brutality:cosine_charm"
+      "item": "brutality:cosine"
     },
     "B": {
       "item": "terramity:empty_essence"
     },
     "C": {
-      "item": "brutality:sine_charm"
+      "item": "brutality:sine"
     }
   },
   "pattern": [

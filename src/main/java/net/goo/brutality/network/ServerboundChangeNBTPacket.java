@@ -23,7 +23,7 @@ public class ServerboundChangeNBTPacket {
         this.isMainHand = buf.readBoolean();
     }
 
-    public void encode(FriendlyByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
         buf.writeNbt(modifications);
         buf.writeBoolean(isMainHand);
     }

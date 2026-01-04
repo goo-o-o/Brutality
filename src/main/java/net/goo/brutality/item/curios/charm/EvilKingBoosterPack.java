@@ -3,8 +3,7 @@ package net.goo.brutality.item.curios.charm;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.event.forge.ForgePlayerStateHandler;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -28,16 +27,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class EvilKingBoosterPack extends BrutalityCurioItem {
+public class EvilKingBoosterPack extends BaseCharmCurio {
 
 
     public EvilKingBoosterPack(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
     }
 
 

@@ -1,7 +1,6 @@
 package net.goo.brutality.item.curios.belt;
 
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseBeltCurio;
 import net.goo.brutality.util.ModTags;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,7 +13,7 @@ import top.theillusivec4.curios.api.SlotResult;
 
 import java.util.List;
 
-public class ScientificCalculator extends BrutalityCurioItem {
+public class ScientificCalculator extends BaseBeltCurio {
 
 
     public ScientificCalculator(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
@@ -47,8 +46,4 @@ public class ScientificCalculator extends BrutalityCurioItem {
 
     }
 
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.BELT;
-    }
 }

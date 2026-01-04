@@ -12,7 +12,6 @@ import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.phys.CylindricalBoundingBox;
 import net.mcreator.terramity.init.TerramityModItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.protocol.Packet;
@@ -38,17 +37,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.PlayerEnderChestContainer;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
@@ -387,15 +383,15 @@ public class ModUtils {
 
     }
 
-    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, Vec3 origin, Class<T> clazz, WaveParticleData<?> particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
+    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, Vec3 origin, Class<T> clazz, WaveParticleData<?> particleData, @Nullable Predicate<T> filter, Consumer<Entity> effect) {
         return applyWaveEffect(level, origin.x(), origin.y(), origin.z(), clazz, particleData, filter, effect);
     }
 
-    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, Entity origin, Class<T> clazz, WaveParticleData<?> particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
+    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, Entity origin, Class<T> clazz, WaveParticleData<?> particleData, @Nullable Predicate<T> filter, Consumer<Entity> effect) {
         return applyWaveEffect(level, origin.getX(), origin.getY(0.5), origin.getZ(), clazz, particleData, filter, effect);
     }
 
-    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, double x, double y, double z, Class<T> clazz, WaveParticleData<?> particleData, @Nullable Predicate<? super T> filter, Consumer<Entity> effect) {
+    public static <T extends Entity> List<T> applyWaveEffect(ServerLevel level, double x, double y, double z, Class<T> clazz, WaveParticleData<?> particleData, @Nullable Predicate<T> filter, Consumer<Entity> effect) {
         float maxRadius = particleData.radius();
         int lifetime = particleData.growthDuration();
         Set<T> affectedEntities = new HashSet<>();
@@ -412,11 +408,11 @@ public class ModUtils {
             final float previousRadius = maxRadius * ModEasings.easeOut(previousGrowthProgress);
 
             DelayedTaskScheduler.queueServerWork(level, age, () -> {
-                CylindricalBoundingBox circle = new CylindricalBoundingBox(center, currentRadius, previousRadius);
+                CylindricalBoundingBox circle = new CylindricalBoundingBox(center, 0.1F, currentRadius, previousRadius);
 
-                List<T> entities = level.getEntitiesOfClass(clazz, circle, entity ->
-                        (filter == null || filter.test(entity)) && circle.contains(entity.position()));
-
+                List<T> entities = level.getEntitiesOfClass(clazz, circle.getAABB().inflate(2), entity ->
+                        (filter == null || filter.test(entity)) && circle.intersectsAABB(entity.getBoundingBox())
+                );
                 for (T entity : entities) {
                     if (affectedEntities.add(entity) && entity.isAlive()) {
                         effect.accept(entity);
@@ -512,6 +508,22 @@ public class ModUtils {
         return targetDeg > (90 - range) && targetDeg < (270 + range);
     }
 
+    public static boolean hasMatchingArmorSet(LivingEntity entity) {
+        String materialName = null;
+        for (ItemStack stack : entity.getArmorSlots()) {
+            if (stack.isEmpty() || !(stack.getItem() instanceof ArmorItem armor)) {
+                return false;
+            }
+            String current = armor.getMaterial().getName();
+            if (materialName == null) {
+                materialName = current;
+            } else if (!materialName.equals(current)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static boolean hasFullArmorSet(LivingEntity livingEntity, ArmorMaterial material) {
         for (ItemStack stack : livingEntity.getArmorSlots()) {
             if (!(stack.getItem() instanceof ArmorItem armorItem)) {
@@ -601,11 +613,6 @@ public class ModUtils {
         return new Vec3(randomX, randomY, randomZ);
     }
 
-    public static boolean isStandable(BlockGetter level, BlockPos pos) {
-        BlockState state = level.getBlockState(pos);
-        VoxelShape shape = state.getCollisionShape(level, pos);
-        return !shape.isEmpty() && shape.max(Direction.Axis.Y) >= 0.75;
-    }
 
     public static Entity getEntityPlayerLookingAt(Player pPlayer, double range) {
         // Get player's eye position

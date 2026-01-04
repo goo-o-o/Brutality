@@ -2,10 +2,9 @@ package net.goo.brutality.item.curios.charm;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
-import net.goo.brutality.network.PacketHandler;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
+import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -21,11 +20,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class ExponentialCharm extends BrutalityCurioItem {
+public class ExponentialCharm extends BaseCharmCurio {
 
 
-    float eMult = 0.0314f;
-    float e = 3.14f;
+    float eMult = 0.0271828F;
+    float e = 2.71828F;
 
     private final UUID EXPONENTIAL_CHARM_ARMOR_TOUGHNESS_UUID = UUID.fromString("3d5a255a-ba29-4ef8-a062-c1e2f60b4de5");
     private final UUID EXPONENTIAL_CHARM_ARMOR_UUID = UUID.fromString("34071937-161d-4ffd-9389-470bec894a2a");
@@ -35,11 +34,6 @@ public class ExponentialCharm extends BrutalityCurioItem {
 
     public ExponentialCharm(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
     }
 
     @Override

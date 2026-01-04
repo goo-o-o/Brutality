@@ -1,8 +1,6 @@
 package net.goo.brutality.network;
 
-import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.BrutalityModSounds;
+import net.goo.brutality.registry.*;
 import net.goo.brutality.util.ModUtils;
 import net.mcreator.terramity.init.TerramityModSounds;
 import net.minecraft.core.BlockPos;
@@ -25,7 +23,7 @@ public class ServerboundActiveAbilityPressPacket {
     public ServerboundActiveAbilityPressPacket(FriendlyByteBuf buf) {
     }
 
-    public void encode(FriendlyByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
     }
 
     public static void handle(ServerboundActiveAbilityPressPacket packet, Supplier<NetworkEvent.Context> ctx) {
@@ -60,6 +58,10 @@ public class ServerboundActiveAbilityPressPacket {
                             sender, sender.getBoundingBox().inflate(7.5F)).forEach(e ->
                             e.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 160)));
                 });
+
+                ModUtils.handleActiveAbilityWithCd(handler, BrutalityModItems.STRESS_PILLS.get(), 70 * 20, () ->
+                        sender.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap ->
+                                cap.setRageValue((float) sender.getAttributeValue(ModAttributes.MAX_MANA.get()))));
 
 
             });

@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.charm;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -16,16 +15,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class SelfRepairNexus extends BrutalityCurioItem {
+public class SelfRepairNexus extends BaseCharmCurio {
 
 
     public SelfRepairNexus(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
     }
 
     UUID SELF_REPAIR_NEXUS_LIFESTEAL_UUID = UUID.fromString("e9b30c40-eaf9-475c-ac92-905f76983256");

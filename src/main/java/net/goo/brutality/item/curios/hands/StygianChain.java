@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.hands;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseHandsCurio;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -16,16 +15,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class StygianChain extends BrutalityCurioItem {
+public class StygianChain extends BaseHandsCurio {
 
 
     public StygianChain(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.HANDS;
     }
 
     UUID STYGIAN_CHAIN_ARMOR_UUID = UUID.fromString("ba0539da-ccb3-4970-a074-69aa9c6f687c");

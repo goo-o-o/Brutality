@@ -4,8 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.goo.brutality.entity.capabilities.EntityCapabilities;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -21,16 +20,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class ConservativeConcoction extends BrutalityCurioItem {
+public class ConservativeConcoction extends BaseCharmCurio {
 
 
     public ConservativeConcoction(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
     }
 
 
@@ -40,7 +34,7 @@ public class ConservativeConcoction extends BrutalityCurioItem {
     private static float getBonus(Player player) {
         LazyOptional<EntityCapabilities.PlayerManaCap> cap = player.getCapability(BrutalityCapabilities.PLAYER_MANA_CAP);
         if (cap.isPresent()) {
-            return cap.orElse(null).getCurrentManaRatio(player);
+            return cap.orElse(null).getCurrentManaPercentage(player);
         } else return 0;
     }
 

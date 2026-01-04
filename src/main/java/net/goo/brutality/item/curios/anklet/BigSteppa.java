@@ -33,14 +33,10 @@ public class BigSteppa extends BrutalityAnkletItem {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        if (slotContext.entity() != null) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-            builder.put(ModAttributes.DODGE_CHANCE.get(), new AttributeModifier(BIG_STEPPA_DODGE_UUID, "Dodge Buff", 0.1, AttributeModifier.Operation.MULTIPLY_BASE));
-            builder.put(ForgeMod.STEP_HEIGHT_ADDITION.get(), new AttributeModifier(BIG_STEPPA_STEP_HEIGHT_UUID, "Step Height Buff", 1.5, AttributeModifier.Operation.ADDITION));
-            return builder.build();
-
-        }
-        return super.getAttributeModifiers(slotContext, uuid, stack);
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
+        builder.put(ModAttributes.DODGE_CHANCE.get(), new AttributeModifier(BIG_STEPPA_DODGE_UUID, "Dodge Buff", 0.1, AttributeModifier.Operation.MULTIPLY_BASE));
+        builder.put(ForgeMod.STEP_HEIGHT_ADDITION.get(), new AttributeModifier(BIG_STEPPA_STEP_HEIGHT_UUID, "Step Height Buff", 1.5, AttributeModifier.Operation.ADDITION));
+        return builder.build();
     }
 
 }

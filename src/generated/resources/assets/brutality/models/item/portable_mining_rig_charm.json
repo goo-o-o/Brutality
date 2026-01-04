@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "brutality:item/curio/charm/portable_mining_rig_charm/portable_mining_rig_charm_inventory"
-  }
-}

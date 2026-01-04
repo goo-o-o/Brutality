@@ -10,16 +10,18 @@ import net.goo.brutality.client.BrutalityShaders;
 import net.goo.brutality.config.BrutalityClientConfig;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModMobEffects;
+import net.goo.brutality.util.Constants;
 import net.goo.brutality.util.ModTags;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.levelgen.synth.ImprovedNoise;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
+import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
 
@@ -27,14 +29,9 @@ import java.awt.*;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE, modid = Brutality.MOD_ID)
 
-public class RageMeter {
+public class RageMeter implements IGuiOverlay {
     private static final float[] outerColor = new float[3];
     private static final float[] innerColor = new float[3];
-
-    @SubscribeEvent
-    public static void renderRageBar(RenderGuiOverlayEvent.Post e) {
-        render(e.getGuiGraphics(), Minecraft.getInstance().player);
-    }
 
     public static void updateConfig() {
         Color outer = Color.decode(BrutalityClientConfig.RAGE_METER_FIRE_OUTER.get());
@@ -48,6 +45,14 @@ public class RageMeter {
         innerColor[2] = inner.getBlue() / 255F;
     }
 
+    @Override
+    public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
+        Player player = Minecraft.getInstance().player;
+        if (shouldRender(player)) {
+            BrutalityClientConfig.RAGE_METER_STYLE.get().rageMeterRenderer.render(guiGraphics, player);
+        }
+    }
+
     @FunctionalInterface
     public interface RageMeterRenderer {
         void render(GuiGraphics gui, Player player);
@@ -56,27 +61,27 @@ public class RageMeter {
     public static class ClassicRageMeterRenderer implements RageMeterRenderer {
         private static final long startTime = System.currentTimeMillis();
 
-        ResourceLocation BG = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/rage_bar/classic/bg.png");
-        ResourceLocation FG = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/rage_bar/classic/fg.png");
-        ResourceLocation ICON = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/rage_bar/classic/icon.png");
+        ResourceLocation BG = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/rage_meter/classic/bg.png");
+        ResourceLocation FG = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/rage_meter/classic/fg.png");
+        ResourceLocation ICON = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/rage_meter/classic/icon.png");
 
-        private int bgW = 83, bgH = 16, fgW = 75, fgH = 5, iconW = 17, iconH = 18;
+        public static final int bgW = 83, bgH = 16, fgW = 75, fgH = 5, iconW = 17, iconH = 18;
 
         private void renderFire(GuiGraphics gui, int x, int bottomY, int width, float percent) {
             int fireY = bottomY - width;                // bottom-aligned, never moves
 
-//            var shader = BrutalityShaders.getFireShader();
-//            if (shader != null) {
-//                float time = (System.currentTimeMillis() - startTime) / 1000f;
-//                shader.safeGetUniform("time").set(time);
-//                shader.safeGetUniform("intensity").set((float) (percent * 3 * BrutalityClientConfig.RAGE_METER_FIRE_INTENSITY.get()));  // intensity scales with rage
-//                shader.safeGetUniform("colour_1").set(innerColor[0], innerColor[1], innerColor[2], 1.0F);
-//                shader.safeGetUniform("colour_2").set(outerColor[0], outerColor[1], outerColor[2], 1.0F);
-////                shader.safeGetUniform("colour_1").set(OUTER_COLOR[0], OUTER_COLOR[1], OUTER_COLOR[2], 1.0F);
-////                shader.safeGetUniform("colour_2").set(INNER_COLOR[0], INNER_COLOR[1], INNER_COLOR[2], 1.0F);
-//            }
-//
-//            RenderSystem.setShader(BrutalityShaders::getFireShader);
+            var shader = BrutalityShaders.getFireShader();
+            if (shader != null) {
+                float time = (System.currentTimeMillis() - startTime) / 1000f;
+                shader.safeGetUniform("time").set(time);
+                shader.safeGetUniform("intensity").set((float) (percent * 3 * BrutalityClientConfig.RAGE_METER_FIRE_INTENSITY.get()));  // intensity scales with rage
+                shader.safeGetUniform("colour_1").set(innerColor[0], innerColor[1], innerColor[2], 1.0F);
+                shader.safeGetUniform("colour_2").set(outerColor[0], outerColor[1], outerColor[2], 1.0F);
+//                shader.safeGetUniform("colour_1").set(OUTER_COLOR[0], OUTER_COLOR[1], OUTER_COLOR[2], 1.0F);
+//                shader.safeGetUniform("colour_2").set(INNER_COLOR[0], INNER_COLOR[1], INNER_COLOR[2], 1.0F);
+            }
+
+            RenderSystem.setShader(BrutalityShaders::getFireShader);
             var matrix = gui.pose().last().pose();
 
             BufferBuilder builder = Tesselator.getInstance().getBuilder();
@@ -92,18 +97,39 @@ public class RageMeter {
             Tesselator.getInstance().end();
         }
 
+        private static final ImprovedNoise NOISE_X = new ImprovedNoise(RandomSource.create());
+        private static final ImprovedNoise NOISE_Y = new ImprovedNoise(RandomSource.createNewThreadLocalInstance());
+
         @Override
         public void render(GuiGraphics gui, Player player) {
-            float percent = player.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).resolve().map(cap -> cap.getRagePercentage(player)).orElse(0F);
+            float percent = player.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP)
+                    .resolve()
+                    .map(cap -> cap.getRagePercentage(player))
+                    .orElse(0F);
+
+            percent = Math.min(1, percent);
+
             int visibleWidth = (int) (fgW * percent);
 
-            int bgX = BrutalityClientConfig.RAGE_METER_POSITION.get().getX(gui.guiWidth(), bgW);
-            int bgY = BrutalityClientConfig.RAGE_METER_POSITION.get().getY(gui.guiHeight(), bgH);
+            Position position = BrutalityClientConfig.RAGE_METER_POSITION.get();
+            int bgX = position.getX(gui.guiWidth(), bgW);
+            int bgY = position.getY(gui.guiHeight(), bgH);
+            int SHAKE_INTENSITY = BrutalityClientConfig.RAGE_METER_SHAKE_INTENSITY.get();
 
             if (player.hasEffect(BrutalityModMobEffects.ENRAGED.get())) {
-                RandomSource random = player.getRandom();
-                bgX += Mth.randomBetweenInclusive(random, -2, 2);
-                bgY += Mth.randomBetweenInclusive(random, -2, 2);
+                float time = player.tickCount;
+
+                float offsetX = (float) NOISE_X.noise(time, 0.0, 0.0) * SHAKE_INTENSITY;
+                float offsetY = (float) NOISE_Y.noise(time + 1000.0, 0.0, 0.0) * SHAKE_INTENSITY;
+
+                bgX += (int) offsetX;
+                bgY += (int) offsetY;
+            }
+
+            if (player.hasItemInSlot(EquipmentSlot.OFFHAND)) {
+                if (position == Position.HOTBAR_LEFT) {
+                    bgX -= Constants.offhandSlotSize + Constants.bigPad; // Offhand Slot + padding
+                }
             }
 
             bgX += BrutalityClientConfig.RAGE_METER_X_OFFSET.get();
@@ -111,7 +137,6 @@ public class RageMeter {
 
             int fgX = bgX + 4;
             int fgY = bgY + 8;
-
             int iconX = bgX + 33;
             int iconY = bgY - 8;
 
@@ -127,23 +152,23 @@ public class RageMeter {
         BOTTOM_LEFT {
             @Override
             public int getX(int screenWidth, int elementWidth) {
-                return 4;
+                return Constants.bigPad;
             }
 
             @Override
             public int getY(int screenHeight, int elementHeight) {
-                return screenHeight - 4 - elementHeight;
+                return screenHeight - Constants.smallPad - elementHeight;
             }
         },
         BOTTOM_RIGHT {
             @Override
             public int getX(int screenWidth, int elementWidth) {
-                return screenWidth - 4 - elementWidth;
+                return screenWidth - Constants.bigPad - elementWidth;
             }
 
             @Override
             public int getY(int screenHeight, int elementHeight) {
-                return screenHeight - 4 - elementHeight;
+                return screenHeight - Constants.smallPad - elementHeight;
             }
         },
         HOTBAR_TOP_RIGHT {
@@ -171,23 +196,23 @@ public class RageMeter {
         HOTBAR_RIGHT {
             @Override
             public int getX(int screenWidth, int elementWidth) {
-                return screenWidth / 2 + 98;
+                return screenWidth / 2 + 91 + Constants.bigPad;
             }
 
             @Override
             public int getY(int screenHeight, int elementHeight) {
-                return screenHeight - 4 - elementHeight;
+                return screenHeight - Constants.mediumPad - elementHeight;
             }
         },
         HOTBAR_LEFT {
             @Override
             public int getX(int screenWidth, int elementWidth) {
-                return screenWidth / 2 - 98 - elementWidth;
+                return screenWidth / 2 - 91 - Constants.bigPad - elementWidth;
             }
 
             @Override
             public int getY(int screenHeight, int elementHeight) {
-                return screenHeight - 4 - elementHeight;
+                return screenHeight - Constants.mediumPad - elementHeight;
             }
         };
 
@@ -212,12 +237,4 @@ public class RageMeter {
                 .map(handler -> handler.isEquipped(stack -> stack.is(ModTags.Items.RAGE_ITEMS)))
                 .orElse(false);
     }
-
-    public static void render(GuiGraphics gui, Player player) {
-        if (shouldRender(player)) {
-            BrutalityClientConfig.RAGE_METER_STYLE.get().rageMeterRenderer.render(gui, player);
-        }
-    }
-
-
 }

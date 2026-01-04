@@ -52,12 +52,12 @@ public class CosmicCataclysmSpell extends BrutalitySpell {
 
     @Override
     public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
-        if (player.level() instanceof ServerLevel serverLevel) {
-            BlockPos blockPos = ModUtils.getBlockLookingAt(player, false, getFinalStat(spellLevel, getStat(RANGE)));
-            if (blockPos == null) return false;
-            Vec3 targetPos = blockPos.getCenter();
-            Vec3 spawnPos = targetPos.add(0, Math.min(50, spellLevel) * 10, 0);
+        BlockPos blockPos = ModUtils.getBlockLookingAt(player, false, getFinalStat(spellLevel, getStat(RANGE)));
+        if (blockPos == null) return false;
+        Vec3 targetPos = blockPos.getCenter();
+        Vec3 spawnPos = targetPos.add(0, Math.min(50, spellLevel) * 10, 0);
 
+        if (player.level() instanceof ServerLevel serverLevel) {
             CosmicCataclysmEntity spellEntity = new CosmicCataclysmEntity(BrutalityModEntities.COSMIC_CATACLYSM_ENTITY.get(), serverLevel);
             spellEntity.setSpellLevel(spellLevel);
             spellEntity.setPos(spawnPos);

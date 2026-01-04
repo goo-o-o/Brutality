@@ -45,7 +45,7 @@ public class ClientboundSyncCapabilitiesPacket {
         }
     }
 
-    public void encode(FriendlyByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
         buf.writeInt(entityId);
         buf.writeInt(data.size());
         data.forEach((key, tag) -> {

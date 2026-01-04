@@ -3,8 +3,7 @@ package net.goo.brutality.item.curios.charm;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,15 +20,10 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class Envy extends BrutalityCurioItem {
+public class Envy extends BaseCharmCurio {
 
     public Envy(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
     }
 
 
@@ -38,7 +32,7 @@ public class Envy extends BrutalityCurioItem {
                 wearer.level().getNearestPlayer(wearer.getX(), wearer.getY(), wearer.getZ(), 10, e ->
                         e instanceof Player p && !p.isCreative() && !p.isSpectator() && p != wearer &&
                                 !CuriosApi.getCuriosInventory(p).map(handler ->
-                                        handler.isEquipped(BrutalityModItems.ENVY_CHARM.get())).orElse(false));
+                                        handler.isEquipped(BrutalityModItems.ENVY.get())).orElse(false));
         if (nearestValidPlayer == null) return 0;
 
         AttributeInstance maxHealthAttr = wearer.getAttribute(Attributes.MAX_HEALTH);

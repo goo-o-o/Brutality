@@ -1,4 +1,4 @@
-#version 330 core            // ← change this once, never use 150 again
+#version 330 core
 
 uniform float time;
 uniform float intensity;

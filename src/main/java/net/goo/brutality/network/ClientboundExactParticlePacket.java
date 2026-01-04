@@ -35,7 +35,7 @@ public class ClientboundExactParticlePacket {
         this.particle = readParticle(pBuffer, type);
     }
 
-    public void encode(FriendlyByteBuf pBuffer) {
+    public void write(FriendlyByteBuf pBuffer) {
         pBuffer.writeRegistryId(ForgeRegistries.PARTICLE_TYPES, this.particle.getType());
         pBuffer.writeDouble(this.x);
         pBuffer.writeDouble(this.y);

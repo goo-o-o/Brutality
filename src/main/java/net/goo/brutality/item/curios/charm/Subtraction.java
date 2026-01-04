@@ -1,7 +1,6 @@
 package net.goo.brutality.item.curios.charm;
 
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.item.ItemStack;
@@ -11,7 +10,7 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class Subtraction extends BrutalityCurioItem {
+public class Subtraction extends BaseCharmCurio {
 
 
     public Subtraction(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
@@ -27,8 +26,4 @@ public class Subtraction extends BrutalityCurioItem {
                 .orElse(false);
     }
 
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
-    }
 }

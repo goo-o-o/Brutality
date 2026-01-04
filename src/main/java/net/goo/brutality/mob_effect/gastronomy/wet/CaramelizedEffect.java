@@ -3,7 +3,6 @@ package net.goo.brutality.mob_effect.gastronomy.wet;
 import net.goo.brutality.mob_effect.gastronomy.IGastronomyEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.entity.LivingEntity;
 
 public class CaramelizedEffect extends MobEffect implements IGastronomyEffect {
 
@@ -11,18 +10,6 @@ public class CaramelizedEffect extends MobEffect implements IGastronomyEffect {
         super(pCategory, pColor);
     }
 
-    @Override
-    public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
-        super.applyEffectTick(pLivingEntity, pAmplifier);
-
-//        if (pLivingEntity.spellLevel() instanceof ServerLevel serverLevel) {
-//            serverLevel.sendParticles(ParticleTypes.LARGE_SMOKE,
-//                    pLivingEntity.getX(), pLivingEntity.getY() + pLivingEntity.getBbHeight() / 2, pLivingEntity.getZ(), 1,
-//                    0.5, 0.5, 0.5
-//                    ,0);
-//
-//        }
-    }
 
     @Override
     public boolean isDurationEffectTick(int pDuration, int pAmplifier) {
@@ -46,7 +33,12 @@ public class CaramelizedEffect extends MobEffect implements IGastronomyEffect {
 
     @Override
     public float baseMultiplier() {
-        return 0.05F;
+        return 0.125F;
+    }
+
+    @Override
+    public float multiplierPerLevel() {
+        return 0;
     }
 
 }

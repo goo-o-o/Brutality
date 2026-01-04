@@ -5,7 +5,10 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
 import net.goo.brutality.block.custom.DustbinBlock;
 import net.goo.brutality.config.BrutalityClientConfig;
 import net.goo.brutality.datagen.ingredients.AnySharpnessBookIngredient;
+import net.goo.brutality.gui.CooldownMeter;
+import net.goo.brutality.gui.ManaMeter;
 import net.goo.brutality.gui.RageMeter;
+import net.goo.brutality.gui.SpellSelectionGui;
 import net.goo.brutality.gui.screen.FilingCabinetScreen;
 import net.goo.brutality.registry.BrutalityMenuTypes;
 import net.goo.brutality.registry.BrutalityModBlocks;
@@ -19,6 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -32,6 +36,17 @@ import static net.goo.brutality.Brutality.MOD_ID;
 
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModClientSetup {
+
+    @SubscribeEvent
+    public static void registerOverlays(RegisterGuiOverlaysEvent event) {
+        event.registerAboveAll("mana_meter", new ManaMeter());
+        event.registerAboveAll("rage_meter", new RageMeter());
+        event.registerAboveAll("ability_cooldown_meter", new CooldownMeter.AbilityCooldownMeter());
+        event.registerAboveAll("armor_set_ability_cooldown_meter", new CooldownMeter.ArmorSetAbilityCooldownMeter());
+        event.registerAboveAll("spell_selector", new SpellSelectionGui());
+    }
+
+
     @SubscribeEvent
     public static void onConfigReload(ModConfigEvent.Reloading event) {
         if (event.getConfig().getSpec() == BrutalityClientConfig.SPEC) {

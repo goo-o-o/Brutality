@@ -1,7 +1,7 @@
 package net.goo.brutality.item.curios.vanity;
 
 import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseVanityCurio;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -18,7 +18,7 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class TrialGuardianEyebrows extends BrutalityCurioItem {
+public class TrialGuardianEyebrows extends BaseVanityCurio {
 
     public TrialGuardianEyebrows(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "brutality:item/curio/charm/crypto_wallet_charm/crypto_wallet_charm_inventory"
-  }
-}

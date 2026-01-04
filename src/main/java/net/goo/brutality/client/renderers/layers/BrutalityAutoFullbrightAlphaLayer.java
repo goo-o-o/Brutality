@@ -13,7 +13,7 @@ import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
 
-public class BrutalityAutoFullbrightAlphaLayer<T extends GeoAnimatable> extends AutoGlowingGeoLayer<T>{
+public class BrutalityAutoFullbrightAlphaLayer<T extends GeoAnimatable> extends AutoGlowingGeoLayer<T> {
 
     public BrutalityAutoFullbrightAlphaLayer(GeoRenderer<T> renderer) {
         super(renderer);

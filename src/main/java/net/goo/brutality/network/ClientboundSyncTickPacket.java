@@ -17,7 +17,7 @@ public class ClientboundSyncTickPacket {
         this.tick = buf.readLong();
     }
 
-    public void encode(FriendlyByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
         buf.writeLong(tick);
     }
 

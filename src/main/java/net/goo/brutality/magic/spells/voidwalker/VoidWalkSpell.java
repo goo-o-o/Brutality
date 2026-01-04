@@ -1,10 +1,13 @@
 package net.goo.brutality.magic.spells.voidwalker;
 
+import net.goo.brutality.Brutality;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -13,6 +16,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.SupportType;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -42,22 +46,29 @@ public class VoidWalkSpell extends BrutalitySpell {
     public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
         float baseRange = getFinalStat(spellLevel, getStat(RANGE));
 
+        BlockPos blockPos = ModUtils.getBlockLookingAt(player, false, baseRange);
+        if (blockPos == null) {
+            player.displayClientMessage(Component.translatable("message." + Brutality.MOD_ID + ".condition.teleport_failed"), true);
+            return false;
+        }
+        BlockPos validPos = getValidPos(player.level(), blockPos, 3);
+        if (validPos == null) {
+            player.displayClientMessage(Component.translatable("message." + Brutality.MOD_ID + ".condition.teleport_failed"), true);
+            return false;
+        }
+
+        Vec3 startPos = player.getPosition(1);
+        Vec3 blockCenter = validPos.getCenter();
+
+        player.teleportTo(blockCenter.x(), validPos.getY() + 0.125, blockCenter.z());
+
+        Vec3 endPos = validPos.getCenter();
+
+        Vec3 direction = startPos.vectorTo(endPos);
+        double distance = direction.length();
+        Vec3 unitDir = direction.normalize();
+
         if (player.level() instanceof ServerLevel serverLevel) {
-            BlockPos blockPos = ModUtils.getBlockLookingAt(player, false, baseRange);
-            if (blockPos == null) return false;
-            BlockPos validPos = getValidPos(serverLevel, blockPos, 3);
-            if (validPos == null) return false;
-            Vec3 startPos = player.getPosition(1);
-            Vec3 blockCenter = validPos.getCenter();
-
-            player.teleportTo(blockCenter.x(), validPos.getY(), blockCenter.z());
-
-            Vec3 endPos = validPos.getCenter();
-
-            Vec3 direction = startPos.vectorTo(endPos);
-            double distance = direction.length();
-            Vec3 unitDir = direction.normalize();
-
             for (double d = 0; d < distance; d += 0.5F) {
                 Vec3 intervalPos = new Vec3(unitDir.toVector3f()).scale(d);
                 Vec3 particlePos = startPos.add(intervalPos);
@@ -77,7 +88,7 @@ public class VoidWalkSpell extends BrutalitySpell {
     private BlockPos getValidPos(Level level, BlockPos basePos, int distance) {
         for (int i = 0; i < distance; i++) {
             BlockPos floorPos = basePos.above(i);
-            if (!ModUtils.isStandable(level, floorPos)) continue;
+            if (!level.getBlockState(floorPos).isFaceSturdy(level, floorPos, Direction.UP, SupportType.CENTER)) continue;
 
             BlockPos air1 = floorPos.above();
             BlockPos air2 = air1.above();

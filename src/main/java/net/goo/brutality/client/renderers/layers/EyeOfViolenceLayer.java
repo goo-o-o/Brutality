@@ -14,8 +14,11 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
 
+@Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class EyeOfViolenceLayer<T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M> {
 
     public EyeOfViolenceLayer(RenderLayerParent<T, M> renderer) {

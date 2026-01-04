@@ -73,6 +73,7 @@ public class BrutalityHammerItem extends TieredItem implements BrutalityGeoItem 
         });
     }
 
+
     @Override
     public BrutalityCategories.AttackType getAttackType() {
         return BrutalityCategories.AttackType.BLUNT;

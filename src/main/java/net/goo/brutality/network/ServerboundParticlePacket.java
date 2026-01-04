@@ -44,7 +44,7 @@ public class ServerboundParticlePacket {
         this.speed = pBuffer.readFloat();
     }
 
-    public void encode(FriendlyByteBuf pBuffer) {
+    public void write(FriendlyByteBuf pBuffer) {
         writeParticleType(pBuffer, particle.getType());
         pBuffer.writeDouble(this.x);
         pBuffer.writeDouble(this.y);

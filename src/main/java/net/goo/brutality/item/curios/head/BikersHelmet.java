@@ -1,7 +1,6 @@
 package net.goo.brutality.item.curios.head;
 
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseHeadCurio;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,16 +12,11 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class BikersHelmet extends BrutalityCurioItem {
+public class BikersHelmet extends BaseHeadCurio {
 
 
     public BikersHelmet(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.HEAD;
     }
 
 

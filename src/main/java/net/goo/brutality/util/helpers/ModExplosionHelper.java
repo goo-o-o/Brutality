@@ -175,7 +175,7 @@ public class ModExplosionHelper {
                 }
 
                 for (ServerPlayer serverplayer : serverLevel.getPlayers(serverPlayer -> serverPlayer.distanceToSqr(explosion.getPosition()) < 4096)) {
-                    PacketHandler.sendToPlayer(new ClientboundBrutalityExplodePacket(explosion.getPosition().x, explosion.getPosition().y, explosion.getPosition().z, explosion.getRadius(), explosion.getToBlow(), explosion.getHitPlayers().get(serverplayer), spawnParticles, explosion.getClass()), serverplayer);
+                    PacketHandler.sendToPlayerClient(new ClientboundBrutalityExplodePacket(explosion.getPosition().x, explosion.getPosition().y, explosion.getPosition().z, explosion.getRadius(), explosion.getToBlow(), explosion.getHitPlayers().get(serverplayer), spawnParticles, explosion.getClass()), serverplayer);
                 }
             }
             return explosion;

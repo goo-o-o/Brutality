@@ -5,8 +5,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.fml.event.IModBusEvent;
 
-public class SpellCastEvent extends Event {
+/**
+ * Called on the Mod Bus
+ */
+public class SpellCastEvent extends Event implements IModBusEvent {
     private final Player player;
     private final ItemStack stack;
     private final int spellLevel;
@@ -36,7 +40,7 @@ public class SpellCastEvent extends Event {
     }
 
     /**
-     * Called before the {@link net.goo.brutality.magic.BrutalitySpell} is cast <br>
+     * Called before the {@link net.goo.brutality.magic.BrutalitySpell} is cast through the {@link net.goo.brutality.magic.SpellCastingHandler} <br>
      * If the event is cancelled, the spell is not cast and resources will not be consumed
      */
     @Cancelable
@@ -47,7 +51,7 @@ public class SpellCastEvent extends Event {
     }
 
     /**
-     * Called after the {@link net.goo.brutality.magic.BrutalitySpell} is successfully cast <br>
+     * Called after the {@link net.goo.brutality.magic.BrutalitySpell} is successfully cast through the {@link net.goo.brutality.magic.SpellCastingHandler} <br>
      * Not Cancellable
      */
     public static class Post extends SpellCastEvent {

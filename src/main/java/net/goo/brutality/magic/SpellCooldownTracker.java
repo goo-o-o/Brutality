@@ -48,13 +48,13 @@ public class SpellCooldownTracker {
             if (remaining <= 0) {
                 iterator.remove();
                 if (shouldSync) {
-                    PacketHandler.sendToPlayer(new ClientboundSyncSpellCooldownPacket(entry.getKey().toString(), 0, 0, 0), (ServerPlayer) player);
+                    PacketHandler.sendToPlayerClient(new ClientboundSyncSpellCooldownPacket(entry.getKey().toString(), 0, 0, 0), (ServerPlayer) player);
                 }
             } else {
                 float newProgress = (float) (originalTicks - remaining) / originalTicks;
                 entry.setValue(new CooldownData(remaining, data.originalTicks, newProgress));
                 if (shouldSync) {
-                    PacketHandler.sendToPlayer(new ClientboundSyncSpellCooldownPacket(entry.getKey().toString(), remaining, data.originalTicks, newProgress), (ServerPlayer) player);
+                    PacketHandler.sendToPlayerClient(new ClientboundSyncSpellCooldownPacket(entry.getKey().toString(), remaining, data.originalTicks, newProgress), (ServerPlayer) player);
                 }
             }
         }
@@ -115,7 +115,7 @@ public class SpellCooldownTracker {
         if (!player.level().isClientSide()) {
             Map<ResourceLocation, CooldownData> cooldowns = serverCooldowns.computeIfAbsent(player.getUUID(), k -> new HashMap<>());
             cooldowns.put(spellId, data);
-            PacketHandler.sendToPlayer(new ClientboundSyncSpellCooldownPacket(spellId.toString(), cooldownTicks, cooldownTicks, 0f), (ServerPlayer) player);
+            PacketHandler.sendToPlayerClient(new ClientboundSyncSpellCooldownPacket(spellId.toString(), cooldownTicks, cooldownTicks, 0f), (ServerPlayer) player);
         } else {
             clientCooldowns.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).put(spellId, data);
         }
@@ -127,7 +127,7 @@ public class SpellCooldownTracker {
             Map<ResourceLocation, CooldownData> cooldowns = serverCooldowns.get(playerId);
             if (cooldowns != null) {
                 cooldowns.keySet().forEach(spellId ->
-                        PacketHandler.sendToPlayer(new ClientboundSyncSpellCooldownPacket(spellId.toString(), 0, 0, 0), (ServerPlayer) player));
+                        PacketHandler.sendToPlayerClient(new ClientboundSyncSpellCooldownPacket(spellId.toString(), 0, 0, 0), (ServerPlayer) player));
                 serverCooldowns.remove(playerId);
             }
         } else {

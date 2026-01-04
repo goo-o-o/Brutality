@@ -71,6 +71,8 @@ public class BrutalityModParticles {
 
     public static final RegistryObject<SimpleParticleType> BLACK_HOLE_PARTICLE =
             PARTICLE_TYPES.register("black_hole_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> HEALING_PARTICLE =
+            PARTICLE_TYPES.register("healing_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> MIRACLE_BLIGHT_PARTICLE =
             PARTICLE_TYPES.register("miracle_blight_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> LAST_PRISM_RAY_PARTICLE =
@@ -159,6 +161,14 @@ public class BrutalityModParticles {
             });
 
     public static final RegistryObject<ParticleType<WaveParticleData<?>>> HEAL_WAVE = PARTICLE_TYPES.register("heal_wave", () ->
+            new ParticleType<>(false, WaveParticleData.DESERIALIZER) {
+                @Override
+                public @NotNull Codec<WaveParticleData<?>> codec() {
+                    return WaveParticleData.CODEC;
+                }
+            });
+
+    public static final RegistryObject<ParticleType<WaveParticleData<?>>> BLOOD_WAVE = PARTICLE_TYPES.register("blood_wave", () ->
             new ParticleType<>(false, WaveParticleData.DESERIALIZER) {
                 @Override
                 public @NotNull Codec<WaveParticleData<?>> codec() {

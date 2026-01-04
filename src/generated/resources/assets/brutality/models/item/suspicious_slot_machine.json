@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "brutality:item/curio/charm/suspicious_slot_machine/suspicious_slot_machine_inventory"
-  }
-}

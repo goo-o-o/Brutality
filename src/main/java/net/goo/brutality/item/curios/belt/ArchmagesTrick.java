@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.belt;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseBeltCurio;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -17,15 +16,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class ArchmagesTrick extends BrutalityCurioItem {
+public class ArchmagesTrick extends BaseBeltCurio {
     public ArchmagesTrick(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.BELT;
-    }
 
     UUID ARCHMAGES_TRICK_HEALTH_UUID = UUID.fromString("3253917d-aae7-48b9-8f1d-1b7d629d256c");
     UUID ARCHMAGES_TRICK_MAX_MANA_UUID = UUID.fromString("5f93fe5b-d5a5-457a-ab5e-eeb8f4686550");

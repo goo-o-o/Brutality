@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.charm;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -19,16 +18,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class CartonOfPrismSolutionMilk extends BrutalityCurioItem {
+public class CartonOfPrismSolutionMilk extends BaseCharmCurio {
 
 
     public CartonOfPrismSolutionMilk(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
     }
 
     UUID PRISM_SOLUTION_MILK_HEALTH_UUID = UUID.fromString("73bd02a9-73ba-4cc5-a263-4f74d2e8a72d");

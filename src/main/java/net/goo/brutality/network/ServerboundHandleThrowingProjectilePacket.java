@@ -20,7 +20,7 @@ public class ServerboundHandleThrowingProjectilePacket {
         this.stack = buf.readItem();
     }
 
-    public void encode(FriendlyByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
         buf.writeItem(this.stack);
     }
 

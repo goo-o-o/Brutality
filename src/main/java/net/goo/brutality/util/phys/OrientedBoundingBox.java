@@ -1,9 +1,10 @@
 package net.goo.brutality.util.phys;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
@@ -80,49 +81,76 @@ public final class OrientedBoundingBox extends Hitbox {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void render(PoseStack poseStack, VertexConsumer consumer, int light, int overlay) {
-        // Get camera position ONCE
+    public void render(PoseStack poseStack) {
+        // Get camera position
         Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
-        Vec3 cam = camera.getPosition();
+        Vec3 camPos = camera.getPosition();
 
-        // Compute corners in world space
-        Vec3 c = center;
+        // Translate poseStack so OBB renders in world space correctly
+        poseStack.pushPose();
+        poseStack.translate(-camPos.x, -camPos.y, -camPos.z);
+
+        RenderSystem.enableDepthTest();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.disableBlend();
+        RenderSystem.lineWidth(4F);
+
+        Tesselator tessellator = Tesselator.getInstance();
+        BufferBuilder buffer = tessellator.getBuilder();
+        buffer.begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
+
+        outlineOBB(poseStack, buffer, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 0.0F, 0.5F);
+
+        tessellator.end();
+
+        poseStack.popPose(); // Restore original poseStack
+
+        RenderSystem.enableBlend();
+        RenderSystem.lineWidth(1.0F);
+    }
+
+    private void outlineOBB(PoseStack poseStack, BufferBuilder buffer, float r1, float g1, float b1, float r2, float g2, float b2, float alpha) {
+        Vec3[] v = getTransformedVertices(); // Your 8 corners in this exact order
+        Matrix4f mat = poseStack.last().pose();
+
+        // Draw 12 separate edges with DEBUG_LINES (no connectivity issues)
+        addLine(buffer, mat, v[0], v[1], r1, g1, b1, alpha);
+        addLine(buffer, mat, v[1], v[3], r1, g1, b1, alpha);
+        addLine(buffer, mat, v[3], v[2], r1, g1, b1, alpha);
+        addLine(buffer, mat, v[2], v[0], r1, g1, b1, alpha);
+
+        addLine(buffer, mat, v[4], v[5], r2, g2, b2, alpha);
+        addLine(buffer, mat, v[5], v[7], r2, g2, b2, alpha);
+        addLine(buffer, mat, v[7], v[6], r2, g2, b2, alpha);
+        addLine(buffer, mat, v[6], v[4], r2, g2, b2, alpha);
+
+        addLine(buffer, mat, v[0], v[4], r1, g1, b1, alpha);
+        addLine(buffer, mat, v[1], v[5], r1, g1, b1, alpha);
+        addLine(buffer, mat, v[2], v[6], r2, g2, b2, alpha);
+        addLine(buffer, mat, v[3], v[7], r2, g2, b2, alpha);
+    }
+
+    private void addLine(BufferBuilder buffer, Matrix4f mat, Vec3 first, Vec3 second, float r, float g, float b, float a) {
+        buffer.vertex(mat, (float)first.x, (float)first.y, (float)first.z).color(r, g, b, a).endVertex();
+        buffer.vertex(mat, (float)second.x, (float)second.y, (float)second.z).color(r, g, b, a).endVertex();
+    }
+
+    private Vec3[] getTransformedVertices() {
         Vec3 hx = getLocalAxis(0).scale(halfExtents.x);
         Vec3 hy = getLocalAxis(1).scale(halfExtents.y);
         Vec3 hz = getLocalAxis(2).scale(halfExtents.z);
 
-        Vec3 v1 = c.subtract(hx).subtract(hy).subtract(hz);
-        Vec3 v2 = c.add(hx).subtract(hy).subtract(hz);
-        Vec3 v3 = c.add(hx).add(hy).subtract(hz);
-        Vec3 v4 = c.subtract(hx).add(hy).subtract(hz);
-        Vec3 v5 = c.subtract(hx).subtract(hy).add(hz);
-        Vec3 v6 = c.add(hx).subtract(hy).add(hz);
-        Vec3 v7 = c.add(hx).add(hy).add(hz);
-        Vec3 v8 = c.subtract(hx).add(hy).add(hz);
-
-        Vec3[][] edges = {
-                {v1, v2}, {v2, v3}, {v3, v4}, {v4, v1},
-                {v5, v6}, {v6, v7}, {v7, v8}, {v8, v5},
-                {v1, v5}, {v2, v6}, {v3, v7}, {v4, v8}
+        return new Vec3[] {
+                center.add(hx).add(hy).add(hz),       // 0 vertex1
+                center.add(hx).add(hy).subtract(hz),  // 1 vertex2
+                center.add(hx).subtract(hy).add(hz),  // 2 vertex3
+                center.add(hx).subtract(hy).subtract(hz), // 3 vertex4
+                center.subtract(hx).add(hy).add(hz),   // 4 vertex5
+                center.subtract(hx).add(hy).subtract(hz), // 5 vertex6
+                center.subtract(hx).subtract(hy).add(hz), // 6 vertex7
+                center.subtract(hx).subtract(hy).subtract(hz)  // 7 vertex8
         };
-
-        Matrix4f matrix = poseStack.last().pose();
-        Matrix3f normal = poseStack.last().normal();
-
-        float r = 0.0f, g = 1.0f, b = 0.0f, a = 0.8f;
-
-        for (Vec3[] edge : edges) {
-            Vec3 first = edge[0].subtract(cam);  // <-- THIS LINE FIXES EVERYTHING
-            Vec3 second = edge[1].subtract(cam);  // <-- THIS LINE FIXES EVERYTHING
-
-            consumer.vertex(matrix, (float) first.x, (float) first.y, (float) first.z)
-                    .color(r, g, b, a).uv(0, 0).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
-            consumer.vertex(matrix, (float) second.x, (float) second.y, (float) second.z)
-                    .color(r, g, b, a).uv(0, 0).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
-        }
     }
-
-
     public Vec3 getLocalAxis(int i) {
         return new Vec3(
                 rotation.get(i, 0),
@@ -165,9 +193,6 @@ public final class OrientedBoundingBox extends Hitbox {
         return new Proj(p - r, p + r);
     }
 
-    private Vector3f centerVector3f() {
-        return new Vector3f((float) center.x, (float) center.y, (float) center.z);
-    }
 
     private static boolean obbVsObb(OrientedBoundingBox a, OrientedBoundingBox b) {
         Vector3f[] axes = new Vector3f[15];
@@ -198,10 +223,10 @@ public final class OrientedBoundingBox extends Hitbox {
     }
 
     @Override
-    public <T extends Entity> List<T> findEntitiesHit(Player player, Class<T> clazz, boolean needsLos, Predicate<? super T> filter) {
-        List<T> candidates = player.level().getEntitiesOfClass(clazz, getAABB(), e -> e.isAlive() && e.isPickable() && e != player && e != player.getVehicle());
+    public <T extends Entity> List<T> findEntitiesHit(Player player, Class<T> clazz, Predicate<? super T> filter) {
+        List<T> candidates = player.level().getEntitiesOfClass(clazz, getAABB().inflate(2), e -> e.isAlive() && e.isPickable() && e != player && e != player.getVehicle());
 
-        return filter(player, candidates, needsLos);
+        return filter(candidates);
     }
 
 

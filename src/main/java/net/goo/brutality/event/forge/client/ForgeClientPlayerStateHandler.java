@@ -4,11 +4,13 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.config.BrutalityClientConfig;
 import net.goo.brutality.event.mod.client.Keybindings;
+import net.goo.brutality.gui.CooldownMeter;
 import net.goo.brutality.item.BrutalityArmorMaterials;
 import net.goo.brutality.item.base.BrutalityThrowingItem;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.ServerboundActivateRagePacket;
 import net.goo.brutality.network.ServerboundActiveAbilityPressPacket;
+import net.goo.brutality.network.ServerboundArmorSetBonusAbilityPressPacket;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModItems;
@@ -97,7 +99,15 @@ public class ForgeClientPlayerStateHandler {
 
             if (TerramityModKeyMappings.ACTIVE_ABILITY.consumeClick()) {
                 PacketHandler.sendToServer(new ServerboundActiveAbilityPressPacket());
+                CooldownMeter.AbilityCooldownMeter.updateActiveAbilityIcon(player);
             }
+
+            if (TerramityModKeyMappings.ARMOR_SET_BONUS_ABILITY.consumeClick()) {
+                PacketHandler.sendToServer(new ServerboundArmorSetBonusAbilityPressPacket());
+            }
+
+
+
         }
     }
 

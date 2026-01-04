@@ -59,6 +59,9 @@ public class SlickedEffect extends MobEffect implements IGastronomyEffect {
         return 0.05F;
     }
 
-
+    @Override
+    public float multiplierPerLevel() {
+        return 0.15F;
+    }
 }
 

@@ -21,7 +21,7 @@ public class ServerboundActivateRagePacket {
     public ServerboundActivateRagePacket(FriendlyByteBuf buf) {
     }
 
-    public void encode(FriendlyByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
     }
 
     public static void handle(ServerboundActivateRagePacket packet, Supplier<NetworkEvent.Context> ctx) {

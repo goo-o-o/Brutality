@@ -32,6 +32,11 @@ public class HotAndSpicyEffect extends MobEffect implements IGastronomyEffect {
     }
 
     @Override
+    public float multiplierPerLevel() {
+        return 0;
+    }
+
+    @Override
     public void applyEffect(LivingEntity attacker, LivingEntity victim, int level) {
         int amplifier = attacker.getEffect(BrutalityModMobEffects.HOT_AND_SPICY.get()).getAmplifier() + 1;
         victim.setSecondsOnFire(amplifier * 2);

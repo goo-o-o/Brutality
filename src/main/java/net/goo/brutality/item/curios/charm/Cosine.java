@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.event.forge.ServerTickHandler;
 import net.goo.brutality.event.forge.client.ClientTickHandler;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.ChatFormatting;
@@ -20,16 +19,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Cosine extends BrutalityCurioItem {
+public class Cosine extends BaseCharmCurio {
 
 
     public Cosine(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
     }
 
     public static float getCurrentBonus(@Nullable Level level) {
@@ -48,46 +42,6 @@ public class Cosine extends BrutalityCurioItem {
                 )
                 .orElse(false);
     }
-
-//    @Override
-//    public void curioTick(SlotContext slotContext, ItemStack stack) {
-//        if (slotContext.entity() instanceof Player player) {
-//            CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
-//                AttributeInstance attackSpeed = player.getAttribute(Attributes.ATTACK_SPEED);
-//                if (attackSpeed != null) {
-//
-//                    if (handler.isEquipped(BrutalityModItems.SCIENTIFIC_CALCULATOR_BELT.get())) {
-//
-//                        attackSpeed.removeModifier(COSINE_CHARM_AS_UUID);
-//
-//                        attackSpeed.addTransientModifier(
-//                                new AttributeModifier(
-//                                        COSINE_CHARM_AS_UUID,
-//                                        "Temporary Speed Bonus",
-//                                        getCurrentBonus(),
-//                                        AttributeModifier.Operation.MULTIPLY_TOTAL
-//                                )
-//                        );
-//                    } else {
-//                        attackSpeed.removeModifier(COSINE_CHARM_AS_UUID);
-//                    }
-//                }
-//            });
-//        }
-//    }
-//
-//    protected static final UUID COSINE_CHARM_AS_UUID = UUID.fromString("d11f8d34-2c5d-4fdc-880a-7a72500ba3e4");
-//
-//    @Override
-//    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-//        if (slotContext.entity() instanceof Player player) {
-//            AttributeInstance attackSpeed = player.getAttribute(Attributes.ATTACK_SPEED);
-//            if (attackSpeed != null) {
-//                attackSpeed.removeModifier(COSINE_CHARM_AS_UUID);
-//            }
-//        }
-//    }
-
 
     @Override
     public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {

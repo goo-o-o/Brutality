@@ -27,7 +27,7 @@ public class Rhongomyniad extends BrutalitySpearItem {
     }
 
     public static final OrientedBoundingBox HITBOX = new OrientedBoundingBox(Vec3.ZERO, new Vec3(1 / 8F, 1 / 8F, 40).scale(0.5F), 0, 0, 0);
-
+    public static final Vec3 OFFSET = new Vec3(0, 0, 3 + HITBOX.halfExtents.z);
 
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
@@ -41,7 +41,7 @@ public class Rhongomyniad extends BrutalitySpearItem {
 
     public void performRayAttack(Player player) {
         if (player.level() instanceof ServerLevel serverLevel) {
-            HitboxUtils.handleRay(player, LivingEntity.class, Rhongomyniad.HITBOX, 3, BrutalityModEntities.RHONGOMYNIAD_RAY.get(), true).forEach(e -> {
+            HitboxUtils.handleRay(player, LivingEntity.class, Rhongomyniad.HITBOX, OFFSET, BrutalityModEntities.RHONGOMYNIAD_RAY.get(), true).entitiesHit.forEach(e -> {
                 e.hurt(e.damageSources().playerAttack(player), 5);
 
                 for (int i = 0; i < 5; i++)

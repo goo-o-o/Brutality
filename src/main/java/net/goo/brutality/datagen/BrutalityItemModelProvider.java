@@ -126,14 +126,6 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
                 boolean hasHandheldModel = existingFileHelper.exists(handheldModel, MODEL);
 
 
-//                System.out.println(basePath);
-//                System.out.println("handheldModelPath: " + handheldModel);
-//                System.out.println("hasHandheldModel: " + hasHandheldModel);
-//                System.out.println("inventoryTexturePath: " + inventoryTexture);
-//                System.out.println("hasInventoryTexture: " + hasInventoryTexture);
-//                System.out.println("handheldTexturePath: " + handheldTexture);
-//                System.out.println("hasHandheldTexture: " + hasHandheldTexture);
-//                System.out.println("-------------------------------------------------------------");
                 if (hasHandheldTexture && hasInventoryTexture && hasHandheldModel) {
                     Brutality.LOGGER.info("generateSeparateTransforms({})", registryName);
                     generateSeparateTransforms(registryName, handheldTexture, inventoryTexture, handheldModel);
@@ -148,6 +140,8 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
                     Brutality.LOGGER.info("withExistingParentGenerated({})", registryName);
                     withExistingParent(registryName, mcLoc("item/generated")).texture("layer0", inventoryTexture);
                 }
+
+                Brutality.LOGGER.warn("Missing textures for {}", item);
             } else {
                 Brutality.LOGGER.info("basicItem({})", item);
                 basicItem(item);

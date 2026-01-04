@@ -18,9 +18,7 @@ public interface IGastronomyEffect {
 
     float baseMultiplier();
 
-    default float multiplierPerLevel() {
-        return 0.2F;
-    }
+    float multiplierPerLevel();
 
     default void applyEffect(LivingEntity attacker, LivingEntity victim, int level) {}
 }

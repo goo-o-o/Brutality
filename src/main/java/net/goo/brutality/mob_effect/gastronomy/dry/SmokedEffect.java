@@ -50,5 +50,10 @@ public class SmokedEffect extends MobEffect implements IGastronomyEffect {
     public float baseMultiplier() {
         return 0.05F;
     }
+
+    @Override
+    public float multiplierPerLevel() {
+        return 0.2F;
+    }
 }
 

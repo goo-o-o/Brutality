@@ -49,7 +49,12 @@ public class SteamedEffect extends MobEffect implements IGastronomyEffect {
 
     @Override
     public float baseMultiplier() {
-        return 0.05F;
+        return 0.15F;
+    }
+
+    @Override
+    public float multiplierPerLevel() {
+        return 0;
     }
 
 }

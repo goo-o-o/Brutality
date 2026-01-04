@@ -153,21 +153,19 @@ dependencies {
     implementation fg.deobf('maven.modrinth:better-combat:1.8.6+1.20.1-forge')
     implementation fg.deobf("curse.maven:crafttweaker-239197:6256146")
 
-
-
-
     implementation fg.deobf("curse.maven:mmmmmmmmmmmm-225738:6237015")
     implementation fg.deobf("curse.maven:selene-499980:6507197")
 //    implementation fg.deobf("curse.maven:cofh-core-69162:5374122")
     implementation fg.deobf("curse.maven:jade-324717:6271651")
 
     // Clientside (Disable when running Server)
+    implementation fg.deobf("curse.maven:inventory-hud-forge-357540:5639966")
     implementation fg.deobf("curse.maven:embeddium-908741:5681725")
-    implementation fg.deobf("curse.maven:oculus-581495:6020952")
+//    implementation fg.deobf("curse.maven:oculus-581495:6020952")
 //    implementation fg.deobf("curse.maven:tooltip-overhaul-1327508:7096296")
-    implementation fg.deobf("curse.maven:free-cam-557076:4643128")
+//    implementation fg.deobf("curse.maven:free-cam-557076:4643128")
     implementation fg.deobf("curse.maven:model-gap-fix-676136:5200949")
-    implementation fg.deobf("curse.maven:loot-beams-506757:5548970")
+//    implementation fg.deobf("curse.maven:loot-beams-506757:5548970")
     implementation fg.deobf("curse.maven:overflowing-bars-852662:5763974")
 
     implementation fg.deobf("curse.maven:attributefix-280510:4911084")
@@ -194,7 +192,7 @@ dependencies {
     implementation fg.deobf("curse.maven:patchouli-306770:6164575")
     implementation fg.deobf("curse.maven:curios-309927:6418456")
     implementation fg.deobf("curse.maven:caelus-308989:5281700")
-    implementation fg.deobf("curse.maven:lethality-a-terramity-addon-1282036:6766042")
+    implementation fg.deobf("curse.maven:lethality-a-terramity-addon-1282036:7332696")
     implementation fg.deobf("curse.maven:azurelib-817423:6849107")
 
     // compile against the JEI API but do not include it at runtime

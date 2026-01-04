@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.event.forge.ServerTickHandler;
 import net.goo.brutality.event.forge.client.ClientTickHandler;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.ChatFormatting;
@@ -20,7 +19,7 @@ import top.theillusivec4.curios.api.SlotContext;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Sine extends BrutalityCurioItem {
+public class Sine extends BaseCharmCurio {
 
 
     public Sine(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
@@ -43,11 +42,6 @@ public class Sine extends BrutalityCurioItem {
                         handler.findFirstCurio(BrutalityModItems.SCIENTIFIC_CALCULATOR.get()).isPresent()
                 )
                 .orElse(false);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
     }
 
     @Override

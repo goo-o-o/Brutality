@@ -5,6 +5,8 @@
 
 package net.goo.brutality.config;
 
+import net.goo.brutality.gui.CooldownMeter;
+import net.goo.brutality.gui.ManaMeter;
 import net.goo.brutality.gui.RageMeter;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -23,12 +25,19 @@ public class BrutalityClientConfig {
     public static final ForgeConfigSpec.BooleanValue THROWING_ANIMATION_SHOW_ITEMS;
     public static final ForgeConfigSpec.DoubleValue MANA_BAR_X, MANA_BAR_Y;
     public static final ForgeConfigSpec.EnumValue<RageMeter.Style> RAGE_METER_STYLE;
+    public static final ForgeConfigSpec.EnumValue<ManaMeter.Style> MANA_METER_STYLE;
     public static final ForgeConfigSpec.EnumValue<RageMeter.Position> RAGE_METER_POSITION;
+    public static final ForgeConfigSpec.EnumValue<ManaMeter.Position> MANA_METER_POSITION;
+    public static final ForgeConfigSpec.EnumValue<CooldownMeter.AbilityCooldownPosition> ABILITY_COOLDOWN_METER_POSITION;
+    public static final ForgeConfigSpec.EnumValue<CooldownMeter.ArmorSetCooldownPosition> ARMOR_SET_COOLDOWN_POSITION;
     public static final ForgeConfigSpec.ConfigValue<String> RAGE_METER_FIRE_OUTER;
     public static final ForgeConfigSpec.ConfigValue<String> RAGE_METER_FIRE_INNER;
     public static final ForgeConfigSpec.IntValue RAGE_METER_X_OFFSET;
     public static final ForgeConfigSpec.IntValue RAGE_METER_Y_OFFSET;
+    public static final ForgeConfigSpec.IntValue MANA_METER_X_OFFSET;
+    public static final ForgeConfigSpec.IntValue MANA_METER_Y_OFFSET;
     public static final ForgeConfigSpec.DoubleValue RAGE_METER_FIRE_INTENSITY;
+    public static final ForgeConfigSpec.IntValue RAGE_METER_SHAKE_INTENSITY;
 
     static {
         BUILDER.push("Brutality Client Config");
@@ -41,8 +50,27 @@ public class BrutalityClientConfig {
                 .comment("Rage meter position")
                 .defineEnum("rage_meter_position", RageMeter.Position.HOTBAR_RIGHT);
 
+        MANA_METER_STYLE = BUILDER
+                .comment("Mana meter HUD style")
+                .defineEnum("mana_meter_style", ManaMeter.Style.ORB);
+
+        MANA_METER_POSITION = BUILDER
+                .comment("Mana meter position")
+                .defineEnum("mana_meter_position", ManaMeter.Position.HOTBAR_RIGHT);
+
+        ABILITY_COOLDOWN_METER_POSITION = BUILDER
+                .comment("Ability cooldown meter position")
+                .defineEnum("ability_cooldown_meter_position", CooldownMeter.AbilityCooldownPosition.RIGHT);
+
+        ARMOR_SET_COOLDOWN_POSITION = BUILDER
+                .comment("Armor set cooldown meter position")
+                .defineEnum("armor_set_cooldown_meter_position", CooldownMeter.ArmorSetCooldownPosition.RIGHT);
+
         RAGE_METER_X_OFFSET = BUILDER.comment("Rage Meter X Offset").defineInRange("rage_meter_x_offset", 0, -1000, 1000);
         RAGE_METER_Y_OFFSET = BUILDER.comment("Rage Meter Y Offset").defineInRange("rage_meter_y_offset", 0, -1000, 1000);
+        MANA_METER_X_OFFSET = BUILDER.comment("Mana Meter X Offset").defineInRange("mana_meter_x_offset", 0, -1000, 1000);
+        MANA_METER_Y_OFFSET = BUILDER.comment("Mana Meter Y Offset").defineInRange("mana_meter_y_offset", 0, -1000, 1000);
+        RAGE_METER_SHAKE_INTENSITY = BUILDER.comment("Rage Meter Shake Intensity").defineInRange("rage_meter_shake_intensity", 10, 0, 100);
 
 
         RAGE_METER_FIRE_OUTER = BUILDER

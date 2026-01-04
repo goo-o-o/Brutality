@@ -2,20 +2,30 @@ package net.goo.brutality.entity.capabilities;
 
 import net.goo.brutality.event.ConsumeManaEvent;
 import net.goo.brutality.magic.IBrutalitySpell;
+import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
+import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.registry.BrutalityCapabilities;
+import net.goo.brutality.registry.BrutalityModItems;
+import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.SealUtils;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.fml.ModLoader;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class EntityCapabilities {
-    private static final String MIRACLE_BLIGHTED = "isMiracleBlighted", SHOULD_ROTATE = "shouldRotate", RAGE_VALUE = "rageValue", MANA_VALUE = "manaValue";
+    private static final String MIRACLE_BLIGHTED = "isMiracleBlighted", SHOULD_ROTATE = "shouldRotate", RAGE_VALUE = "rageValue", BLOOD_VALUE = "bloodValue", MANA_VALUE = "manaValue";
     private static final String IS_RAGE = "isRage", IS_THE_VOID = "isTheVoid", IS_LIGHT_BOUND = "isBound";
     private static final String HIT_COUNT = "hitCount", LAST_HIT_TIME = "lastHitTime", LAST_VICTIM_ID = "lastVictimId";
     private static final String BOOSTER_TYPE = "boosterType", KIT_TYPE = "kitType";
@@ -331,6 +341,34 @@ public class EntityCapabilities {
 
     @AutoRegisterCapability
     public static class PlayerRageCap implements INBTSerializable<CompoundTag> {
+
+
+        public static void tryTriggerRage(Player player, ICuriosItemHandler handler, EntityCapabilities.PlayerRageCap
+                cap) {
+            int maxRage = (int) player.getAttributeValue(ModAttributes.MAX_RAGE.get());
+
+            if (cap.rageValue() >= maxRage) {
+                if (handler.findFirstCurio(BrutalityModItems.ANGER_MANAGEMENT.get()).isEmpty()) {
+                    int duration = 40;
+                    int rageLevel = (int) Math.floor(cap.rageValue() / 100);
+                    AttributeInstance rageTimeAttr = player.getAttribute(ModAttributes.RAGE_TIME_MULTIPLIER.get());
+                    if (rageTimeAttr != null) {
+                        duration = (int) (duration * rageTimeAttr.getValue());
+                    }
+                    AttributeInstance rageLevelAttr = player.getAttribute(ModAttributes.RAGE_LEVEL.get());
+                    if (rageLevelAttr != null) {
+                        rageLevel += (int) rageLevelAttr.getValue();
+                    }
+
+                    player.addEffect(new MobEffectInstance(BrutalityModMobEffects.ENRAGED.get(), duration, rageLevel, false, true));
+                    cap.setRageValue(0);
+                    player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDER_DRAGON_GROWL, SoundSource.PLAYERS, 1F, 1F);
+                }
+            }
+            cap.setRageValue(Math.min(cap.rageValue(), maxRage));
+            PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(player.getId(), player));
+        }
+
         private float rageValue = 0;
 
         public float rageValue() {
@@ -373,6 +411,51 @@ public class EntityCapabilities {
     }
 
     @AutoRegisterCapability
+    public static class PlayerBloodCap implements INBTSerializable<CompoundTag> {
+        private float bloodValue = 0;
+
+        public float bloodValue() {
+            return this.bloodValue;
+        }
+
+        public float getBloodPercentage(Player player) {
+            return player.getCapability(BrutalityCapabilities.PLAYER_BLOOD_CAP)
+                    .resolve()
+                    .map(cap -> {
+                        float current = cap.bloodValue();
+                        float max = 100;
+                        return current / max;
+                    })
+                    .orElse(0.0f);
+        }
+
+        public void setBloodValue(float bloodValue) {
+            this.bloodValue = bloodValue;
+        }
+
+        public void incrementBlood(float amount) {
+            this.bloodValue = bloodValue() + amount;
+            this.bloodValue = Math.min(100, this.bloodValue);
+        }
+
+        public void decrementBlood(float amount) {
+            this.bloodValue = bloodValue() - amount;
+            this.bloodValue = Math.max(0, bloodValue);
+        }
+
+        public CompoundTag serializeNBT() {
+            CompoundTag tag = new CompoundTag();
+            tag.putFloat(BLOOD_VALUE, bloodValue());
+            return tag;
+        }
+
+
+        public void deserializeNBT(CompoundTag nbt) {
+            setBloodValue(nbt.getInt(BLOOD_VALUE));
+        }
+    }
+
+    @AutoRegisterCapability
     public static class PlayerManaCap implements INBTSerializable<CompoundTag> {
         private float manaValue = 0;
 
@@ -398,7 +481,7 @@ public class EntityCapabilities {
             this.manaValue = manaValue() - amount;
         }
 
-        public float getCurrentManaRatio(Player player) {
+        public float getCurrentManaPercentage(Player player) {
             AttributeInstance maxMana = player.getAttribute(ModAttributes.MAX_MANA.get());
             if (maxMana != null) return (float) (this.manaValue / maxMana.getValue());
             return 0;
@@ -406,7 +489,7 @@ public class EntityCapabilities {
 
         public void decrementMana(Player player, IBrutalitySpell spell, int spellLevel, float amount) {
             decrementMana(amount);
-            MinecraftForge.EVENT_BUS.post(new ConsumeManaEvent(player, spell, spellLevel, amount));
+            ModLoader.get().postEvent(new ConsumeManaEvent(player, spell, spellLevel, amount));
         }
 
         public CompoundTag serializeNBT() {

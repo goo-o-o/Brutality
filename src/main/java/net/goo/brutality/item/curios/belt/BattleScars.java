@@ -1,7 +1,6 @@
 package net.goo.brutality.item.curios.belt;
 
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseBeltCurio;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -15,16 +14,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class BattleScars extends BrutalityCurioItem {
+public class BattleScars extends BaseBeltCurio {
 
 
     public BattleScars(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.BELT;
     }
 
     UUID BATTLE_SCARS_RAGE_GAIN_UUID = UUID.fromString("551269f9-4bd5-4a74-a03d-55be778f39bc");

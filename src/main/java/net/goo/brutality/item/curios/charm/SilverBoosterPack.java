@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.charm;
 
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import net.goo.brutality.event.forge.ForgePlayerStateHandler;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -15,16 +14,11 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class SilverBoosterPack extends BrutalityCurioItem {
+public class SilverBoosterPack extends BaseCharmCurio {
 
 
     public SilverBoosterPack(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
     }
 
     private final Object2BooleanOpenHashMap<UUID> IN_RANGE_MAP = new Object2BooleanOpenHashMap<>();

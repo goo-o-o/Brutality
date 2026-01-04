@@ -2,10 +2,10 @@ package net.goo.brutality.event;
 
 import net.goo.brutality.magic.IBrutalitySpell;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.fml.event.IModBusEvent;
 
-public class ConsumeManaEvent extends Event {
+public class ConsumeManaEvent extends Event implements IModBusEvent {
     private final Player player;
     private final float amount;
     private final int spellLevel;

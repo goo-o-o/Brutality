@@ -29,7 +29,7 @@ public class ServerboundTriggerAnimationPacket {
         this.animationName = buf.readUtf();
     }
 
-    public void encode(FriendlyByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
         buf.writeItem(stack);
         buf.writeLong(id);
         buf.writeUtf(controllerName);

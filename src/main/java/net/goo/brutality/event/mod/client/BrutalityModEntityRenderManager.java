@@ -87,6 +87,7 @@ public class BrutalityModEntityRenderManager {
         event.registerEntityRenderer(BrutalityModEntities.BLOODSLASH.get(), BrutalityTridentRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.SHADOWFLAME_SLASH.get(), BrutalityTridentRenderer::new);
 
+        event.registerEntityRenderer(BrutalityModEntities.HEALING_PROJECTILE.get(), NoOpRenderer::new);
         event.registerEntityRenderer(BrutalityModEntities.BLACK_HOLE_ENTITY.get(), context -> new BrutalityEntityRenderer<>(context,
                 renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer))));
 

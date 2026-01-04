@@ -123,6 +123,7 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
         });
     }
 
+
     @Override
     public BrutalityCategories.AttackType getAttackType() {
         return BrutalityCategories.AttackType.SLASH;

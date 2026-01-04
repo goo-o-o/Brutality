@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "brutality:plunder_chest_charm",
-    "brutality:resplendent_feather_charm",
+    "brutality:plunder_chest",
+    "brutality:resplendent_feather",
     "brutality:celestial_starboard",
     "brutality:yata_no_kagami",
     "brutality:portable_quantum_thingamabob",
@@ -36,10 +36,6 @@
     "brutality:diamond_booster_pack",
     "brutality:evil_king_booster_pack",
 
-
-
-    "brutality:suspicious_slot_machine",
-
     "brutality:blood_stone",
     "brutality:rage_stone",
     "brutality:pain_catalyst",
@@ -49,6 +45,8 @@
     "brutality:mechanical_aorta",
     "brutality:hate_sigil",
     "brutality:wrath",
+    "brutality:stress_pills",
+    "brutality:boiling_blood",
 
     "brutality:pride",
     "brutality:envy",
@@ -63,6 +61,13 @@
     "brutality:timekeepers_clock",
     "brutality:the_clock_of_frozen_time",
 
+    "brutality:bead_of_life",
+
+
+    "brutality:divergent_recursor",
+    "brutality:convergent_recursor",
+    "brutality:infinite_recursor",
+
     "brutality:soul_stone",
     "brutality:scribes_index",
     "brutality:onyx_idol",
@@ -76,18 +81,18 @@
     "brutality:mana_syringe",
     "brutality:deck_of_cards",
 
-    "brutality:pepper_shaker_charm",
-    "brutality:salt_shaker_charm",
-    "brutality:hot_sauce_charm",
-    "brutality:tomato_sauce_charm",
-    "brutality:cheese_sauce_charm",
-    "brutality:pizza_slop_charm",
-    "brutality:olive_oil_charm",
-    "brutality:extra_virgin_olive_oil_charm",
-    "brutality:salt_and_pepper_charm",
-    "brutality:fridge_charm",
-    "brutality:smart_fridge_charm",
-    "brutality:mortar_and_pestle_charm",
+    "brutality:pepper_shaker",
+    "brutality:salt_shaker",
+    "brutality:hot_sauce",
+    "brutality:tomato_sauce",
+    "brutality:cheese_sauce",
+    "brutality:pizza_slop",
+    "brutality:olive_oil",
+    "brutality:extra_virgin_olive_oil",
+    "brutality:salt_and_pepper",
+    "brutality:fridge",
+    "brutality:smart_fridge",
+    "brutality:mortar_and_pestle",
     "brutality:the_smokehouse",
     "brutality:rainbow_sprinkles",
     "brutality:smoke_stone",
@@ -103,19 +108,19 @@
     "brutality:bloodstained_mirror",
     "brutality:vampiric_talisman",
 
-    "brutality:pi_charm",
+    "brutality:pi",
     "brutality:exponential_charm",
-    "brutality:sine_charm",
-    "brutality:cosine_charm",
-    "brutality:addition_charm",
-    "brutality:subtraction_charm",
-    "brutality:multiplication_charm",
-    "brutality:division_charm",
-    "brutality:sum_charm",
+    "brutality:sine",
+    "brutality:cosine",
+    "brutality:addition",
+    "brutality:subtraction",
+    "brutality:multiplication",
+    "brutality:division",
+    "brutality:sum",
     "brutality:hyperbolic_feather",
 
-    "brutality:crypto_wallet_charm",
-    "brutality:portable_mining_rig_charm",
+    "brutality:crypto_wallet",
+    "brutality:portable_mining_rig",
     "brutality:carton_of_prism_solution_milk"
   ]
 }

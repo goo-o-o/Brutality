@@ -1,7 +1,6 @@
 package net.goo.brutality.item.curios.ring;
 
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseRingCurio;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.ServerboundDamageEntityPacket;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
@@ -19,7 +18,7 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class RoadRunnersRing extends BrutalityCurioItem {
+public class RoadRunnersRing extends BaseRingCurio {
 
 
     private float xOld, zOld;
@@ -74,8 +73,4 @@ public class RoadRunnersRing extends BrutalityCurioItem {
         player.playSound(getFallDamageSound(damage), 1, Mth.nextFloat(player.getRandom(), 0.8F, 1.2F));
     }
 
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.RING;
-    }
 }

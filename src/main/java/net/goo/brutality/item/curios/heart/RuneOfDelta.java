@@ -3,8 +3,7 @@ package net.goo.brutality.item.curios.heart;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseHeartCurio;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,14 +17,9 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class RuneOfDelta extends BrutalityCurioItem {
+public class RuneOfDelta extends BaseHeartCurio {
     public RuneOfDelta(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.HEART;
     }
 
     UUID RUNE_OF_DELTA_MAX_MANA_UUID = UUID.fromString("0ffa85eb-7b38-4ce6-b63e-b4cc74add07f");

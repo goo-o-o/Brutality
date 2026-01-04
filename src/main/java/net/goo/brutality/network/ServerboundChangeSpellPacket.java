@@ -23,7 +23,7 @@ public class ServerboundChangeSpellPacket {
         this.index = buf.readInt();
     }
 
-    public void encode(FriendlyByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
         buf.writeInt(direction);
         buf.writeInt(index);
     }

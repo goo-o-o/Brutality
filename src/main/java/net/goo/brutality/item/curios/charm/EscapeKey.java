@@ -1,7 +1,6 @@
 package net.goo.brutality.item.curios.charm;
 
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseCharmCurio;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -12,16 +11,11 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class EscapeKey extends BrutalityCurioItem {
+public class EscapeKey extends BaseCharmCurio {
 
 
     public EscapeKey(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.CHARM;
     }
 
 

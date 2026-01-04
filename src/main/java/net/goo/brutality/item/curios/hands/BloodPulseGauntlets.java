@@ -2,8 +2,7 @@ package net.goo.brutality.item.curios.hands;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.base.BaseHandsCurio;
 import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -15,14 +14,9 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class BloodPulseGauntlets extends BrutalityCurioItem {
+public class BloodPulseGauntlets extends BaseHandsCurio {
     public BloodPulseGauntlets(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.HANDS;
     }
 
     UUID BLOOD_PULSE_RAGE_LEVEL_UUID = UUID.fromString("64f0a078-b7a3-4956-b0cf-fd02fdb9d0a6");

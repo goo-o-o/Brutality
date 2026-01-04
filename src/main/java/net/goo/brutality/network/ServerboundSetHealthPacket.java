@@ -23,7 +23,7 @@ public class ServerboundSetHealthPacket {
         this.health = buf.readFloat();
     }
 
-    public void encode(FriendlyByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
         buf.writeVarInt(entityId);
         buf.writeFloat(health);
     }

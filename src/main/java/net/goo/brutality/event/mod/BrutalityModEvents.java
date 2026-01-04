@@ -9,7 +9,7 @@ import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import static net.goo.brutality.registry.ModAttributes.*;
+import static net.goo.brutality.registry.ModAttributes.ATTRIBUTES;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BrutalityModEvents {
@@ -28,6 +28,11 @@ public class BrutalityModEvents {
         });
 
     }
+
+
+
+
+
 
 
 }

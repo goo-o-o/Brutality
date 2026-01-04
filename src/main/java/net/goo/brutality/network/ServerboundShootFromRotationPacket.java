@@ -50,7 +50,7 @@ public class ServerboundShootFromRotationPacket {
         this.inaccuracy = buf.readFloat();
     }
 
-    public void encode(FriendlyByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
         buf.writeItem(this.stack);
         buf.writeResourceLocation(this.entityTypeId);
         buf.writeFloat(this.x);

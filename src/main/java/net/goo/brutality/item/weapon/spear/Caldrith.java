@@ -2,18 +2,23 @@ package net.goo.brutality.item.weapon.spear;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.player_animation.AnimationHelper;
+import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.base.BrutalitySpearItem;
 import net.goo.brutality.network.ClientboundPlayerAnimationPacket;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.particle.providers.FlatParticleData;
 import net.goo.brutality.registry.BrutalityModParticles;
+import net.goo.brutality.registry.BrutalityModSounds;
+import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.phys.OrientedBoundingBox;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -29,7 +34,7 @@ public class Caldrith extends BrutalitySpearItem {
     }
 
     public static final OrientedBoundingBox HITBOX = new OrientedBoundingBox(Vec3.ZERO, new Vec3(0.5F, 7.5, 18).scale(0.5F), 0, 0, 0);
-
+    public static final Vec3 OFFSET = new Vec3(0, 2.5, 0);
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
@@ -44,19 +49,18 @@ public class Caldrith extends BrutalitySpearItem {
             FlatParticleData<?> data = new FlatParticleData<>(BrutalityModParticles.VOID_SLASH_PARTICLE.get(),
                     10F, 90, 90, Mth.wrapDegrees(pPlayer.getYRot() - 180)
             );
-//
-//            OrientedBoundingBox.TargetResult<LivingEntity> targets =
-//                    OrientedBoundingBox.findEntitiesHit(pPlayer, LivingEntity.class, HITBOX, new Vec3(0, 2.5, -9), 0, pPlayer.getYRot(), 0, false);
-//
-//
-//            DelayedTaskScheduler.queueServerWork(serverLevel, 7, () -> {
-//
-//                targets.entities.forEach(livingEntity -> livingEntity.hurt(livingEntity.damageSources().playerAttack(pPlayer), 20));
-//
-//                ModUtils.sendParticles(serverLevel, data, true, pPlayer.getX(), pPlayer.getY(2), pPlayer.getZ(), 1, 0);
-//                pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(0.5), pPlayer.getZ(), BrutalityModSounds.VOID_SLASH.get(), SoundSource.PLAYERS, 10F, 1F);
-//
-//            });
+
+            List<LivingEntity> targets = HITBOX.inWorld(pPlayer, OFFSET, 0, pPlayer.getYRot()).findEntitiesHit(pPlayer, LivingEntity.class, null);
+
+
+            DelayedTaskScheduler.queueServerWork(serverLevel, 7, () -> {
+
+                targets.forEach(livingEntity -> livingEntity.hurt(livingEntity.damageSources().playerAttack(pPlayer), 20));
+
+                ModUtils.sendParticles(serverLevel, data, true, pPlayer.getX(), pPlayer.getY(2), pPlayer.getZ(), 1, 0);
+                pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(0.5), pPlayer.getZ(), BrutalityModSounds.VOID_SLASH.get(), SoundSource.PLAYERS, 10F, 1F);
+
+            });
 
         } else {
             AnimationHelper.playAnimation(pPlayer, animation, false, 1);

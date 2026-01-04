@@ -4,9 +4,13 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
+import net.minecraftforge.fml.event.IModBusEvent;
 
+/**
+ * Called on the Mod Event Bus
+ */
 @Cancelable
-public class LivingDodgeEvent extends LivingEvent {
+public class LivingDodgeEvent extends LivingEvent implements IModBusEvent {
     private final DamageSource source;
     private float amount;
 

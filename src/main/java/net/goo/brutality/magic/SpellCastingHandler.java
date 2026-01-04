@@ -11,8 +11,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.ModLoader;
 import org.jetbrains.annotations.NotNull;
 
 public class SpellCastingHandler {
@@ -23,13 +23,14 @@ public class SpellCastingHandler {
             return false;
         }
         SpellCastEvent.Pre event = new SpellCastEvent.Pre(player, stack, spell, spellLevel);
-        if (MinecraftForge.EVENT_BUS.post(event) || event.isCanceled()) {
+        ModLoader.get().postEvent(event);
+        if (event.isCanceled()) {
             return false;
         }
         if (spell.onStartCast(player, stack, spellLevel)) {
             spell.onEndCast(player, stack, spellLevel);
             decrementManaAndStartCooldown(player, spell, spellLevel);
-            MinecraftForge.EVENT_BUS.post(new SpellCastEvent.Post(player, stack, spell, spellLevel));
+            ModLoader.get().postEvent(new SpellCastEvent.Post(player, stack, spell, spellLevel));
             return true;
         }
         return false;
@@ -43,13 +44,14 @@ public class SpellCastingHandler {
         }
 
         SpellCastEvent.Pre event = new SpellCastEvent.Pre(player, stack, spell, spellLevel);
-        if (MinecraftForge.EVENT_BUS.post(event) || event.isCanceled()) {
+        ModLoader.get().postEvent(event);
+        if (event.isCanceled()) {
             return false;
         }
 
         if (spell.onStartCast(player, stack, spellLevel)) {
             handleSpellManaCost(player, spell, spellLevel);
-            MinecraftForge.EVENT_BUS.post(new SpellCastEvent.Post(player, stack, spell, spellLevel));
+            ModLoader.get().postEvent(new SpellCastEvent.Post(player, stack, spell, spellLevel));
             return true;
         }
 
@@ -61,14 +63,16 @@ public class SpellCastingHandler {
         if (result.canCast()) {
             spell.onCastTick(player, stack, spellLevel);
             handleSpellManaCost(player, spell, spellLevel);
-            MinecraftForge.EVENT_BUS.post(new SpellCastEvent.Post(player, stack, spell, spellLevel));
+            ModLoader.get().postEvent(new SpellCastEvent.Post(player, stack, spell, spellLevel));
+        } else {
+            player.releaseUsingItem();
         }
     }
 
     public static void endContinuousCast(Player player, ItemStack stack, IBrutalitySpell spell, int spellLevel) {
         spell.onEndCast(player, stack, spellLevel);
         SpellCooldownTracker.setCooldown(player, spell, spellLevel);
-        MinecraftForge.EVENT_BUS.post(new SpellCastEvent.Post(player, stack, spell, spellLevel));
+        ModLoader.get().postEvent(new SpellCastEvent.Post(player, stack, spell, spellLevel));
     }
 
     public static boolean castChannellingSpell(Player player, ItemStack stack, IBrutalitySpell spell, int spellLevel, int remainingTicks) {
@@ -81,13 +85,15 @@ public class SpellCastingHandler {
         int castTime = IBrutalitySpell.getActualCastTime(player, spell, spellLevel);
         if (remainingTicks <= stack.getUseDuration() - castTime) {
             SpellCastEvent.Pre event = new SpellCastEvent.Pre(player, stack, spell, spellLevel);
-            if (MinecraftForge.EVENT_BUS.post(event) || event.isCanceled()) {
+            ModLoader.get().postEvent(event);
+            if (event.isCanceled()) {
                 return false;
             }
             if (spell.onStartCast(player, stack, spellLevel)) {
                 spell.onEndCast(player, stack, spellLevel);
                 decrementManaAndStartCooldown(player, spell, spellLevel);
-                MinecraftForge.EVENT_BUS.post(new SpellCastEvent.Post(player, stack, spell, spellLevel));
+                ModLoader.get().postEvent(new SpellCastEvent.Post(player, stack, spell, spellLevel));
+                player.releaseUsingItem();
                 return true;
             }
         }
@@ -124,11 +130,16 @@ public class SpellCastingHandler {
     }
 
     public static boolean hasEnoughMana(Player player, IBrutalitySpell spell, int level) {
-        if (player.level().isClientSide()) return false;
+        return hasEnoughMana(player, IBrutalitySpell.getActualManaCost(player, spell, level));
+    }
+
+    public static boolean hasEnoughMana(Player player, float cost) {
+        PacketHandler.sendToAllClients(
+                new ClientboundSyncCapabilitiesPacket(player.getId(), player)
+        );
 
         return getManaHandler(player)
                 .map(cap -> {
-                    float cost = IBrutalitySpell.getActualManaCost(player, spell, level);
                     if (cap.manaValue() >= cost) {
                         PacketHandler.sendToAllClients(
                                 new ClientboundSyncCapabilitiesPacket(player.getId(), player)
@@ -139,6 +150,7 @@ public class SpellCastingHandler {
                 })
                 .orElse(false);
     }
+
 
     public record CastConditionResult(boolean canCast, Component feedback) {
     }

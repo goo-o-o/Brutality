@@ -38,6 +38,7 @@ public class BrutalityAxeItem extends AxeItem implements BrutalityGeoItem {
         });
     }
 
+
     @Override
     public boolean isDamageable(ItemStack stack) {
         return true;

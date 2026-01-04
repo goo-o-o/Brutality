@@ -3,8 +3,10 @@ package net.goo.brutality.block.custom;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FaceAttachedHorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SupportType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.AttachFace;
@@ -24,6 +26,15 @@ public class SmallOfficeLightBlock extends FaceAttachedHorizontalDirectionalBloc
     private static final VoxelShape WEST_AABB = Block.box(15, 5, 5, 16, 11, 11);
     private static final VoxelShape DOWN_AABB = Block.box(5, 0, 5, 11, 1, 11);
     private static final VoxelShape UP_AABB = Block.box(5, 15, 5, 11, 16, 11);
+
+    public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
+        return canAttach(pLevel, pPos, getConnectedDirection(pState).getOpposite());
+    }
+
+    public static boolean canAttach(LevelReader pReader, BlockPos pPos, Direction pDirection) {
+        BlockPos blockpos = pPos.relative(pDirection);
+        return pReader.getBlockState(blockpos).isFaceSturdy(pReader, blockpos, pDirection.getOpposite(), SupportType.CENTER);
+    }
 
     @Override
     public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {

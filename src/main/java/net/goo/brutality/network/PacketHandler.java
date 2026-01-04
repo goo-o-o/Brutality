@@ -19,22 +19,24 @@ public class PacketHandler {
     public static int id = 0;
 
     public static void register() {
-        NETWORK_CHANNEL.registerMessage(id++, ServerboundSetHealthPacket.class, ServerboundSetHealthPacket::encode, ServerboundSetHealthPacket::new, ServerboundSetHealthPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ServerboundShootFromRotationPacket.class, ServerboundShootFromRotationPacket::encode, ServerboundShootFromRotationPacket::new, ServerboundShootFromRotationPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ServerboundHandleThrowingProjectilePacket.class, ServerboundHandleThrowingProjectilePacket::encode, ServerboundHandleThrowingProjectilePacket::new, ServerboundHandleThrowingProjectilePacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ServerboundTriggerAnimationPacket.class, ServerboundTriggerAnimationPacket::encode, ServerboundTriggerAnimationPacket::new, ServerboundTriggerAnimationPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ServerboundChangeNBTPacket.class, ServerboundChangeNBTPacket::encode, ServerboundChangeNBTPacket::new, ServerboundChangeNBTPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ServerboundBetterCombatAttackStartListenerPacket.class, ServerboundBetterCombatAttackStartListenerPacket::encode, ServerboundBetterCombatAttackStartListenerPacket::new, ServerboundBetterCombatAttackStartListenerPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ServerboundDamageEntityPacket.class, ServerboundDamageEntityPacket::encode, ServerboundDamageEntityPacket::new, ServerboundDamageEntityPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ServerboundParticlePacket.class, ServerboundParticlePacket::encode, ServerboundParticlePacket::new, ServerboundParticlePacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ServerboundActivateRagePacket.class, ServerboundActivateRagePacket::encode, ServerboundActivateRagePacket::new, ServerboundActivateRagePacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ServerboundChangeSpellPacket.class, ServerboundChangeSpellPacket::encode, ServerboundChangeSpellPacket::new, ServerboundChangeSpellPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ServerboundActiveAbilityPressPacket.class, ServerboundActiveAbilityPressPacket::encode, ServerboundActiveAbilityPressPacket::new, ServerboundActiveAbilityPressPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundSetHealthPacket.class, ServerboundSetHealthPacket::write, ServerboundSetHealthPacket::new, ServerboundSetHealthPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundShootFromRotationPacket.class, ServerboundShootFromRotationPacket::write, ServerboundShootFromRotationPacket::new, ServerboundShootFromRotationPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundHandleThrowingProjectilePacket.class, ServerboundHandleThrowingProjectilePacket::write, ServerboundHandleThrowingProjectilePacket::new, ServerboundHandleThrowingProjectilePacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundTriggerAnimationPacket.class, ServerboundTriggerAnimationPacket::write, ServerboundTriggerAnimationPacket::new, ServerboundTriggerAnimationPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundChangeNBTPacket.class, ServerboundChangeNBTPacket::write, ServerboundChangeNBTPacket::new, ServerboundChangeNBTPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundBetterCombatAttackStartListenerPacket.class, ServerboundBetterCombatAttackStartListenerPacket::write, ServerboundBetterCombatAttackStartListenerPacket::new, ServerboundBetterCombatAttackStartListenerPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundDamageEntityPacket.class, ServerboundDamageEntityPacket::write, ServerboundDamageEntityPacket::new, ServerboundDamageEntityPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundParticlePacket.class, ServerboundParticlePacket::write, ServerboundParticlePacket::new, ServerboundParticlePacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundActivateRagePacket.class, ServerboundActivateRagePacket::write, ServerboundActivateRagePacket::new, ServerboundActivateRagePacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundChangeSpellPacket.class, ServerboundChangeSpellPacket::write, ServerboundChangeSpellPacket::new, ServerboundChangeSpellPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundActiveAbilityPressPacket.class, ServerboundActiveAbilityPressPacket::write, ServerboundActiveAbilityPressPacket::new, ServerboundActiveAbilityPressPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundArmorSetBonusAbilityPressPacket.class, ServerboundArmorSetBonusAbilityPressPacket::write, ServerboundArmorSetBonusAbilityPressPacket::new, ServerboundArmorSetBonusAbilityPressPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundPlayerAnimationPacket.class, ServerboundPlayerAnimationPacket::write, ServerboundPlayerAnimationPacket::new, ServerboundPlayerAnimationPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ClientboundExactParticlePacket.class, ClientboundExactParticlePacket::encode, ClientboundExactParticlePacket::new, ClientboundExactParticlePacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncCapabilitiesPacket.class, ClientboundSyncCapabilitiesPacket::encode, ClientboundSyncCapabilitiesPacket::new, ClientboundSyncCapabilitiesPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ClientboundEnvironmentColorManagerPacket.class, ClientboundEnvironmentColorManagerPacket::encode, ClientboundEnvironmentColorManagerPacket::new, ClientboundEnvironmentColorManagerPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncTickPacket.class, ClientboundSyncTickPacket::encode, ClientboundSyncTickPacket::new, ClientboundSyncTickPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundUpdateAbilityCooldownsPacket.class, ClientboundUpdateAbilityCooldownsPacket::write, ClientboundUpdateAbilityCooldownsPacket::new, ClientboundUpdateAbilityCooldownsPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundExactParticlePacket.class, ClientboundExactParticlePacket::write, ClientboundExactParticlePacket::new, ClientboundExactParticlePacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncCapabilitiesPacket.class, ClientboundSyncCapabilitiesPacket::write, ClientboundSyncCapabilitiesPacket::new, ClientboundSyncCapabilitiesPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundEnvironmentColorManagerPacket.class, ClientboundEnvironmentColorManagerPacket::write, ClientboundEnvironmentColorManagerPacket::new, ClientboundEnvironmentColorManagerPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncTickPacket.class, ClientboundSyncTickPacket::write, ClientboundSyncTickPacket::new, ClientboundSyncTickPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncSpellCooldownPacket.class, ClientboundSyncSpellCooldownPacket::write, ClientboundSyncSpellCooldownPacket::new, ClientboundSyncSpellCooldownPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundParticlePacket.class, ClientboundParticlePacket::write, ClientboundParticlePacket::new, ClientboundParticlePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundDodgePacket.class, ClientboundDodgePacket::write, ClientboundDodgePacket::new, ClientboundDodgePacket::handle);
@@ -47,7 +49,7 @@ public class PacketHandler {
         NETWORK_CHANNEL.send(PacketDistributor.SERVER.noArg(), msg);
     }
 
-    public static void sendToPlayer(Object msg, ServerPlayer player) {
+    public static void sendToPlayerClient(Object msg, ServerPlayer player) {
         NETWORK_CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), msg);
     }
 

@@ -38,14 +38,11 @@ public class PocketBlackHoleCharm extends BrutalityCurioItem {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        if (slotContext.entity() != null) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(POCKET_BLACK_HOLE_KB_RESIST_UUID, "KB Resist", 0.95, AttributeModifier.Operation.MULTIPLY_TOTAL));
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
+        builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(POCKET_BLACK_HOLE_KB_RESIST_UUID, "KB Resist", 0.95, AttributeModifier.Operation.MULTIPLY_TOTAL));
 
-            return builder.build();
+        return builder.build();
 
-        }
-        return super.getAttributeModifiers(slotContext, uuid, stack);
     }
 
 }

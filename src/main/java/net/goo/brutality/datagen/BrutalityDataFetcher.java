@@ -1,12 +1,14 @@
 package net.goo.brutality.datagen;
 
 import com.google.common.collect.Multimap;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Lifecycle;
 import net.daphne.lethality.LethalityMod;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityGeoItem;
 import net.mcreator.terramity.TerramityMod;
 import net.mcreator.terramity.entity.*;
@@ -29,670 +31,681 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ambient.AmbientCreature;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+
 
 public class BrutalityDataFetcher implements DataProvider {
     private final PackOutput.PathProvider dataPath;
     private final Map<String, String> translations = new HashMap<>();
     private final Map<String, String> curioTypes = new HashMap<>();
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private final DecimalFormat decimalFormat = new DecimalFormat("0.##");
+    protected final DecimalFormat decimalFormat = new DecimalFormat("0.##");
+    private final Map<String, Map<String, List<String>>> typesByMod = new LinkedHashMap<>();
+    private final Map<String, Set<String>> raritiesByMod = new HashMap<>();
+    private static final Set<String> targetMods = Set.of(
+            Brutality.MOD_ID,
+            TerramityMod.MODID,
+            LethalityMod.MOD_ID
+    );
 
     public BrutalityDataFetcher(PackOutput output) {
-        this.dataPath = output.createPathProvider(PackOutput.Target.DATA_PACK, "item_data");
+        this.dataPath = output.createPathProvider(PackOutput.Target.DATA_PACK, "stats");
+        loadAllData();
+    }
+
+    private void loadAllData() {
         loadTranslations();
-        loadAllFilesFromModDirectory("terramity", "data/curios/tags/items");
-        loadAllFilesFromModDirectory("brutality", "data/curios/tags/items");
-        loadAllFilesFromModDirectory("lethality", "data/curios/tags/items");
+        loadCurioTypes("terramity");
+        loadCurioTypes("brutality");
+        loadCurioTypes("lethality");
     }
 
     private void loadTranslations() {
-        loadMinecraftTranslations();
-        loadTranslationFileFromJar("/assets/brutality/lang/en_us.json");
-        loadTranslationsFromMod("terramity", "en_us.json");
-        loadTranslationsFromMod("lethality", "en_us.json");
-
+        TranslationLoader.loadMinecraft(translations, gson);
+        TranslationLoader.loadFromResource(translations, gson, "/assets/brutality/lang/en_us.json");
+        TranslationLoader.loadFromMod(translations, gson, "terramity", "en_us.json");
+        TranslationLoader.loadFromMod(translations, gson, "lethality", "en_us.json");
     }
 
-    private void loadMinecraftTranslations() {
-        try {
-            File jarFile = new File(System.getProperty("user.home") +
-                    "/.gradle/caches/forge_gradle/minecraft_repo/versions/1.20.1/client-extra.jar");
-
-            try (JarFile jar = new JarFile(jarFile)) {
-                JarEntry entry = jar.getJarEntry("assets/minecraft/lang/en_us.json");
-                if (entry != null) {
-                    try (InputStream stream = jar.getInputStream(entry)) {
-                        JsonObject json = gson.fromJson(new InputStreamReader(stream), JsonObject.class);
-                        json.entrySet().forEach(e ->
-                                translations.put(e.getKey(), e.getValue().getAsString()));
-                        Brutality.LOGGER.debug("Loaded {} translations from Minecraft JAR", json.size());
-                    }
-                } else {
-                    Brutality.LOGGER.warn("Minecraft en_us.json not found in JAR");
-                }
-            }
-        } catch (IOException e) {
-            Brutality.LOGGER.error("Failed to load Minecraft translations: {}", e.toString());
-        }
+    private void loadCurioTypes(String modId) {
+        CurioTypeLoader.loadFromMod(curioTypes, gson, modId);
     }
 
-    /**
-     * Loads translations from this mod's JAR file
-     */
-    private void loadTranslationFileFromJar(String resourcePath) {
-        try (InputStream in = getClass().getResourceAsStream(resourcePath)) {
-            if (in != null) {
-                JsonObject json = gson.fromJson(new InputStreamReader(in), JsonObject.class);
-                json.entrySet().forEach(entry -> translations.put(entry.getKey(), entry.getValue().getAsString()));
-                Brutality.LOGGER.debug("Loaded {} translations from internal {}", json.size(), resourcePath);
-            } else {
-                Brutality.LOGGER.warn("Internal translation file not found: {}", resourcePath);
-            }
-        } catch (Exception e) {
-            Brutality.LOGGER.error("Failed to load internal translations from {}: {}", resourcePath, e.toString());
-        }
-    }
-
-    /**
-     * Loads translations from another mod's JAR file
-     */
-    private void loadTranslationsFromMod(String modId, String langFile) {
-        try {
-            ModFile modFile = (ModFile) ModList.get().getModFileById(modId).getFile();
-            Path path = modFile.findResource("assets/" + modId + "/lang/" + langFile);
-            loadTranslationFileFromPath(path);
-        } catch (Exception e) {
-            Brutality.LOGGER.error("Failed to load translations from mod {}: {}", modId, e.toString());
-        }
-    }
-
-
-    private void loadAllFilesFromModDirectory(String modId, String directoryPath) {
-        try {
-            ModFile modFile = (ModFile) ModList.get().getModFileById(modId).getFile();
-            Path modRoot = modFile.findResource(""); // Gets the mod root directory
-
-            // Walk through all files in the specified directory
-            Files.walk(modRoot.resolve(directoryPath))
-                    .filter(path -> path.toString().endsWith(".json"))
-                    .forEach(this::processCurioTypeFile);
-        } catch (Exception e) {
-            Brutality.LOGGER.error("Failed to load files from {} in mod {}: {}",
-                    directoryPath, modId, e.toString());
-        }
-    }
-
-    private void processCurioTypeFile(Path filePath) {
-        try (InputStream in = Files.newInputStream(filePath)) {
-            JsonObject json = gson.fromJson(new InputStreamReader(in), JsonObject.class);
-
-            // Extract filename without extension as potential type name
-            String fileName = filePath.getFileName().toString();
-            String type = fileName.substring(0, fileName.lastIndexOf('.'));
-
-            // Process the JSON content
-            if (json.has("values")) {
-                JsonArray items = json.getAsJsonArray("values");
-                for (JsonElement item : items) {
-                    String itemId = item.getAsString();
-                    curioTypes.put(itemId, type); // Map item ID to type
-                }
-            }
-
-            Brutality.LOGGER.debug("processCurioTypeFile# Loaded {} items from {}",
-                    json.getAsJsonArray("values").size(), filePath);
-        } catch (Exception e) {
-            Brutality.LOGGER.error("Failed to process file {}: {}", filePath, e.toString());
-        }
-    }
-
-    /**
-     * Loads translations from a filesystem path
-     */
-    private void loadTranslationFileFromPath(Path path) {
-        try (InputStream in = Files.newInputStream(path)) {
-            JsonObject json = gson.fromJson(new InputStreamReader(in), JsonObject.class);
-            json.entrySet().forEach(entry -> translations.put(entry.getKey(), entry.getValue().getAsString()));
-            Brutality.LOGGER.debug("Loaded {} translations from {}", json.size(), path);
-        } catch (Exception e) {
-            Brutality.LOGGER.error("Failed to load translations from path {}: {}", path, e.toString());
-        }
-    }
-
-    public static RegistryAccess.Frozen getFakeRegistryAccess() {
-        ResourceKey<Registry<DimensionType>> DIMENSION_TYPE_KEY =
-                ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("minecraft", "dimension_type"));
-
-        ResourceKey<DimensionType> OVERWORLD_DIM_TYPE_KEY =
-                ResourceKey.create(DIMENSION_TYPE_KEY, ResourceLocation.fromNamespaceAndPath("minecraft", "overworld"));
-
-        MappedRegistry<DimensionType> dimensionTypeRegistry =
-                new MappedRegistry<>(DIMENSION_TYPE_KEY, Lifecycle.stable(), false);
-
-        DimensionType dummyDimType = new DimensionType(
-                OptionalLong.of(6000L),
-                true,
-                false,
-                false,
-                true,
-                1.0,
-                true,
-                true,
-                0,
-                384,
-                384,
-                BlockTags.INFINIBURN_OVERWORLD,
-                ResourceLocation.fromNamespaceAndPath("minecraft", "overworld"),
-                0.0f,
-                new DimensionType.MonsterSettings(
-                        false,
-                        false,
-                        ConstantInt.of(0),
-                        0
-                )
-        );
-
-        // ✅ Register the dummy dimension type with its key
-        dimensionTypeRegistry.register(OVERWORLD_DIM_TYPE_KEY, dummyDimType, Lifecycle.stable());
-
-        ResourceKey<Registry<DamageType>> DAMAGE_TYPE_KEY =
-                ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("minecraft", "damage_type"));
-        MappedRegistry<DamageType> damageTypeRegistry =
-                new MappedRegistry<>(DAMAGE_TYPE_KEY, Lifecycle.stable(), false);
-
-
-        List<ResourceKey<DamageType>> damageKeys = new ArrayList<>();
-
-        for (Field field : DamageTypes.class.getDeclaredFields()) {
-            if (Modifier.isStatic(field.getModifiers()) &&
-                    field.getType().equals(ResourceKey.class)) {
-
-                try {
-                    @SuppressWarnings("unchecked")
-                    ResourceKey<DamageType> key = (ResourceKey<DamageType>) field.get(null);
-                    damageKeys.add(key);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace(); // or log
-                }
-            }
-        }
-        for (ResourceKey<DamageType> key : damageKeys) {
-            damageTypeRegistry.register(
-                    key,
-                    new DamageType(key.location().getPath(), 0.0F),
-                    Lifecycle.stable()
-            );
-        }
-
-        return new RegistryAccess.ImmutableRegistryAccess(
-                Map.of(DIMENSION_TYPE_KEY, dimensionTypeRegistry,
-                        DAMAGE_TYPE_KEY, damageTypeRegistry)
-        ).freeze();
-    }
-
-    // ========== Main Data Generation ==========
+    @Override
     public @NotNull CompletableFuture<?> run(CachedOutput cache) {
-        List<ItemData> itemDataList = new ArrayList<>();
-        List<EffectData> effectDataList = new ArrayList<>();
-        List<EntityData> entityDataList = new ArrayList<>();
+        List<CompletableFuture<?>> futures = new ArrayList<>();
 
-        RegistryAccess.Frozen fakeRegistryAccess = getFakeRegistryAccess();
-        // Process items
+        // Process all registries
+        processItems(futures, cache);
+        processEffects(futures, cache);
+        processEntities(futures, cache);
+
+        // Save aggregated data
+        saveTypeLists(futures, cache);
+        saveRarityLists(futures, cache);
+
+        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+    }
+
+    private void processItems(List<CompletableFuture<?>> futures, CachedOutput cache) {
+        var fakeLevel = FakeLevel.getDefault(false, getFakeRegistryAccess());
+
         ForgeRegistries.ITEMS.forEach(item -> {
             String modId = item.getCreatorModId(item.getDefaultInstance());
-            if (shouldProcess(modId)) {
-                ItemData data = processItem(item);
-                itemDataList.add(data);
+            if (!shouldProcess(modId)) return;
+
+            ItemData data = ItemProcessor.process(item, fakeLevel, translations, curioTypes, decimalFormat);
+            ResourceLocation itemId = ForgeRegistries.ITEMS.getKey(item);
+
+            if (itemId != null) {
+                Path itemPath = dataPath.json(ResourceLocation.fromNamespaceAndPath(modId, "item/" + itemId.getPath()));
+                futures.add(DataProvider.saveStable(cache, gson.toJsonTree(data), itemPath));
+
+                // Track for type aggregation
+                typesByMod.computeIfAbsent(modId, k -> new LinkedHashMap<>())
+                        .computeIfAbsent(data.itemType, k -> new ArrayList<>())
+                        .add(itemId.getPath());
+
+                // Track for rarity aggregation
+                if (data.rarity != null) {
+                    raritiesByMod.computeIfAbsent(modId, k -> new LinkedHashSet<>())
+                            .add(data.rarity);
+                }
             }
         });
+    }
 
-        // Process effects
+    private void processEffects(List<CompletableFuture<?>> futures, CachedOutput cache) {
         ForgeRegistries.MOB_EFFECTS.forEach(effect -> {
-            ResourceLocation registryName = ForgeRegistries.MOB_EFFECTS.getKey(effect);
-            if (registryName != null) {
-                String modId = registryName.getNamespace();
-                if (shouldProcess(modId)) {
-                    EffectData data = processEffect(effect, modId);
-                    effectDataList.add(data);
-                }
+            ResourceLocation effectId = ForgeRegistries.MOB_EFFECTS.getKey(effect);
+            if (effectId != null && shouldProcess(effectId.getNamespace())) {
+                EffectData data = EffectProcessor.process(effect, translations);
+                Path effectPath = dataPath.json(ResourceLocation.fromNamespaceAndPath(
+                        effectId.getNamespace(), "effect/" + effectId.getPath()));
+                futures.add(DataProvider.saveStable(cache, gson.toJsonTree(data), effectPath));
             }
         });
+    }
 
-        ForgeRegistries.ENTITY_TYPES.forEach(entity -> {
-            ResourceLocation registryName = ForgeRegistries.ENTITY_TYPES.getKey(entity);
-            if (registryName != null) {
-                String modId = registryName.getNamespace();
-                if (shouldProcess(modId)) {
-                    EntityData data = processEntity(entity, modId, fakeRegistryAccess);
-                    entityDataList.add(data);
+    private void processEntities(List<CompletableFuture<?>> futures, CachedOutput cache) {
+        var fakeLevel = FakeLevel.getDefault(false, getFakeRegistryAccess());
+
+        ForgeRegistries.ENTITY_TYPES.forEach(entityType -> {
+            ResourceLocation entityId = ForgeRegistries.ENTITY_TYPES.getKey(entityType);
+            if (entityId != null && shouldProcess(entityId.getNamespace())) {
+                EntityData data;
+                try {
+                    data = EntityProcessor.process(entityType, fakeLevel, translations);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
                 }
+                Path entityPath = dataPath.json(ResourceLocation.fromNamespaceAndPath(
+                        entityId.getNamespace(), "entity/" + entityId.getPath()));
+                futures.add(DataProvider.saveStable(cache, gson.toJsonTree(data), entityPath));
             }
         });
-
-
-        Path itemPath = this.dataPath.json(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "item_stats"));
-        Path effectPath = this.dataPath.json(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "effect_stats"));
-        Path entityPath = this.dataPath.json(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "entity_stats"));
-
-        CompletableFuture<?> itemFuture = DataProvider.saveStable(cache, gson.toJsonTree(itemDataList), itemPath);
-        CompletableFuture<?> effectFuture = DataProvider.saveStable(cache, gson.toJsonTree(effectDataList), effectPath);
-        CompletableFuture<?> entityFuture = DataProvider.saveStable(cache, gson.toJsonTree(entityDataList), entityPath);
-
-        return CompletableFuture.allOf(itemFuture, effectFuture, entityFuture);
     }
 
-    private boolean shouldProcess(String modId) {
-        return modId != null && (modId.equalsIgnoreCase(Brutality.MOD_ID) || modId.equalsIgnoreCase(TerramityMod.MODID) || modId.equalsIgnoreCase(LethalityMod.MOD_ID));
+    private void saveTypeLists(List<CompletableFuture<?>> futures, CachedOutput cache) {
+        typesByMod.forEach((modId, typeMap) -> {
+            typeMap.forEach((type, itemList) -> {
+                itemList.sort(String::compareToIgnoreCase);
+                JsonArray array = new JsonArray();
+                itemList.forEach(array::add);
+
+                ResourceLocation typeRl = ResourceLocation.fromNamespaceAndPath(modId, "types/" + type);
+                Path typePath = dataPath.json(typeRl);
+                futures.add(DataProvider.saveStable(cache, array, typePath));
+            });
+        });
     }
 
-    private EffectData processEffect(MobEffect effect, String modId) {
-        EffectData data = new EffectData();
-        data.id = Objects.requireNonNull(ForgeRegistries.MOB_EFFECTS.getKey(effect)).getPath();
-        data.namespace = modId;
-        data.name = translations.getOrDefault(effect.getDescriptionId(), fallbackName(effect.getDescriptionId()));
-        data.category = effect.getCategory().toString().toLowerCase();
-        return data;
-    }
+    private void saveRarityLists(List<CompletableFuture<?>> futures, CachedOutput cache) {
+        raritiesByMod.forEach((modId, raritySet) -> {
+            if (!raritySet.isEmpty()) {
+                List<String> rarityList = new ArrayList<>(raritySet);
+                rarityList.sort(String::compareToIgnoreCase);
 
-    private static final Set<Class<?>> BOSSES = Set.of(
-            GobEntity.class,
-            SuperSnifferEntity.class,
-            TrialGuardianEntity.class,
-            VirtueEntity.class,
-            GundalfEntity.class,
-            SorceressCirceEntity.class,
-            UltraSnifferEntity.class
-    );
-    private static final Set<Class<?>> MINIBOSSES = Set.of(
-            UvogreEntity.class,
-            HellrokEntity.class
-    );
+                JsonArray array = new JsonArray();
+                rarityList.forEach(array::add);
 
-    private EntityData processEntity(EntityType<? extends Entity> entity, String modId, RegistryAccess.Frozen registryAccess) {
-        EntityData data = new EntityData();
-        data.id = Objects.requireNonNull(ForgeRegistries.ENTITY_TYPES.getKey(entity)).getPath();
-        data.namespace = modId;
-        data.name = translations.getOrDefault(entity.getDescriptionId(), fallbackName(entity.getDescriptionId()));
-        data.height = String.valueOf(entity.getHeight());
-        data.width = String.valueOf(entity.getHeight());
-        try {
-
-            FakeLevel fakeLevel = FakeLevel.getDefault(false, registryAccess);
-            Entity entityInstance = entity.create(fakeLevel);
-
-            if (entityInstance instanceof LivingEntity living) {
-                data.health = String.valueOf(living.getMaxHealth());
-                data.armor = String.valueOf(living.getArmorValue());
-                data.xpReward = String.valueOf(living.getExperienceReward());
-
-
-                for (Class<?> bossClass : BOSSES) {
-                    if (bossClass.isInstance(entityInstance)) {
-                        data.type = "boss";
-                        break;
-                    }
-                }
-
-                for (Class<?> miniBossClass : MINIBOSSES) {
-                    if (miniBossClass.isInstance(entityInstance)) {
-                        data.type = "miniboss";
-                        break;
-                    }
-                }
-
-                MobType species = living.getMobType();
-                if (species == MobType.UNDEFINED) {
-                    data.species = "unknown";
-                } else if (species == MobType.UNDEAD) {
-                    data.species = "undead";
-                } else if (species == MobType.ARTHROPOD) {
-                    data.species = "arthropod";
-                } else if (species == MobType.ILLAGER) {
-                    data.species = "illager";
-                } else if (species == MobType.WATER) {
-                    data.species = "water";
-                } else {
-                    data.species = "custom";
-                }
-
-                if (entityInstance instanceof Monster) {
-                    data.category = "hostile";
-                } else if (entityInstance instanceof Animal || entityInstance instanceof AmbientCreature) {
-                    data.category = "passive";
-                } else if (entityInstance instanceof PathfinderMob) {
-                    data.category = "neutral"; // fallback/default
-                } else {
-                    data.category = "unknown";
-                }
-
+                Path rarityPath = dataPath.json(ResourceLocation.fromNamespaceAndPath(modId, "rarities"));
+                futures.add(DataProvider.saveStable(cache, array, rarityPath));
             }
-        } catch (Exception e) {
-            Brutality.LOGGER.warn("Failed to create FakeLevel or entity: {}", e.getMessage());
-        }
-
-        return data;
+        });
     }
 
-
-    private ItemData processItem(Item item) {
-        ItemStack stack = item.getDefaultInstance();
-        ItemData data = new ItemData();
-
-        data.id = item.toString();
-        data.namespace = item.getCreatorModId(stack);
-        data.name = translations.getOrDefault(item.getDescriptionId(), fallbackName(item.getDescriptionId()));
-
-        analyzeItemType(item, stack, data);
-        analyzeFoodProperties(item, stack, data);
-        analyzeAttributes(item, stack, data);
-        analyzeDurability(item, stack, data);
-        analyzeRarity(item, stack, data);
-        if (stack.isEnchantable())
-            analyzeEnchantability(stack, data);
-        if (item instanceof ArmorItem armorItem)
-            analyzeArmorMaterial(armorItem, data);
-        determineCategory(data, item);
-
-
-        return data;
-    }
-
-    private void analyzeEnchantability(ItemStack stack, ItemData data) {
-        data.allowedEnchantments = getAllowedEnchants(stack).toString();
-        data.enchantmentValue = String.valueOf(stack.getEnchantmentValue());
-    }
-
-    private List<String> getAllowedEnchants(ItemStack stack) {
-        List<String> allowed = new ArrayList<>();
-        for (Enchantment enchantment : ForgeRegistries.ENCHANTMENTS) {
-            if (enchantment.canEnchant(stack))
-                allowed.add(translations.getOrDefault(enchantment.getDescriptionId(), String.valueOf(enchantment.getFullname(0))));
-        }
-
-        return allowed;
-    }
-
-    // ========== Item Analysis Methods ==========
-    private void analyzeItemType(Item item, ItemStack stack, ItemData data) {
-        if (item instanceof BlockItem blockItem) {
-            analyzeBlockItem(blockItem, data);
-        } else if (item instanceof BrutalityGeoItem geoItem) {
-            data.itemType = geoItem.getCategoryAsString().toLowerCase();
-        } else if (item instanceof ICurioItem) {
-            data.itemType = "curio";
-            data.category = determineCurioType(item);
-        } else {
-            data.itemType = determineVanillaItemType(stack);
-        }
-    }
-
-    private void analyzeArmorMaterial(ArmorItem item, ItemData data) {
-        data.armorMaterial = item.getMaterial().getName();
-        data.armorValue = String.valueOf(item.getDefense());
-        data.armorToughness = String.valueOf(item.getToughness());
-        data.armorType = String.valueOf(item.getType());
-    }
-
-
-    private void analyzeBlockItem(BlockItem blockItem, ItemData data) {
-        data.itemType = "block";
-        Block block = blockItem.getBlock();
-        data.blockType = BlockTypeAnalyzer.getBlockType(block);
-    }
-
-    private String determineVanillaItemType(ItemStack stack) {
-        for (Map.Entry<Predicate<ItemStack>, String> entry : EquipmentTypeMap.VANILLA_TYPES.entrySet()) {
-            if (entry.getKey().test(stack)) {
-                return entry.getValue();
-            }
-        }
-        return "generic";
-    }
-
-    private void analyzeFoodProperties(Item item, ItemStack stack, ItemData data) {
-        FoodProperties foodProps = item.getFoodProperties(stack, null);
-        if (foodProps != null) {
-            data.itemType = "food";
-            data.foodType = foodProps.isMeat() ? "meat" : "non-meat";
-            data.foodEffects = FoodEffectSerializer.serializeEffects(foodProps.getEffects());
-        }
-    }
-
-    private void analyzeAttributes(Item item, ItemStack stack, ItemData data) {
-        Multimap<Attribute, AttributeModifier> attributes = item.getAttributeModifiers(EquipmentSlot.MAINHAND, stack);
-        if (attributes != null) {
-            Collection<AttributeModifier> dmg = attributes.get(Attributes.ATTACK_DAMAGE);
-            Collection<AttributeModifier> spd = attributes.get(Attributes.ATTACK_SPEED);
-            if (!dmg.isEmpty()) data.attackDamage = decimalFormat.format(dmg.iterator().next().getAmount());
-            if (!spd.isEmpty()) data.attackSpeed = decimalFormat.format(4 + spd.iterator().next().getAmount());
-        }
-    }
-
-    private void analyzeDurability(Item item, ItemStack stack, ItemData data) {
-        if (item.getMaxDamage(stack) != 0) {
-            data.durability = item.getMaxDamage(stack);
-        }
-    }
-
-    private void analyzeRarity(Item item, ItemStack stack, ItemData data) {
-        data.rarity = item.getRarity(stack).toString().toLowerCase();
-    }
-
-    private String determineCurioType(Item item) {
-        ResourceLocation itemId = ForgeRegistries.ITEMS.getKey(item);
-        String fullId = itemId.toString();
-        return curioTypes.getOrDefault(fullId, "curio");
-    }
-
-    private void determineCategory(ItemData data, Item item) {
-        // First try the original equipment checks
-        try {
-            BrutalityCategories.ItemType itemType = BrutalityCategories.ItemType.valueOf(data.itemType.toUpperCase(Locale.ROOT));
-            if (CategoryDeterminer.WEAPONS.contains(itemType)) {
-                data.category = "weapon";
-                return;
-            }
-            if (CategoryDeterminer.TOOLS.contains(itemType)) {
-                data.category = "tool";
-                return;
-            }
-            if (itemType == BrutalityCategories.ItemType.ARMOR) {
-                data.category = "armor";
-                return;
-            }
-        } catch (IllegalArgumentException ignored) {
-        }
-
-        String curioType = determineCurioType(item);
-        if (!"curio".equals(curioType)) {
-            data.itemType = curioType;
-            data.category = "curio";
-            return;
-        }
-
-        try {
-            BrutalityCategories.CurioType.valueOf(data.itemType.toUpperCase(Locale.ROOT));
-            data.category = "curio";
-            return;
-        } catch (IllegalArgumentException ignored) {
-            // Continue to default
-        }
-
-        // Default case if nothing else matched
-        data.category = "generic";
-    }
-
-    // ========== Helper Methods ==========
-    private static String fallbackName(String descId) {
-        String[] parts = descId.split("\\.");
-        return parts.length > 2 ? parts[2] : descId;
+    public static boolean shouldProcess(String modId) {
+        return modId != null && targetMods.contains(modId.toLowerCase());
     }
 
     @Override
     public @NotNull String getName() {
-        return "Brutality Item Stats Provider";
+        return "Brutality Data Fetcher";
+    }
+
+    // ========== Registry Methods ==========
+    public static RegistryAccess.Frozen getFakeRegistryAccess() {
+        return RegistryHelper.createFakeRegistryAccess();
     }
 
     // ========== Data Classes ==========
-    private static class ItemData {
-        String allowedEnchantments;
-        String namespace;
-        String id;
-        String name;
-        Integer durability;
-        String attackDamage;
-        String attackSpeed;
-        String rarity;
-        String itemType;
-        String category;
-        String blockType;
-        String foodType;
-        String foodEffects;
-        String armorMaterial;
-        String armorValue;
-        String armorToughness;
-        String armorType;
-        String enchantmentValue;
-    }
+    public static class ItemData {
+        public String name;
+        public String itemType;
+        public String rarity;
+        public Integer durability;
+        public String enchantmentValue;
+        public JsonArray allowedEnchantments;
+        public FoodData foodData;
+        public Map<String, List<AttributeData>> attributes;
 
-    private static class EffectData {
-        String namespace;
-        String id;
-        String name;
-        String category;
-    }
+        // Armor-specific
+        public String armorMaterial;
+        public Integer armorValue;
+        public Float armorToughness;
+        public String armorType;
+        public Float kbResistance;
 
-    private static class EntityData {
-        String namespace;
-        String id;
-        String name;
-        String category;
-        String type;
-        String xpReward;
-        String health;
-        String width;
-        String height;
-        String armor;
-        String species;
-    }
+        // Block-specific
+        public String blockType;
 
-    // ========== Helper Classes ==========
-    private static class BlockTypeAnalyzer {
-        private static final Map<Class<? extends Block>, String> BLOCK_TYPE_MAP = Map.ofEntries(
-                Map.entry(StairBlock.class, "stair"),
-                Map.entry(SlabBlock.class, "slab"),
-                Map.entry(FenceBlock.class, "fence"),
-                Map.entry(WallBlock.class, "wall"),
-                Map.entry(DoorBlock.class, "door"),
-                Map.entry(TrapDoorBlock.class, "trapdoor"),
-                Map.entry(ButtonBlock.class, "button"),
-                Map.entry(PressurePlateBlock.class, "pressure_plate"),
-                Map.entry(LeavesBlock.class, "leaves"),
-                Map.entry(SaplingBlock.class, "sapling"),
-                Map.entry(FlowerBlock.class, "flower"),
-                Map.entry(CropBlock.class, "crop"),
-                Map.entry(BaseEntityBlock.class, "tile_entity")
-        );
+        public static class FoodData {
+            public float nutrition;
+            public float saturation;
+            public boolean isMeat;
+            public boolean canAlwaysEat;
+            public boolean isFastFood;
+            public List<EffectData.FoodEffectData> effects;
+        }
 
-        public static String getBlockType(Block block) {
-            return BLOCK_TYPE_MAP.entrySet().stream()
-                    .filter(entry -> entry.getKey().isInstance(block))
-                    .findFirst()
-                    .map(Map.Entry::getValue)
-                    .orElse("basic");
+        public static class AttributeData {
+            public String attribute;
+            public float amount;
+            public String operation;
         }
     }
 
-    private static class FoodEffectSerializer {
-        public static String serializeEffects(List<Pair<MobEffectInstance, Float>> effects) {
-            if (effects == null || effects.isEmpty()) return "[]";
+    public static class EffectData {
+        public String name;
+        public String category;
 
-            List<Map<String, Object>> effectsList = new ArrayList<>();
-            for (Pair<MobEffectInstance, Float> effectPair : effects) {
-                MobEffectInstance effect = effectPair.getFirst();
-                if (effect != null) {
-                    effectsList.add(createEffectData(effect, effectPair.getSecond()));
+        public static class FoodEffectData extends EffectData {
+            public float duration;
+            public float amplifier;
+            public Float chance;
+        }
+    }
+
+    public static class EntityData {
+        public String name;
+        public String category;
+        public String type;
+        public Integer xpReward;
+        public Float health;
+        public Float width;
+        public Float height;
+        public Integer armor;
+        public boolean isLiving = false;
+    }
+
+
+// ========== Helper Classes ==========
+
+    static class TranslationLoader {
+        public static void loadMinecraft(Map<String, String> translations, Gson gson) {
+            try {
+                String jarPath = System.getProperty("user.home") +
+                        "/.gradle/caches/forge_gradle/minecraft_repo/versions/1.20.1/client-extra.jar";
+                JsonObject json = JsonLoader.loadFromJar(jarPath, "assets/minecraft/lang/en_us.json", gson);
+                json.entrySet().forEach(e -> translations.put(e.getKey(), e.getValue().getAsString()));
+                Brutality.LOGGER.debug("Loaded {} Minecraft translations", json.size());
+            } catch (IOException e) {
+                Brutality.LOGGER.error("Failed to load Minecraft translations", e);
+            }
+        }
+
+        public static void loadFromResource(Map<String, String> translations, Gson gson, String resourcePath) {
+            JsonObject json = JsonLoader.loadFromResource(resourcePath, gson);
+            if (json != null) {
+                json.entrySet().forEach(e -> translations.put(e.getKey(), e.getValue().getAsString()));
+            }
+        }
+
+        public static void loadFromMod(Map<String, String> translations, Gson gson, String modId, String langFile) {
+            JsonObject json = JsonLoader.loadFromMod(modId, "assets/" + modId + "/lang/" + langFile, gson);
+            if (json != null) {
+                json.entrySet().forEach(e -> translations.put(e.getKey(), e.getValue().getAsString()));
+            }
+        }
+    }
+
+    static class CurioTypeLoader {
+        public static void loadFromMod(Map<String, String> curioTypes, Gson gson, String modId) {
+            List<JsonObject> jsons = JsonLoader.loadAllFromModDir(modId, "data/curios/tags/items", gson);
+            jsons.forEach(json -> processCurioJson(json, curioTypes));
+        }
+
+        private static void processCurioJson(JsonObject json, Map<String, String> curioTypes) {
+            if (json.has("values")) {
+                JsonArray items = json.getAsJsonArray("values");
+                items.forEach(item -> {
+                    // Get type from filename (handled by JsonLoader)
+                    curioTypes.put(item.getAsString(), "curio"); // Simplified - type comes from filename in JsonLoader
+                });
+            }
+        }
+    }
+
+    static class JsonLoader {
+        public static JsonObject loadFromJar(String jarPath, String entryPath, Gson gson) throws IOException {
+            return JarUtils.loadJsonFromJar(jarPath, entryPath, gson);
+        }
+
+        public static JsonObject loadFromResource(String resourcePath, Gson gson) {
+            try (InputStream in = BrutalityDataFetcher.class.getResourceAsStream(resourcePath)) {
+                return in != null ? gson.fromJson(new InputStreamReader(in), JsonObject.class) : null;
+            } catch (Exception e) {
+                Brutality.LOGGER.error("Failed to load resource: {}", resourcePath, e);
+                return null;
+            }
+        }
+
+        public static JsonObject loadFromMod(String modId, String path, Gson gson) {
+            try {
+                var modFile = ModList.get().getModFileById(modId).getFile();
+                Path fullPath = modFile.findResource(path);
+                return loadFromPath(fullPath, gson);
+            } catch (Exception e) {
+                Brutality.LOGGER.error("Failed to load from mod {}: {}", modId, path, e);
+                return null;
+            }
+        }
+
+        public static List<JsonObject> loadAllFromModDir(String modId, String dirPath, Gson gson) {
+            List<JsonObject> result = new ArrayList<>();
+            try {
+                var modFile = ModList.get().getModFileById(modId).getFile();
+                Path root = modFile.findResource("");
+                FileUtils.walkJsonFiles(root.resolve(dirPath), path -> {
+                    JsonObject json = loadFromPath(path, gson);
+                    if (json != null) result.add(json);
+                });
+            } catch (Exception e) {
+                Brutality.LOGGER.error("Failed to load files from mod {}: {}", modId, dirPath, e);
+            }
+            return result;
+        }
+
+        private static JsonObject loadFromPath(Path path, Gson gson) {
+            try (InputStream in = Files.newInputStream(path)) {
+                return gson.fromJson(new InputStreamReader(in), JsonObject.class);
+            } catch (Exception e) {
+                Brutality.LOGGER.error("Failed to load from path: {}", path, e);
+                return null;
+            }
+        }
+    }
+
+    static class ItemProcessor {
+        public static BrutalityDataFetcher.ItemData process(Item item, FakeLevel level,
+                                                            Map<String, String> translations, Map<String, String> curioTypes,
+                                                            DecimalFormat decimalFormat) {
+            BrutalityDataFetcher.ItemData data = new BrutalityDataFetcher.ItemData();
+            ItemStack stack = item.getDefaultInstance();
+            String key = item.getDescriptionId();
+            data.name = translations.getOrDefault(key,
+                    translations.getOrDefault(key.replace("block.", "item."), "Unknown"));
+
+
+            // Determine item type
+            data.itemType = determineItemType(item, stack, curioTypes);
+
+            // Basic properties
+            if (item.getMaxDamage(stack) > 0) {
+                data.durability = item.getMaxDamage(stack);
+            }
+
+            data.rarity = item.getRarity(stack).toString().toLowerCase();
+
+            // Enchantments
+            if (stack.isEnchantable()) {
+                data.enchantmentValue = String.valueOf(stack.getEnchantmentValue());
+                data.allowedEnchantments = getAllowedEnchants(stack, translations);
+            }
+
+            // Food
+            if (item.getFoodProperties(stack, null) != null) {
+                data.foodData = processFood(item, stack);
+            }
+
+            // Armor
+            if (item instanceof ArmorItem armor) {
+                processArmor(armor, data);
+            }
+
+            // Attributes
+            if (level != null) {
+                data.attributes = processAttributes(item, stack, curioTypes, decimalFormat);
+            }
+
+            return data;
+        }
+
+        private static String determineItemType(Item item, ItemStack stack, Map<String, String> curioTypes) {
+            if (item instanceof BlockItem) return "block";
+            if (item instanceof BrutalityGeoItem geo) return geo.getCategoryAsString();
+            if (item instanceof ICurioItem) return curioTypes.getOrDefault(
+                    ForgeRegistries.ITEMS.getKey(item).toString(), "curio");
+            return ItemTypeMapper.getVanillaType(stack);
+        }
+
+        private static JsonArray getAllowedEnchants(ItemStack stack, Map<String, String> translations) {
+            JsonArray array = new JsonArray();
+            ForgeRegistries.ENCHANTMENTS.forEach(enchantment -> {
+                if (enchantment.canEnchant(stack)) {
+                    JsonObject obj = new JsonObject();
+                    obj.addProperty("name", translations.getOrDefault(
+                            enchantment.getDescriptionId(),
+                            String.valueOf(enchantment.getFullname(0))));
+                    obj.addProperty("min", enchantment.getMinLevel());
+                    obj.addProperty("max", enchantment.getMaxLevel());
+                    array.add(obj);
+                }
+            });
+            return array;
+        }
+
+        private static BrutalityDataFetcher.ItemData.FoodData processFood(Item item, ItemStack stack) {
+            FoodProperties food = item.getFoodProperties(stack, null);
+            if (food == null) return null;
+
+            BrutalityDataFetcher.ItemData.FoodData foodData = new BrutalityDataFetcher.ItemData.FoodData();
+            foodData.nutrition = food.getNutrition();
+            foodData.saturation = food.getNutrition() * food.getSaturationModifier() * 2.0f;
+            foodData.isMeat = food.isMeat();
+            foodData.canAlwaysEat = food.canAlwaysEat();
+            foodData.isFastFood = food.isFastFood();
+            foodData.effects = FoodEffectSerializer.serializeEffects(food.getEffects());
+
+            return foodData;
+        }
+
+        private static class FoodEffectSerializer {
+            public static List<BrutalityDataFetcher.EffectData.FoodEffectData> serializeEffects(List<Pair<MobEffectInstance, Float>> effectsWithPercentage) {
+                if (effectsWithPercentage == null || effectsWithPercentage.isEmpty()) return new ArrayList<>();
+
+                List<BrutalityDataFetcher.EffectData.FoodEffectData> effectsList = new ArrayList<>();
+                effectsWithPercentage.forEach(effectInstanceFloatPair -> {
+                    MobEffectInstance instance = effectInstanceFloatPair.getFirst();
+                    Float chance = effectInstanceFloatPair.getSecond();
+
+                    BrutalityDataFetcher.EffectData.FoodEffectData data = new BrutalityDataFetcher.EffectData.FoodEffectData();
+                    data.name = String.valueOf(instance.getEffect().getDisplayName());
+                    data.amplifier = instance.getAmplifier();
+                    data.duration = instance.getDuration();
+                    data.chance = chance;
+
+                    effectsList.add(data);
+                });
+                return effectsList;
+            }
+        }
+
+        private static void processArmor(ArmorItem armor, BrutalityDataFetcher.ItemData data) {
+            data.armorMaterial = armor.getMaterial().getName();
+            data.armorValue = armor.getDefense();
+            data.armorToughness = armor.getToughness();
+            data.kbResistance = armor.getMaterial().getKnockbackResistance();
+            data.armorType = armor.getType().toString();
+        }
+
+        private static Map<String, List<BrutalityDataFetcher.ItemData.AttributeData>> processAttributes(
+                Item item, ItemStack stack, Map<String, String> curioTypes, DecimalFormat decimalFormat) {
+
+            Map<String, List<BrutalityDataFetcher.ItemData.AttributeData>> slotAttributes = new LinkedHashMap<>();
+
+            // Process regular equipment slots
+            for (EquipmentSlot slot : EquipmentSlot.values()) {
+                Multimap<Attribute, AttributeModifier> attrs = item.getAttributeModifiers(slot, stack);
+                if (!attrs.isEmpty()) {
+                    slotAttributes.put(slot.getName(), convertAttributes(attrs));
                 }
             }
-            return new Gson().toJson(effectsList);
+
+            // Process curio slots
+            if (item instanceof ICurioItem) {
+                processCurioAttributes(item, stack, curioTypes, slotAttributes);
+            }
+
+            return slotAttributes;
         }
 
-        private static Map<String, Object> createEffectData(MobEffectInstance effect, float probability) {
-            Map<String, Object> effectData = new HashMap<>();
-            effectData.put("effect", effect.getEffect().getDisplayName().getString());
-            effectData.put("duration", effect.getDuration());
-            effectData.put("amplifier", effect.getAmplifier());
-            effectData.put("probability", probability);
-            return effectData;
+        private static List<BrutalityDataFetcher.ItemData.AttributeData> convertAttributes(
+                Multimap<Attribute, AttributeModifier> attributes) {
+
+            List<BrutalityDataFetcher.ItemData.AttributeData> result = new ArrayList<>();
+
+            for (var entry : attributes.entries()) {
+                Attribute attribute = entry.getKey();
+                AttributeModifier modifier = entry.getValue();
+
+                BrutalityDataFetcher.ItemData.AttributeData data = new BrutalityDataFetcher.ItemData.AttributeData();
+                data.attribute = attribute.getDescriptionId();
+                data.amount = (float) modifier.getAmount();
+                data.operation = modifier.getOperation().toString();
+
+                result.add(data);
+            }
+
+            return result;
+        }
+
+        private static void processCurioAttributes(Item curioItem, ItemStack stack,
+                                                   Map<String, String> curioTypes, Map<String, List<BrutalityDataFetcher.ItemData.AttributeData>> slotAttributes) {
+
+            String itemId = ForgeRegistries.ITEMS.getKey(curioItem).toString();
+            String slotType = curioTypes.getOrDefault(itemId, "curio");
+
+            try {
+                SlotContext slotContext = new SlotContext(slotType, null, 0, false, true);
+                UUID slotUuid = UUID.nameUUIDFromBytes((slotType + "_attribute").getBytes(StandardCharsets.UTF_8));
+
+                Multimap<Attribute, AttributeModifier> attrs = ((ICurioItem) curioItem).getAttributeModifiers(slotContext, slotUuid, stack);
+                if (attrs != null && !attrs.isEmpty()) {
+                    slotAttributes.put(slotType, convertAttributes(attrs));
+                }
+            } catch (Exception e) {
+                Brutality.LOGGER.debug("Item {} doesn't support curio slot {}: {}", itemId, slotType, e.getMessage());
+            }
         }
     }
 
-    private static class EquipmentTypeMap {
-        static final Map<Predicate<ItemStack>, String> VANILLA_TYPES = new LinkedHashMap<>() {{
-            put(stack -> stack.getItem() instanceof SwordItem || stack.is(ItemTags.SWORDS), "sword");
-            put(stack -> stack.getItem() instanceof PickaxeItem || stack.is(ItemTags.PICKAXES), "pickaxe");
-            put(stack -> stack.getItem() instanceof AxeItem || stack.is(ItemTags.AXES), "axe");
-            put(stack -> stack.getItem() instanceof ShovelItem || stack.is(ItemTags.SHOVELS), "shovel");
-            put(stack -> stack.getItem() instanceof HoeItem || stack.is(ItemTags.HOES), "hoe");
-            put(stack -> stack.getItem() instanceof BowItem, "bow");
-            put(stack -> stack.getItem() instanceof CrossbowItem, "crossbow");
-            put(stack -> stack.getItem() instanceof TridentItem, "trident");
-            put(stack -> stack.getItem() instanceof ArmorItem, "armor");
-            put(stack -> stack.getItem() instanceof ElytraItem, "elytra");
-            put(stack -> stack.getItem() instanceof ShieldItem, "shield");
-            put(stack -> stack.getItem() instanceof FishingRodItem, "fishing_rod");
-            put(stack -> stack.getItem() instanceof FlintAndSteelItem, "flint_and_steel");
-            put(stack -> stack.getItem() instanceof ShearsItem, "shears");
-            put(stack -> stack.getItem() instanceof CompassItem, "compass");
-        }};
+
+    static class EntityProcessor {
+        // Simplified entity processing
+        public static BrutalityDataFetcher.EntityData process(EntityType<?> entityType,
+                                                              FakeLevel level,
+                                                              Map<String, String> translations) throws IllegalAccessException {
+            BrutalityDataFetcher.EntityData data = new BrutalityDataFetcher.EntityData();
+            data.name = translations.getOrDefault(entityType.getDescriptionId(), entityType.getDescriptionId());
+
+            Entity entity = entityType.create(level);
+            if (entity instanceof LivingEntity living) {
+                data.health = living.getMaxHealth();
+                data.armor = living.getArmorValue();
+                data.xpReward = living.getExperienceReward();
+                data.isLiving = true;
+                data.category = determineCategory(living);
+                data.type = determineEntityType(living);
+            }
+
+            data.width = entityType.getWidth();
+            data.height = entityType.getHeight();
+
+            return data;
+        }
+
+        private static String determineCategory(LivingEntity entity) {
+            if (entity instanceof Monster) return "hostile";
+            if (entity instanceof Animal || entity instanceof AmbientCreature) return "passive";
+            return "neutral";
+        }
+
+        private static final Set<Class<?>> BOSSES = Set.of(
+                GobEntity.class,
+                SuperSnifferEntity.class,
+                TrialGuardianEntity.class,
+                VirtueEntity.class,
+                GundalfEntity.class,
+                SorceressCirceEntity.class,
+                UltraSnifferEntity.class
+        );
+        private static final Set<Class<?>> MINIBOSSES = Set.of(
+                UvogreEntity.class,
+                HellrokEntity.class
+        );
+
+        private static String determineEntityType(LivingEntity entity) {
+            if (BOSSES.contains(entity.getClass())) return "boss";
+            if (MINIBOSSES.contains(entity.getClass())) return "miniboss";
+
+            return "normal";
+        }
     }
 
-    private static class CategoryDeterminer {
-        static final Set<BrutalityCategories.ItemType> WEAPONS = EnumSet.of(
-                BrutalityCategories.ItemType.SWORD,
-                BrutalityCategories.ItemType.AXE,
-                BrutalityCategories.ItemType.HAMMER,
-                BrutalityCategories.ItemType.TRIDENT,
-                BrutalityCategories.ItemType.SCYTHE,
-                BrutalityCategories.ItemType.BOW,
-                BrutalityCategories.ItemType.SPEAR,
-                BrutalityCategories.ItemType.STAFF
+
+    static class EffectProcessor {
+        public static BrutalityDataFetcher.EffectData process(MobEffect effect, Map<String, String> translations) {
+            BrutalityDataFetcher.EffectData data = new BrutalityDataFetcher.EffectData();
+            data.name = translations.get(effect.getDescriptionId());
+            data.category = effect.getCategory().toString().toLowerCase();
+            return data;
+        }
+    }
+
+    // Utility methods
+    static class FileUtils {
+        public static void walkJsonFiles(Path dir, Consumer<Path> consumer) {
+            try (var stream = Files.walk(dir)) {
+                stream.filter(p -> p.toString().endsWith(".json")).forEach(consumer);
+            } catch (Exception e) {
+                Brutality.LOGGER.error("Failed to walk directory: {}", dir, e);
+            }
+        }
+    }
+
+    static class JarUtils {
+        public static JsonObject loadJsonFromJar(String jarPath, String entryPath, Gson gson) throws IOException {
+            try (var jar = new JarFile(jarPath)) {
+                var entry = jar.getJarEntry(entryPath);
+                if (entry != null) {
+                    try (var stream = jar.getInputStream(entry)) {
+                        return gson.fromJson(new InputStreamReader(stream), JsonObject.class);
+                    }
+                }
+            }
+            return null;
+        }
+    }
+
+    static class ItemTypeMapper {
+        private static final Map<Predicate<ItemStack>, String> TYPES = Map.ofEntries(
+                Map.entry(stack -> stack.getItem() instanceof SwordItem || stack.is(ItemTags.SWORDS), "sword"),
+                Map.entry(stack -> stack.getItem() instanceof PickaxeItem || stack.is(ItemTags.PICKAXES), "pickaxe"),
+                Map.entry(stack -> stack.getItem() instanceof AxeItem || stack.is(ItemTags.AXES), "axe"),
+                Map.entry(stack -> stack.getItem() instanceof ShovelItem || stack.is(ItemTags.SHOVELS), "shovel"),
+                Map.entry(stack -> stack.getItem() instanceof HoeItem || stack.is(ItemTags.HOES), "hoe"),
+                Map.entry(stack -> stack.getItem() instanceof BowItem, "bow"),
+                Map.entry(stack -> stack.getItem() instanceof CrossbowItem, "crossbow"),
+                Map.entry(stack -> stack.getItem() instanceof ArmorItem || stack.is(ItemTags.TRIMMABLE_ARMOR), "armor")
         );
 
-        static final Set<BrutalityCategories.ItemType> TOOLS = EnumSet.of(
-                BrutalityCategories.ItemType.PICKAXE
-//                BrutalityCategories.ItemType.SHOVEL,
-//                BrutalityCategories.ItemType.HOE
-        );
+        public static String getVanillaType(ItemStack stack) {
+            return TYPES.entrySet().stream()
+                    .filter(entry -> entry.getKey().test(stack))
+                    .map(Map.Entry::getValue)
+                    .findFirst()
+                    .orElse("generic");
+        }
+    }
+
+
+    static class RegistryHelper {
+        public static RegistryAccess.Frozen createFakeRegistryAccess() {
+            // Create dimension type registry
+            ResourceKey<Registry<DimensionType>> DIMENSION_TYPE_KEY =
+                    ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("minecraft", "dimension_type"));
+
+            MappedRegistry<DimensionType> dimensionTypeRegistry =
+                    new MappedRegistry<>(DIMENSION_TYPE_KEY, Lifecycle.stable(), false);
+
+            // Create dummy dimension type
+            ResourceKey<DimensionType> OVERWORLD_KEY =
+                    ResourceKey.create(DIMENSION_TYPE_KEY, ResourceLocation.fromNamespaceAndPath("minecraft", "overworld"));
+
+            DimensionType dummyDimType = new DimensionType(
+                    OptionalLong.of(6000L),
+                    true, false, false, true,
+                    1.0, true, true,
+                    0, 384, 384,
+                    BlockTags.INFINIBURN_OVERWORLD,
+                    ResourceLocation.fromNamespaceAndPath("minecraft", "overworld"),
+                    0.0f,
+                    new DimensionType.MonsterSettings(false, false, ConstantInt.of(0), 0)
+            );
+
+            dimensionTypeRegistry.register(OVERWORLD_KEY, dummyDimType, Lifecycle.stable());
+
+            // Create damage type registry
+            ResourceKey<Registry<DamageType>> DAMAGE_TYPE_KEY =
+                    ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("minecraft", "damage_type"));
+
+            MappedRegistry<DamageType> damageTypeRegistry =
+                    new MappedRegistry<>(DAMAGE_TYPE_KEY, Lifecycle.stable(), false);
+
+            // Register all damage types from DamageTypes class
+            for (Field field : DamageTypes.class.getDeclaredFields()) {
+                if (Modifier.isStatic(field.getModifiers()) && field.getType().equals(ResourceKey.class)) {
+                    try {
+                        @SuppressWarnings("unchecked")
+                        ResourceKey<DamageType> key = (ResourceKey<DamageType>) field.get(null);
+                        damageTypeRegistry.register(key, new DamageType(key.location().getPath(), 0.0F), Lifecycle.stable());
+                    } catch (IllegalAccessException e) {
+                        Brutality.LOGGER.error("Failed to access damage type field", e);
+                    }
+                }
+            }
+
+            // Create registry access with both registries
+            return new RegistryAccess.ImmutableRegistryAccess(
+                    List.of(dimensionTypeRegistry, damageTypeRegistry)
+            ).freeze();
+        }
     }
 }
-
