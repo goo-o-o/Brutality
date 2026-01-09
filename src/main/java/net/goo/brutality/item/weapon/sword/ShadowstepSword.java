@@ -3,7 +3,7 @@ package net.goo.brutality.item.weapon.sword;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
@@ -28,7 +28,6 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fml.common.Mod;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -38,13 +37,8 @@ import java.util.Objects;
 public class ShadowstepSword extends BrutalitySwordItem {
 
 
-    public ShadowstepSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public ShadowstepSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
     }
 
 

@@ -3,7 +3,7 @@ package net.goo.brutality.datagen;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalityGeoItem;
 import net.goo.brutality.item.weapon.axe.Deathsaw;
-import net.goo.brutality.item.weapon.generic.TheCloudItem;
+import net.goo.brutality.item.weapon.generic.TheCloud;
 import net.goo.brutality.item.weapon.scythe.DarkinScythe;
 import net.goo.brutality.item.weapon.sword.DullKnifeSword;
 import net.goo.brutality.item.weapon.throwing.Mug;
@@ -19,7 +19,6 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.loaders.SeparateTransformsModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
-import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.util.Collection;
 import java.util.Locale;
@@ -31,7 +30,7 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
     }
 
     private static final Set<Class<? extends BrutalityGeoItem>> EXCLUDED_ITEMS =
-            Set.of(DullKnifeSword.class, DarkinScythe.class, TheCloudItem.class,
+            Set.of(DullKnifeSword.class, DarkinScythe.class, TheCloud.class,
                     Mug.class, StyrofoamCup.class, Deathsaw.class);
 
 
@@ -114,9 +113,8 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
 
                 String registryName = geoItem.getRegistryName();
                 String category = geoItem.getCategoryAsString();
-                boolean isCurio = geoItem instanceof ICurioItem;
                 ResourceLocation basePath =
-                        modLoc("item/" + (isCurio ? "curio/" : "") + category + "/" + (
+                        modLoc("item/" + category + "/" + (
                                 geoItem instanceof ArmorItem armorItem ? armorItem.getMaterial().toString().toLowerCase(Locale.ROOT) : registryName) + "/" + registryName);
 
                 ResourceLocation handheldTexture = basePath.withSuffix("_handheld"), inventoryTexture = basePath.withSuffix("_inventory");

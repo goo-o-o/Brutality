@@ -4,7 +4,7 @@ import net.goo.brutality.entity.spells.umbrancy.CrescentScythe;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.registry.BrutalityModEntities;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -14,8 +14,8 @@ import java.util.List;
 
 import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.AOE;
 import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.INSTANT;
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.QUANTITY;
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.SPEED;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.QUANTITY;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.SPEED;
 
 public class CrescentScytheSpell extends BrutalitySpell {
 

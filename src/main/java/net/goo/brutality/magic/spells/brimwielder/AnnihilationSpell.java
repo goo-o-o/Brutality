@@ -6,7 +6,7 @@ import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.particle.providers.FlatParticleData;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModParticles;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -17,7 +17,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.*;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.*;
 
 public class AnnihilationSpell extends BrutalitySpell {
 

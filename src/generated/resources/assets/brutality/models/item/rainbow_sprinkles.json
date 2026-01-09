@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/rainbow_sprinkles/rainbow_sprinkles_inventory"
+    "layer0": "brutality:item/curio/rainbow_sprinkles/rainbow_sprinkles_inventory"
   }
 }

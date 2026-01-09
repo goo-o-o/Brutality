@@ -1,8 +1,8 @@
 package net.goo.brutality.item.curios.charm;
 
-import net.goo.brutality.item.curios.base.BaseCharmCurio;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
 import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -14,8 +14,8 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class PortableMiningRig extends BaseCharmCurio {
-    public PortableMiningRig(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+public class PortableMiningRig extends BrutalityCurioItem {
+    public PortableMiningRig(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

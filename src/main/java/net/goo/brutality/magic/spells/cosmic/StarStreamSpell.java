@@ -5,7 +5,7 @@ import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -20,7 +20,7 @@ import java.util.List;
 
 import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.CONTINUOUS;
 import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.TARGET;
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.SPEED;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.SPEED;
 
 public class StarStreamSpell extends BrutalitySpell {
 

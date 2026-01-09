@@ -1,20 +1,19 @@
 package net.goo.brutality.item.weapon.sword;
 
 import net.goo.brutality.item.base.BrutalitySwordItem;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.enchantment.Enchantments;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 
 public class MetalRulerSword extends BrutalitySwordItem {
 
 
-    public MetalRulerSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public MetalRulerSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
@@ -25,8 +24,5 @@ public class MetalRulerSword extends BrutalitySwordItem {
         return stack;
     }
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 
-    }
 }

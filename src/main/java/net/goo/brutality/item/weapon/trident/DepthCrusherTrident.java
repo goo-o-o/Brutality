@@ -3,7 +3,7 @@ package net.goo.brutality.item.weapon.trident;
 import net.goo.brutality.entity.projectile.trident.physics_projectile.DepthCrusher;
 import net.goo.brutality.item.base.BrutalityTridentItem;
 import net.goo.brutality.registry.BrutalityModEntities;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -20,7 +20,7 @@ public class DepthCrusherTrident extends BrutalityTridentItem {
     protected final RandomSource random = RandomSource.create();
 
 
-    public DepthCrusherTrident(float attackDamageModifier, float attackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public DepthCrusherTrident(float attackDamageModifier, float attackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(attackDamageModifier, attackSpeedModifier, rarity, descriptionComponents);
     }
 

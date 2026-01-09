@@ -3,7 +3,7 @@ package net.goo.brutality.magic.spells.voidwalker;
 import net.goo.brutality.entity.spells.voidwalker.GraviticImplosionEntity;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.registry.BrutalityModEntities;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 

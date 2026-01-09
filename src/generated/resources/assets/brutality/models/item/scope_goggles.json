@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/head/scope_goggles/scope_goggles_inventory"
+    "layer0": "brutality:item/curio/scope_goggles/scope_goggles_inventory"
   }
 }

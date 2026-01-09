@@ -3,7 +3,7 @@ package net.goo.brutality.item.weapon.sword;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -17,24 +17,20 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
-import software.bernie.geckolib.core.animation.AnimatableManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 public class DoubleDown extends BrutalitySwordItem {
 
 
-    public DoubleDown(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public DoubleDown(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
-    }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack pStack) {
+    public @NotNull UseAnim getUseAnimation(ItemStack pStack) {
         return UseAnim.BOW;
     }
 

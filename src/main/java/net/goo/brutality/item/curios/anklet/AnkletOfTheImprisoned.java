@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.goo.brutality.item.base.BrutalityAnkletItem;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -20,7 +20,7 @@ import java.util.UUID;
 public class AnkletOfTheImprisoned extends BrutalityAnkletItem {
 
 
-    public AnkletOfTheImprisoned(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public AnkletOfTheImprisoned(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
@@ -33,8 +33,8 @@ public class AnkletOfTheImprisoned extends BrutalityAnkletItem {
         if (slotContext.entity() != null) {
             LivingEntity livingEntity = slotContext.entity();
             if (!livingEntity.level().isClientSide() && livingEntity.tickCount % 10 == 0) {
-                AttributeInstance critChance = livingEntity.getAttribute(ModAttributes.CRITICAL_STRIKE_CHANCE.get());
-                AttributeInstance critDamage = livingEntity.getAttribute(ModAttributes.CRITICAL_STRIKE_DAMAGE.get());
+                AttributeInstance critChance = livingEntity.getAttribute(BrutalityModAttributes.CRITICAL_STRIKE_CHANCE.get());
+                AttributeInstance critDamage = livingEntity.getAttribute(BrutalityModAttributes.CRITICAL_STRIKE_DAMAGE.get());
                 UUID uuid = livingEntity.getUUID();
 
                 if (critChance != null & critDamage != null) {
@@ -75,9 +75,9 @@ public class AnkletOfTheImprisoned extends BrutalityAnkletItem {
             float missingHealth = livingEntity.getMaxHealth() - livingEntity.getHealth();
             float newBonus = missingHealth * 0.075F;
 
-            builder.put(ModAttributes.CRITICAL_STRIKE_CHANCE.get(),
+            builder.put(BrutalityModAttributes.CRITICAL_STRIKE_CHANCE.get(),
                     new AttributeModifier(AOTI_CRIT_CHANCE_UUID, "Crit Chance Buff", newBonus, AttributeModifier.Operation.MULTIPLY_BASE));
-            builder.put(ModAttributes.CRITICAL_STRIKE_DAMAGE.get(),
+            builder.put(BrutalityModAttributes.CRITICAL_STRIKE_DAMAGE.get(),
                     new AttributeModifier(AOTI_CRIT_DAMAGE_UUID, "Crit Damage Buff", newBonus, AttributeModifier.Operation.MULTIPLY_BASE));
             return builder.build();
         }

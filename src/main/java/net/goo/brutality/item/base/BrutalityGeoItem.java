@@ -4,7 +4,8 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.util.ModResources;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -15,9 +16,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -53,11 +51,6 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
         return category().toString().toLowerCase(Locale.ROOT);
     }
 
-
-    default float shadowSize() {
-        return 0.15F;
-    }
-
     GeoAnimatable cacheItem();
 
     default Component brutalityNameHandler(ItemStack stack) {
@@ -69,16 +62,16 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
             return BrutalityTooltipHelper.getRarityName("item." + Brutality.MOD_ID + "." + identifier, rarity);
     }
 
-    default void brutalityTooltipHandler(ItemStack stack, List<Component> pTooltipComponents, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents, Rarity rarity) {
+    default void brutalityTooltipHandler(ItemStack stack, List<Component> pTooltipComponents, List<ItemDescriptionComponent> descriptionComponents, Rarity rarity) {
         String identifier = getRegistryName();
 
 //        if (!ModList.get().isLoaded("obscuria_tooltips"))
 //            pTooltipComponents.add(Component.translatable("rarity." + rarity.toString().toLowerCase(Locale.ROOT) + ".name").withStyle(Style.EMPTY.withFont(ModResources.RARITY_FONT)));
 
-        for (BrutalityTooltipHelper.ItemDescriptionComponent descriptionComponent : descriptionComponents) {
+        for (ItemDescriptionComponent descriptionComponent : descriptionComponents) {
 
             String componentLower = descriptionComponent.type().toString().toLowerCase(Locale.ROOT);
-            if (!descriptionComponent.type().equals(BrutalityTooltipHelper.ItemDescriptionComponents.LORE)) {
+            if (!descriptionComponent.type().equals(ItemDescriptionComponent.ItemDescriptionComponents.LORE)) {
                 pTooltipComponents.add(Component.translatable(
                         Brutality.MOD_ID + ".description.type." + componentLower));
             }
@@ -139,12 +132,7 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
         }
     }
 
-    @Override
-    default void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, state ->
-                state.setAndContinue(RawAnimation.begin().thenLoop("idle")))
-        );
-    }
+
 
 
     default void onDeselected(Player player) {

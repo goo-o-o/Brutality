@@ -3,8 +3,8 @@ package net.goo.brutality.item.curios.charm;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.event.forge.ForgePlayerStateHandler;
-import net.goo.brutality.item.curios.base.BaseCharmCurio;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -27,10 +27,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class EvilKingBoosterPack extends BaseCharmCurio {
+public class EvilKingBoosterPack extends BrutalityCurioItem {
 
 
-    public EvilKingBoosterPack(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public EvilKingBoosterPack(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

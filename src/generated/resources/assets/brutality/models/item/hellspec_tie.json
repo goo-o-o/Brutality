@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/necklace/hellspec_tie/hellspec_tie_inventory"
+    "layer0": "brutality:item/curio/hellspec_tie/hellspec_tie_inventory"
   }
 }

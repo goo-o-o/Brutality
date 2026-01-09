@@ -3,9 +3,9 @@ package net.goo.brutality.item.curios.charm;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.goo.brutality.item.curios.base.BaseCharmCurio;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -18,9 +18,9 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class TargetCube extends BaseCharmCurio {
+public class TargetCube extends BrutalityCurioItem {
 
-    public TargetCube(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public TargetCube(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
@@ -32,7 +32,7 @@ public class TargetCube extends BaseCharmCurio {
         if (slotContext.entity() != null) {
             LivingEntity livingEntity = slotContext.entity();
             if (!livingEntity.level().isClientSide() && livingEntity.tickCount % 10 == 0) {
-                AttributeInstance attackDamage = livingEntity.getAttribute(ModAttributes.CRITICAL_STRIKE_CHANCE.get());
+                AttributeInstance attackDamage = livingEntity.getAttribute(BrutalityModAttributes.CRITICAL_STRIKE_CHANCE.get());
                 float newBonus = (float) (livingEntity.getAttributeValue(Attributes.LUCK) * 0.1F);
                 UUID uuid = livingEntity.getUUID();
                 float oldBonus = OLD_BONUS_MAP.getOrDefault(uuid, 0.0F);
@@ -61,7 +61,7 @@ public class TargetCube extends BaseCharmCurio {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         if (slotContext.entity() != null) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-            builder.put(ModAttributes.CRITICAL_STRIKE_CHANCE.get(), new AttributeModifier(TARGET_CUBE_CRIT_CHANCE_UUID, "Crit Chance Buff",
+            builder.put(BrutalityModAttributes.CRITICAL_STRIKE_CHANCE.get(), new AttributeModifier(TARGET_CUBE_CRIT_CHANCE_UUID, "Crit Chance Buff",
                     slotContext.entity().getAttributeValue(Attributes.LUCK) * 0.1F, AttributeModifier.Operation.MULTIPLY_BASE));
             return builder.build();
         }

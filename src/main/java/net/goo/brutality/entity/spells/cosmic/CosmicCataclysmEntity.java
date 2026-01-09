@@ -42,7 +42,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.SIZE;
 
 public class CosmicCataclysmEntity extends BrutalityAbstractArrow implements BrutalityGeoEntity, IBrutalitySpellEntity {
     private static final EntityDataAccessor<Integer> SPELL_LEVEL_DATA = SynchedEntityData.defineId(CosmicCataclysmEntity.class, EntityDataSerializers.INT);

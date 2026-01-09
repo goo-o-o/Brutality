@@ -3,9 +3,9 @@ package net.goo.brutality.item.curios.necklace;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.goo.brutality.item.curios.base.BaseNecklaceCurio;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -17,10 +17,10 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class BlackMatterNecklace extends BaseNecklaceCurio {
+public class BlackMatterNecklace extends BrutalityCurioItem {
 
 
-    public BlackMatterNecklace(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public BlackMatterNecklace(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
@@ -33,8 +33,8 @@ public class BlackMatterNecklace extends BaseNecklaceCurio {
         if (slotContext.entity() != null) {
             LivingEntity livingEntity = slotContext.entity();
             if (!livingEntity.level().isClientSide() && livingEntity.tickCount % 10 == 0) {
-                AttributeInstance critChance = livingEntity.getAttribute(ModAttributes.CRITICAL_STRIKE_CHANCE.get());
-                AttributeInstance critDamage = livingEntity.getAttribute(ModAttributes.CRITICAL_STRIKE_DAMAGE.get());
+                AttributeInstance critChance = livingEntity.getAttribute(BrutalityModAttributes.CRITICAL_STRIKE_CHANCE.get());
+                AttributeInstance critDamage = livingEntity.getAttribute(BrutalityModAttributes.CRITICAL_STRIKE_DAMAGE.get());
                 UUID uuid = livingEntity.getUUID();
 
                 if (critChance != null & critDamage != null) {
@@ -68,9 +68,9 @@ public class BlackMatterNecklace extends BaseNecklaceCurio {
         if (livingEntity == null) return super.getAttributeModifiers(slotContext, uuid, stack);
         float armor = livingEntity.getArmorValue();
 
-        builder.put(ModAttributes.CRITICAL_STRIKE_CHANCE.get(),
+        builder.put(BrutalityModAttributes.CRITICAL_STRIKE_CHANCE.get(),
                 new AttributeModifier(BLACK_MATTER_NECKLACE_CRIT_CHANCE, "Crit Chance Buff", armor * 0.02F, AttributeModifier.Operation.MULTIPLY_BASE));
-        builder.put(ModAttributes.CRITICAL_STRIKE_DAMAGE.get(),
+        builder.put(BrutalityModAttributes.CRITICAL_STRIKE_DAMAGE.get(),
                 new AttributeModifier(BLACK_MATTER_NECKLACE_CRIT_DAMAGE, "Crit Damage Buff", armor * -0.01F, AttributeModifier.Operation.MULTIPLY_BASE));
         return builder.build();
     }

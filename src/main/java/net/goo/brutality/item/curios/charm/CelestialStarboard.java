@@ -7,8 +7,8 @@ import com.lowdragmc.photon.client.fx.FXHelper;
 import com.lowdragmc.photon.command.EntityEffectCommand;
 import com.lowdragmc.photon.command.RemoveEntityEffectCommand;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.item.curios.base.BaseCharmCurio;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -28,9 +28,9 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class CelestialStarboard extends BaseCharmCurio {
+public class CelestialStarboard extends BrutalityCurioItem {
 
-    public CelestialStarboard(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public CelestialStarboard(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }

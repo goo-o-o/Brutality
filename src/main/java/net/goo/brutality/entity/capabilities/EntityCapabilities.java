@@ -7,7 +7,7 @@ import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.ModAttributes;
+import net.goo.brutality.registry.BrutalityModAttributes;
 import net.goo.brutality.util.SealUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
@@ -18,10 +18,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fml.ModLoader;
+import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public class EntityCapabilities {
@@ -343,30 +345,31 @@ public class EntityCapabilities {
     public static class PlayerRageCap implements INBTSerializable<CompoundTag> {
 
 
-        public static void tryTriggerRage(Player player, ICuriosItemHandler handler, EntityCapabilities.PlayerRageCap
+        public static void tryTriggerRage(Player player, EntityCapabilities.PlayerRageCap
                 cap) {
-            int maxRage = (int) player.getAttributeValue(ModAttributes.MAX_RAGE.get());
+            int maxRage = (int) player.getAttributeValue(BrutalityModAttributes.MAX_RAGE.get());
 
-            if (cap.rageValue() >= maxRage) {
-                if (handler.findFirstCurio(BrutalityModItems.ANGER_MANAGEMENT.get()).isEmpty()) {
-                    int duration = 40;
-                    int rageLevel = (int) Math.floor(cap.rageValue() / 100);
-                    AttributeInstance rageTimeAttr = player.getAttribute(ModAttributes.RAGE_TIME_MULTIPLIER.get());
-                    if (rageTimeAttr != null) {
-                        duration = (int) (duration * rageTimeAttr.getValue());
-                    }
-                    AttributeInstance rageLevelAttr = player.getAttribute(ModAttributes.RAGE_LEVEL.get());
-                    if (rageLevelAttr != null) {
-                        rageLevel += (int) rageLevelAttr.getValue();
-                    }
+            Optional<ICuriosItemHandler> handlerOptional = CuriosApi.getCuriosInventory(player).resolve();
+            if (handlerOptional.isPresent()) {
+                ICuriosItemHandler handler = handlerOptional.get();
+                if (cap.rageValue() >= maxRage) {
+                    if (handler.findFirstCurio(BrutalityModItems.ANGER_MANAGEMENT.get()).isEmpty()) {
+                        int rageLevel = (int) Math.floor(cap.rageValue() / 100);
+                        double duration = player.getAttributeValue(BrutalityModAttributes.RAGE_TIME.get());
 
-                    player.addEffect(new MobEffectInstance(BrutalityModMobEffects.ENRAGED.get(), duration, rageLevel, false, true));
-                    cap.setRageValue(0);
-                    player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDER_DRAGON_GROWL, SoundSource.PLAYERS, 1F, 1F);
+                        AttributeInstance rageLevelAttr = player.getAttribute(BrutalityModAttributes.RAGE_LEVEL.get());
+                        if (rageLevelAttr != null) {
+                            rageLevel += (int) rageLevelAttr.getValue();
+                        }
+
+                        player.addEffect(new MobEffectInstance(BrutalityModMobEffects.ENRAGED.get(), (int) (duration * 20), rageLevel, false, true));
+                        cap.setRageValue(0);
+                        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDER_DRAGON_GROWL, SoundSource.PLAYERS, 1F, 1F);
+                    }
                 }
+                cap.setRageValue(Math.min(cap.rageValue(), maxRage));
+                PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(player.getId(), player));
             }
-            cap.setRageValue(Math.min(cap.rageValue(), maxRage));
-            PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(player.getId(), player));
         }
 
         private float rageValue = 0;
@@ -380,7 +383,7 @@ public class EntityCapabilities {
                     .resolve()
                     .map(cap -> {
                         float current = cap.rageValue();
-                        float max = (float) player.getAttributeValue(ModAttributes.MAX_RAGE.get());
+                        float max = (float) player.getAttributeValue(BrutalityModAttributes.MAX_RAGE.get());
                         return max > 0 ? current / max : 0.0f;
                     })
                     .orElse(0.0f);
@@ -392,6 +395,12 @@ public class EntityCapabilities {
 
         public void incrementRage(float amount) {
             this.rageValue = rageValue() + amount;
+        }
+
+        public void incrementRageAndTrigger(float amount, Player player) {
+            if (player.hasEffect(BrutalityModMobEffects.TRANQUILITY.get())) return;
+            incrementRage(amount);
+            tryTriggerRage(player, this);
         }
 
         public void decrementRage(float amount) {
@@ -464,7 +473,7 @@ public class EntityCapabilities {
         }
 
         public boolean isMaxMana(Player player) {
-            AttributeInstance maxMana = player.getAttribute(ModAttributes.MAX_MANA.get());
+            AttributeInstance maxMana = player.getAttribute(BrutalityModAttributes.MAX_MANA.get());
             if (maxMana != null) return this.manaValue == maxMana.getValue();
             return false;
         }
@@ -482,7 +491,7 @@ public class EntityCapabilities {
         }
 
         public float getCurrentManaPercentage(Player player) {
-            AttributeInstance maxMana = player.getAttribute(ModAttributes.MAX_MANA.get());
+            AttributeInstance maxMana = player.getAttribute(BrutalityModAttributes.MAX_MANA.get());
             if (maxMana != null) return (float) (this.manaValue / maxMana.getValue());
             return 0;
         }

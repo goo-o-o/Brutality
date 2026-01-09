@@ -4,7 +4,7 @@ import net.goo.brutality.entity.spells.cosmic.StarStreamEntity;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModSounds;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.AOE;
 import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.INSTANT;
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.QUANTITY;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.QUANTITY;
 
 public class StarBurstSpell extends BrutalitySpell {
 

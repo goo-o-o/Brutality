@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalityArmorItem;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -20,7 +20,7 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
 public class NoirArmorItem extends BrutalityArmorItem {
 
-    public NoirArmorItem(ArmorMaterial pMaterial, Type pType, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public NoirArmorItem(ArmorMaterial pMaterial, Type pType, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pMaterial, pType, rarity, descriptionComponents);
     }
 
@@ -30,7 +30,7 @@ public class NoirArmorItem extends BrutalityArmorItem {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
             UUID modifierUUID = UUID.nameUUIDFromBytes((this.getType().getName() + this.getMaterial() + pEquipmentSlot).getBytes());
             builder.putAll(super.getDefaultAttributeModifiers(pEquipmentSlot));
-            builder.put(ModAttributes.ENTITY_VISIBILITY.get(), new AttributeModifier(modifierUUID, "Stealth buff", -0.25F, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(BrutalityModAttributes.ENTITY_VISIBILITY.get(), new AttributeModifier(modifierUUID, "Stealth buff", -0.25F, AttributeModifier.Operation.MULTIPLY_BASE));
             return builder.build();
         }
         return super.getDefaultAttributeModifiers(pEquipmentSlot);

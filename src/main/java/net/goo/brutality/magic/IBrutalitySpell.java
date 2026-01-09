@@ -1,7 +1,7 @@
 package net.goo.brutality.magic;
 
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -19,25 +19,25 @@ public interface IBrutalitySpell {
     static int getActualCooldown(Player player, IBrutalitySpell spell, int spellLevel) {
         float base = spell.getBaseCooldown() + spell.getCooldownLevelScaling() * spellLevel;
         base *= SpellUtils.getCurioCooldownMultiplier(player, spell, spellLevel);
-        return Math.max((int) (base * (2 - player.getAttributeValue(ModAttributes.SPELL_COOLDOWN_REDUCTION.get()))), 1);
+        return Math.max((int) (base * (2 - player.getAttributeValue(BrutalityModAttributes.SPELL_COOLDOWN_REDUCTION.get()))), 1);
     }
 
     static float getActualManaCost(Player player, IBrutalitySpell spell, int spellLevel) {
         float base = spell.getBaseManaCost() + spell.getManaCostLevelScaling() * spellLevel;
-        return (float) Math.max((int) base * player.getAttributeValue(ModAttributes.MANA_COST.get()), 1);
+        return (float) Math.max((int) base * player.getAttributeValue(BrutalityModAttributes.MANA_COST.get()), 1);
     }
 
     static int getActualCastTime(Player player, IBrutalitySpell spell, int spellLevel) {
         float base = spell.getBaseCastTime() + spell.getCastTimeLevelScaling() * spellLevel;
         base *= SpellUtils.getCurioCastTimeMultiplier(player, spell, spellLevel);
-        return Math.max((int) (base * (2 - player.getAttributeValue(ModAttributes.CAST_TIME_REDUCTION.get()))), 1);
+        return Math.max((int) (base * (2 - player.getAttributeValue(BrutalityModAttributes.CAST_TIME_REDUCTION.get()))), 1);
     }
 
     static int getActualSpellLevel(@Nullable Entity caster, IBrutalitySpell spell, int spellLevel) {
         MagicSchool school = spell.getSchool();
         if (caster == null) return spellLevel;
         if (caster instanceof LivingEntity livingCaster) {
-            Attribute attribute = ModAttributes.getSpellSchoolAttributeMap().get(school);
+            Attribute attribute = BrutalityModAttributes.getSpellSchoolAttributeMap().get(school);
             AttributeInstance attributeInstance = livingCaster.getAttribute(attribute);
             if (attributeInstance != null) {
                 return Math.max((int) (spellLevel + attributeInstance.getValue()), 0);
@@ -99,7 +99,7 @@ public interface IBrutalitySpell {
         dmg *= SpellUtils.getCurioDamageMultiplier(caster, null, spellLevel);
 
         if (caster instanceof LivingEntity livingCaster) {
-            AttributeInstance spellDamage = livingCaster.getAttribute(ModAttributes.SPELL_DAMAGE.get());
+            AttributeInstance spellDamage = livingCaster.getAttribute(BrutalityModAttributes.SPELL_DAMAGE.get());
             if (spellDamage != null) {
                 return (float) (dmg * spellDamage.getValue());
             }

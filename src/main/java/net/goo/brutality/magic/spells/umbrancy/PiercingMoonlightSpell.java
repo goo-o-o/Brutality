@@ -4,7 +4,7 @@ import net.goo.brutality.entity.spells.umbrancy.PiercingMoonlight;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -14,8 +14,8 @@ import java.util.List;
 
 import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.AOE;
 import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.INSTANT;
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.PIERCE;
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.PIERCE;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.RANGE;
 
 public class PiercingMoonlightSpell extends BrutalitySpell {
 

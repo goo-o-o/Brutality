@@ -11,7 +11,7 @@ import net.goo.brutality.registry.BrutalityDamageTypes;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.goo.brutality.util.phys.HitboxUtils;
 import net.goo.brutality.util.phys.OrientedBoundingBox;
 import net.minecraft.server.level.ServerLevel;
@@ -35,7 +35,7 @@ import java.util.List;
 public class LastPrism extends BrutalityGenericItem {
     private static final String LAST_PRISM_ID = "LastPrismId";
 
-    public LastPrism(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public LastPrism(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }

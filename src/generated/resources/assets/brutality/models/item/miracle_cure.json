@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/miracle_cure/miracle_cure_inventory"
+    "layer0": "brutality:item/curio/miracle_cure/miracle_cure_inventory"
   }
 }

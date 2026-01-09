@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -32,9 +33,9 @@ public class BrutalityScytheItem extends TieredItem implements BrutalityGeoItem 
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
     protected String identifier;
     protected Rarity rarity;
-    protected List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents;
+    protected List<ItemDescriptionComponent> descriptionComponents;
 
-    public BrutalityScytheItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public BrutalityScytheItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, new Item.Properties().durability(1561).rarity(rarity));
 
         this.attackDamage = pAttackDamageModifier + pTier.getAttackDamageBonus();
@@ -84,6 +85,11 @@ public class BrutalityScytheItem extends TieredItem implements BrutalityGeoItem 
     }
 
     AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+
+    }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

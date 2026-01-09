@@ -1,8 +1,9 @@
 package net.goo.brutality.item.curios.belt;
 
-import net.goo.brutality.item.curios.base.BaseBeltCurio;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -14,10 +15,10 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class BattleScars extends BaseBeltCurio {
+public class BattleScars extends BrutalityCurioItem {
 
 
-    public BattleScars(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public BattleScars(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
@@ -26,10 +27,10 @@ public class BattleScars extends BaseBeltCurio {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            AttributeInstance rageGainAttr = player.getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
+            AttributeInstance rageGainAttr = player.getAttribute(BrutalityModAttributes.DAMAGE_TO_RAGE_RATIO.get());
             if (rageGainAttr != null) {
                 List<MobEffectInstance> harmfulEffects = player.getActiveEffects().stream().toList().stream()
-                        .filter(effect -> !effect.getEffect().isBeneficial()).toList();
+                        .filter(mobEffectInstance -> mobEffectInstance.getEffect().getCategory() == MobEffectCategory.HARMFUL).toList();
 
 
                 if (!harmfulEffects.isEmpty()) {
@@ -52,7 +53,7 @@ public class BattleScars extends BaseBeltCurio {
 
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        AttributeInstance rageGainAttr = slotContext.entity().getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
+        AttributeInstance rageGainAttr = slotContext.entity().getAttribute(BrutalityModAttributes.DAMAGE_TO_RAGE_RATIO.get());
         if (rageGainAttr != null) {
             rageGainAttr.removeModifier(BATTLE_SCARS_RAGE_GAIN_UUID);
         }

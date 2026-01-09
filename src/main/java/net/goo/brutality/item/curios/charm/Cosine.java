@@ -2,9 +2,8 @@ package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.event.forge.ServerTickHandler;
 import net.goo.brutality.event.forge.client.ClientTickHandler;
-import net.goo.brutality.item.curios.base.BaseCharmCurio;
-import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityMathCurio;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -13,16 +12,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.SlotContext;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Cosine extends BaseCharmCurio {
+public class Cosine extends BrutalityMathCurio {
 
 
-    public Cosine(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public Cosine(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
@@ -32,15 +29,6 @@ public class Cosine extends BaseCharmCurio {
         } else {
             return Mth.cos(ClientTickHandler.getClientTick() * 0.025f) * 0.25f + 0.125f;
         }
-    }
-
-    @Override
-    public boolean canEquip(SlotContext slotContext, ItemStack stack) {
-        return CuriosApi.getCuriosInventory(slotContext.entity())
-                .map(handler ->
-                        handler.findFirstCurio(BrutalityModItems.SCIENTIFIC_CALCULATOR.get()).isPresent()
-                )
-                .orElse(false);
     }
 
     @Override

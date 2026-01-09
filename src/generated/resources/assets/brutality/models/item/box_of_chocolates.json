@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/heart/box_of_chocolates/box_of_chocolates_inventory"
+    "layer0": "brutality:item/curio/box_of_chocolates/box_of_chocolates_inventory"
   }
 }

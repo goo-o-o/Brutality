@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/heart/ninja_heart/ninja_heart_inventory"
+    "layer0": "brutality:item/curio/ninja_heart/ninja_heart_inventory"
   }
 }

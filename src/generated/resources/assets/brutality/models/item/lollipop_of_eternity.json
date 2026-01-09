@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/lollipop_of_eternity/lollipop_of_eternity_inventory"
+    "layer0": "brutality:item/curio/lollipop_of_eternity/lollipop_of_eternity_inventory"
   }
 }

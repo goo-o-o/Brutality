@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/sundered_clock/sundered_clock_inventory"
+    "layer0": "brutality:item/curio/sundered_clock/sundered_clock_inventory"
   }
 }

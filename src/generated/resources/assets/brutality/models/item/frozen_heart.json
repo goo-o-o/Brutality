@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/heart/frozen_heart/frozen_heart_inventory"
+    "layer0": "brutality:item/curio/frozen_heart/frozen_heart_inventory"
   }
 }

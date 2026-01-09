@@ -1,17 +1,14 @@
 package net.goo.brutality.item.weapon.throwing;
 
-import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityThrowingItem;
-import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -48,8 +45,14 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class Mug extends BrutalityThrowingItem {
+
+    public Mug(int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents, Supplier<? extends EntityType<? extends Projectile>> entityTypeSupplier, Block block) {
+        super(pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents, entityTypeSupplier);
+        this.block = block;
+    }
 
     @Override
     public @Nullable FoodProperties getFoodProperties(ItemStack stack, @Nullable LivingEntity entity) {
@@ -62,29 +65,10 @@ public class Mug extends BrutalityThrowingItem {
         return builder.build();
     }
 
+
     @Override
     public boolean isEdible() {
         return true;
-    }
-
-    public Mug(int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents, Block block) {
-        super(pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
-        this.block = block;
-    }
-
-    @Override
-    public ResourceLocation getAnimationResourceLocation() {
-        return THROW_ANIMATION.DROP.getAnimationResource();
-    }
-
-    @Override
-    public BrutalityCategories.AttackType getAttackType() {
-        return BrutalityCategories.AttackType.BLUNT;
-    }
-
-    @Override
-    public EntityType<? extends Projectile> getThrownEntity() {
-        return BrutalityModEntities.MUG.get();
     }
 
 
@@ -102,14 +86,13 @@ public class Mug extends BrutalityThrowingItem {
 
     @Override
     public void handleThrowPacket(ItemStack stack, Player player) {
-        EntityType<? extends Projectile> entityType = this.getThrownEntity();
         Level level = player.level();
         net.goo.brutality.entity.projectile.trident.physics_projectile.Mug mug =
-                (net.goo.brutality.entity.projectile.trident.physics_projectile.Mug) entityType.create(level);
+                (net.goo.brutality.entity.projectile.trident.physics_projectile.Mug) entityTypeSupplier.get().create(level);
 
         if (mug != null) {
             mug.setPos(player.getEyePosition());
-            mug.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, getThrowVelocity(player), getThrowInaccuracy());
+            mug.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, getThrowVelocity(player), throwInaccuracy);
             mug.setOwner(player);
 
             handleSealType(mug, stack);
@@ -163,11 +146,6 @@ public class Mug extends BrutalityThrowingItem {
 
         pEntityLiving.gameEvent(GameEvent.DRINK);
         return pStack;
-    }
-
-    @Override
-    public float getInitialThrowVelocity() {
-        return 1F;
     }
 
     // region BlockItem class

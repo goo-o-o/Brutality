@@ -8,17 +8,27 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
 public class SlickedEffect extends MobEffect implements IGastronomyEffect {
 
+    UUID MOVE_SPEED = UUID.fromString("9b5dd583-f667-4fac-a147-05756a8559fd");
+    UUID JUMP_POWER = UUID.fromString("76c463f9-1e8d-448f-ba4f-dee194ec2d9c");
+
     public SlickedEffect(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);
+        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, String.valueOf(MOVE_SPEED), -0.5, AttributeModifier.Operation.MULTIPLY_BASE);
+    }
 
-        UUID SLICKED_MS_UUID = UUID.fromString("9b5dd583-f667-4fac-a147-05756a8559fd");
-        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, String.valueOf(SLICKED_MS_UUID), -0.5, AttributeModifier.Operation.MULTIPLY_BASE);
-
+    @Override
+    public double getAttributeModifierValue(int amplifier, @NotNull AttributeModifier modifier) {
+        UUID uuid = modifier.getId();
+        if (uuid.equals(JUMP_POWER)) {
+            return -0.2 * (1 + amplifier);
+        }
+        return super.getAttributeModifierValue(amplifier, modifier);
     }
 
     @Override
@@ -29,7 +39,7 @@ public class SlickedEffect extends MobEffect implements IGastronomyEffect {
             serverLevel.sendParticles(BrutalityModParticles.SLICKED_PARTICLE.get(),
                     pLivingEntity.getX(), pLivingEntity.getY() + pLivingEntity.getBbHeight() / 2, pLivingEntity.getZ(), 1,
                     0.5, 0.5, 0.5
-                    ,0);
+                    , 0);
 
         }
     }

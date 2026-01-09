@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/hands/eye_of_the_dragon/eye_of_the_dragon_inventory"
+    "layer0": "brutality:item/curio/eye_of_the_dragon/eye_of_the_dragon_inventory"
   }
 }

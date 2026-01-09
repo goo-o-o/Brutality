@@ -3,9 +3,9 @@ package net.goo.brutality.item.curios.charm;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
-import net.goo.brutality.item.curios.base.BaseCharmCurio;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -17,10 +17,10 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class EmergencyFlask extends BaseCharmCurio {
+public class EmergencyFlask extends BrutalityCurioItem {
 
 
-    public EmergencyFlask(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public EmergencyFlask(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
@@ -33,7 +33,7 @@ public class EmergencyFlask extends BaseCharmCurio {
         if (slotContext.entity() != null) {
             LivingEntity livingEntity = slotContext.entity();
             if (!livingEntity.level().isClientSide() && livingEntity.tickCount % 10 == 0) {
-                AttributeInstance castTime = livingEntity.getAttribute(ModAttributes.CAST_TIME_REDUCTION.get());
+                AttributeInstance castTime = livingEntity.getAttribute(BrutalityModAttributes.CAST_TIME_REDUCTION.get());
                 boolean active = livingEntity.getHealth() / livingEntity.getMaxHealth() < 0.5F;
                 UUID uuid = livingEntity.getUUID();
                 boolean wasActive = WAS_ACTIVE_MAP.getOrDefault(uuid, false);
@@ -64,7 +64,7 @@ public class EmergencyFlask extends BaseCharmCurio {
         if (slotContext.entity() != null) {
             if (slotContext.entity().getHealth() / slotContext.entity().getMaxHealth() < 0.5F) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-                builder.put(ModAttributes.CAST_TIME_REDUCTION.get(),
+                builder.put(BrutalityModAttributes.CAST_TIME_REDUCTION.get(),
                         new AttributeModifier(CAST_TIME_REDUCT_UUID,
                                 "Cast Time Bonus",
                                 0.33F,

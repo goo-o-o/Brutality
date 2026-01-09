@@ -2,7 +2,7 @@ package net.goo.brutality.magic;
 
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;

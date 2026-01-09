@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/hands/fire_extinguisher/fire_extinguisher_inventory"
+    "layer0": "brutality:item/curio/fire_extinguisher/fire_extinguisher_inventory"
   }
 }

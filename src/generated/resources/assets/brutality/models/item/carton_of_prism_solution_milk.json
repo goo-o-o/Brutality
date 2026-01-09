@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/carton_of_prism_solution_milk/carton_of_prism_solution_milk_inventory"
+    "layer0": "brutality:item/curio/carton_of_prism_solution_milk/carton_of_prism_solution_milk_inventory"
   }
 }

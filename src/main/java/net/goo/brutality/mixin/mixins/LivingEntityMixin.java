@@ -1,8 +1,6 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.goo.brutality.event.LivingDodgeEvent;
 import net.goo.brutality.item.BrutalityArmorMaterials;
 import net.goo.brutality.item.base.BrutalityAnkletItem;
@@ -10,7 +8,6 @@ import net.goo.brutality.item.weapon.scythe.DarkinScythe;
 import net.goo.brutality.registry.*;
 import net.goo.brutality.util.BrutalityEntityRotations;
 import net.goo.brutality.util.ModUtils;
-import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
@@ -23,14 +20,13 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fml.ModLoader;
 import org.spongepowered.asm.mixin.Mixin;
@@ -38,10 +34,13 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+
+import java.util.Optional;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements BrutalityEntityRotations {
@@ -89,8 +88,8 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
         }
 
         if (effect == BrutalityModMobEffects.STUNNED.get()) {
-            if (entity.getAttribute(ModAttributes.TENACITY.get()) != null) {
-                int duration = (int) (originalDuration * (2 - entity.getAttributeValue(ModAttributes.TENACITY.get())));
+            if (entity.getAttribute(BrutalityModAttributes.TENACITY.get()) != null) {
+                int duration = (int) (originalDuration * (2 - entity.getAttributeValue(BrutalityModAttributes.TENACITY.get())));
                 duration = Math.max(duration, 1);
 
                 modifiedInstance = new MobEffectInstance(effect, duration,
@@ -112,8 +111,8 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
 
             if (attacker instanceof Player player) {
                 // Check if attacker has the custom attributes before accessing them
-                AttributeInstance lethalityAttr = player.getAttribute(ModAttributes.LETHALITY.get());
-                AttributeInstance armorPenAttr = player.getAttribute(ModAttributes.ARMOR_PENETRATION.get());
+                AttributeInstance lethalityAttr = player.getAttribute(BrutalityModAttributes.LETHALITY.get());
+                AttributeInstance armorPenAttr = player.getAttribute(BrutalityModAttributes.ARMOR_PENETRATION.get());
 
                 if (lethalityAttr != null && armorPenAttr != null) {
                     double lethalityValue = lethalityAttr.getValue();
@@ -133,7 +132,7 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
     @ModifyReturnValue(method = "getJumpPower()F", at = @At("RETURN"))
     private float modifyJumpStrength(float original) {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
-        AttributeInstance jumpAttr = livingEntity.getAttribute(ModAttributes.JUMP_HEIGHT.get());
+        AttributeInstance jumpAttr = livingEntity.getAttribute(BrutalityModAttributes.JUMP_HEIGHT.get());
         if (jumpAttr != null) {
             return (float) (original + ((jumpAttr.getValue() - 1.2522) * 0.159)); // 0.159 jump power = 1 block
         }
@@ -150,7 +149,7 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
         LivingEntity livingEntity = (LivingEntity) (Object) this;
         if (pSource.is(DamageTypeTags.BYPASSES_COOLDOWN)) return;
         if (livingEntity.hasEffect(BrutalityModMobEffects.DODGE_COOLDOWN.get())) return;
-        AttributeInstance dodgeAttr = livingEntity.getAttribute(ModAttributes.DODGE_CHANCE.get());
+        AttributeInstance dodgeAttr = livingEntity.getAttribute(BrutalityModAttributes.DODGE_CHANCE.get());
         if (dodgeAttr != null && Mth.nextFloat(livingEntity.getRandom(), 0, 1) < dodgeAttr.getValue() - 1) {
             LivingDodgeEvent.Server dodgeEvent = new LivingDodgeEvent.Server(livingEntity, pSource, pAmount);
             ModLoader.get().postEvent(dodgeEvent);
@@ -194,34 +193,52 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
     }
 
 
-    @WrapOperation(
+
+    @ModifyVariable(
             method = "travel",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F")
+            at = @At(
+                    value = "STORE",
+                    ordinal = 0,
+                    // Target the STORE of f3 after the block friction call
+                    target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F"
+            ),
+            name = "f3"
     )
-    private float wrapGetFriction(BlockState instance, LevelReader levelReader, BlockPos blockPos, Entity entity, Operation<Float> original) {
-        if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(BrutalityModMobEffects.OILED.get())) {
-            return (float) Math.min(1.099, 1F + livingEntity.getEffect(BrutalityModMobEffects.OILED.get()).getAmplifier() * 0.02F);
-        }
-        return original.call(instance, levelReader, blockPos, entity);
-    }
+    private float modifyFrictionFactorF3(float f3) {
 
-    @Inject(
-            method = "getJumpPower",
-            at = @At("RETURN"),
-            cancellable = true
-    )
-    private void modifyJumpPower(CallbackInfoReturnable<Float> cir) {
-        LivingEntity entity = (LivingEntity) (Object) this;
-
-        if (entity.hasEffect(BrutalityModMobEffects.SLICKED.get())) {
-            int level = entity.getEffect(BrutalityModMobEffects.SLICKED.get()).getAmplifier() + 1;
-            cir.setReturnValue(cir.getReturnValueF() * (1 - 0.15f * level));
+        Attribute attributeToUse;
+        double vanillaSlowdownRate;
+        LivingEntity livingEntity = (((LivingEntity) (Object) this));
+        if (livingEntity.onGround()) {
+            attributeToUse = BrutalityModAttributes.GROUND_FRICTION.get();
+            // When onGround, f3 = f2 * 0.91.
+            // Vanilla Slowdown Rate = 1.0 - f3.
+            vanillaSlowdownRate = 1.0D - f3;
+        } else {
+            attributeToUse = BrutalityModAttributes.AIR_FRICTION.get();
+            // When airborne, f3 = 0.91 (Vanilla Default).
+            vanillaSlowdownRate = 0.09; // 0.09D
         }
 
-        if (entity.hasEffect(BrutalityModMobEffects.OILED.get())) {
-            int level = entity.getEffect(BrutalityModMobEffects.OILED.get()).getAmplifier() + 1;
-            cir.setReturnValue(cir.getReturnValueF() * (1 - 0.05f * level));
+        AttributeInstance frictionAttribute = livingEntity.getAttribute(attributeToUse);
+        if (frictionAttribute == null) {
+            return f3; // Return the original (vanilla or environmental mod) value
         }
+
+        double A = frictionAttribute.getValue(); // Attribute value (0 = no friction, 1 = normal, 2 = 2x)
+
+        // --- Bedrock-Style Slowdown Scaling ---
+
+        // 1. Calculate the NEW slowdown rate: R_new = R_vanilla * A
+        double R_new = vanillaSlowdownRate * A;
+
+        // 2. Convert back to the friction multiplier: f3_new = 1.0 - R_new
+        // Constant velocity is achieved when f3_new = 1.0
+        // Maximum slowdown is achieved when f3_new = 0.0
+        double newF3 = 1.0D - R_new;
+
+        // 3. Cap the value: [0.0 (full stop), 1.0 (no slowdown)]
+        return (float) Mth.clamp(newF3, 0.0F, 1.0F);
     }
 
     @Inject(
@@ -314,6 +331,54 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
         }
     }
 
+    @Redirect(
+            method = "jumpFromGround",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/phys/Vec3;add(DDD)Lnet/minecraft/world/phys/Vec3;"
+            )
+    )
+    private Vec3 applyDirectionalSprintBoostMinimal(Vec3 instance, double x, double y, double z) {
+        LivingEntity livingEntity = (((LivingEntity) (Object) this));
+        Optional<ICuriosItemHandler> handlerOpt = CuriosApi.getCuriosInventory(livingEntity).resolve();
+        if (handlerOpt.isPresent()) {
+            ICuriosItemHandler handler = handlerOpt.get();
+            if (handler.isEquipped(BrutalityModItems.OMNIDIRECTIONAL_MOVEMENT_GEAR.get())) {
 
+                float currentX = livingEntity.xxa;
+                float currentZ = livingEntity.zza;
+                final double BOOST_AMOUNT = 0.2D;
+
+                // Calculate the magnitude of the horizontal impulse vector
+                double magnitude = Math.sqrt(currentX * currentX + currentZ * currentZ);
+
+                // Check if the player is moving horizontally
+                if (magnitude > 1.0E-6D) {
+
+                    // 1. Normalize the impulse vector to get the direction (local space)
+                    // (Note: This is technically redundant if we use atan2, but ensures the components are clean)
+                    double normalizedX = currentX / magnitude;
+                    double normalizedZ = currentZ / magnitude;
+
+                    // Get player's look direction (yaw) in radians
+                    float yaw = this.getYRot() * ((float) Math.PI / 180F);
+                    double cosYaw = Mth.cos(yaw);
+                    double sinYaw = Mth.sin(yaw);
+
+                    // Standard 2D rotation matrix applied to the normalized impulse vector:
+                    double rotatedX = normalizedX * cosYaw - normalizedZ * sinYaw;
+                    double rotatedZ = normalizedZ * cosYaw + normalizedX * sinYaw;
+
+                    // 3. Scale the rotated vector by the fixed sprint jump boost amount
+                    double boostX = rotatedX * BOOST_AMOUNT;
+                    double boostZ = rotatedZ * BOOST_AMOUNT;
+
+                    // 4. Return the new DeltaMovement, adding the calculated directional boost
+                    return instance.add(boostX, 0.0D, boostZ);
+                }
+            }
+        }
+        return instance.add(x, y, z);
+    }
 }
 

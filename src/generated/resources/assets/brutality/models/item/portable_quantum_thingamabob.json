@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/portable_quantum_thingamabob/portable_quantum_thingamabob_inventory"
+    "layer0": "brutality:item/curio/portable_quantum_thingamabob/portable_quantum_thingamabob_inventory"
   }
 }

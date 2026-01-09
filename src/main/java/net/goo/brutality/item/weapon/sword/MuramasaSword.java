@@ -3,7 +3,7 @@ package net.goo.brutality.item.weapon.sword;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.registry.BrutalityModSounds;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -19,7 +19,7 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fml.common.Mod;
-import software.bernie.geckolib.core.animation.AnimatableManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -27,19 +27,15 @@ import java.util.List;
 public class MuramasaSword extends BrutalitySwordItem {
 
 
-    public MuramasaSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public MuramasaSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
-    }
 
 
 
     @Override
-    public UseAnim getUseAnimation(ItemStack pStack) {
+    public @NotNull UseAnim getUseAnimation(ItemStack pStack) {
         return UseAnim.CROSSBOW;
     }
 

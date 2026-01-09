@@ -3,9 +3,9 @@ package net.goo.brutality.item.curios.charm;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.goo.brutality.item.curios.base.BaseCharmCurio;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -17,8 +17,8 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class Pincushion extends BaseCharmCurio {
-    public Pincushion(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+public class Pincushion extends BrutalityCurioItem {
+    public Pincushion(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
@@ -31,7 +31,7 @@ public class Pincushion extends BaseCharmCurio {
         if (slotContext.entity() != null) {
             LivingEntity livingEntity = slotContext.entity();
             if (!livingEntity.level().isClientSide() && livingEntity.tickCount % 10 == 0) {
-                AttributeInstance lethality = livingEntity.getAttribute(ModAttributes.LETHALITY.get());
+                AttributeInstance lethality = livingEntity.getAttribute(BrutalityModAttributes.LETHALITY.get());
                 UUID uuid = livingEntity.getUUID();
 
                 if (lethality != null) {
@@ -56,7 +56,7 @@ public class Pincushion extends BaseCharmCurio {
         if (slotContext.entity() != null) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
             int arrowCount = slotContext.entity().getArrowCount();
-            builder.put(ModAttributes.LETHALITY.get(), new AttributeModifier(PINCUSHION_LETAHALITY_UUID, "Lethality Buff", arrowCount, AttributeModifier.Operation.ADDITION));
+            builder.put(BrutalityModAttributes.LETHALITY.get(), new AttributeModifier(PINCUSHION_LETAHALITY_UUID, "Lethality Buff", arrowCount, AttributeModifier.Operation.ADDITION));
             return builder.build();
         }
         return super.getAttributeModifiers(slotContext, uuid, stack);

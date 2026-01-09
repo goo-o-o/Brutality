@@ -1,7 +1,7 @@
 package net.goo.brutality.item.curios.heart;
 
-import net.goo.brutality.item.curios.base.BaseHeartCurio;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,9 +13,9 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class FrozenHeart extends BaseHeartCurio {
+public class FrozenHeart extends BrutalityCurioItem {
 
-    public FrozenHeart(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public FrozenHeart(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

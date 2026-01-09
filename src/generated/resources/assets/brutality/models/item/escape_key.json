@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/escape_key/escape_key_inventory"
+    "layer0": "brutality:item/curio/escape_key/escape_key_inventory"
   }
 }

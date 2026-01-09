@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/necklace/fuzzy_dice/fuzzy_dice_inventory"
+    "layer0": "brutality:item/curio/fuzzy_dice/fuzzy_dice_inventory"
   }
 }

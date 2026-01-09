@@ -5,8 +5,8 @@ import com.google.common.collect.Multimap;
 import net.goo.brutality.entity.projectile.generic.AbyssProjectile;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.registry.BrutalityModEntities;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.ProjectileHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -18,19 +18,15 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fml.ModList;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.UUID;
 
 public class ChallengerDeepSword extends BrutalitySwordItem {
-    public ChallengerDeepSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public ChallengerDeepSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-    }
 
     UUID CHALLENGER_DEEP_RANGE__UUID = UUID.fromString("869fb9a7-237b-4b26-9f03-c04dcecea752");
 

@@ -12,7 +12,7 @@ import net.goo.brutality.magic.SpellCooldownTracker;
 import net.goo.brutality.magic.SpellStorage;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.registry.ModAttributes;
+import net.goo.brutality.registry.BrutalityModAttributes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -151,7 +151,7 @@ public class ForgeGui {
         float manaValue = player.getCapability(BrutalityCapabilities.PLAYER_MANA_CAP)
                 .map(EntityCapabilities.PlayerManaCap::manaValue)
                 .orElse(0F);
-        AttributeInstance maxMana = player.getAttribute(ModAttributes.MAX_MANA.get());
+        AttributeInstance maxMana = player.getAttribute(BrutalityModAttributes.MAX_MANA.get());
         float manaPercent = maxMana != null ? manaValue / (float) maxMana.getValue() : 0;
         manaPercent = Mth.clamp(manaPercent, 0, 1);
 

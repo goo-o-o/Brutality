@@ -9,6 +9,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.function.Consumer;
 
@@ -32,6 +33,11 @@ public class BrutalityBlockItem extends BlockItem implements BrutalityGeoItem {
     @Override
     public GeoAnimatable cacheItem() {
         return this;
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+
     }
 
     @Override

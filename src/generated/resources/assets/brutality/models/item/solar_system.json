@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/head/solar_system/solar_system_inventory"
+    "layer0": "brutality:item/curio/solar_system/solar_system_inventory"
   }
 }

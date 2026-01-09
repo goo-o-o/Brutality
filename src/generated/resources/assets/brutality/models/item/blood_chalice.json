@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/blood_chalice/blood_chalice_inventory"
+    "layer0": "brutality:item/curio/blood_chalice/blood_chalice_inventory"
   }
 }

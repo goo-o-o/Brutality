@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/scribes_index/scribes_index_inventory"
+    "layer0": "brutality:item/curio/scribes_index/scribes_index_inventory"
   }
 }

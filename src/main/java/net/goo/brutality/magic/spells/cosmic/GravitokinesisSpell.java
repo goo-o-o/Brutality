@@ -2,7 +2,7 @@ package net.goo.brutality.magic.spells.cosmic;
 
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -15,7 +15,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.*;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.*;
 
 public class GravitokinesisSpell extends BrutalitySpell {
 

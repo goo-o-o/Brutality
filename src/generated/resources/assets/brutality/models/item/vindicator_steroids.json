@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/vindicator_steroids/vindicator_steroids_inventory"
+    "layer0": "brutality:item/curio/vindicator_steroids/vindicator_steroids_inventory"
   }
 }

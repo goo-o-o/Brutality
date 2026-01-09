@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/smoke_stone/smoke_stone_inventory"
+    "layer0": "brutality:item/curio/smoke_stone/smoke_stone_inventory"
   }
 }

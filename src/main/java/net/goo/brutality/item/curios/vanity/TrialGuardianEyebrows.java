@@ -1,8 +1,6 @@
 package net.goo.brutality.item.curios.vanity;
 
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.curios.base.BaseVanityCurio;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
@@ -16,18 +14,11 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import top.theillusivec4.curios.api.SlotContext;
 
-import java.util.List;
+public class TrialGuardianEyebrows extends BrutalityCurioItem {
 
-public class TrialGuardianEyebrows extends BaseVanityCurio {
-
-    public TrialGuardianEyebrows(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
-        super(rarity, descriptionComponents);
+    public TrialGuardianEyebrows(Rarity rarity) {
+        super(rarity);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.HEAD;
     }
 
     protected String[] expressions = new String[]{"angry", "neutral", "shocked", "sad", "suspicious"};
@@ -65,31 +56,4 @@ public class TrialGuardianEyebrows extends BaseVanityCurio {
         }
     }
 
-//    @Override
-//    public void curioTick(SlotContext slotContext, ItemStack stack) {
-//        super.curioTick(slotContext, stack);
-//
-//        if (slotContext.entity() instanceof Player player &&
-//                Keybindings.RAGE_ACTIVATE_KEY.get().consumeClick()) {
-//
-//            // Cycle expression
-//            CompoundTag tag = stack.getOrCreateTag();
-//            int current = tag.getInt(EXPRESSIONS);
-//            int next = (current + 1) % expressions.length;
-//            tag.putInt(EXPRESSIONS, next);
-//
-//            // Debug output
-//            Brutality.LOGGER.debug("Changing expression to: {}", expressions[next]);
-//
-//            // Trigger animation
-//            if (!player.spellLevel().isClientSide()) {
-//                ServerLevel serverLevel = (ServerLevel) player.spellLevel();
-//                long geoId = GeoItem.getOrAssignId(stack, serverLevel);
-//                System.out.println("Trying to play anim with geoID: " + geoId);
-//
-//                triggerAnim(player, geoId, "controller", expressions[next]);
-//
-//            }
-//        }
-//    }
 }

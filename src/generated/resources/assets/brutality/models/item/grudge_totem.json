@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/grudge_totem/grudge_totem_inventory"
+    "layer0": "brutality:item/curio/grudge_totem/grudge_totem_inventory"
   }
 }

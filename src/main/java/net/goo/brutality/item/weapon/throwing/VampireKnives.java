@@ -2,11 +2,9 @@ package net.goo.brutality.item.weapon.throwing;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityThrowingItem;
-import net.goo.brutality.registry.BrutalityModEntities;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -20,25 +18,18 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 public class VampireKnives extends BrutalityThrowingItem {
 
 
-    public VampireKnives(int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
-        super(pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories.AttackType getAttackType() {
-        return BrutalityCategories.AttackType.PIERCE;
-    }
-
-    @Override
-    public EntityType<? extends Projectile> getThrownEntity() {
-        return BrutalityModEntities.VAMPIRE_KNIFE.get();
-    }
 
     UUID OMNIVAMP_UUID = UUID.fromString("7580ebde-96cf-11f0-a1ff-325096b39f47");
+
+    public VampireKnives(int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents, Supplier<? extends EntityType<? extends Projectile>> entityTypeSupplier) {
+        super(pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents, entityTypeSupplier);
+    }
+
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
@@ -46,7 +37,7 @@ public class VampireKnives extends BrutalityThrowingItem {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             Multimap<Attribute, AttributeModifier> attributeModifierMultimap = super.getAttributeModifiers(slot, stack);
             builder.putAll(attributeModifierMultimap);
-            builder.put(ModAttributes.OMNIVAMP.get(), new AttributeModifier(OMNIVAMP_UUID, "Omnivamp Buff", 0.075F, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(BrutalityModAttributes.OMNIVAMP.get(), new AttributeModifier(OMNIVAMP_UUID, "Omnivamp Buff", 0.075F, AttributeModifier.Operation.MULTIPLY_BASE));
             return builder.build();
         }
         return super.getAttributeModifiers(slot, stack);
@@ -55,12 +46,11 @@ public class VampireKnives extends BrutalityThrowingItem {
 
     @Override
     public float getThrowVelocity(Player player) {
-        return (float) Math.min(3, player.getAttributeValue(Attributes.ATTACK_SPEED));
+        return (float) Math.min(initialThrowVelocity, player.getAttributeValue(Attributes.ATTACK_SPEED));
     }
 
     @Override
     public void handleThrowPacket(ItemStack stack, Player player) {
-        EntityType<? extends Projectile> entityType = this.getThrownEntity();
         Level level = player.level();
 
         int quantity = 4;
@@ -74,10 +64,10 @@ public class VampireKnives extends BrutalityThrowingItem {
             float angleOffset = (i - (quantity - 1) / 2f) * gap; // Center the arc
             angleOffset += (player.getRandom().nextFloat() - 0.5F) * 5F;
 
-            Projectile projectile = entityType.create(level);
+            Projectile projectile = entityTypeSupplier.get().create(level);
             if (projectile != null) {
                 projectile.setPos(player.getEyePosition());
-                projectile.shootFromRotation(player, player.getXRot(), player.getYRot() + angleOffset, 0, getThrowVelocity(player), getThrowInaccuracy());
+                projectile.shootFromRotation(player, player.getXRot(), player.getYRot() + angleOffset, 0, getThrowVelocity(player), throwInaccuracy);
                 projectile.setOwner(player);
 
                 handleSealType(projectile, stack);

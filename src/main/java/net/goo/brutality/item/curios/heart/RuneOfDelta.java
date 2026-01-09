@@ -3,9 +3,9 @@ package net.goo.brutality.item.curios.heart;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.goo.brutality.item.curios.base.BaseHeartCurio;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -17,8 +17,8 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class RuneOfDelta extends BaseHeartCurio {
-    public RuneOfDelta(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+public class RuneOfDelta extends BrutalityCurioItem {
+    public RuneOfDelta(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
@@ -32,7 +32,7 @@ public class RuneOfDelta extends BaseHeartCurio {
         if (slotContext.entity() != null) {
             LivingEntity livingEntity = slotContext.entity();
             if (!livingEntity.level().isClientSide() && livingEntity.tickCount % 10 == 0) {
-                AttributeInstance manaRegen = livingEntity.getAttribute(ModAttributes.MANA_REGEN.get());
+                AttributeInstance manaRegen = livingEntity.getAttribute(BrutalityModAttributes.MANA_REGEN.get());
                 int lightLevel = slotContext.entity().level().getMaxLocalRawBrightness(slotContext.entity().getOnPos().above());
                 int newBonus = Math.max(0, 7 - lightLevel);
                 UUID uuid = livingEntity.getUUID();
@@ -62,12 +62,12 @@ public class RuneOfDelta extends BaseHeartCurio {
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-        builder.put(ModAttributes.MAX_MANA.get(), new AttributeModifier(RUNE_OF_DELTA_MAX_MANA_UUID, "Max Mana Buff", 20, AttributeModifier.Operation.ADDITION));
+        builder.put(BrutalityModAttributes.MAX_MANA.get(), new AttributeModifier(RUNE_OF_DELTA_MAX_MANA_UUID, "Max Mana Buff", 20, AttributeModifier.Operation.ADDITION));
         if (slotContext.entity() != null) {
             int lightLevel = slotContext.entity().level().getMaxLocalRawBrightness(slotContext.entity().getOnPos().above());
             int bonus = Math.max(0, 7 - lightLevel);
             if (bonus > 0)
-                builder.put(ModAttributes.MANA_REGEN.get(), new AttributeModifier(RUNE_OF_DELTA_MANA_REGEN_UUID, "Mana Regen Buff", bonus, AttributeModifier.Operation.ADDITION));
+                builder.put(BrutalityModAttributes.MANA_REGEN.get(), new AttributeModifier(RUNE_OF_DELTA_MANA_REGEN_UUID, "Mana Regen Buff", bonus, AttributeModifier.Operation.ADDITION));
 
         }
 

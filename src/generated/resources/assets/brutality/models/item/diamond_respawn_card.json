@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/diamond_respawn_card/diamond_respawn_card_inventory"
+    "layer0": "brutality:item/curio/diamond_respawn_card/diamond_respawn_card_inventory"
   }
 }

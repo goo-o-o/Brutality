@@ -1,17 +1,12 @@
 package net.goo.brutality.item.curios.charm;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
-import net.goo.brutality.item.curios.base.BaseCharmCurio;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
 import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.registry.BrutalityCapabilities;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -19,27 +14,12 @@ import net.minecraft.world.item.Rarity;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
-import java.util.UUID;
 
-public class SpiteShard extends BaseCharmCurio {
+public class SpiteShard extends BrutalityCurioItem {
 
 
-    public SpiteShard(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public SpiteShard(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-
-    UUID SPITE_SHARD_MAX_RAGE_UUID = UUID.fromString("e2bc1e9c-5cde-4de1-8e3a-60d97d6673d8");
-
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        if (slotContext.entity() != null) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-            builder.put(ModAttributes.MAX_RAGE.get(), new AttributeModifier(SPITE_SHARD_MAX_RAGE_UUID, "Max Rage Buff", 50, AttributeModifier.Operation.ADDITION));
-            return builder.build();
-
-        }
-        return super.getAttributeModifiers(slotContext, uuid, stack);
     }
 
     @Override
@@ -52,7 +32,7 @@ public class SpiteShard extends BaseCharmCurio {
 
                 if (!aggroEntities.isEmpty()) {
                     player.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap -> {
-                                cap.incrementRage(aggroEntities.size() / 5F);
+                                cap.incrementRageAndTrigger(aggroEntities.size() / 5F, player);
                                 PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(player.getId(), player));
                             }
                     );

@@ -2,7 +2,7 @@ package net.goo.brutality.client.models;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.renderers.curio.BrutalityCurioRenderer;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
 

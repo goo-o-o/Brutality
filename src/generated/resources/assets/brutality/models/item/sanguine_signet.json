@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/ring/sanguine_signet/sanguine_signet_inventory"
+    "layer0": "brutality:item/curio/sanguine_signet/sanguine_signet_inventory"
   }
 }

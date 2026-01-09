@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
@@ -31,6 +31,7 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -40,10 +41,10 @@ import static net.goo.brutality.util.helpers.EnchantmentHelper.hasInfinity;
 public class BrutalityTridentItem extends TridentItem implements BrutalityGeoItem {
     protected String identifier;
     protected Rarity rarity;
-    protected List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents;
+    protected List<ItemDescriptionComponent> descriptionComponents;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 
-    public BrutalityTridentItem(float attackDamageModifier, float attackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public BrutalityTridentItem(float attackDamageModifier, float attackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(new Item.Properties().defaultDurability(1561));
 
         ImmutableMultimap.Builder<Attribute, AttributeModifier> attributes = ImmutableMultimap.builder();
@@ -196,6 +197,11 @@ public class BrutalityTridentItem extends TridentItem implements BrutalityGeoIte
 
 
     AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+
+    }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

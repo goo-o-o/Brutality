@@ -3,10 +3,10 @@ package net.goo.brutality.item.curios.charm;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
-import net.goo.brutality.item.curios.base.BaseCharmCurio;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
 import net.goo.brutality.magic.SpellCastingHandler;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
@@ -17,23 +17,23 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class ScribesIndex extends BaseCharmCurio {
+public class ScribesIndex extends BrutalityCurioItem {
 
 
-    public ScribesIndex(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public ScribesIndex(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
     private static final Object2BooleanOpenHashMap<UUID> MANA_STATE_MAP = new Object2BooleanOpenHashMap<>();
 
-    UUID SCRIBES_INDEX_SPELL_DAMAGE_UUID = UUID.fromString("8cec320c-659a-4221-b8e1-2e73e734f831");
+    UUID SCRIBES_INDEX_SPELL_DAMAGE_UUID = null;
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (!(slotContext.entity() instanceof Player player)) return;
         if (player.level().isClientSide() || player.tickCount % 10 != 0) return;
 
-        var spellDamage = player.getAttribute(ModAttributes.SPELL_DAMAGE.get());
+        var spellDamage = player.getAttribute(BrutalityModAttributes.SPELL_DAMAGE.get());
         if (spellDamage == null) return;
 
         boolean isMaxMana = SpellCastingHandler.getManaHandler(player)
@@ -64,11 +64,12 @@ public class ScribesIndex extends BaseCharmCurio {
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
+            this.SCRIBES_INDEX_SPELL_DAMAGE_UUID = uuid;
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
             boolean isMaxMana = SpellCastingHandler.getManaHandler(player).map(cap -> cap.isMaxMana(player)).orElse(false);
             float newBonus = isMaxMana ? 0.25F : -0.1F;
 
-            builder.put(ModAttributes.SPELL_DAMAGE.get(), new AttributeModifier(SCRIBES_INDEX_SPELL_DAMAGE_UUID, "Spell Damage Buff", newBonus, AttributeModifier.Operation.MULTIPLY_TOTAL));
+            builder.put(BrutalityModAttributes.SPELL_DAMAGE.get(), new AttributeModifier(SCRIBES_INDEX_SPELL_DAMAGE_UUID, "Spell Damage Buff", newBonus, AttributeModifier.Operation.MULTIPLY_TOTAL));
 
             return builder.build();
         }

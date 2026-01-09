@@ -4,9 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalitySwordItem;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.util.RandomSource;
+import net.goo.brutality.registry.BrutalityModAttributes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -15,15 +13,13 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.List;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class HellspecCleaver extends BrutalitySwordItem {
-    private final RandomSource random = RandomSource.create();
 
-    public HellspecCleaver(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
+    public HellspecCleaver(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity);
     }
 
     UUID HELLSPEC_CLEAVER_UUID = UUID.fromString("9a389c9b-3626-444f-8233-c134ca09a646");
@@ -35,7 +31,7 @@ public class HellspecCleaver extends BrutalitySwordItem {
         if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> newAttributes = ImmutableMultimap.builder();
             newAttributes.putAll(original);
-            newAttributes.put(ModAttributes.ARMOR_PENETRATION.get(),
+            newAttributes.put(BrutalityModAttributes.ARMOR_PENETRATION.get(),
                     new AttributeModifier(HELLSPEC_CLEAVER_UUID, "Armor pen buff", 0.5, AttributeModifier.Operation.MULTIPLY_BASE));
 
             return newAttributes.build();

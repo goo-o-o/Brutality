@@ -40,7 +40,7 @@ public class ThrowableWeaponHelper {
     }
 
     public static void handleAttributesAndAnimation(Player player, BrutalityThrowingItem throwingItem, ItemStack stack, boolean isOffhand) {
-        ResourceLocation animationLocation = throwingItem.getAnimationResourceLocation();
+        ResourceLocation animationLocation = throwingItem.throwAnimation.getAnimationResource();
         if (isOffhand) {
             offhandAttributes(player, () -> {
                 handleCooldownAndSound(player, stack, throwingItem);

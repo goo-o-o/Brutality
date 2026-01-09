@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/bamboo_steamer/bamboo_steamer_inventory"
+    "layer0": "brutality:item/curio/bamboo_steamer/bamboo_steamer_inventory"
   }
 }

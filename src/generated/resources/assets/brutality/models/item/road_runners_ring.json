@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/ring/road_runners_ring/road_runners_ring_inventory"
+    "layer0": "brutality:item/curio/road_runners_ring/road_runners_ring_inventory"
   }
 }

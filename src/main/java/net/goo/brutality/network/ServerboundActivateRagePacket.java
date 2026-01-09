@@ -2,7 +2,7 @@ package net.goo.brutality.network;
 
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.ModAttributes;
+import net.goo.brutality.registry.BrutalityModAttributes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -35,17 +35,17 @@ public class ServerboundActivateRagePacket {
 
             CuriosApi.getCuriosInventory(sender).ifPresent(
                     handler -> sender.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap -> {
-                        int maxRage = (int) sender.getAttributeValue(ModAttributes.MAX_RAGE.get());
+                        int maxRage = (int) sender.getAttributeValue(BrutalityModAttributes.MAX_RAGE.get());
 
                         if (cap.rageValue() >= maxRage) {
                             // Don't trigger if wearing Anger Management
                             int duration = 40;
                             int rageLevel = (int) Math.floor(cap.rageValue() / 100);
-                            AttributeInstance rageTimeAttr = sender.getAttribute(ModAttributes.RAGE_TIME_MULTIPLIER.get());
+                            AttributeInstance rageTimeAttr = sender.getAttribute(BrutalityModAttributes.RAGE_TIME.get());
                             if (rageTimeAttr != null) {
                                 duration = (int) (duration * rageTimeAttr.getValue());
                             }
-                            AttributeInstance rageLevelAttr = sender.getAttribute(ModAttributes.RAGE_LEVEL.get());
+                            AttributeInstance rageLevelAttr = sender.getAttribute(BrutalityModAttributes.RAGE_LEVEL.get());
                             if (rageLevelAttr != null) {
                                 rageLevel += (int) rageLevelAttr.getValue();
                             }

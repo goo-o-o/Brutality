@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/black_hole_orb/black_hole_orb_inventory"
+    "layer0": "brutality:item/curio/black_hole_orb/black_hole_orb_inventory"
   }
 }

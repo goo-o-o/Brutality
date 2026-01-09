@@ -1,8 +1,8 @@
 package net.goo.brutality.item.curios.charm;
 
-import net.goo.brutality.item.curios.base.BaseCharmCurio;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
 import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -11,10 +11,10 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class EssentialOils extends BaseCharmCurio {
+public class EssentialOils extends BrutalityCurioItem {
 
 
-    public EssentialOils(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public EssentialOils(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

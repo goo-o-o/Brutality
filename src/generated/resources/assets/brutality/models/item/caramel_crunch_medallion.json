@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/necklace/caramel_crunch_medallion/caramel_crunch_medallion_inventory"
+    "layer0": "brutality:item/curio/caramel_crunch_medallion/caramel_crunch_medallion_inventory"
   }
 }

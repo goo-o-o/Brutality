@@ -1,6 +1,6 @@
 package net.goo.brutality.mob_effect;
 
-import net.goo.brutality.registry.ModAttributes;
+import net.goo.brutality.registry.BrutalityModAttributes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -13,7 +13,7 @@ public class PrecisionEffect extends MobEffect {
 
     public PrecisionEffect(MobEffectCategory category, int color) {
         super(category, color);
-        this.addAttributeModifier(ModAttributes.CRITICAL_STRIKE_CHANCE.get(), String.valueOf(PRECISION_UUID), 0, AttributeModifier.Operation.MULTIPLY_BASE);
+        this.addAttributeModifier(BrutalityModAttributes.CRITICAL_STRIKE_CHANCE.get(), String.valueOf(PRECISION_UUID), 0, AttributeModifier.Operation.MULTIPLY_BASE);
     }
 
     @Override

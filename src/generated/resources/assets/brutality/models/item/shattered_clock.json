@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/shattered_clock/shattered_clock_inventory"
+    "layer0": "brutality:item/curio/shattered_clock/shattered_clock_inventory"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/head/lens_makers_glasses/lens_makers_glasses_inventory"
+    "layer0": "brutality:item/curio/lens_makers_glasses/lens_makers_glasses_inventory"
   }
 }

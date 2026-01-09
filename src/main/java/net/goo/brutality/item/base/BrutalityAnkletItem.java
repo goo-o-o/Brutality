@@ -1,7 +1,7 @@
 package net.goo.brutality.item.base;
 
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -12,13 +12,11 @@ import java.util.List;
 
 public class BrutalityAnkletItem extends BrutalityCurioItem implements ICurioItem {
 
-    public BrutalityAnkletItem(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public BrutalityAnkletItem(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.CurioType.ANKLET;
+    public BrutalityAnkletItem(Rarity rarity) {
+        super(rarity);
     }
 
     public void onDodgeServer(LivingEntity dodger, DamageSource source, float damage, ItemStack stack) {

@@ -2,7 +2,7 @@ package net.goo.brutality.magic.spells.celestia;
 
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.registry.BrutalityModSounds;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;

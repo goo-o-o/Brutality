@@ -1,14 +1,11 @@
 package net.goo.brutality.item.weapon.throwing;
 
-import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityThrowingItem;
 import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.registry.BrutalityCapabilities;
-import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.resources.ResourceLocation;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -21,31 +18,14 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 public class StickyBomb extends BrutalityThrowingItem {
 
 
-    public StickyBomb(int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
-        super(pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
+    public StickyBomb(int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents, Supplier<? extends EntityType<? extends Projectile>> entityTypeSupplier) {
+        super(pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents, entityTypeSupplier);
     }
-
-
-    @Override
-    public ResourceLocation getAnimationResourceLocation() {
-        return THROW_ANIMATION.DROP.getAnimationResource();
-    }
-
-
-    @Override
-    public BrutalityCategories.AttackType getAttackType() {
-        return BrutalityCategories.AttackType.BLUNT;
-    }
-
-    @Override
-    public EntityType<? extends Projectile> getThrownEntity() {
-        return BrutalityModEntities.STICKY_BOMB.get();
-    }
-
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand pUsedHand) {
@@ -82,9 +62,4 @@ public class StickyBomb extends BrutalityThrowingItem {
         return super.use(level, player, pUsedHand);
     }
 
-
-    @Override
-    public float getInitialThrowVelocity() {
-        return 1F;
-    }
 }

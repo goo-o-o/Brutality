@@ -3,6 +3,7 @@ package net.goo.brutality.mixin.mixins;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.item.weapon.hammer.JackpotHammer;
+import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.SealUtils;
 import net.goo.brutality.util.helpers.NbtHelper;
@@ -20,7 +21,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Mixin(ItemStack.class)
@@ -64,11 +68,6 @@ public abstract class ItemStackMixin {
             }
 
             double modified = itemBase;
-//            AttributeInstance attackAttribute = player.getAttribute(Attributes.ATTACK_DAMAGE);
-//            if (attackAttribute != null) {
-//                modified += attackAttribute.calculateValue();
-//                System.out.println(attackAttribute.getModifiers());
-//            }
 
             if (stack.getItem() instanceof RhittaAxe) {
                 modified += RhittaAxe.computeAttackDamageBonus(player.level());
@@ -79,23 +78,58 @@ public abstract class ItemStackMixin {
 
             modified = ModUtils.computeAttributes(player, stack, modified);
             modified += player.getAttributeBaseValue(Attributes.ATTACK_DAMAGE);
+
+
+            Optional<ICuriosItemHandler> handlerOptional = CuriosApi.getCuriosInventory(player).resolve();
+            if (handlerOptional.isPresent()) {
+                ICuriosItemHandler handler = handlerOptional.get();
+                if (!stack.isEmpty() && handler.isEquipped(BrutalityModItems.SUSPICIOUSLY_LARGE_HANDLE.get())) {
+                    float attackSpeed = (float) player.getAttributeValue(Attributes.ATTACK_SPEED);
+                    float difference = attackSpeed - 0.5F;
+                    float damageBoost = difference * 5F;
+                    modified += damageBoost;
+                }
+            }
+
             return modified - itemBase;
         }
         return player.getAttributeBaseValue(attribute);
     }
 
-//    @Redirect(
-//            method = "getTooltipLines",
-//            at = @At(
-//                    value = "INVOKE",
-//                    target = "Lnet/minecraft/world/entity/player/Player;getAttributeBaseValue(Lnet/minecraft/world/entity/ai/attributes/Attribute;)D",
-//                    ordinal = 1
-//            )
-//    )
-//    private double modifyAttackSpeedValue(Player player, Attribute attribute) {
-//        ItemStack stack = (ItemStack) (Object) this;
-//        return player.getAttributeBaseValue(attribute);
-//    }
+    @Redirect(
+            method = "getTooltipLines",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/player/Player;getAttributeBaseValue(Lnet/minecraft/world/entity/ai/attributes/Attribute;)D",
+                    ordinal = 1
+            )
+    )
+    private double modifyAttackSpeedValue(Player player, Attribute attribute) {
+        if (attribute == Attributes.ATTACK_SPEED) {
+            ItemStack stack = (((ItemStack) (Object) this));
+            return CuriosApi.getCuriosInventory(player)
+                    .resolve()
+                    .map(handler -> {
+                        double itemAttackSpeed = 0;
+                        for (EquipmentSlot slot : EquipmentSlot.values()) {
+                            Multimap<Attribute, AttributeModifier> modifiers = stack.getAttributeModifiers(slot);
+                            for (AttributeModifier mod : modifiers.get(Attributes.ATTACK_SPEED)) {
+                                if (mod.getId().equals(BASE_ATTACK_SPEED_UUID)) {
+                                    itemAttackSpeed = mod.getAmount();
+                                    break;
+                                }
+                            }
+                        }
+
+
+                        if (handler.isEquipped(BrutalityModItems.SUSPICIOUSLY_LARGE_HANDLE.get())) return -itemAttackSpeed + 0.5;
+
+                        return player.getAttributeBaseValue(attribute);
+
+                    }).orElse(player.getAttributeBaseValue(attribute));
+        }
+        return player.getAttributeBaseValue(attribute);
+    }
 
 
     @Inject(method = "getMaxDamage()I", at = @At("HEAD"), cancellable = true)

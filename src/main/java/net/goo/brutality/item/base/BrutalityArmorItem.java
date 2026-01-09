@@ -3,7 +3,7 @@ package net.goo.brutality.item.base;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.renderers.armor.BrutalityArmorRenderer;
 import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
 import java.util.List;
@@ -25,12 +26,12 @@ import java.util.Locale;
 import java.util.function.Consumer;
 
 public class BrutalityArmorItem extends ArmorItem implements BrutalityGeoItem {
-    private final List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents;
+    private final List<ItemDescriptionComponent> descriptionComponents;
     public String identifier;
     public Rarity rarity;
 
     public BrutalityArmorItem(ArmorMaterial pMaterial, Type pType,
-                              Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+                              Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pMaterial, pType, new Item.Properties());
         this.rarity = rarity;
         this.descriptionComponents = descriptionComponents;
@@ -79,6 +80,11 @@ public class BrutalityArmorItem extends ArmorItem implements BrutalityGeoItem {
     }
 
     AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+
+    }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

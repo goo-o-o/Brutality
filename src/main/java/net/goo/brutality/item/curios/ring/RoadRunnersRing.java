@@ -1,9 +1,9 @@
 package net.goo.brutality.item.curios.ring;
 
-import net.goo.brutality.item.curios.base.BaseRingCurio;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.network.ServerboundDamageEntityPacket;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -18,12 +18,12 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class RoadRunnersRing extends BaseRingCurio {
+public class RoadRunnersRing extends BrutalityCurioItem {
 
 
     private float xOld, zOld;
 
-    public RoadRunnersRing(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public RoadRunnersRing(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

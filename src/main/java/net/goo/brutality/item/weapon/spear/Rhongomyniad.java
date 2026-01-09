@@ -3,7 +3,7 @@ package net.goo.brutality.item.weapon.spear;
 import net.goo.brutality.item.base.BrutalitySpearItem;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.goo.brutality.util.phys.HitboxUtils;
 import net.goo.brutality.util.phys.OrientedBoundingBox;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
@@ -22,7 +22,7 @@ import net.minecraftforge.fml.ModList;
 import java.util.List;
 
 public class Rhongomyniad extends BrutalitySpearItem {
-    public Rhongomyniad(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public Rhongomyniad(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 

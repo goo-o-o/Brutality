@@ -2,7 +2,7 @@ package net.goo.brutality.item.weapon.hammer;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalityHammerItem;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraftforge.fml.common.Mod;
@@ -14,7 +14,7 @@ import java.util.List;
 public class WoodenRulerHammer extends BrutalityHammerItem {
 
 
-    public WoodenRulerHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public WoodenRulerHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 

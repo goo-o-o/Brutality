@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/wrath/wrath_inventory"
+    "layer0": "brutality:item/curio/wrath/wrath_inventory"
   }
 }

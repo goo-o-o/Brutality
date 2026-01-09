@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/ring/microblade_band/microblade_band_inventory"
+    "layer0": "brutality:item/curio/microblade_band/microblade_band_inventory"
   }
 }

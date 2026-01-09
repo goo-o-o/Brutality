@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/anklet/sacred_speed_anklet/sacred_speed_anklet_inventory"
+    "layer0": "brutality:item/curio/sacred_speed_anklet/sacred_speed_anklet_inventory"
   }
 }

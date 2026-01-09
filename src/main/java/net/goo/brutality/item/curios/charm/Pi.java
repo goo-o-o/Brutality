@@ -1,16 +1,11 @@
 package net.goo.brutality.item.curios.charm;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.goo.brutality.entity.projectile.generic.PiEntity;
-import net.goo.brutality.item.curios.base.BaseCharmCurio;
+import net.goo.brutality.item.curios.BrutalityMathCurio;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -18,12 +13,11 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
-import java.util.UUID;
 
-public class Pi extends BaseCharmCurio {
+public class Pi extends BrutalityMathCurio {
 
 
-    public Pi(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public Pi(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
@@ -63,25 +57,6 @@ public class Pi extends BaseCharmCurio {
             }
     }
 
-    float piMult = 0.0314f;
-    float pi = 3.14f;
-
-    UUID PI_CHARM_MS_UUID = UUID.fromString("5889431d-06af-4bef-b3c2-7d1cf5abda3c");
-    UUID PI_CHARM_AS_UUID = UUID.fromString("d24bf9bb-e6d1-4b34-8758-5b294cc7db6d");
-    UUID PI_CHARM_AD_UUID = UUID.fromString("a1c85971-cded-4c2a-adcf-e5b3ab6b9211");
-
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        if (slotContext.entity() != null) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-            builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(PI_CHARM_MS_UUID, "MS Buff", piMult, AttributeModifier.Operation.MULTIPLY_TOTAL));
-            builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(PI_CHARM_AS_UUID, "AS Buff", piMult, AttributeModifier.Operation.MULTIPLY_TOTAL));
-            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(PI_CHARM_AD_UUID, "AD Buff", pi, AttributeModifier.Operation.ADDITION));
-            return builder.build();
-
-        }
-        return super.getAttributeModifiers(slotContext, uuid, stack);
-    }
 
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {

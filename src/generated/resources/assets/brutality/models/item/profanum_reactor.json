@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/profanum_reactor/profanum_reactor_inventory"
+    "layer0": "brutality:item/curio/profanum_reactor/profanum_reactor_inventory"
   }
 }

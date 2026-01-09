@@ -1,7 +1,7 @@
 package net.goo.brutality.item.weapon.hammer;
 
 import net.goo.brutality.item.base.BrutalityHammerItem;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ConductiteCapacitor extends BrutalityHammerItem {
 
 
-    public ConductiteCapacitor(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public ConductiteCapacitor(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 

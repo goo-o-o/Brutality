@@ -2,7 +2,6 @@ package net.goo.brutality.event.forge;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.config.BrutalityCommonConfig;
-import net.goo.brutality.entity.capabilities.EntityCapabilities;
 import net.goo.brutality.item.curios.charm.Sine;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.magic.SpellCastingHandler;
@@ -10,12 +9,12 @@ import net.goo.brutality.magic.spells.celestia.HolyMantleSpell;
 import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.registry.BrutalityCapabilities;
+import net.goo.brutality.registry.BrutalityModAttributes;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.ModTags;
 import net.goo.brutality.util.SealUtils;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
@@ -106,7 +105,7 @@ public class LivingEntityHurtHandler {
             }
 
             if (handler.isEquipped(BrutalityModItems.SUBTRACTION.get())) {
-                modifiedAmount[0] = Math.max(0, modifiedAmount[0] - 2);
+                modifiedAmount[0] = Math.max(0, modifiedAmount[0] - 3);
             }
 
             if (handler.isEquipped(BrutalityModItems.DIVISION.get())) {
@@ -127,24 +126,20 @@ public class LivingEntityHurtHandler {
             if (!victim.hasEffect(BrutalityModMobEffects.ENRAGED.get()))
                 if (handler.isEquipped(item -> item.is(ModTags.Items.RAGE_ITEMS))) {
                     victim.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap -> {
-                        float rageGain = modifiedAmount[0];
+                        float flatRageGain = modifiedAmount[0];
 
-                        AttributeInstance rageGainAttr = victim.getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
-                        if (rageGainAttr != null) rageGain *= (float) rageGainAttr.getValue();
-
-                        cap.incrementRage(Math.max(0, rageGain));
-                        EntityCapabilities.PlayerRageCap.tryTriggerRage(victim, handler, cap);
+                        flatRageGain *= (float) victim.getAttributeValue(BrutalityModAttributes.DAMAGE_TO_RAGE_RATIO.get());
+                        flatRageGain *= BrutalityCommonConfig.RAGE_GAIN_MULTIPLIER.get();
+                        cap.incrementRageAndTrigger(Math.max(0, flatRageGain), victim);
                     });
                 }
         });
 
 
-
-
     }
 
     public static void handleHurt(LivingHurtEvent event, LivingEntity victim, float[] modifiedAmount) {
-        AttributeInstance attributeInstance = victim.getAttribute(ModAttributes.DAMAGE_TAKEN.get());
+        AttributeInstance attributeInstance = victim.getAttribute(BrutalityModAttributes.DAMAGE_TAKEN.get());
         if (attributeInstance != null) {
             modifiedAmount[0] = (float) (modifiedAmount[0] * attributeInstance.getValue());
         }
@@ -175,12 +170,12 @@ public class LivingEntityHurtHandler {
             }
 
 
-
         });
 
     }
 
     public static void handleHurtWithSource(LivingEntity victim, Entity source) {
+
     }
 
     public static void handleHurtFromLiving(LivingEntity victim, LivingEntity source, float[] modifiedAmount) {
@@ -193,6 +188,14 @@ public class LivingEntityHurtHandler {
         });
 
         CuriosApi.getCuriosInventory(source).ifPresent(handler -> {
+            // SAD_UVOGRE =======================================================================================================
+            if (handler.isEquipped(BrutalityModItems.SAD_UVOGRE.get())) {
+                if (victim.getBbHeight() < source.getBbHeight()) {
+                    modifiedAmount[0] *= 1.25F;
+                }
+            }
+
+            // GREED ============================================================================================================
             handler.findFirstCurio(BrutalityModItems.GREED.get()).ifPresent(slot ->
                     modifiedAmount[0] *= 1 + slot.stack().getOrCreateTag().getInt(GREED_BONUS) * 0.01F);
 
@@ -367,12 +370,10 @@ public class LivingEntityHurtHandler {
             CuriosApi.getCuriosInventory(source).ifPresent(handler -> {
                 if (handler.isEquipped(stack -> stack.is(ModTags.Items.RAGE_ITEMS))) {
                     source.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap -> {
-                        float damageDealt = modifiedAmount[0];
-                        float rageGain = (float) (damageDealt * BrutalityCommonConfig.DAMAGE_TO_RAGE_RATIO.get());
-                        AttributeInstance rageGainAttr = source.getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
-                        if (rageGainAttr != null) rageGain *= (float) rageGainAttr.getValue();
-                        cap.incrementRage(Math.max(0, rageGain));
-                        EntityCapabilities.PlayerRageCap.tryTriggerRage(source, handler, cap);
+                        float flatRageGain = modifiedAmount[0];
+                        flatRageGain *= (float) source.getAttributeValue(BrutalityModAttributes.DAMAGE_TO_RAGE_RATIO.get());
+                        flatRageGain *= BrutalityCommonConfig.RAGE_GAIN_MULTIPLIER.get();
+                        cap.incrementRageAndTrigger(Math.max(0, flatRageGain), source);
                     });
                 }
             });
@@ -400,7 +401,7 @@ public class LivingEntityHurtHandler {
     }
 
     public static void handleOmnivamp(Player attacker, float[] modifiedAmount) {
-        AttributeInstance omnivampAttr = attacker.getAttribute(ModAttributes.OMNIVAMP.get());
+        AttributeInstance omnivampAttr = attacker.getAttribute(BrutalityModAttributes.OMNIVAMP.get());
         if (omnivampAttr != null) {
             attacker.heal(((float) (modifiedAmount[0] * (omnivampAttr.getValue() - 1))));
         }

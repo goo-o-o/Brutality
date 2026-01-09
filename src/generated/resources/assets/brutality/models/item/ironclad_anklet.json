@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/anklet/ironclad_anklet/ironclad_anklet_inventory"
+    "layer0": "brutality:item/curio/ironclad_anklet/ironclad_anklet_inventory"
   }
 }

@@ -1,7 +1,7 @@
 package net.goo.brutality.item.curios.hands;
 
-import net.goo.brutality.item.curios.base.BaseHandsCurio;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.NonNullList;
@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class Handcuffs extends BaseHandsCurio {
-    public Handcuffs(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+public class Handcuffs extends BrutalityCurioItem {
+    public Handcuffs(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
         DispenserBlock.registerBehavior(this, DISPENSE_ITEM_BEHAVIOUR);
     }

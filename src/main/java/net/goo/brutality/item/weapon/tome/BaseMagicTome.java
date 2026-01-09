@@ -9,8 +9,9 @@ import net.goo.brutality.magic.SpellCastingHandler;
 import net.goo.brutality.magic.SpellStorage;
 import net.goo.brutality.magic.SpellUtils;
 import net.goo.brutality.registry.BrutalityModSounds;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.mcreator.terramity.init.TerramityModSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -42,19 +43,22 @@ import software.bernie.geckolib.core.object.PlayState;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.CHANCE;
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.DURATION;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.CHANCE;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.DURATION;
 
 public class BaseMagicTome extends BrutalityGenericItem {
 
 
-    public BaseMagicTome(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public BaseMagicTome(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }
+    public BaseMagicTome(Rarity rarity) {
+        this(rarity, List.of());
+    }
 
     @Override
-    public ItemStack getDefaultInstance() {
+    public @NotNull ItemStack getDefaultInstance() {
         ItemStack stack = new ItemStack(this);
         stack.getOrCreateTag().putBoolean("closed", true);
         return stack;
@@ -221,10 +225,10 @@ public class BaseMagicTome extends BrutalityGenericItem {
 
                 int actualSpellLevel = IBrutalitySpell.getActualSpellLevel(mc.player, spell, entry.level());
 
-                float manaCostReduction = (float) mc.player.getAttributeValue(ModAttributes.MANA_COST.get());
-                float spellDamageMultiplier = (float) mc.player.getAttributeValue(ModAttributes.SPELL_DAMAGE.get());
-                float spellCdReduction = 2 - (float) mc.player.getAttributeValue(ModAttributes.SPELL_COOLDOWN_REDUCTION.get());
-                float castTimeReduction = 2 - (float) mc.player.getAttributeValue(ModAttributes.CAST_TIME_REDUCTION.get());
+                float manaCostReduction = (float) mc.player.getAttributeValue(BrutalityModAttributes.MANA_COST.get());
+                float spellDamageMultiplier = (float) mc.player.getAttributeValue(BrutalityModAttributes.SPELL_DAMAGE.get());
+                float spellCdReduction = 2 - (float) mc.player.getAttributeValue(BrutalityModAttributes.SPELL_COOLDOWN_REDUCTION.get());
+                float castTimeReduction = 2 - (float) mc.player.getAttributeValue(BrutalityModAttributes.CAST_TIME_REDUCTION.get());
                 castTimeReduction += SpellUtils.getCurioCastTimeMultiplier(mc.player, spell, actualSpellLevel) - 1;
                 spellCdReduction += SpellUtils.getCurioCooldownMultiplier(mc.player, spell, actualSpellLevel) - 1;
                 spellDamageMultiplier += SpellUtils.getCurioDamageMultiplier(mc.player, spell, actualSpellLevel) - 1;
@@ -309,10 +313,10 @@ public class BaseMagicTome extends BrutalityGenericItem {
             String spellName = spell.getSpellName();
             int actualSpellLevel = IBrutalitySpell.getActualSpellLevel(mc.player, spell, entry.level());
 
-            float manaCostReduction = (float) mc.player.getAttributeValue(ModAttributes.MANA_COST.get());
-            float spellDamageMultiplier = (float) mc.player.getAttributeValue(ModAttributes.SPELL_DAMAGE.get());
-            float spellCdReduction = 2 - (float) mc.player.getAttributeValue(ModAttributes.SPELL_COOLDOWN_REDUCTION.get());
-            float castTimeReduction = 2 - (float) mc.player.getAttributeValue(ModAttributes.CAST_TIME_REDUCTION.get());
+            float manaCostReduction = (float) mc.player.getAttributeValue(BrutalityModAttributes.MANA_COST.get());
+            float spellDamageMultiplier = (float) mc.player.getAttributeValue(BrutalityModAttributes.SPELL_DAMAGE.get());
+            float spellCdReduction = 2 - (float) mc.player.getAttributeValue(BrutalityModAttributes.SPELL_COOLDOWN_REDUCTION.get());
+            float castTimeReduction = 2 - (float) mc.player.getAttributeValue(BrutalityModAttributes.CAST_TIME_REDUCTION.get());
             spellCdReduction += SpellUtils.getCurioCooldownMultiplier(mc.player, spell, actualSpellLevel) - 1;
             castTimeReduction += SpellUtils.getCurioCastTimeMultiplier(mc.player, spell, actualSpellLevel) - 1;
             spellDamageMultiplier += SpellUtils.getCurioDamageMultiplier(mc.player, spell, actualSpellLevel) - 1;
@@ -408,7 +412,7 @@ public class BaseMagicTome extends BrutalityGenericItem {
         return input;
     }
 
-    private static @NotNull MutableComponent getMutableComponent(Player player, SpellStorage.SpellEntry entry, net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponent component) {
+    private static @NotNull MutableComponent getMutableComponent(Player player, SpellStorage.SpellEntry entry, BrutalityTooltipHelper.SpellStatComponent component) {
         BrutalityTooltipHelper.SpellStatComponents type = component.type();
         String operand = component.levelDelta() > 0 ? " + " : " - ";
         float base = computeUnit(component.base(), type);

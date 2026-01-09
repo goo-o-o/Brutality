@@ -8,7 +8,7 @@ import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.*;
 import net.goo.brutality.particle.providers.WaveParticleData;
-import net.goo.brutality.registry.ModAttributes;
+import net.goo.brutality.registry.BrutalityModAttributes;
 import net.goo.brutality.util.phys.CylindricalBoundingBox;
 import net.mcreator.terramity.init.TerramityModItems;
 import net.minecraft.core.BlockPos;
@@ -170,25 +170,25 @@ public class ModUtils {
 
         Map<Predicate<ItemStack>, List<Attribute>> attributeMap = Map.of(
                 s -> s.getItem() instanceof SwordItem || s.is(ItemTags.SWORDS), // Filter
-                List.of(ModAttributes.SWORD_DAMAGE.get(), ModAttributes.SLASH_DAMAGE.get()), // Attributes that affect it
+                List.of(BrutalityModAttributes.SWORD_DAMAGE.get(), BrutalityModAttributes.SLASH_DAMAGE.get()), // Attributes that affect it
 
                 s -> s.getItem() instanceof AxeItem || s.is(ItemTags.AXES), // Filter
-                List.of(ModAttributes.AXE_DAMAGE.get(), ModAttributes.SLASH_DAMAGE.get()), // Attributes that affect it
+                List.of(BrutalityModAttributes.AXE_DAMAGE.get(), BrutalityModAttributes.SLASH_DAMAGE.get()), // Attributes that affect it
 
                 s -> s.getItem() instanceof BrutalityHammerItem || s.is(TerramityModItems.HELLROK_GIGATON_HAMMER.get()), // Filter
-                List.of(ModAttributes.HAMMER_DAMAGE.get(), ModAttributes.BLUNT_DAMAGE.get()), // Attributes that affect it
+                List.of(BrutalityModAttributes.HAMMER_DAMAGE.get(), BrutalityModAttributes.BLUNT_DAMAGE.get()), // Attributes that affect it
 
                 s -> s.getItem() instanceof BrutalityScytheItem, // Filter
-                List.of(ModAttributes.SCYTHE_DAMAGE.get(), ModAttributes.SLASH_DAMAGE.get()),  // Attributes that affect it
+                List.of(BrutalityModAttributes.SCYTHE_DAMAGE.get(), BrutalityModAttributes.SLASH_DAMAGE.get()),  // Attributes that affect it
 
                 s -> s.getItem() instanceof BrutalitySpearItem || s.getItem() instanceof BrutalityTridentItem || s.getItem() instanceof TridentItem, // Filter
-                List.of(ModAttributes.SPEAR_DAMAGE.get(), ModAttributes.PIERCING_DAMAGE.get()),  // Attributes that affect it
+                List.of(BrutalityModAttributes.SPEAR_DAMAGE.get(), BrutalityModAttributes.PIERCING_DAMAGE.get()),  // Attributes that affect it
 
                 s -> !s.is(TerramityModItems.HELLROK_GIGATON_HAMMER.get()) && (s.getItem() instanceof PickaxeItem || s.is(ItemTags.PICKAXES) || s.getItem() instanceof HoeItem || s.is(ItemTags.HOES)), // Filter
-                List.of(ModAttributes.PIERCING_DAMAGE.get()), // Attributes that affect it
+                List.of(BrutalityModAttributes.PIERCING_DAMAGE.get()), // Attributes that affect it
 
                 s -> s.getItem() instanceof ShovelItem || s.is(ItemTags.SHOVELS), // Filter
-                List.of(ModAttributes.BLUNT_DAMAGE.get())  // Attributes that affect it
+                List.of(BrutalityModAttributes.BLUNT_DAMAGE.get())  // Attributes that affect it
         );
 
 

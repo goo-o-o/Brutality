@@ -6,7 +6,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.item.BrutalityArmorMaterials;
 import net.goo.brutality.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.item.weapon.generic.CreaseOfCreation;
-import net.goo.brutality.item.weapon.spear.EventHorizonSpear;
+import net.goo.brutality.item.weapon.spear.EventHorizon;
 import net.goo.brutality.item.weapon.sword.BladeOfTheRuinedKingSword;
 import net.goo.brutality.item.weapon.sword.DullKnifeSword;
 import net.goo.brutality.item.weapon.sword.SupernovaSword;
@@ -19,7 +19,7 @@ import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.ModAttributes;
+import net.goo.brutality.registry.BrutalityModAttributes;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.helpers.EnvironmentColorManager;
 import net.mcreator.terramity.init.TerramityModMobEffects;
@@ -303,14 +303,14 @@ public class ForgePlayerStateHandler {
     private static boolean isSpecificItem(ItemStack stack) {
         if (stack.isEmpty()) return false;
         Item item = stack.getItem();
-        return item instanceof EventHorizonSpear
+        return item instanceof EventHorizon
                 || item instanceof RhittaAxe
                 || item instanceof BaseMagicTome;
     }
 
     private static void triggerItemLeftInventory(Player player, ItemStack oldStack) {
         Item item = oldStack.getItem();
-        if (item instanceof EventHorizonSpear lance) {
+        if (item instanceof EventHorizon lance) {
             lance.despawnBlackHole(player, oldStack);
         } else if (item instanceof RhittaAxe axe) {
             axe.despawnCruelSun(player, oldStack);
@@ -362,8 +362,8 @@ public class ForgePlayerStateHandler {
             player.getCapability(BrutalityCapabilities.PLAYER_MANA_CAP).
                     ifPresent(cap ->
                     {
-                        AttributeInstance maxManaAttr = player.getAttribute(ModAttributes.MAX_MANA.get());
-                        AttributeInstance manaRegenAttr = player.getAttribute(ModAttributes.MANA_REGEN.get());
+                        AttributeInstance maxManaAttr = player.getAttribute(BrutalityModAttributes.MAX_MANA.get());
+                        AttributeInstance manaRegenAttr = player.getAttribute(BrutalityModAttributes.MANA_REGEN.get());
                         if (maxManaAttr != null && manaRegenAttr != null) {
                             if (cap.manaValue() <= maxManaAttr.getValue()) {
                                 float additionalBonus = 0;

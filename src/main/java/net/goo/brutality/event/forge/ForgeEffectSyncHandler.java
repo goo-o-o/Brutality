@@ -1,6 +1,7 @@
 package net.goo.brutality.event.forge;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.item.curios.hands.PerfectCell;
 import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
 import net.goo.brutality.network.ClientboundUpdateAbilityCooldownsPacket;
 import net.goo.brutality.network.PacketHandler;
@@ -19,6 +20,8 @@ import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.NotNull;
+import top.theillusivec4.curios.api.CuriosApi;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
 public class ForgeEffectSyncHandler {
@@ -55,11 +58,24 @@ public class ForgeEffectSyncHandler {
 
     @SubscribeEvent
     public static void onTryAddEffect(MobEffectEvent.Applicable event) {
-        if (event.getEffectInstance().getEffect() == BrutalityModMobEffects.RADIATION.get()) {
-            if (event.getEntity().isHolding(BrutalityModItems.ATOMIC_JUDGEMENT_HAMMER.get())) {
+        @NotNull MobEffectInstance effectInstance = event.getEffectInstance();
+        MobEffect effect = effectInstance.getEffect();
+        LivingEntity entity = event.getEntity();
+        if (effect == BrutalityModMobEffects.RADIATION.get()) {
+            if (entity.isHolding(BrutalityModItems.ATOMIC_JUDGEMENT_HAMMER.get())) {
                 event.setResult(Event.Result.DENY);
             }
         }
+
+        CuriosApi.getCuriosInventory(entity).ifPresent(handler -> {
+            if (handler.isEquipped(BrutalityModItems.PERFECT_CELL.get())) {
+                if (PerfectCell.DENIED_EFFECTS.contains(effect)) {
+                    event.setResult(Event.Result.DENY);
+                }
+
+            }
+        });
+
     }
 
 

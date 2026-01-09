@@ -1,6 +1,6 @@
 package net.goo.brutality.mob_effect;
 
-import net.goo.brutality.registry.ModAttributes;
+import net.goo.brutality.registry.BrutalityModAttributes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -32,7 +32,7 @@ public class StoneformEffect extends MobEffect {
                 AttributeModifier.Operation.MULTIPLY_TOTAL
         );
         this.addAttributeModifier(
-                ModAttributes.DAMAGE_TAKEN.get(),
+                BrutalityModAttributes.DAMAGE_TAKEN.get(),
                 DAMAGE_TAKEN_UUID.toString(),
                 -0.5,
                 AttributeModifier.Operation.MULTIPLY_BASE

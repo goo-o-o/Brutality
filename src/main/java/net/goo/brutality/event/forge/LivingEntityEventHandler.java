@@ -2,23 +2,17 @@ package net.goo.brutality.event.forge;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.capabilities.EntityCapabilities;
-import net.goo.brutality.event.ConsumeManaEvent;
-import net.goo.brutality.event.SpellCastEvent;
 import net.goo.brutality.item.BrutalityArmorMaterials;
 import net.goo.brutality.item.armor.VampireLordArmorItem;
 import net.goo.brutality.item.weapon.generic.CreaseOfCreation;
 import net.goo.brutality.item.weapon.hammer.AtomicJudgementHammer;
-import net.goo.brutality.item.weapon.spear.EventHorizonSpear;
+import net.goo.brutality.item.weapon.spear.EventHorizon;
 import net.goo.brutality.item.weapon.sword.SupernovaSword;
-import net.goo.brutality.magic.IBrutalitySpell;
-import net.goo.brutality.magic.SpellCastingHandler;
-import net.goo.brutality.magic.SpellCooldownTracker;
 import net.goo.brutality.registry.*;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.SealUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -70,7 +64,7 @@ public class LivingEntityEventHandler {
         ItemCooldowns newCooldowns = newPlayer.getCooldowns();
 
         newPlayer.getCapability(BrutalityCapabilities.PLAYER_MANA_CAP).ifPresent(cap -> {
-            cap.setManaValue((float) newPlayer.getAttributeValue(ModAttributes.MAX_MANA.get()));
+            cap.setManaValue((float) newPlayer.getAttributeValue(BrutalityModAttributes.MAX_MANA.get()));
         });
 
         Item diamondBooster = BrutalityModItems.DIAMOND_BOOSTER_PACK.get();
@@ -116,7 +110,7 @@ public class LivingEntityEventHandler {
         }
 
         if (event.getEntity() instanceof Player player) {
-            double visibility = player.getAttributeValue(ModAttributes.ENTITY_VISIBILITY.get());
+            double visibility = player.getAttributeValue(BrutalityModAttributes.ENTITY_VISIBILITY.get());
             event.modifyVisibility(visibility);
         }
     }
@@ -127,14 +121,14 @@ public class LivingEntityEventHandler {
         Player player = event.getEntity();
 
         boolean flag = player.getAttackStrengthScale(0.5F) > 0.9;
-        float critChance = (float) player.getAttributeValue(ModAttributes.CRITICAL_STRIKE_CHANCE.get());
+        float critChance = (float) player.getAttributeValue(BrutalityModAttributes.CRITICAL_STRIKE_CHANCE.get());
 
         boolean crit = player.getRandom().nextFloat() < (critChance - 1);
 
 
         if (crit && flag) {
             event.setResult(Event.Result.ALLOW);
-            event.setDamageModifier((float) event.getEntity().getAttributeValue(ModAttributes.CRITICAL_STRIKE_DAMAGE.get()));
+            event.setDamageModifier((float) event.getEntity().getAttributeValue(BrutalityModAttributes.CRITICAL_STRIKE_DAMAGE.get()));
 
             CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
                 if (handler.isEquipped(BrutalityModItems.FUZZY_DICE.get())) {
@@ -197,13 +191,10 @@ public class LivingEntityEventHandler {
                 event.setCanceled(true);
             }
 
-            if (item instanceof EventHorizonSpear) {
+            if (item instanceof EventHorizon) {
                 event.setCanceled(true);
-
                 Vec3 direction = lastAttacker.getPosition(1f).subtract(victim.getPosition(1F)).normalize();
-
                 victim.addDeltaMovement(direction.scale(1.2));
-
             }
         }
 

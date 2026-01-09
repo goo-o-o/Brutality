@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/deck_of_cards/deck_of_cards_inventory"
+    "layer0": "brutality:item/curio/deck_of_cards/deck_of_cards_inventory"
   }
 }

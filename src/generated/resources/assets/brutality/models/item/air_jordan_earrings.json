@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/head/air_jordan_earrings/air_jordan_earrings_inventory"
+    "layer0": "brutality:item/curio/air_jordan_earrings/air_jordan_earrings_inventory"
   }
 }

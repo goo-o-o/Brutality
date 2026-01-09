@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/emergency_meeting/emergency_meeting_inventory"
+    "layer0": "brutality:item/curio/emergency_meeting/emergency_meeting_inventory"
   }
 }

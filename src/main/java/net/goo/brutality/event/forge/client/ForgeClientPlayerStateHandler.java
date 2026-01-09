@@ -25,19 +25,25 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.client.event.RenderNameTagEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 import static net.goo.brutality.util.helpers.EnvironmentColorManager.*;
@@ -52,19 +58,45 @@ public class ForgeClientPlayerStateHandler {
     private static int originalRenderDist = -1;
     public static final ResourceLocation BIT_SHADER = ResourceLocation.fromNamespaceAndPath("minecraft", "shaders/post/bits.json");
     private static InteractionHand previousHand = InteractionHand.OFF_HAND;
-//
-//    @SubscribeEvent
-//    public static void onLeftClick(InputEvent.MouseButton event) {
-//        Minecraft mc = Minecraft.getInstance();
-//        LocalPlayer player = mc.player;
-//        ClientLevel level = mc.level;
-//        if (player == null || level == null) return;
-//
-//
-//        if (event.getAction() == InputConstants.PRESS && event.getButton() == GLFW.GLFW_MOUSE_BUTTON_1) {
-//
-//        }
-//    }
+
+    @SubscribeEvent
+    public static void onMovementInputUpdate(MovementInputUpdateEvent event) {
+        // 1. EQUALIZE SPEEDS: Set all non-jumping impulses to the forward impulse (max speed)
+        // The forwardImpulse will be 1.0F if moving forward, -1.0F if moving backward, or 0.0F.
+        // We want the magnitude (absolute value) of the impulse to be used for all directions,
+        // effectively treating strafing and backing up at the same speed as walking forward.
+        float maxImpulse = Math.max(Math.abs(event.getInput().forwardImpulse), Math.abs(event.getInput().leftImpulse));
+
+        // Apply the MAX magnitude (1.0F when keys are pressed) while retaining the original direction sign.
+
+        // Check if moving forward/backward (zza). If so, keep the original sign (+1 or -1) but set magnitude to max.
+        if (event.getInput().forwardImpulse != 0.0F) {
+            event.getInput().forwardImpulse = Math.signum(event.getInput().forwardImpulse) * maxImpulse;
+        }
+
+        // Check if moving left/right (xxa). If so, keep the original sign (+1 or -1) but set magnitude to max.
+        if (event.getInput().leftImpulse != 0.0F) {
+            event.getInput().leftImpulse = Math.signum(event.getInput().leftImpulse) * maxImpulse;
+        }
+
+        // Since the raw impulses are only -1, 0, or 1, and the maxImpulse will be 1.0F if any key is down,
+        // this effectively forces:
+        // Forward (1.0F) -> 1.0F
+        // Backward (-1.0F) -> -1.0F (Now treated as max speed by the movement code)
+        // Strafe Left (-1.0F) -> -1.0F (Now treated as max speed by the movement code)
+        // Strafe Right (1.0F) -> 1.0F (Now treated as max speed by the movement code)
+
+        // 2. DIAGONAL FIX (Normalization):
+        float forward = event.getInput().forwardImpulse;
+        float strafe = event.getInput().leftImpulse;
+        float magnitude = (float) Math.sqrt(forward * forward + strafe * strafe);
+
+        if (magnitude > 1.0f) {
+            // Normalize the impulses: new_impulse = old_impulse / magnitude
+            event.getInput().forwardImpulse /= magnitude;
+            event.getInput().leftImpulse /= magnitude;
+        }
+    }
 
     @SubscribeEvent
     public static void onRenderNametag(RenderNameTagEvent event) {
@@ -107,7 +139,6 @@ public class ForgeClientPlayerStateHandler {
             }
 
 
-
         }
     }
 
@@ -125,9 +156,6 @@ public class ForgeClientPlayerStateHandler {
         ClientLevel level = mc.level;
         if (level == null || player == null) return;
 
-//        if (player.hasEffect(BrutalityModMobEffects.STUNNED.get())) {
-//            mc.mouseHandler.setIgnoreFirstMove();
-//        }
 
         boolean isHoldingGpuAxe = player.isHolding(BrutalityModItems.OLD_GPU.get());
 
@@ -181,8 +209,8 @@ public class ForgeClientPlayerStateHandler {
                     .anyMatch(e -> e.getType() == BrutalityModEntities.BLACK_HOLE_ENTITY.get() && e.distanceToSqr(player) <= 10 * 10);
 
             apply("black_hole", blackHoleNearby, new ProximityColorSet()
-                    .setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255,0, 0, 0))
-                    .setColorAutoReset(ColorType.FOG, FastColor.ARGB32.color(255,0, 0, 0))
+                    .setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255, 0, 0, 0))
+                    .setColorAutoReset(ColorType.FOG, FastColor.ARGB32.color(255, 0, 0, 0))
             );
         }
 
@@ -195,19 +223,19 @@ public class ForgeClientPlayerStateHandler {
 
             apply("bork", playerNearEntityWithBork,
                     new ProximityColorSet().
-                            setColorAutoReset(ColorType.FOG, FastColor.ARGB32.color(255,32, 92, 91)).
+                            setColorAutoReset(ColorType.FOG, FastColor.ARGB32.color(255, 32, 92, 91)).
 //                            setColorAutoReset(ColorType.WATER, FastColor.ARGB32.color(255,32, 92, 91)).
 //                            setColorAutoReset(ColorType.GRASS, FastColor.ARGB32.color(255,32, 92, 91)).
 //                            setColorAutoReset(ColorType.FOLIAGE, FastColor.ARGB32.color(255,32, 92, 91)).
-                            setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255,0, 0, 0)));
+        setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255, 0, 0, 0)));
         }
 
         boolean rayNearby = StreamSupport.stream(level.entitiesForRendering().spliterator(), false)
                 .anyMatch(e -> e.getType() == BrutalityModEntities.EXPLOSION_RAY.get() && e.distanceToSqr(player) <= 50 * 50);
 
         apply("explosion_ray", rayNearby, new ProximityColorSet()
-                .setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255,255, 140, 0))
-                .setColorAutoReset(ColorType.FOG, FastColor.ARGB32.color(255,0, 0, 0))
+                .setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255, 255, 140, 0))
+                .setColorAutoReset(ColorType.FOG, FastColor.ARGB32.color(255, 0, 0, 0))
         );
 
         resolveAndApplyColors();
@@ -220,34 +248,48 @@ public class ForgeClientPlayerStateHandler {
         // If only in Offhand, then don't throw, I don't want to interfere with regular vanilla sword swinging and tool actions
         // Edit: Whatever I wrote above is now incorrect
 
-//        if (ModList.get().isLoaded("bettercombat")) return;
-        if (mc.options.keyAttack.isDown()) {
-            ItemStack mainHand = player.getMainHandItem();
-            ItemStack offHand = player.getOffhandItem();
-            ItemCooldowns cooldowns = player.getCooldowns();
+        if (!ModList.get().isLoaded("bettercombat")) {
 
-            if (mainHand.getItem() instanceof BrutalityThrowingItem mainHandThrowingItem && offHand.getItem() instanceof BrutalityThrowingItem offHandThrowingItem) { // Dual wielding Throwing Items
-                if (cooldowns.isOnCooldown(mainHandThrowingItem)) return;
-                if (cooldowns.isOnCooldown(offHandThrowingItem)) return;
-                if (previousHand == InteractionHand.OFF_HAND) { // Throw Main Hand
-                    mainHandThrowingItem.handleAttributesAndAnimation(player, mainHand, false);
-                    player.resetAttackStrengthTicker();
-                    previousHand = InteractionHand.MAIN_HAND;
+            if (mc.options.keyAttack.isDown()) {
+                ItemStack mainHand = player.getMainHandItem();
+                ItemStack offHand = player.getOffhandItem();
+                ItemCooldowns cooldowns = player.getCooldowns();
 
-                } else {
-                    offHandThrowingItem.handleAttributesAndAnimation(player, offHand, true);
-                    player.resetAttackStrengthTicker();
-                    previousHand = InteractionHand.OFF_HAND;
+                if (mainHand.getItem() instanceof BrutalityThrowingItem mainHandThrowingItem && offHand.getItem() instanceof BrutalityThrowingItem offHandThrowingItem) { // Dual wielding Throwing Items
+                    if (!cooldowns.isOnCooldown(mainHandThrowingItem) && !cooldowns.isOnCooldown(offHandThrowingItem)) {
+                        if (previousHand == InteractionHand.OFF_HAND) { // Throw Main Hand
+                            mainHandThrowingItem.handleAttributesAndAnimation(player, mainHand, false);
+                            player.resetAttackStrengthTicker();
+                            previousHand = InteractionHand.MAIN_HAND;
+
+                        } else {
+                            offHandThrowingItem.handleAttributesAndAnimation(player, offHand, true);
+                            player.resetAttackStrengthTicker();
+                            previousHand = InteractionHand.OFF_HAND;
+                        }
+                    }
+                } else if (mainHand.getItem() instanceof BrutalityThrowingItem mainHandThrowingItem) {
+                    if (!cooldowns.isOnCooldown(mainHandThrowingItem)) {
+                        mainHandThrowingItem.handleAttributesAndAnimation(player, mainHand, false);
+                        player.resetAttackStrengthTicker();
+                        previousHand = InteractionHand.OFF_HAND;
+                    }
                 }
-            } else if (mainHand.getItem() instanceof BrutalityThrowingItem mainHandThrowingItem) {
-                if (cooldowns.isOnCooldown(mainHandThrowingItem)) return;
-
-                mainHandThrowingItem.handleAttributesAndAnimation(player, mainHand, false);
-                player.resetAttackStrengthTicker();
-                previousHand = InteractionHand.OFF_HAND;
             }
-
-
         }
+
+        List<Player> nearbyPlayers = level.getNearbyPlayers(TargetingConditions.DEFAULT, player, player.getBoundingBox().inflate(5));
+        for (Player otherPlayer : nearbyPlayers) {
+            Optional<ICuriosItemHandler> handlerOpt = CuriosApi.getCuriosInventory(otherPlayer).resolve();
+            if (handlerOpt.isPresent()) {
+                ICuriosItemHandler handler = handlerOpt.get();
+                if (handler.isEquipped(BrutalityModItems.CROWN_OF_DOMINATION.get())) {
+                    System.out.println(otherPlayer + " has crown of domination, setting crouch = true");
+                    player.crouching = true;
+                    break;
+                }
+            }
+        }
+
     }
 }

@@ -6,8 +6,7 @@ import net.goo.brutality.magic.SpellStorage;
 import net.goo.brutality.magic.spells.voidwalker.GraviticImplosionSpell;
 import net.goo.brutality.magic.spells.voidwalker.SpatialRuptureSpell;
 import net.goo.brutality.magic.spells.voidwalker.VoidWalkSpell;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.registry.BrutalityModAttributes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -15,13 +14,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.UUID;
 
 public class VoidTome extends BaseMagicTome {
 
-    public VoidTome(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
-        super(rarity, descriptionComponents);
+
+    public VoidTome(Rarity rarity) {
+        super(rarity);
     }
 
     @Override
@@ -44,7 +43,7 @@ public class VoidTome extends BaseMagicTome {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(modifiers);
             builder.put(
-                    ModAttributes.VOIDWALKER_SCHOOL_LEVEL.get(),
+                    BrutalityModAttributes.VOIDWALKER_SCHOOL_LEVEL.get(),
                     new AttributeModifier(
                             VOID_SCHOOL_BOOST_UUID,
                             "Void School bonus",

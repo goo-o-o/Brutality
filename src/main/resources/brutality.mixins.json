@@ -7,6 +7,7 @@
   "mixins": [
     "AbstractArrowMixin",
     "BedBlockMixin",
+    "BlockMixin",
     "BowItemMixin",
     "ClientboundSetEntityMotionPacketMixin",
     "CombatTrackerMixin",
@@ -34,12 +35,11 @@
     "VanillaHopperItemHandlerMixin",
     "VillagerMixin"
   ],
-  "priority": 1200,
+  "priority": 900,
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "StyleMixin",
     "BiomeMixin",
     "ClientPacketListenerMixin",
     "DebugRendererMixin",
@@ -49,7 +49,9 @@
     "ItemInHandRendererMixin",
     "KeyboardInputMixin",
     "LivingEntityRendererMixin",
+    "LocalPlayerMixin",
     "MouseHandlerMixin",
-    "QuadrupedModelMixin"
+    "QuadrupedModelMixin",
+    "StyleMixin"
   ]
 }

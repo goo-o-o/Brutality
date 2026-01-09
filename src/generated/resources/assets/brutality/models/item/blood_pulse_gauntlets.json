@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/hands/blood_pulse_gauntlets/blood_pulse_gauntlets_inventory"
+    "layer0": "brutality:item/curio/blood_pulse_gauntlets/blood_pulse_gauntlets_inventory"
   }
 }

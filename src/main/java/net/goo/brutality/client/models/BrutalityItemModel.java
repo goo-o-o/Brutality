@@ -3,7 +3,7 @@ package net.goo.brutality.client.models;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.renderers.item.BrutalityItemRenderer;
 import net.goo.brutality.item.base.BrutalityBlockItem;
-import net.goo.brutality.item.base.BrutalityCurioItem;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
 import net.goo.brutality.item.base.BrutalityGeoItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

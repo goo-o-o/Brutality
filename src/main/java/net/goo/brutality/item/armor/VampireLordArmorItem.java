@@ -11,8 +11,8 @@ import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.particle.providers.WaveParticleData;
 import net.goo.brutality.registry.*;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.ModExplosionHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -39,7 +39,7 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
 public class VampireLordArmorItem extends BrutalityArmorItem {
 
-    public VampireLordArmorItem(ArmorMaterial pMaterial, Type pType, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public VampireLordArmorItem(ArmorMaterial pMaterial, Type pType, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pMaterial, pType, rarity, descriptionComponents);
     }
 
@@ -49,7 +49,7 @@ public class VampireLordArmorItem extends BrutalityArmorItem {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
             UUID modifierUUID = UUID.nameUUIDFromBytes((this.getType().getName() + this.getMaterial() + pEquipmentSlot).getBytes());
             builder.putAll(super.getDefaultAttributeModifiers(pEquipmentSlot));
-            builder.put(ModAttributes.OMNIVAMP.get(), new AttributeModifier(modifierUUID, "Omnivamp buff", 0.1F, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(BrutalityModAttributes.OMNIVAMP.get(), new AttributeModifier(modifierUUID, "Omnivamp buff", 0.1F, AttributeModifier.Operation.MULTIPLY_BASE));
             return builder.build();
         }
         return super.getDefaultAttributeModifiers(pEquipmentSlot);

@@ -2,7 +2,7 @@ package net.goo.brutality.item.generic;
 
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class PrisonKey extends BrutalityGenericItem {
 
-    public PrisonKey(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public PrisonKey(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

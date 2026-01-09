@@ -12,7 +12,7 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.SIZE;
 
 public class BrutalityGeoEntityModel<T extends Entity & BrutalityGeoEntity> extends GeoModel<T> {
     public GeoEntityRenderer<T> renderer;

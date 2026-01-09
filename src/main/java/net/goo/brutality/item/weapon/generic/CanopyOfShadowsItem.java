@@ -1,7 +1,7 @@
 package net.goo.brutality.item.weapon.generic;
 
 import net.goo.brutality.item.base.BrutalityGenericItem;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -16,7 +16,7 @@ import java.util.List;
 public class CanopyOfShadowsItem extends BrutalityGenericItem {
 
 
-    public CanopyOfShadowsItem(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public CanopyOfShadowsItem(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

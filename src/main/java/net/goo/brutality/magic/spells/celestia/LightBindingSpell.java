@@ -3,7 +3,7 @@ package net.goo.brutality.magic.spells.celestia;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.registry.BrutalityModMobEffects;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -17,8 +17,8 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.*;
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.DURATION;
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.DURATION;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.RANGE;
 
 public class LightBindingSpell extends BrutalitySpell {
 

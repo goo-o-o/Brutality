@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/hands/handcuffs/handcuffs_inventory"
+    "layer0": "brutality:item/curio/handcuffs/handcuffs_inventory"
   }
 }

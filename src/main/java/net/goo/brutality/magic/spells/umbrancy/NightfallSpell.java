@@ -2,7 +2,7 @@ package net.goo.brutality.magic.spells.umbrancy;
 
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.magic.BrutalitySpell;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -15,8 +15,8 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 
 import static net.goo.brutality.magic.IBrutalitySpell.SpellCategory.*;
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.DURATION;
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.DURATION;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.RANGE;
 
 public class NightfallSpell extends BrutalitySpell {
 

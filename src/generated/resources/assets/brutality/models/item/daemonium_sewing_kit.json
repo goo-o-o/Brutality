@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/daemonium_sewing_kit/daemonium_sewing_kit_inventory"
+    "layer0": "brutality:item/curio/daemonium_sewing_kit/daemonium_sewing_kit_inventory"
   }
 }

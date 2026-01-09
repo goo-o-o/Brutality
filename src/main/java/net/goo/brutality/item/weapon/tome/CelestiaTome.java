@@ -2,8 +2,7 @@ package net.goo.brutality.item.weapon.tome;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.registry.BrutalityModAttributes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -13,16 +12,16 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 
-import java.util.List;
 import java.util.UUID;
 
 public class CelestiaTome extends BaseMagicTome {
 
-    public CelestiaTome(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
-        super(rarity, descriptionComponents);
-    }
 
     UUID CELESTIA_SCHOOL_BOOST_UUID = UUID.fromString("e0ff2fb1-3857-4508-be0f-ed20beadcef8");
+
+    public CelestiaTome(Rarity rarity) {
+        super(rarity);
+    }
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
@@ -32,7 +31,7 @@ public class CelestiaTome extends BaseMagicTome {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(modifiers);
             builder.put(
-                    ModAttributes.CELESTIA_SCHOOL_LEVEL.get(),
+                    BrutalityModAttributes.CELESTIA_SCHOOL_LEVEL.get(),
                     new AttributeModifier(
                             CELESTIA_SCHOOL_BOOST_UUID,
                             "Celestia School bonus",

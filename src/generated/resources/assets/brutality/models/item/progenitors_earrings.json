@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/head/progenitors_earrings/progenitors_earrings_inventory"
+    "layer0": "brutality:item/curio/progenitors_earrings/progenitors_earrings_inventory"
   }
 }

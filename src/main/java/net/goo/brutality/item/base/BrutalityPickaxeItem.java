@@ -2,7 +2,7 @@ package net.goo.brutality.item.base;
 
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -20,9 +21,9 @@ import java.util.function.Consumer;
 public class BrutalityPickaxeItem extends PickaxeItem implements BrutalityGeoItem {
     protected String identifier;
     protected Rarity rarity;
-    protected List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents;
+    protected List<ItemDescriptionComponent> descriptionComponents;
 
-    public BrutalityPickaxeItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public BrutalityPickaxeItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, String identifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, new Item.Properties());
         this.identifier = identifier;
         this.rarity = rarity;
@@ -77,6 +78,11 @@ public class BrutalityPickaxeItem extends PickaxeItem implements BrutalityGeoIte
     }
 
     AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+
+    }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

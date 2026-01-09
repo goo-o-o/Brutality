@@ -4,8 +4,8 @@ import net.goo.brutality.config.BrutalityCommonConfig;
 import net.goo.brutality.entity.explosion.BrutalityExplosion;
 import net.goo.brutality.entity.explosion.NuclearExplosion;
 import net.goo.brutality.item.base.BrutalityHammerItem;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.ModExplosionHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -30,7 +30,7 @@ import java.util.List;
 public class AtomicJudgementHammer extends BrutalityHammerItem {
 
 
-    public AtomicJudgementHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public AtomicJudgementHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
 

@@ -3,7 +3,7 @@ package net.goo.brutality.item.weapon.trident;
 import net.goo.brutality.entity.projectile.trident.ThrownGungnir;
 import net.goo.brutality.item.base.BrutalityTridentItem;
 import net.goo.brutality.registry.BrutalityModEntities;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -34,7 +34,7 @@ public class GungnirTrident extends BrutalityTridentItem {
             Enchantments.LOYALTY
     );
 
-    public GungnirTrident(float attackDamageModifier, float attackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public GungnirTrident(float attackDamageModifier, float attackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(attackDamageModifier, attackSpeedModifier, rarity, descriptionComponents);
     }
 

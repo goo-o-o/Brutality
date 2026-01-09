@@ -532,7 +532,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(TerramityModItems.CONDUCTITE_UPGRADE_SMITHING_TEMPLATE.get()), has(TerramityModItems.CONDUCTITE_UPGRADE_SMITHING_TEMPLATE.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.ADDITION.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.ADDITION_CHARM.get())
                 .pattern(" # ")
                 .pattern("#@#")
                 .pattern(" # ")
@@ -1455,16 +1455,6 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(BrutalityModItems.POCKET_BLACK_HOLE.get()), has(BrutalityModItems.POCKET_BLACK_HOLE.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.ARCHMAGES_TRICK.get())
-                .pattern("ABA")
-                .pattern("BCB")
-                .pattern("ABD")
-                .define('A', TerramityModItems.DIMLITE_INGOT.get())
-                .define('B', TerramityModItems.ANTIPRISM.get())
-                .define('C', TerramityModItems.FORTUNES_FAVOR.get())
-                .define('D', TerramityModItems.DIMLITE_BLOCK.get())
-                .unlockedBy(getHasName(TerramityModItems.ANTIPRISM.get()), has(TerramityModItems.ANTIPRISM.get()))
-                .save(consumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityModItems.BRUTESKIN_BELT.get())
                 .pattern(" A ")

@@ -7,7 +7,7 @@ import net.goo.brutality.item.base.BrutalityScytheItem;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -30,7 +30,6 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.UUID;
@@ -42,15 +41,11 @@ public class DarkinScythe extends BrutalityScytheItem {
     private final UUID DARKIN_SCYTHE_AS_UUID = UUID.fromString("5386a75c-a1df-4b83-a62d-04dcb0fce7ff");
     private final UUID DARKIN_SCYTHE_AD_UUID = UUID.fromString("57b3f5d9-9f58-45d0-80f5-11ad07675bc6");
 
-    public DarkinScythe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public DarkinScythe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
-    }
 
     @Override
     public String texture(@javax.annotation.Nullable ItemStack stack) {

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/hemograft_needle/hemograft_needle_inventory"
+    "layer0": "brutality:item/curio/hemograft_needle/hemograft_needle_inventory"
   }
 }

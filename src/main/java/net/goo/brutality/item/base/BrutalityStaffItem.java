@@ -2,7 +2,7 @@ package net.goo.brutality.item.base;
 
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
@@ -14,16 +14,17 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 public class BrutalityStaffItem extends AxeItem implements BrutalityGeoItem {
-    private final List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents;
+    private final List<ItemDescriptionComponent> descriptionComponents;
     public String identifier;
     public Rarity rarity;
 
-    public BrutalityStaffItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public BrutalityStaffItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, new Properties());
         this.rarity = rarity;
         this.descriptionComponents = descriptionComponents;
@@ -80,6 +81,11 @@ public class BrutalityStaffItem extends AxeItem implements BrutalityGeoItem {
     }
 
     AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+
+    }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

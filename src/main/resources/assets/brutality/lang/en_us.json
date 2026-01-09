@@ -17,10 +17,26 @@
   "item.brutality.boiling_blood.passive.1": "§e -Take 25% increased Damage while §cEnraged",
 
   "item.brutality.bead_of_life": "Bead of Life",
-  "item.brutality.bead_of_life.passive.1": "§e -Grants§d Regeneration III§e for 2 seconds whenever the wearer takes Damage",
+  "item.brutality.earthen_blessing": "Earthen Blessing",
+  "item.brutality.bead_of_life.passive.1": "§e -Grants §dRegeneration III §efor 2 seconds whenever the wearer takes Damage",
 
+  "item.brutality.ice_cream_sandwich": "Ice Cream Sandwich",
+  "item.brutality.ice_cream_sandwich.passive.1": "§9 +1.2x Gastronomy Multiplier damage",
+  "item.brutality.ender_dragon_stem_cells": "Ender Dragon Stem Cells",
   "item.brutality.stress_pills": "Stress Pills",
+  "item.brutality.stress_pills.passive.1": "§e -Cannot be equipped alongside Serotonin Pills",
   "item.brutality.stress_pills.active.1": "§e -Instantly fill up your Rage Meter",
+  "item.brutality.serotonin_pills": "Serotonin Pills",
+  "item.brutality.serotonin_pills.passive.1": "§e -Cannot be equipped alongside Stress Pills",
+  "item.brutality.serotonin_pills.active.1": "§e -Empty your Rage Meter",
+  "item.brutality.serotonin_pills.active.2": "§e -Grants Tranquility X for 10 seconds",
+
+  "item.brutality.lucky_bookmark": "Lucky Bookmark",
+  "item.brutality.lucky_bookmark.passive.1": "§e -Gain 25%§r 💦§9 Mana Regen§e per level of §aLuck",
+
+  "item.brutality.pack_of_cigarettes": "Pack of Cigarettes",
+  "item.brutality.prismatic_orb": "Prismatic Orb",
+
 
   "item.brutality.cinder_block": "Cinder Block",
   "item.brutality.beach_ball": "Beach Ball",
@@ -252,6 +268,8 @@
   "item.brutality.hf_murasama.on_swing.1": "§e -Deals 10 Damage to all mobs in a 2.5 block radius",
   "item.brutality.hf_murasama.passive.1": "§e -Half of all Damage dealt pierces through armor",
 
+
+
   "item.brutality.last_prism": "Last Prism",
   "item.brutality.last_prism.on_hold_right_click.1": "§e -Fire a disintegrating ray of light",
   "item.brutality.last_prism.mana_cost.1": "§730/s",
@@ -309,6 +327,10 @@
   "item.brutality.salt_and_pepper": "Salt and Pepper",
   "item.brutality.salt_and_pepper.passive.1": "§e -All Damage inflicts §7Peppered II§e and §fSalted II§e for 6 seconds",
 
+  "item.brutality.perfect_cell": "Perfect Cell",
+  "item.brutality.perfect_cell.passive.1": "§e -Grants §fImmunity",
+  "item.brutality.perfect_cell.passive.2": "§e -Additionally grants immunity to other debuffs",
+
   "item.brutality.smoke_stone": "Smoke Stone",
   "item.brutality.smoke_stone.passive.1": "§e -True melee hits inflict §7Smoked I§e for 3 seconds",
   "item.brutality.the_smokehouse": "The Smokehouse",
@@ -336,6 +358,8 @@
   "item.brutality.lollipop_of_eternity.passive.1": "§e -All Damage inflicts §eS§6p§cr§4i§dn§5k§1l§9e§3d §bI§aI§e§2I, §fGlazed III§e, §6Caramelized III§e and §dCandied III§e for 6 seconds",
 
 
+  "item.brutality.omega_gauntlet": "Omega Gauntlet",
+  "item.brutality.broken_controller": "Broken Controller",
   "item.brutality.fuzzy_dice": "Fuzzy Dice",
   "item.brutality.fuzzy_dice.passive.1": "§e -You have a chance to Double Crit for 2x Crit Damage",
 
@@ -484,7 +508,7 @@
   "item.brutality.multiplication": "Multiplication (x)",
 
   "item.brutality.subtraction": "Subtraction (-)",
-  "item.brutality.subtraction.passive.1": "§e -Reduces Damage taken by 1 heart",
+  "item.brutality.subtraction.passive.1": "§e -Reduces flat Damage taken by 3",
 
   "item.brutality.division": "Division (÷)",
   "item.brutality.division.passive.1": "§e -Divides Damage taken by 1.1",
@@ -555,54 +579,41 @@
   "item.brutality.blood_stone.passive.2": "§e -True melee hits grant §cLifesteal§e for 1.5 seconds",
 
   "item.brutality.rage_stone": "Rage Stone",
-  "item.brutality.rage_stone.passive.1": "§9 Allows the user to access the §cRage Bar",
-  "item.brutality.rage_stone.passive.2": "§9 +1.3x Melee damage",
+  "item.brutality.rage_stone.passive.1": "§9 +1.3x Melee damage",
 
   "item.brutality.mechanical_aorta": "Mechanical Aorta",
   "item.brutality.mechanical_aorta.lore.1": "§9Really gets your blood pumping!",
-  "item.brutality.mechanical_aorta.passive.1": "§9 Allows the user to access the §cRage Bar",
-  "item.brutality.mechanical_aorta.passive.2": "§e -Constantly take damage during §cEnraged§e",
+  "item.brutality.mechanical_aorta.passive.1": "§e -Constantly take damage during §cEnraged§e",
 
   "item.brutality.heart_of_wrath": "Heart of Wrath",
-  "item.brutality.heart_of_wrath.passive.1": "§9 Allows the user to access the §cRage Bar",
 
   "item.brutality.hate_sigil": "Hate Sigil",
-  "item.brutality.hate_sigil.passive.1": "§9 Allows the user to access the §cRage Bar",
 
   "item.brutality.eye_for_violence": "Eye for Violence",
-  "item.brutality.eye_for_violence.passive.1": "§9 Allows the user to access the §cRage Bar",
-  "item.brutality.eye_for_violence.passive.2": "§e -Highlights all mobs within a 25 block radius while §cEnraged",
+  "item.brutality.eye_for_violence.passive.1": "§e -Highlights all mobs within a 25 block radius while §cEnraged",
 
   "item.brutality.blood_pulse_gauntlets": "Blood Pulse Gauntlets",
-  "item.brutality.blood_pulse_gauntlets.passive.1": "§9 Allows the user to access the §cRage Bar",
-  "item.brutality.blood_pulse_gauntlets.passive.2": "§e -Hitting mobs while §cEnraged§e causes a §cBlood Explosion",
+  "item.brutality.blood_pulse_gauntlets.passive.1": "§e -Hitting mobs while §cEnraged§e causes a §cBlood Explosion",
 
   "item.brutality.spite_shard": "Spite Shard",
-  "item.brutality.spite_shard.passive.1": "§9 Allows the user to access the §cRage Bar",
-  "item.brutality.spite_shard.passive.2": "§e -Gain Rage equivalent to a fifth of all aggro'd mobs within a 5 block radius",
+  "item.brutality.spite_shard.passive.1": "§e -Gain Rage equivalent to a fifth of all aggro'd mobs within a 5 block radius",
 
   "item.brutality.blood_howl_pendant": "Blood Howl Pendant",
-  "item.brutality.blood_howl_pendant.passive.1": "§9 Allows the user to access the §cRage Bar",
-  "item.brutality.blood_howl_pendant.passive.2": "§9 +50% §cRage Gain§9 when below 50%§r ❤§9 Health",
+  "item.brutality.blood_howl_pendant.passive.1": "§9 +50% §cRage Gain§9 when below 50%§r ❤§9 Health",
 
   "item.brutality.battle_scars": "Battle Scars",
-  "item.brutality.battle_scars.passive.1": "§9 Allows the user to access the §cRage Bar",
-  "item.brutality.battle_scars.passive.2": "§9 +15% Rage Gain for each active §cHarmful§9 effect",
+  "item.brutality.battle_scars.passive.1": "§9 +15% Rage Gain for each active §cHarmful§9 effect",
 
   "item.brutality.rampage_clock": "Rampage Clock",
-  "item.brutality.rampage_clock.passive.1": "§9 Allows the user to access the §cRage Bar",
-  "item.brutality.rampage_clock.passive.2": "§e -Slaying mobs while §cEnraged§e extends the duration of §cRage§e by 1 second",
+  "item.brutality.rampage_clock.passive.1": "§e -Slaying mobs while §cEnraged§e extends the duration of §cRage§e by 1 second",
 
   "item.brutality.pain_catalyst": "Pain Catalyst",
-  "item.brutality.pain_catalyst.passive.1": "§9 Allows the user to access the §cRage Bar",
-  "item.brutality.pain_catalyst.passive.2": "§e -100% of Damage taken is added as §cRage",
+  "item.brutality.pain_catalyst.passive.1": "§e -100% of Damage taken is added as §cRage",
 
   "item.brutality.grudge_totem": "Grudge Totem",
-  "item.brutality.grudge_totem.passive.1": "§9 Allows the user to access the §cRage Bar",
-  "item.brutality.grudge_totem.passive.2": "§e -The user is immortal when they are §cEnraged",
+  "item.brutality.grudge_totem.passive.1": "§e -The user is immortal when they are §cEnraged",
 
   "item.brutality.fury_band": "Fury Band",
-  "item.brutality.fury_band.passive.1": "§9 Allows the user to access the §cRage Bar",
 
   "item.brutality.good_book": "The Good Book",
   "item.brutality.good_book.passive.1": "§9 +50% Damage dealt to undead mobs",
@@ -696,13 +707,22 @@
   "item.brutality.rune_of_delta": "Rune of Delta",
   "item.brutality.rune_of_delta.passive.1": "§e -Additional 1§r 💦§9 Mana Regen§e per point of light level below 7 at the wearer's position",
 
+  "item.brutality.fury_battery": "Fury Battery",
+  "item.brutality.rage_bait": "Rage Bait",
+  "item.brutality.sad_uvogre": "Sad Uvogre",
+  "item.brutality.sad_uvogre.lore.1": "§9:sad_uvogre:",
+  "item.brutality.sad_uvogre.passive.1": "§e -Deal 25% more Damage to entities shorter than you",
+
+  "item.brutality.seratonin_pills": "Seratonin Pills",
+  "item.brutality.seratonin_pills.active.1": "§e -Remove all Rage Points and grants §bTranquility §efor 10 seconds",
+  "item.brutality.seratonin_pills.active.2": "§e -The level of §bTranquility §egained is equivalent to the Rage Level that could be obtained with the consumed Rage Points",
+
   "item.brutality.conservative_concoction": "Conservative Concoction",
   "item.brutality.conservative_concoction.passive.1": "§e -Gain up to 100% increased§r 💦§9 Mana Regen§e Based on how close to§r 🔵§9 Max Mana§e the wearer is",
 
   "item.brutality.pride": "Sin of Pride",
   "item.brutality.pride.passive.1": "§e -Grants more Damage the fuller the wearer's§r ❤§9 Health",
   "item.brutality.wrath": "Sin of Wrath",
-  "item.brutality.wrath.passive.1": "§9 Allows the user to access the §cRage Bar",
   "item.brutality.greed": "Sin of Greed",
   "item.brutality.greed.passive.1": "§e -Grants 2% Damage for each mob within 7 blocks (Max 50%)",
   "item.brutality.sloth": "Sin of Sloth",
@@ -755,11 +775,30 @@
   "item.brutality.forbidden_orb": "Forbidden Orb",
   "item.brutality.forbidden_orb.passive.1": "§e -Immediately die if your§r 💧§9 Mana§e falls below 30%",
 
+  "item.brutality.mask_of_madness": "Mask Of Madness",
+  "item.brutality.aqua_ruler": "Aqua Ruler",
+  "item.brutality.face_pie": "Face Pie",
+  "item.brutality.quantum_lubricant": "Quantum Lubricant",
+  "item.brutality.inertia_booster": "Inertia Booster",
+  "item.brutality.elbow_grease": "Elbow Grease",
+  "item.brutality.petroleum_jelly": "Petroleum Jelly",
+  "item.brutality.zephyr_in_a_bottle": "Zephyr in a Bottle",
+  "item.brutality.aerophobic_nanocoating": "Aerophobic Nanocoating",
+
+  "item.brutality.portable_trampoline": "Portable Trampoline",
+  "item.brutality.portable_trampoline.passive.1": "§e -Allows the user to bounce anywhere",
+  "item.brutality.omnidirectional_movement_gear": "Omnidirectional Movement Gear",
+  "item.brutality.omnidirectional_movement_gear.passive.1": "§e -Allows the wearer to Sprint in any direction",
+
   "item.brutality.blood_orb": "Blood Orb",
   "item.brutality.blood_orb.passive.1": "§e -Gain 15§r 💧§9 Mana§e per heart of Damage taken",
 
   "item.brutality.crown_of_tyranny": "Crown of Tyranny",
   "item.brutality.crown_of_tyranny.passive.1": "§e -Deal up to 75% additional Damage based on the target's missing§r ❤§9 Health",
+
+  "item.brutality.crown_of_domination": "Crown of Domination",
+  "item.brutality.crown_of_domination.lore.1": "§dMultiplayer Only",
+  "item.brutality.crown_of_domination.passive.1": "§e -Nearby Players are forced to bow",
 
   "item.brutality.portable_quantum_thingamabob": "Portable Quantum Thingamabob",
   "item.brutality.portable_quantum_thingamabob.on_hit.1": "§e -Grants Mirroring for 1 second",
@@ -1008,6 +1047,10 @@
   "item.brutality.anklet_of_the_imprisoned": "Anklet of The Imprisoned",
   "item.brutality.anklet_of_the_imprisoned.passive.1": "§e -Gain 15%§r 💥§9 Critical Chance§e and §r 🧨§9 Critical Damage§e per missing§r ❤§9 Heart",
   "item.brutality.anklet_of_the_imprisoned.passive.2": "§e -Take 1 Damage per second",
+
+  "item.brutality.suspiciously_large_handle": "Suspiciously Large Handle",
+  "item.brutality.suspiciously_large_handle.passive.1": "§e -Sets the wearer's Attack Speed to 0.65",
+  "item.brutality.suspiciously_large_handle.passive.2": "§e -For every 0.01 Attack Speed lost, gain 0.05 Attack Damage",
 
   "item.brutality.empty_anklet": "Empty Anklet",
   "item.brutality.davys_anklet": "Davy's Anklet",
@@ -1398,9 +1441,11 @@
   "creativeTab.brutality_material_tab": "Brutality Materials",
   "creativeTab.brutality_block_tab": "Brutality Blocks",
 
-  "attribute.name.generic.rage_time_multiplier": "§f⭕§r Rage Time",
+  "attribute.name.generic.ground_friction": "Ground Friction",
+  "attribute.name.generic.air_friction": "Air Friction",
+  "attribute.name.generic.rage_time": "§f⭕§r Rage Time",
   "attribute.name.generic.rage_level": "§f🔴§r Rage Level",
-  "attribute.name.generic.rage_gain": "§f💢§r Rage Gain",
+  "attribute.name.generic.damage_to_rage_ratio": "§f💢§r Damage To Rage Ratio",
   "attribute.name.generic.max_rage": "§f😡§r Max Rage",
 
   "attribute.name.generic.max_mana": "§f🔵§r Max Mana",

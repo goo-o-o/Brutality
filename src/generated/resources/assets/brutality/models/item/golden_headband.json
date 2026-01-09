@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/head/golden_headband/golden_headband_inventory"
+    "layer0": "brutality:item/curio/golden_headband/golden_headband_inventory"
   }
 }

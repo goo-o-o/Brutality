@@ -6,7 +6,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.spells.cosmic.StarStreamEntity;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModSounds;
-import net.goo.brutality.registry.ModAttributes;
+import net.goo.brutality.registry.BrutalityModAttributes;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -90,7 +90,7 @@ public class SealUtils implements IItemDecorator {
 
 
             switch (sealType) {
-                case BLACK -> newModifiers.put(ModAttributes.LETHALITY.get(), new AttributeModifier(
+                case BLACK -> newModifiers.put(BrutalityModAttributes.LETHALITY.get(), new AttributeModifier(
                         modifierUUID, "black_seal", 2F, AttributeModifier.Operation.ADDITION
                 ));
                 case BLUE -> newModifiers.put(Attributes.ARMOR, new AttributeModifier(
@@ -99,13 +99,13 @@ public class SealUtils implements IItemDecorator {
                 case GREEN -> newModifiers.put(Attributes.LUCK, new AttributeModifier(
                         modifierUUID, "green_seal", 1.0F, AttributeModifier.Operation.ADDITION
                 ));
-                case ORANGE -> newModifiers.put(ModAttributes.CRITICAL_STRIKE_CHANCE.get(), new AttributeModifier(
+                case ORANGE -> newModifiers.put(BrutalityModAttributes.CRITICAL_STRIKE_CHANCE.get(), new AttributeModifier(
                         modifierUUID, "orange_seal", 0.05F, AttributeModifier.Operation.MULTIPLY_BASE
                 ));
-                case PINK -> newModifiers.put(ModAttributes.LIFESTEAL.get(), new AttributeModifier(
+                case PINK -> newModifiers.put(BrutalityModAttributes.LIFESTEAL.get(), new AttributeModifier(
                         modifierUUID, "pink_seal", 0.05F, AttributeModifier.Operation.MULTIPLY_BASE
                 ));
-                case PURPLE -> newModifiers.put(ModAttributes.TENACITY.get(), new AttributeModifier(
+                case PURPLE -> newModifiers.put(BrutalityModAttributes.TENACITY.get(), new AttributeModifier(
                         modifierUUID, "purple_seal", 0.15F, AttributeModifier.Operation.MULTIPLY_BASE
                 ));
                 case RED -> newModifiers.put(Attributes.MAX_HEALTH, new AttributeModifier(
@@ -117,7 +117,7 @@ public class SealUtils implements IItemDecorator {
                 case YELLOW -> newModifiers.put(Attributes.ATTACK_SPEED, new AttributeModifier(
                         modifierUUID, "yellow_seal", 0.1F, AttributeModifier.Operation.MULTIPLY_TOTAL
                 ));
-                case QUANTITE -> newModifiers.put(ModAttributes.ARMOR_PENETRATION.get(), new AttributeModifier(
+                case QUANTITE -> newModifiers.put(BrutalityModAttributes.ARMOR_PENETRATION.get(), new AttributeModifier(
                         modifierUUID, "quantite_seal", 0.05F, AttributeModifier.Operation.MULTIPLY_TOTAL
                 ));
                 case GLASS -> {
@@ -127,7 +127,7 @@ public class SealUtils implements IItemDecorator {
                     newModifiers.put(Attributes.ARMOR, new AttributeModifier(
                             modifierUUID, "glass_seal", -1,
                             AttributeModifier.Operation.MULTIPLY_TOTAL));
-                    newModifiers.put(ModAttributes.DAMAGE_TAKEN.get(), new AttributeModifier(
+                    newModifiers.put(BrutalityModAttributes.DAMAGE_TAKEN.get(), new AttributeModifier(
                             modifierUUID, "glass_seal", 0.25F,
                             AttributeModifier.Operation.MULTIPLY_TOTAL));
                 }

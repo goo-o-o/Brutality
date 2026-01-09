@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/head/eye_for_violence/eye_for_violence_inventory"
+    "layer0": "brutality:item/curio/eye_for_violence/eye_for_violence_inventory"
   }
 }

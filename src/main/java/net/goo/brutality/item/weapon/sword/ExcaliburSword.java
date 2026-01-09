@@ -9,7 +9,7 @@
 //import net.goo.brutality.network.c2sShootProjectilePacket;
 //import net.goo.brutality.registry.BrutalityModEntities;
 //import net.goo.brutality.util.helpers.AttributeHelper;
-//import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+//import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 //import net.goo.brutality.util.helpers.ProjectileHelper;
 //import net.minecraft.nbt.CompoundTag;
 //import net.minecraft.nbt.StringTag;

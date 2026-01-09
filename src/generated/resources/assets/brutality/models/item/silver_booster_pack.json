@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/silver_booster_pack/silver_booster_pack_inventory"
+    "layer0": "brutality:item/curio/silver_booster_pack/silver_booster_pack_inventory"
   }
 }

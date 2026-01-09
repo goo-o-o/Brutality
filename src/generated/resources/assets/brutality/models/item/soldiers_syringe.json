@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/soldiers_syringe/soldiers_syringe_inventory"
+    "layer0": "brutality:item/curio/soldiers_syringe/soldiers_syringe_inventory"
   }
 }

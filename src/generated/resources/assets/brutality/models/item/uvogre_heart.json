@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/heart/uvogre_heart/uvogre_heart_inventory"
+    "layer0": "brutality:item/curio/uvogre_heart/uvogre_heart_inventory"
   }
 }

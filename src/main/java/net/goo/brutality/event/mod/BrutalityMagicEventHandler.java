@@ -11,9 +11,8 @@ import net.goo.brutality.magic.SpellStorage;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -85,11 +84,7 @@ public class BrutalityMagicEventHandler {
         for (MulticastConfig cfg : configs) {
             if (handler.isEquipped(cfg.item().get())) {
                 float threshold = cfg.baseThreshold();
-                if (player.hasEffect(MobEffects.LUCK)) {
-                    threshold += (player.getEffect(MobEffects.LUCK).getAmplifier() + 1) * cfg.luckBonus();
-                }
-
-                player.sendSystemMessage(Component.literal("Threshold: " + threshold));
+                threshold += (float) player.getAttributeValue(Attributes.LUCK) * cfg.luckBonus();
 
                 if (roll < threshold) {
                     Collections.shuffle(entries, new Random());
@@ -126,9 +121,7 @@ public class BrutalityMagicEventHandler {
         for (RecursorConfig cfg : configs) {
             if (handler.isEquipped(cfg.item().get())) {
                 float threshold = cfg.baseThreshold();
-                if (player.hasEffect(MobEffects.LUCK)) {
-                    threshold += (player.getEffect(MobEffects.LUCK).getAmplifier() + 1F) * cfg.luckBonusPerLevel();
-                }
+                threshold += (float) player.getAttributeValue(Attributes.LUCK) * cfg.luckBonusPerLevel();
 
                 int count = 0;
                 float currentThreshold = threshold;

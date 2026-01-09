@@ -6,10 +6,10 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.registry.BrutalityCapabilities;
-import net.goo.brutality.registry.ModAttributes;
+import net.goo.brutality.registry.BrutalityModAttributes;
 import net.goo.brutality.util.SealUtils;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.ThrowableWeaponHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -35,36 +35,62 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
+    protected float throwInaccuracy = 0;
+    protected float initialThrowVelocity = 1;
+
+    public enum THROW_ANIMATION {
+        SWING(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "throw_swing")),
+        DROP(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "throw_drop"));
+
+        private final ResourceLocation animation;
+
+        THROW_ANIMATION(ResourceLocation animation) {
+            this.animation = animation;
+        }
+
+        public ResourceLocation getAnimationResource() {
+            return animation;
+        }
+    }
+
+    protected Supplier<? extends EntityType<? extends Projectile>> entityTypeSupplier;
+    protected BrutalityCategories.AttackType attackType = BrutalityCategories.AttackType.BLUNT;
+    public THROW_ANIMATION throwAnimation = THROW_ANIMATION.DROP;
     protected Rarity rarity;
-    protected List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents;
+    protected List<ItemDescriptionComponent> descriptionComponents;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 
-    public BrutalityThrowingItem(int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public BrutalityThrowingItem(int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents, Supplier<? extends EntityType<? extends Projectile>> entityTypeSupplier) {
         super(new Item.Properties());
-
         this.rarity = rarity;
         this.descriptionComponents = descriptionComponents;
+        this.entityTypeSupplier = entityTypeSupplier;
         float attackDamage = (float) pAttackDamageModifier;
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", pAttackSpeedModifier, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
-
     }
 
+    public BrutalityThrowingItem(int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, Supplier<? extends EntityType<? extends Projectile>> entityTypeSupplier) {
+        this(pAttackDamageModifier, pAttackSpeedModifier, rarity, List.of(), entityTypeSupplier);
+    }
+
+
     public void handleThrowPacket(ItemStack stack, Player player) {
-        EntityType<? extends Projectile> entityType = this.getThrownEntity();
         Level level = player.level();
-        Projectile projectile = entityType.create(level);
+        Projectile projectile = entityTypeSupplier.get().create(level);
 
         if (projectile != null) {
             projectile.setPos(player.getEyePosition());
-            projectile.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, getThrowVelocity(player), getThrowInaccuracy());
+            projectile.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, getThrowVelocity(player), this.throwInaccuracy);
             projectile.setOwner(player);
 
             handleSealType(projectile, stack);
@@ -80,24 +106,28 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
         }
     }
 
-    public ResourceLocation getAnimationResourceLocation() {
-        return THROW_ANIMATION.SWING.getAnimationResource();
+
+    public BrutalityThrowingItem throwAnimation(THROW_ANIMATION throwAnimation) {
+        this.throwAnimation = throwAnimation;
+        return this;
     }
 
-    protected enum THROW_ANIMATION {
-        SWING(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "throw_swing")),
-        DROP(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "throw_drop"));
-
-        private final ResourceLocation animation;
-
-        THROW_ANIMATION(ResourceLocation animation) {
-            this.animation = animation;
-        }
-
-        public ResourceLocation getAnimationResource() {
-            return animation;
-        }
+    public BrutalityThrowingItem attackType(BrutalityCategories.AttackType attackType) {
+        this.attackType = attackType;
+        return this;
     }
+
+
+    public BrutalityThrowingItem initialVelocity(float initialThrowVelocity) {
+        this.initialThrowVelocity = initialThrowVelocity;
+        return this;
+    }
+
+    public BrutalityThrowingItem inaccuracy(float initialThrowAccuracy) {
+        this.throwInaccuracy = initialThrowAccuracy;
+        return this;
+    }
+
 
     @Override
     public int getMaxStackSize(ItemStack stack) {
@@ -151,16 +181,8 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
         return true;
     }
 
-    public EntityType<? extends Projectile> getThrownEntity() {
-        return EntityType.ARROW;
-    }
-
-    public float getInitialThrowVelocity() {
-        return 1;
-    }
-
     public float getThrowVelocity(Player player) {
-        return (float) (getInitialThrowVelocity() * player.getAttributeValue(ModAttributes.THROW_STRENGTH.get()));
+        return (float) (this.initialThrowVelocity * player.getAttributeValue(BrutalityModAttributes.THROW_STRENGTH.get()));
     }
 
     @Override
@@ -174,10 +196,6 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
         return true;
     }
 
-    public float getThrowInaccuracy() {
-        return 0;
-    }
-
     @Override
     public BrutalityCategories category() {
         return BrutalityCategories.ItemType.THROWING;
@@ -189,6 +207,11 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
     }
 
     AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+
+    }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

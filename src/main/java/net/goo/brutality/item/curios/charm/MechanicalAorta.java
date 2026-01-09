@@ -1,38 +1,20 @@
 package net.goo.brutality.item.curios.charm;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
-import net.goo.brutality.item.curios.base.BaseCharmCurio;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
 import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
-import java.util.UUID;
 
-public class MechanicalAorta extends BaseCharmCurio {
+public class MechanicalAorta extends BrutalityCurioItem {
 
 
-    public MechanicalAorta(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public MechanicalAorta(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
-    }
-
-
-    UUID MECH_AORTA_RAGE_GAIN_UUID = UUID.fromString("5a5cbb13-3506-4102-99c6-9c0b39bbb8c7");
-    UUID MECH_AORTA_RAGE_TIME_UUID = UUID.fromString("daa0998d-794d-4998-8734-0a77b161c4e4");
-
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-        builder.put(ModAttributes.RAGE_GAIN_MULTIPLIER.get(), new AttributeModifier(MECH_AORTA_RAGE_GAIN_UUID, "Rage Gain Buff", 2, AttributeModifier.Operation.MULTIPLY_TOTAL));
-        builder.put(ModAttributes.RAGE_TIME_MULTIPLIER.get(), new AttributeModifier(MECH_AORTA_RAGE_TIME_UUID, "Rage Time Debuff", -0.5, AttributeModifier.Operation.MULTIPLY_TOTAL));
-        return builder.build();
     }
 
     @Override

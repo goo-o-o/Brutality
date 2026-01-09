@@ -1,16 +1,13 @@
 package net.goo.brutality.item.weapon.throwing;
 
-import net.goo.brutality.item.BrutalityCategories;
 import net.goo.brutality.item.base.BrutalityThrowingItem;
-import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -45,37 +42,19 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class StyrofoamCup extends BrutalityThrowingItem {
 
 
-    public StyrofoamCup(int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents, Block block) {
-        super(pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
-        this.block = block;
-    }
-
-    @Override
-    public ResourceLocation getAnimationResourceLocation() {
-        return THROW_ANIMATION.DROP.getAnimationResource();
-    }
-
-    @Override
-    public BrutalityCategories.AttackType getAttackType() {
-        return BrutalityCategories.AttackType.BLUNT;
-    }
-
-    @Override
-    public EntityType<? extends Projectile> getThrownEntity() {
-        return BrutalityModEntities.STYROFOAM_CUP.get();
-    }
-
 
     protected String[] types = new String[]{"", "_water"};
 
-//    @Override
-//    public String texture(@Nullable ItemStack stack) {
-//        return "styrofoam_cup" + types[ModUtils.getTextureIdx(stack)];
-//    }
+    public StyrofoamCup(int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents, Supplier<? extends EntityType<? extends Projectile>> entityTypeSupplier, Block block) {
+        super(pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents, entityTypeSupplier);
+        this.block = block;
+    }
+
 
     @Override
     public @NotNull Component getName(ItemStack pStack) {
@@ -84,14 +63,13 @@ public class StyrofoamCup extends BrutalityThrowingItem {
 
     @Override
     public void handleThrowPacket(ItemStack stack, Player player) {
-        EntityType<? extends Projectile> entityType = this.getThrownEntity();
         Level level = player.level();
         net.goo.brutality.entity.projectile.trident.physics_projectile.StyrofoamCup styrofoamCup =
-                (net.goo.brutality.entity.projectile.trident.physics_projectile.StyrofoamCup) entityType.create(level);
+                (net.goo.brutality.entity.projectile.trident.physics_projectile.StyrofoamCup) entityTypeSupplier.get().create(level);
 
         if (styrofoamCup != null) {
             styrofoamCup.setPos(player.getEyePosition());
-            styrofoamCup.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, getThrowVelocity(player), getThrowInaccuracy());
+            styrofoamCup.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, getThrowVelocity(player), throwInaccuracy);
             styrofoamCup.setOwner(player);
 
             handleSealType(styrofoamCup, stack);
@@ -145,11 +123,6 @@ public class StyrofoamCup extends BrutalityThrowingItem {
 
         pEntityLiving.gameEvent(GameEvent.DRINK);
         return pStack;
-    }
-
-    @Override
-    public float getInitialThrowVelocity() {
-        return 1F;
     }
 
     // region BlockItem class

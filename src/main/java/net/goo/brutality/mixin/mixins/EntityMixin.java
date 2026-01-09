@@ -6,7 +6,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.enchantment.ProtectionEnchantment;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -37,25 +36,17 @@ public abstract class EntityMixin {
         return instance.hurt(pSource, pAmount);
     }
 
-    @ModifyArg(
-            method = "setSecondsOnFire(I)V",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/Entity;setRemainingFireTicks(I)V"
-            ),
-            index = 0
-    )
-    private int halveFireTicks(int pRemainingFireTicks) {
+    @ModifyArg(method = "setSecondsOnFire", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setRemainingFireTicks(I)V"), index = 0)
+    private int halveFireTicks(int originalTime) {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity livingEntity) {
-            int i = ProtectionEnchantment.getFireAfterDampener(livingEntity, pRemainingFireTicks);
-// TODO:  broken btw!!
+
             return CuriosApi.getCuriosInventory(livingEntity)
                     .filter(handler -> handler.isEquipped(BrutalityModItems.FIRE_EXTINGUISHER.get()))
-                    .map(handler -> Math.max(1, ((int) (i * 0.5))))
-                    .orElse(pRemainingFireTicks);
-
+                    .map(handler -> Math.max(1, ((int) (originalTime * 0.5))))
+                    .orElse(originalTime);
         }
-        return pRemainingFireTicks;
+        return originalTime;
     }
+
 }

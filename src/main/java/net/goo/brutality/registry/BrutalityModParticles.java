@@ -67,6 +67,8 @@ public class BrutalityModParticles {
 
     public static final RegistryObject<SimpleParticleType> ENRAGED_PARTICLE =
             PARTICLE_TYPES.register("enraged_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> YIN_YANG_PARTICLE =
+            PARTICLE_TYPES.register("yin_yang_particle", () -> new SimpleParticleType(true));
 
 
     public static final RegistryObject<SimpleParticleType> BLACK_HOLE_PARTICLE =

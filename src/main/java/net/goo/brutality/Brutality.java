@@ -6,7 +6,6 @@ import net.goo.brutality.config.BrutalityCommonConfig;
 import net.goo.brutality.magic.SpellCommands;
 import net.goo.brutality.network.PacketHandler;
 import net.goo.brutality.registry.CommonRegistry;
-import net.goo.brutality.util.helpers.SafeCategoryHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -51,8 +50,6 @@ public class Brutality {
     @SubscribeEvent
     public void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(PacketHandler::register);
-        SafeCategoryHelper.preloadCategories();
-
         LOGGER.info("Brutality: Performing common setup");
     }
 

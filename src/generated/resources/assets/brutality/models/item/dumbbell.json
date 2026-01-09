@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/hands/dumbbell/dumbbell_inventory"
+    "layer0": "brutality:item/curio/dumbbell/dumbbell_inventory"
   }
 }

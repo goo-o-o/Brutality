@@ -14,7 +14,7 @@ public class CommonRegistry {
         BrutalityModEntities.register(modEventBus);
         BrutalityModSounds.register(modEventBus);
         BrutalityModMobEffects.register(modEventBus);
-        ModAttributes.register(modEventBus);
+        BrutalityModAttributes.register(modEventBus);
         SpellRegistry.register();
         BrutalityModParticles.register(modEventBus);
         BrutalityMenuTypes.register(modEventBus);

@@ -4,7 +4,7 @@ import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.particle.providers.PointToPointParticleData;
 import net.goo.brutality.registry.BrutalityModParticles;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.mcreator.terramity.init.TerramityModSounds;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -19,8 +19,8 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.SIZE;
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.SPEED;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.SPEED;
 
 public class StygianStepSpell extends BrutalitySpell {
 

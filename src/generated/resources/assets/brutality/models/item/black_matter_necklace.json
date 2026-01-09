@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/necklace/black_matter_necklace/black_matter_necklace_inventory"
+    "layer0": "brutality:item/curio/black_matter_necklace/black_matter_necklace_inventory"
   }
 }

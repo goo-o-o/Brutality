@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/rampage_clock/rampage_clock_inventory"
+    "layer0": "brutality:item/curio/rampage_clock/rampage_clock_inventory"
   }
 }

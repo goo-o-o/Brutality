@@ -4,8 +4,8 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.entity.projectile.ray.ExplosionRay;
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.registry.BrutalityModEntities;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
 import net.goo.brutality.util.helpers.ModExplosionHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -43,7 +43,7 @@ public class FirstExplosionStaff extends BrutalityGenericItem {
     private BlockPos targetBlockPos;
     private static final String SUCCESSFUL = "Successful";
 
-    public FirstExplosionStaff(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public FirstExplosionStaff(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }

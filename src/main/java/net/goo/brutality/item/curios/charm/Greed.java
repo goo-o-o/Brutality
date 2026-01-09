@@ -1,7 +1,7 @@
 package net.goo.brutality.item.curios.charm;
 
-import net.goo.brutality.item.curios.base.BaseCharmCurio;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -16,9 +16,9 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class Greed extends BaseCharmCurio {
+public class Greed extends BrutalityCurioItem {
     public static final String GREED_BONUS = "greed_bonus";
-    public Greed(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public Greed(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

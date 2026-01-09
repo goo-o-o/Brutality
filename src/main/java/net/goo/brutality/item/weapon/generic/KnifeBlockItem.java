@@ -4,7 +4,7 @@ import net.goo.brutality.entity.projectile.trident.ThrownKnife;
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModSounds;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -30,7 +30,7 @@ import static net.goo.brutality.util.helpers.EnchantmentHelper.restrictEnchants;
 public class KnifeBlockItem extends BrutalityGenericItem {
     private final String CHEF = "chef", CARVING = "carving", BREAD = "bread", CLEAVER = "cleaver", FORK = "fork", AXE = "axe";
 
-    public KnifeBlockItem(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public KnifeBlockItem(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }

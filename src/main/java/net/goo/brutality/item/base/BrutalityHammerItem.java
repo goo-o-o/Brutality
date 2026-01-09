@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -32,15 +33,15 @@ public class BrutalityHammerItem extends TieredItem implements BrutalityGeoItem 
     public Rarity rarity;
     private final float attackDamage;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
-    protected List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents;
+    protected List<ItemDescriptionComponent> descriptionComponents;
 
-    public BrutalityHammerItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public BrutalityHammerItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, new Properties().durability(1561));
         this.attackDamage = (float) pAttackDamageModifier + pTier.getAttackDamageBonus();
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.attackDamage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", pAttackSpeedModifier, AttributeModifier.Operation.ADDITION));
-        builder.put(ModAttributes.STUN_CHANCE.get(), new AttributeModifier(BASE_STUN_CHANCE_UUID, "Weapon modifier", 0.1, AttributeModifier.Operation.MULTIPLY_BASE));
+        builder.put(BrutalityModAttributes.STUN_CHANCE.get(), new AttributeModifier(BASE_STUN_CHANCE_UUID, "Weapon modifier", 0.1, AttributeModifier.Operation.MULTIPLY_BASE));
         this.defaultModifiers = builder.build();
         this.rarity = rarity;
         this.descriptionComponents = descriptionComponents;
@@ -91,6 +92,11 @@ public class BrutalityHammerItem extends TieredItem implements BrutalityGeoItem 
 
 
     AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+
+    }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

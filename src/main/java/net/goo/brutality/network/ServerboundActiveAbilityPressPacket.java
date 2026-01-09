@@ -59,9 +59,17 @@ public class ServerboundActiveAbilityPressPacket {
                             e.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 160)));
                 });
 
-                ModUtils.handleActiveAbilityWithCd(handler, BrutalityModItems.STRESS_PILLS.get(), 70 * 20, () ->
-                        sender.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap ->
-                                cap.setRageValue((float) sender.getAttributeValue(ModAttributes.MAX_MANA.get()))));
+                ModUtils.handleActiveAbilityWithCd(handler, BrutalityModItems.STRESS_PILLS.get(), 60 * 20, () ->
+                        sender.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap -> {
+                            sender.level().playSound(null, BlockPos.containing(sender.position()), TerramityModSounds.BOTTLEPOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                            cap.incrementRageAndTrigger((float) sender.getAttributeValue(BrutalityModAttributes.MAX_MANA.get()), sender);
+
+                        }));
+
+                ModUtils.handleActiveAbilityWithCd(handler, BrutalityModItems.SEROTONIN_PILLS.get(), 60 * 20, () -> {
+                    sender.addEffect(new MobEffectInstance(BrutalityModMobEffects.TRANQUILITY.get(), 200, 9));
+                    sender.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap -> cap.setRageValue(0));
+                });
 
 
             });

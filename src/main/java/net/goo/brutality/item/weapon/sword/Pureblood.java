@@ -5,8 +5,8 @@ import com.google.common.collect.Multimap;
 import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.mixin.accessors.MobEffectInstanceSourceAccessor;
 import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Pureblood extends BrutalitySwordItem {
-    public Pureblood(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public Pureblood(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
@@ -34,7 +34,7 @@ public class Pureblood extends BrutalitySwordItem {
         if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> newAttributes = ImmutableMultimap.builder();
             newAttributes.putAll(original);
-            newAttributes.put(ModAttributes.OMNIVAMP.get(),
+            newAttributes.put(BrutalityModAttributes.OMNIVAMP.get(),
                     new AttributeModifier(PUREBLOOD_UUID, "Omnivamp buff", 0.1, AttributeModifier.Operation.MULTIPLY_BASE));
 
             return newAttributes.build();

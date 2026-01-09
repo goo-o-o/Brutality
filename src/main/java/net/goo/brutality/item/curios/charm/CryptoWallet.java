@@ -3,8 +3,8 @@ package net.goo.brutality.item.curios.charm;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.goo.brutality.item.curios.base.BaseCharmCurio;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -21,8 +21,8 @@ import java.util.UUID;
 import static net.goo.brutality.item.curios.charm.PortableMiningRig.END_COIN;
 import static net.goo.brutality.item.curios.charm.PortableMiningRig.NETHER_COIN;
 
-public class CryptoWallet extends BaseCharmCurio {
-    public CryptoWallet(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+public class CryptoWallet extends BrutalityCurioItem {
+    public CryptoWallet(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

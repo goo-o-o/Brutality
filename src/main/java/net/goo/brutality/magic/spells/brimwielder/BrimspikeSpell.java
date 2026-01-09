@@ -3,7 +3,7 @@ package net.goo.brutality.magic.spells.brimwielder;
 import net.goo.brutality.entity.spells.brimwielder.BrimspikeEntity;
 import net.goo.brutality.magic.BrutalitySpell;
 import net.goo.brutality.registry.BrutalityModEntities;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +14,7 @@ import org.joml.Vector3f;
 
 import java.util.List;
 
-import static net.goo.brutality.util.helpers.BrutalityTooltipHelper.SpellStatComponents.PIERCE;
+import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.PIERCE;
 
 public class BrimspikeSpell extends BrutalitySpell {
 

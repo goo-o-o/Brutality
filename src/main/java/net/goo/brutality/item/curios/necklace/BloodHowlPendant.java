@@ -3,9 +3,9 @@ package net.goo.brutality.item.curios.necklace;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
-import net.goo.brutality.item.curios.base.BaseNecklaceCurio;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -17,10 +17,10 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class BloodHowlPendant extends BaseNecklaceCurio {
+public class BloodHowlPendant extends BrutalityCurioItem {
 
 
-    public BloodHowlPendant(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public BloodHowlPendant(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
@@ -33,7 +33,7 @@ public class BloodHowlPendant extends BaseNecklaceCurio {
         if (slotContext.entity() != null) {
             LivingEntity livingEntity = slotContext.entity();
             if (!livingEntity.level().isClientSide() && livingEntity.tickCount % 10 == 0) {
-                AttributeInstance rageGain = livingEntity.getAttribute(ModAttributes.RAGE_GAIN_MULTIPLIER.get());
+                AttributeInstance rageGain = livingEntity.getAttribute(BrutalityModAttributes.DAMAGE_TO_RAGE_RATIO.get());
                 boolean active = livingEntity.getHealth() / livingEntity.getMaxHealth() < 0.5F;
                 UUID uuid = livingEntity.getUUID();
                 boolean wasActive = WAS_ACTIVE_MAP.getOrDefault(uuid, false);
@@ -65,7 +65,7 @@ public class BloodHowlPendant extends BaseNecklaceCurio {
         if (slotContext.entity() != null) {
             if (slotContext.entity().getHealth() / slotContext.entity().getMaxHealth() < 0.5F) {
                 ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-                builder.put(ModAttributes.RAGE_GAIN_MULTIPLIER.get(),
+                builder.put(BrutalityModAttributes.DAMAGE_TO_RAGE_RATIO.get(),
                         new AttributeModifier(BLOOD_HOWL_RAGE_GAIN_UUID,
                                 "Rage Gain Buff",
                                 0.5,

@@ -3,7 +3,7 @@ package net.goo.brutality.item.weapon.generic;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.item.base.BrutalityGenericItem;
 import net.goo.brutality.registry.BrutalityModSounds;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -34,7 +34,7 @@ public class LeafBlowerItem extends BrutalityGenericItem {
     private static final String ACTIVE_KEY = "LeafBlowerActive";
     private int tickCounter;
 
-    public LeafBlowerItem(Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public LeafBlowerItem(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 

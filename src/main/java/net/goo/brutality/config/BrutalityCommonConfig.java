@@ -25,12 +25,12 @@ public class BrutalityCommonConfig {
     public static final ForgeConfigSpec.IntValue LAST_PRISM_TICK_DAMAGE;
     public static final ForgeConfigSpec.IntValue CREASE_OF_CREATION_THRESHOLD;
     public static final ForgeConfigSpec.IntValue GUNGNIR_HIT_QUOTA;
-    public static final ForgeConfigSpec.DoubleValue DAMAGE_TO_RAGE_RATIO;
+    public static final ForgeConfigSpec.DoubleValue RAGE_GAIN_MULTIPLIER;
 
     static {
         BUILDER.push("Brutality Common Config");
-        DAMAGE_TO_RAGE_RATIO = BUILDER.comment("Damage to Rage ratio (0.15 = 15% of Damage = 1 Rage Point)")
-                .defineInRange("damage_to_rage_ratio", 0.15, 0, 5);
+        RAGE_GAIN_MULTIPLIER = BUILDER.comment("Rage Gain Multiplier")
+                .defineInRange("rageGainMultiplier", 1F, 0, 5);
 
         SEVENTH_STAR_GRIEFING = BUILDER
                 .comment("Should Seventh Star Projectiles break blocks (Default = False)")

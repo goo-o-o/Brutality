@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/ring/fury_band/fury_band_inventory"
+    "layer0": "brutality:item/curio/fury_band/fury_band_inventory"
   }
 }

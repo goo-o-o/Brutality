@@ -7,8 +7,8 @@ import net.goo.brutality.item.base.BrutalitySwordItem;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModParticles;
 import net.goo.brutality.registry.BrutalityModSounds;
-import net.goo.brutality.registry.ModAttributes;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -28,7 +28,7 @@ import java.util.UUID;
 
 public class CrimsonScissorBlade extends BrutalitySwordItem {
 
-    public CrimsonScissorBlade(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public CrimsonScissorBlade(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
@@ -41,7 +41,7 @@ public class CrimsonScissorBlade extends BrutalitySwordItem {
         if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> newAttributes = ImmutableMultimap.builder();
             newAttributes.putAll(original);
-            newAttributes.put(ModAttributes.OMNIVAMP.get(),
+            newAttributes.put(BrutalityModAttributes.OMNIVAMP.get(),
                     new AttributeModifier(CSB_OMNIVAMP_UUID, "Omnivamp buff", 0.15, AttributeModifier.Operation.MULTIPLY_BASE));
 
             return newAttributes.build();

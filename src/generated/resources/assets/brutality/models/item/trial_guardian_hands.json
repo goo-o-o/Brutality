@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/head/trial_guardian_hands/trial_guardian_hands_inventory"
+    "layer0": "brutality:item/curio/trial_guardian_hands/trial_guardian_hands_inventory"
   }
 }

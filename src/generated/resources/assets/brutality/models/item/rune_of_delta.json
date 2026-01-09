@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/heart/rune_of_delta/rune_of_delta_inventory"
+    "layer0": "brutality:item/curio/rune_of_delta/rune_of_delta_inventory"
   }
 }

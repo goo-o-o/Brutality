@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/ring/ring_of_mana/ring_of_mana_inventory"
+    "layer0": "brutality:item/curio/ring_of_mana/ring_of_mana_inventory"
   }
 }

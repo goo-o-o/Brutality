@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/charm/old_guillotine/old_guillotine_inventory"
+    "layer0": "brutality:item/curio/old_guillotine/old_guillotine_inventory"
   }
 }

@@ -4,11 +4,11 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.entity.projectile.generic.SpectralMawEntity;
 import net.goo.brutality.item.base.BrutalitySwordItem;
+import net.goo.brutality.registry.BrutalityModAttributes;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.ModAttributes;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -24,7 +24,6 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,12 +31,8 @@ import java.util.UUID;
 public class BladeOfTheRuinedKingSword extends BrutalitySwordItem {
 
 
-    public BladeOfTheRuinedKingSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public BladeOfTheRuinedKingSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
     }
 
 
@@ -106,7 +101,7 @@ public class BladeOfTheRuinedKingSword extends BrutalitySwordItem {
         if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> newAttributes = ImmutableMultimap.builder();
             newAttributes.putAll(original);
-            newAttributes.put(ModAttributes.LIFESTEAL.get(),
+            newAttributes.put(BrutalityModAttributes.LIFESTEAL.get(),
                     new AttributeModifier(BORK_LIFESTEAL_UUID, "Lifesteal buff", 0.1, AttributeModifier.Operation.MULTIPLY_BASE));
 
             return newAttributes.build();

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/hands/anger_management/anger_management_inventory"
+    "layer0": "brutality:item/curio/anger_management/anger_management_inventory"
   }
 }

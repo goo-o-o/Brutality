@@ -3,7 +3,7 @@ package net.goo.brutality.item.weapon.trident;
 import net.goo.brutality.entity.projectile.trident.ThrownThunderbolt;
 import net.goo.brutality.item.base.BrutalityTridentItem;
 import net.goo.brutality.registry.BrutalityModEntities;
-import net.goo.brutality.util.helpers.BrutalityTooltipHelper;
+import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -40,7 +40,7 @@ public class ThunderboltTrident extends BrutalityTridentItem {
             Enchantments.INFINITY_ARROWS
     );
 
-    public ThunderboltTrident(float attackDamageModifier, float attackSpeedModifier, Rarity rarity, List<BrutalityTooltipHelper.ItemDescriptionComponent> descriptionComponents) {
+    public ThunderboltTrident(float attackDamageModifier, float attackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(attackDamageModifier, attackSpeedModifier, rarity, descriptionComponents);
     }
 
