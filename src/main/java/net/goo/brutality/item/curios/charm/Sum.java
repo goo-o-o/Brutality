@@ -1,7 +1,7 @@
 package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.item.curios.BrutalityMathCurio;
+import net.goo.brutality.item.curios.BrutalityMathFunctionCurio;
 import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class Sum extends BrutalityMathCurio {
+public class Sum extends BrutalityMathFunctionCurio {
     public static String SUM_DAMAGE = "sumDamage";
 
     public Sum(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {

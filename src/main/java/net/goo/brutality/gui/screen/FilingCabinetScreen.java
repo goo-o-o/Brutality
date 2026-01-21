@@ -18,9 +18,9 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class FilingCabinetScreen extends AbstractContainerScreen<FilingCabinetMenu> implements MenuAccess<FilingCabinetMenu> {
-    private static final ResourceLocation WHITE_CONTAINER_BACKGROUND = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/white_filing_cabinet.png");
-    private static final ResourceLocation LIGHT_GRAY_CONTAINER_BACKGROUND = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/light_gray_filing_cabinet.png");
-    private static final ResourceLocation GRAY_CONTAINER_BACKGROUND = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/gray_filing_cabinet.png");
+    private static final ResourceLocation WHITE_CONTAINER_BACKGROUND = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/filing_cabinet/white_filing_cabinet.png");
+    private static final ResourceLocation LIGHT_GRAY_CONTAINER_BACKGROUND = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/filing_cabinet/light_gray_filing_cabinet.png");
+    private static final ResourceLocation GRAY_CONTAINER_BACKGROUND = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/filing_cabinet/gray_filing_cabinet.png");
     /**
      * Window height is calculated with these values" the more rows, the higher
      */

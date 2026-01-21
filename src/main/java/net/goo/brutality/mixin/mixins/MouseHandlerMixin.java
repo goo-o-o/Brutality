@@ -13,7 +13,9 @@ public class MouseHandlerMixin {
     @Inject(method = "turnPlayer()V", at = @At("HEAD"), cancellable = true)
     private void lockMovement(CallbackInfo ci) {
         if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.hasEffect(BrutalityModMobEffects.STUNNED.get())) {
-            ci.cancel();
+            if (Minecraft.getInstance().player.isAlive()) {
+                ci.cancel();
+            }
         }
     }
 }

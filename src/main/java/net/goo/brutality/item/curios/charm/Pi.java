@@ -1,7 +1,7 @@
 package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.entity.projectile.generic.PiEntity;
-import net.goo.brutality.item.curios.BrutalityMathCurio;
+import net.goo.brutality.item.curios.BrutalityMathFunctionCurio;
 import net.goo.brutality.registry.BrutalityModEntities;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
@@ -14,7 +14,7 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public class Pi extends BrutalityMathCurio {
+public class Pi extends BrutalityMathFunctionCurio {
 
 
     public Pi(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {

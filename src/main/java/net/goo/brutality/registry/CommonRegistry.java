@@ -1,6 +1,6 @@
 package net.goo.brutality.registry;
 
-import net.goo.brutality.magic.SpellRegistry;
+import net.goo.brutality.magic.BrutalityModSpells;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 public class CommonRegistry {
@@ -15,9 +15,9 @@ public class CommonRegistry {
         BrutalityModSounds.register(modEventBus);
         BrutalityModMobEffects.register(modEventBus);
         BrutalityModAttributes.register(modEventBus);
-        SpellRegistry.register();
         BrutalityModParticles.register(modEventBus);
         BrutalityMenuTypes.register(modEventBus);
+        BrutalityRecipes.register(modEventBus);
     }
 
 

@@ -28,6 +28,9 @@ public class BrutalityBlockStateProvider extends BlockStateProvider {
         super(output, Brutality.MOD_ID, exFileHelper);
     }
 
+
+
+
     private static final String[] WORDS = {
             "", "one", "two", "three", "four", "five", "six", "seven",
             "eight", "nine", "ten", "eleven", "twelve", "thirteen",
@@ -43,6 +46,8 @@ public class BrutalityBlockStateProvider extends BlockStateProvider {
         blockWithItem(BrutalityModBlocks.WATER_COOLER_BLOCK);
         blockWithItem(BrutalityModBlocks.COFFEE_MACHINE_BLOCK);
         blockWithItem(BrutalityModBlocks.SUPER_SNIFFER_FIGURE_BLOCK);
+
+
 
         for (DyeColor dyeColor : DyeColor.values()) {
             String colorName = dyeColor.getName();
@@ -89,6 +94,9 @@ public class BrutalityBlockStateProvider extends BlockStateProvider {
         ModelFile puddle = models().getExistingFile(modLoc("block/puddle"));
         simpleBlock(BrutalityModBlocks.PUDDLE.get(), puddle);
         simpleBlock(BrutalityModBlocks.PLASTERBOARD.get());
+
+        simpleBlockWithItem(BrutalityModBlocks.TABLE_OF_WIZARDRY.get(), models().getExistingFile(modLoc("block/table_of_wizardry")));
+        simpleBlockWithItem(BrutalityModBlocks.PEDESTAL_OF_WIZARDRY.get(), models().getExistingFile(modLoc("block/pedestal_of_wizardry")));
 
         BrutalityModBlocks.FILING_CABINETS.forEach(blockRegistryObject -> {
             getVariantBuilder(blockRegistryObject.get())

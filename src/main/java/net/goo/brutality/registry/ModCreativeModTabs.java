@@ -41,6 +41,8 @@ public class ModCreativeModTabs {
                         output.accept(BrutalityModBlocks.PLASTERBOARD.get());
                         output.accept(BrutalityModBlocks.LIGHT_GRAY_OFFICE_RUG.get());
                         output.accept(BrutalityModBlocks.GRAY_OFFICE_RUG.get());
+                        output.accept(BrutalityModBlocks.TABLE_OF_WIZARDRY.get());
+                        output.accept(BrutalityModBlocks.PEDESTAL_OF_WIZARDRY.get());
                         output.accept(BrutalityModBlocks.OLD_SERVER_CASING.get());
                         output.accept(BrutalityModBlocks.OLD_SERVER_PANEL.get());
                         output.accept(BrutalityModBlocks.PUDDLE.get());

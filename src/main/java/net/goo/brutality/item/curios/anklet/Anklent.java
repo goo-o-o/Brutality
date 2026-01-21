@@ -8,6 +8,7 @@ import net.minecraft.world.item.Rarity;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,10 +22,12 @@ public class Anklent extends BrutalityAnkletItem {
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
+        String uuidSource = slotContext.identifier() + ":" + slotContext.index();
+        UUID modifierUUID = UUID.nameUUIDFromBytes(uuidSource.getBytes(StandardCharsets.UTF_8));
         CuriosApi.getCuriosInventory(slotContext.entity()).ifPresent(handler ->
                 handler.addTransientSlotModifier(
                         "ring",
-                        UUID.fromString(slotContext.identifier() + slotContext.index()),
+                        modifierUUID,
                         "CurioSlotGranting",
                         1,
                         AttributeModifier.Operation.ADDITION
@@ -34,8 +37,10 @@ public class Anklent extends BrutalityAnkletItem {
 
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+        String uuidSource = slotContext.identifier() + ":" + slotContext.index();
+        UUID modifierUUID = UUID.nameUUIDFromBytes(uuidSource.getBytes(StandardCharsets.UTF_8));
         CuriosApi.getCuriosInventory(slotContext.entity()).ifPresent(handler ->
-                handler.removeSlotModifier("ring", UUID.fromString(slotContext.identifier() + slotContext.index()))
+                handler.removeSlotModifier("ring", modifierUUID)
         );
     }
 

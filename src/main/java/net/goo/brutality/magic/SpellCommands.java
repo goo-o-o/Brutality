@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.RegistryObject;
 
 public class SpellCommands {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -24,8 +25,8 @@ public class SpellCommands {
                                 .requires(source -> source.hasPermission(2))
                                 .then(Commands.argument("spell_name", StringArgumentType.string())
                                         .suggests((context, builder) -> {
-                                            for (ResourceLocation spellId : SpellRegistry.SPELLS.keySet()) {
-                                                builder.suggest(SpellRegistry.getSpell(spellId).getSpellName());
+                                            for (RegistryObject<IBrutalitySpell> spellRO : BrutalityModSpells.SPELLS.getEntries()) {
+                                                builder.suggest(spellRO.get().getSpellName());
                                             }
                                             return builder.buildFuture();
                                         })
@@ -38,8 +39,8 @@ public class SpellCommands {
                                 .requires(source -> source.hasPermission(2))
                                 .then(Commands.argument("spell_name", StringArgumentType.string())
                                         .suggests((context, builder) -> {
-                                            for (ResourceLocation spellId : SpellRegistry.SPELLS.keySet()) {
-                                                builder.suggest(SpellRegistry.getSpell(spellId).getSpellName());
+                                            for (RegistryObject<IBrutalitySpell> spellRO : BrutalityModSpells.SPELLS.getEntries()) {
+                                                builder.suggest(spellRO.get().getSpellName());
                                             }
                                             return builder.buildFuture();
                                         })
@@ -80,7 +81,7 @@ public class SpellCommands {
         }
 
         ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, spellName.toLowerCase());
-        IBrutalitySpell spell = SpellRegistry.getSpell(spellId);
+        IBrutalitySpell spell = BrutalityModSpells.getSpell(spellId);
         if (spell == null) {
             context.getSource().sendFailure(Component.literal("Unknown spell: " + spellName));
             return 0;
@@ -105,7 +106,7 @@ public class SpellCommands {
         }
 
         ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, spellName.toLowerCase());
-        IBrutalitySpell spell = SpellRegistry.getSpell(spellId);
+        IBrutalitySpell spell = BrutalityModSpells.getSpell(spellId);
         if (spell == null) {
             context.getSource().sendFailure(Component.literal("Unknown spell: " + spellName));
             return 0;

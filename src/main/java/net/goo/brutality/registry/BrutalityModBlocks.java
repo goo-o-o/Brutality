@@ -3,6 +3,7 @@ package net.goo.brutality.registry;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.block.HorizontalDirectionalBlock;
 import net.goo.brutality.block.custom.*;
+import net.mcreator.terramity.init.TerramityModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
@@ -226,6 +227,11 @@ public class BrutalityModBlocks {
             registerBlock("office_light", () -> new Block(BlockBehaviour.Properties.of().strength(0.3F).sound(SoundType.GLASS).lightLevel((blockState) -> 15).isRedstoneConductor(BrutalityModBlocks::never)));
     public static final RegistryObject<Block> SMALL_OFFICE_LIGHT =
             registerBlock("small_office_light", () -> new SmallOfficeLightBlock(BlockBehaviour.Properties.of().strength(0.3F).sound(SoundType.GLASS).lightLevel((blockState) -> 15).isRedstoneConductor(BrutalityModBlocks::never)));
+    public static final RegistryObject<Block> TABLE_OF_WIZARDRY =
+            registerBlock("table_of_wizardry", () -> new TableOfWizardryBlock(BlockBehaviour.Properties.copy(TerramityModBlocks.MOONSTONE_BRICKS.get())));
+
+    public static final RegistryObject<Block> PEDESTAL_OF_WIZARDRY =
+            registerBlock("pedestal_of_wizardry", () -> new PedestalOfWizardryBlock(BlockBehaviour.Properties.copy(TerramityModBlocks.MOONSTONE_BRICKS.get())));
 
 
     public static final RegistryObject<Block> WHITE_FILING_CABINET =

@@ -25,12 +25,17 @@ public class BrutalityShaders {
     public static ShaderInstance getManaOrbShader() {
         return manaOrbShader;
     }
+    private static ShaderInstance bloomShader;
+
+    public static ShaderInstance getBloomShader() {
+        return bloomShader;
+    }
 
     @SubscribeEvent
     public static void registerShaders(RegisterShadersEvent event) throws IOException {
         registerSafe(event, "fire", s -> BrutalityShaders.fireShader = s);
         registerSafe(event, "orb", s -> BrutalityShaders.manaOrbShader = s);
-
+//        registerSafe(event, "bloom", s -> BrutalityShaders.bloomShader = s);
     }
 
 

@@ -2,10 +2,7 @@ package net.goo.brutality.event.mod.client;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.block.BrutalityGeoBlockEntity;
-import net.goo.brutality.client.renderers.block.BrutalityBlockEntityWithoutLevelRenderer;
-import net.goo.brutality.client.renderers.block.BrutalityGeoBlockRenderer;
-import net.goo.brutality.client.renderers.block.FilingCabinetBlockEntityRenderer;
-import net.goo.brutality.client.renderers.block.RotatableBlockRenderer;
+import net.goo.brutality.client.renderers.block.*;
 import net.goo.brutality.client.renderers.layers.BrutalityBlockLayer;
 import net.goo.brutality.registry.BrutalityModBlockEntities;
 import net.minecraft.client.Minecraft;
@@ -31,6 +28,8 @@ public class BrutalityModBlockRenderManager {
 
     @SubscribeEvent
     public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(BrutalityModBlockEntities.TABLE_OF_WIZARDRY_BLOCK_ENTITY.get(), TableOfWizardryRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityModBlockEntities.PEDESTAL_OF_WIZARDRY_BLOCK_ENTITY.get(), PedestalOfWizardryRenderer::new);
         event.registerBlockEntityRenderer(BrutalityModBlockEntities.WHITE_FILING_CABINET_BLOCK_ENTITY.get(), FilingCabinetBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BrutalityModBlockEntities.LIGHT_GRAY_FILING_CABINET_BLOCK_ENTITY.get(), FilingCabinetBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BrutalityModBlockEntities.GRAY_FILING_CABINET_BLOCK_ENTITY.get(), FilingCabinetBlockEntityRenderer::new);

@@ -1,4 +1,4 @@
-// 1.20.1	2025-11-07T21:09:43.2070656	Block States: brutality
+// 1.20.1	2026-01-14T05:08:03.4749196	Block States: brutality
 3cbac55a896aac1c3bcafe23ae23b1b7ad0f6f96 assets/brutality/blockstates/black_concrete_slab.json
 6edc9482f776e62bcafde7142b849fab7f5776b7 assets/brutality/blockstates/black_concrete_stair.json
 68ea8a49de4c9ca83e75eeba8b8c2a80dd32dce3 assets/brutality/blockstates/blue_concrete_slab.json
@@ -36,6 +36,7 @@ fc86b11c8f0677eafd81a44e395a11ebf6b2a61c assets/brutality/blockstates/light_gray
 9fa981ac74b7ac5782a045f241a22a7f02edef69 assets/brutality/blockstates/old_server_panel.json
 f44e607d00f095497a5d8c1d6cf80f8005daa961 assets/brutality/blockstates/orange_concrete_slab.json
 8dfdf5e3847f27cedc2b72786c42e4b3ccf11456 assets/brutality/blockstates/orange_concrete_stair.json
+e333ff5430b6e55678f52761cc810d7e234c51dd assets/brutality/blockstates/pedestal_of_wizardry.json
 d20a591c34021981805f5a3e819ff4f896bf3d5b assets/brutality/blockstates/pink_concrete_slab.json
 0d4910c7ac38c9ec73137b176efcbb432819a1cc assets/brutality/blockstates/pink_concrete_stair.json
 9be804d9b99eeff263ac3bc9d1b693fe996e0648 assets/brutality/blockstates/plasterboard.json
@@ -46,6 +47,7 @@ b4d4f6dca2405d7b5ad7faf8ca6063b9fd273491 assets/brutality/blockstates/red_concre
 6fd741b98d965d3683bcbbfad2499a8b805fa2ca assets/brutality/blockstates/red_concrete_stair.json
 0fe9627ca4f1b0a6e3f2f97cfcf076699e778a80 assets/brutality/blockstates/small_office_light.json
 082a9c5b255cdab9f80b2c130e6288438ac25456 assets/brutality/blockstates/super_sniffer_figure.json
+bcb034b6a0ebb727b2c52468a35d1b20fa2f937a assets/brutality/blockstates/table_of_wizardry.json
 8c6a01277dfb7f53ffeae59ffdacf48b25baec7d assets/brutality/blockstates/toilet.json
 123052121bedf6abab5bf0a754ef3d4382c6dea0 assets/brutality/blockstates/upper_hvac.json
 261e604ce333885672f6868773761c66f123ef74 assets/brutality/blockstates/urinal.json
@@ -142,5 +144,7 @@ d747ea065870a5dd0429ccfa14d47b80dad9a11d assets/brutality/models/block/yellow_co
 9fa47602e04b1e80b6e74dc83ff77c0ffed6df49 assets/brutality/models/block/yellow_concrete_stair_inner.json
 07f15a70a1b87a14828db286d76e7b289a7e43ae assets/brutality/models/block/yellow_concrete_stair_outer.json
 291a34c755f7e03d060a73b473211965cb5b7cea assets/brutality/models/item/coffee_machine.json
+edb754830b9316dd654072215de53ce8f38bad66 assets/brutality/models/item/pedestal_of_wizardry.json
 37d6abbd9e1720f7229d91a00963803fcbc7d15e assets/brutality/models/item/super_sniffer_figure.json
+648425036a72b5277957925562f7a0fb5b6ef201 assets/brutality/models/item/table_of_wizardry.json
 1a90dc1e1a424fe6bfb55bdf669edd8e87e0bbd1 assets/brutality/models/item/water_cooler.json

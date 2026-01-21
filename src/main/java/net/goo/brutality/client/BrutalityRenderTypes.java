@@ -7,7 +7,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.goo.brutality.Brutality;
-import net.minecraft.Util;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -17,113 +16,31 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.function.Function;
+import java.util.OptionalDouble;
+
+import static com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BrutalityRenderTypes extends RenderType {
     public BrutalityRenderTypes(String string, VertexFormat vertexFormat, VertexFormat.Mode mode, int i, boolean b, boolean b1, Runnable runnable, Runnable runnable1) {
         super(string, vertexFormat, mode, i, b, b1, runnable, runnable1);
     }
-//
-//    private static ShaderInstance brightShader;
-//    @SubscribeEvent
-//    public static void registerShaders(RegisterShadersEvent event) throws IOException {
-//        event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "fullbright"),
-//                DefaultVertexFormat.NEW_ENTITY), shaderInstance -> brightShader = shaderInstance);
-//    }
-//    public static ShaderInstance getBrightShader() {
-//        if (brightShader == null) {
-//            throw new IllegalStateException("Bright shader not initialized!");
-//        }
-//        return brightShader;
-//    }
-//    private static final ShaderStateShard BRIGHT_SHADER_STATE = new ShaderStateShard(BrutalityRenderTypes::getBrightShader);
-//
-//    public static RenderType getBrightRenderType(ResourceLocation texture) {
-//        return RenderType.create(
-//                "bloom_" + texture.getPath(),
-//                DefaultVertexFormat.POSITION_COLOR_TEX,
-//                VertexFormat.Mode.QUADS,
-//                256,
-//                false,
-//                true,
-//                RenderType.CompositeState.builder()
-//                        .setShaderState(BRIGHT_SHADER_STATE)
-//                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
-//                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-//                        .setLightmapState(RenderStateShard.NO_LIGHTMAP) // Full bright
-//                        .setCullState(RenderStateShard.NO_CULL)
-//                        .createCompositeState(false)
-//        );
-//    }
 
-
-    protected static final RenderStateShard.TransparencyStateShard GHOST_TRANSPARENCY = new RenderStateShard.TransparencyStateShard("translucent_ghost_transparency", () -> {
-        RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-    }, () -> {
-        RenderSystem.disableBlend();
-        RenderSystem.defaultBlendFunc();
-    });
-
-
-    public static RenderType getFlickering(ResourceLocation resourceLocation, float lightLevel) {
-        TextureStateShard textureStateShard = new TextureStateShard(resourceLocation, false, false);
-        return create("flickering", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, CompositeState
-                .builder()
-                .setTextureState(textureStateShard)
-                .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
-                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                .setCullState(NO_CULL).setLightmapState(LIGHTMAP)
-                .setOverlayState(OVERLAY)
-                .createCompositeState(false));
-    }
-
-    public static RenderType getEntityTranslucentNoCull(ResourceLocation texture) {
-        TextureStateShard textureState = new TextureStateShard(texture, false, false);
-
-        return RenderType.create("custom_translucent_no_cull",
-                DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true,
-                RenderType.CompositeState.builder()
-                        .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_CUTOUT_NO_CULL_SHADER)
-                        .setTextureState(textureState)
-                        .setCullState(RenderStateShard.NO_CULL)
-                        .setLightmapState(RenderStateShard.LIGHTMAP)
-                        .setOverlayState(RenderStateShard.OVERLAY)
-                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                        .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST) // keep depth testing
-                        .setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true, false)) // this line is key
-                        .createCompositeState(true)
-        );
-    }
 
     public static RenderType getfullBright(ResourceLocation locationIn) {
         TextureStateShard textureStateShard = new TextureStateShard(locationIn, false, false);
-        return create("full_bright", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, CompositeState
+        return create("full_bright", DefaultVertexFormat.NEW_ENTITY, QUADS, 256, false, true, CompositeState
                 .builder()
                 .setTextureState(textureStateShard)
                 .setShaderState(RENDERTYPE_EYES_SHADER)
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                 .setCullState(CULL)
-                .createCompositeState(false));
-    }
-
-    public static RenderType getfullBrightCull(ResourceLocation locationIn) {
-        TextureStateShard textureStateShard = new TextureStateShard(locationIn, false, false);
-        return create("full_bright", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, CompositeState
-                .builder()
-                .setTextureState(textureStateShard)
-                .setShaderState(RENDERTYPE_EYES_SHADER)
-                .setTransparencyState(ADDITIVE_TRANSPARENCY)
-                .setCullState(CULL)
-                .setLightmapState(NO_LIGHTMAP)
-                .setOverlayState(OVERLAY)
                 .createCompositeState(false));
     }
 
     public static RenderType getfullBrightNoDepth(ResourceLocation locationIn) {
         TextureStateShard textureStateShard = new TextureStateShard(locationIn, false, false);
-        return create("fullbright_no_depth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true,
+        return create("fullbright_no_depth", DefaultVertexFormat.NEW_ENTITY, QUADS, 256, false, true,
                 CompositeState
                         .builder()
                         .setTextureState(textureStateShard)
@@ -133,160 +50,88 @@ public class BrutalityRenderTypes extends RenderType {
                         .setWriteMaskState(COLOR_WRITE)
                         .createCompositeState(false));
     }
-
-
-
-    public static RenderType getGlowingEffect(ResourceLocation locationIn) {
-        TextureStateShard textureStateShard = new TextureStateShard(locationIn, false, false);
-        return create("glow_effect", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, CompositeState.builder()
-                .setTextureState(textureStateShard)
-                .setShaderState(RENDERTYPE_BEACON_BEAM_SHADER)
-                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                .setCullState(NO_CULL)
-                .setOverlayState(OVERLAY)
-                .setWriteMaskState(COLOR_WRITE)
-                .createCompositeState(false));
-    }
-
-    public static RenderType getPulse() {
-        CompositeState renderState = CompositeState.builder()
-                .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
-                .setCullState(NO_CULL)
-                .setTextureState(new TextureStateShard(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/particle/em_pulse.png"), true, true))
-                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                .setLightmapState(LIGHTMAP)
-                .setOverlayState(OVERLAY)
-                .setWriteMaskState(COLOR_WRITE)
-                .setDepthTestState(LEQUAL_DEPTH_TEST)
-                .setLayeringState(VIEW_OFFSET_Z_LAYERING)
-                .createCompositeState(false);
-        return create("em_pulse", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, renderState);
-    }
-
-
-    public static RenderType getTrailEffect(ResourceLocation locationIn) {
-        TextureStateShard textureStateShard = new TextureStateShard(locationIn, false, false);
-        return create("trail_effect", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, RenderType
-                .CompositeState.builder()
-                .setTextureState(textureStateShard)
-                .setShaderState(RENDERTYPE_ITEM_ENTITY_TRANSLUCENT_CULL_SHADER)
-                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                .setOutputState(ITEM_ENTITY_TARGET)
-                .setCullState(NO_CULL)
-                .setLightmapState(LIGHTMAP)
-                .setOverlayState(OVERLAY)
-                .setWriteMaskState(COLOR_WRITE)
-                .createCompositeState(false));
-    }
-
-    public static final Function<ResourceLocation, RenderType> NEW_TRAIL_EFFECT = Util.memoize(
-            p_286155_ -> {
-                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
-                        .setShaderState(RENDERTYPE_ITEM_ENTITY_TRANSLUCENT_CULL_SHADER)
-                        .setTextureState(new RenderStateShard.TextureStateShard(p_286155_, false, false))
-                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                        .setOutputState(ITEM_ENTITY_TARGET)
-                        .setLightmapState(LIGHTMAP)
-                        .setCullState(NO_CULL)
-                        .setOverlayState(OVERLAY)
-                        .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
-                        .createCompositeState(true);
-                return create("new_trail_effect", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, true, rendertype$compositestate);
-            }
+    public static final RenderType GLOW_NO_TEXTURE = RenderType.create(
+            "brutality:glow_no_texture",
+            DefaultVertexFormat.POSITION_COLOR,
+            VertexFormat.Mode.QUADS,
+            256,
+            false,  // no crumbling
+            true,   // sort transparency
+            CompositeState.builder()
+                    .setShaderState(RENDERTYPE_ENTITY_SOLID_SHADER)  // or RENDERTYPE_ENTITY_TRANSLUCENT_SHADER
+                    .setTextureState(TextureStateShard.NO_TEXTURE)   // ← no texture
+                    .setTransparencyState(new TransparencyStateShard(
+                            "additive",
+                            () -> {
+                                RenderSystem.enableBlend();
+                                RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+                            },
+                            () -> {
+                                RenderSystem.disableBlend();
+                                RenderSystem.defaultBlendFunc();
+                            }
+                    ))
+                    .setLightmapState(LightmapStateShard.LIGHTMAP)
+                    .setCullState(CullStateShard.NO_CULL)             // ← no culling
+                    .setWriteMaskState(COLOR_WRITE)                   // optional, helps with overlays
+                    .createCompositeState(false)
     );
 
-    public static final Function<ResourceLocation, RenderType> LIGHT_TRAIL_EFFECT = Util.memoize(
-            p_286155_ -> {
-                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
-                        .setShaderState(RENDERTYPE_EYES_SHADER)
-                        .setTextureState(new RenderStateShard.TextureStateShard(p_286155_, false, false))
-                        .setTransparencyState(ADDITIVE_TRANSPARENCY)
-                        .setOutputState(ITEM_ENTITY_TARGET)
-                        .setLightmapState(LIGHTMAP)
-                        .setCullState(NO_CULL)
-                        .setOverlayState(OVERLAY)
-                        .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
-                        .createCompositeState(true);
-                return create("light_trail_effect", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, true, rendertype$compositestate);
-            }
+    public static final RenderType NO_CULL_NO_DEPTH = create(
+            "no_cull_no_depth", // Unique name
+            DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, // Use a standard format matching your vertices
+            VertexFormat.Mode.QUADS, // Drawing quads
+            256, // Buffer size
+            false, // affectsCrumbling
+            true, // sortOnClient (good for transparent blending)
+            RenderType.CompositeState.builder()
+                    .setShaderState(RENDERTYPE_TRANSLUCENT_SHADER) // Use the translucent shader for transparency/blending
+                    .setLayeringState(NO_LAYERING)
+                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY) // Standard translucent blending
+                    .setDepthTestState(NO_DEPTH_TEST) // CRITICAL: Skip depth test (draw regardless of what's already drawn)
+                    .setCullState(NO_CULL)          // CRITICAL: Disable backface culling
+                    .setLightmapState(LIGHTMAP)
+                    .setWriteMaskState(COLOR_WRITE) // CRITICAL: Write to color buffer (A, R, G, B)
+                    .setLineState(new RenderStateShard.LineStateShard(OptionalDouble.empty()))
+                    .createCompositeState(false)
     );
 
-    public static RenderType getGhost(ResourceLocation texture) {
-        CompositeState renderState = CompositeState.builder()
-                .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
-                .setCullState(NO_CULL)
-                .setTextureState(new TextureStateShard(texture, false, false))
-                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                .setLightmapState(LIGHTMAP)
-                .setOverlayState(OVERLAY)
-                .setWriteMaskState(COLOR_DEPTH_WRITE)
-                .setDepthTestState(LEQUAL_DEPTH_TEST)
-                .setLayeringState(NO_LAYERING)
-                .createCompositeState(false);
-        return create("ghost", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, renderState);
+    public static RenderType noCullTextured(ResourceLocation texture) {
+        return RenderType.create(
+                "brutality:no_cull_textured",
+                DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
+                VertexFormat.Mode.QUADS,
+                256,
+                false,  // affects crumbling
+                true,   // transparency sorting
+                CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
+                        .setTextureState(new TextureStateShard(texture, false, false))
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)   // or ADDITIVE_TRANSPARENCY
+                        .setLightmapState(LIGHTMAP)
+                        .setOverlayState(OVERLAY)
+                        .setCullState(CullStateShard.NO_CULL)             // ← no culling
+                        .createCompositeState(false)
+        );
     }
 
-    public static RenderType DragonDeath(ResourceLocation texture) {
-        RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder().setShaderState(RENDERTYPE_ENTITY_ALPHA_SHADER)
-                .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
-                .setCullState(NO_CULL)
-                .createCompositeState(true);
-        return create("entity_alpha", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, rendertype$compositestate);
-    }
-
-    public static RenderType getShockWave() {
-        CompositeState renderState = CompositeState.builder()
-                .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
-                .setCullState(NO_CULL)
-                .setTextureState(new TextureStateShard(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/particle/shock_wave.png"), true, true))
-                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                .setLightmapState(LIGHTMAP)
-                .setOverlayState(OVERLAY)
-                .setWriteMaskState(COLOR_WRITE)
-                .setDepthTestState(LEQUAL_DEPTH_TEST)
-                .setLayeringState(VIEW_OFFSET_Z_LAYERING)
-                .createCompositeState(false);
-        return create("shock_wave", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, renderState);
-    }
-
-
-    public static ParticleRenderType PARTICLE_SHEET_TRANSLUCENT_NO_CULL = new ParticleRenderType() {
-        public void begin(BufferBuilder p_217600_1_, TextureManager p_217600_2_) {
+    public static ParticleRenderType PARTICLE_ADDITIVE = new ParticleRenderType() {
+        public void begin(BufferBuilder builder, TextureManager manager) {
             RenderSystem.depthMask(false);
-            RenderSystem.disableCull();
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderSystem.enableBlend();
-//            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            p_217600_1_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
 
-        public void end(Tesselator p_217599_1_) {
-            p_217599_1_.end();
+        public void end(Tesselator tesselator) {
+            tesselator.end();
         }
 
         public String toString() {
-            return "PARTICLE_SHEET_TRANSLUCENT_NO_CULL";
+            return Brutality.MOD_ID + ":additive";
         }
     };
 
 
-    public static ParticleRenderType PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH = new ParticleRenderType() {
-        public void begin(BufferBuilder p_217600_1_, TextureManager p_217600_2_) {
-            RenderSystem.depthMask(false);
-            RenderSystem.disableCull();
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-//            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            p_217600_1_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        public void end(Tesselator p_217599_1_) {
-            p_217599_1_.end();
-        }
-
-        public String toString() {
-            return "PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH";
-        }
-    };
 }

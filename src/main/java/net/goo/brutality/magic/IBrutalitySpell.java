@@ -1,7 +1,10 @@
 package net.goo.brutality.magic;
 
+import net.goo.brutality.Brutality;
 import net.goo.brutality.registry.BrutalityModAttributes;
 import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -78,6 +81,14 @@ public interface IBrutalitySpell {
     List<SpellCategory> getCategories();
 
     String getSpellName();
+
+    default MutableComponent getTranslatedSpellName() {
+        return Component.translatable("spell." + Brutality.MOD_ID + "." + getSpellName());
+    }
+
+    default MutableComponent getSpellDescription(int index) {
+        return Component.translatable("spell." + Brutality.MOD_ID + "." + getSpellName() + ".description." + index);
+    }
 
     int getDescriptionCount();
 

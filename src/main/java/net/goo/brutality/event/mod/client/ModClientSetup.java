@@ -10,6 +10,7 @@ import net.goo.brutality.gui.ManaMeter;
 import net.goo.brutality.gui.RageMeter;
 import net.goo.brutality.gui.SpellSelectionGui;
 import net.goo.brutality.gui.screen.FilingCabinetScreen;
+import net.goo.brutality.magic.IBrutalitySpell;
 import net.goo.brutality.registry.BrutalityMenuTypes;
 import net.goo.brutality.registry.BrutalityModBlocks;
 import net.goo.brutality.registry.BrutalityModItems;
@@ -30,12 +31,15 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.registries.RegistryBuilder;
 
 import static net.goo.brutality.Brutality.MOD_ID;
 
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModClientSetup {
+
 
     @SubscribeEvent
     public static void registerOverlays(RegisterGuiOverlaysEvent event) {

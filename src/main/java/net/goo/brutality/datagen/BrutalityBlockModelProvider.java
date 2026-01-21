@@ -23,6 +23,7 @@ public class BrutalityBlockModelProvider extends BlockModelProvider {
                 .texture("particle", particle);
     }
 
+
     @Override
     protected void registerModels() {
 
@@ -35,6 +36,7 @@ public class BrutalityBlockModelProvider extends BlockModelProvider {
 //        cubeColumn(BrutalityModBlocks.LIGHT_GRAY_OFFICE_RUG.getId().getPath(),
 //                modLoc("block/" + BrutalityModBlocks.LIGHT_GRAY_OFFICE_CARPET.getId().getPath()),
 //                modLoc("block/" + BrutalityModBlocks.LIGHT_GRAY_OFFICE_CARPET.getId().getPath()));
+
 
         cubeWithParticle(
                 BrutalityModBlocks.UPPER_HVAC.getId().getPath(),

@@ -14,7 +14,7 @@ import net.goo.brutality.item.base.BrutalityThrowingItem;
 import net.goo.brutality.item.block.FilingCabinetBlockItem;
 import net.goo.brutality.item.block.ImportantDocumentsBlockItem;
 import net.goo.brutality.item.curios.BrutalityCurioItem;
-import net.goo.brutality.item.curios.BrutalityMathCurio;
+import net.goo.brutality.item.curios.BrutalityMathFunctionCurio;
 import net.goo.brutality.item.curios.anklet.*;
 import net.goo.brutality.item.curios.belt.BattleScars;
 import net.goo.brutality.item.curios.belt.MiniatureAnchor;
@@ -23,7 +23,6 @@ import net.goo.brutality.item.curios.charm.*;
 import net.goo.brutality.item.curios.hands.Handcuffs;
 import net.goo.brutality.item.curios.hands.PerfectCell;
 import net.goo.brutality.item.curios.hands.PhantomFinger;
-import net.goo.brutality.item.curios.hands.SuspiciouslyLargeHandle;
 import net.goo.brutality.item.curios.heart.BrutalHeart;
 import net.goo.brutality.item.curios.heart.FrozenHeart;
 import net.goo.brutality.item.curios.heart.RuneOfDelta;
@@ -349,18 +348,18 @@ public class BrutalityModItems {
     public static final RegistryObject<Item> MANA_SYRINGE = ITEMS.register("mana_syringe", () -> new BrutalityCurioItem(ModRarities.LEGENDARY, List.of(new ItemDescriptionComponent(ON_HIT, 1))).withAttributes(new AttributeContainer(BrutalityModAttributes.MAX_MANA.get(), 20, ADDITION)));
     public static final RegistryObject<Item> PRISMATIC_ORB = ITEMS.register("prismatic_orb", () -> new BrutalityCurioItem(ModRarities.PRISMATIC).withAttributes(new AttributeContainer(BrutalityModAttributes.SPELL_COOLDOWN_REDUCTION.get(), 0.25, MULTIPLY_TOTAL)));
 
-    public static final RegistryObject<Item> SUSPICIOUSLY_LARGE_HANDLE = ITEMS.register("suspiciously_large_handle", () -> new SuspiciouslyLargeHandle(ModRarities.PRISMATIC, List.of(new ItemDescriptionComponent(PASSIVE, 2))));
+    public static final RegistryObject<Item> SUSPICIOUSLY_LARGE_HANDLE = ITEMS.register("suspiciously_large_handle", () -> new BrutalityCurioItem(ModRarities.PRISMATIC, List.of(new ItemDescriptionComponent(PASSIVE, 2))));
 
     public static final RegistryObject<Item> SAD_UVOGRE = ITEMS.register("sad_uvogre", () -> new BrutalityCurioItem(ModRarities.PRISMATIC, List.of(new ItemDescriptionComponent(LORE, 1), new ItemDescriptionComponent(PASSIVE, 1))).withAttributes(new AttributeContainer(BrutalityModAttributes.BLUNT_DAMAGE.get(), 0.35, MULTIPLY_TOTAL)));
     public static final RegistryObject<Item> SOLDIERS_SYRINGE = ITEMS.register("soldiers_syringe", () -> new BrutalityCurioItem(ModRarities.LEGENDARY).withAttributes(new AttributeContainer(Attributes.ATTACK_SPEED, 0.2, MULTIPLY_TOTAL)));
     public static final RegistryObject<Item> RAGE_BAIT = ITEMS.register("rage_bait", () -> new BrutalityCurioItem(ModRarities.STYGIAN).withAttributes(new AttributeContainer(BrutalityModAttributes.RAGE_LEVEL.get(), 1, ADDITION), new AttributeContainer(BrutalityModAttributes.DAMAGE_TO_RAGE_RATIO.get(), 0.25, MULTIPLY_TOTAL)));
     public static final RegistryObject<Item> TARGET_CUBE = ITEMS.register("target_cube", () -> new TargetCube(ModRarities.LEGENDARY, List.of(new ItemDescriptionComponent(PASSIVE, 1))));
     public static final RegistryObject<Item> BLOOD_PACK = ITEMS.register("blood_pack", () -> new BrutalityCurioItem(ModRarities.LEGENDARY).withAttributes(new AttributeContainer(Attributes.MAX_HEALTH, -3, ADDITION), new AttributeContainer(BrutalityModAttributes.LIFESTEAL.get(), 0.125, MULTIPLY_BASE)));
-    public static final RegistryObject<Item> BROKEN_CLOCK = ITEMS.register("broken_clock", () -> new BrokenClock(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 1))));
-    public static final RegistryObject<Item> SHATTERED_CLOCK = ITEMS.register("shattered_clock", () -> new BrokenClock(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 1))));
-    public static final RegistryObject<Item> SUNDERED_CLOCK = ITEMS.register("sundered_clock", () -> new BrokenClock(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 1))));
-    public static final RegistryObject<Item> TIMEKEEPERS_CLOCK = ITEMS.register("timekeepers_clock", () -> new BrokenClock(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 2))));
-    public static final RegistryObject<Item> THE_CLOCK_OF_FROZEN_TIME = ITEMS.register("the_clock_of_frozen_time", () -> new BrokenClock(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 3))));
+    public static final RegistryObject<Item> BROKEN_CLOCK = ITEMS.register("broken_clock", () -> new BaseBrokenClock(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> SHATTERED_CLOCK = ITEMS.register("shattered_clock", () -> new BaseBrokenClock(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> SUNDERED_CLOCK = ITEMS.register("sundered_clock", () -> new BaseBrokenClock(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> TIMEKEEPERS_CLOCK = ITEMS.register("timekeepers_clock", () -> new BaseBrokenClock(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 2))));
+    public static final RegistryObject<Item> THE_CLOCK_OF_FROZEN_TIME = ITEMS.register("the_clock_of_frozen_time", () -> new BaseBrokenClock(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 3))));
     public static final RegistryObject<Item> WIRE_CUTTERS = ITEMS.register("wire_cutters", () -> new BrutalityCurioItem(Rarity.EPIC).withAttributes(new AttributeContainer(BrutalityModAttributes.ARMOR_PENETRATION.get(), 0.05, MULTIPLY_BASE), new AttributeContainer(BrutalityModAttributes.CRITICAL_STRIKE_DAMAGE.get(), 0.1, MULTIPLY_BASE)));
     public static final RegistryObject<Item> AIR_JORDAN_EARRINGS = ITEMS.register("air_jordan_earrings", () -> new BrutalityCurioItem(Rarity.EPIC).withAttributes(new AttributeContainer(BrutalityModAttributes.JUMP_HEIGHT.get(), 0.5, MULTIPLY_TOTAL), new AttributeContainer(ForgeMod.ENTITY_GRAVITY.get(), -0.4, MULTIPLY_TOTAL)));
     public static final RegistryObject<Item> HELL_SPECS = ITEMS.register("hell_specs", () -> new BrutalityCurioItem(ModRarities.LEGENDARY).withAttributes(new AttributeContainer(BrutalityModAttributes.DAMAGE_TO_RAGE_RATIO.get(), 0.5, MULTIPLY_TOTAL), new AttributeContainer(BrutalityModAttributes.BRIMWIELDER_SCHOOL_LEVEL.get(), 1, ADDITION)));
@@ -692,9 +691,9 @@ public class BrutalityModItems {
     public static final RegistryObject<Item> OLIVE_OIL = ITEMS.register("olive_oil", () -> new BrutalityCurioItem(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 1))));
     public static final RegistryObject<Item> EXTRA_VIRGIN_OLIVE_OIL = ITEMS.register("extra_virgin_olive_oil", () -> new BrutalityCurioItem(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 1))));
 
-    public static final RegistryObject<Item> DIVERGENT_RECURSOR = ITEMS.register("divergent_recursor", () -> new BrutalityCurioItem(ModRarities.LEGENDARY, List.of(new ItemDescriptionComponent(PASSIVE, 2))));
-    public static final RegistryObject<Item> CONVERGENT_RECURSOR = ITEMS.register("convergent_recursor", () -> new BrutalityCurioItem(ModRarities.PRISMATIC, List.of(new ItemDescriptionComponent(PASSIVE, 3))));
-    public static final RegistryObject<Item> INFINITE_RECURSOR = ITEMS.register("infinite_recursor", () -> new BrutalityCurioItem(ModRarities.GODLY, List.of(new ItemDescriptionComponent(PASSIVE, 3))));
+    public static final RegistryObject<Item> DIVERGENT_RECURSOR = ITEMS.register("divergent_recursor", () -> new BaseRecursor(ModRarities.LEGENDARY, List.of(new ItemDescriptionComponent(PASSIVE, 2))));
+    public static final RegistryObject<Item> CONVERGENT_RECURSOR = ITEMS.register("convergent_recursor", () -> new BaseRecursor(ModRarities.PRISMATIC, List.of(new ItemDescriptionComponent(PASSIVE, 3))));
+    public static final RegistryObject<Item> INFINITE_RECURSOR = ITEMS.register("infinite_recursor", () -> new BaseRecursor(ModRarities.GODLY, List.of(new ItemDescriptionComponent(PASSIVE, 3))));
     public static final RegistryObject<Item> APPRENTICES_MANUAL_TO_BASIC_MULTICASTING = ITEMS.register("apprentices_manual_to_basic_multicasting", () -> new BrutalityCurioItem(ModRarities.LEGENDARY, List.of(new ItemDescriptionComponent(PASSIVE, 2))));
     public static final RegistryObject<Item> WIZARDS_GUIDEBOOK_TO_ADVANCED_MULTICASTING = ITEMS.register("wizards_guidebook_to_advanced_multicasting", () -> new BrutalityCurioItem(ModRarities.PRISMATIC, List.of(new ItemDescriptionComponent(PASSIVE, 2))));
     public static final RegistryObject<Item> ARCHMAGES_THESIS_TO_MASTERFUL_MULTICASTING = ITEMS.register("archmages_thesis_to_masterful_multicasting", () -> new BrutalityCurioItem(ModRarities.GODLY, List.of(new ItemDescriptionComponent(PASSIVE, 2))));
@@ -703,7 +702,7 @@ public class BrutalityModItems {
 
     public static final RegistryObject<Item> PI = ITEMS.register("pi", () -> new Pi(Rarity.EPIC, List.of(new ItemDescriptionComponent(LORE, 1), new ItemDescriptionComponent(PASSIVE, 2))).withAttributes(new AttributeContainer(Attributes.MOVEMENT_SPEED, 0.0314, MULTIPLY_TOTAL), new AttributeContainer(Attributes.ATTACK_SPEED, 0.0314, MULTIPLY_TOTAL), new AttributeContainer(Attributes.ATTACK_DAMAGE, 3.14, ADDITION)));
 
-    public static final RegistryObject<Item> EXPONENTIAL_CHARM = ITEMS.register("exponential_charm", () -> new BrutalityMathCurio(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 5))) {
+    public static final RegistryObject<Item> EXPONENTIAL_CHARM = ITEMS.register("exponential_charm", () -> new BrutalityMathFunctionCurio(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 5))) {
         @Override
         public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
             if (slotContext.entity() instanceof Player player) {
@@ -716,15 +715,15 @@ public class BrutalityModItems {
     }.withAttributes(new AttributeContainer(Attributes.KNOCKBACK_RESISTANCE, 0.0271828F, MULTIPLY_TOTAL), new AttributeContainer(Attributes.LUCK, 0.0271828F, MULTIPLY_TOTAL), new AttributeContainer(Attributes.ARMOR, 2.71828F, ADDITION), new AttributeContainer(Attributes.ARMOR_TOUGHNESS, 2.71828F, ADDITION), new AttributeContainer(Attributes.MAX_HEALTH, 2.71828F, ADDITION)));
 
 
-    public static final RegistryObject<Item> ADDITION_CHARM = ITEMS.register("addition", () -> new BrutalityMathCurio(Rarity.EPIC).withAttributes(new AttributeContainer(Attributes.ATTACK_DAMAGE, 3, ADDITION)));
+    public static final RegistryObject<Item> ADDITION_CHARM = ITEMS.register("addition", () -> new BrutalityMathFunctionCurio(Rarity.EPIC).withAttributes(new AttributeContainer(Attributes.ATTACK_DAMAGE, 3, ADDITION)));
 
 
-    public static final RegistryObject<Item> SUBTRACTION = ITEMS.register("subtraction", () -> new BrutalityMathCurio(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> SUBTRACTION = ITEMS.register("subtraction", () -> new BrutalityMathFunctionCurio(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 1))));
 
 
-    public static final RegistryObject<Item> MULTIPLICATION = ITEMS.register("multiplication", () -> new BrutalityMathCurio(Rarity.EPIC).withAttributes(new AttributeContainer(Attributes.ATTACK_DAMAGE, 0.175, MULTIPLY_TOTAL)));
+    public static final RegistryObject<Item> MULTIPLICATION = ITEMS.register("multiplication", () -> new BrutalityMathFunctionCurio(Rarity.EPIC).withAttributes(new AttributeContainer(Attributes.ATTACK_DAMAGE, 0.175, MULTIPLY_TOTAL)));
 
-    public static final RegistryObject<Item> DIVISION = ITEMS.register("division", () -> new BrutalityMathCurio(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> DIVISION = ITEMS.register("division", () -> new BrutalityMathFunctionCurio(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 1))));
 
 
     public static final RegistryObject<Item> SUM = ITEMS.register("sum", () -> new Sum(Rarity.EPIC, List.of(new ItemDescriptionComponent(PASSIVE, 2))));

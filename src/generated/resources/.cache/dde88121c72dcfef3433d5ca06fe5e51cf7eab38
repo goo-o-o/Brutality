@@ -1,4 +1,4 @@
-// 1.20.1	2026-01-10T07:13:08.3630531	Item Models: brutality
+// 1.20.1	2026-01-20T17:50:29.5099648	Item Models: brutality
 4d2cb5931bdfc05b9f9f74aa98fcf2124089e766 assets/brutality/models/item/absolute_zero.json
 6e80778fb947ee57e15d0cfa92468737fd05e5f1 assets/brutality/models/item/abyssal_necklace.json
 25df89f31d038542a1f43c7b84dcb5669fd44b4a assets/brutality/models/item/addition.json
@@ -9,6 +9,9 @@ e69d1c2949b98bbae99343d0a733a867aa8861d6 assets/brutality/models/item/amaterasu.
 b3f00eb4950fd59126a628121c384a9227492ced assets/brutality/models/item/anklent.json
 de5757d8c13c292a7b5c1274993c1038921d1983 assets/brutality/models/item/anklet_of_the_imprisoned.json
 e7bf5e6e4ac2fcbb6962b56be93cfcea0ec55362 assets/brutality/models/item/ankle_monitor.json
+467749e94833db4747aad1a2f58cadca10d39a21 assets/brutality/models/item/apprentices_manual_to_basic_multicasting.json
+091fb816832a73b902b5045cb216d4a2a8fbf9b4 assets/brutality/models/item/aqua_ruler.json
+f65edb0ff36e64cf61251e7f5aea861306a32a13 assets/brutality/models/item/archmages_thesis_to_masterful_multicasting.json
 d9e3279952ef906e8189e3aa164ff249cdd9d070 assets/brutality/models/item/atomic_judgement.json
 86cb2daf9d53861fe20a8ed541d75e251a1c0941 assets/brutality/models/item/bamboo_staff.json
 26a8512682a433e5b09764351db320ec4cbfebbc assets/brutality/models/item/bamboo_steamer.json
@@ -66,6 +69,7 @@ ec84e2d23a8c807cc09a6de2b979ae64ec8e7658 assets/brutality/models/item/chocolate_
 828d037e205fcc78f87635f239028cb5a8caf071 assets/brutality/models/item/conductite_anklet.json
 d05c22c3e8405b4cd8d15a8d77ce53694fa989fc assets/brutality/models/item/conductite_capacitor.json
 82686b81bb8d4b6e0d10dea53e239b0784dc82e1 assets/brutality/models/item/conservative_concoction.json
+d477d7dd5dfba7595c50d3ba5ff409bdf0382757 assets/brutality/models/item/convergent_recursor.json
 017f485fc5b08e3b8ba751edf54f2d9271f0d912 assets/brutality/models/item/cosine.json
 92471a19dc4e9b9ed428fa1ad7bf08a4ea54c7d0 assets/brutality/models/item/cosmic_anklet.json
 2b56f90ee85eced95519ed2b56aabac0e4423ae5 assets/brutality/models/item/cosmic_seal.json
@@ -95,6 +99,7 @@ a50452f4857dc19af0a0acb7e38e2e45c9172f4a assets/brutality/models/item/depth_crus
 eb6ce4233569fc4eca08a7301763cce0d9088c6e assets/brutality/models/item/diamond_booster_pack.json
 484003c17085e199d8371331a07c1180b9146013 assets/brutality/models/item/diamond_knife.json
 811f0f8c868b98d746f7a8cd900a139dbbc707b1 assets/brutality/models/item/diamond_respawn_card.json
+128ca0ea91e95e85bb5f2760a9ada21cf0901ecb assets/brutality/models/item/divergent_recursor.json
 8df37211d11893f205d3a32e502f08b08ef402bb assets/brutality/models/item/divine_immolation.json
 164b4932703cd5e6d604c797d56cc1d28d9f9a69 assets/brutality/models/item/division.json
 d9ee2777c2a008f7f72414d28bdcb5197ad49c5e assets/brutality/models/item/double_down.json
@@ -172,9 +177,11 @@ b1306ee6b048520c70118133bf32a83261da6323 assets/brutality/models/item/high_frequ
 ea1f07584b1bc31c8fcab13acf1df68f714ea9f0 assets/brutality/models/item/holy_hand_grenade.json
 c4c91121b13c5183b5cf6d81bd92c7678751f390 assets/brutality/models/item/hot_sauce.json
 54785d4a8069232adb2c5cd128f85646c2f65794 assets/brutality/models/item/hyperbolic_feather.json
+f7c3319c10fe300dfa3890952b86fb45bee62050 assets/brutality/models/item/ice_cream_sandwich.json
 ca6b4ef69c0e24006cf42bf219dfd017fb3fab17 assets/brutality/models/item/ice_cube.json
 00bb01d9c83af11e4c9a6b801b324cc240be85fd assets/brutality/models/item/incognito_mode.json
 deba0ca57f010cb83eba819983c563edd80518ab assets/brutality/models/item/inertia_booster.json
+bd852ca2ad29f7d0cf3af327fc579c76e63b6306 assets/brutality/models/item/infinite_recursor.json
 6b2e96bb680955ba01c0dee2d7d7c43fea0678d7 assets/brutality/models/item/ironclad_anklet.json
 60a308ec93c478aa27d4f885df862456b496735d assets/brutality/models/item/iron_knife.json
 4cd6d3e7c416a6c2490a957b9abd326c2841a20d assets/brutality/models/item/jackpot.json
@@ -235,6 +242,7 @@ ee6707a3ce6245e8b6a2aef892edcf1ced20f780 assets/brutality/models/item/orange_con
 25a83da28e0a9c130ea1f2f481c28c016013029b assets/brutality/models/item/pain_catalyst.json
 3b07a743ee46ef1ab6bf76d5ec6fad7429f450ba assets/brutality/models/item/paper_airplane.json
 c2e141739395b17cb12bfa6073a0f580a7ed184d assets/brutality/models/item/paper_cut.json
+d7d3d1a7cd89e5dfea72c227ad127510fb21932a assets/brutality/models/item/paragon_of_the_first_mage.json
 e78b5ddb8b9e145645f1f434fba1353977a248c7 assets/brutality/models/item/pencil_sharpener.json
 245c58512353149720909878e249ca869d31a8da assets/brutality/models/item/pepper_shaker.json
 a3931a44237d249db42ed418154b0d4b8d79ee1f assets/brutality/models/item/perfect_cell.json
@@ -260,6 +268,7 @@ bb3d8ffb80e9d13d9e083304de410dc62e3b05e4 assets/brutality/models/item/portable_t
 26b13722293982903c529fc603d3e7ada66c9a87 assets/brutality/models/item/pouch_o_photons.json
 ea1fe2e4b53595dd7a1bfd6da193977c85881a17 assets/brutality/models/item/pride.json
 c144022891491483b127c2c940400fcd363dfd71 assets/brutality/models/item/prismatic_greatsword.json
+40e2907e2c7b5d1fd8a9256af8d825d616ac05f7 assets/brutality/models/item/prismatic_orb.json
 91dcec4d4294fd91b37ab3588c6728c4da5c69bb assets/brutality/models/item/prison_key.json
 62137364685b9ee595f2401b496d0d385e9a9f5b assets/brutality/models/item/profanum_reactor.json
 2320f66dcb100410da6c4f13980f5c6b2f55a576 assets/brutality/models/item/progenitors_earrings.json
@@ -385,6 +394,7 @@ d15ca8bcafd24dfb4d9de2e8a5673ba6a9a90170 assets/brutality/models/item/white_conc
 e3760ba44a449d5a8961115c7e49f07af73f0347 assets/brutality/models/item/windswept_anklet.json
 4ccda1acfa02d39216363a7a469b24456d62e95c assets/brutality/models/item/winter_melon.json
 eb90cdda49cd5df0b2637f9514bf651fe4ed2147 assets/brutality/models/item/wire_cutters.json
+455922ecfd4fbac89905c9215744ae3e272c048d assets/brutality/models/item/wizards_guidebook_to_advanced_multicasting.json
 38fd93be24f9dc64d39116c612a64fa7bc9a3eb9 assets/brutality/models/item/wooden_ruler.json
 0aa974e827446d3144a72f21ce72669c24ac511c assets/brutality/models/item/wooly_blindfold.json
 5c6fb825fd58bf32bd1170de446137d52ae0b0a2 assets/brutality/models/item/wrath.json

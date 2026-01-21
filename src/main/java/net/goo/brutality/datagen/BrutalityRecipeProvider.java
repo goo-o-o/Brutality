@@ -1,6 +1,7 @@
 package net.goo.brutality.datagen;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.magic.table_of_wizardry.ConjureRecipeBuilder;
 import net.goo.brutality.registry.BrutalityModBlocks;
 import net.goo.brutality.registry.BrutalityModItems;
 import net.mcreator.terramity.init.TerramityModItems;
@@ -10,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
@@ -45,6 +47,29 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
 
     @Override
     protected void buildRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "cosmic_cataclysm")).mana(500)
+                .requires(0, TerramityModItems.COSMILITE_INGOT.get())
+                .requires(1, Items.OBSIDIAN)
+                .requires(2, TerramityModItems.COSMILITE_INGOT.get())
+                .requires(3, Items.OBSIDIAN)
+                .requires(4, TerramityModItems.COSMILITE_INGOT.get())
+                .requires(5, Items.OBSIDIAN)
+                .requires(6, TerramityModItems.COSMILITE_INGOT.get())
+                .requires(7, Items.OBSIDIAN)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "annihilation")).mana(500)
+                .requires(0, TerramityModItems.HEXING_CIRCLE.get())
+                .requires(1, TerramityModItems.HELLSPEC_ALLOY.get())
+                .requires(2, TerramityModItems.HELLSPEC_ALLOY.get())
+                .requires(3, TerramityModItems.HELLSPEC_ALLOY.get())
+                .requires(4, TerramityModItems.HELLSPEC_ALLOY.get())
+                .requires(5, TerramityModItems.HELLSPEC_ALLOY.get())
+                .requires(6, TerramityModItems.HELLSPEC_ALLOY.get())
+                .requires(7, TerramityModItems.HELLSPEC_ALLOY.get())
+                .withEntity(EntityType.VILLAGER)
+                .save(consumer);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, BrutalityModItems.POCKET_BLACK_HOLE.get())
                 .requires(TerramityModItems.ETHEREAL_ECLIPSE_EMBLEM.get())
@@ -3086,7 +3111,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
         nbt.put("StoredEnchantments", list);
 
         return new PartialNBTIngredient(Set.of(Items.ENCHANTED_BOOK), nbt) {
-            private final ItemStack[] display = { displayStack };
+            private final ItemStack[] display = {displayStack};
 
             @Override
             public boolean test(ItemStack stack) {

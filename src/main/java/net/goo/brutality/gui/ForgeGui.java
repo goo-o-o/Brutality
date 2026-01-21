@@ -1,25 +1,16 @@
 package net.goo.brutality.gui;
 
 import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.config.BrutalityClientConfig;
-import net.goo.brutality.entity.capabilities.EntityCapabilities;
 import net.goo.brutality.event.forge.client.ClientTickHandler;
-import net.goo.brutality.magic.IBrutalitySpell;
-import net.goo.brutality.magic.SpellCastingHandler;
-import net.goo.brutality.magic.SpellCooldownTracker;
-import net.goo.brutality.magic.SpellStorage;
 import net.goo.brutality.registry.BrutalityCapabilities;
 import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.registry.BrutalityModAttributes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -28,8 +19,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
-
-import java.util.List;
 
 import static net.goo.brutality.item.curios.charm.Sum.SUM_DAMAGE;
 
@@ -147,129 +136,11 @@ public class ForgeGui {
     private static final ResourceLocation MANA_BAR_BACKGROUND_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/mana_bar_bg.png");
 
-    private static void renderManaBar(GuiGraphics gui, Player player) {
-        float manaValue = player.getCapability(BrutalityCapabilities.PLAYER_MANA_CAP)
-                .map(EntityCapabilities.PlayerManaCap::manaValue)
-                .orElse(0F);
-        AttributeInstance maxMana = player.getAttribute(BrutalityModAttributes.MAX_MANA.get());
-        float manaPercent = maxMana != null ? manaValue / (float) maxMana.getValue() : 0;
-        manaPercent = Mth.clamp(manaPercent, 0, 1);
 
-        int diameter = 70;
-        int radius = diameter / 2;
-        int manaBarX = getPixelX(BrutalityClientConfig.MANA_BAR_X.get());
-        int manaBarY = getPixelY(BrutalityClientConfig.MANA_BAR_Y.get());
-
-        int visibleHeight = (int) (diameter * manaPercent);
-        int textureY = diameter - visibleHeight;
-
-        gui.blit(MANA_BAR_BACKGROUND_TEXTURE, manaBarX - radius, manaBarY - radius, 0, 0, diameter, diameter, diameter, diameter);
-        if (visibleHeight > 0) {
-            gui.blit(MANA_BAR_TEXTURE, manaBarX - radius, manaBarY - radius + (diameter - visibleHeight), 0, textureY, diameter, visibleHeight, diameter, diameter);
-        }
-        gui.blit(MANA_BAR_FOREGROUND_TEXTURE, manaBarX - radius, manaBarY - radius, 0, 0, diameter, diameter, diameter, diameter);
-    }
 
     private static final ResourceLocation SPELL_CONTAINER_CD_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/spell_container_cd.png");
 
-    private static void renderSpellSelection(GuiGraphics gui, Player player, ItemStack tome) {
-        List<SpellStorage.SpellEntry> spellEntries = SpellStorage.getSpells(tome);
-        float angleOffset = 0;
-        int distanceFromCenter = 68; // Fixed pixel distance for spell orbit
-        SpellStorage.SpellEntry selectedSpell = SpellStorage.getCurrentSpellEntry(tome);
-
-        final float containerDiameter = 48F;
-        final float iconDiameter = 36F;
-        final float baseMiniDiameter = 16f;
-        final float baseMiniRadius = baseMiniDiameter / 2f;
-        final float baseContainerRadius = containerDiameter / 2f;
-        final float baseIconRadius = iconDiameter / 2F;
-
-        // Cache center position
-        int centerX = getPixelX(BrutalityClientConfig.MANA_BAR_X.get());
-        int centerY = getPixelY(BrutalityClientConfig.MANA_BAR_Y.get());
-
-        for (SpellStorage.SpellEntry spellEntry : spellEntries) {
-            boolean isSelected = selectedSpell != null &&
-                    selectedSpell.spell() == spellEntry.spell() &&
-                    selectedSpell.level() == spellEntry.level();
-            int actualSpellLevel = IBrutalitySpell.getActualSpellLevel(player, spellEntry.spell(), spellEntry.level());
-            String spellLevelString = String.valueOf(actualSpellLevel);
-
-            int xComponent = Math.round(centerX + Mth.cos(angleOffset) * distanceFromCenter);
-            int yComponent = Math.round(centerY + Mth.sin(angleOffset) * distanceFromCenter);
-
-            gui.pose().pushPose();
-            if (isSelected) {
-                float scale = 1.5f;
-                gui.pose().translate(xComponent, yComponent, 0);
-                gui.pose().scale(scale, scale, 1);
-                gui.pose().translate(-xComponent, -yComponent, 0);
-            }
-
-            IBrutalitySpell.MagicSchool school = spellEntry.spell().getSchool();
-
-            gui.blit(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/spells/" + school + "/spell_container/bg.png"),
-                    (int) (xComponent - baseContainerRadius), (int) (yComponent - baseContainerRadius),
-                    0, 0, (int) containerDiameter, (int) containerDiameter, (int) containerDiameter, (int) containerDiameter);
-
-            gui.blit(spellEntry.spell().getIcon(),
-                    (int) (xComponent - baseIconRadius), (int) (yComponent - baseIconRadius),
-                    0, 0, (int) iconDiameter, (int) iconDiameter, (int) iconDiameter, (int) iconDiameter);
-
-            if (SpellCooldownTracker.isOnCooldown(player, spellEntry.spell())) {
-                float progress = 1 - SpellCooldownTracker.getCooldownProgress(player, spellEntry.spell());
-                int visibleHeight = Math.round(iconDiameter * progress);
-
-                gui.blit(SPELL_CONTAINER_CD_TEXTURE,
-                        (int) (xComponent - baseIconRadius),
-                        (int) (yComponent + (iconDiameter - visibleHeight) - baseIconRadius),
-                        0, (int) iconDiameter - visibleHeight,
-                        (int) iconDiameter, visibleHeight,
-                        (int) iconDiameter, (int) iconDiameter);
-            }
-
-            if (isSelected && SpellCastingHandler.currentlyCastingContinuousSpell(player, tome)) {
-                gui.blit(SPELL_CONTAINER_CD_TEXTURE,
-                        (int) (xComponent - baseIconRadius),
-                        (int) (yComponent - baseIconRadius),
-                        0F, iconDiameter,
-                        (int) iconDiameter, (int) iconDiameter,
-                        (int) iconDiameter, (int) iconDiameter);
-            }
-
-            gui.blit(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/spells/" + school + "/spell_container/fg.png"),
-                    (int) (xComponent - baseContainerRadius), (int) (yComponent - baseContainerRadius),
-                    0, 0, (int) containerDiameter, (int) containerDiameter, (int) containerDiameter, (int) containerDiameter);
-
-            gui.blit(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/spells/" + school + "/spell_container/mini.png"),
-                    (int) (xComponent - baseMiniRadius),
-                    (int) (yComponent - baseIconRadius - baseMiniRadius / 2),
-                    0, 0, (int) baseMiniDiameter, (int) baseMiniDiameter, (int) baseMiniDiameter, (int) baseMiniDiameter);
-
-            int textWidth = FONT.width(spellLevelString);
-            float targetWidth = 8;
-            float textScale = Math.min(1f, targetWidth / textWidth);
-
-            {
-                float verticalOffset = (FONT.lineHeight - (FONT.lineHeight * textScale)) / 2f;
-                gui.pose().pushPose();
-                gui.pose().translate(xComponent + 0.5F, yComponent - baseIconRadius + verticalOffset, 0);
-                gui.pose().scale(textScale, textScale, 1f);
-                gui.drawString(FONT, spellLevelString,
-                        -textWidth / 2f, 0,
-                        school == IBrutalitySpell.MagicSchool.CELESTIA ? GUI_BLACK : GUI_WHITE, true);
-                gui.pose().popPose();
-            }
-
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            gui.pose().popPose();
-
-            angleOffset += (float) (Math.PI / 4);
-        }
-    }
 
 
 

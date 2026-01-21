@@ -154,6 +154,7 @@ public class BrutalityModParticles {
                 }
             });
 
+
     public static final RegistryObject<ParticleType<PointToPointParticleData<?>>> STYGIAN_STEP_PARTICLE = PARTICLE_TYPES.register("stygian_step_particle", () ->
             new ParticleType<>(false, PointToPointParticleData.DESERIALIZER) {
                 @Override

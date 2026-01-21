@@ -1,4 +1,4 @@
-// 1.20.1	2025-11-07T18:29:20.3976067	Loot Tables
+// 1.20.1	2026-01-14T05:08:03.4913459	Loot Tables
 7a6fcc73c90bbb6da3eb58d7116390cf9bd9c488 data/brutality/loot_tables/blocks/black_concrete_slab.json
 1b7531c557b612154a5ac964a8ae4a07a93855cf data/brutality/loot_tables/blocks/black_concrete_stair.json
 810cd4456c93df5ac1f0613594ea963cc927f113 data/brutality/loot_tables/blocks/black_office_chair.json
@@ -44,6 +44,7 @@ b6d8378f8f62153bbba68d0479c407e8f3c6854a data/brutality/loot_tables/blocks/offic
 860ba5a02dca3228a92bea674e07137f8060846a data/brutality/loot_tables/blocks/old_server_panel.json
 07b7625c08d290b243611954365c61b027cc80a3 data/brutality/loot_tables/blocks/orange_concrete_slab.json
 e18e9e46d3f6e2292dc1f74877c266742c83bcb0 data/brutality/loot_tables/blocks/orange_concrete_stair.json
+159a502a3d07616bf03c8b906cec7ffa151fee4a data/brutality/loot_tables/blocks/pedestal_of_wizardry.json
 fe28b47108fec8301a9450acf2bd4711eaf5a738 data/brutality/loot_tables/blocks/pink_concrete_slab.json
 d5c25c8937b5c45505ddd7ba34f9a218ea82f57c data/brutality/loot_tables/blocks/pink_concrete_stair.json
 8159f25f8c80c45b403d2463f59a89a93fa06596 data/brutality/loot_tables/blocks/plasterboard.json
@@ -55,6 +56,7 @@ be503e234c8adc11b45ac3efee772292856bd9be data/brutality/loot_tables/blocks/red_c
 f621415a09cf84c4d152b2fd621c7919c106b98c data/brutality/loot_tables/blocks/small_office_light.json
 42882b11aadfac553de29e8e07f2d77a015cad42 data/brutality/loot_tables/blocks/styrofoam_cup.json
 cd06aa1ebaccf95f1afbd19421cfa15c279fd7fe data/brutality/loot_tables/blocks/super_sniffer_figure.json
+0275276b74d50bbeaa6fcb9e82223e0f9446f045 data/brutality/loot_tables/blocks/table_of_wizardry.json
 a3ce0f8a49cd6ab00d67a9476950791e0453d43b data/brutality/loot_tables/blocks/toilet.json
 10c02ff4acf032ce8cb1d2346ce761f5faa1f1f7 data/brutality/loot_tables/blocks/upper_hvac.json
 718675e62872ce95de00a9e8b50443fb793bfd4f data/brutality/loot_tables/blocks/urinal.json

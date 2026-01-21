@@ -37,6 +37,8 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.add(BrutalityModBlocks.COFFEE_MACHINE_BLOCK.get(), block -> this.createNameableBlockEntityTable(BrutalityModBlocks.COFFEE_MACHINE_BLOCK.get()));
         this.add(BrutalityModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get(), block -> this.createNameableBlockEntityTable(BrutalityModBlocks.SUPER_SNIFFER_FIGURE_BLOCK.get()));
 
+        this.add(BrutalityModBlocks.TABLE_OF_WIZARDRY.get(), block -> this.createSingleItemTable(BrutalityModBlocks.TABLE_OF_WIZARDRY.get()));
+        this.add(BrutalityModBlocks.PEDESTAL_OF_WIZARDRY.get(), block -> this.createSingleItemTable(BrutalityModBlocks.PEDESTAL_OF_WIZARDRY.get()));
         this.add(BrutalityModBlocks.OLD_SERVER_CASING.get(), block -> this.createSingleItemTable(BrutalityModBlocks.OLD_SERVER_CASING.get()));
         this.add(BrutalityModBlocks.OLD_SERVER_PANEL.get(), block -> this.createSingleItemTable(BrutalityModBlocks.OLD_SERVER_PANEL.get()));
         this.add(BrutalityModBlocks.PLASTERBOARD.get(), block -> this.createSingleItemTable(BrutalityModBlocks.PLASTERBOARD.get()));

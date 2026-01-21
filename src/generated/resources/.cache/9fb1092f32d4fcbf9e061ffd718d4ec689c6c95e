@@ -1,4 +1,4 @@
-// 1.20.1	2026-01-09T21:40:27.603622	Recipes
+// 1.20.1	2026-01-21T01:26:12.6082311	Recipes
 a9f15db28ff602a7e8ee1e70e57e8548ad5dcb94 data/brutality/advancements/recipes/building_blocks/black_concrete_slab.json
 e8bfcd4a034d8220d57b6563ad6d85a753633afd data/brutality/advancements/recipes/building_blocks/black_concrete_stair.json
 9ecf167f4fd83034b9419f134d4097712d01398e data/brutality/advancements/recipes/building_blocks/black_office_chair.json
@@ -360,6 +360,7 @@ f33231660956fc4edc2b875bce1a454215ca39c7 data/brutality/recipes/addition.json
 b3fd44b31ff813646ec0b86937819a8f8583a8a4 data/brutality/recipes/anklent.json
 004f1dfaa4389e46d5221ccc4db929a8a3160174 data/brutality/recipes/anklet_of_the_imprisoned.json
 e876444099abab7240c8b5e4331e2818c67bad7c data/brutality/recipes/ankle_monitor.json
+4c0187aab6051bc5403be8e1d6b80fe40c5aad79 data/brutality/recipes/annihilation.json
 3bb7aa12b54f165359af3d750f73acbe2ef1e843 data/brutality/recipes/apple_core.json
 6e0f647c830d081e0848a5830dae868de0bf2f42 data/brutality/recipes/atomic_judgement.json
 44a3c0ee7c64b5ea105cb683eddd166c54a0c8f3 data/brutality/recipes/bamboo_staff.json
@@ -415,6 +416,7 @@ e4b77ecc10f6db60235b8ab847e34ee99529faad data/brutality/recipes/coffee_machine.j
 9567a33b91dc6d12caa1049e97dee1b351df614b data/brutality/recipes/conductite_anklet.json
 81906b4809ac681418ef21c81b66d0188a8c4a97 data/brutality/recipes/cosine.json
 e081a05f583ec2ccadee7a7e08777b947e6b0435 data/brutality/recipes/cosmic_anklet.json
+c2174417495648f0429214c0f0cdd24eea477391 data/brutality/recipes/cosmic_cataclysm.json
 296fe531e0b46527d297a378f43a961b58f23cdc data/brutality/recipes/cosmic_seal.json
 77b27555de32ff838ccb11fcdf0f06a353f8194c data/brutality/recipes/crease_of_creation.json
 818310a48469e868524d24c23d4821ce754c0293 data/brutality/recipes/crimson_delight.json

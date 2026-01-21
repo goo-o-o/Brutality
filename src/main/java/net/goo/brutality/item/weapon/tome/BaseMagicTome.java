@@ -340,15 +340,13 @@ public class BaseMagicTome extends BrutalityGenericItem {
 
             MutableComponent spellType = Component.literal(" §8|§r ");
 
-            spell.getCategories().forEach(category -> {
-                spellType.append(category.icon + " ");
-            });
+            spell.getCategories().forEach(category -> spellType.append(category.icon + " "));
 
-            tooltip.add(Component.translatable("spell." + Brutality.MOD_ID + "." + spellName).append(" §8|§r " + entry.level() +
+            tooltip.add(spell.getTranslatedSpellName().append(" §8|§r " + entry.level() +
                     (bonusLevel > 0 ? " + §l" + bonusLevel : "")).append(spellType));
 
             for (int i = 1; i <= spell.getDescriptionCount(); i++) {
-                tooltip.add(Component.translatable("spell." + Brutality.MOD_ID + "." + spellName + ".description." + i));
+                tooltip.add(spell.getSpellDescription(i));
             }
 
             if (finalDamage > 0) {

@@ -2,6 +2,7 @@ package net.goo.brutality.registry;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.block.block_entity.*;
+import net.goo.brutality.block.custom.PedestalOfWizardryBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -11,6 +12,19 @@ import net.minecraftforge.registries.RegistryObject;
 public class BrutalityModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Brutality.MOD_ID);
+
+    public static final RegistryObject<BlockEntityType<TableOfWizardryBlockEntity>> TABLE_OF_WIZARDRY_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("table_of_wizardry",
+                    () -> BlockEntityType.Builder.of(
+                            TableOfWizardryBlockEntity::new,
+                            BrutalityModBlocks.TABLE_OF_WIZARDRY.get()
+                    ).build(null));
+    public static final RegistryObject<BlockEntityType<PedestalOfWizardryBlockEntity>> PEDESTAL_OF_WIZARDRY_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("pedestal_of_wizardry_block_entity",
+                    () -> BlockEntityType.Builder.of(
+                            PedestalOfWizardryBlockEntity::new,
+                            BrutalityModBlocks.PEDESTAL_OF_WIZARDRY.get()
+                    ).build(null));
 
     public static final RegistryObject<BlockEntityType<WaterCoolerBlockEntity>> WATER_COOLER_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("water_cooler",

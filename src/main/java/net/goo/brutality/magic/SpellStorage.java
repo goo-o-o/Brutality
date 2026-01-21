@@ -37,7 +37,7 @@ public class SpellStorage {
             CompoundTag spellTag = spellsTag.getCompound(i);
             ResourceLocation spellId = ResourceLocation.parse(spellTag.getString(SPELL_ID_TAG));
             int level = spellTag.getInt(SPELL_LEVEL_TAG);
-            IBrutalitySpell spell = SpellRegistry.getSpell(spellId);
+            IBrutalitySpell spell = BrutalityModSpells.getSpell(spellId);
             if (spell != null) {
                 spells.add(new SpellEntry(spell, level));
             }

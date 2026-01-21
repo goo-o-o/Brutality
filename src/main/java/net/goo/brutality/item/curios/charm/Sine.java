@@ -2,7 +2,7 @@ package net.goo.brutality.item.curios.charm;
 
 import net.goo.brutality.event.forge.ServerTickHandler;
 import net.goo.brutality.event.forge.client.ClientTickHandler;
-import net.goo.brutality.item.curios.BrutalityMathCurio;
+import net.goo.brutality.item.curios.BrutalityMathFunctionCurio;
 import net.goo.brutality.util.helpers.tooltip.ItemDescriptionComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Sine extends BrutalityMathCurio {
+public class Sine extends BrutalityMathFunctionCurio {
 
 
     public Sine(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {

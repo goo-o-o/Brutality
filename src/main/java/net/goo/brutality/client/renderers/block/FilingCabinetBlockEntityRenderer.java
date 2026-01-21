@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -41,9 +42,9 @@ public class FilingCabinetBlockEntityRenderer<T extends WhiteFilingCabinetBlockE
     static {
         BrutalityModBlocks.FILING_CABINETS.forEach(blockRegistryObject ->
                 MATERIAL_MAP.put(blockRegistryObject.get(), new Material(
-                ResourceLocation.parse("textures/atlas/blocks.png"),
-                ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + blockRegistryObject.getId().getPath())
-        )));
+                        InventoryMenu.BLOCK_ATLAS,
+                        ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + blockRegistryObject.getId().getPath())
+                )));
     }
 
 
