@@ -1,0 +1,46 @@
+package net.goo.brutality.common.item.curios.hands;
+
+import net.goo.brutality.common.item.curios.BrutalityCurioItem;
+import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotContext;
+
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.UUID;
+
+public class PhantomFinger extends BrutalityCurioItem {
+
+
+    public PhantomFinger(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
+        super(rarity, descriptionComponents);
+    }
+
+
+    @Override
+    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
+        String uuidSource = slotContext.identifier() + ":" + slotContext.index();
+        UUID modifierUUID = UUID.nameUUIDFromBytes(uuidSource.getBytes(StandardCharsets.UTF_8));
+        CuriosApi.getCuriosInventory(slotContext.entity()).ifPresent(handler ->
+                handler.addTransientSlotModifier(
+                        "ring",
+                        modifierUUID,
+                        "CurioSlotGranting",
+                        2,
+                        AttributeModifier.Operation.ADDITION
+                )
+        );
+    }
+
+    @Override
+    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+        String uuidSource = slotContext.identifier() + ":" + slotContext.index();
+        UUID modifierUUID = UUID.nameUUIDFromBytes(uuidSource.getBytes(StandardCharsets.UTF_8));
+        CuriosApi.getCuriosInventory(slotContext.entity()).ifPresent(handler ->
+                handler.removeSlotModifier("ring", modifierUUID)
+        );
+    }
+}

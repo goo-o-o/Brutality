@@ -3,35 +3,24 @@ package net.goo.brutality.util;
 import com.lowdragmc.photon.client.fx.EntityEffect;
 import com.lowdragmc.photon.client.fx.FX;
 import com.lowdragmc.photon.client.fx.FXRuntime;
-import net.goo.brutality.config.BrutalityCommonConfig;
+import net.goo.brutality.client.particle.providers.WaveParticleData;
+import net.goo.brutality.common.config.BrutalityCommonConfig;
+import net.goo.brutality.common.item.BrutalityCategories;
+import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
-import net.goo.brutality.item.BrutalityCategories;
-import net.goo.brutality.item.base.*;
-import net.goo.brutality.particle.providers.WaveParticleData;
-import net.goo.brutality.registry.BrutalityModAttributes;
-import net.goo.brutality.util.phys.CylindricalBoundingBox;
-import net.mcreator.terramity.init.TerramityModItems;
+import net.goo.brutality.util.math.phys.hitboxes.CylindricalBoundingBox;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -48,7 +37,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import javax.annotation.Nullable;
 import java.lang.invoke.MethodHandle;
@@ -59,6 +47,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+// contains methods that don't belong in other utils
 public class ModUtils {
     protected static final RandomSource random = RandomSource.create();
 
@@ -116,6 +105,43 @@ public class ModUtils {
     }
 
 
+    /**
+     * Converts a 32-bit float to a 16-bit half-precision float representation stored in an int.
+     * This preserves precision for high-velocity entities (projectiles) where vanilla's
+     * standard compression would cause jitter or trajectory snapping.
+     * * Credits: Original logic by Hesperos; refined by Team CoFH.
+     * * @param fval The 32-bit float velocity component
+     * @return A 16-bit encoded representation of the float
+     */
+    public static int packHalfFloat(float fval) {
+        int fbits = Float.floatToIntBits(fval);
+        int sign = fbits >>> 16 & 0x8000;
+        int val = (fbits & 0x7fffffff) + 0x1000;
+
+        // Handle Exponent Overflow
+        if (val >= 0x47800000) {
+            if ((fbits & 0x7fffffff) >= 0x47800000) {
+                if (val < 0x7f800000) {
+                    return sign | 0x7c00;
+                }
+                return sign | 0x7c00 | (fbits & 0x007fffff) >>> 13;
+            }
+            return sign | 0x7bff;
+        }
+
+        // Standard Normalized Range
+        if (val >= 0x38800000) {
+            return sign | val - 0x38000000 >>> 13;
+        }
+
+        // Subnormal Range / Zero
+        if (val < 0x33000000) {
+            return sign;
+        }
+
+        val = (fbits & 0x7fffffff) >>> 23;
+        return sign | ((fbits & 0x7fffff | 0x800000) + (0x800000 >>> val - 102) >>> 126 - val);
+    }
 
     public static boolean doubleDownRestricted(Container c) {
         return
@@ -138,90 +164,14 @@ public class ModUtils {
         return BrutalityCommonConfig.THROWING_WEAPONS_BREAK_BLOCKS.get() ? Explosion.BlockInteraction.DESTROY_WITH_DECAY : Explosion.BlockInteraction.KEEP;
     }
 
-    public static void handleActiveAbilityWithCd(ICuriosItemHandler handler, Item item, int cooldownTicks, Runnable runnable) {
-        if (handler.isEquipped(item)) {
-            if (handler.getWearer() instanceof Player wearer) {
-                if (!wearer.getCooldowns().isOnCooldown(item)) {
-                    runnable.run();
-                    wearer.getCooldowns().addCooldown(item, cooldownTicks);
-                }
-            }
-        }
-    }
-
-    public static void handleActiveAbility(ICuriosItemHandler handler, Item item, Runnable runnable) {
-        if (handler.isEquipped(item)) {
-            runnable.run();
-        }
-    }
-
-    public static Random getSyncedSeededRandom(Entity player) {
-        long seed = player.level().getGameTime(); // Shared game time
-        seed = seed * 31 + player.getUUID().hashCode(); // Unique per player
-        seed = seed * 31 + (long) (player.getX() * 1000); // Player X position (scaled)
-        seed = seed * 31 + (long) (player.getY() * 1000); // Player Y position (scaled)
-        seed = seed * 31 + (long) (player.getZ() * 1000); // Player Z position (scaled)
-        seed = seed * 31 + player.tickCount;
+    public static Random getSyncedPseudoRandom(Entity entity) {
+        long seed = entity.level().getGameTime(); // Shared game time
+        seed = seed * 31 + entity.getUUID().hashCode(); // Unique per entity
+        seed = seed * 31 + (long) (entity.getX() * 1000); // Player X position (scaled)
+        seed = seed * 31 + (long) (entity.getY() * 1000); // Player Y position (scaled)
+        seed = seed * 31 + (long) (entity.getZ() * 1000); // Player Z position (scaled)
+        seed = seed * 31 + entity.tickCount;
         return new Random(seed);
-    }
-
-    public static double computeAttributes(@Nullable Player player, ItemStack stack, double originalDamage) {
-        if (player == null) return originalDamage;
-
-        Map<Predicate<ItemStack>, List<Attribute>> attributeMap = Map.of(
-                s -> s.getItem() instanceof SwordItem || s.is(ItemTags.SWORDS), // Filter
-                List.of(BrutalityModAttributes.SWORD_DAMAGE.get(), BrutalityModAttributes.SLASH_DAMAGE.get()), // Attributes that affect it
-
-                s -> s.getItem() instanceof AxeItem || s.is(ItemTags.AXES), // Filter
-                List.of(BrutalityModAttributes.AXE_DAMAGE.get(), BrutalityModAttributes.SLASH_DAMAGE.get()), // Attributes that affect it
-
-                s -> s.getItem() instanceof BrutalityHammerItem || s.is(TerramityModItems.HELLROK_GIGATON_HAMMER.get()), // Filter
-                List.of(BrutalityModAttributes.HAMMER_DAMAGE.get(), BrutalityModAttributes.BLUNT_DAMAGE.get()), // Attributes that affect it
-
-                s -> s.getItem() instanceof BrutalityScytheItem, // Filter
-                List.of(BrutalityModAttributes.SCYTHE_DAMAGE.get(), BrutalityModAttributes.SLASH_DAMAGE.get()),  // Attributes that affect it
-
-                s -> s.getItem() instanceof BrutalitySpearItem || s.getItem() instanceof BrutalityTridentItem || s.getItem() instanceof TridentItem, // Filter
-                List.of(BrutalityModAttributes.SPEAR_DAMAGE.get(), BrutalityModAttributes.PIERCING_DAMAGE.get()),  // Attributes that affect it
-
-                s -> !s.is(TerramityModItems.HELLROK_GIGATON_HAMMER.get()) && (s.getItem() instanceof PickaxeItem || s.is(ItemTags.PICKAXES) || s.getItem() instanceof HoeItem || s.is(ItemTags.HOES)), // Filter
-                List.of(BrutalityModAttributes.PIERCING_DAMAGE.get()), // Attributes that affect it
-
-                s -> s.getItem() instanceof ShovelItem || s.is(ItemTags.SHOVELS), // Filter
-                List.of(BrutalityModAttributes.BLUNT_DAMAGE.get())  // Attributes that affect it
-        );
-
-
-        for (var entry : attributeMap.entrySet()) {
-            if (entry.getKey().test(stack)) {
-                for (Attribute attribute : entry.getValue()) {
-                    AttributeInstance attributeInstance = player.getAttribute(attribute);
-                    if (attributeInstance != null) {
-                        originalDamage = calculateValue(attributeInstance, originalDamage);
-                    }
-                }
-            }
-        }
-        return originalDamage;
-    }
-
-    private static double calculateValue(AttributeInstance attributeInstance, double baseValue) {
-
-        for (AttributeModifier additionMultiplier : attributeInstance.getModifiersOrEmpty(AttributeModifier.Operation.ADDITION)) {
-            baseValue += additionMultiplier.getAmount();
-        }
-
-        double finalValue = baseValue;
-
-        for (AttributeModifier multiplyBaseModifier : attributeInstance.getModifiersOrEmpty(AttributeModifier.Operation.MULTIPLY_BASE)) {
-            finalValue += baseValue * multiplyBaseModifier.getAmount();
-        }
-
-        for (AttributeModifier multiplyTotalModifier : attributeInstance.getModifiersOrEmpty(AttributeModifier.Operation.MULTIPLY_TOTAL)) {
-            finalValue *= 1.0D + multiplyTotalModifier.getAmount();
-        }
-
-        return attributeInstance.getAttribute().sanitizeValue(finalValue);
     }
 
 
@@ -241,16 +191,6 @@ public class ModUtils {
         return BrutalityCategories.AttackType.NONE;
     }
 
-
-    public static int calculateFallDamage(LivingEntity living, float pFallDistance, float pDamageMultiplier) {
-        if (living.getType().is(EntityTypeTags.FALL_DAMAGE_IMMUNE)) {
-            return 0;
-        } else {
-            MobEffectInstance mobeffectinstance = living.getEffect(MobEffects.JUMP);
-            float f = mobeffectinstance == null ? 0.0F : (float) (mobeffectinstance.getAmplifier() + 1);
-            return Mth.ceil((pFallDistance - 3.0F - f) * pDamageMultiplier);
-        }
-    }
 
     public static void removeFX(Entity entity, FX fx) {
         List<EntityEffect> effects = EntityEffect.CACHE.get(entity);
@@ -315,50 +255,19 @@ public class ModUtils {
         return Mth.sqrt(x * x + z * z);
     }
 
-    public static <T extends ParticleOptions> int sendParticles(ServerLevel serverLevel, T pType, boolean longDistance, double pPosX, double pPosY, double pPosZ, int pParticleCount, double pXOffset, double pYOffset, double pZOffset, double pSpeed) {
-        ClientboundLevelParticlesPacket clientboundlevelparticlespacket = new ClientboundLevelParticlesPacket(
-                pType, longDistance, pPosX, pPosY, pPosZ, (float) pXOffset, (float) pYOffset, (float) pZOffset, (float) pSpeed, pParticleCount
-        );
-        int i = 0;
-        for (ServerPlayer serverPlayer : serverLevel.players()) {
-            if (sendParticles(serverLevel, serverPlayer, longDistance, pPosX, pPosY, pPosZ, clientboundlevelparticlespacket)) {
-                ++i;
-            }
+    /**
+     * Gets the velocity of the arrow entity from the bow's charge,
+     * this is copied from {@link BowItem}, as that method is protected
+     */
+    public static float getPowerForTime(int pCharge) {
+        float f = (float)pCharge / 20.0F;
+        f = (f * f + f * 2.0F) / 3.0F;
+        if (f > 1.0F) {
+            f = 1.0F;
         }
-        return i;
-    }
 
-    public static <T extends ParticleOptions> int sendParticles(ServerLevel serverLevel, T pType,
-                                                                boolean longDistance, Entity toSpawnOn, double pXOffset,
-                                                                double pYOffset, double pZOffset, int pParticleCount, double pSpeed) {
-        return sendParticles(serverLevel, pType, longDistance, toSpawnOn.getX(), toSpawnOn.getY(0.5), toSpawnOn.getZ(), pParticleCount, pXOffset, pYOffset, pZOffset, pSpeed);
+        return f;
     }
-
-    public static <T extends ParticleOptions> int sendParticles(ServerLevel serverLevel, T pType,
-                                                                boolean longDistance, Vec3 spawnPos,
-                                                                double pXOffset, double pYOffset, double pZOffset, int pParticleCount, double pSpeed) {
-        return sendParticles(serverLevel, pType, longDistance, spawnPos.x, spawnPos.y, spawnPos.z, pParticleCount, pXOffset, pYOffset, pZOffset, pSpeed);
-    }
-
-    public static <T extends ParticleOptions> int sendParticles(ServerLevel serverLevel, T pType,
-                                                                boolean longDistance, double pPosX, double pPosY, double pPosZ, int pParticleCount, double pSpeed) {
-        return sendParticles(serverLevel, pType, longDistance, pPosX, pPosY, pPosZ, pParticleCount, 0, 0, 0, pSpeed);
-    }
-
-    private static boolean sendParticles(ServerLevel serverLevel, ServerPlayer pPlayer, boolean pLongDistance, double pPosX, double pPosY, double pPosZ, Packet<?> pPacket) {
-        if (pPlayer.level() != serverLevel) {
-            return false;
-        } else {
-            BlockPos blockpos = pPlayer.blockPosition();
-            if (blockpos.closerToCenterThan(new Vec3(pPosX, pPosY, pPosZ), pLongDistance ? 512.0D : 32.0D)) {
-                pPlayer.connection.send(pPacket);
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-
 
     public record RayData<T extends Entity>(List<T> entityList, int distance, Vec3 endPos) {
         public RayData(List<T> entityList, int distance, Vec3 endPos) {
@@ -498,38 +407,89 @@ public class ModUtils {
     }
 
 
-    public static boolean isPlayerBehind(Player player, Entity entity, int range) {
-        Vec3 playerPos = player.getPosition(1.0F);
-        Vec3 entityPos = entity.getPosition(1.0F);
+    /**
+     * Checks if the player is positioned behind the target entity within a specific angular range.
+     * <p>
+     * This is calculated using the dot product of the entity's look vector and the vector
+     * pointing from the entity to the player.
+     * </p>
+     *
+     * @param player The player whose position is being checked.
+     * @param target The entity whose back we are looking for.
+     * @param angle  The tolerance angle in degrees.
+     * 90 means "anywhere behind the shoulders" (180° total cone).
+     * 45 means a narrower "true backstab" zone (90° total cone).
+     * @return {@code true} if the player is within the specified angle behind the entity.
+     */
+    public static boolean isPlayerBehind(Player player, Entity target, float angle) {
+        // 1. Get the direction the entity is facing (normalized)
+        Vec3 entityLook = target.getViewVector(1.0F);
 
-        Vec3 targetVec = entityPos.subtract(playerPos);
-        float targetDeg = (float) Math.toDegrees(Math.atan2(targetVec.x, targetVec.z)) + 180;
+        // 2. Get the direction from the entity to the player (normalized)
+        Vec3 toPlayer = player.position().subtract(target.position()).normalize();
 
-        return targetDeg > (90 - range) && targetDeg < (270 + range);
+        // 3. Dot Product
+        // If the dot product is negative, the vectors are facing opposite directions (Player is behind).
+        // The value ranges from 1.0 (directly in front) to -1.0 (directly behind).
+        double dot = entityLook.dot(toPlayer);
+
+        // 4. Convert angle to a dot product threshold
+        // Cosine of 180 degrees is -1.0. We check if the dot product is lower than our limit.
+        double threshold = Math.cos(Math.toRadians(180 - angle));
+
+        return dot < threshold;
     }
 
+
+    /**
+     * Checks if the entity is wearing a complete, matching set of armor.
+     * <p>
+     * A matching set is defined as all four armor slots (Head, Chest, Legs, Feet)
+     * being occupied by armor pieces made of the exact same {@link ArmorMaterial}.
+     * </p>
+     *
+     * @param entity The entity to check.
+     * @return {@code true} if all 4 slots are filled with armor of the same material;
+     * {@code false} if any slot is empty or contains a different material.
+     */
     public static boolean hasMatchingArmorSet(LivingEntity entity) {
-        String materialName = null;
+        ArmorMaterial materialName = null;
         for (ItemStack stack : entity.getArmorSlots()) {
+            // If the slot is empty or not an ArmorItem, it's not a complete set
             if (stack.isEmpty() || !(stack.getItem() instanceof ArmorItem armor)) {
                 return false;
             }
-            String current = armor.getMaterial().getName();
+
+            ArmorMaterial currentMaterial = armor.getMaterial();
             if (materialName == null) {
-                materialName = current;
-            } else if (!materialName.equals(current)) {
+                materialName = currentMaterial;
+            } else if (!materialName.equals(currentMaterial)) {
                 return false;
             }
         }
         return true;
     }
 
+    /**
+     * Checks if the entity is wearing a complete set of armor of a specific material.
+     * <p>
+     * This is useful for triggering material-specific set bonuses (e.g., a "Netherite Set" bonus).
+     * </p>
+     *
+     * @param livingEntity The entity to check.
+     * @param material     The {@link ArmorMaterial} required for the set bonus.
+     * @return {@code true} if all 4 armor slots contain armor of the specified material;
+     * {@code false} otherwise.
+     */
     public static boolean hasFullArmorSet(LivingEntity livingEntity, ArmorMaterial material) {
         for (ItemStack stack : livingEntity.getArmorSlots()) {
-            if (!(stack.getItem() instanceof ArmorItem armorItem)) {
+            // Validation: Must be an ArmorItem to have a material
+            if (stack.isEmpty() || !(stack.getItem() instanceof ArmorItem armor)) {
                 return false;
             }
-            if (armorItem.getMaterial() != material) {
+
+            // Check if the material matches the target
+            if (armor.getMaterial() != material) {
                 return false;
             }
         }
@@ -639,7 +599,7 @@ public class ModUtils {
                 // Check if the angle is within range
                 if (dotProduct > 1.0D - 0.075D / distanceToEntity) { // Adjust threshold as needed
                     // Check line of sight with raycasting
-                    ClipContext context = new ClipContext(playerPos, entityPos, ClipContext.Block.COLLIDER, net.minecraft.world.level.ClipContext.Fluid.NONE, pPlayer);
+                    ClipContext context = new ClipContext(playerPos, entityPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, pPlayer);
                     BlockHitResult blockHit = pPlayer.level().clip(context);
 
                     if (blockHit.getType() == BlockHitResult.Type.MISS) {

@@ -1,7 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
 import net.goo.brutality.client.renderers.layers.*;
-import net.goo.brutality.item.BrutalityArmorMaterials;
+import net.goo.brutality.common.item.BrutalityArmorMaterials;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -26,11 +26,9 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     private void onInit(EntityRendererProvider.Context context, EntityModel<T> model, float shadowRadius, CallbackInfo ci) {
         LivingEntityRenderer<T, M> renderer = (LivingEntityRenderer<T, M>) (Object) this;
 
-        this.addLayer(new StarLayer<>(context, renderer));
         this.addLayer(new StickyBombLayer<>(context, renderer));
         this.addLayer(new LightBoundLayer<>(context, renderer));
         this.addLayer(new EyeOfViolenceLayer<>(renderer));
-        this.addLayer(new TheVoidLayer<>(renderer));
 
         if (((Object) this) instanceof PlayerRenderer) {
             this.addLayer(new EnragedOverlayLayer<>(renderer));

@@ -1,8 +1,8 @@
 package net.goo.brutality.util;
 
 import net.bettercombat.api.client.BetterCombatClientEvents;
-import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.ServerboundBetterCombatAttackStartListenerPacket;
+import net.goo.brutality.common.network.PacketHandler;
+import net.goo.brutality.common.network.serverbound.ServerboundBetterCombatAttackStartListenerPacket;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;

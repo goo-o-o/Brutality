@@ -2,7 +2,7 @@ package net.goo.brutality.client.renderers.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.goo.brutality.item.base.BrutalityGeoItem;
+import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.ArmorItem;

@@ -115,7 +115,7 @@ repositories {
     maven { url 'https://maven.parchmentmc.org' }
 //    maven { url 'https://repo.spongepowered.org/repository/maven-public/' }
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
-    maven { url 'https://repo.azisaba.net/repository/maven-public/' }
+//    maven { url 'https://repo.azisaba.net/repository/maven-public/' }
     // Modrinth for Better Combat
     maven { url 'https://api.modrinth.com/maven' }
 
@@ -169,7 +169,7 @@ dependencies {
 //    implementation fg.deobf("curse.maven:loot-beams-506757:5548970")
     implementation fg.deobf("curse.maven:overflowing-bars-852662:5763974")
 
-    implementation fg.deobf("curse.maven:attributefix-280510:4911084")
+//    implementation fg.deobf("curse.maven:attributefix-280510:4911084")
     implementation fg.deobf("curse.maven:bookshelf-228525:5423987")
     implementation fg.deobf("curse.maven:effortless-building-302113:6330928")
 

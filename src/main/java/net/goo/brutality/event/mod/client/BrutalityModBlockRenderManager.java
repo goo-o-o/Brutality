@@ -1,10 +1,10 @@
 package net.goo.brutality.event.mod.client;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.block.BrutalityGeoBlockEntity;
+import net.goo.brutality.common.block.BrutalityGeoBlockEntity;
 import net.goo.brutality.client.renderers.block.*;
 import net.goo.brutality.client.renderers.layers.BrutalityBlockLayer;
-import net.goo.brutality.registry.BrutalityModBlockEntities;
+import net.goo.brutality.common.registry.BrutalityBlockEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -28,18 +28,18 @@ public class BrutalityModBlockRenderManager {
 
     @SubscribeEvent
     public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(BrutalityModBlockEntities.TABLE_OF_WIZARDRY_BLOCK_ENTITY.get(), TableOfWizardryRenderer::new);
-        event.registerBlockEntityRenderer(BrutalityModBlockEntities.PEDESTAL_OF_WIZARDRY_BLOCK_ENTITY.get(), PedestalOfWizardryRenderer::new);
-        event.registerBlockEntityRenderer(BrutalityModBlockEntities.WHITE_FILING_CABINET_BLOCK_ENTITY.get(), FilingCabinetBlockEntityRenderer::new);
-        event.registerBlockEntityRenderer(BrutalityModBlockEntities.LIGHT_GRAY_FILING_CABINET_BLOCK_ENTITY.get(), FilingCabinetBlockEntityRenderer::new);
-        event.registerBlockEntityRenderer(BrutalityModBlockEntities.GRAY_FILING_CABINET_BLOCK_ENTITY.get(), FilingCabinetBlockEntityRenderer::new);
-        event.registerBlockEntityRenderer(BrutalityModBlockEntities.WATER_COOLER_BLOCK_ENTITY.get(), BrutalityGeoBlockRenderer::new);
-        event.registerBlockEntityRenderer(BrutalityModBlockEntities.COFFEE_MACHINE_BLOCK_ENTITY.get(), BrutalityGeoBlockRenderer::new);
-        event.registerBlockEntityRenderer(BrutalityModBlockEntities.SUPER_SNIFFER_FIGURE_BLOCK_ENTITY.get(), BrutalityGeoBlockRenderer::new);
-        event.registerBlockEntityRenderer(BrutalityModBlockEntities.WET_FLOOR_SIGN_BLOCK_ENTITY.get(), RotatableBlockRenderer::new);
-        event.registerBlockEntityRenderer(BrutalityModBlockEntities.LCD_MONITOR_BLOCK_ENTITY.get(), RotatableBlockRenderer::new);
-        event.registerBlockEntityRenderer(BrutalityModBlockEntities.WHITE_OFFICE_CHAIR_BLOCK_ENTITY.get(), RotatableBlockRenderer::new);
-        event.registerBlockEntityRenderer(BrutalityModBlockEntities.BLACK_OFFICE_CHAIR_BLOCK_ENTITY.get(), RotatableBlockRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityBlockEntities.TABLE_OF_WIZARDRY_BLOCK_ENTITY.get(), TableOfWizardryRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityBlockEntities.PEDESTAL_OF_WIZARDRY_BLOCK_ENTITY.get(), PedestalOfWizardryRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityBlockEntities.WHITE_FILING_CABINET_BLOCK_ENTITY.get(), FilingCabinetBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityBlockEntities.LIGHT_GRAY_FILING_CABINET_BLOCK_ENTITY.get(), FilingCabinetBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityBlockEntities.GRAY_FILING_CABINET_BLOCK_ENTITY.get(), FilingCabinetBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityBlockEntities.WATER_COOLER_BLOCK_ENTITY.get(), BrutalityGeoBlockRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityBlockEntities.COFFEE_MACHINE_BLOCK_ENTITY.get(), BrutalityGeoBlockRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityBlockEntities.SUPER_SNIFFER_FIGURE_BLOCK_ENTITY.get(), BrutalityGeoBlockRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityBlockEntities.WET_FLOOR_SIGN_BLOCK_ENTITY.get(), RotatableBlockRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityBlockEntities.LCD_MONITOR_BLOCK_ENTITY.get(), RotatableBlockRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityBlockEntities.WHITE_OFFICE_CHAIR_BLOCK_ENTITY.get(), RotatableBlockRenderer::new);
+        event.registerBlockEntityRenderer(BrutalityBlockEntities.BLACK_OFFICE_CHAIR_BLOCK_ENTITY.get(), RotatableBlockRenderer::new);
 
 
     }

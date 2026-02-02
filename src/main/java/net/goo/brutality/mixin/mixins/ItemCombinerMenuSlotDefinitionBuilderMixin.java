@@ -1,6 +1,6 @@
 package net.goo.brutality.mixin.mixins;
 
-import net.goo.brutality.util.helpers.NbtHelper;
+import net.goo.brutality.util.NBTUtils;
 import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
@@ -23,7 +23,7 @@ public class ItemCombinerMenuSlotDefinitionBuilderMixin {
     ) {
         Predicate<ItemStack> wrapped = stack -> {
             if (!pMayPlace.test(stack)) return false;
-            return !NbtHelper.getBool(stack, "fromDoubleDown", false);
+            return !NBTUtils.getBool(stack, "fromDoubleDown", false);
         };
 
         // Replace the slot with wrapped predicate

@@ -1,8 +1,8 @@
 package net.goo.brutality.client.renderers.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.goo.brutality.registry.BrutalityModBlockEntities;
-import net.goo.brutality.registry.BrutalityModBlocks;
+import net.goo.brutality.common.registry.BrutalityBlockEntities;
+import net.goo.brutality.common.registry.BrutalityBlocks;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
@@ -25,9 +25,9 @@ public class BrutalityBlockEntityWithoutLevelRenderer extends BlockEntityWithout
     private BrutalityBlockEntityWithoutLevelRenderer(BlockEntityRendererProvider.Context context) {
         super(context.getBlockEntityRenderDispatcher(), context.getModelSet());
         this.dispatcher = context.getBlockEntityRenderDispatcher();
-        registerBlockEntity(BrutalityModBlocks.WHITE_FILING_CABINET.get(), BrutalityModBlockEntities.WHITE_FILING_CABINET_BLOCK_ENTITY.get());
-        registerBlockEntity(BrutalityModBlocks.LIGHT_GRAY_FILING_CABINET.get(), BrutalityModBlockEntities.LIGHT_GRAY_FILING_CABINET_BLOCK_ENTITY.get());
-        registerBlockEntity(BrutalityModBlocks.GRAY_FILING_CABINET.get(), BrutalityModBlockEntities.GRAY_FILING_CABINET_BLOCK_ENTITY.get());
+        registerBlockEntity(BrutalityBlocks.WHITE_FILING_CABINET.get(), BrutalityBlockEntities.WHITE_FILING_CABINET_BLOCK_ENTITY.get());
+        registerBlockEntity(BrutalityBlocks.LIGHT_GRAY_FILING_CABINET.get(), BrutalityBlockEntities.LIGHT_GRAY_FILING_CABINET_BLOCK_ENTITY.get());
+        registerBlockEntity(BrutalityBlocks.GRAY_FILING_CABINET.get(), BrutalityBlockEntities.GRAY_FILING_CABINET_BLOCK_ENTITY.get());
     }
 
     private void registerBlockEntity(Block block, BlockEntityType<?> blockEntityType) {

@@ -2,7 +2,7 @@ package net.goo.brutality.client.renderers.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.goo.brutality.block.PreciseRotatableBlock;
+import net.goo.brutality.common.block.PreciseRotatableBlock;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;

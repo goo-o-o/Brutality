@@ -2,8 +2,8 @@ package net.goo.brutality.client.renderers.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.goo.brutality.entity.capabilities.EntityCapabilities;
-import net.goo.brutality.registry.BrutalityCapabilities;
+import net.goo.brutality.common.registry.BrutalityEffects;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -20,7 +20,7 @@ public class EnragedOverlayLayer<T extends LivingEntity, M extends EntityModel<T
 
     @Override
     public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
-        if (pLivingEntity.getCapability(BrutalityCapabilities.ENTITY_EFFECT_CAP).map(EntityCapabilities.EntityEffectCap::isRage).orElse(false)) {
+        if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.hasEffect(BrutalityEffects.ENRAGED.get())) {
             VertexConsumer vertexConsumer = pBuffer.getBuffer(RenderType.entityTranslucent(getTextureLocation(pLivingEntity)));
 
             getParentModel().renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 0.2F, 0.2F, 1.0F);

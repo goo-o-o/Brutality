@@ -1,7 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.google.common.collect.ImmutableList;
-import net.goo.brutality.registry.BrutalityModItems;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -59,8 +59,8 @@ public class HumanoidModelMixin implements net.goo.brutality.client.models.IRand
 
 		brutality$mainRight = player.getMainArm() == HumanoidArm.RIGHT;
 
-		brutality$hasNoirItemMain = player.getMainHandItem().is(BrutalityModItems.CANOPY_OF_SHADOWS.get());
-		brutality$hasNoirItemOff = player.getOffhandItem().is(BrutalityModItems.CANOPY_OF_SHADOWS.get());
+		brutality$hasNoirItemMain = player.getMainHandItem().is(BrutalityItems.CANOPY_OF_SHADOWS.get());
+		brutality$hasNoirItemOff = player.getOffhandItem().is(BrutalityItems.CANOPY_OF_SHADOWS.get());
 
 		float xRotOffset = -1.2F;
 
@@ -101,7 +101,7 @@ public class HumanoidModelMixin implements net.goo.brutality.client.models.IRand
 			this.rightArm.yRot = -0.5F;
 			this.leftArm.zRot = 0.2F;
 			this.rightArm.zRot = -0.2F;
-		} else if (player.getInventory().getArmor(2).getItem() == BrutalityModItems.NOIR_CHESTPLATE.get()) {
+		} else if (player.getInventory().getArmor(2).getItem() == BrutalityItems.NOIR_CHESTPLATE.get()) {
 			this.rightArm.xRot = 0;
 			this.leftArm.xRot = 0;
 			this.rightArm.zRot = 0;
@@ -116,9 +116,9 @@ public class HumanoidModelMixin implements net.goo.brutality.client.models.IRand
 //			this.leftArm.xRot = (float) (-300 * Math.PI / 180);
 //		}
 
-		if (player.getMainHandItem().is(BrutalityModItems.STYROFOAM_CUP.get()) || player.getMainHandItem().is(BrutalityModItems.MUG.get())) {
+		if (player.getMainHandItem().is(BrutalityItems.STYROFOAM_CUP.get()) || player.getMainHandItem().is(BrutalityItems.MUG.get())) {
 			this.rightArm.xRot = (float) (-90 * Math.PI / 180);
-		} else if (player.getOffhandItem().is(BrutalityModItems.STYROFOAM_CUP.get()) || player.getMainHandItem().is(BrutalityModItems.MUG.get())) {
+		} else if (player.getOffhandItem().is(BrutalityItems.STYROFOAM_CUP.get()) || player.getMainHandItem().is(BrutalityItems.MUG.get())) {
 			this.leftArm.xRot = (float) (-90 * Math.PI / 180);
 		}
 
@@ -138,7 +138,7 @@ public class HumanoidModelMixin implements net.goo.brutality.client.models.IRand
 	private void conditionalBobModelPart(ModelPart arm, float ageInTicks, float direction, LivingEntity entity) {
 		if (entity instanceof Player player) {
 			// Skip bobbing if wearing Noir Chestplate
-			if (player.getInventory().getArmor(2).getItem() == BrutalityModItems.NOIR_CHESTPLATE.get()) {
+			if (player.getInventory().getArmor(2).getItem() == BrutalityItems.NOIR_CHESTPLATE.get()) {
 				return;
 			}
 
@@ -151,11 +151,11 @@ public class HumanoidModelMixin implements net.goo.brutality.client.models.IRand
 			boolean isPositiveDirection = direction > 0;
 
 			// Styrofoam Cup logic
-			if (player.getMainHandItem().is(BrutalityModItems.STYROFOAM_CUP.get()) || player.getMainHandItem().is(BrutalityModItems.MUG.get())) {
+			if (player.getMainHandItem().is(BrutalityItems.STYROFOAM_CUP.get()) || player.getMainHandItem().is(BrutalityItems.MUG.get())) {
 				// Only bob the opposite arm (positive direction is typically right arm)
 				if (isPositiveDirection != isRightArm) return;
 			}
-			if (player.getOffhandItem().is(BrutalityModItems.STYROFOAM_CUP.get()) || player.getMainHandItem().is(BrutalityModItems.MUG.get())) {
+			if (player.getOffhandItem().is(BrutalityItems.STYROFOAM_CUP.get()) || player.getMainHandItem().is(BrutalityItems.MUG.get())) {
 				// Only bob the opposite arm
 				if (isPositiveDirection == isRightArm) return;
 			}
@@ -185,7 +185,7 @@ public class HumanoidModelMixin implements net.goo.brutality.client.models.IRand
 //				this.rightArm.xRot -= 2F;
 //			}
 
-			boolean wearingNoirChestplate = player.getInventory().getArmor(2).getItem() == BrutalityModItems.NOIR_CHESTPLATE.get();
+			boolean wearingNoirChestplate = player.getInventory().getArmor(2).getItem() == BrutalityItems.NOIR_CHESTPLATE.get();
 
 			if (wearingNoirChestplate) {
 				this.rightArm.xRot = 0.1F;
@@ -196,8 +196,8 @@ public class HumanoidModelMixin implements net.goo.brutality.client.models.IRand
 
 			brutality$mainRight = player.getMainArm() == HumanoidArm.RIGHT;
 
-			brutality$hasNoirItemMain = player.getMainHandItem().is(BrutalityModItems.CANOPY_OF_SHADOWS.get());
-			brutality$hasNoirItemOff = player.getOffhandItem().is(BrutalityModItems.CANOPY_OF_SHADOWS.get());
+			brutality$hasNoirItemMain = player.getMainHandItem().is(BrutalityItems.CANOPY_OF_SHADOWS.get());
+			brutality$hasNoirItemOff = player.getOffhandItem().is(BrutalityItems.CANOPY_OF_SHADOWS.get());
 
 			float xRotOffset = -1.5F;
 

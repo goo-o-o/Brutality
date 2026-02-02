@@ -1,8 +1,8 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import net.goo.brutality.registry.BrutalityCapabilities;
-import net.goo.brutality.util.SealUtils;
+import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
+import net.goo.brutality.util.item.SealUtils;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +27,7 @@ public class TridentItemMixin {
     private void attachSealToTrident(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving, int pTimeLeft, CallbackInfo ci, @Local ThrownTrident throwntrident) {
         SealUtils.SEAL_TYPE sealType = SealUtils.getSealType(pStack);
         if (sealType != null) {
-            throwntrident.getCapability(BrutalityCapabilities.SEAL_TYPE_CAP).ifPresent(cap -> cap.setSealType(sealType));
+            throwntrident.getCapability(BrutalityCapabilities.SEAL_TYPE).ifPresent(cap -> cap.setSealType(sealType));
         }
     }
 }

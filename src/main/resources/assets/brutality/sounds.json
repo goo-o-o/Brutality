@@ -681,5 +681,13 @@
         "name": "brutality:void_slash"
       }
     ]
-  }
+  },
+  "table_of_wizardry": {
+  "category": "ambient",
+  "sounds": [
+    {
+      "name": "brutality:table_of_wizardry"
+    }
+  ]
+}
 }

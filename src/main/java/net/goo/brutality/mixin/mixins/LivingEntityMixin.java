@@ -1,26 +1,25 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.goo.brutality.event.LivingDodgeEvent;
-import net.goo.brutality.item.BrutalityArmorMaterials;
-import net.goo.brutality.item.base.BrutalityAnkletItem;
-import net.goo.brutality.item.weapon.scythe.DarkinScythe;
-import net.goo.brutality.registry.*;
+import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
+import net.goo.brutality.common.item.BrutalityArmorMaterials;
+import net.goo.brutality.common.item.curios.charm.BaseBrokenClock;
+import net.goo.brutality.common.item.curios.charm.OmnidirectionalMovementGear;
+import net.goo.brutality.common.item.weapon.scythe.DarkinScythe;
+import net.goo.brutality.common.registry.BrutalityAttributes;
+import net.goo.brutality.mixin.accessors.IBrutalityAttribute;
 import net.goo.brutality.util.BrutalityEntityRotations;
 import net.goo.brutality.util.ModUtils;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
+import net.goo.brutality.util.attribute.AttributeCalculationHelper;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.CombatRules;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +27,6 @@ import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.fml.ModLoader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -37,19 +35,21 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
-
-import java.util.Optional;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements BrutalityEntityRotations {
-    @Unique
-    private static final float TIMEKEEPERS_CLOCK_DEBUFF_DURATION = 0.75F, TCOFT_DEBUFF_DURATION = 0.65F, TCOFT_BUFF_DURATION = 1.25F;
+
 
     public LivingEntityMixin(EntityType<?> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
+
+    @Inject(method = "<init>", at = @At("RETURN"))
+    private void brutality$initAttributeOwner(CallbackInfo ci) {
+        LivingEntity self = (LivingEntity) (Object) this;
+        ((IBrutalityAttribute) self.getAttributes()).brutality$setOwner(self);
+    }
+
 
     @ModifyVariable(
             method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z",
@@ -62,41 +62,10 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
         int originalDuration = effectInstance.getDuration();
         MobEffectInstance modifiedInstance = effectInstance;
 
-        if (CuriosApi.getCuriosInventory(entity).isPresent()) {
-            ICuriosItemHandler handler = CuriosApi.getCuriosInventory(entity).orElse(null);
-            if (handler.isEquipped(BrutalityModItems.THE_CLOCK_OF_FROZEN_TIME.get())) {
-                if (effect.getCategory() == MobEffectCategory.HARMFUL) {
-                    int duration = (int) (originalDuration * TCOFT_DEBUFF_DURATION);
-                    duration = Math.max(duration, 1);
 
-                    modifiedInstance = new MobEffectInstance(effect, duration,
-                            effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.isVisible(), effectInstance.showIcon());
-                } else if (effect.getCategory() == MobEffectCategory.BENEFICIAL) {
-                    int duration = (int) (originalDuration * TCOFT_BUFF_DURATION);
-                    duration = Math.max(duration, 1);
+        modifiedInstance = BaseBrokenClock.getModifiedTimeEffect(entity, modifiedInstance);
 
-                    modifiedInstance = new MobEffectInstance(effect, duration,
-                            effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.isVisible(), effectInstance.showIcon());
-                }
-            } else if (handler.isEquipped(BrutalityModItems.TIMEKEEPERS_CLOCK.get()) && effect.getCategory() == MobEffectCategory.HARMFUL) {
-                int duration = (int) (originalDuration * TIMEKEEPERS_CLOCK_DEBUFF_DURATION);
-                duration = Math.max(duration, 1);
-
-                modifiedInstance = new MobEffectInstance(effect, duration,
-                        effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.isVisible(), effectInstance.showIcon());
-            }
-        }
-
-        if (effect == BrutalityModMobEffects.STUNNED.get()) {
-            if (entity.getAttribute(BrutalityModAttributes.TENACITY.get()) != null) {
-                int duration = (int) (originalDuration * (2 - entity.getAttributeValue(BrutalityModAttributes.TENACITY.get())));
-                duration = Math.max(duration, 1);
-
-                modifiedInstance = new MobEffectInstance(effect, duration,
-                        effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.isVisible(), effectInstance.showIcon());
-
-            }
-        }
+        // todo: readd tenacity and stun
 
 
         return modifiedInstance;
@@ -111,15 +80,15 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
 
             if (attacker instanceof Player player) {
                 // Check if attacker has the custom attributes before accessing them
-                AttributeInstance lethalityAttr = player.getAttribute(BrutalityModAttributes.LETHALITY.get());
-                AttributeInstance armorPenAttr = player.getAttribute(BrutalityModAttributes.ARMOR_PENETRATION.get());
+                AttributeInstance lethalityAttr = player.getAttribute(BrutalityAttributes.LETHALITY.get());
+                AttributeInstance armorPenAttr = player.getAttribute(BrutalityAttributes.ARMOR_PENETRATION.get());
 
                 if (lethalityAttr != null && armorPenAttr != null) {
                     double lethalityValue = lethalityAttr.getValue();
                     double armorPenValue = armorPenAttr.getValue();
 
                     float modifiedArmor = target.getArmorValue();
-                    modifiedArmor *= (float) (2 - armorPenValue);
+                    modifiedArmor *= (float) (1 - armorPenValue); // invert so 20% armor pen = 80% effective armor
                     modifiedArmor -= (float) lethalityValue;
                     float modifiedDamage = CombatRules.getDamageAfterAbsorb(pDamageAmount, modifiedArmor, (float) target.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
                     cir.setReturnValue(modifiedDamage);
@@ -130,12 +99,14 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
 
 
     @ModifyReturnValue(method = "getJumpPower()F", at = @At("RETURN"))
-    private float modifyJumpStrength(float original) {
+    private float modifyGetJumpPowerReturnValue(float original) {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
-        AttributeInstance jumpAttr = livingEntity.getAttribute(BrutalityModAttributes.JUMP_HEIGHT.get());
-        if (jumpAttr != null) {
-            return (float) (original + ((jumpAttr.getValue() - 1.2522) * 0.159)); // 0.159 jump power = 1 block
+
+        Float modified = AttributeCalculationHelper.getJumpPowerFromAttribute(livingEntity, original);
+        if (modified != null) {
+            return modified;
         }
+
         return original;
     }
 
@@ -145,33 +116,9 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
             at = @At("HEAD"),
             cancellable = true
     )
-    private void handleDodge(DamageSource pSource, float pAmount, CallbackInfoReturnable<Boolean> cir) {
+    private void onHurt(DamageSource pSource, float pAmount, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
-        if (pSource.is(DamageTypeTags.BYPASSES_COOLDOWN)) return;
-        if (livingEntity.hasEffect(BrutalityModMobEffects.DODGE_COOLDOWN.get())) return;
-        AttributeInstance dodgeAttr = livingEntity.getAttribute(BrutalityModAttributes.DODGE_CHANCE.get());
-        if (dodgeAttr != null && Mth.nextFloat(livingEntity.getRandom(), 0, 1) < dodgeAttr.getValue() - 1) {
-            LivingDodgeEvent.Server dodgeEvent = new LivingDodgeEvent.Server(livingEntity, pSource, pAmount);
-            ModLoader.get().postEvent(dodgeEvent);
-            if (!dodgeEvent.isCanceled()) {
-                if (livingEntity.level() instanceof ServerLevel serverLevel)
-                    serverLevel.playSound(null, livingEntity.getOnPos(), ModUtils.getRandomSound(BrutalityModSounds.DODGE_SOUNDS), SoundSource.PLAYERS,
-                            1F, Mth.nextFloat(livingEntity.getRandom(), 0.5F, 1.5F));
-
-                livingEntity.addEffect(new MobEffectInstance(BrutalityModMobEffects.DODGE_COOLDOWN.get(), 10));
-                CuriosApi.getCuriosInventory(livingEntity).ifPresent(itemHandler ->
-                        itemHandler.getStacksHandler("anklet").ifPresent(stacksHandler -> {
-                            for (int i = 0; i < stacksHandler.getSlots(); i++) {
-                                ItemStack stack = stacksHandler.getStacks().getStackInSlot(i);
-                                if (stack.getItem() instanceof BrutalityAnkletItem ankletItem) {
-                                    ankletItem.onDodgeServer(livingEntity, pSource, pAmount, stack);
-//                                            PacketHandler.sendToAllClients(new ClientboundDodgePacket(livingEntity.getId(), pSource, pAmount, stack));
-                                }
-                            }
-                        }));
-                cir.setReturnValue(false); // Cancel hurt if event not canceled
-            }
-        }
+        AttributeCalculationHelper.handleDodge(livingEntity, pSource, pAmount, cir);
     }
 
 
@@ -193,7 +140,6 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
     }
 
 
-
     @ModifyVariable(
             method = "travel",
             at = @At(
@@ -205,40 +151,7 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
             name = "f3"
     )
     private float modifyFrictionFactorF3(float f3) {
-
-        Attribute attributeToUse;
-        double vanillaSlowdownRate;
-        LivingEntity livingEntity = (((LivingEntity) (Object) this));
-        if (livingEntity.onGround()) {
-            attributeToUse = BrutalityModAttributes.GROUND_FRICTION.get();
-            // When onGround, f3 = f2 * 0.91.
-            // Vanilla Slowdown Rate = 1.0 - f3.
-            vanillaSlowdownRate = 1.0D - f3;
-        } else {
-            attributeToUse = BrutalityModAttributes.AIR_FRICTION.get();
-            // When airborne, f3 = 0.91 (Vanilla Default).
-            vanillaSlowdownRate = 0.09; // 0.09D
-        }
-
-        AttributeInstance frictionAttribute = livingEntity.getAttribute(attributeToUse);
-        if (frictionAttribute == null) {
-            return f3; // Return the original (vanilla or environmental mod) value
-        }
-
-        double A = frictionAttribute.getValue(); // Attribute value (0 = no friction, 1 = normal, 2 = 2x)
-
-        // --- Bedrock-Style Slowdown Scaling ---
-
-        // 1. Calculate the NEW slowdown rate: R_new = R_vanilla * A
-        double R_new = vanillaSlowdownRate * A;
-
-        // 2. Convert back to the friction multiplier: f3_new = 1.0 - R_new
-        // Constant velocity is achieved when f3_new = 1.0
-        // Maximum slowdown is achieved when f3_new = 0.0
-        double newF3 = 1.0D - R_new;
-
-        // 3. Cap the value: [0.0 (full stop), 1.0 (no slowdown)]
-        return (float) Mth.clamp(newF3, 0.0F, 1.0F);
+        return AttributeCalculationHelper.handleFriction((((LivingEntity) (Object) this)), f3);
     }
 
     @Inject(
@@ -253,7 +166,7 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
             float currentHealth = entity.getHealth();
             if (currentHealth > 0.0F) {
                 float excess = (currentHealth + pHealAmount) - entity.getMaxHealth();
-                entity.getCapability(BrutalityCapabilities.PLAYER_BLOOD_CAP).ifPresent(cap -> cap.incrementBlood(excess * 0.5F));
+                entity.getCapability(BrutalityCapabilities.BLOOD).ifPresent(cap -> cap.modifyBloodValue(excess * 0.5F));
                 entity.setHealth(currentHealth + pHealAmount);
             }
 
@@ -331,54 +244,22 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
         }
     }
 
+
     @Redirect(
             method = "jumpFromGround",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/phys/Vec3;add(DDD)Lnet/minecraft/world/phys/Vec3;"
-            )
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;add(DDD)Lnet/minecraft/world/phys/Vec3;")
     )
-    private Vec3 applyDirectionalSprintBoostMinimal(Vec3 instance, double x, double y, double z) {
-        LivingEntity livingEntity = (((LivingEntity) (Object) this));
-        Optional<ICuriosItemHandler> handlerOpt = CuriosApi.getCuriosInventory(livingEntity).resolve();
-        if (handlerOpt.isPresent()) {
-            ICuriosItemHandler handler = handlerOpt.get();
-            if (handler.isEquipped(BrutalityModItems.OMNIDIRECTIONAL_MOVEMENT_GEAR.get())) {
+    private Vec3 redirectJumpFromGround(Vec3 deltaMovement, double x, double y, double z) {
+        LivingEntity entity = (LivingEntity) (Object) this;
 
-                float currentX = livingEntity.xxa;
-                float currentZ = livingEntity.zza;
-                final double BOOST_AMOUNT = 0.2D;
-
-                // Calculate the magnitude of the horizontal impulse vector
-                double magnitude = Math.sqrt(currentX * currentX + currentZ * currentZ);
-
-                // Check if the player is moving horizontally
-                if (magnitude > 1.0E-6D) {
-
-                    // 1. Normalize the impulse vector to get the direction (local space)
-                    // (Note: This is technically redundant if we use atan2, but ensures the components are clean)
-                    double normalizedX = currentX / magnitude;
-                    double normalizedZ = currentZ / magnitude;
-
-                    // Get player's look direction (yaw) in radians
-                    float yaw = this.getYRot() * ((float) Math.PI / 180F);
-                    double cosYaw = Mth.cos(yaw);
-                    double sinYaw = Mth.sin(yaw);
-
-                    // Standard 2D rotation matrix applied to the normalized impulse vector:
-                    double rotatedX = normalizedX * cosYaw - normalizedZ * sinYaw;
-                    double rotatedZ = normalizedZ * cosYaw + normalizedX * sinYaw;
-
-                    // 3. Scale the rotated vector by the fixed sprint jump boost amount
-                    double boostX = rotatedX * BOOST_AMOUNT;
-                    double boostZ = rotatedZ * BOOST_AMOUNT;
-
-                    // 4. Return the new DeltaMovement, adding the calculated directional boost
-                    return instance.add(boostX, 0.0D, boostZ);
-                }
-            }
+        Vec3 omniBoost = OmnidirectionalMovementGear.getOmnidirectionalJumpBoost(entity);
+        if (omniBoost != null) {
+            return deltaMovement.add(omniBoost.x, 0.0D, omniBoost.z);
         }
-        return instance.add(x, y, z);
+
+        return deltaMovement.add(x, y, z);
     }
+
+
 }
 

@@ -1,7 +1,7 @@
 package net.goo.brutality.client.models;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.block.BrutalityGeoBlockEntity;
+import net.goo.brutality.common.block.BrutalityGeoBlockEntity;
 import net.goo.brutality.client.renderers.block.BrutalityGeoBlockRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;

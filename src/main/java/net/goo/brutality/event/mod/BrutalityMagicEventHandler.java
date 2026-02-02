@@ -4,11 +4,12 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.event.ConsumeManaEvent;
 import net.goo.brutality.event.SpellCastEvent;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
-import net.goo.brutality.magic.IBrutalitySpell;
-import net.goo.brutality.magic.SpellCastingHandler;
-import net.goo.brutality.magic.SpellCooldownTracker;
-import net.goo.brutality.magic.SpellStorage;
-import net.goo.brutality.registry.BrutalityModItems;
+import net.goo.brutality.common.magic.IBrutalitySpell;
+import net.goo.brutality.util.magic.ManaHelper;
+import net.goo.brutality.util.magic.SpellCastingHandler;
+import net.goo.brutality.util.magic.SpellCooldownTracker;
+import net.goo.brutality.util.magic.SpellStorage;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
@@ -38,17 +39,17 @@ public class BrutalityMagicEventHandler {
         float manaCost = IBrutalitySpell.getActualManaCost(player, spell, spellLevel);
 
         CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
-            if (handler.isEquipped(BrutalityModItems.HELLSPEC_TIE.get())) {
+            if (handler.isEquipped(BrutalityItems.HELLSPEC_TIE.get())) {
                 if (spell.getSchool() == IBrutalitySpell.MagicSchool.BRIMWIELDER) {
-                    SpellCastingHandler.addMana(player, manaCost * 0.25F);
+                    ManaHelper.modifyManaValue(player, manaCost * 0.25F);
                 }
             }
-            if (handler.isEquipped(BrutalityModItems.SOUL_STONE.get())) {
-                float chance = ModUtils.getSyncedSeededRandom(player).nextFloat(0, 1);
+            if (handler.isEquipped(BrutalityItems.SOUL_STONE.get())) {
+                float chance = ModUtils.getSyncedPseudoRandom(player).nextFloat(0, 1);
                 if (chance < 0.05F) {
-                    SpellCastingHandler.addMana(player, manaCost);
+                    ManaHelper.modifyManaValue(player, manaCost);
                 } else {
-                    SpellCastingHandler.addMana(player, manaCost * 0.15F);
+                    ManaHelper.modifyManaValue(player, manaCost * 0.15F);
                 }
             }
 
@@ -72,13 +73,15 @@ public class BrutalityMagicEventHandler {
         float roll = random.nextFloat();
 
         // Define paragon configs: item, threshold base, luck bonus per level, max extra casts, mana multiplier
-        record MulticastConfig(RegistryObject<Item> item, float baseThreshold, float luckBonus, int maxExtra, float manaMult) {}
+        record MulticastConfig(RegistryObject<Item> item, float baseThreshold, float luckBonus, int maxExtra,
+                               float manaMult) {
+        }
 
         MulticastConfig[] configs = {
-                new MulticastConfig(BrutalityModItems.PARAGON_OF_THE_FIRST_MAGE,         0.20F, 0.03F, 4, 0.25F),
-                new MulticastConfig(BrutalityModItems.ARCHMAGES_THESIS_TO_MASTERFUL_MULTICASTING, 0.15F, 0.03F, 3, 0.50F),
-                new MulticastConfig(BrutalityModItems.WIZARDS_GUIDEBOOK_TO_ADVANCED_MULTICASTING, 0.15F, 0.00F, 2, 0.75F),
-                new MulticastConfig(BrutalityModItems.APPRENTICES_MANUAL_TO_BASIC_MULTICASTING, 0.15F, 0.00F, 1, 1.00F)
+                new MulticastConfig(BrutalityItems.PARAGON_OF_THE_FIRST_MAGE, 0.20F, 0.03F, 4, 0.25F),
+                new MulticastConfig(BrutalityItems.ARCHMAGES_THESIS_TO_MASTERFUL_MULTICASTING, 0.15F, 0.03F, 3, 0.50F),
+                new MulticastConfig(BrutalityItems.WIZARDS_GUIDEBOOK_TO_ADVANCED_MULTICASTING, 0.15F, 0.00F, 2, 0.75F),
+                new MulticastConfig(BrutalityItems.APPRENTICES_MANUAL_TO_BASIC_MULTICASTING, 0.15F, 0.00F, 1, 1.00F)
         };
 
         for (MulticastConfig cfg : configs) {
@@ -95,10 +98,11 @@ public class BrutalityMagicEventHandler {
                         int spellLevel = IBrutalitySpell.getActualSpellLevel(player, entry.spell(), entry.level());
                         float cost = IBrutalitySpell.getActualManaCost(player, entry.spell(), spellLevel) * cfg.manaMult();
 
-                        if (SpellCastingHandler.hasEnoughMana(player, cost)
+                        if (ManaHelper.getMana(player) > cost
                                 && !SpellCooldownTracker.isOnCooldown(player, entry.spell())) {
                             entry.spell().onStartCast(player, tome, spellLevel);
-                            SpellCastingHandler.decrementManaAndStartCooldown(player, entry.spell(), spellLevel);
+                            SpellCastingHandler.setCooldown(player, entry.spell(), spellLevel);
+                            SpellCastingHandler.subtractSpellCost(player, entry.spell(), spellLevel);
                         }
                     }
                 }
@@ -110,12 +114,14 @@ public class BrutalityMagicEventHandler {
     public static void handleRecursors(ICuriosItemHandler handler, Player player, ItemStack tome, IBrutalitySpell spell, int spellLevel) {
         RandomSource random = player.getRandom();
 
-        record RecursorConfig(RegistryObject<Item> item, float baseThreshold, float luckBonusPerLevel, float thresholdDecay, float manaMult) {}
+        record RecursorConfig(RegistryObject<Item> item, float baseThreshold, float luckBonusPerLevel,
+                              float thresholdDecay, float manaMult) {
+        }
 
         RecursorConfig[] configs = {
-                new RecursorConfig(BrutalityModItems.INFINITE_RECURSOR,     0.25F, 0.03F, 0.02F, 0.50F),
-                new RecursorConfig(BrutalityModItems.CONVERGENT_RECURSOR,   0.15F, 0.00F, 0.00F, 0.75F),
-                new RecursorConfig(BrutalityModItems.DIVERGENT_RECURSOR,    0.15F, 0.00F, 0.00F, 1.00F)
+                new RecursorConfig(BrutalityItems.INFINITE_RECURSOR, 0.25F, 0.03F, 0.02F, 0.50F),
+                new RecursorConfig(BrutalityItems.CONVERGENT_RECURSOR, 0.15F, 0.00F, 0.00F, 0.75F),
+                new RecursorConfig(BrutalityItems.DIVERGENT_RECURSOR, 0.15F, 0.00F, 0.00F, 1.00F)
         };
 
         for (RecursorConfig cfg : configs) {
@@ -127,7 +133,7 @@ public class BrutalityMagicEventHandler {
                 float currentThreshold = threshold;
 
                 // Divergent: single roll, max 1 extra cast
-                if (cfg.item() == BrutalityModItems.DIVERGENT_RECURSOR) {
+                if (cfg.item() == BrutalityItems.DIVERGENT_RECURSOR) {
                     if (random.nextFloat() < threshold) count = 1;
                 } else {
                     // Infinite / Convergent: chained rolls
@@ -144,7 +150,7 @@ public class BrutalityMagicEventHandler {
                     final int delay = i + 1; // slight stagger
                     DelayedTaskScheduler.queueServerWork(player.level(), delay, () -> {
                         float cost = IBrutalitySpell.getActualManaCost(player, spell, spellLevel) * costMult;
-                        if (SpellCastingHandler.hasEnoughMana(player, cost)) {
+                        if (ManaHelper.getMana(player) > cost) {
                             spell.onStartCast(player, tome, spellLevel);
                         }
                     });
@@ -158,17 +164,15 @@ public class BrutalityMagicEventHandler {
     @SubscribeEvent
     public static void onConsumeMana(ConsumeManaEvent event) {
         float amount = event.getAmount();
-        int level = event.getSpellLevel();
-        IBrutalitySpell spell = event.getSpell();
         Player player = event.getPlayer();
 
         CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
-            handler.findFirstCurio(BrutalityModItems.ONYX_IDOL.get()).ifPresent(slot -> {
+            handler.findFirstCurio(BrutalityItems.ONYX_IDOL.get()).ifPresent(slot -> {
                 ItemStack stack = slot.stack();
                 CompoundTag tag = stack.getOrCreateTag();
                 tag.putFloat("mana", tag.getFloat("mana") + amount);
                 if (tag.getFloat("mana") > 200) {
-                    SpellCooldownTracker.resetCooldowns(player);
+                    SpellCooldownTracker.resetAllCooldowns(player);
                     tag.putFloat("mana", amount % 200);
                 }
             });

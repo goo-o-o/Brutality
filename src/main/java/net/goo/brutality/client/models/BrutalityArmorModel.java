@@ -1,7 +1,7 @@
 package net.goo.brutality.client.models;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.item.base.BrutalityGeoItem;
+import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
 import software.bernie.geckolib.model.GeoModel;

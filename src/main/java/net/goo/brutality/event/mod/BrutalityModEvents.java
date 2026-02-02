@@ -1,9 +1,9 @@
 package net.goo.brutality.event.mod;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.entity.mobs.SummonedStray;
-import net.goo.brutality.registry.BrutalityModEntities;
-import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.common.entity.mobs.SummonedStray;
+import net.goo.brutality.common.registry.BrutalityEntities;
+import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -19,7 +19,7 @@ public class BrutalityModEvents {
 
     @SubscribeEvent
     public static void onAttributeCreate(EntityAttributeCreationEvent event) {
-        event.put(BrutalityModEntities.SUMMONED_STRAY.get(), SummonedStray.createAttributes().build());
+        event.put(BrutalityEntities.SUMMONED_STRAY.get(), SummonedStray.createAttributes().build());
     }
 
     @SubscribeEvent
@@ -29,17 +29,17 @@ public class BrutalityModEvents {
 
         // 1. Define the attributes that are generic (Friction, Damage Taken, etc.)
         Set<Attribute> genericAttributes = Set.of(
-                BrutalityModAttributes.AIR_FRICTION.get(),
-                BrutalityModAttributes.GROUND_FRICTION.get(),
-                BrutalityModAttributes.DAMAGE_TAKEN.get(),
-                BrutalityModAttributes.BLUNT_DAMAGE.get(),
-                BrutalityModAttributes.PIERCING_DAMAGE.get(),
-                BrutalityModAttributes.SLASH_DAMAGE.get(),
-                BrutalityModAttributes.AXE_DAMAGE.get(),
-                BrutalityModAttributes.SWORD_DAMAGE.get(),
-                BrutalityModAttributes.HAMMER_DAMAGE.get(),
-                BrutalityModAttributes.SPEAR_DAMAGE.get(),
-                BrutalityModAttributes.SCYTHE_DAMAGE.get()
+                BrutalityAttributes.AIR_FRICTION.get(),
+                BrutalityAttributes.GROUND_FRICTION.get(),
+                BrutalityAttributes.DAMAGE_TAKEN.get(),
+                BrutalityAttributes.BLUNT_DAMAGE.get(),
+                BrutalityAttributes.PIERCING_DAMAGE.get(),
+                BrutalityAttributes.SLASH_DAMAGE.get(),
+                BrutalityAttributes.AXE_DAMAGE.get(),
+                BrutalityAttributes.SWORD_DAMAGE.get(),
+                BrutalityAttributes.HAMMER_DAMAGE.get(),
+                BrutalityAttributes.SPEAR_DAMAGE.get(),
+                BrutalityAttributes.SCYTHE_DAMAGE.get()
         );
 
         // 2. Loop through all entity types that can be modified
@@ -58,34 +58,40 @@ public class BrutalityModEvents {
 
         // 3. Define the attributes that are player-specific (Mana, Spell Levels, etc.)
         Set<Attribute> playerOnlyAttributes = Set.of(
-                BrutalityModAttributes.RAGE_TIME.get(),
-                BrutalityModAttributes.RAGE_LEVEL.get(),
-                BrutalityModAttributes.MAX_RAGE.get(),
-                BrutalityModAttributes.DAMAGE_TO_RAGE_RATIO.get(),
-                BrutalityModAttributes.MANA_COST.get(),
-                BrutalityModAttributes.MANA_REGEN.get(),
-                BrutalityModAttributes.MAX_MANA.get(),
-                BrutalityModAttributes.SPELL_COOLDOWN_REDUCTION.get(),
-                BrutalityModAttributes.CAST_TIME_REDUCTION.get(),
-                BrutalityModAttributes.SPELL_DAMAGE.get(),
-                BrutalityModAttributes.DAEMONIC_SCHOOL_LEVEL.get(),
-                BrutalityModAttributes.DARKIST_SCHOOL_LEVEL.get(),
-                BrutalityModAttributes.VOLTWEAVER_SCHOOL_LEVEL.get(),
-                BrutalityModAttributes.CELESTIA_SCHOOL_LEVEL.get(),
-                BrutalityModAttributes.UMBRANCY_SCHOOL_LEVEL.get(),
-                BrutalityModAttributes.EXODIC_SCHOOL_LEVEL.get(),
-                BrutalityModAttributes.BRIMWIELDER_SCHOOL_LEVEL.get(),
-                BrutalityModAttributes.VOIDWALKER_SCHOOL_LEVEL.get(),
-                BrutalityModAttributes.CRITICAL_STRIKE_CHANCE.get(),
-                BrutalityModAttributes.CRITICAL_STRIKE_DAMAGE.get(),
-                BrutalityModAttributes.JUMP_HEIGHT.get(),
-                BrutalityModAttributes.STUN_CHANCE.get(),
-                BrutalityModAttributes.STUN_DURATION.get(),
-                BrutalityModAttributes.TENACITY.get(),
-                BrutalityModAttributes.LETHALITY.get(),
-                BrutalityModAttributes.ARMOR_PENETRATION.get(),
-                BrutalityModAttributes.ENTITY_VISIBILITY.get(),
-                BrutalityModAttributes.THROW_STRENGTH.get()
+                BrutalityAttributes.RAGE_TIME.get(),
+                BrutalityAttributes.LIFESTEAL.get(),
+                BrutalityAttributes.OMNIVAMP.get(),
+                BrutalityAttributes.RAGE_LEVEL.get(),
+                BrutalityAttributes.MAX_RAGE.get(),
+                BrutalityAttributes.DAMAGE_TO_RAGE_RATIO.get(),
+                BrutalityAttributes.MANA_COST.get(),
+                BrutalityAttributes.MANA_REGEN.get(),
+                BrutalityAttributes.MAX_MANA.get(),
+                BrutalityAttributes.MAX_BLOOD.get(),
+                BrutalityAttributes.SPELL_COOLDOWN.get(),
+                BrutalityAttributes.CAST_TIME.get(),
+                BrutalityAttributes.SPELL_DAMAGE.get(),
+                BrutalityAttributes.DAEMONIC_SCHOOL_LEVEL.get(),
+                BrutalityAttributes.DARKIST_SCHOOL_LEVEL.get(),
+                BrutalityAttributes.VOLTWEAVER_SCHOOL_LEVEL.get(),
+                BrutalityAttributes.CELESTIA_SCHOOL_LEVEL.get(),
+                BrutalityAttributes.UMBRANCY_SCHOOL_LEVEL.get(),
+                BrutalityAttributes.EVERGREEN_SCHOOL_LEVEL.get(),
+                BrutalityAttributes.DODGE_CHANCE.get(),
+                BrutalityAttributes.EXODIC_SCHOOL_LEVEL.get(),
+                BrutalityAttributes.COSMIC_SCHOOL_LEVEL.get(),
+                BrutalityAttributes.BRIMWIELDER_SCHOOL_LEVEL.get(),
+                BrutalityAttributes.VOIDWALKER_SCHOOL_LEVEL.get(),
+                BrutalityAttributes.CRITICAL_STRIKE_CHANCE.get(),
+                BrutalityAttributes.CRITICAL_STRIKE_DAMAGE.get(),
+                BrutalityAttributes.JUMP_HEIGHT.get(),
+                BrutalityAttributes.STUN_CHANCE.get(),
+                BrutalityAttributes.STUN_DURATION.get(),
+                BrutalityAttributes.TENACITY.get(),
+                BrutalityAttributes.LETHALITY.get(),
+                BrutalityAttributes.ARMOR_PENETRATION.get(),
+                BrutalityAttributes.STEALTH.get(),
+                BrutalityAttributes.THROW_STRENGTH.get()
                 );
 
         // 4. Add player-specific attributes only to the PLAYER EntityType

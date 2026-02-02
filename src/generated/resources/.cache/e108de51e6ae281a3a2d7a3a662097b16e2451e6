@@ -1,1 +1,11 @@
-// 1.20.1	2025-09-21T04:32:54.188379	Tags for minecraft:block mod id brutality
+// 1.20.1	2026-02-01T04:33:43.6839365	Tags for minecraft:block mod id brutality
+0dc3869820782db5c3b0528f143b93b4bb915740 data/minecraft/tags/blocks/buttons.json
+a0f46cdf28bd1cdb6b5e9361181c9390f2670f57 data/minecraft/tags/blocks/doors.json
+43d72f39009d433626b5cbdd0295e055e16578ba data/minecraft/tags/blocks/mineable/axe.json
+00c978f5f8e8f4b51886f3b38f32d94944b642d7 data/minecraft/tags/blocks/mineable/pickaxe.json
+5760e8cb7f8a140843903c6662c197683c5eca3a data/minecraft/tags/blocks/needs_stone_tool.json
+af6872fe5a806ae82a1d5c597f15a12a419102a5 data/minecraft/tags/blocks/pressure_plates.json
+decf46c3d266174f8dace9488963d27c1fba0813 data/minecraft/tags/blocks/slabs.json
+8f0010ffbc1b93d2071225c17109e766bbd78ddf data/minecraft/tags/blocks/stairs.json
+0a0b22a5294551e152ec28e767567c9cdfcc60b2 data/minecraft/tags/blocks/trapdoors.json
+82f75b8707099d757172e491eef600da46bfd690 data/minecraft/tags/blocks/walls.json

@@ -2,17 +2,20 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
+    "#": {
+      "item": "terramity:reinforced_blackstone"
+    },
     "$": {
-      "item": "terramity:terramity_guidebook_icon"
+      "item": "minecraft:book"
     },
     "@": {
       "item": "terramity:reverium"
     }
   },
   "pattern": [
-    " @ ",
+    "#@#",
     "@$@",
-    " @ "
+    "#@#"
   ],
   "result": {
     "item": "brutality:good_book"

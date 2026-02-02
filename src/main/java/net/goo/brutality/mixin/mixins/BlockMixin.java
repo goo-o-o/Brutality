@@ -1,6 +1,6 @@
 package net.goo.brutality.mixin.mixins;
 
-import net.goo.brutality.registry.BrutalityModItems;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
@@ -18,7 +18,7 @@ public class BlockMixin {
     private void forceBouncy(BlockGetter pLevel, Entity pEntity, CallbackInfo ci) {
         if (pEntity instanceof LivingEntity livingEntity) {
             CuriosApi.getCuriosInventory(livingEntity).ifPresent(handler -> {
-                if (handler.isEquipped(BrutalityModItems.PORTABLE_TRAMPOLINE.get())) {
+                if (handler.isEquipped(BrutalityItems.PORTABLE_TRAMPOLINE.get())) {
                     // From SlimeBlock
                     Vec3 vec3 = pEntity.getDeltaMovement();
                     if (vec3.y < 0.0D) {

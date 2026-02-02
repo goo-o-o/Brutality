@@ -1,7 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.goo.brutality.registry.BrutalityModMobEffects;
+import net.goo.brutality.common.registry.BrutalityEffects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Style;
@@ -15,7 +15,7 @@ public class StyleMixin {
         Minecraft mc = Minecraft.getInstance();
         if (mc == null) return original;
         LocalPlayer player = mc.player;
-        if (player == null || !player.hasEffect(BrutalityModMobEffects.TERRAMITICULOSIS.get())) return original;
+        if (player == null || !player.hasEffect(BrutalityEffects.TERRAMITICULOSIS.get())) return original;
 
         return true;
     }

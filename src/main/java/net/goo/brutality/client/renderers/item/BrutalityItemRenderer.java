@@ -1,7 +1,7 @@
 package net.goo.brutality.client.renderers.item;
 
 import net.goo.brutality.client.models.BrutalityItemModel;
-import net.goo.brutality.item.base.BrutalityGeoItem;
+import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;

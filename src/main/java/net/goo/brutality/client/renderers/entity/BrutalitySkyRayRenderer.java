@@ -3,7 +3,7 @@ package net.goo.brutality.client.renderers.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
-import net.goo.brutality.entity.projectile.ray.ExplosionRay;
+import net.goo.brutality.common.entity.projectile.ray.ExplosionRay;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Entity;
 

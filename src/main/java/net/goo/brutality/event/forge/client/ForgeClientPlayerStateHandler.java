@@ -1,43 +1,25 @@
 package net.goo.brutality.event.forge.client;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.config.BrutalityClientConfig;
+import net.goo.brutality.client.config.BrutalityClientConfig;
+import net.goo.brutality.common.registry.BrutalityEntities;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.event.mod.client.Keybindings;
-import net.goo.brutality.gui.CooldownMeter;
-import net.goo.brutality.item.BrutalityArmorMaterials;
-import net.goo.brutality.item.base.BrutalityThrowingItem;
-import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.network.ServerboundActivateRagePacket;
-import net.goo.brutality.network.ServerboundActiveAbilityPressPacket;
-import net.goo.brutality.network.ServerboundArmorSetBonusAbilityPressPacket;
-import net.goo.brutality.registry.BrutalityCapabilities;
-import net.goo.brutality.registry.BrutalityModEntities;
-import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.util.ModTags;
-import net.goo.brutality.util.ModUtils;
-import net.mcreator.terramity.init.TerramityModKeyMappings;
+import net.goo.brutality.util.item.ThrowableWeaponUtils;
 import net.minecraft.client.GraphicsStatus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemCooldowns;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.MovementInputUpdateEvent;
-import net.minecraftforge.client.event.RenderNameTagEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
@@ -46,7 +28,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
-import static net.goo.brutality.util.helpers.EnvironmentColorManager.*;
+import static net.goo.brutality.util.EnvironmentColorManager.*;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, value = Dist.CLIENT)
 public class ForgeClientPlayerStateHandler {
@@ -57,7 +39,6 @@ public class ForgeClientPlayerStateHandler {
     private static GraphicsStatus originalGfxMode;
     private static int originalRenderDist = -1;
     public static final ResourceLocation BIT_SHADER = ResourceLocation.fromNamespaceAndPath("minecraft", "shaders/post/bits.json");
-    private static InteractionHand previousHand = InteractionHand.OFF_HAND;
 
     @SubscribeEvent
     public static void onMovementInputUpdate(MovementInputUpdateEvent event) {
@@ -98,13 +79,6 @@ public class ForgeClientPlayerStateHandler {
         }
     }
 
-    @SubscribeEvent
-    public static void onRenderNametag(RenderNameTagEvent event) {
-        if (event.getEntity() instanceof Player player)
-            if (ModUtils.hasFullArmorSet(player, BrutalityArmorMaterials.NOIR)) {
-                event.setResult(Event.Result.DENY);
-            }
-    }
 
     @SubscribeEvent
     public static void onKeyPressed(InputEvent.Key event) {
@@ -113,33 +87,7 @@ public class ForgeClientPlayerStateHandler {
         ClientLevel level = mc.level;
         if (level == null || player == null) return;
 
-        if (event.getAction() == InputConstants.PRESS) {
-            if (!player.hasEffect(BrutalityModMobEffects.ENRAGED.get()))
-                if (Keybindings.RAGE_ACTIVATE_KEY.consumeClick()) {
-                    CuriosApi.getCuriosInventory(player).ifPresent(
-                            handler -> {
-                                if (!handler.findCurios(stack -> stack.is(ModTags.Items.RAGE_ITEMS)).isEmpty()) {
-                                    player.getCapability(BrutalityCapabilities.PLAYER_RAGE_CAP).ifPresent(cap -> {
-                                        if (handler.findFirstCurio(BrutalityModItems.ANGER_MANAGEMENT.get()).isPresent()) {
-                                            PacketHandler.sendToServer(new ServerboundActivateRagePacket());
-                                        }
-                                    });
-
-                                }
-                            });
-                }
-
-            if (TerramityModKeyMappings.ACTIVE_ABILITY.consumeClick()) {
-                PacketHandler.sendToServer(new ServerboundActiveAbilityPressPacket());
-                CooldownMeter.AbilityCooldownMeter.updateActiveAbilityIcon(player);
-            }
-
-            if (TerramityModKeyMappings.ARMOR_SET_BONUS_ABILITY.consumeClick()) {
-                PacketHandler.sendToServer(new ServerboundArmorSetBonusAbilityPressPacket());
-            }
-
-
-        }
+        Keybindings.handleKeyPress(event, player);
     }
 
 
@@ -157,7 +105,7 @@ public class ForgeClientPlayerStateHandler {
         if (level == null || player == null) return;
 
 
-        boolean isHoldingGpuAxe = player.isHolding(BrutalityModItems.OLD_GPU.get());
+        boolean isHoldingGpuAxe = player.isHolding(BrutalityItems.OLD_GPU.get());
 
         if (isHoldingGpuAxe) {
             if (!wasHoldingGpuAxe) {
@@ -206,7 +154,7 @@ public class ForgeClientPlayerStateHandler {
 
         if (BrutalityClientConfig.BLACK_HOLE_SKY_COLOR.get()) {
             boolean blackHoleNearby = StreamSupport.stream(level.entitiesForRendering().spliterator(), false)
-                    .anyMatch(e -> e.getType() == BrutalityModEntities.BLACK_HOLE_ENTITY.get() && e.distanceToSqr(player) <= 10 * 10);
+                    .anyMatch(e -> e.getType() == BrutalityEntities.BLACK_HOLE_ENTITY.get() && e.distanceToSqr(player) <= 10 * 10);
 
             apply("black_hole", blackHoleNearby, new ProximityColorSet()
                     .setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255, 0, 0, 0))
@@ -218,7 +166,7 @@ public class ForgeClientPlayerStateHandler {
         if (BrutalityClientConfig.BORK_SKY_COLOR.get()) {
 
             boolean playerNearEntityWithBork = StreamSupport.stream(level.entitiesForRendering().spliterator(), false)
-                    .anyMatch(e -> e instanceof Player && ((Player) e).isHolding(BrutalityModItems.BLADE_OF_THE_RUINED_KING.get()) && e.distanceToSqr(player) <= 10 * 10);
+                    .anyMatch(e -> e instanceof Player && ((Player) e).isHolding(BrutalityItems.BLADE_OF_THE_RUINED_KING.get()) && e.distanceToSqr(player) <= 10 * 10);
 
 
             apply("bork", playerNearEntityWithBork,
@@ -231,7 +179,7 @@ public class ForgeClientPlayerStateHandler {
         }
 
         boolean rayNearby = StreamSupport.stream(level.entitiesForRendering().spliterator(), false)
-                .anyMatch(e -> e.getType() == BrutalityModEntities.EXPLOSION_RAY.get() && e.distanceToSqr(player) <= 50 * 50);
+                .anyMatch(e -> e.getType() == BrutalityEntities.EXPLOSION_RAY.get() && e.distanceToSqr(player) <= 50 * 50);
 
         apply("explosion_ray", rayNearby, new ProximityColorSet()
                 .setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255, 255, 140, 0))
@@ -240,51 +188,14 @@ public class ForgeClientPlayerStateHandler {
 
         resolveAndApplyColors();
 
-        // Ok let's go through this slowly
-        // First I want to check if Player has ThrowingItems in both hands
-        // If so, check if Main Hand on cooldown, if not, throw main hand
-        // If main hand on cooldown, check for offhand cooldown, if no cooldown, throw offhand
-        // Now check if only mainHand, if only MainHand then check for MainHand cooldown then throw
-        // If only in Offhand, then don't throw, I don't want to interfere with regular vanilla sword swinging and tool actions
-        // Edit: Whatever I wrote above is now incorrect
-
-        if (!ModList.get().isLoaded("bettercombat")) {
-
-            if (mc.options.keyAttack.isDown()) {
-                ItemStack mainHand = player.getMainHandItem();
-                ItemStack offHand = player.getOffhandItem();
-                ItemCooldowns cooldowns = player.getCooldowns();
-
-                if (mainHand.getItem() instanceof BrutalityThrowingItem mainHandThrowingItem && offHand.getItem() instanceof BrutalityThrowingItem offHandThrowingItem) { // Dual wielding Throwing Items
-                    if (!cooldowns.isOnCooldown(mainHandThrowingItem) && !cooldowns.isOnCooldown(offHandThrowingItem)) {
-                        if (previousHand == InteractionHand.OFF_HAND) { // Throw Main Hand
-                            mainHandThrowingItem.handleAttributesAndAnimation(player, mainHand, false);
-                            player.resetAttackStrengthTicker();
-                            previousHand = InteractionHand.MAIN_HAND;
-
-                        } else {
-                            offHandThrowingItem.handleAttributesAndAnimation(player, offHand, true);
-                            player.resetAttackStrengthTicker();
-                            previousHand = InteractionHand.OFF_HAND;
-                        }
-                    }
-                } else if (mainHand.getItem() instanceof BrutalityThrowingItem mainHandThrowingItem) {
-                    if (!cooldowns.isOnCooldown(mainHandThrowingItem)) {
-                        mainHandThrowingItem.handleAttributesAndAnimation(player, mainHand, false);
-                        player.resetAttackStrengthTicker();
-                        previousHand = InteractionHand.OFF_HAND;
-                    }
-                }
-            }
-        }
+        ThrowableWeaponUtils.handleAttacksWithoutBetterCombat(player);
 
         List<Player> nearbyPlayers = level.getNearbyPlayers(TargetingConditions.DEFAULT, player, player.getBoundingBox().inflate(5));
         for (Player otherPlayer : nearbyPlayers) {
             Optional<ICuriosItemHandler> handlerOpt = CuriosApi.getCuriosInventory(otherPlayer).resolve();
             if (handlerOpt.isPresent()) {
                 ICuriosItemHandler handler = handlerOpt.get();
-                if (handler.isEquipped(BrutalityModItems.CROWN_OF_DOMINATION.get())) {
-                    System.out.println(otherPlayer + " has crown of domination, setting crouch = true");
+                if (handler.isEquipped(BrutalityItems.CROWN_OF_DOMINATION.get())) {
                     player.crouching = true;
                     break;
                 }

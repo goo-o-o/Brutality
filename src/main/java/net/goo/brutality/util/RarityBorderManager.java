@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.registry.ModRarities;
+import net.goo.brutality.common.registry.BrutalityRarities;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -99,7 +99,7 @@ public class RarityBorderManager extends SimpleJsonResourceReloadListener {
 
 
     private void updateRarityData() {
-        for (ModRarities.RarityData rarityData : ModRarities.RarityData.values()) {
+        for (BrutalityRarities.RarityData rarityData : BrutalityRarities.RarityData.values()) {
             BorderData idleBorder = getBorderData(rarityData.rarity, BorderType.IDLE);
             BorderData openBorder = getBorderData(rarityData.rarity, BorderType.OPEN);
 

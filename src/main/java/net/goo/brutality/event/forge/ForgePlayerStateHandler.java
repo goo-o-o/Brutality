@@ -1,37 +1,28 @@
 package net.goo.brutality.event.forge;
 
-import com.google.common.base.Suppliers;
 import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.item.BrutalityArmorMaterials;
-import net.goo.brutality.item.weapon.axe.RhittaAxe;
-import net.goo.brutality.item.weapon.generic.CreaseOfCreation;
-import net.goo.brutality.item.weapon.spear.EventHorizon;
-import net.goo.brutality.item.weapon.sword.BladeOfTheRuinedKingSword;
-import net.goo.brutality.item.weapon.sword.DullKnifeSword;
-import net.goo.brutality.item.weapon.sword.SupernovaSword;
-import net.goo.brutality.item.weapon.tome.BaseMagicTome;
-import net.goo.brutality.item.weapon.trident.ThunderboltTrident;
-import net.goo.brutality.mob_effect.TheVoidEffect;
-import net.goo.brutality.network.ClientboundSyncCapabilitiesPacket;
-import net.goo.brutality.network.ClientboundSyncItemCooldownPacket;
-import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.registry.BrutalityCapabilities;
-import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.registry.BrutalityModMobEffects;
-import net.goo.brutality.registry.BrutalityModAttributes;
+import net.goo.brutality.common.item.BrutalityArmorMaterials;
+import net.goo.brutality.common.item.weapon.axe.RhittaAxe;
+import net.goo.brutality.common.item.weapon.generic.CreaseOfCreation;
+import net.goo.brutality.common.item.weapon.spear.EventHorizon;
+import net.goo.brutality.common.item.weapon.sword.BladeOfTheRuinedKingSword;
+import net.goo.brutality.common.item.weapon.sword.DullKnifeSword;
+import net.goo.brutality.common.item.weapon.sword.SupernovaSword;
+import net.goo.brutality.common.item.weapon.tome.BaseMagicTome;
+import net.goo.brutality.common.item.weapon.trident.ThunderboltTrident;
+import net.goo.brutality.common.network.PacketHandler;
+import net.goo.brutality.common.network.clientbound.ClientboundSyncItemCooldownPacket;
+import net.goo.brutality.common.registry.BrutalityEffects;
+import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.util.CooldownUtils;
+import net.goo.brutality.util.EnvironmentColorManager;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.helpers.EnvironmentColorManager;
-import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -42,59 +33,31 @@ import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingSwapItemsEvent;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import oshi.util.tuples.Pair;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
+import static net.goo.brutality.util.EnvironmentColorManager.resetAllColors;
 import static net.goo.brutality.util.ModResources.*;
-import static net.goo.brutality.util.helpers.EnvironmentColorManager.resetAllColors;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgePlayerStateHandler {
 
-    public static final Supplier<List<Item>> cdPersistItems = Suppliers.memoize(() -> List.of(
-            BrutalityModItems.EVIL_KING_BOOSTER_PACK.get(), BrutalityModItems.EVIL_KING_RESPAWN_CARD.get(),
-            BrutalityModItems.DIAMOND_BOOSTER_PACK.get(), BrutalityModItems.DIAMOND_RESPAWN_CARD.get(),
-            BrutalityModItems.SILVER_BOOSTER_PACK.get(), BrutalityModItems.SILVER_RESPAWN_CARD.get()
-    ));
-    public static final Supplier<List<MobEffect>> boosterPackEffects = Suppliers.memoize(() -> List.of(
-            MobEffects.SATURATION, MobEffects.MOVEMENT_SPEED, MobEffects.ABSORPTION, MobEffects.JUMP, MobEffects.DAMAGE_RESISTANCE, TerramityModMobEffects.IMMUNITY.get()));
-
     @SubscribeEvent
     public static void onSwitchItemHands(LivingSwapItemsEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (player.isHolding(BrutalityModItems.LAST_PRISM_ITEM.get())) {
+            if (player.isHolding(BrutalityItems.LAST_PRISM_ITEM.get())) {
                 if (player.isUsingItem()) {
                     event.setCanceled(true);
-                }
-            }
-        }
-    }
-
-
-    @SubscribeEvent
-    public static void onAddEffect(MobEffectEvent.Added event) {
-        LivingEntity entity = event.getEntity();
-        MobEffectInstance instance = event.getEffectInstance();
-        MobEffect effect = instance.getEffect();
-
-        if (!entity.level().isClientSide) {
-            if (effect instanceof TheVoidEffect) {
-                if (entity instanceof Player player) {
-                    PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(player.getId(), player));
                 }
             }
         }
@@ -115,28 +78,7 @@ public class ForgePlayerStateHandler {
 
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
-        Player newPlayer = event.getEntity();
-        Player oldPlayer = event.getOriginal();
-        if (event.isWasDeath()) {
-            ItemCooldowns newCooldowns = newPlayer.getCooldowns();
-            ItemCooldowns oldCooldowns = oldPlayer.getCooldowns();
-
-            boolean shouldSync = false;
-            for (Map.Entry<Item, ItemCooldowns.CooldownInstance> entry : oldCooldowns.cooldowns.entrySet()) {
-                Item item = entry.getKey();
-
-                if (cdPersistItems.get().contains(item)) {
-                    ItemCooldowns.CooldownInstance cooldown = entry.getValue();
-                    newCooldowns.cooldowns.put(item, new ItemCooldowns.CooldownInstance(cooldown.startTime, cooldown.endTime));
-                    newCooldowns.tickCount = oldCooldowns.tickCount;
-                    shouldSync = true;
-                }
-            }
-
-            if (shouldSync)
-                DelayedTaskScheduler.queueServerWork(newPlayer.level(), 1, () ->
-                        PacketHandler.sendToPlayerClient(new ClientboundSyncItemCooldownPacket(newCooldowns.cooldowns, newCooldowns.tickCount), ((ServerPlayer) newPlayer)));
-        }
+       CooldownUtils.persistCooldowns(event);
     }
 
 
@@ -347,11 +289,11 @@ public class ForgePlayerStateHandler {
 
             if (ModUtils.hasFullArmorSet(player, BrutalityArmorMaterials.TERRA)) {
                 if (player.isCrouching()) {
-                    if (!player.hasEffect(BrutalityModMobEffects.STONEFORM.get()))
+                    if (!player.hasEffect(BrutalityEffects.STONEFORM.get()))
                         player.playSound(SoundEvents.STONE_PLACE);
-                    player.addEffect(new MobEffectInstance(BrutalityModMobEffects.STONEFORM.get(), 20, 0, false, true));
-                } else if (player.hasEffect(BrutalityModMobEffects.STONEFORM.get())) {
-                    player.removeEffect(BrutalityModMobEffects.STONEFORM.get());
+                    player.addEffect(new MobEffectInstance(BrutalityEffects.STONEFORM.get(), 20, 0, false, true));
+                } else if (player.hasEffect(BrutalityEffects.STONEFORM.get())) {
+                    player.removeEffect(BrutalityEffects.STONEFORM.get());
                 }
 
             } else if (ModUtils.hasFullArmorSet(player, BrutalityArmorMaterials.VAMPIRE_LORD)) {
@@ -359,29 +301,6 @@ public class ForgePlayerStateHandler {
                     player.addEffect(new MobEffectInstance(MobEffects.HUNGER, 21, 1, true, false, false));
                 }
             }
-            player.getCapability(BrutalityCapabilities.PLAYER_MANA_CAP).
-                    ifPresent(cap ->
-                    {
-                        AttributeInstance maxManaAttr = player.getAttribute(BrutalityModAttributes.MAX_MANA.get());
-                        AttributeInstance manaRegenAttr = player.getAttribute(BrutalityModAttributes.MANA_REGEN.get());
-                        if (maxManaAttr != null && manaRegenAttr != null) {
-                            if (cap.manaValue() <= maxManaAttr.getValue()) {
-                                float additionalBonus = 0;
-                                if (CuriosApi.getCuriosInventory(player).isPresent()) {
-                                    ICuriosItemHandler handler = CuriosApi.getCuriosInventory(player).orElse(null);
-
-                                    if (handler.isEquipped(BrutalityModItems.FORBIDDEN_ORB.get())) {
-                                        if (cap.manaValue() <= maxManaAttr.getValue() * 0.3F) {
-                                            player.kill();
-                                            return;
-                                        }
-                                    }
-                                }
-                                cap.incrementMana(((float) ((manaRegenAttr.getValue() + additionalBonus) / 20)));
-                            }
-                            cap.setManaValue((float) Mth.clamp(cap.manaValue(), 0, maxManaAttr.getValue()));
-                        }
-                    });
 
         }
 

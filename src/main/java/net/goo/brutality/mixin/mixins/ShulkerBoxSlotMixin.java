@@ -1,6 +1,6 @@
 package net.goo.brutality.mixin.mixins;
 
-import net.goo.brutality.util.helpers.NbtHelper;
+import net.goo.brutality.util.NBTUtils;
 import net.minecraft.world.inventory.ShulkerBoxSlot;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,7 +13,7 @@ public class ShulkerBoxSlotMixin {
 
     @Inject(method = "mayPlace", at = @At("HEAD"), cancellable = true)
     private void restrictDoubleDown(ItemStack pStack, CallbackInfoReturnable<Boolean> cir) {
-        if (NbtHelper.getBool(pStack, "fromDoubleDown", false)) {
+        if (NBTUtils.getBool(pStack, "fromDoubleDown", false)) {
             cir.setReturnValue(false);
         }
     }

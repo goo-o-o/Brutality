@@ -1,8 +1,8 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import net.goo.brutality.registry.BrutalityCapabilities;
-import net.goo.brutality.util.SealUtils;
+import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
+import net.goo.brutality.util.item.SealUtils;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -30,7 +30,7 @@ public class EnderPearlItemMixin {
         ItemStack pStack = pPlayer.getItemInHand(pHand);
         SealUtils.SEAL_TYPE sealType = SealUtils.getSealType(pStack);
         if (sealType != null) {
-            pearl.getCapability(BrutalityCapabilities.SEAL_TYPE_CAP).ifPresent(cap -> cap.setSealType(sealType));
+            pearl.getCapability(BrutalityCapabilities.SEAL_TYPE).ifPresent(cap -> cap.setSealType(sealType));
         }
     }
 }

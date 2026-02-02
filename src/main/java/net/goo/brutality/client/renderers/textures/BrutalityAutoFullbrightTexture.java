@@ -1,6 +1,6 @@
 package net.goo.brutality.client.renderers.textures;
 
-import net.goo.brutality.client.BrutalityRenderTypes;
+import net.goo.brutality.client.renderers.BrutalityRenderTypes;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;

@@ -3,10 +3,9 @@ package net.goo.brutality.client.renderers.layers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.goo.brutality.client.models.IRandomModelPart;
-import net.goo.brutality.entity.capabilities.EntityCapabilities;
-import net.goo.brutality.entity.spells.celestia.LightBinding;
-import net.goo.brutality.registry.BrutalityCapabilities;
-import net.goo.brutality.registry.BrutalityModEntities;
+import net.goo.brutality.common.entity.spells.celestia.LightBinding;
+import net.goo.brutality.common.registry.BrutalityEffects;
+import net.goo.brutality.common.registry.BrutalityEntities;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -26,7 +25,7 @@ public class LightBoundLayer<T extends LivingEntity, M extends EntityModel<T>> e
     }
 
     protected void renderStuckItem(PoseStack poseStack, MultiBufferSource multiBufferSource, int pPackedLight, Entity entity, float pPartialTick, float rotationOffset, float spinAngle) {
-        LightBinding lightBinding = new LightBinding(BrutalityModEntities.LIGHT_BINDING.get(), entity.level());
+        LightBinding lightBinding = new LightBinding(BrutalityEntities.LIGHT_BINDING.get(), entity.level());
         // Apply X shape rotation
         poseStack.mulPose(Axis.ZP.rotationDegrees(rotationOffset));
         // Apply revolution around Y-axis (like a spinning top)
@@ -35,7 +34,7 @@ public class LightBoundLayer<T extends LivingEntity, M extends EntityModel<T>> e
     }
 
     public void render(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, @NotNull T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
-        if (pLivingEntity.getCapability(BrutalityCapabilities.ENTITY_EFFECT_CAP).map(EntityCapabilities.EntityEffectCap::isLightBound).orElse(false)) {
+        if (pLivingEntity.hasEffect(BrutalityEffects.LIGHT_BOUND.get()))
             if (this.getParentModel() instanceof IRandomModelPart) {
                 float scale = Math.max(pLivingEntity.getBbWidth(), pLivingEntity.getBbHeight()) * 0.5F;
 
@@ -53,6 +52,5 @@ public class LightBoundLayer<T extends LivingEntity, M extends EntityModel<T>> e
                     pPoseStack.popPose();
                 }
             }
-        }
     }
 }

@@ -1,7 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
-import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.registry.BrutalityModMobEffects;
+import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.common.registry.BrutalityEffects;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
@@ -24,9 +24,9 @@ public abstract class EntityMixin {
         if (instance instanceof LivingEntity livingEntity) {
 
             if (pSource.is(DamageTypes.ON_FIRE) || pSource.is(DamageTypes.IN_FIRE) || pSource.is(DamageTypes.LAVA)) {
-                if (livingEntity.hasEffect(BrutalityModMobEffects.OILED.get())) {
+                if (livingEntity.hasEffect(BrutalityEffects.OILED.get())) {
                     instance.invulnerableTime = 0;
-                    int amplifier = livingEntity.getEffect(BrutalityModMobEffects.OILED.get()).getAmplifier();
+                    int amplifier = livingEntity.getEffect(BrutalityEffects.OILED.get()).getAmplifier();
                     return instance.hurt(pSource, amplifier + 1);
                 }
             }
@@ -42,7 +42,7 @@ public abstract class EntityMixin {
         if (entity instanceof LivingEntity livingEntity) {
 
             return CuriosApi.getCuriosInventory(livingEntity)
-                    .filter(handler -> handler.isEquipped(BrutalityModItems.FIRE_EXTINGUISHER.get()))
+                    .filter(handler -> handler.isEquipped(BrutalityItems.FIRE_EXTINGUISHER.get()))
                     .map(handler -> Math.max(1, ((int) (originalTime * 0.5))))
                     .orElse(originalTime);
         }

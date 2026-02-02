@@ -6,7 +6,57 @@
   "item.brutality.blue_slime_ball": "Blue Slimeball",
   "item.brutality.pink_slime_ball": "Pink Slimeball",
   "block.brutality.table_of_wizardry": "Table of Wizardry",
+  "block.brutality.table_of_wizardry.description.1": "§7Requires Pedestals of Wizardry to function. Crouch Right Click to open the GUI, Right Click to perform the selected Operation",
   "block.brutality.pedestal_of_wizardry": "Pedestal of Wizardry",
+  "block.brutality.bookshelf_of_wizardry": "Bookshelf of Wizardry",
+
+  "block.brutality.mana_candle": "Mana Candle",
+  "block.brutality.solidified_mana_block": "Block of Solidified Mana",
+  "block.brutality.solidified_mana_block_wall": "Solidified Mana Wall",
+  "block.brutality.solidified_mana_block_slab": "Solidified Mana Slab",
+  "block.brutality.solidified_mana_block_stair": "Solidified Mana Stair",
+  "block.brutality.solidified_mana_block_door": "Solidified Mana Door",
+  "block.brutality.solidified_mana_block_trapdoor": "Solidified Mana Trapdoor",
+  "block.brutality.solidified_mana_block_pressure_plate": "Solidified Mana Pressure Plate",
+  "block.brutality.solidified_mana_block_button": "Solidified Mana Button",
+
+  "message.brutality.press": "Press ",
+  "message.brutality.show_more": " to show more Info",
+
+  "stat_trak.brutality.1": "§8Mobs Killed",
+  "stat_trak.brutality.2": "§8Shield Blocks",
+  "stat_trak.brutality.3": "§8Blocks Mined",
+  "stat_trak.brutality.4": "§8Copper Scraped",
+  "stat_trak.brutality.5": "§8Logs Stripped",
+  "stat_trak.brutality.6": "§8Waxed Scraped",
+  "stat_trak.brutality.7": "§8Paths Made",
+  "stat_trak.brutality.8": "§8Farmland Tilled",
+  "stat_trak.brutality.9": "§8Fish Caught",
+  "stat_trak.brutality.10": "§8Sheep Sheared",
+  "stat_trak.brutality.11": "§8Pumpkins Carved",
+  "stat_trak.brutality.12": "§8Snow Golems Sheared",
+  "stat_trak.brutality.13": "§8Mooshroom Sheared",
+  "stat_trak.brutality.14": "§8Plants Pruned",
+
+  "item.brutality.prismatic_stat_trakker": "§dPrismatic StatTrakker™",
+  "item.brutality.prismatic_stat_trakker.description.1": "§9ɴᴏᴡ ꜰᴇᴀᴛᴜʀɪɴɢ StatTrak™",
+  "item.brutality.prismatic_stat_trakker.description.2": "§cUncraftable",
+  "item.brutality.prismatic_stat_trakker.description.3": "chance to automatically be attached upon Item Craft or Looting",
+  "item.brutality.prismatic_stat_trakker.description.4": "§eTracks stats relevant to an Item",
+
+  "item.brutality.golden_stat_trakker": "§6Golden StatTrakker™",
+  "item.brutality.golden_stat_trakker.description.1": "§9ɴᴏᴡ ꜰᴇᴀᴛᴜʀɪɴɢ StatTrak™",
+  "item.brutality.golden_stat_trakker.description.2": "§cUncraftable",
+  "item.brutality.golden_stat_trakker.description.3": "chance to automatically be attached upon Item Craft or Looting",
+  "item.brutality.golden_stat_trakker.description.4": "§eTracks stats relevant to an Item",
+
+  "item.brutality.basic_stat_trakker": "§8Basic StatTrakker™",
+  "item.brutality.basic_stat_trakker.description.1": "§9ɴᴏᴡ ꜰᴇᴀᴛᴜʀɪɴɢ StatTrak™",
+  "item.brutality.basic_stat_trakker.description.2": "§eAttach to a Weapon or Tool in an Anvil",
+  "item.brutality.basic_stat_trakker.description.3": "chance to automatically be attached upon crafting or looting",
+  "item.brutality.basic_stat_trakker.description.4": "§eTracks stats relevant to an Item",
+
+
 
   "item.brutality.prison_key": "Prison Key",
   "item.brutality.prison_key.on_left_clicking_entity.1": "§e -Drops all equipped Handcuffs",
@@ -434,6 +484,10 @@
   "item.brutality.jackpot": "Jackpot",
   "item.brutality.jackpot.lore.1": "§9Just give me one more chance...",
   "item.brutality.jackpot.on_hit.1": "§e -Randomly an additional (-5 to 10) Damage",
+  "item.brutality.jackpot.message.1": "§a§l§oCHA-CHING!§r You dealt %s damage!",
+  "item.brutality.jackpot.message.2": "§b§l§oHUGE WIN!§r You dealt %s damage!",
+  "item.brutality.jackpot.message.3": "§c§l§oJACKPOT!§r You dealt %s damage!",
+  "item.brutality.jackpot.message.4": "You dealt %s damage. Better luck next time!",
 
   "item.brutality.double_down": "Double Down",
   "item.brutality.double_down.on_hold_right_click.1": "§e -Transmutes into a random sword, gaining their abilities and stats",
@@ -601,10 +655,10 @@
   "item.brutality.spite_shard.passive.1": "§e -Gain Rage equivalent to a fifth of all aggro'd mobs within a 5 block radius",
 
   "item.brutality.blood_howl_pendant": "Blood Howl Pendant",
-  "item.brutality.blood_howl_pendant.passive.1": "§9 +50% §cRage Gain§9 when below 50%§r ❤§9 Health",
+  "item.brutality.blood_howl_pendant.passive.1": "§9 +50%§c Damage to Rage Ratio§9 when below 50%§r ❤§9 Health",
 
   "item.brutality.battle_scars": "Battle Scars",
-  "item.brutality.battle_scars.passive.1": "§9 +15% Rage Gain for each active §cHarmful§9 effect",
+  "item.brutality.battle_scars.passive.1": "§9 +15%§c Damage to Rage Ratio§9 for each active §cHarmful§9 effect",
 
   "item.brutality.rampage_clock": "Rampage Clock",
   "item.brutality.rampage_clock.passive.1": "§e -Slaying mobs while §cEnraged§e extends the duration of §cRage§e by 1 second",
@@ -661,7 +715,7 @@
   "item.brutality.soul_stone.passive.1": "§e -5% chance of fully refunding§r 💧§9 Mana§e costs, else refunds 15% of§r 💧§9 Mana§e costs",
 
   "item.brutality.scribes_index": "Scribe's Index",
-  "item.brutality.scribes_index.passive.1": "§e -Gain 25%§9 Spell Damage§e when at§r 🔵§9 Max Mana§e, else gain -10% Spell Damage",
+  "item.brutality.scribes_index.passive.1": "§e -Gain 25%§9 Spell Damage§e when at§r 🔵§9 90% Mana§e, else gain -10% Spell Damage",
 
   "item.brutality.emergency_flask": "Emergency Flask",
   "item.brutality.emergency_flask.passive.1": "§e -Gain 33%§r 🪄§e Cast Speed when below 50%§r ❤§9 Health",
@@ -730,6 +784,7 @@
   "item.brutality.sloth": "Sin of Sloth",
   "item.brutality.sloth.passive.1": "§e -True melee hits inflict §8Weakness I, §7Slowness I§e and §fMining Fatigue I§e for 1 second",
   "item.brutality.envy": "Sin of Envy",
+  "item.brutality.envy.lore.1": "§8WIP",
   "item.brutality.envy.passive.1": "§e -Grants half the§r ❤§9 Health§e difference between you and the nearest player",
   "item.brutality.lust": "Sin of Lust",
   "item.brutality.lust.passive.1": "§e -Currently does nothing",
@@ -1193,11 +1248,21 @@
   "item.brutality.evergreen_tome": "Evergreen Tome",
   "item.brutality.darkist_tome": "Darkist Tome",
   "item.brutality.cosmic_tome": "Cosmic Tome",
-  "item.brutality.void_tome": "Void Tome",
+  "item.brutality.voidwalker_tome": "Voidwalker Tome",
   "item.brutality.brimwielder_tome": "Brimwielder Tome",
   "item.brutality.celestia_tome": "Celestia Tome",
   "item.brutality.exodic_tome": "Exodic Tome",
   "item.brutality.umbral_tome": "Umbral Tome",
+
+  "item.brutality.daemonic_spell_scroll": "Daemonic Spell Scroll",
+  "item.brutality.evergreen_spell_scroll": "Evergreen Spell Scroll",
+  "item.brutality.darkist_spell_scroll": "Darkist Spell Scroll",
+  "item.brutality.cosmic_spell_scroll": "Cosmic Spell Scroll",
+  "item.brutality.voidwalker_spell_scroll": "Voidwalker Spell Scroll",
+  "item.brutality.brimwielder_spell_scroll": "Brimwielder Spell Scroll",
+  "item.brutality.celestia_spell_scroll": "Celestia Spell Scroll",
+  "item.brutality.exodic_spell_scroll": "Exodic Spell Scroll",
+  "item.brutality.umbral_spell_scroll": "Umbral Spell Scroll",
 
 
   "block.brutality.toilet": "Toilet",
@@ -1472,8 +1537,8 @@
   "attribute.name.generic.mana_regen": "§f💦§r Mana Regen",
   "attribute.name.generic.mana_cost": "§f🔹§r Mana Cost",
 
-  "attribute.name.generic.cast_time_reduction": "§f🪄§r Cast Time Reduction",
-  "attribute.name.generic.spell_cooldown_reduction": "§f⌛§r Spell Cooldown Reduction",
+  "attribute.name.generic.cast_time": "§f🪄§r Cast Time",
+  "attribute.name.generic.spell_cooldown": "§f⌛§r Spell Cooldown",
 
   "attribute.name.generic.omnivamp": "§f🧛§r Omnivamp",
   "attribute.name.generic.lifesteal": "§f🪓§r Lifesteal",
@@ -1511,7 +1576,7 @@
   "attribute.name.generic.lethality": "§f🪡§r Lethality",
   "attribute.name.generic.armor_penetration": "§f🏹§r Armor Penetration",
 
-  "attribute.name.generic.entity_visibility": "§f👁§r Entity Visibility",
+  "attribute.name.generic.stealth": "§f👁§r Stealth",
   "attribute.name.generic.throw_strength": "Throw Strength",
   "attribute.name.generic.damage_taken": "Damage Taken",
 

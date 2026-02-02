@@ -1,8 +1,10 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.goo.brutality.registry.ModRarities;
+import net.goo.brutality.client.gui.tooltip.StatTrakGui;
+import net.goo.brutality.common.registry.BrutalityRarities;
 import net.goo.brutality.util.RarityBorderManager;
+import net.goo.brutality.util.item.StatTrakUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -35,16 +37,21 @@ public abstract class GuiGraphicsMixin {
     @Inject(method = "lambda$renderTooltipInternal$5", at = @At("HEAD"))
     private void renderTooltip(int x, int y, RenderTooltipEvent.Pre preEvent, List<ClientTooltipComponent> pComponents, int width, int height, CallbackInfo ci) {
         GuiGraphics guiGraphics = (((GuiGraphics) (Object) this));
-        ItemStack current = this.tooltipStack;
 
-        brutality$updateTimerValue(current);
-
-        brutality$cachedMainStack = current.copy();
 
         RenderTooltipEvent.Color colorEvent = ForgeHooksClient.onRenderTooltipColor(tooltipStack, guiGraphics, x, y, preEvent.getFont(), pComponents);
-        brutality$renderTooltipBackground(guiGraphics, x, y, width, height, 400, colorEvent.getBackgroundStart(), colorEvent.getBackgroundEnd(), colorEvent.getBorderStart(), colorEvent.getBorderEnd());
 
+
+        ItemStack current = this.tooltipStack;
+        if (current != null && !current.isEmpty()) {
+            brutality$updateTimerValue(current);
+            brutality$cachedMainStack = current.copy();
+            brutality$renderTooltipBackground(guiGraphics, x, y, width, height, 400, colorEvent.getBackgroundStart(), colorEvent.getBackgroundEnd(), colorEvent.getBorderStart(), colorEvent.getBorderEnd());
+            if (StatTrakUtils.hasStatTrak(current))
+                StatTrakGui.render(current, guiGraphics, x, y, width, height, 401);
+        }
     }
+
 
     @Unique
     private static void brutality$renderTooltipBackground(GuiGraphics pGuiGraphics, int pX, int pY, int pWidth, int pHeight, int pZ, int backgroundTop, int backgroundBottom, int borderTop, int borderBottom) {
@@ -54,7 +61,7 @@ public abstract class GuiGraphicsMixin {
         int l = pHeight + 3 + 3;
 
 
-        ModRarities.RarityData data = ModRarities.from(brutality$cachedMainStack);
+        BrutalityRarities.RarityData data = BrutalityRarities.from(brutality$cachedMainStack);
         if (data == null) return;
         Rarity rarity = data.rarity;
         RarityBorderManager manager = RarityBorderManager.getInstance();
@@ -102,24 +109,24 @@ public abstract class GuiGraphicsMixin {
         int bottomV = frameH - corner;
 
         // Remove pad completely – corners are already centered in texture
-        int leftX   = x - corner / 2 - 4;
-        int rightX  = x + w - corner / 2 + 4;
-        int topY    = y - corner / 2 - 4;
+        int leftX = x - corner / 2 - 4;
+        int rightX = x + w - corner / 2 + 4;
+        int topY = y - corner / 2 - 4;
         int bottomY = y + h - corner / 2 + 4;
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         // Corners
-        gg.blit(tex, leftX,   topY,    z, 0,          vOffset,         corner, corner, frameW, textureH); // top-left
-        gg.blit(tex, rightX,  topY,    z, rightU,     vOffset,         corner, corner, frameW, textureH); // top-right
-        gg.blit(tex, leftX,   bottomY, z, 0,          vOffset + bottomV, corner, corner, frameW, textureH); // bottom-left
-        gg.blit(tex, rightX,  bottomY, z, rightU,     vOffset + bottomV, corner, corner, frameW, textureH); // bottom-right
+        gg.blit(tex, leftX, topY, z, 0, vOffset, corner, corner, frameW, textureH); // top-left
+        gg.blit(tex, rightX, topY, z, rightU, vOffset, corner, corner, frameW, textureH); // top-right
+        gg.blit(tex, leftX, bottomY, z, 0, vOffset + bottomV, corner, corner, frameW, textureH); // bottom-left
+        gg.blit(tex, rightX, bottomY, z, rightU, vOffset + bottomV, corner, corner, frameW, textureH); // bottom-right
 
         // Top & bottom bars (centered)
         int midWidth = frameW - 2 * corner;
         int midScreenX = x + w / 2 - midWidth / 2;
 
-        gg.blit(tex, midScreenX, topY,    z, corner, vOffset,            midWidth, corner, frameW, textureH);
-        gg.blit(tex, midScreenX, bottomY, z, corner, vOffset + corner,   midWidth, corner, frameW, textureH);
+        gg.blit(tex, midScreenX, topY, z, corner, vOffset, midWidth, corner, frameW, textureH);
+        gg.blit(tex, midScreenX, bottomY, z, corner, vOffset + corner, midWidth, corner, frameW, textureH);
         RenderSystem.disableBlend();
     }
 

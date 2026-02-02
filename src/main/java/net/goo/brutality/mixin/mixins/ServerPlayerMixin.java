@@ -1,7 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.mojang.authlib.GameProfile;
-import net.goo.brutality.event.forge.ForgePlayerStateHandler;
+import net.goo.brutality.util.CooldownUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -49,7 +49,7 @@ public abstract class ServerPlayerMixin extends Player {
         cooldownTag.putInt("tickCount", itemCooldowns.tickCount);
         CompoundTag mapTag = new CompoundTag();
         for (Map.Entry<Item, ItemCooldowns.CooldownInstance> entry : itemCooldowns.cooldowns.entrySet()) {
-            if (ForgePlayerStateHandler.cdPersistItems.get().contains(entry.getKey())) {
+            if (CooldownUtils.CD_PERSIST_ITEMS.get().contains(entry.getKey())) {
                 CompoundTag cooldownInstanceTag = new CompoundTag();
                 cooldownInstanceTag.putInt("startTime", entry.getValue().startTime);
                 cooldownInstanceTag.putInt("endTime", entry.getValue().endTime);

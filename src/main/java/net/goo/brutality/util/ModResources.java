@@ -14,6 +14,7 @@ public interface ModResources {
     ResourceLocation B2BSPORTY = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "b2bsporty"); // Font used: b2bSporty https://www.dafont.com/born2bsporty-fs.font
     ResourceLocation COSMICALIEN = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "cosmicalien"); // Font used: Cosmic Alien https://www.dafont.com/cosmic-alien.font?
     ResourceLocation RARITY_FONT = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "gamer"); // Font used: Gamer https://www.dafont.com/gamer-2.font
+    ResourceLocation STAT_TRAK_FONT = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "gcp_matrix"); // Font used: gcp-matrix https://fontstruct.com/fontstructions/show/2268622/gcp-matrix
     ResourceLocation TABLE_OF_WIZARDRY_FONT = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "small");
 
 

@@ -2,8 +2,8 @@ package net.goo.brutality.client.renderers.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.registry.BrutalityModMobEffects;
+import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.common.registry.BrutalityEffects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -34,13 +34,13 @@ public class EyeOfViolenceLayer<T extends LivingEntity, M extends EntityModel<T>
         Player localPlayer = Minecraft.getInstance().player;
 
         if (localPlayer == null) return;
-        if (!localPlayer.hasEffect(BrutalityModMobEffects.ENRAGED.get())) return;
+        if (!localPlayer.hasEffect(BrutalityEffects.ENRAGED.get())) return;
         if (entity == localPlayer || entity.distanceTo(localPlayer) > 25) {
             return;
         }
 
         CuriosApi.getCuriosInventory(localPlayer).ifPresent(handler -> {
-            handler.findFirstCurio(BrutalityModItems.EYE_FOR_VIOLENCE.get()).ifPresent(slot -> {
+            handler.findFirstCurio(BrutalityItems.EYE_FOR_VIOLENCE.get()).ifPresent(slot -> {
 
         VertexConsumer outlineBuffer = bufferSource.getBuffer(RenderType.outline(getTextureLocation(entity)));
 

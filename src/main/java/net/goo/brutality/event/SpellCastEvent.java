@@ -1,6 +1,8 @@
 package net.goo.brutality.event;
 
-import net.goo.brutality.magic.IBrutalitySpell;
+import net.goo.brutality.common.magic.BrutalitySpell;
+import net.goo.brutality.common.magic.IBrutalitySpell;
+import net.goo.brutality.util.magic.SpellCastingHandler;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.Cancelable;
@@ -40,7 +42,7 @@ public class SpellCastEvent extends Event implements IModBusEvent {
     }
 
     /**
-     * Called before the {@link net.goo.brutality.magic.BrutalitySpell} is cast through the {@link net.goo.brutality.magic.SpellCastingHandler} <br>
+     * Called before the {@link BrutalitySpell} is cast through the {@link SpellCastingHandler} <br>
      * If the event is cancelled, the spell is not cast and resources will not be consumed
      */
     @Cancelable
@@ -51,7 +53,7 @@ public class SpellCastEvent extends Event implements IModBusEvent {
     }
 
     /**
-     * Called after the {@link net.goo.brutality.magic.BrutalitySpell} is successfully cast through the {@link net.goo.brutality.magic.SpellCastingHandler} <br>
+     * Called after the {@link BrutalitySpell} is successfully cast through the {@link SpellCastingHandler} <br>
      * Not Cancellable
      */
     public static class Post extends SpellCastEvent {

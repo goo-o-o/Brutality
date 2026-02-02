@@ -1,12 +1,12 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.goo.brutality.item.weapon.axe.Deathsaw;
-import net.goo.brutality.item.weapon.generic.LastPrism;
-import net.goo.brutality.item.weapon.scythe.Schism;
-import net.goo.brutality.item.weapon.spear.Caldrith;
-import net.goo.brutality.item.weapon.spear.Rhongomyniad;
-import net.goo.brutality.registry.BrutalityModItems;
+import net.goo.brutality.common.item.weapon.axe.Deathsaw;
+import net.goo.brutality.common.item.weapon.generic.LastPrism;
+import net.goo.brutality.common.item.weapon.scythe.Schism;
+import net.goo.brutality.common.item.weapon.spear.Caldrith;
+import net.goo.brutality.common.item.weapon.spear.Rhongomyniad;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -29,15 +29,15 @@ public abstract class DebugRendererMixin {
         if ((client).getEntityRenderDispatcher().shouldRenderHitBoxes()) {
             LocalPlayer player = client.player;
             if (player != null) {
-                    if (player.isHolding(BrutalityModItems.DEATHSAW.get())) {
+                    if (player.isHolding(BrutalityItems.DEATHSAW.get())) {
                         Deathsaw.HITBOX.inWorld(player, Deathsaw.OFFSET).render(matrixStack);
-                    } else if (player.isHolding(BrutalityModItems.RHONGOMYNIAD.get())) {
+                    } else if (player.isHolding(BrutalityItems.RHONGOMYNIAD.get())) {
                         Rhongomyniad.HITBOX.inWorld(player, player.getEyePosition(), Rhongomyniad.OFFSET).render(matrixStack);
-                    } else if (player.isHolding(BrutalityModItems.LAST_PRISM_ITEM.get())) {
+                    } else if (player.isHolding(BrutalityItems.LAST_PRISM_ITEM.get())) {
                         LastPrism.HITBOX.inWorld(player, player.getEyePosition(), LastPrism.OFFSET).render(matrixStack);
-                    } else if (player.isHolding(BrutalityModItems.CALDRITH.get())) {
+                    } else if (player.isHolding(BrutalityItems.CALDRITH.get())) {
                         Caldrith.HITBOX.inWorld(player, Caldrith.OFFSET, 0, player.getYRot()).render(matrixStack);
-                    } else if (player.isHolding(BrutalityModItems.SCHISM.get())) {
+                    } else if (player.isHolding(BrutalityItems.SCHISM.get())) {
                         Schism.HITBOX.inWorld(player, Schism.OFFSET).render(matrixStack);
                     }
 

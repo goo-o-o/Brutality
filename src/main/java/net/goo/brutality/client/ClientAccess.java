@@ -1,14 +1,14 @@
 package net.goo.brutality.client;
 
-import net.goo.brutality.entity.spells.brimwielder.ExtinctionEntity;
+import net.goo.brutality.client.sounds.DeathsawSoundInstance;
+import net.goo.brutality.client.sounds.ExtinctionSpellSoundInstance;
+import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
+import net.goo.brutality.common.entity.spells.brimwielder.ExtinctionEntity;
+import net.goo.brutality.common.item.base.BrutalityAnkletItem;
+import net.goo.brutality.common.network.clientbound.ClientboundDodgePacket;
+import net.goo.brutality.common.network.clientbound.ClientboundParticlePacket;
+import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.event.LivingDodgeEvent;
-import net.goo.brutality.item.base.BrutalityAnkletItem;
-import net.goo.brutality.network.ClientboundDodgePacket;
-import net.goo.brutality.network.ClientboundParticlePacket;
-import net.goo.brutality.registry.BrutalityCapabilities;
-import net.goo.brutality.registry.BrutalityModSounds;
-import net.goo.brutality.sounds.DeathsawSoundInstance;
-import net.goo.brutality.sounds.ExtinctionSpellSoundInstance;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.SoundManager;
@@ -25,8 +25,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.common.Mod;
 
@@ -39,26 +37,27 @@ public class ClientAccess {
     private static ExtinctionSpellSoundInstance extinctionSpellSoundInstance;
     private static DeathsawSoundInstance deathsawSoundInstance;
 
-
-
-    public static void syncCapabilities(int entityId, Map<String, CompoundTag> data) {
+    /**
+     * Handles the synchronization of a capability's data on the client side based on the provided key and
+     * serialized data. This method resolves the registered capability using the provided key, and updates
+     * the specific instance associated with the local player using the deserialized data.
+     *
+     * @param key A unique identifier for the target capability to be synchronized. Used to retrieve the correct
+     *            capability instance.
+     * @param data The serialized {@link CompoundTag} containing the new data to be applied to the capability.
+     */
+    public static void handleSync(int entityId, String key, CompoundTag data) {
         Level level = Minecraft.getInstance().level;
         if (level == null) return;
 
         Entity entity = level.getEntity(entityId);
         if (entity == null) return;
 
-        for (Map.Entry<String, CompoundTag> entry : data.entrySet()) {
-            String key = entry.getKey();
-            CompoundTag tag = entry.getValue();
-
-            Capability<?> cap = BrutalityCapabilities.CapabilitySyncRegistry.get(key);
-            if (cap != null) {
-                entity.getCapability(cap).ifPresent(inst -> {
-                    ((INBTSerializable<CompoundTag>) inst).deserializeNBT(tag);
-                });
-            }
-        }
+        BrutalityCapabilities.getByKey(key).ifPresent(cap ->
+                entity.getCapability(cap).ifPresent(instance ->
+                        instance.deserializeNBT(data)
+                )
+        );
     }
 
     public static void playExtinctionSpellSound(ExtinctionEntity extinctionEntity) {
@@ -73,7 +72,7 @@ public class ClientAccess {
 
     public static void startDeathsawSound(Player player) {
         ClientAccess.deathsawSoundInstance = new DeathsawSoundInstance(player);
-        player.playSound(BrutalityModSounds.CHAINSAW_START.get(), 1.0F, 1.0F);
+        player.playSound(BrutalitySounds.CHAINSAW_START.get(), 1.0F, 1.0F);
         SoundManager soundManager = Minecraft.getInstance().getSoundManager();
 
         if (deathsawSoundInstance.canPlaySound() && !soundManager.isActive(deathsawSoundInstance))
@@ -81,7 +80,7 @@ public class ClientAccess {
     }
 
     public static void stopDeathsawSound(LivingEntity livingEntity) {
-        livingEntity.playSound(BrutalityModSounds.CHAINSAW_STOP.get(), 1.0F, 1.0F);
+        livingEntity.playSound(BrutalitySounds.CHAINSAW_STOP.get(), 1.0F, 1.0F);
         SoundManager soundManager = Minecraft.getInstance().getSoundManager();
         if (soundManager.isActive(deathsawSoundInstance))
             soundManager.stop(ClientAccess.deathsawSoundInstance);

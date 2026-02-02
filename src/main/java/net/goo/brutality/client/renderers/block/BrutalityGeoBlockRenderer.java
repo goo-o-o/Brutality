@@ -1,6 +1,6 @@
 package net.goo.brutality.client.renderers.block;
 
-import net.goo.brutality.block.BrutalityGeoBlockEntity;
+import net.goo.brutality.common.block.BrutalityGeoBlockEntity;
 import net.goo.brutality.client.models.BrutalityBlockModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;

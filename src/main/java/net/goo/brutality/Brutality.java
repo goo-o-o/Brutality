@@ -1,12 +1,12 @@
 package net.goo.brutality;
 
 import com.mojang.logging.LogUtils;
-import net.goo.brutality.config.BrutalityClientConfig;
-import net.goo.brutality.config.BrutalityCommonConfig;
-import net.goo.brutality.magic.BrutalityModSpells;
-import net.goo.brutality.magic.SpellCommands;
-import net.goo.brutality.network.PacketHandler;
-import net.goo.brutality.registry.CommonRegistry;
+import net.goo.brutality.client.config.BrutalityClientConfig;
+import net.goo.brutality.common.config.BrutalityCommonConfig;
+import net.goo.brutality.common.registry.BrutalitySpells;
+import net.goo.brutality.util.magic.SpellCommands;
+import net.goo.brutality.common.network.PacketHandler;
+import net.goo.brutality.common.registry.CommonRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -25,7 +25,7 @@ public class Brutality {
 
     public Brutality(FMLJavaModLoadingContext modLoadingContext) {
         IEventBus modEventBus = modLoadingContext.getModEventBus();
-        BrutalityModSpells.register(modEventBus);
+        BrutalitySpells.register(modEventBus);
 
 
         // Register features

@@ -4,9 +4,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.block.block_entity.WhiteFilingCabinetBlockEntity;
-import net.goo.brutality.block.custom.WhiteFilingCabinetBlock;
-import net.goo.brutality.registry.BrutalityModBlocks;
+import net.goo.brutality.common.block.block_entity.WhiteFilingCabinetBlockEntity;
+import net.goo.brutality.common.block.custom.WhiteFilingCabinetBlock;
+import net.goo.brutality.common.registry.BrutalityBlocks;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -40,7 +40,7 @@ public class FilingCabinetBlockEntityRenderer<T extends WhiteFilingCabinetBlockE
     private static final Map<Block, Material> MATERIAL_MAP = new HashMap<>();
 
     static {
-        BrutalityModBlocks.FILING_CABINETS.forEach(blockRegistryObject ->
+        BrutalityBlocks.FILING_CABINETS.forEach(blockRegistryObject ->
                 MATERIAL_MAP.put(blockRegistryObject.get(), new Material(
                         InventoryMenu.BLOCK_ATLAS,
                         ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "block/" + blockRegistryObject.getId().getPath())
@@ -96,7 +96,7 @@ public class FilingCabinetBlockEntityRenderer<T extends WhiteFilingCabinetBlockE
         poseStack.mulPose(Axis.YP.rotationDegrees(-facing.toYRot()));
         poseStack.translate(-0.5F, -0.5F, -0.5F);
 
-        Material material = MATERIAL_MAP.getOrDefault(state.getBlock(), MATERIAL_MAP.get(BrutalityModBlocks.WHITE_FILING_CABINET.get()));
+        Material material = MATERIAL_MAP.getOrDefault(state.getBlock(), MATERIAL_MAP.get(BrutalityBlocks.WHITE_FILING_CABINET.get()));
 
         VertexConsumer vertexConsumer = material
                 .buffer(buffer, RenderType::entityCutout);

@@ -1,9 +1,11 @@
 package net.goo.brutality.mixin.mixins;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.item.base.BrutalityThrowingItem;
-import net.goo.brutality.util.SealUtils;
+import net.goo.brutality.common.item.base.BrutalityThrowingItem;
+import net.goo.brutality.util.item.SealUtils;
+import net.goo.brutality.util.item.StatTrakUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.Tags;
@@ -35,6 +37,11 @@ public class ItemMixin {
                 pTooltipComponents.add(Component.empty());
             }
         }
+    }
+
+    @Inject(method = "onCraftedBy", at = @At("TAIL"))
+    private void addStatTrak(ItemStack pStack, Level pLevel, Player pPlayer, CallbackInfo ci) {
+        StatTrakUtils.rollAndAddStatTrak(pPlayer, pStack);
     }
 
 }

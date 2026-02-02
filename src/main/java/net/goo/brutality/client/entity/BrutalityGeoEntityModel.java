@@ -1,9 +1,9 @@
 package net.goo.brutality.client.entity;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.entity.base.BrutalityRay;
-import net.goo.brutality.magic.BrutalitySpell;
-import net.goo.brutality.magic.IBrutalitySpellEntity;
+import net.goo.brutality.common.entity.base.BrutalityRay;
+import net.goo.brutality.common.magic.BrutalitySpell;
+import net.goo.brutality.common.entity.spells.IBrutalitySpellEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -12,7 +12,7 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
-import static net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.SIZE;
 
 public class BrutalityGeoEntityModel<T extends Entity & BrutalityGeoEntity> extends GeoModel<T> {
     public GeoEntityRenderer<T> renderer;

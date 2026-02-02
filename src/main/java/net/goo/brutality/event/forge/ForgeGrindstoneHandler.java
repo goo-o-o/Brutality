@@ -1,8 +1,8 @@
 package net.goo.brutality.event.forge;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.item.base.BrutalityScytheItem;
-import net.goo.brutality.registry.BrutalityModItems;
+import net.goo.brutality.common.item.base.BrutalityScytheItem;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -22,7 +22,7 @@ public class ForgeGrindstoneHandler {
         ItemStack topItem = event.getTopItem();
         ItemStack targetStack = bottomItem.isEmpty() ? topItem : bottomItem;
 
-        if (targetStack.getItem() == BrutalityModItems.THUNDERBOLT_TRIDENT.get()) {
+        if (targetStack.getItem() == BrutalityItems.THUNDERBOLT_TRIDENT.get()) {
             handleGrindstoneEvent(
                     event,
                     targetStack,
@@ -43,7 +43,7 @@ public class ForgeGrindstoneHandler {
                     Map.of(Enchantments.SWEEPING_EDGE, 5), // Allowed enchantments
                     Map.of(Enchantments.SWEEPING_EDGE, 5)  // Forced enchantments
             );
-        } else if (targetStack.getItem() == BrutalityModItems.SUPERNOVA.get()) {
+        } else if (targetStack.getItem() == BrutalityItems.SUPERNOVA.get()) {
             handleGrindstoneEvent(
                     event,
                     targetStack,

@@ -1,6 +1,6 @@
 package net.goo.brutality.mixin.mixins;
 
-import net.goo.brutality.registry.BrutalityModMobEffects;
+import net.goo.brutality.common.registry.BrutalityEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class BedBlockMixin {
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     private void cancelIfCaffeinated(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit, CallbackInfoReturnable<InteractionResult> cir) {
-        if (pPlayer.hasEffect(BrutalityModMobEffects.CAFFEINATED.get())) {
+        if (pPlayer.hasEffect(BrutalityEffects.CAFFEINATED.get())) {
             pPlayer.sendSystemMessage(Component.translatable("message.brutality.caffeine_sleep"));
             cir.setReturnValue(InteractionResult.CONSUME);
         }

@@ -1,7 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
-import net.goo.brutality.entity.base.BrutalityAbstractArrow;
-import net.goo.brutality.entity.base.BrutalityArrow;
+import net.goo.brutality.common.entity.base.BrutalityAbstractArrow;
+import net.goo.brutality.common.entity.base.BrutalityArrow;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;

@@ -1,6 +1,6 @@
 package net.goo.brutality.mixin.mixins;
 
-import net.goo.brutality.util.helpers.NbtHelper;
+import net.goo.brutality.util.NBTUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.DigDurabilityEnchantment;
@@ -14,7 +14,7 @@ public abstract class DigDurabilityEnchantmentMixin {
 
     @Inject(method = "shouldIgnoreDurabilityDrop", at = @At("HEAD"), cancellable = true)
     private static void doubleDownBypass(ItemStack pStack, int pLevel, RandomSource pRandom, CallbackInfoReturnable<Boolean> cir) {
-        boolean fromDoubleDown = NbtHelper.getBool(pStack, "fromDoubleDown", false);
+        boolean fromDoubleDown = NBTUtils.getBool(pStack, "fromDoubleDown", false);
         if (fromDoubleDown) {
             cir.setReturnValue(false);
         }

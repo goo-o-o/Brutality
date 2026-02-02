@@ -3,9 +3,9 @@ package net.goo.brutality.event.mod.client;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.renderers.item.BrutalityItemRenderer;
 import net.goo.brutality.client.renderers.layers.*;
-import net.goo.brutality.item.base.BrutalityGeoItem;
-import net.goo.brutality.registry.BrutalityModItems;
-import net.goo.brutality.util.SealUtils;
+import net.goo.brutality.common.item.base.BrutalityGeoItem;
+import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.util.item.SealUtils;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
@@ -36,62 +36,62 @@ public class BrutalityModItemRenderManager {
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             // Register layer configurations for items
-            registerItemLayers(BrutalityModItems.FROSTMOURNE_SWORD.get(), renderer ->
+            registerItemLayers(BrutalityItems.FROSTMOURNE_SWORD.get(), renderer ->
                     renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.BIOMECH_REACTOR.get(), renderer ->
+            registerItemLayers(BrutalityItems.BIOMECH_REACTOR.get(), renderer ->
                     renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer)));
 
-            registerItemLayers(BrutalityModItems.UMBRAL_TOME.get(), renderer ->
+            registerItemLayers(BrutalityItems.UMBRAL_TOME.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoEndPortalLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.COSMIC_TOME.get(), renderer ->
+            registerItemLayers(BrutalityItems.COSMIC_TOME.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.DARKIST_TOME.get(), renderer ->
+            registerItemLayers(BrutalityItems.DARKIST_TOME.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.CELESTIA_TOME.get(), renderer ->
+            registerItemLayers(BrutalityItems.CELESTIA_TOME.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.BRIMWIELDER_TOME.get(), renderer ->
+            registerItemLayers(BrutalityItems.BRIMWIELDER_TOME.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.VOID_TOME.get(), renderer ->
+            registerItemLayers(BrutalityItems.VOIDWALKER_TOME.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
 
-            registerItemLayers(BrutalityModItems.ATOMIC_JUDGEMENT_HAMMER.get(), renderer ->
+            registerItemLayers(BrutalityItems.ATOMIC_JUDGEMENT_HAMMER.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
 
 
-            registerItemLayers(BrutalityModItems.PROVIDENCE.get(), renderer -> {
+            registerItemLayers(BrutalityItems.PROVIDENCE.get(), renderer -> {
                 renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
                 renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer));
             });
-            registerItemLayers(BrutalityModItems.ONYX_PHASESABER.get(), renderer -> {
+            registerItemLayers(BrutalityItems.ONYX_PHASESABER.get(), renderer -> {
                 renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
             });
-            registerItemLayers(BrutalityModItems.TOPAZ_PHASESABER.get(), renderer -> {
+            registerItemLayers(BrutalityItems.TOPAZ_PHASESABER.get(), renderer -> {
                 renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
             });
-            registerItemLayers(BrutalityModItems.SAPPHIRE_PHASESABER.get(), renderer -> {
+            registerItemLayers(BrutalityItems.SAPPHIRE_PHASESABER.get(), renderer -> {
                 renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
             });
-            registerItemLayers(BrutalityModItems.RUBY_PHASESABER.get(), renderer -> {
+            registerItemLayers(BrutalityItems.RUBY_PHASESABER.get(), renderer -> {
                 renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer));
             });
 
-            registerItemLayers(BrutalityModItems.CREASE_OF_CREATION.get(), renderer ->
+            registerItemLayers(BrutalityItems.CREASE_OF_CREATION.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
 
-            registerItemLayers(BrutalityModItems.ATOMIC_JUDGEMENT_HAMMER.get(), renderer ->
+            registerItemLayers(BrutalityItems.ATOMIC_JUDGEMENT_HAMMER.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
 
-            registerItemLayers(BrutalityModItems.EVENT_HORIZON.get(), renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
+            registerItemLayers(BrutalityItems.EVENT_HORIZON.get(), renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
 
-            registerItemLayers(BrutalityModItems.DARKIN_SCYTHE.get(), renderer ->
+            registerItemLayers(BrutalityItems.DARKIN_SCYTHE.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.BLADE_OF_THE_RUINED_KING.get(), renderer ->
+            registerItemLayers(BrutalityItems.BLADE_OF_THE_RUINED_KING.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.BLADE_OF_THE_RUINED_KING.get(), renderer ->
+            registerItemLayers(BrutalityItems.BLADE_OF_THE_RUINED_KING.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.DOUBLE_DOWN.get(), renderer ->
+            registerItemLayers(BrutalityItems.DOUBLE_DOWN.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoAlphaLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.DULL_KNIFE_DAGGER.get(), renderer ->
+            registerItemLayers(BrutalityItems.DULL_KNIFE_DAGGER.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
 //            registerItemLayers(BrutalityModItems.MURAMASA_SWORD.get(), renderer ->
 //                    renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
@@ -99,15 +99,15 @@ public class BrutalityModItemRenderManager {
 //                renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer));
 //            });
 
-            registerItemLayers(BrutalityModItems.SEVENTH_STAR.get(), renderer ->
+            registerItemLayers(BrutalityItems.SEVENTH_STAR.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.VOID_KNIFE.get(), renderer ->
+            registerItemLayers(BrutalityItems.VOID_KNIFE.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoEndPortalLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.GUNGNIR_TRIDENT.get(), renderer ->
+            registerItemLayers(BrutalityItems.GUNGNIR_TRIDENT.get(), renderer ->
                     renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer)));
 //            registerItemLayers(BrutalityModItems.PANDORAS_CAULDRON.get(), renderer ->
 //                    renderer.addRenderLayer(new BrutalityAutoEndPortalLayer<>(renderer)));
-            registerItemLayers(BrutalityModItems.THUNDERBOLT_TRIDENT.get(), renderer ->
+            registerItemLayers(BrutalityItems.THUNDERBOLT_TRIDENT.get(), renderer ->
                     renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer)));
 
 

@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.goo.brutality.client.models.BrutalityCurioModel;
-import net.goo.brutality.item.curios.BrutalityCurioItem;
+import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
@@ -60,13 +60,13 @@ public class BrutalityCurioRenderer<I extends BrutalityCurioItem> extends GeoArm
         poseStack.pushPose();
         this.prepForRender(slotContext.entity(), stack, EquipmentSlot.HEAD, baseModel);
 
-        if (!animatable.translateIfSneaking()) {
+        if (!animatable.translateIfSneaking) {
             if (currentEntity.isCrouching()) {
                 poseStack.translate(0.0F, -0.1875F, 0.0F);
             }
         }
 
-        if (!animatable.followBodyRotations()) {
+        if (!animatable.followBodyRotations) {
             float bodyYaw = Mth.lerp(partialTicks, slotContext.entity().yBodyRotO, slotContext.entity().yBodyRot);
             poseStack.mulPose(Axis.YP.rotationDegrees(-bodyYaw));
         }
@@ -96,11 +96,11 @@ public class BrutalityCurioRenderer<I extends BrutalityCurioItem> extends GeoArm
     @Override
     protected void applyBaseTransformations(HumanoidModel<?> baseModel) {
         boolean isCrouching = currentEntity.isCrouching();
-        boolean applyCrouch = animatable.translateIfSneaking() || !isCrouching;
+        boolean applyCrouch = animatable.translateIfSneaking || !isCrouching;
 
         if (this.head != null) {
             ModelPart headPart = baseModel.head;
-            if (animatable.followHeadRotations()) {
+            if (animatable.followHeadRotations) {
                 RenderUtils.matchModelPartRot(headPart, this.head);
             }
             // Counteract crouching Y-offset (4.2F -> 0.0F)
@@ -110,7 +110,7 @@ public class BrutalityCurioRenderer<I extends BrutalityCurioItem> extends GeoArm
 
         if (this.body != null) {
             ModelPart bodyPart = baseModel.body;
-            if (animatable.rotateIfSneaking()) {
+            if (animatable.rotateIfSneaking) {
                 RenderUtils.matchModelPartRot(bodyPart, this.body);
             } else if (isCrouching) {
                 // Counteract crouching body rotation (0.5F -> 0.0F)

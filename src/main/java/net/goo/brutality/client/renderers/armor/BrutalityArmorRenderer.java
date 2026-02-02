@@ -2,7 +2,7 @@ package net.goo.brutality.client.renderers.armor;
 
 import net.goo.brutality.client.models.BrutalityArmorModel;
 import net.goo.brutality.client.renderers.layers.BrutalityArmorLayer;
-import net.goo.brutality.item.base.BrutalityGeoItem;
+import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.minecraft.world.item.ArmorItem;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 

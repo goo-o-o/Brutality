@@ -4,8 +4,8 @@ import dev.kosmx.playerAnim.api.layered.IAnimation;
 import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.item.base.BrutalityThrowingItem;
-import net.goo.brutality.registry.BrutalityModMobEffects;
+import net.goo.brutality.common.item.base.BrutalityThrowingItem;
+import net.goo.brutality.common.registry.BrutalityEffects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -36,7 +36,7 @@ public abstract class KeyboardInputMixin extends Input {
         }
 
 
-        boolean isStunnedOrBound = player.hasEffect(BrutalityModMobEffects.STUNNED.get()) || player.hasEffect(BrutalityModMobEffects.LIGHT_BOUND.get());
+        boolean isStunnedOrBound = player.hasEffect(BrutalityEffects.STUNNED.get()) || player.hasEffect(BrutalityEffects.LIGHT_BOUND.get());
 
         ModifierLayer<IAnimation> layer = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData(player).get(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "animation"));
 

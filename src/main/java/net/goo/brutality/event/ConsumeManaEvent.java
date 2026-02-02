@@ -1,6 +1,6 @@
 package net.goo.brutality.event;
 
-import net.goo.brutality.magic.IBrutalitySpell;
+import net.goo.brutality.common.magic.IBrutalitySpell;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fml.event.IModBusEvent;

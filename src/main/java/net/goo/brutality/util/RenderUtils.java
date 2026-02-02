@@ -2,20 +2,132 @@ package net.goo.brutality.util;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.goo.brutality.client.BrutalityRenderTypes;
+import com.mojang.math.Axis;
+import net.goo.brutality.client.renderers.BrutalityRenderTypes;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.util.FastColor;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import java.awt.*;
+import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderUtils {
 
+    public static MultiBufferSource makeGhostBuffer(MultiBufferSource original, float alpha) {
+        return (renderType) -> {
+            // Blocks and most items live on the BLOCK_ATLAS.
+            // We force a translucent entity render type using that atlas.
+            RenderType ghostType = RenderType.entityTranslucent(InventoryMenu.BLOCK_ATLAS);
+
+            VertexConsumer realConsumer = original.getBuffer(ghostType);
+            return new GhostVertexConsumer(realConsumer, alpha);
+        };
+    }
+
+    public record GhostVertexConsumer(VertexConsumer parent, float alpha) implements VertexConsumer {
+        @Override
+        public VertexConsumer color(int r, int g, int b, int a) {
+            return parent.color(r, g, b, (int) (a * alpha));
+        }
+
+        @Override
+        public void defaultColor(int r, int g, int b, int a) {
+            parent.defaultColor(r, g, b, (int) (a * alpha));
+        }
+
+        // Delegate all other methods...
+        @Override
+        public VertexConsumer vertex(double x, double y, double z) {
+            return parent.vertex(x, y, z);
+        }
+
+        @Override
+        public VertexConsumer uv(float u, float v) {
+            return parent.uv(u, v);
+        }
+
+        @Override
+        public VertexConsumer overlayCoords(int u, int v) {
+            return parent.overlayCoords(u, v);
+        }
+
+        @Override
+        public VertexConsumer uv2(int u, int v) {
+            return parent.uv2(u, v);
+        }
+
+        @Override
+        public VertexConsumer normal(float x, float y, float z) {
+            return parent.normal(x, y, z);
+        }
+
+        @Override
+        public void endVertex() {
+            parent.endVertex();
+        }
+
+        @Override
+        public void unsetDefaultColor() {
+            parent.unsetDefaultColor();
+        }
+    }
+
+    public static void drawWordWrapCentered(GuiGraphics gui, Font pFont, FormattedText pText, int pX, int pY, int maxWidth, int pColor) {
+        for (FormattedCharSequence charSequence : pFont.split(pText, maxWidth)) {
+            int centeredX = pX + (maxWidth - pFont.width(charSequence)) / 2;
+            gui.drawString(pFont, charSequence, centeredX, pY, pColor, false);
+            pY += pFont.lineHeight;
+        }
+    }
+
+    public static void renderItemInWorld(ItemStack stack, PoseStack poseStack, MultiBufferSource vertexConsumers, float partialTick, int overlay, int light) {
+        poseStack.pushPose();
+        Minecraft minecraft = Minecraft.getInstance();
+
+        if (minecraft.level != null) {
+            int age = (int) (minecraft.level.getGameTime() % 314);
+            BakedModel model = minecraft.getItemRenderer().getModel(stack, minecraft.level, null, 0);
+            Vector3f translate = model.getTransforms().ground.translation;
+
+            poseStack.translate(translate.x(), translate.y(), translate.z());
+            poseStack.scale(1.25F, 1.25F, 1.25F);
+
+
+            float rotation = (age + partialTick) / 25.0F + 6.0F;
+            poseStack.mulPose(Axis.YP.rotation(rotation));
+            minecraft.getItemRenderer().render(stack, ItemDisplayContext.GROUND, false, poseStack, vertexConsumers, light, overlay, model);
+
+            poseStack.popPose();
+        }
+
+    }
+
+    public static int wordWrapWidth(Font font, FormattedText text, int maxWidth) {
+        List<FormattedCharSequence> lines = font.split(text, maxWidth);
+        int maxLineWidth = 0;
+        for (FormattedCharSequence line : lines) {
+            maxLineWidth = Math.max(maxLineWidth, font.width(line));
+        }
+        return maxLineWidth;
+    }
 
     public static void renderCylinder(PoseStack poseStack, MultiBufferSource buffer, float radius, float height, int segments) {
         VertexConsumer vc = buffer.getBuffer(BrutalityRenderTypes.GLOW_NO_TEXTURE);
@@ -154,4 +266,68 @@ public class RenderUtils {
         // Vertex 4: Bottom Left (e.g., P00 for North Face)
         pConsumer.vertex(pMatrix, x1, 0.0f, z1).color(r_bot, g_bot, b_bot, a_bot).uv(0.0f, 0.0f).uv2(fullLight).normal((float) pNormal.x, (float) pNormal.y, (float) pNormal.z).endVertex();
     }
+
+    private static final float HALF_SQRT_3 = (float) (Math.sqrt(3.0D) / 2.0D);
+
+    public static void renderDragonDeathRays(float progress, PoseStack poseStack, MultiBufferSource buffer,
+                                             float rayLengthFactor, float rayWidthFactor, int beamCount,
+                                             int color, long seed) {
+        float fadeOutProgress = Math.min(progress > 0.8F ? (progress - 0.8F) / 0.2F : 0.0F, 1.0F);
+        RandomSource randomSource = RandomSource.create(432L);
+        VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.lightning());
+
+        int red = FastColor.ARGB32.red(color);
+        int green = FastColor.ARGB32.green(color);
+        int blue = FastColor.ARGB32.blue(color);
+        int alpha = (int) (255.0F * (1.0F - fadeOutProgress));
+
+        for (int i = 0; (float) i < (progress + progress * progress) / 2.0F * beamCount; ++i) {
+            poseStack.pushPose(); // CRITICAL: Isolate this beam's rotation
+
+            poseStack.mulPose(Axis.XP.rotationDegrees(randomSource.nextFloat() * 360.0F));
+            poseStack.mulPose(Axis.YP.rotationDegrees(randomSource.nextFloat() * 360.0F));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(randomSource.nextFloat() * 360.0F));
+            poseStack.mulPose(Axis.XP.rotationDegrees(randomSource.nextFloat() * 360.0F));
+            poseStack.mulPose(Axis.YP.rotationDegrees(randomSource.nextFloat() * 360.0F));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(randomSource.nextFloat() * 360.0F + progress * 90.0F));
+
+            float rayLength = randomSource.nextFloat() * rayLengthFactor + 5.0F + fadeOutProgress * 10.0F;
+            float rayWidth = randomSource.nextFloat() * rayWidthFactor + 1.0F + fadeOutProgress * 2.0F;
+            Matrix4f matrix = poseStack.last().pose();
+
+            // Face 1
+            vertex1(vertexConsumer, matrix, alpha, red, green, blue);
+            vertex2(vertexConsumer, matrix, rayLength, rayWidth, red, green, blue);
+            vertex3(vertexConsumer, matrix, rayLength, rayWidth, red, green, blue);
+            // Face 2
+            vertex1(vertexConsumer, matrix, alpha, red, green, blue);
+            vertex3(vertexConsumer, matrix, rayLength, rayWidth, red, green, blue);
+            vertex4(vertexConsumer, matrix, rayLength, rayWidth, red, green, blue);
+            // Face 3
+            vertex1(vertexConsumer, matrix, alpha, red, green, blue);
+            vertex4(vertexConsumer, matrix, rayLength, rayWidth, red, green, blue);
+            vertex2(vertexConsumer, matrix, rayLength, rayWidth, red, green, blue);
+
+            poseStack.popPose(); // CRITICAL: Reset for the next beam
+        }
+    }
+
+
+    private static void vertex1(VertexConsumer vertexConsumer, Matrix4f matrix, int alpha, int r, int g, int b) {
+        vertexConsumer.vertex(matrix, 0.0F, 0.0F, 0.0F).color(r, g, b, alpha).endVertex();
+    }
+
+    private static void vertex2(VertexConsumer vertexConsumer, Matrix4f matrix, float length, float width, int r, int g, int b) {
+        vertexConsumer.vertex(matrix, -HALF_SQRT_3 * width, length, -0.5F * width).color(r, g, b, 0).endVertex();
+    }
+
+    private static void vertex3(VertexConsumer vertexConsumer, Matrix4f matrix, float length, float width, int r, int g, int b) {
+        vertexConsumer.vertex(matrix, HALF_SQRT_3 * width, length, -0.5F * width).color(r, g, b, 0).endVertex();
+    }
+
+    private static void vertex4(VertexConsumer vertexConsumer, Matrix4f matrix, float length, float width, int r, int g, int b) {
+        vertexConsumer.vertex(matrix, 0.0F, length, width).color(r, g, b, 0).endVertex();
+    }
+
 }
+

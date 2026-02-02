@@ -4,14 +4,15 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.entity.capabilities.EntityCapabilities;
-import net.goo.brutality.item.weapon.generic.LastPrism;
-import net.goo.brutality.magic.BrutalitySpell;
-import net.goo.brutality.magic.IBrutalitySpellEntity;
-import net.goo.brutality.registry.BrutalityCapabilities;
-import net.goo.brutality.registry.BrutalityModItems;
+import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
+import net.goo.brutality.common.item.BrutalityArmorMaterials;
+import net.goo.brutality.common.item.weapon.generic.LastPrism;
+import net.goo.brutality.common.magic.BrutalitySpell;
+import net.goo.brutality.common.entity.spells.IBrutalitySpellEntity;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.BrutalityEntityRotations;
-import net.goo.brutality.util.helpers.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.EntityModel;
@@ -27,6 +28,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.RenderNameTagEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import software.bernie.geckolib.event.GeoRenderEvent;
@@ -49,7 +52,7 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
         if (mc.player == null) return;
 
         CuriosApi.getCuriosInventory(mc.player).ifPresent(handler ->
-                handler.findFirstCurio(BrutalityModItems.SANGUINE_SPECTACLES.get()).ifPresent(slot -> {
+                handler.findFirstCurio(BrutalityItems.SANGUINE_SPECTACLES.get()).ifPresent(slot -> {
 
                     TRANSLUCENT_TRANSPARENCY.setupRenderState();
                     RenderSystem.setShaderColor(1f, 1f, 1f, 0.3f);
@@ -91,6 +94,15 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
     }
 
     @SubscribeEvent
+    public static void onRenderNametag(RenderNameTagEvent event) {
+        if (event.getEntity() instanceof Player player)
+            if (ModUtils.hasFullArmorSet(player, BrutalityArmorMaterials.NOIR)) {
+                event.setResult(Event.Result.DENY);
+            }
+    }
+
+
+    @SubscribeEvent
     public static <T extends LivingEntity, M extends EntityModel<T>> void onLivingRender(RenderLivingEvent.Pre<T, M> event) {
         T entity = (T) event.getEntity();
         PoseStack poseStack = event.getPoseStack();
@@ -106,14 +118,14 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
 //                event.setCanceled(true)));
 
 
-        if (entity.getCapability(BrutalityCapabilities.ENTITY_EFFECT_CAP).map(EntityCapabilities.EntityEffectCap::isRage).orElse(false)) {
-            poseStack.scale(1.25F, 1.25F, 1.25F);
-        }
+//        if (entity.getCapability(BrutalityCapabilitiesOld.ENTITY_EFFECT_CAP).map(EntityCapabilities.EntityEffectCap::isRage).orElse(false)) {
+//            poseStack.scale(1.25F, 1.25F, 1.25F);
+//        }
 
 //        if (ModUtils.hasFullArmorSet(entity, BrutalityArmorMaterials.NOIR)) event.setCanceled(true);
 
         if (entity instanceof BrutalityEntityRotations rotations) {
-            entity.getCapability(BrutalityCapabilities.ENTITY_SHOULD_ROTATE_CAP).ifPresent(entityShouldRotateCap -> {
+            entity.getCapability(BrutalityCapabilities.SHOULD_ROTATE).ifPresent(entityShouldRotateCap -> {
                 if (entityShouldRotateCap.isShouldRotate()) {
 
 //                System.out.println("rendering with rotation");

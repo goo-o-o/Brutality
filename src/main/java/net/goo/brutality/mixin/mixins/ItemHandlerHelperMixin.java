@@ -1,6 +1,6 @@
 package net.goo.brutality.mixin.mixins;
 
-import net.goo.brutality.util.helpers.NbtHelper;
+import net.goo.brutality.util.NBTUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -21,7 +21,7 @@ public class ItemHandlerHelperMixin {
             IItemHandler handler, ItemStack stack, boolean simulate,
             CallbackInfoReturnable<ItemStack> cir
     ) {
-        if (!stack.isEmpty() && NbtHelper.getBool(stack, "fromDoubleDown", false)) {
+        if (!stack.isEmpty() && NBTUtils.getBool(stack, "fromDoubleDown", false)) {
             cir.setReturnValue(stack.copy()); // Nothing inserted
         }
     }
