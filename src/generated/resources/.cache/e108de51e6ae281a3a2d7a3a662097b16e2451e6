@@ -1,10 +1,10 @@
-// 1.20.1	2026-02-08T04:46:12.3600862	Tags for minecraft:block mod id brutality
+// 1.20.1	2026-02-09T10:37:38.9305191	Tags for minecraft:block mod id brutality
 0dc3869820782db5c3b0528f143b93b4bb915740 data/minecraft/tags/blocks/buttons.json
 c14859dc86a76791a69d9729873897aaebe343f0 data/minecraft/tags/blocks/candle_cakes.json
 a0f46cdf28bd1cdb6b5e9361181c9390f2670f57 data/minecraft/tags/blocks/doors.json
 43d72f39009d433626b5cbdd0295e055e16578ba data/minecraft/tags/blocks/mineable/axe.json
-65a77d75da19e92edfa1637612c3a6359fcd9aca data/minecraft/tags/blocks/mineable/pickaxe.json
-2736fa4a441d10e6aa7309223b7c845f711340eb data/minecraft/tags/blocks/needs_stone_tool.json
+46c93946203a9f49e46a5eac0f2eeb5bc45582ca data/minecraft/tags/blocks/mineable/pickaxe.json
+d90b419d90293df928d72ac1f4839a22f0e8c196 data/minecraft/tags/blocks/needs_stone_tool.json
 af6872fe5a806ae82a1d5c597f15a12a419102a5 data/minecraft/tags/blocks/pressure_plates.json
 decf46c3d266174f8dace9488963d27c1fba0813 data/minecraft/tags/blocks/slabs.json
 8f0010ffbc1b93d2071225c17109e766bbd78ddf data/minecraft/tags/blocks/stairs.json

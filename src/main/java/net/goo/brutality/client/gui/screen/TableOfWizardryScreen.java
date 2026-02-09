@@ -35,7 +35,6 @@ public class TableOfWizardryScreen extends Screen {
     public static final ResourceLocation PEDESTALS_OUTLINE = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/pedestals_outline.png");
     public static final ResourceLocation BUTTON_NINE_SLICED = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/button_nine_sliced.png");
     public static final ResourceLocation BUTTON_NINE_SLICED_DARK = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/button_nine_sliced_dark.png");
-    public static final ResourceLocation BACK_BUTTON = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/back_arrow.png");
     public static final ResourceLocation BUTTON_TEXTURE = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/button.png");
 
 
@@ -57,6 +56,7 @@ public class TableOfWizardryScreen extends Screen {
     private TableOfWizardryView currentView;
     private final Map<EntityType<?>, LivingEntity> dummyEntities = new HashMap<>();
 
+    public float schoolListScroll, spellListScroll;
 
     public TableOfWizardryScreen(Component pTitle, TableOfWizardryBlockEntity block) {
         super(pTitle);
@@ -69,6 +69,8 @@ public class TableOfWizardryScreen extends Screen {
 
     @Override
     public void rebuildWidgets() {
+
+
         super.rebuildWidgets();
     }
 

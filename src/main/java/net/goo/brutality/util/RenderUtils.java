@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.FormattedCharSequence;
@@ -90,13 +91,19 @@ public class RenderUtils {
         }
     }
 
-    public static void drawWordWrapCentered(GuiGraphics gui, Font pFont, FormattedText pText, int pX, int pY, int maxWidth, int pColor) {
+    public static void drawWordWrapCentered(GuiGraphics gui, Font pFont, FormattedText pText, int pX, int pY, int maxWidth, int pColor, boolean dropShadow) {
         for (FormattedCharSequence charSequence : pFont.split(pText, maxWidth)) {
             int centeredX = pX + (maxWidth - pFont.width(charSequence)) / 2;
-            gui.drawString(pFont, charSequence, centeredX, pY, pColor, false);
+            gui.drawString(pFont, charSequence, centeredX, pY, pColor, dropShadow);
             pY += pFont.lineHeight;
         }
     }
+
+    public static void drawCenteredString(GuiGraphics gui, Font pFont, Component pText, int pX, int pY, int pColor, boolean dropShadow) {
+        FormattedCharSequence formattedcharsequence = pText.getVisualOrderText();
+        gui.drawString(pFont, formattedcharsequence, pX - pFont.width(formattedcharsequence) / 2, pY, pColor, dropShadow);
+    }
+
 
     public static void renderItemInWorld(ItemStack stack, PoseStack poseStack, MultiBufferSource vertexConsumers, float partialTick, int overlay, int light) {
         poseStack.pushPose();
