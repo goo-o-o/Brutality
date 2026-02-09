@@ -1,8 +1,8 @@
 package net.goo.brutality.common.item.base;
 
 import net.goo.brutality.common.entity.base.BrutalityArrow;
-import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.common.item.BrutalityCategories;
+import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
@@ -31,12 +31,10 @@ import java.util.function.Consumer;
 
 public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
     public String identifier;
-    public Rarity rarity;
     private final List<ItemDescriptionComponent> descriptionComponents;
 
     public BrutalityBowItem(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
-        super(new Item.Properties().stacksTo(1));
-        this.rarity = rarity;
+        super(new Item.Properties().stacksTo(1).rarity(rarity));
         this.descriptionComponents = descriptionComponents;
     }
 
@@ -50,20 +48,10 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
         return true;
     }
 
-    @Override
-    public @NotNull Rarity getRarity(@NotNull ItemStack pStack) {
-        return this.rarity;
-    }
 
     @Override
-    public @NotNull Component getName(@NotNull ItemStack pStack) {
-        return brutalityNameHandler(pStack);
-    }
-
-    @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, rarity);
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
     }
 
     @Override
@@ -96,25 +84,10 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
         return 1;
     }
 
-    protected int getFullDrawTicks() {
-        return 20;
-    }
-
-
     protected float getPowerMultiplier() {
         return 3;
     }
 
-
-    public static float getPowerForTime(int pCharge, float fullDrawTicks) {
-        float f = (float) pCharge / fullDrawTicks;
-        f = (f * f + f * 2.0F) / 3.0F;
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-
-        return f;
-    }
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
@@ -156,7 +129,7 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
                     arrowStack = new ItemStack(Items.ARROW);
                 }
 
-                float drawPower = getPowerForTime(chargeTime, getFullDrawTicks());
+                float drawPower = getPowerForTime(chargeTime);
                 if (drawPower >= 0.1F) {
 
 

@@ -11,7 +11,7 @@ public class WizardryParticle extends RotatingParticle {
     protected WizardryParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
         this.gravity = -0.1F;
-        this.quadSize *= 0.45F;
+        this.quadSize *= 0.5F;
         this.pickSprite(spriteSet);
     }
 

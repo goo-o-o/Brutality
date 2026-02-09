@@ -12,11 +12,13 @@ import java.util.List;
 
 public class BrutalityAnkletItem extends BrutalityCurioItem implements ICurioItem {
 
-    public BrutalityAnkletItem(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
-        super(rarity, descriptionComponents);
-    }
+
     public BrutalityAnkletItem(Rarity rarity) {
         super(rarity);
+    }
+
+    public BrutalityAnkletItem(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
+        super(rarity, descriptionComponents);
     }
 
     public void onDodgeServer(LivingEntity dodger, DamageSource source, float damage, ItemStack stack) {

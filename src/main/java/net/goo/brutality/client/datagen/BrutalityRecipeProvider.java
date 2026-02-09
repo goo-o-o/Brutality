@@ -1,12 +1,13 @@
 package net.goo.brutality.client.datagen;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.common.magic.table_of_wizardry.ConjureRecipeBuilder;
+import net.goo.brutality.common.recipe.ConjureRecipeBuilder;
+import net.goo.brutality.common.recipe.ManaTransformationRecipeBuilder;
 import net.goo.brutality.common.registry.BrutalityBlockFamilies;
 import net.goo.brutality.common.registry.BrutalityBlocks;
 import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.common.registry.BrutalitySpells;
 import net.mcreator.terramity.init.TerramityModItems;
-import net.minecraft.data.BlockFamilies;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.nbt.CompoundTag;
@@ -14,7 +15,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
@@ -51,27 +51,272 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
     @Override
     protected void buildRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
 
-        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "cosmic_cataclysm")).mana(500)
+        ManaTransformationRecipeBuilder.transform(
+                Ingredient.of(TerramityModItems.PRISMATIC_CRYSTAL_BLOCK.get()),
+                BrutalityBlocks.MANA_CRYSTAL_BLOCK.get()).save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.HEAVENLY_FLIGHT.getId().getPath())).mana(100)
+                .requires(2, TerramityModItems.ANGEL_FEATHER.get())
+                .requires(4, TerramityModItems.ANGEL_FEATHER.get())
+                .requires(6, TerramityModItems.ANGEL_FEATHER.get())
+                .count(2)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.DIVINE_RETRIBUTION.getId().getPath())).mana(100)
+                .requires(0, Items.BEACON)
+                .requires(2, TerramityModItems.REVERIUM.get())
+                .requires(4, TerramityModItems.REVERIUM.get())
+                .requires(6, TerramityModItems.REVERIUM.get())
+                .count(4)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.HOLY_MANTLE.getId().getPath())).mana(175)
+                .requires(0, Items.LEATHER_CHESTPLATE)
+                .requires(2, TerramityModItems.REVERIUM.get())
+                .requires(4, Items.LEATHER_CHESTPLATE)
+                .requires(6, TerramityModItems.REVERIUM.get())
+                .count(2)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.SACRIFICE.getId().getPath())).mana(175)
+                .requires(0, TerramityModItems.CRYSTAL_HEART.get())
+                .requires(1, Items.GOLD_INGOT)
+                .requires(2, Items.GOLD_INGOT)
+                .requires(3, Items.GOLD_INGOT)
+                .requires(4, TerramityModItems.REVERIUM.get())
+                .requires(5, Items.GOLD_INGOT)
+                .requires(6, Items.GOLD_INGOT)
+                .requires(7, Items.GOLD_INGOT)
+                .count(2)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.LIGHT_BINDING.getId().getPath())).mana(150)
+                .requires(0, TerramityModItems.PLUMBERS_WRENCH.get())
+                .requires(1, Items.CHAIN)
+                .requires(2, TerramityModItems.REVERIUM.get())
+                .requires(3, Items.CHAIN)
+                .requires(4, TerramityModItems.REVERIUM.get())
+                .requires(5, Items.CHAIN)
+                .requires(6, TerramityModItems.REVERIUM.get())
+                .requires(7, Items.CHAIN)
+                .count(1)
+                .save(consumer);
+
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.CRESCENT_DART.getId().getPath())).mana(100)
+                .requires(0, TerramityModItems.NYXIUM.get())
+                .requires(1, TerramityModItems.MOONSTONE_ROCK.get())
+                .requires(2, TerramityModItems.MOONSTONE_ROCK.get())
+                .requires(3, TerramityModItems.MOONSTONE_ROCK.get())
+                .requires(4, TerramityModItems.MOONSTONE_ROCK.get())
+                .requires(5, TerramityModItems.MOONSTONE_ROCK.get())
+                .requires(6, TerramityModItems.MOONSTONE_ROCK.get())
+                .requires(7, TerramityModItems.MOONSTONE_ROCK.get())
+                .count(2)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.PIERCING_MOONLIGHT.getId().getPath())).mana(100)
+                .requires(0, TerramityModItems.IRIDESCENT_SHARD.get())
+                .requires(3, TerramityModItems.NYXIUM.get())
+                .requires(4, TerramityModItems.MOONSTONE_ROCK.get())
+                .requires(5, TerramityModItems.NYXIUM.get())
+                .count(2)
+                .save(consumer);
+
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.CRESCENT_SCYTHE.getId().getPath())).mana(150)
+                .requires(0, TerramityModItems.MOONSTONE_ROCK.get())
+                .requires(1, TerramityModItems.MOONSTONE_ROCK.get())
+                .requires(2, TerramityModItems.NYXIUM.get())
+                .requires(3, TerramityModItems.MOONSTONE_ROCK.get())
+                .requires(4, TerramityModItems.MOONSTONE_ROCK.get())
+                .count(2)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.NIGHTFALL.getId().getPath())).mana(150)
+                .requires(0, TerramityModItems.ONYX.get())
+                .requires(1, Items.CLOCK)
+                .requires(2, TerramityModItems.ONYX.get())
+                .requires(3, Items.CLOCK)
+                .requires(4, TerramityModItems.ONYX.get())
+                .requires(5, Items.CLOCK)
+                .requires(6, TerramityModItems.ONYX.get())
+                .requires(7, Items.CLOCK)
+                .count(2)
+                .save(consumer);
+
+        ItemStack healthPot = PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.HEALING);
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.MOONLIT_MENDING.getId().getPath())).mana(150)
+                .requires(0, TerramityModItems.ONYX.get())
+                .requires(1, healthPot)
+                .requires(2, TerramityModItems.ONYX.get())
+                .requires(3, healthPot)
+                .requires(4, TerramityModItems.ONYX.get())
+                .requires(5, healthPot)
+                .requires(6, TerramityModItems.ONYX.get())
+                .requires(7, healthPot)
+                .count(2)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.SINGULARITY_SHIFT.getId().getPath())).mana(150)
+                .requires(0, TerramityModItems.BAND_OF_DRIFTING.get())
+                .requires(1, Items.GOLD_BLOCK)
+                .requires(2, Items.PISTON)
+                .requires(3, Items.GOLD_BLOCK)
+                .requires(4, Items.PISTON)
+                .requires(5, Items.GOLD_BLOCK)
+                .requires(6, Items.PISTON)
+                .requires(7, Items.GOLD_BLOCK)
+                .count(2)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.GRAVITOKINESIS.getId().getPath())).mana(150)
+                .requires(0, TerramityModItems.ASTEROID_BELT.get())
+                .requires(2, TerramityModItems.COSMILITE_INGOT.get())
+                .requires(4, TerramityModItems.DIMLITE_NUGGET.get())
+                .requires(6, TerramityModItems.COSMILITE_INGOT.get())
+                .count(2)
+                .save(consumer);
+
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.STAR_STREAM.getId().getPath())).mana(200)
+                .requires(0, TerramityModItems.ONYX_STORM.get())
+                .requires(1, Items.GOLD_INGOT)
+                .requires(2, Items.GOLD_INGOT)
+                .requires(3, Items.GOLD_INGOT)
+                .requires(4, Items.GOLD_INGOT)
+                .requires(5, Items.GOLD_INGOT)
+                .requires(6, Items.GOLD_INGOT)
+                .requires(7, Items.GOLD_INGOT)
+                .count(3)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.STAR_BURST.getId().getPath())).mana(200)
+                .requires(0, TerramityModItems.METEOR_CANNON.get())
+                .requires(1, Items.GOLD_INGOT)
+                .requires(2, Items.GOLD_BLOCK)
+                .requires(3, Items.GOLD_INGOT)
+                .requires(4, Items.GOLD_BLOCK)
+                .requires(5, Items.GOLD_INGOT)
+                .requires(6, Items.GOLD_BLOCK)
+                .requires(7, Items.GOLD_INGOT)
+                .count(3)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.COSMIC_CATACLYSM.getId().getPath())).mana(250)
                 .requires(0, TerramityModItems.COSMILITE_INGOT.get())
                 .requires(1, Items.OBSIDIAN)
-                .requires(2, TerramityModItems.COSMILITE_INGOT.get())
+                .requires(2, Items.CRYING_OBSIDIAN)
                 .requires(3, Items.OBSIDIAN)
-                .requires(4, TerramityModItems.COSMILITE_INGOT.get())
+                .requires(4, Items.CRYING_OBSIDIAN)
                 .requires(5, Items.OBSIDIAN)
-                .requires(6, TerramityModItems.COSMILITE_INGOT.get())
+                .requires(6, Items.CRYING_OBSIDIAN)
                 .requires(7, Items.OBSIDIAN)
                 .save(consumer);
 
-        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "annihilation")).mana(500)
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.METEOR_SHOWER.getId().getPath())).mana(250)
+                .requires(0, Items.END_STONE)
+                .requires(1, Items.END_STONE)
+                .requires(2, TerramityModItems.COSMILITE_INGOT.get())
+                .requires(3, Items.END_STONE)
+                .requires(4, Items.END_STONE)
+                .requires(5, Items.END_STONE)
+                .requires(6, TerramityModItems.COSMILITE_INGOT.get())
+                .requires(7, Items.END_STONE)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.ANNIHILATION.getId().getPath())).mana(150)
                 .requires(0, TerramityModItems.HEXING_CIRCLE.get())
-                .requires(1, TerramityModItems.HELLSPEC_ALLOY.get())
                 .requires(2, TerramityModItems.HELLSPEC_ALLOY.get())
-                .requires(3, TerramityModItems.HELLSPEC_ALLOY.get())
                 .requires(4, TerramityModItems.HELLSPEC_ALLOY.get())
-                .requires(5, TerramityModItems.HELLSPEC_ALLOY.get())
                 .requires(6, TerramityModItems.HELLSPEC_ALLOY.get())
-                .requires(7, TerramityModItems.HELLSPEC_ALLOY.get())
                 .withEntity(EntityType.VILLAGER)
+                .count(3)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.EXTINCTION.getId().getPath())).mana(150)
+                .requires(0, BrutalityItems.BLOOD_ORB.get())
+                .requires(2, TerramityModItems.HELLSPEC_ALLOY.get())
+                .requires(4, TerramityModItems.HELLSPEC_ALLOY.get())
+                .requires(6, TerramityModItems.HELLSPEC_ALLOY.get())
+                .withEntity(EntityType.VILLAGER)
+                .count(3)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.BRIMSPIKE.getId().getPath())).mana(150)
+                .requires(0, Items.POINTED_DRIPSTONE)
+                .requires(2, TerramityModItems.HELLSPEC_ALLOY.get())
+                .requires(4, TerramityModItems.HELLSPEC_ALLOY.get())
+                .requires(6, TerramityModItems.HELLSPEC_ALLOY.get())
+                .withEntity(EntityType.VILLAGER)
+                .count(3)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.STYGIAN_STEP.getId().getPath())).mana(150)
+                .requires(0, TerramityModItems.SARASHI.get())
+                .requires(2, TerramityModItems.HELLSPEC_ALLOY.get())
+                .requires(4, TerramityModItems.HELLSPEC_ALLOY.get())
+                .requires(6, TerramityModItems.HELLSPEC_ALLOY.get())
+                .withEntity(EntityType.VILLAGER)
+                .count(3)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.CHTHONIC_CAPSULE.getId().getPath())).mana(150)
+                .requires(0, Items.TNT)
+                .requires(4, Items.TNT)
+                .requires(2, TerramityModItems.CHTHONIC_CRYSTAL_BLOCK.get())
+                .requires(6, TerramityModItems.CHTHONIC_CRYSTAL_BLOCK.get())
+                .withEntity(EntityType.VILLAGER)
+                .count(3)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.VOID_WALK.getId().getPath())).mana(150)
+                .requires(0, TerramityModItems.BLINK_BELT.get())
+                .requires(4, TerramityModItems.BLACK_MATTER.get())
+                .requires(2, TerramityModItems.VOID_ALLOY.get())
+                .requires(6, TerramityModItems.VOID_ALLOY.get())
+                .count(5)
+                .save(consumer);
+
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.GRAVITIC_IMPLOSION.getId().getPath())).mana(150)
+                .requires(0, TerramityModItems.BLACK_MATTER.get())
+                .requires(1, Items.TNT)
+                .requires(2, TerramityModItems.VOID_ALLOY.get())
+                .requires(3, Items.TNT)
+                .requires(4, TerramityModItems.BLACK_MATTER.get())
+                .requires(5, Items.TNT)
+                .requires(6, TerramityModItems.VOID_ALLOY.get())
+                .requires(7, Items.TNT)
+                .count(2)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.SPATIAL_RUPTURE.getId().getPath())).mana(150)
+                .requires(0, TerramityModItems.BLACK_MATTER.get())
+                .requires(1, Items.OBSIDIAN)
+                .requires(2, TerramityModItems.VOID_ALLOY.get())
+                .requires(3, Items.OBSIDIAN)
+                .requires(4, TerramityModItems.BLACK_MATTER.get())
+                .requires(5, Items.OBSIDIAN)
+                .requires(6, TerramityModItems.VOID_ALLOY.get())
+                .requires(7, Items.OBSIDIAN)
+                .count(2)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.INTANGIBLE.getId().getPath())).mana(150)
+                .requires(0, TerramityModItems.BLACK_MATTER.get())
+                .requires(2, TerramityModItems.BLACK_MATTER.get())
+                .requires(4, TerramityModItems.BLACK_MATTER.get())
+                .requires(6, TerramityModItems.BLACK_MATTER.get())
+                .count(2)
+                .save(consumer);
+
+        ConjureRecipeBuilder.conjure(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, BrutalitySpells.DEMATERIALIZE.getId().getPath())).mana(150)
+                .requires(0, TerramityModItems.BLACK_MATTER.get())
+                .requires(2, TerramityModItems.OPALINE_MOONSTONE.get())
+                .requires(4, TerramityModItems.BLACK_MATTER.get())
+                .requires(6, TerramityModItems.OPALINE_MOONSTONE.get())
+                .count(2)
                 .save(consumer);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, BrutalityItems.POCKET_BLACK_HOLE.get())

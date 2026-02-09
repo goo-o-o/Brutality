@@ -32,7 +32,6 @@ public class BrutalityScytheItem extends TieredItem implements BrutalityGeoItem 
     private final float attackDamage;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
     protected String identifier;
-    protected Rarity rarity;
     protected List<ItemDescriptionComponent> descriptionComponents;
 
     public BrutalityScytheItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
@@ -43,7 +42,6 @@ public class BrutalityScytheItem extends TieredItem implements BrutalityGeoItem 
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.attackDamage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", pAttackSpeedModifier, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
-        this.rarity = rarity;
         this.descriptionComponents = descriptionComponents;
     }
 
@@ -57,16 +55,9 @@ public class BrutalityScytheItem extends TieredItem implements BrutalityGeoItem 
         });
     }
 
-
     @Override
-    public @NotNull Component getName(@NotNull ItemStack pStack) {
-        return brutalityNameHandler(pStack);
-    }
-
-    @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, rarity);
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
     }
 
     @Override

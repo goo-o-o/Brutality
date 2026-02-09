@@ -15,14 +15,15 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 
 public class BrutalityMathFunctionCurio extends BrutalityCurioItem {
-    public BrutalityMathFunctionCurio(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
-        super(rarity, descriptionComponents);
-    }
+
 
     public BrutalityMathFunctionCurio(Rarity rarity) {
         super(rarity);
     }
 
+    public BrutalityMathFunctionCurio(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
+        super(rarity, descriptionComponents);
+    }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {

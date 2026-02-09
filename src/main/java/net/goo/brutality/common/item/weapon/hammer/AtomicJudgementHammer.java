@@ -4,7 +4,6 @@ import net.goo.brutality.common.config.BrutalityCommonConfig;
 import net.goo.brutality.common.entity.explosion.BrutalityExplosion;
 import net.goo.brutality.common.entity.explosion.NuclearExplosion;
 import net.goo.brutality.common.item.base.BrutalityHammerItem;
-import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.ModExplosionHelper;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -14,10 +13,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -71,7 +67,7 @@ public class AtomicJudgementHammer extends BrutalityHammerItem {
     public void releaseUsing(@NotNull ItemStack pStack, @NotNull Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {
         Vec3 viewVec = pLivingEntity.getViewVector(1F).normalize();
         int charge = getUseDuration(pStack) - pTimeCharged;
-        float powerForTime = ModUtils.getPowerForTime(charge);
+        float powerForTime = BowItem.getPowerForTime(charge);
         if (pLivingEntity.onGround()) {
             pLivingEntity.addDeltaMovement(viewVec.scale(powerForTime * -3F));
             if (pLivingEntity instanceof ServerPlayer player) {

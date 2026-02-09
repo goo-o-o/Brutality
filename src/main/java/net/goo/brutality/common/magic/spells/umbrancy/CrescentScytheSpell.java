@@ -1,11 +1,9 @@
 package net.goo.brutality.common.magic.spells.umbrancy;
 
 import net.goo.brutality.common.entity.spells.umbrancy.CrescentScythe;
-import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEntities;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
-import net.minecraft.util.Mth;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -14,8 +12,7 @@ import java.util.List;
 
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.AOE;
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.INSTANT;
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.QUANTITY;
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.SPEED;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SPEED;
 
 public class CrescentScytheSpell extends BrutalitySpell {
 
@@ -25,8 +22,8 @@ public class CrescentScytheSpell extends BrutalitySpell {
                 List.of(INSTANT, AOE),
                 "crescent_scythe",
                 40, 3, 100, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(QUANTITY, 1, 0.5F, 1F, null),
-                        new BrutalityTooltipHelper.SpellStatComponent(SPEED, 0.25F, 0, null, null)
+//                        new BrutalityTooltipHelper.SpellStatComponent(QUANTITY, 1, 0.5F, 1F, null),
+                        new SpellTooltips.SpellStatComponent(SPEED, 0.25F, 0.15F, null, null)
                 ));
     }
 
@@ -37,25 +34,32 @@ public class CrescentScytheSpell extends BrutalitySpell {
 
     @Override
     public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
-        int quantity = Mth.floor(getFinalStat(spellLevel, getStat(QUANTITY)));
+//        int quantity = Mth.floor(getFinalStat(spellLevel, getStat(QUANTITY)));
         float speed = getFinalStat(spellLevel, getStat(SPEED));
-        float gap = 15f; // Reduced gap for tighter arc; adjust as needed
+//        float gap = 15f; // Reduced gap for tighter arc; adjust as needed
         Level level = player.level();
 
-        for (int i = 0; i < quantity; i++) {
-            float angleOffset = (i - (quantity - 1) / 2f) * gap; // Center the arc
-            CrescentScythe crescentScythe = new CrescentScythe(BrutalityEntities.CRESCENT_SCYTHE_ENTITY.get(), level);
-            crescentScythe.setSpellLevel(spellLevel);
-            crescentScythe.setOwner(player);
-            crescentScythe.setPos(player.getX(), player.getY(0.75f), player.getZ());
-            crescentScythe.shootFromRotation(player, player.getXRot(), player.getYRot() + angleOffset, 0, speed, 0);
+        CrescentScythe crescentScythe = new CrescentScythe(BrutalityEntities.CRESCENT_SCYTHE_ENTITY.get(), level);
+        crescentScythe.setSpellLevel(spellLevel);
+        crescentScythe.setOwner(player);
+        crescentScythe.setPos(player.getX(), player.getY(0.75f), player.getZ());
+        crescentScythe.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, speed, 0);
 
-            if (i > 0) {
-                DelayedTaskScheduler.queueServerWork(level, i * 2, () -> level.addFreshEntity(crescentScythe)); // Small delay for staggered spawn
-            } else {
-                level.addFreshEntity(crescentScythe);
-            }
-        }
+
+//        for (int i = 0; i < quantity; i++) {
+//            float angleOffset = (i - (quantity - 1) / 2f) * gap; // Center the arc
+//            CrescentScythe crescentScythe = new CrescentScythe(BrutalityEntities.CRESCENT_SCYTHE_ENTITY.get(), level);
+//            crescentScythe.setSpellLevel(spellLevel);
+//            crescentScythe.setOwner(player);
+//            crescentScythe.setPos(player.getX(), player.getY(0.75f), player.getZ());
+//            crescentScythe.shootFromRotation(player, player.getXRot(), player.getYRot() + angleOffset, 0, speed, 0);
+//
+//            if (i > 0) {
+//                DelayedTaskScheduler.queueServerWork(level, i * 2, () -> level.addFreshEntity(crescentScythe)); // Small delay for staggered spawn
+//            } else {
+//                level.addFreshEntity(crescentScythe);
+//            }
+//        }
 
         return true;
     }

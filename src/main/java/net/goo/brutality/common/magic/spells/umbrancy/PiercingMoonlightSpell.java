@@ -3,19 +3,19 @@ package net.goo.brutality.common.magic.spells.umbrancy;
 import net.goo.brutality.common.entity.spells.umbrancy.PiercingMoonlight;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEntities;
-import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.math.phys.hitboxes.HitboxUtils;
+import net.goo.brutality.util.math.phys.hitboxes.OrientedBoundingBox;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.AOE;
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.INSTANT;
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.PIERCE;
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.RANGE;
 
 public class PiercingMoonlightSpell extends BrutalitySpell {
 
@@ -25,8 +25,8 @@ public class PiercingMoonlightSpell extends BrutalitySpell {
                 List.of(INSTANT, AOE),
                 "piercing_moonlight",
                 40, 3, 50, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(PIERCE, 100, 0, null, null),
-                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 50, 5, 50F, 100F)
+//                        new BrutalityTooltipHelper.SpellStatComponent(PIERCE, 100, 0, null, null),
+                        new SpellTooltips.SpellStatComponent(RANGE, 50, 5, 50F, 100F)
                 ));
     }
 
@@ -37,26 +37,26 @@ public class PiercingMoonlightSpell extends BrutalitySpell {
 
     @Override
     public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
-            PiercingMoonlight piercingMoonlight = new PiercingMoonlight(BrutalityEntities.PIERCING_MOONLIGHT_ENTITY.get(), player.level());
-            piercingMoonlight.setOwner(player);
-            piercingMoonlight.setPos(player.getEyePosition().add(player.getLookAngle().scale(3.0)));
-            piercingMoonlight.setSpellLevel(spellLevel);
-            piercingMoonlight.setYRot(player.getYRot());
-            piercingMoonlight.setXRot(player.getXRot());
-            player.level().addFreshEntity(piercingMoonlight);
+        int zOffset = 3;
+        PiercingMoonlight piercingMoonlight = new PiercingMoonlight(BrutalityEntities.PIERCING_MOONLIGHT_ENTITY.get(), player.level());
+        piercingMoonlight.setOwner(player);
+        piercingMoonlight.setPos(player.getEyePosition().add(player.getLookAngle().scale(zOffset)));
+        piercingMoonlight.setSpellLevel(spellLevel);
+        piercingMoonlight.setYRot(player.getYRot());
+        piercingMoonlight.setXRot(player.getXRot());
+        player.level().addFreshEntity(piercingMoonlight);
 
-            float range = getFinalStat(spellLevel, getStat(RANGE));
-            int pierce = (int) getFinalStat(spellLevel, getStat(PIERCE));
-            float damage = getFinalDamage(player, spellLevel);
+        float range = getFinalStat(spellLevel, getStat(RANGE));
+        float damage = getFinalDamage(player, spellLevel);
 
-            ModUtils.RayData<LivingEntity> rayData = ModUtils.getEntitiesInRay(LivingEntity.class, player, range,
-                    ClipContext.Fluid.NONE, ClipContext.Block.OUTLINE, 0.0625F, e -> e != player, pierce,
-                    null
-            );
+        OrientedBoundingBox hitbox = new OrientedBoundingBox(Vec3.ZERO, new Vec3(0.0625F, 0.0625F, range).scale(0.5F), 0, 0, 0);
+        Vec3 offset = new Vec3(0, 0, zOffset + hitbox.halfExtents.z);
 
-            piercingMoonlight.setDataMaxLength(rayData.distance() - 2);
-            int nightMult = player.level().isNight() ? 2 : 1;
-            rayData.entityList().forEach(e -> e.hurt(e.damageSources().indirectMagic(player, null), (e.distanceTo(player) > 9.5 && e.distanceTo(player) < 10.5) ? damage * 3 * nightMult : damage * nightMult));
+        HitboxUtils.RayResult<LivingEntity> result = HitboxUtils.handleRay(player, LivingEntity.class, hitbox, offset, null, true);
+
+        piercingMoonlight.setDataMaxLength(result.distance - zOffset);
+        float actualDamage = player.level().isNight() ? 2 * damage : damage;
+        result.entitiesHit.forEach(e -> e.hurt(e.damageSources().indirectMagic(player, null), actualDamage));
 
         return true;
 

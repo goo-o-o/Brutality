@@ -12,8 +12,8 @@ import net.goo.brutality.util.magic.SpellCooldownTracker;
 import net.goo.brutality.util.magic.SpellStorage;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalitySounds;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.mcreator.terramity.init.TerramityModSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -45,8 +45,8 @@ import software.bernie.geckolib.core.object.PlayState;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.CHANCE;
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.DURATION;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.CHANCE;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.DURATION;
 
 public class BaseMagicTome extends BrutalityGenericItem {
 
@@ -283,7 +283,7 @@ public class BaseMagicTome extends BrutalityGenericItem {
 
 
                 if (spell.getStatComponents() != null)
-                    for (BrutalityTooltipHelper.SpellStatComponent component : spell.getStatComponents()) {
+                    for (SpellTooltips.SpellStatComponent component : spell.getStatComponents()) {
                         MutableComponent finalComponent = getMutableComponent(mc.player, entry, component);
 
                         if (component.min() != null) {
@@ -370,7 +370,7 @@ public class BaseMagicTome extends BrutalityGenericItem {
 
 
             if (spell.getStatComponents() != null)
-                for (BrutalityTooltipHelper.SpellStatComponent component : spell.getStatComponents()) {
+                for (SpellTooltips.SpellStatComponent component : spell.getStatComponents()) {
                     MutableComponent finalComponent = getMutableComponent(mc.player, entry, component);
 
                     if (component.min() != null) {
@@ -398,18 +398,18 @@ public class BaseMagicTome extends BrutalityGenericItem {
         }
     }
 
-    private static float computeUnit(float input, BrutalityTooltipHelper.SpellStatComponents type) {
+    private static float computeUnit(float input, SpellTooltips.SpellStatComponents type) {
         if (type.equals(DURATION)) {
             return input / 20;
         }
-        if (type.unit.contains("\u2764")) {
+        if (type.unit.contains(Component.literal("\u2764"))) {
             return input / 2;
         }
         return input;
     }
 
-    private static @NotNull MutableComponent getMutableComponent(Player player, SpellStorage.SpellEntry entry, net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponent component) {
-        BrutalityTooltipHelper.SpellStatComponents type = component.type();
+    private static @NotNull MutableComponent getMutableComponent(Player player, SpellStorage.SpellEntry entry, SpellTooltips.SpellStatComponent component) {
+        SpellTooltips.SpellStatComponents type = component.type();
         String operand = component.levelDelta() > 0 ? " + " : " - ";
         float base = computeUnit(component.base(), type);
         float levelDelta = computeUnit(Mth.abs(component.levelDelta()), type);

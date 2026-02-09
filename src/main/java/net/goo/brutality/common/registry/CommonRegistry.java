@@ -17,6 +17,8 @@ public class CommonRegistry {
         BrutalityParticles.register(modEventBus);
         BrutalityMenuTypes.register(modEventBus);
         BrutalityRecipes.register(modEventBus);
+        BrutalityFluids.register(modEventBus);
+        BrutalityFluidTypes.register(modEventBus);
     }
 
 

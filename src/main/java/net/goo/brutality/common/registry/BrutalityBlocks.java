@@ -3,6 +3,7 @@ package net.goo.brutality.common.registry;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.block.HorizontalDirectionalBlock;
 import net.goo.brutality.common.block.custom.*;
+import net.goo.brutality.common.fluid.LiquifiedManaBlock;
 import net.mcreator.terramity.init.TerramityModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -28,8 +30,7 @@ public class BrutalityBlocks {
     public static final BlockSetType SOLIDIFIED_MANA = BlockSetType.register(new BlockSetType("solidified_mana", true, SoundType.METAL, SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN, SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN, SoundEvents.METAL_PRESSURE_PLATE_CLICK_OFF, SoundEvents.METAL_PRESSURE_PLATE_CLICK_ON, SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON));
 
 
-    public static final DeferredRegister<Block> BLOCKS =
-            DeferredRegister.create(ForgeRegistries.BLOCKS, Brutality.MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Brutality.MOD_ID);
 
     public static List<RegistryObject<Block>> CONCRETE_SLABS;
     public static List<RegistryObject<Block>> CONCRETE_STAIRS;
@@ -39,6 +40,7 @@ public class BrutalityBlocks {
     // Block item registration moved to BrutalityModItems (better organization)
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);
+
 
         FILING_CABINETS = List.of(
                 BrutalityBlocks.WHITE_FILING_CABINET,
@@ -226,7 +228,7 @@ public class BrutalityBlocks {
 
     public static final RegistryObject<Block> BOOKSHELF_OF_WIZARDRY = registerBlock("bookshelf_of_wizardry", () -> new BookshelfOfWizardry(BlockBehaviour.Properties.copy(TerramityModBlocks.MOONSTONE_BRICKS.get())));
     public static final RegistryObject<Block> MANA_CANDLE = registerBlock("mana_candle", () -> new ManaCandle(BlockBehaviour.Properties.copy(Blocks.CANDLE)));
-    public static final RegistryObject<Block> MANA_CANDLE_CAKE = registerBlock("mana_candle_cake", () -> new ManaCandleCake(BrutalityBlocks.MANA_CANDLE.get(), BlockBehaviour.Properties.copy(Blocks.CANDLE_CAKE)));
+    public static final RegistryObject<Block> MANA_CANDLE_CAKE = BLOCKS.register("mana_candle_cake", () -> new ManaCandleCake(BrutalityBlocks.MANA_CANDLE.get(), BlockBehaviour.Properties.copy(Blocks.CANDLE_CAKE)));
 
     public static final RegistryObject<Block> SOLIDIFIED_MANA_BLOCK = registerBlock("solidified_mana_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.LAPIS_BLOCK)));
     public static final RegistryObject<SlabBlock> SOLIDIFIED_MANA_SLAB = registerSlab(BrutalityBlocks.SOLIDIFIED_MANA_BLOCK);
@@ -319,8 +321,27 @@ public class BrutalityBlocks {
     public static final RegistryObject<Block> SUPER_SNIFFER_FIGURE_BLOCK =
             BLOCKS.register("super_sniffer_figure", () -> new SuperSnifferFigureBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
 
+    public static final RegistryObject<Block> MANA_CRYSTAL_BLOCK = registerBlock("mana_crystal_block", ManaCrystalBlock::new);
+
+    public static final RegistryObject<Block> MANA_CRYSTAL_CLUSTER = registerBlock("mana_crystal_cluster", () -> new ManaCrystalCluster(7, 3, 3, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).forceSolidOn().noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).strength(1.5F).lightLevel((blockState) -> 5).pushReaction(PushReaction.DESTROY)));
+    public static final RegistryObject<Block> LARGE_MANA_CRYSTAL_BUD = registerBlock("large_mana_crystal_bud", () -> new ManaCrystalCluster(5, 3, 5, BlockBehaviour.Properties.copy(MANA_CRYSTAL_CLUSTER.get()).sound(SoundType.MEDIUM_AMETHYST_BUD).forceSolidOn().lightLevel((blockState) -> 4).pushReaction(PushReaction.DESTROY)));
+    public static final RegistryObject<Block> MEDIUM_MANA_CRYSTAL_BUD = registerBlock("medium_mana_crystal_bud", () -> new ManaCrystalCluster(4, 3, 7, BlockBehaviour.Properties.copy(MANA_CRYSTAL_CLUSTER.get()).sound(SoundType.LARGE_AMETHYST_BUD).forceSolidOn().lightLevel((blockState) -> 2).pushReaction(PushReaction.DESTROY)));
+    public static final RegistryObject<Block> SMALL_MANA_CRYSTAL_BUD = registerBlock("small_mana_crystal_bud", () -> new ManaCrystalCluster(3, 4, 10, BlockBehaviour.Properties.copy(MANA_CRYSTAL_CLUSTER.get()).sound(SoundType.SMALL_AMETHYST_BUD).forceSolidOn().lightLevel((blockState) -> 1).pushReaction(PushReaction.DESTROY)));
+
+
+    public static final RegistryObject<LiquidBlock> LIQUIFIED_MANA = BLOCKS.register("liquified_mana",
+            () -> new LiquifiedManaBlock(BrutalityFluids.LIQUIFIED_MANA_SOURCE, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .noCollission()
+                    .strength(100.0F)
+                    .pushReaction(PushReaction.DESTROY)
+                    .noLootTable()
+                    .liquid()
+            ));
+
     private static boolean never(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
         return false;
     }
+
 
 }

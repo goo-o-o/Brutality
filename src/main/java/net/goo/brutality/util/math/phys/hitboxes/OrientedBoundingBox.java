@@ -29,6 +29,17 @@ public final class OrientedBoundingBox extends BaseBoundingBox {
         if (rotation != null) this.rotation.set(rotation);
     }
 
+    /**
+     * Constructs an {@link OrientedBoundingBox} with a specified center, half-extents, and rotation
+     * defined by pitch, yaw, and roll angles. The rotation is internally converted into a
+     * {@link Matrix3f} representation.
+     *
+     * @param center The center position of the bounding box as {@link Vec3}.
+     * @param halfExtents A vector of half-dimensions (x, y, z) indicating the size of the bounding box along each axis.
+     * @param pitch Rotation around the X-axis in degrees.
+     * @param yaw Rotation around the Y-axis in degrees.
+     * @param roll Rotation around the Z-axis in degrees.
+     */
     public OrientedBoundingBox(Vec3 center, Vec3 halfExtents, float pitch, float yaw, float roll) {
         this(center, halfExtents, new Matrix3f().rotationXYZ(
                 (float) Math.toRadians(pitch),

@@ -1,13 +1,13 @@
 package net.goo.brutality.common.magic.spells.voidwalker;
 
-import net.goo.brutality.common.magic.BrutalitySpell;
-import net.goo.brutality.common.network.clientbound.ClientboundParticlePacket;
-import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.client.particle.providers.WaveParticleData;
+import net.goo.brutality.common.magic.BrutalitySpell;
+import net.goo.brutality.common.network.PacketHandler;
+import net.goo.brutality.common.network.clientbound.ClientboundParticlePacket;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -24,7 +24,7 @@ import java.util.List;
 
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.AOE;
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.INSTANT;
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SIZE;
 
 public class SpatialRuptureSpell extends BrutalitySpell {
 
@@ -33,7 +33,7 @@ public class SpatialRuptureSpell extends BrutalitySpell {
                 List.of(INSTANT, AOE),
                 "spatial_rupture",
                 30, 2, 80, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(SIZE, 3, 1, 0F, 100F)
+                        new SpellTooltips.SpellStatComponent(SIZE, 3, 1, 0F, 100F)
                 ));
     }
 
@@ -46,9 +46,10 @@ public class SpatialRuptureSpell extends BrutalitySpell {
 
     @Override
     public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
+        WaveParticleData<?> waveParticleData = new WaveParticleData<>(BrutalityParticles.ANTIMATTER_WAVE.get(), getFinalStat(spellLevel, getStat(SIZE)), 40);
+        double playerX = player.getX(), playerY = player.getY(0.5), playerZ = player.getZ();
 
         if (player.level() instanceof ServerLevel serverLevel) {
-            double playerX = player.getX(), playerY = player.getY(0.5), playerZ = player.getZ();
             float offset = 0.1F + 0.025F * (spellLevel + 1);
             for (int i = 0; i < 16 + spellLevel * 4; i++) {
                 PacketHandler.sendToNearbyClients(serverLevel, playerX, playerY, playerZ, 128, new ClientboundParticlePacket(
@@ -58,13 +59,6 @@ public class SpatialRuptureSpell extends BrutalitySpell {
                         (player.getRandom().nextFloat() - 0.5F) * offset, 1
                 ));
             }
-            WaveParticleData<?> waveParticleData = new WaveParticleData<>(BrutalityParticles.ANTIMATTER_WAVE.get(), getFinalStat(spellLevel, getStat(SIZE)), 40);
-
-            PacketHandler.sendToNearbyClients(serverLevel, playerX, playerY, playerZ, 128, new ClientboundParticlePacket(
-                    waveParticleData, true, (float) playerX, (float) playerY, (float) playerZ, 0, 0, 0,
-                    0, 0, 0, 1
-            ));
-
 
             ModUtils.applyWaveEffect(serverLevel, playerX, playerY, playerZ, Entity.class, waveParticleData, e -> (e instanceof Projectile || e instanceof LivingEntity) && e != player,
                     e -> {
@@ -81,6 +75,8 @@ public class SpatialRuptureSpell extends BrutalitySpell {
 
 
             serverLevel.playSound(null, player.getOnPos(), BrutalitySounds.BASS_BOOM.get(), SoundSource.PLAYERS, spellLevel, 1F);
+        } else {
+            player.level().addParticle(waveParticleData, true, playerX, playerY, playerZ, 0, 0, 0);
         }
         return true;
     }

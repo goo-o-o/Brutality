@@ -35,7 +35,7 @@ public class ServerboundActiveAbilityPressPacket {
             ServerPlayer sender = context.getSender();
             if (sender == null) return;
 
-            CooldownUtils.validateCurioCooldown(sender, BrutalityItems.DECK_OF_CARDS.get(), 20 * 21, () -> sender.addEffect(new MobEffectInstance(BrutalityEffects.MAGIC_POWER.get(),
+            CooldownUtils.validateCurioCooldown(sender, BrutalityItems.DECK_OF_CARDS.get(), 20 * 21, () -> sender.addEffect(new MobEffectInstance(BrutalityEffects.ARCANE_SURGE.get(),
                     (sender.getRandom().nextIntBetweenInclusive(40, 200)), 51)));
 
             CooldownUtils.validateCurioCooldown(sender, BrutalityItems.MIRACLE_CURE.get(), 20 * 60, () -> sender.getActiveEffects().stream().map(MobEffectInstance::getEffect).filter(effect -> !effect.isBeneficial()).forEach(sender::removeEffect));

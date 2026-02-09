@@ -4,7 +4,7 @@ import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityDamageTypes;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.ParticleHelper;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -16,7 +16,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.RANGE;
 
 public class DematerializeSpell extends BrutalitySpell {
 
@@ -26,7 +26,7 @@ public class DematerializeSpell extends BrutalitySpell {
                 List.of(SpellCategory.INSTANT, SpellCategory.TARGET),
                 "dematerialize",
                 40, 7, 120, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 10, 2, 0F, 50F)
+                        new SpellTooltips.SpellStatComponent(RANGE, 10, 2, 0F, 50F)
                 ));
     }
 

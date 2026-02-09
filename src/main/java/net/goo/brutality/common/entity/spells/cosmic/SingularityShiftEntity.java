@@ -35,8 +35,8 @@ import java.util.List;
 
 import static net.goo.brutality.util.ModResources.GRAVITY_FIELD_DOWN_FX;
 import static net.goo.brutality.util.ModResources.GRAVITY_FIELD_UP_FX;
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.DURATION;
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.DURATION;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SIZE;
 
 public class SingularityShiftEntity extends BrutalityAbstractPhysicsProjectile implements BrutalityGeoEntity, IBrutalitySpellEntity {
     private static final EntityDataAccessor<Integer> SPELL_LEVEL_DATA = SynchedEntityData.defineId(SingularityShiftEntity.class, EntityDataSerializers.INT);

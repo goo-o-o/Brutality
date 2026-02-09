@@ -16,11 +16,14 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.minecraftforge.client.model.generators.loaders.SeparateTransformsModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -43,6 +46,7 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
 
         registerItemModels();
         registerConcreteVariantModels();
+
 
         withExistingParent(BrutalityBlocks.BOOKSHELF_OF_WIZARDRY.getId().getPath(),
                 modLoc("block/" + BrutalityBlocks.BOOKSHELF_OF_WIZARDRY.getId().getPath()));
@@ -95,8 +99,12 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
                     .end();
         });
 
+
         withExistingParent(BrutalityBlocks.PUDDLE.getId().getPath(),
                 modLoc("block/" + BrutalityBlocks.PUDDLE.getId().getPath())).renderType(mcLoc("translucent"));
+
+        withExistingParent(BrutalityBlocks.MANA_CRYSTAL_BLOCK.getId().getPath(),
+                modLoc("block/" + BrutalityBlocks.MANA_CRYSTAL_BLOCK.getId().getPath()));
 
         withExistingParent(BrutalityBlocks.SMALL_OFFICE_LIGHT.getId().getPath(),
                 modLoc("block/" + BrutalityBlocks.SMALL_OFFICE_LIGHT.getId().getPath()));
@@ -106,12 +114,20 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
         withExistingParent(BrutalityBlocks.GRAY_OFFICE_RUG.getId().getPath(),
                 modLoc("block/" + BrutalityBlocks.GRAY_OFFICE_RUG.getId().getPath()));
 
-
-        withExistingParent(ForgeRegistries.ITEMS.getKey(BrutalityBlocks.MANA_CANDLE.get().asItem()).getPath(),
-                ResourceLocation.parse("item/generated"))
-                .texture("layer0", modLoc("item/mana_candle"));
+        blockWithFlatItem(BrutalityBlocks.MANA_CANDLE.get(), modLoc("item/mana_candle"));
+        blockWithFlatItem(BrutalityBlocks.MANA_CRYSTAL_CLUSTER.get(), modLoc("block/mana_crystal_cluster"));
+        blockWithFlatItem(BrutalityBlocks.LARGE_MANA_CRYSTAL_BUD.get(), modLoc("block/large_mana_crystal_bud"));
+        blockWithFlatItem(BrutalityBlocks.MEDIUM_MANA_CRYSTAL_BUD.get(), modLoc("block/medium_mana_crystal_bud"));
+        blockWithFlatItem(BrutalityBlocks.SMALL_MANA_CRYSTAL_BUD.get(), modLoc("block/small_mana_crystal_bud"));
 
         generateFamilyItems(BrutalityBlockFamilies.SOLIDIFIED_MANA);
+    }
+
+    public void blockWithFlatItem(Block block, ResourceLocation itemTexture) {
+        withExistingParent(ForgeRegistries.ITEMS.getKey(block.asItem()).getPath(),
+                ResourceLocation.parse("item/generated"))
+                .texture("layer0", itemTexture)
+                .texture("particle", "block/" + ForgeRegistries.BLOCKS.getKey(block).getPath());
     }
 
     public void generateFamilyItems(BlockFamily family) {
@@ -149,6 +165,11 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
         for (RegistryObject<Item> itemRegistryObject : itemsEntries) {
             Item item = itemRegistryObject.get();
             if (item instanceof BlockItem) continue;
+
+            if (item instanceof BucketItem) {
+                generateBucketModel(itemRegistryObject);
+                continue;
+            }
 
             if (item instanceof BrutalityGeoItem geoItem) {
                 if (EXCLUDED_ITEMS.contains(geoItem.getClass())) continue;
@@ -188,6 +209,21 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
             }
 
         }
+    }
+
+    private void generateBucketModel(RegistryObject<Item> itemRegistryObject) {
+        BucketItem bucket = ((BucketItem) itemRegistryObject.get());
+        Fluid fluid = bucket.getFluid();
+        FluidType fluidType = fluid.getFluidType();
+
+        withExistingParent(itemRegistryObject.getId().getPath(), ResourceLocation.fromNamespaceAndPath("forge", "item/bucket"))
+                .customLoader((itemModelBuilder, existingFileHelper) ->
+                        DynamicFluidContainerModelBuilder.begin(itemModelBuilder, existingFileHelper)
+                                .fluid(fluid)
+                                .flipGas(fluidType.isLighterThanAir())
+                                .applyTint(false) // Ensures your 0x00EBFF color is applied
+                                .applyFluidLuminosity(true) // Makes the fluid glow in the bucket
+                );
     }
 
     protected void registerConcreteVariantModels() {

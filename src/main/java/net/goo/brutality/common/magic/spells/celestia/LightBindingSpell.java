@@ -4,7 +4,7 @@ import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.ParticleHelper;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -18,8 +18,8 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.*;
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.DURATION;
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.DURATION;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.RANGE;
 
 public class LightBindingSpell extends BrutalitySpell {
 
@@ -29,8 +29,8 @@ public class LightBindingSpell extends BrutalitySpell {
                 List.of(INSTANT, TARGET, DEBUFF),
                 "light_binding",
                 40, 0, 200, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 10, 4, 0F, 40F),
-                        new BrutalityTooltipHelper.SpellStatComponent(DURATION, 20, 10, 0F, 100F)
+                        new SpellTooltips.SpellStatComponent(RANGE, 10, 4, 0F, 40F),
+                        new SpellTooltips.SpellStatComponent(DURATION, 20, 10, 0F, 100F)
                 ));
     }
 
@@ -48,8 +48,8 @@ public class LightBindingSpell extends BrutalitySpell {
 
     @Override
     public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
-        BrutalityTooltipHelper.SpellStatComponent range = getStat(RANGE);
-        BrutalityTooltipHelper.SpellStatComponent duration = getStat(DURATION);
+        SpellTooltips.SpellStatComponent range = getStat(RANGE);
+        SpellTooltips.SpellStatComponent duration = getStat(DURATION);
 
         Entity target = ModUtils.getEntityPlayerLookingAt(player, getFinalStat(spellLevel, range));
         if (!(target instanceof LivingEntity livingTarget)) {

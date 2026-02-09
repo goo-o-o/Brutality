@@ -3,6 +3,7 @@ package net.goo.brutality.mixin.mixins;
 import com.google.common.collect.Multimap;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.common.item.weapon.hammer.JackpotHammer;
 import net.goo.brutality.common.registry.BrutalityAttributes;
@@ -10,6 +11,7 @@ import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.NBTUtils;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
 import net.goo.brutality.util.item.SealUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -27,9 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
@@ -171,6 +171,23 @@ public abstract class ItemStackMixin {
             return AttributeModifier.Operation.MULTIPLY_BASE;
         }
         return original;
+    }
+
+    @Inject(method = "getHoverName", at = @At("RETURN"), cancellable = true)
+    private void brutality$injectGradientStyle(CallbackInfoReturnable<Component> cir) {
+        Component original = cir.getReturnValue();
+
+        // This 'this' is the ItemStack
+        ItemStack stack = (ItemStack) (Object) this;
+
+        if (Objects.equals(stack.getItem().getCreatorModId(stack), Brutality.MOD_ID)) {
+            String rarityName = stack.getRarity().name().toLowerCase(Locale.ROOT);
+
+            // Re-wrap the name with the font marker
+            Component styled = original.copy().withStyle(s -> s.withInsertion(rarityName));
+
+            cir.setReturnValue(styled);
+        }
     }
 
 

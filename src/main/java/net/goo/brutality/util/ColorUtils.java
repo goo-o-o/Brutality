@@ -1,102 +1,39 @@
 package net.goo.brutality.util;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
 import net.minecraft.util.FastColor;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class ColorUtils {
-    private static final int WHITE = FastColor.ARGB32.color(255, 255, 255, 255);
+
+    public static int getGradientAt(float x, float spread, float speed, int... colors) {
+        // Use the game's actual clock for smooth animation that respects pause menus
+        // Divide by 1000 to convert millis to seconds
+        float time = (System.currentTimeMillis() % 100000L) / 1000.0F;
+
+        // Offset is (position / spread) + (time * speed)
+        // We multiply speed by time so the wave moves
+        float progress = ((x / spread) + (time * speed)) % 1.0F;
+        if (progress < 0) progress += 1.0F;
+
+        int numColors = colors.length;
+        float scaledProgress = progress * numColors;
+        int index = (int) scaledProgress;
+        int nextIndex = (index + 1) % numColors;
+        float segmentProgress = scaledProgress - index;
+
+        return FastColor.ARGB32.lerp(segmentProgress, colors[index], colors[nextIndex]);
+    }
+
 
     // Get cycling color with animation
     public static int getCyclingColor(float speed, int... colors) {
-        if (colors.length == 0) return WHITE;
 
-        int tickCount = getTickCount();
-        float t = (tickCount * speed) % colors.length;
+        float time = (System.currentTimeMillis() % 100000L) / 1000.0F;
+        float t = (time * speed) % colors.length;
         int index = (int) Math.floor(t);
         float lerpFactor = t - index;
 
         int colorA = colors[index % colors.length];
         int colorB = colors[(index + 1) % colors.length];
         return FastColor.ARGB32.lerp(lerpFactor, colorA, colorB);
-    }
-
-    // Apply gradient or cycling gradient to text
-    public static MutableComponent addColorGradientText(Component text, int[] colors, float speed, float spreadMultiplier) {
-        MutableComponent gradientText = Component.empty();
-        String string = text.getString();
-        int length = string.length();
-
-        if (colors.length == 0 || length == 0) {
-            return gradientText;
-        }
-
-        // Prepare gradient colors with loop closure
-        int[] gradientColors = colors.length > 1 ? new int[colors.length + 1] : colors;
-        if (colors.length > 1) {
-            System.arraycopy(colors, 0, gradientColors, 0, colors.length);
-            gradientColors[colors.length] = colors[0]; // Close the loop
-        }
-
-        // Calculate tick-based progress for cycling (if speed > 0)
-        float ratio = 0;
-        if (speed > 0) {
-            int tickCount = getTickCount();
-            float inverseSpeed = 1 / speed;
-            float effectiveTickCount = tickCount % (inverseSpeed * 20);
-            ratio = effectiveTickCount / (inverseSpeed * 20);
-        }
-
-        // Apply spread multiplier (default to 1 for static gradient)
-        float inverseSpread = spreadMultiplier > 0 ? 1 / spreadMultiplier : 1;
-        float effectiveLength = length * inverseSpread;
-
-        // Iterate through each character
-        for (int i = 0; i < length; i++) {
-            int percentage = speed > 0
-                    ? (int) (((((float) i * inverseSpread) / length + ratio) * effectiveLength % effectiveLength) / effectiveLength * 100)
-                    : (length > 1 ? (i * 100) / (length - 1) : 0);
-
-            int color = getColorFromGradient(percentage, gradientColors);
-            gradientText.append(Component.literal(String.valueOf(string.charAt(i)))
-                    .withStyle(Style.EMPTY.withColor(color)));
-        }
-
-        return gradientText;
-    }
-
-    // Overloaded method for static gradient
-    public static MutableComponent addColorGradientText(Component text, int... colors) {
-        return addColorGradientText(text, colors, 0F, 1F);
-    }
-
-    // Get color from gradient based on percentage
-    private static int getColorFromGradient(int percentage, int[] colors) {
-        if (colors.length == 1) return colors[0];
-
-        float segment = 100f / (colors.length - 1);
-        int index = (int) (percentage / segment);
-        float t = (percentage % segment) / segment;
-
-        if (index >= colors.length - 1) {
-            return colors[colors.length - 1];
-        }
-
-        return FastColor.ARGB32.lerp(t, colors[index], colors[index + 1]);
-    }
-
-    // Helper to get tick count safely
-    public static int getTickCount() {
-        Integer clientTicks = DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
-            var mc = Minecraft.getInstance();
-            return mc != null && mc.player != null ? mc.player.tickCount : (int) (System.currentTimeMillis() / 50L);
-        });
-        return clientTicks != null ? clientTicks : (int) (System.currentTimeMillis() / 50L);
     }
 }

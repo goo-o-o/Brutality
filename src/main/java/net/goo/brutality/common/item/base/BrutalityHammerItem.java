@@ -30,38 +30,26 @@ import java.util.function.Consumer;
 
 public class BrutalityHammerItem extends TieredItem implements BrutalityGeoItem {
     public String identifier;
-    public Rarity rarity;
     private final float attackDamage;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
     protected List<ItemDescriptionComponent> descriptionComponents;
 
     public BrutalityHammerItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
-        super(pTier, new Properties().durability(1561));
+        super(pTier, new Properties().durability(1561).rarity(rarity));
         this.attackDamage = (float) pAttackDamageModifier + pTier.getAttackDamageBonus();
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.attackDamage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", pAttackSpeedModifier, AttributeModifier.Operation.ADDITION));
         builder.put(BrutalityAttributes.STUN_CHANCE.get(), new AttributeModifier(BASE_STUN_CHANCE_UUID, "Weapon modifier", 0.1, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
-        this.rarity = rarity;
         this.descriptionComponents = descriptionComponents;
 
     }
 
-    @Override
-    public @NotNull Rarity getRarity(@NotNull ItemStack pStack) {
-        return this.rarity;
-    }
 
     @Override
-    public @NotNull Component getName(@NotNull ItemStack pStack) {
-        return brutalityNameHandler(pStack);
-    }
-
-    @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, rarity);
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
     }
 
     @Override

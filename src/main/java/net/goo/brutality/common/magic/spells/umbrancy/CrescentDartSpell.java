@@ -3,7 +3,7 @@ package net.goo.brutality.common.magic.spells.umbrancy;
 import net.goo.brutality.common.entity.spells.umbrancy.CrescentDart;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEntities;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.*;
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.PIERCE;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.PIERCE;
 
 public class CrescentDartSpell extends BrutalitySpell {
 
@@ -21,7 +21,7 @@ public class CrescentDartSpell extends BrutalitySpell {
                 List.of(CONTINUOUS, TARGET, AOE),
                 "crescent_dart",
                 12, 1, 20, 7, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(PIERCE, 1, 0.5F, 1F, 5F)
+                        new SpellTooltips.SpellStatComponent(PIERCE, 1, 0.5F, 1F, 5F)
                 ));
     }
 

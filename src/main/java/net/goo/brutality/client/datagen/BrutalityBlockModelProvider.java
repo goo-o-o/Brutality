@@ -30,6 +30,14 @@ public class BrutalityBlockModelProvider extends BlockModelProvider {
 
         cubeAll(BrutalityBlocks.PLASTERBOARD.getId().getPath(), modLoc("block/" + BrutalityBlocks.PLASTERBOARD.getId().getPath()));
 
+        cross(BrutalityBlocks.SMALL_MANA_CRYSTAL_BUD.getId().getPath(),
+                modLoc("block/small_mana_crystal_bud")).renderType("cutout");
+        cross(BrutalityBlocks.MEDIUM_MANA_CRYSTAL_BUD.getId().getPath(),
+                modLoc("block/medium_mana_crystal_bud")).renderType("cutout");
+        cross(BrutalityBlocks.LARGE_MANA_CRYSTAL_BUD.getId().getPath(),
+                modLoc("block/large_mana_crystal_bud")).renderType("cutout");
+        cross(BrutalityBlocks.MANA_CRYSTAL_CLUSTER.getId().getPath(),
+                modLoc("block/mana_crystal_cluster")).renderType("cutout");
 
         cubeWithParticle(
                 BrutalityBlocks.UPPER_HVAC.getId().getPath(),

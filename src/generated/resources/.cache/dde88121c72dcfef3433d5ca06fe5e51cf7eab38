@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-01T02:56:40.396189	Item Models: brutality
+// 1.20.1	2026-02-04T09:23:28.9624707	Item Models: brutality
 4d2cb5931bdfc05b9f9f74aa98fcf2124089e766 assets/brutality/models/item/absolute_zero.json
 6e80778fb947ee57e15d0cfa92468737fd05e5f1 assets/brutality/models/item/abyssal_necklace.json
 25df89f31d038542a1f43c7b84dcb5669fd44b4a assets/brutality/models/item/addition.json
@@ -198,6 +198,7 @@ bd852ca2ad29f7d0cf3af327fc579c76e63b6306 assets/brutality/models/item/infinite_r
 8c4678312e170916fb3fc9061b580af785916162 assets/brutality/models/item/jury_nullifier.json
 850100557d5d384d2a870e674481b0e3712614ca assets/brutality/models/item/knights_pendant.json
 4065b0ca5ff99c25f0b56d875d3e90961bb03bfb assets/brutality/models/item/knuckle_wraps.json
+f61c2cdd3200f7d254f79c0ca58990a271746ce8 assets/brutality/models/item/large_mana_crystal_bud.json
 8e03e4912a0a88a7875d7af3df25e3cd27f496c7 assets/brutality/models/item/last_prism.json
 f5811ef8da8238d0cc8d8b2fafaa55ce1eed7145 assets/brutality/models/item/lens_makers_glasses.json
 7abfd488e610f5cf4e4e262c8c5596ca8c55764c assets/brutality/models/item/light_blue_concrete_slab.json
@@ -209,6 +210,7 @@ e899cb6504a65c7eb65040e92650830c03f887c6 assets/brutality/models/item/light_gray
 21a64e012a3d016e938775ed4e6682d0ac02d769 assets/brutality/models/item/light_switch.json
 146cc4b7084ef5619a437eb0273028bd6e776bbc assets/brutality/models/item/lime_concrete_slab.json
 dcbe15b7a35c31236674be6e0c3928a816a9d1ba assets/brutality/models/item/lime_concrete_stair.json
+d69a9b0f0d921e1a003fda2f999d5fae9b27f2e1 assets/brutality/models/item/liquified_mana_bucket.json
 604c6c707498066979f6ea7882015e49fa1cf5e1 assets/brutality/models/item/lollipop_of_eternity.json
 6daccd90619c2bead97b0de9f2be27ca7c4a34c4 assets/brutality/models/item/lower_hvac.json
 d57709d52a495e6ced1bcb4de5cd75c8fa8a2d56 assets/brutality/models/item/lucky_bookmark.json
@@ -216,10 +218,13 @@ d57709d52a495e6ced1bcb4de5cd75c8fa8a2d56 assets/brutality/models/item/lucky_book
 b7b41f2432b36191de74712ca9449160566d1cb5 assets/brutality/models/item/lust.json
 73e2e18686d4414aa8ab99ec8f3230e18a77f4c3 assets/brutality/models/item/magenta_concrete_slab.json
 1cd286a6a9840ce4528fa5953708a3d850e2a9f6 assets/brutality/models/item/magenta_concrete_stair.json
-58011dc247950c8617d60333c08fb3867e6000cd assets/brutality/models/item/mana_candle.json
+89bafbedbde98882f10178deb2dad427661f73de assets/brutality/models/item/mana_candle.json
+8065133de609660a9effb1fb5b4cf1a2e67b47c5 assets/brutality/models/item/mana_crystal_block.json
+a59df5ae03437151d46618431ca7daccb60cf943 assets/brutality/models/item/mana_crystal_cluster.json
 bbe8cda81b8408e8680256e8ec1f3bd89f9db9cb assets/brutality/models/item/mana_syringe.json
 3f87605101c3d813abb3dcfcbb25a592a827f8b3 assets/brutality/models/item/mask_of_madness.json
 87b48fdb0bbd0f3ba0cf8dfc59f80b1914c11893 assets/brutality/models/item/mechanical_aorta.json
+3c334ed78549d97e5169f81b2eecf1c21ab22c3c assets/brutality/models/item/medium_mana_crystal_bud.json
 574887e4edb3428b1735779a5df79d43d63acb56 assets/brutality/models/item/meloncholy.json
 824cba9fa427f896095ea7d0ce7c7d434da216fd assets/brutality/models/item/metal_ruler.json
 d7471d70ea2f2383becee210a035289b9472b3b3 assets/brutality/models/item/microblade_band.json
@@ -339,11 +344,13 @@ b07714ad4d854c9ea60229a3344558aeeb653526 assets/brutality/models/item/silver_boo
 51e2156187c54c31d34524f6b0f64e5a17897277 assets/brutality/models/item/silver_respawn_card.json
 a6ceae71707652fe2939d92d8c339acb84d4f7ec assets/brutality/models/item/sine.json
 e664b892803228d050360601dee3120479dfb7a7 assets/brutality/models/item/sloth.json
+0f5aee5ae2026d416b72bd9779ef520f0532211c assets/brutality/models/item/small_mana_crystal_bud.json
 b87a9d8eba6359263202d49436e009166863f92e assets/brutality/models/item/small_office_light.json
 66ba6091dde390ae5db8e56cf10fd5639a389620 assets/brutality/models/item/smart_fridge.json
 430311fce69ba0cd90dd5f75384d084d39c9da9f assets/brutality/models/item/smoke_stone.json
 db84d4c6e0f08414130460ae77666e98baf08b2f assets/brutality/models/item/solar_system.json
 4e885866a1b2f74c09743dcce640e20f97885e5d assets/brutality/models/item/soldiers_syringe.json
+1eb02d34af4eeb41221743e89fece1453ba634df assets/brutality/models/item/solidified_mana.json
 eff3e8fcd8b7ddc9abd22ca6e4db0a4927c5e988 assets/brutality/models/item/solidified_mana_block.json
 f0a2aefa4a3501b5c9084ee23aa6ed8aff723d87 assets/brutality/models/item/solidified_mana_block_button.json
 04beea9feb8718dbeb1ebca526f17f19cc23ef95 assets/brutality/models/item/solidified_mana_block_door.json

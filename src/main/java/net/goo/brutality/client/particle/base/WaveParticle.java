@@ -32,11 +32,7 @@ public class WaveParticle extends FlatParticle {
         super.render(buffer, camera, partialTicks);
     }
 
-    @Override
-    public void tick() {
-        super.tick();
-        this.setSpriteFromAge(this.sprites);
-    }
+
 
     public static class Provider implements ParticleProvider<WaveParticleData<?>> {
         private final SpriteSet sprites;

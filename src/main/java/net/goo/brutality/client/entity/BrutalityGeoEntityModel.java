@@ -12,7 +12,7 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SIZE;
 
 public class BrutalityGeoEntityModel<T extends Entity & BrutalityGeoEntity> extends GeoModel<T> {
     public GeoEntityRenderer<T> renderer;
@@ -46,7 +46,7 @@ public class BrutalityGeoEntityModel<T extends Entity & BrutalityGeoEntity> exte
 
                 if (ray instanceof IBrutalitySpellEntity spellEntity) {
                     BrutalitySpell spell = spellEntity.getSpell();
-                    if (spellEntity.getSpell().getStat(SIZE) != null) {
+                    if (spell.getStat(SIZE) != null) {
                         float desiredSize = spell.getFinalStat(spellEntity.getSpellLevel(), spellEntity.getSpell().getStat(SIZE));
                         float baseSize = spell.getStat(SIZE).base();
                         float scale = desiredSize / baseSize;

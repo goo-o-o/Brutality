@@ -40,9 +40,17 @@ public class BrutalityBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        blockWithItem(BrutalityBlocks.WATER_COOLER_BLOCK);
-        blockWithItem(BrutalityBlocks.COFFEE_MACHINE_BLOCK);
-        blockWithItem(BrutalityBlocks.SUPER_SNIFFER_FIGURE_BLOCK);
+        geoBlockWithItem(BrutalityBlocks.WATER_COOLER_BLOCK);
+        geoBlockWithItem(BrutalityBlocks.COFFEE_MACHINE_BLOCK);
+        geoBlockWithItem(BrutalityBlocks.SUPER_SNIFFER_FIGURE_BLOCK);
+
+        crystalClusterState(BrutalityBlocks.SMALL_MANA_CRYSTAL_BUD.get());
+        crystalClusterState(BrutalityBlocks.MEDIUM_MANA_CRYSTAL_BUD.get());
+        crystalClusterState(BrutalityBlocks.LARGE_MANA_CRYSTAL_BUD.get());
+        crystalClusterState(BrutalityBlocks.MANA_CRYSTAL_CLUSTER.get());
+
+
+        simpleBlock(BrutalityBlocks.LIQUIFIED_MANA.get(), models().getBuilder("liquid_mana_block").parent(models().getExistingFile(mcLoc("block/water"))));
 
 
         for (DyeColor dyeColor : DyeColor.values()) {
@@ -95,6 +103,7 @@ public class BrutalityBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(BrutalityBlocks.PEDESTAL_OF_WIZARDRY.get(), models().getExistingFile(modLoc("block/" + BrutalityBlocks.PEDESTAL_OF_WIZARDRY.getId().getPath())));
         simpleBlockWithItem(BrutalityBlocks.BOOKSHELF_OF_WIZARDRY.get(), models().getExistingFile(modLoc("block/" + BrutalityBlocks.BOOKSHELF_OF_WIZARDRY.getId().getPath())));
 
+
         BrutalityBlocks.FILING_CABINETS.forEach(blockRegistryObject -> {
             getVariantBuilder(blockRegistryObject.get())
                     .forAllStates(state -> {
@@ -107,6 +116,14 @@ public class BrutalityBlockStateProvider extends BlockStateProvider {
                     });
 
         });
+
+        ModelFile crystalBlockModel = models().cubeAll(BrutalityBlocks.MANA_CRYSTAL_BLOCK.getId().getPath(), modLoc("block/" + BrutalityBlocks.MANA_CRYSTAL_BLOCK.getId().getPath()));
+
+        getVariantBuilder(BrutalityBlocks.MANA_CRYSTAL_BLOCK.get())
+                .forAllStates(state -> ConfiguredModel.builder()
+                        .modelFile(crystalBlockModel)
+                        .build()
+                );
 
         MultiPartBlockStateBuilder dustbinBuilder = getMultipartBuilder(BrutalityBlocks.DUSTBIN.get());
 
@@ -222,7 +239,7 @@ public class BrutalityBlockStateProvider extends BlockStateProvider {
         return key(block).getPath();
     }
 
-    private void blockWithItem(RegistryObject<Block> blockRegistryObject) {
+    private void geoBlockWithItem(RegistryObject<Block> blockRegistryObject) {
         String name = blockRegistryObject.getId().getPath();
 
         ModelFile model = models()
@@ -232,21 +249,51 @@ public class BrutalityBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(blockRegistryObject.get(), model);
     }
 
+    private void crystalClusterState(Block block) {
+        String name = ForgeRegistries.BLOCKS.getKey(block).getPath();
+        ModelFile model = models().getExistingFile(modLoc("block/" + name));
+
+        getVariantBuilder(block).forAllStates(state -> {
+            Direction dir = state.getValue(BlockStateProperties.FACING);
+            return ConfiguredModel.builder()
+                    .modelFile(model)
+                    .rotationX(dir == Direction.DOWN ? 180 : dir.getAxis().isHorizontal() ? 90 : 0)
+                    .rotationY(((int) dir.toYRot() + 180) % 360)
+                    .build();
+        });
+    }
+
     private void createCandleAndCandleCake(Block candle, Block candleCake) {
         ResourceLocation texture = modLoc("block/mana_candle");
         ResourceLocation litTexture = modLoc("block/mana_candle_lit");
         // Note: Vanilla candles use the same texture for lit, but you can change it if you wish
 
         // 1. Create the 8 Block Models for the Candle
-        ResourceLocation one = models().withExistingParent("mana_candle_one_candle", "minecraft:block/template_candle").texture("all", texture).getLocation();
-        ResourceLocation two = models().withExistingParent("mana_candle_two_candles", "minecraft:block/template_two_candles").texture("all", texture).getLocation();
-        ResourceLocation three = models().withExistingParent("mana_candle_three_candles", "minecraft:block/template_three_candles").texture("all", texture).getLocation();
-        ResourceLocation four = models().withExistingParent("mana_candle_four_candles", "minecraft:block/template_four_candles").texture("all", texture).getLocation();
+        ResourceLocation one = models().withExistingParent("mana_candle_one_candle", "minecraft:block/template_candle")
+                .texture("particle", texture)
+                .texture("all", texture).getLocation();
+        ResourceLocation two = models().withExistingParent("mana_candle_two_candles", "minecraft:block/template_two_candles")
+                .texture("particle", texture)
+                .texture("all", texture).getLocation();
+        ResourceLocation three = models().withExistingParent("mana_candle_three_candles", "minecraft:block/template_three_candles")
+                .texture("particle", texture)
+                .texture("all", texture).getLocation();
+        ResourceLocation four = models().withExistingParent("mana_candle_four_candles", "minecraft:block/template_four_candles")
+                .texture("particle", texture)
+                .texture("all", texture).getLocation();
 
-        ResourceLocation oneLit = models().withExistingParent("mana_candle_one_candle_lit", "minecraft:block/template_candle").texture("all", litTexture).getLocation();
-        ResourceLocation twoLit = models().withExistingParent("mana_candle_two_candles_lit", "minecraft:block/template_two_candles").texture("all", litTexture).getLocation();
-        ResourceLocation threeLit = models().withExistingParent("mana_candle_three_candles_lit", "minecraft:block/template_three_candles").texture("all", litTexture).getLocation();
-        ResourceLocation fourLit = models().withExistingParent("mana_candle_four_candles_lit", "minecraft:block/template_four_candles").texture("all", litTexture).getLocation();
+        ResourceLocation oneLit = models().withExistingParent("mana_candle_one_candle_lit", "minecraft:block/template_candle")
+                .texture("particle", texture)
+                .texture("all", litTexture).getLocation();
+        ResourceLocation twoLit = models().withExistingParent("mana_candle_two_candles_lit", "minecraft:block/template_two_candles")
+                .texture("particle", texture)
+                .texture("all", litTexture).getLocation();
+        ResourceLocation threeLit = models().withExistingParent("mana_candle_three_candles_lit", "minecraft:block/template_three_candles")
+                .texture("particle", texture)
+                .texture("all", litTexture).getLocation();
+        ResourceLocation fourLit = models().withExistingParent("mana_candle_four_candles_lit", "minecraft:block/template_four_candles")
+                .texture("particle", texture)
+                .texture("all", litTexture).getLocation();
 
         // 2. Set up the Candle BlockState Dispatch
         getVariantBuilder(candle).forAllStates(state -> {

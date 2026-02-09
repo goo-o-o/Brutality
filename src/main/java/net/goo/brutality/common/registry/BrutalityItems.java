@@ -121,6 +121,7 @@ public class BrutalityItems {
     public static final RegistryObject<Item> UNBRIDLED_RAGE = ITEMS.register("unbridled_rage", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> BLUE_SLIME_BALL = ITEMS.register("blue_slime_ball", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> PINK_SLIME_BALL = ITEMS.register("pink_slime_ball", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SOLIDIFIED_MANA = ITEMS.register("solidified_mana", () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> VOIDWALKER_SPELL_SCROLL = ITEMS.register("voidwalker_spell_scroll", () -> new SpellScroll(new Item.Properties()).withSchool(IBrutalitySpell.MagicSchool.VOIDWALKER));
     public static final RegistryObject<Item> BRIMWIELDER_SPELL_SCROLL = ITEMS.register("brimwielder_spell_scroll", () -> new SpellScroll(new Item.Properties()).withSchool(IBrutalitySpell.MagicSchool.BRIMWIELDER));
@@ -404,7 +405,7 @@ public class BrutalityItems {
             Tiers.IRON, 6, -2.3F, BrutalityRarities.LEGENDARY));
 
     public static final RegistryObject<Item> APPLE_CORE_LANCE = ITEMS.register("apple_core", () -> new BrutalitySwordItem(
-            Tiers.IRON, 8, -2.6F, BrutalityRarities.LEGENDARY, new Item.Properties().defaultDurability(100).durability(100)));
+            Tiers.IRON, 8, -2.6F, BrutalityRarities.LEGENDARY, 100));
 
     public static final RegistryObject<Item> FRYING_PAN = ITEMS.register("frying_pan", () -> new FryingPanHammer(
             Tiers.IRON, 2, -2.3F, Rarity.EPIC, List.of(
@@ -1284,7 +1285,7 @@ public class BrutalityItems {
             new ItemDescriptionComponent(ON_SUCCESSFUL_DODGE, 1))) {
         @Override
         public void onDodgeServer(LivingEntity dodger, DamageSource source, float damage, ItemStack stack) {
-            dodger.addEffect(new MobEffectInstance(BrutalityEffects.FRUGAL_MANA.get(), 80, 9, false, false));
+            dodger.addEffect(new MobEffectInstance(BrutalityEffects.ETHERIC_FLOW.get(), 80, 9, false, false));
         }
     }.withAttributes(
             new AttributeContainer(BrutalityAttributes.DODGE_CHANCE.get(), 0.15, ADDITION),
@@ -2289,6 +2290,11 @@ public class BrutalityItems {
             BrutalityRarities.STYGIAN, List.of(
             new ItemDescriptionComponent(PASSIVE, 1),
             new ItemDescriptionComponent(ACTIVE, 1, DistExecutor.unsafeRunForDist(() -> Keybindings::getRageActivateKey, () -> () -> null)))));
+
+    public static final RegistryObject<Item> LIQUIFIED_MANA_BUCKET = ITEMS.register("liquified_mana_bucket",
+            () -> new BucketItem(BrutalityFluids.LIQUIFIED_MANA_SOURCE, new Item.Properties()
+                    .craftRemainder(Items.BUCKET)
+                    .stacksTo(1)));
 
 
     public static void register(IEventBus eventBus) {

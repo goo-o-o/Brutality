@@ -5,7 +5,7 @@ import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEntities;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -18,16 +18,16 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.*;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.*;
 
 public class ExtinctionSpell extends BrutalitySpell {
 
 
     public ExtinctionSpell() {
         super(MagicSchool.BRIMWIELDER, List.of(SpellCategory.CONTINUOUS, SpellCategory.AOE), "extinction", 1, 1, 200, 0, 1, List.of(
-                new BrutalityTooltipHelper.SpellStatComponent(RANGE, 25, 5, 25F, 100F),
-                new BrutalityTooltipHelper.SpellStatComponent(PIERCE, 25, 5, 25F, 100F),
-                new BrutalityTooltipHelper.SpellStatComponent(SIZE, 0.5F, 0.25F, 0.5F, 5F)
+                new SpellTooltips.SpellStatComponent(RANGE, 25, 5, 25F, 100F),
+                new SpellTooltips.SpellStatComponent(PIERCE, 25, 5, 25F, 100F),
+                new SpellTooltips.SpellStatComponent(SIZE, 0.5F, 0.25F, 0.5F, 5F)
         ));
     }
 

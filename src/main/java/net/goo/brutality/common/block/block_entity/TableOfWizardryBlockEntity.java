@@ -1,9 +1,9 @@
 package net.goo.brutality.common.block.block_entity;
 
-import net.goo.brutality.client.gui.screen.TableOfWizardryScreen;
+import net.goo.brutality.client.gui.screen.table_of_wizardry.TableOfWizardryBookSection;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.IBrutalitySpell;
-import net.goo.brutality.common.magic.table_of_wizardry.ConjureRecipe;
+import net.goo.brutality.common.recipe.ConjureRecipe;
 import net.goo.brutality.common.registry.BrutalityBlockEntities;
 import net.goo.brutality.common.registry.BrutalityRecipes;
 import net.goo.brutality.common.registry.BrutalitySpells;
@@ -58,7 +58,7 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
     public int progress;
     public int maxProgress;
 
-    public TableOfWizardryScreen.TableOfWizardryBookSection currentSection;
+    public TableOfWizardryBookSection currentSection;
     public IBrutalitySpell.MagicSchool currentSchool;
     public BrutalitySpell currentSpell;
     public GuiState currentState = GuiState.SECTION_VIEW;
@@ -93,7 +93,7 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
             this.name = Component.Serializer.fromJson(pTag.getString(TAG_CUSTOM_NAME));
         }
         if (pTag.contains(TAG_SECTION)) {
-            this.currentSection = TableOfWizardryScreen.TableOfWizardryBookSection.valueOf(pTag.getString(TAG_SECTION));
+            this.currentSection = TableOfWizardryBookSection.valueOf(pTag.getString(TAG_SECTION));
         }
         if (pTag.contains(TAG_STATE)) {
             this.currentState = GuiState.valueOf(pTag.getString(TAG_STATE));
@@ -215,13 +215,13 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
         this.stopCrafting();
     }
 
-    private void delegateCraftingOperation(TableOfWizardryScreen.TableOfWizardryBookSection section) {
+    private void delegateCraftingOperation(TableOfWizardryBookSection section) {
         switch (section) {
             case CONJURE -> startConjureOperation();
         }
     }
 
-    private void delegateCraftingFinished(TableOfWizardryScreen.TableOfWizardryBookSection section) {
+    private void delegateCraftingFinished(TableOfWizardryBookSection section) {
         switch (section) {
             case CONJURE -> completeConjureOperation();
         }
@@ -254,12 +254,14 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
 
         assert this.level != null;
         this.level.getRecipeManager().getRecipeFor(BrutalityRecipes.CONJURE_TYPE.get(), container, this.level).ifPresent(recipe -> {
-            if (sacrificeEntities(recipe) && enoughMana(recipe)) {
-                consumePedestalItems();
-                if (!level.isClientSide()) {
-                    ItemStack result = recipe.getResultItem(this.level.registryAccess());
-                    ItemEntity itemEntity = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, result);
-                    level.addFreshEntity(itemEntity);
+            if (enoughMana(recipe)) {
+                if (sacrificeEntities(recipe)) {
+                    consumePedestalItems();
+                    if (!level.isClientSide()) {
+                        ItemStack result = recipe.getResultItem(this.level.registryAccess());
+                        ItemEntity itemEntity = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, result);
+                        level.addFreshEntity(itemEntity);
+                    }
                 }
             }
         });

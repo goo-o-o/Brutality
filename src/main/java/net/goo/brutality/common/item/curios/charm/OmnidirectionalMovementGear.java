@@ -9,6 +9,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import javax.annotation.Nullable;
@@ -35,6 +37,7 @@ public class OmnidirectionalMovementGear extends BrutalityCurioItem {
      * @param input  The current movement input (keyboard or controller state).
      * @return {@code true} if the current movement inputs satisfy the requirements to keep sprinting.
      */
+    @OnlyIn(Dist.CLIENT)
     public static boolean handleOmnidirectionalImpulseToMaintainSprint(LocalPlayer player, Input input) {
         return CuriosApi.getCuriosInventory(player).resolve().map(handler -> {
             if (handler.isEquipped(BrutalityItems.OMNIDIRECTIONAL_MOVEMENT_GEAR.get())) {
@@ -63,6 +66,7 @@ public class OmnidirectionalMovementGear extends BrutalityCurioItem {
      * <li>{@code Optional.empty()}: No gear equipped; proceed with vanilla logic.</li>
      * </ul>
      */
+    @OnlyIn(Dist.CLIENT)
     public static Optional<Boolean> getOmnidirectionalImpulse(LocalPlayer player) {
         // Vanilla behavior: Swimming always requires forward momentum to sprint.
         if (player.isUnderWater()) {

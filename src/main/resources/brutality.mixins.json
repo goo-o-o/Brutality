@@ -30,7 +30,6 @@
     "ItemStackMixin",
     "LivingEntityMixin",
     "MobEffectInstanceMixin",
-    "ModUtilsMixin",
     "PlayerMixin",
     "PumpkinBlockMixin",
     "ServerGamePacketListenerImplMixin",
@@ -51,6 +50,7 @@
     "defaultRequire": 1
   },
   "client": [
+    "BakedGlyphMixin",
     "BiomeMixin",
     "ClientPacketListenerMixin",
     "DebugRendererMixin",
@@ -62,6 +62,7 @@
     "LocalPlayerMixin",
     "MouseHandlerMixin",
     "QuadrupedModelMixin",
+    "StringRenderOutputMixin",
     "StyleMixin"
   ]
 }

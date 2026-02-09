@@ -2,10 +2,8 @@ package net.goo.brutality.common.magic;
 
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.common.registry.BrutalitySpells;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -19,14 +17,14 @@ public abstract class BrutalitySpell implements IBrutalitySpell {
     private final int baseManaCost;
     private final float baseDamage;
     private final int baseCooldown;
-    private final List<BrutalityTooltipHelper.SpellStatComponent> statComponents;
+    private final List<SpellTooltips.SpellStatComponent> statComponents;
     private final int descriptionCount;
     private final int baseCastTime;
-    private Map<BrutalityTooltipHelper.SpellStatComponents, BrutalityTooltipHelper.SpellStatComponent> statMap = new HashMap<>();
+    private Map<SpellTooltips.SpellStatComponents, SpellTooltips.SpellStatComponent> statMap = new HashMap<>();
 
     protected BrutalitySpell(MagicSchool school, List<SpellCategory> categories, String name,
                              int baseManaCost, float baseDamage, int baseCooldown, int baseCastTime, int descriptionCount,
-                             @Nullable List<BrutalityTooltipHelper.SpellStatComponent> statComponents) {
+                             @Nullable List<SpellTooltips.SpellStatComponent> statComponents) {
         this.school = school;
         this.categories = categories;
         this.name = name;
@@ -38,7 +36,7 @@ public abstract class BrutalitySpell implements IBrutalitySpell {
         this.descriptionCount = descriptionCount;
 
         if (!this.statComponents.isEmpty()) {
-            this.statMap = this.statComponents.stream().collect(Collectors.toMap(BrutalityTooltipHelper.SpellStatComponent::type, Function.identity()));
+            this.statMap = this.statComponents.stream().collect(Collectors.toMap(SpellTooltips.SpellStatComponent::type, Function.identity()));
         }
     }
 
@@ -57,22 +55,17 @@ public abstract class BrutalitySpell implements IBrutalitySpell {
     }
 
     /**
-     * Retrieves a specific stat component from this spell instance.
-     * <p>
-     * This replaces the old class-based lookup. Since spells are now singletons
-     * in the registry, you can access stats directly via the instance:
-     * {@link  BrutalitySpells#ANNIHILATION#getStat(BrutalityTooltipHelper.SpellStatComponents)}
-     * </p>
+     * Retrieves the {@link SpellTooltips.SpellStatComponent} for the specified {@link SpellTooltips.SpellStatComponents} type.
+     * The stat component contains detailed information, such as its base value, level scaling ({@code levelDelta}), and optional minimum/maximum bounds.
      *
-     * @param type The category of stat to retrieve (e.g., DAMAGE, RANGE).
-     * @return The {@link BrutalityTooltipHelper.SpellStatComponent} if defined;
-     * otherwise throws a {@link NullPointerException}.
+     * @param type The {@link SpellTooltips.SpellStatComponents} type specifying the desired statistic (e.g., {@code RANGE}, {@code SPEED}, etc.).
+     *             Must be non-null to retrieve a valid result.
+     * @return The corresponding {@link SpellTooltips.SpellStatComponent} if available, or {@code null} if the given {@code type} is not mapped in {@code statMap}.
      */
-    @NotNull
-    public BrutalityTooltipHelper.SpellStatComponent getStat(BrutalityTooltipHelper.SpellStatComponents type) {
-        BrutalityTooltipHelper.SpellStatComponent stat =  this.statMap.get(type);
-        if (stat != null) return stat;
-        throw new NullPointerException("Could not find " + type + " stat for spell: " + this);
+    @Nullable
+    public SpellTooltips.SpellStatComponent getStat(SpellTooltips.SpellStatComponents type) {
+        //        throw new NullPointerException("Could not find " + type + " stat for spell: " + this);
+        return this.statMap.get(type);
     }
 
     @Override
@@ -101,7 +94,7 @@ public abstract class BrutalitySpell implements IBrutalitySpell {
     }
 
 
-    public List<BrutalityTooltipHelper.SpellStatComponent> getStatComponents() {
+    public List<SpellTooltips.SpellStatComponent> getStatComponents() {
         return statComponents;
     }
 

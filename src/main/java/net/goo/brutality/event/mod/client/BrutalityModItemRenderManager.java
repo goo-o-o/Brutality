@@ -87,8 +87,7 @@ public class BrutalityModItemRenderManager {
                     renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
             registerItemLayers(BrutalityItems.BLADE_OF_THE_RUINED_KING.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
-            registerItemLayers(BrutalityItems.BLADE_OF_THE_RUINED_KING.get(), renderer ->
-                    renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
+
             registerItemLayers(BrutalityItems.DOUBLE_DOWN.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoAlphaLayer<>(renderer)));
             registerItemLayers(BrutalityItems.DULL_KNIFE_DAGGER.get(), renderer ->

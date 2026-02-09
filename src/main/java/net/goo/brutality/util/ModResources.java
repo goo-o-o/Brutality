@@ -16,6 +16,7 @@ public interface ModResources {
     ResourceLocation RARITY_FONT = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "gamer"); // Font used: Gamer https://www.dafont.com/gamer-2.font
     ResourceLocation STAT_TRAK_FONT = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "gcp_matrix"); // Font used: gcp-matrix https://fontstruct.com/fontstructions/show/2268622/gcp-matrix
     ResourceLocation TABLE_OF_WIZARDRY_FONT = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "small");
+    ResourceLocation ICON_FONT = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "icons");
 
 
     FX CREASE_OF_CREATION_FX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "crease_of_creation_particle"));

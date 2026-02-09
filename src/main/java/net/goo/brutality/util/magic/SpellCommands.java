@@ -53,12 +53,6 @@ public class SpellCommands {
                                 .then(Commands.literal("reset")
                                         .requires(source -> source.hasPermission(2))
                                         .then(Commands.argument("player", EntityArgument.player())
-                                                .suggests((context, builder) -> {
-                                                    for (ServerPlayer player : context.getSource().getServer().getPlayerList().getPlayers()) {
-                                                        builder.suggest(player.getName().getString());
-                                                    }
-                                                    return builder.buildFuture();
-                                                })
                                                 .executes(context -> {
                                                     ServerPlayer player = EntityArgument.getPlayer(context, "player");
                                                     SpellCooldownTracker.resetAllCooldowns(player);

@@ -95,10 +95,7 @@ public class BrutalityEffects {
     public static final RegistryObject<MobEffect> HYPERGRAVITY = EFFECTS.register("hypergravity",
             () -> new HypergravityEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 200, 0, 0), 0.25));
 
-    public static final RegistryObject<MobEffect> MANA_FATIGUE = EFFECTS.register("mana_fatigue",
-            () -> new ManaFatigueEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 200, 0, 0)));
-    public static final RegistryObject<MobEffect> FRUGAL_MANA = EFFECTS.register("frugal_mana",
-            () -> new FrugalManaEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 0, 200, 0)));
+
 
     public static final RegistryObject<MobEffect> ULTRA_DODGE = EFFECTS.register("ultra_dodge",
             () -> new UltraDodgeEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 255, 245, 255)));
@@ -108,10 +105,25 @@ public class BrutalityEffects {
     public static final RegistryObject<MobEffect> PRECISION = EFFECTS.register("precision",
             () -> new PrecisionEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 255, 0, 0)));
 
-    public static final RegistryObject<MobEffect> MAGIC_POWER = EFFECTS.register("magic_power",
-            () -> new MagicPowerEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 200, 0, 0)));
-    public static final RegistryObject<MobEffect> MAGIC_SICKNESS = EFFECTS.register("magic_sickness",
-            () -> new MagicSicknessEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 0, 200, 0)));
+    // Increases spell damage 1% per level
+    public static final RegistryObject<MobEffect> ARCANE_SURGE = EFFECTS.register("arcane_surge",
+            () -> new ArcaneSurge(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 200, 0)));
+    // Reduces spell damage 1% per level
+    public static final RegistryObject<MobEffect> MANA_BLIGHT = EFFECTS.register("mana_blight",
+            () -> new ManaBlight(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));
+    // Reduces mana regen 10% per level
+    public static final RegistryObject<MobEffect> CALCIFIED_PATHWAYS = EFFECTS.register("calcified_pathways",
+            () -> new CalcifiedPathways(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));
+    // Increases mana regen 10% per level
+    public static final RegistryObject<MobEffect> CELESTIAL_FLUX = EFFECTS.register("celestial_flux",
+            () -> new CelestialFlux(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 200, 0)));
+    // Increases mana cost 10% per level
+    public static final RegistryObject<MobEffect> ARCANE_BURNOUT = EFFECTS.register("arcane_burnout",
+            () -> new ArcaneBurnout(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));
+    // Reduces mana cost 10% per level
+    public static final RegistryObject<MobEffect> ETHERIC_FLOW = EFFECTS.register("etheric_flow",
+            () -> new EthericFlow(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 200, 0)));
+
 
     public static final RegistryObject<MobEffect> SIPHONED = EFFECTS.register("siphoned",
             () -> new SiphonedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));

@@ -1,8 +1,8 @@
 package net.goo.brutality.common.network.serverbound;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.client.gui.screen.table_of_wizardry.TableOfWizardryBookSection;
 import net.goo.brutality.common.block.block_entity.TableOfWizardryBlockEntity;
-import net.goo.brutality.client.gui.screen.TableOfWizardryScreen;
 import net.goo.brutality.common.registry.BrutalitySpells;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -29,7 +29,6 @@ public class ServerboundTableOfWizardryUpdatePacket {
         this.pos = buf.readBlockPos();
         this.section = buf.readUtf();
         this.state = buf.readUtf();
-        // Use readNullable to keep the code clean
         this.spellId = buf.readNullable(FriendlyByteBuf::readResourceLocation);
     }
 
@@ -37,7 +36,6 @@ public class ServerboundTableOfWizardryUpdatePacket {
         buf.writeBlockPos(this.pos);
         buf.writeUtf(this.section);
         buf.writeUtf(this.state);
-        // writeNullable handles the boolean flag and the data automatically
         buf.writeNullable(this.spellId, FriendlyByteBuf::writeResourceLocation);
     }
 
@@ -49,7 +47,7 @@ public class ServerboundTableOfWizardryUpdatePacket {
             // Security check: Is the player close enough to this block to actually modify it?
             if (player.level().getBlockEntity(packet.pos) instanceof TableOfWizardryBlockEntity be) {
                 try {
-                    be.currentSection = TableOfWizardryScreen.TableOfWizardryBookSection.valueOf(packet.section);
+                    be.currentSection = TableOfWizardryBookSection.valueOf(packet.section);
                     be.currentState = TableOfWizardryBlockEntity.GuiState.valueOf(packet.state);
 
                     // If spellId is null, we should probably clear the current spell

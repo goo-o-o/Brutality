@@ -13,7 +13,6 @@ public class StyleMixin {
     @ModifyReturnValue(method = "isObfuscated", at = @At("RETURN"))
     private boolean forceObfuscated(boolean original) {
         Minecraft mc = Minecraft.getInstance();
-        if (mc == null) return original;
         LocalPlayer player = mc.player;
         if (player == null || !player.hasEffect(BrutalityEffects.TERRAMITICULOSIS.get())) return original;
 

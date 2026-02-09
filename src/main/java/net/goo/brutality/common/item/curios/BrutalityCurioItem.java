@@ -41,10 +41,10 @@ public class BrutalityCurioItem extends BrutalityGenericItem implements ICurioIt
     public BrutalityCurioItem(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
-
     public BrutalityCurioItem(Rarity rarity) {
-        super(rarity);
+        super(rarity, List.of());
     }
+
 
     /**
      * Calculates a dynamic attribute bonus for a given entity based on the provided parameters.

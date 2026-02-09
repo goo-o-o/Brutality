@@ -23,9 +23,9 @@ public class PerfectCell extends BrutalityCurioItem {
         super(rarity, descriptionComponents);
     }
 
-    private static final Set<MobEffect> DENIED_EFFECTS = Set.of(BrutalityEffects.MANA_FATIGUE.get(),
+    private static final Set<MobEffect> DENIED_EFFECTS = Set.of(BrutalityEffects.ARCANE_BURNOUT.get(),
             BrutalityEffects.SIPHONED.get(), BrutalityEffects.RADIATION.get(), TerramityModMobEffects.ELECTRIC_SHOCK_EFFECT.get(),
-            BrutalityEffects.PULVERIZED.get(), BrutalityEffects.MAGIC_SICKNESS.get());
+            BrutalityEffects.PULVERIZED.get(), BrutalityEffects.MANA_BLIGHT.get());
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {

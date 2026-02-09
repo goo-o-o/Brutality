@@ -1,7 +1,6 @@
 package net.goo.brutality.common.network.clientbound;
 
 import net.goo.brutality.client.ClientAccess;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
@@ -33,9 +32,6 @@ public class ClientboundGenericSyncPacket {
 
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> ClientAccess.handleSync(this.entityId, this.key, this.data));
-        if (Minecraft.getInstance().level != null && Minecraft.getInstance().level.getEntity(entityId) != null) {
-            System.out.println("entity: " + Minecraft.getInstance().level.getEntity(entityId).getName() + " | key: " + key + " | data: " + data);
-        }
         ctx.get().setPacketHandled(true);
     }
 }

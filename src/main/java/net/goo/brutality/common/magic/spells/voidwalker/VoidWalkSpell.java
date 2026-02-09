@@ -4,7 +4,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.ParticleHelper;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,7 +23,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.*;
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.RANGE;
 
 public class VoidWalkSpell extends BrutalitySpell {
 
@@ -33,7 +33,7 @@ public class VoidWalkSpell extends BrutalitySpell {
                 List.of(INSTANT, TARGET, UTILITY),
                 "void_walk",
                 40, 0, 160, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 20, 10, 0F, 250F)
+                        new SpellTooltips.SpellStatComponent(RANGE, 20, 10, 0F, 250F)
                 ));
     }
 

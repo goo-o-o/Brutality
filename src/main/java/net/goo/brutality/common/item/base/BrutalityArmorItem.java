@@ -28,12 +28,10 @@ import java.util.function.Consumer;
 public class BrutalityArmorItem extends ArmorItem implements BrutalityGeoItem {
     private final List<ItemDescriptionComponent> descriptionComponents;
     public String identifier;
-    public Rarity rarity;
 
     public BrutalityArmorItem(ArmorMaterial pMaterial, Type pType,
                               Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
-        super(pMaterial, pType, new Item.Properties());
-        this.rarity = rarity;
+        super(pMaterial, pType, new Properties().rarity(rarity));
         this.descriptionComponents = descriptionComponents;
     }
 
@@ -49,21 +47,9 @@ public class BrutalityArmorItem extends ArmorItem implements BrutalityGeoItem {
     }
 
     @Override
-    public @NotNull Rarity getRarity(@NotNull ItemStack pStack) {
-        return this.rarity;
-    }
-
-    @Override
-    public @NotNull Component getName(ItemStack pStack) {
-        return brutalityNameHandler(pStack);
-    }
-
-    @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, rarity);
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
     }
-
     @Override
     public BrutalityCategories.AttackType getAttackType() {
         return BrutalityCategories.AttackType.NONE;

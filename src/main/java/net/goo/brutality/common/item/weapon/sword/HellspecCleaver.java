@@ -13,16 +13,21 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.List;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class HellspecCleaver extends BrutalitySwordItem {
 
-    public HellspecCleaver(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity);
-    }
+
 
     UUID HELLSPEC_CLEAVER_UUID = UUID.fromString("9a389c9b-3626-444f-8233-c134ca09a646");
+
+    public HellspecCleaver(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, List.of());
+    }
+
+
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {

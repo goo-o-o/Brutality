@@ -60,11 +60,6 @@ public class BrutalityStaffItem extends AxeItem implements BrutalityGeoItem {
     }
 
     @Override
-    public @NotNull Component getName(ItemStack pStack) {
-        return brutalityNameHandler(pStack);
-    }
-
-    @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

@@ -81,10 +81,6 @@ public class BrutalityTridentItem extends TridentItem implements BrutalityGeoIte
         return this.rarity;
     }
 
-    @Override
-    public @NotNull Component getName(ItemStack pStack) {
-        return brutalityNameHandler(pStack);
-    }
 
     @Override
     public int getMaxStackSize(ItemStack stack) {

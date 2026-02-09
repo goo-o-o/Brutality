@@ -1,9 +1,11 @@
 package net.goo.brutality.client.datagen;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.common.registry.BrutalityBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -19,5 +21,6 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
 
+        this.tag(ItemTags.CANDLES).add(BrutalityBlocks.MANA_CANDLE.get().asItem());
     }
 }

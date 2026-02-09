@@ -4,7 +4,6 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.util.ModResources;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -55,21 +54,9 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
 
     GeoAnimatable cacheItem();
 
-    default Component brutalityNameHandler(ItemStack stack) {
-        Rarity rarity = stack.getRarity();
-        String identifier = getRegistryName();
-        if (rarity.equals(Rarity.UNCOMMON) || rarity.equals(Rarity.COMMON) || rarity.equals(Rarity.RARE) || rarity.equals(Rarity.EPIC))
-            return Component.translatable("item." + Brutality.MOD_ID + "." + identifier);
-        else
-            return BrutalityTooltipHelper.getRarityName("item." + Brutality.MOD_ID + "." + identifier, rarity);
-    }
 
     default void brutalityTooltipHandler(ItemStack stack, List<Component> pTooltipComponents, List<ItemDescriptionComponent> descriptionComponents, Rarity rarity) {
         String identifier = getRegistryName();
-
-//        if (!ModList.get().isLoaded("obscuria_tooltips"))
-//            pTooltipComponents.add(Component.translatable("rarity." + rarity.toString().toLowerCase(Locale.ROOT) + ".name").withStyle(Style.EMPTY.withFont(ModResources.RARITY_FONT)));
-
         for (ItemDescriptionComponent descriptionComponent : descriptionComponents) {
 
             String componentLower = descriptionComponent.type().toString().toLowerCase(Locale.ROOT);

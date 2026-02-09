@@ -52,11 +52,6 @@ public class Providence extends BrutalityBowItem {
     }
 
     @Override
-    protected int getFullDrawTicks() {
-        return 4;
-    }
-
-    @Override
     protected float getPowerMultiplier() {
         return 3.5F;
     }

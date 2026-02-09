@@ -11,6 +11,21 @@
   "block.brutality.bookshelf_of_wizardry": "Bookshelf of Wizardry",
 
   "block.brutality.mana_candle": "Mana Candle",
+  "block.brutality.mana_candle_cake": "Cake with Mana Candle",
+  "block.brutality.liquified_mana": "Liquified Mana",
+
+  "block.brutality.small_mana_crystal_bud": "Small Mana Crystal Bud",
+  "block.brutality.medium_mana_crystal_bud": "Medium Mana Crystal Bud",
+  "block.brutality.large_mana_crystal_bud": "Large Mana Crystal Bud",
+  "block.brutality.mana_crystal_cluster": "Mana Crystal Cluster",
+  "block.brutality.mana_crystal_cluster.description.1": "§7Drops Solidified Mana when broken",
+  "block.brutality.mana_crystal_block": "Mana Crystal Block",
+  "block.brutality.mana_crystal_block.description.1": "§7Wax to stop crystals from growing",
+
+
+
+  "item.brutality.solidified_mana": "Solidified Mana",
+  "item.brutality.liquified_mana_bucket": "Liquified Mana Bucket",
   "block.brutality.solidified_mana_block": "Block of Solidified Mana",
   "block.brutality.solidified_mana_block_wall": "Solidified Mana Wall",
   "block.brutality.solidified_mana_block_slab": "Solidified Mana Slab",
@@ -1263,6 +1278,7 @@
   "item.brutality.celestia_spell_scroll": "Celestia Spell Scroll",
   "item.brutality.exodic_spell_scroll": "Exodic Spell Scroll",
   "item.brutality.umbral_spell_scroll": "Umbral Spell Scroll",
+  "item.brutality.voltweaver_spell_scroll": "Voltweaver Spell Scroll",
 
 
   "block.brutality.toilet": "Toilet",
@@ -1360,7 +1376,7 @@
   "spell.brutality.intangible.description.1": "§8Grants §5Phasing§8",
 
   "spell.brutality.dematerialize": "Dematerialize",
-  "spell.brutality.dematerialize.description.1": "§8Deletes the targeted mob, only if their§r ❤§9 Health§e is below the threshold (Deletes all drops)",
+  "spell.brutality.dematerialize.description.1": "§8Deletes the targeted mob, only if their§9 Health§8 is below the threshold (Deletes all drops)",
   "spell.brutality.dematerialize.no_target_found": "§cNo target found!",
   "spell.brutality.dematerialize.too_much_health": "§cTarget has too much§r ❤§9 Health§e!",
   "spell.brutality.dematerialize.invalid_target": "§cInvalid target!",
@@ -1426,8 +1442,16 @@
   "spell.brutality.nightfall.description.1": "§8Temporarily makes it midnight, nearby mobs are inflicted with §7Slowness§8 and§8 Blindness",
 
   "spell.brutality.moonlit_mending": "Moonlit Mending",
-  "spell.brutality.moonlit_mending.healed_for": "§aHealed for ",
-  "spell.brutality.moonlit_mending.description.1": "§8§aHeals§8 the caster depending on the time of day (Noon = 10% Max§r ❤§9 Health§e | Midnight 100% Max§r ❤§9 Health§e) excess healing is converted into absorption level",
+  "spell.brutality.moonlit_mending.healed_for": "§aHealed for %s%% Max Health",
+  "spell.brutality.moonlit_mending.description.1": "§8§aHeals§8 the caster depending on the time of day, up to 100% Max Health at Midnight",
+
+  "spell.brutality.crescent_scythe": "Crescent Scythe",
+  "spell.brutality.crescent_scythe.description.1": "§8Shoot out a Crescent Scythe that pierces infinitely and accelerates over time",
+  "spell.brutality.crescent_dart": "Crescent Dart",
+  "spell.brutality.crescent_dart.description.1": "§8Shoot out a Crescent Dart that homes in onto enemies",
+
+  "spell.brutality.piercing_moonlight": "Piercing Moonlight",
+  "spell.brutality.piercing_moonlight.description.1": "§8Shoot out a beam a Piercing Moonlight that pierces infinitely, deals 2x Damage at Night",
 
   "tooltip.brutality.conjure": "Conjure",
   "tooltip.brutality.synthesise": "Synthesise",
@@ -1518,12 +1542,12 @@
   "lootbeams.rarity.ice": "Glacial",
   "lootbeams.rarity.prismatic": "Prismatic",
 
-  "creativeTab.brutality_unsorted_tab": "Brutality Unsorted Items",
+  "creativeTab.brutality_weapon_tab": "Brutality Weapons",
   "creativeTab.brutality_magic_tab": "Brutality Magic Items",
   "creativeTab.brutality_curio_tab": "Brutality Curios",
   "creativeTab.brutality_vanity_tab": "Brutality Vanities",
   "creativeTab.brutality_gastronomy_tab": "Brutality Gastronomy Items",
-  "creativeTab.brutality_material_tab": "Brutality Materials",
+  "creativeTab.brutality_miscellaneous_tab": "Brutality Miscellaneous Items",
   "creativeTab.brutality_block_tab": "Brutality Blocks",
 
   "attribute.name.generic.ground_friction": "Ground Friction",
@@ -1607,7 +1631,7 @@
   "effect.brutality.peppered": "§7Peppered",
   "effect.brutality.hot_and_spicy": "§cHot & Spicy",
   "effect.brutality.slicked": "§6Slicked",
-  "effect.brutality.oiled": "§2Oiled",
+  "effect.brutality.oiled": "§0Oiled",
   "effect.brutality.scored": "§mScored",
   "effect.brutality.marinated": "Marinated",
   "effect.brutality.caffeinated": "Caffeinated",
@@ -1622,16 +1646,24 @@
   "effect.brutality.lightbound": "Lightbound",
   "effect.brutality.enraged": "Enraged",
   "effect.brutality.the_void": "The Void",
+  "effect.brutality.steamed": "§7Steamed",
+  "effect.brutality.smoked": "§8Smoked",
   "effect.brutality.weightlessness": "§2Weightlessness",
-  "effect.brutality.mana_fatigue": "§cMana Fatigue",
-  "effect.brutality.magic_sickness": "§cMagic Sickness",
-  "effect.brutality.mana_frugality": "§aFrugal Mana",
-  "effect.brutality.magic_power": "§aMagic Power",
+  "effect.brutality.hypergravity": "§4Hypergravity",
   "effect.brutality.ultra_dodge": "§bUltra Dodge",
+
+  "effect.brutality.celestial_flux": "§aCelestial Flux",
+  "effect.brutality.calcified_pathways": "§cCalcified Pathways",
+  "effect.brutality.etheric_flow": "§aEtheric Flow",
+  "effect.brutality.arcane_burnout": "§cArcane Burnout",
+  "effect.brutality.arcane_surge": "§aArcane Surge",
+  "effect.brutality.mana_blight": "§cMana Blight",
+
   "effect.brutality.dodge_cooldown": "§4Dodge Cooldown",
   "effect.brutality.precision": "§4Precision",
   "effect.brutality.siphoned": "§4§lSiphoned",
   "effect.brutality.terramiticulosis": "Terramiticulosis",
+  "effect.brutality.tranquillity": "§f§lTra§7§lnqu§8§lili§0§lty",
 
   "brutality.description.type.active": "§6Active Ability:",
   "brutality.description.type.passive": "§6Passive Effect:",

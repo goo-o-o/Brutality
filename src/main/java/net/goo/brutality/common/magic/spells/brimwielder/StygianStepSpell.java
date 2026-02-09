@@ -4,7 +4,7 @@ import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.client.particle.providers.PointToPointParticleData;
 import net.goo.brutality.common.registry.BrutalityParticles;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.mcreator.terramity.init.TerramityModSounds;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -19,16 +19,16 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.SIZE;
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.SPEED;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SPEED;
 
 public class StygianStepSpell extends BrutalitySpell {
 
 
     public StygianStepSpell() {
         super(MagicSchool.BRIMWIELDER, List.of(SpellCategory.INSTANT, SpellCategory.TARGET, SpellCategory.UTILITY), "stygian_step", 30, 5, 20, 0, 1, List.of(
-                new BrutalityTooltipHelper.SpellStatComponent(SPEED, 1F, 0.25F, 1F, 5F),
-                new BrutalityTooltipHelper.SpellStatComponent(SIZE, 3, 0, 3F, 3F)
+                new SpellTooltips.SpellStatComponent(SPEED, 1F, 0.25F, 1F, 5F),
+                new SpellTooltips.SpellStatComponent(SIZE, 3, 0, 3F, 3F)
         ));
     }
 

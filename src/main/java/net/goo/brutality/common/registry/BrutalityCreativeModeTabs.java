@@ -13,9 +13,9 @@ public class BrutalityCreativeModeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Brutality.MOD_ID);
 
-    public static final RegistryObject<CreativeModeTab> BRUTALITY_MATERIAL_TAB = CREATIVE_MODE_TABS.register("brutality_material_tab",
+    public static final RegistryObject<CreativeModeTab> BRUTALITY_MISCELLANEOUS_TAB = CREATIVE_MODE_TABS.register("brutality_miscellaneous_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(BrutalityItems.POCKET_BLACK_HOLE.get()))
-                    .title(Component.translatable("creativeTab.brutality_material_tab"))
+                    .title(Component.translatable("creativeTab.brutality_miscellaneous_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
 
                         output.accept(BrutalityItems.POCKET_BLACK_HOLE.get());
@@ -24,7 +24,23 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.BLUE_SLIME_BALL.get());
                         output.accept(BrutalityItems.PINK_SLIME_BALL.get());
                         output.accept(BrutalityItems.UNBRIDLED_RAGE.get());
+                        output.accept(BrutalityItems.SOLIDIFIED_MANA.get());
+                        output.accept(BrutalityItems.LIQUIFIED_MANA_BUCKET.get());
 
+                        output.accept(BrutalityItems.BLACK_SEAL.get());
+                        output.accept(BrutalityItems.BLUE_SEAL.get());
+                        output.accept(BrutalityItems.GREEN_SEAL.get());
+                        output.accept(BrutalityItems.ORANGE_SEAL.get());
+                        output.accept(BrutalityItems.PINK_SEAL.get());
+                        output.accept(BrutalityItems.PURPLE_SEAL.get());
+                        output.accept(BrutalityItems.RED_SEAL.get());
+                        output.accept(BrutalityItems.CYAN_SEAL.get());
+                        output.accept(BrutalityItems.YELLOW_SEAL.get());
+                        output.accept(BrutalityItems.BOMB_SEAL.get());
+                        output.accept(BrutalityItems.COSMIC_SEAL.get());
+                        output.accept(BrutalityItems.GLASS_SEAL.get());
+                        output.accept(BrutalityItems.QUANTITE_SEAL.get());
+                        output.accept(BrutalityItems.VOID_SEAL.get());
                     })
                     .build());
 
@@ -395,24 +411,11 @@ public class BrutalityCreativeModeTabs {
                     }).build());
 
 
-    public static final RegistryObject<CreativeModeTab> BRUTALITY_TAB = CREATIVE_MODE_TABS.register("brutality_unsorted_tab",
+    public static final RegistryObject<CreativeModeTab> BRUTALITY_WEAPON_TAB = CREATIVE_MODE_TABS.register("brutality_weapon_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(BrutalityItems.SEVENTH_STAR.get()))
-                    .title(Component.translatable("creativeTab.brutality_unsorted_tab"))
+                    .title(Component.translatable("creativeTab.brutality_weapon_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(BrutalityItems.BLACK_SEAL.get());
-                        output.accept(BrutalityItems.BLUE_SEAL.get());
-                        output.accept(BrutalityItems.GREEN_SEAL.get());
-                        output.accept(BrutalityItems.ORANGE_SEAL.get());
-                        output.accept(BrutalityItems.PINK_SEAL.get());
-                        output.accept(BrutalityItems.PURPLE_SEAL.get());
-                        output.accept(BrutalityItems.RED_SEAL.get());
-                        output.accept(BrutalityItems.CYAN_SEAL.get());
-                        output.accept(BrutalityItems.YELLOW_SEAL.get());
-                        output.accept(BrutalityItems.BOMB_SEAL.get());
-                        output.accept(BrutalityItems.COSMIC_SEAL.get());
-                        output.accept(BrutalityItems.GLASS_SEAL.get());
-                        output.accept(BrutalityItems.QUANTITE_SEAL.get());
-                        output.accept(BrutalityItems.VOID_SEAL.get());
+
 
                         output.accept(BrutalityItems.CINDER_BLOCK.get());
                         output.accept(BrutalityItems.BIOMECH_REACTOR.get());
@@ -552,6 +555,7 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.CELESTIA_SPELL_SCROLL.get().getDefaultInstance());
                         output.accept(BrutalityItems.EXODIC_SPELL_SCROLL.get().getDefaultInstance());
                         output.accept(BrutalityItems.UMBRAL_SPELL_SCROLL.get().getDefaultInstance());
+                        output.accept(BrutalityItems.VOLTWEAVER_SPELL_SCROLL.get().getDefaultInstance());
 
                     })
                     .build());

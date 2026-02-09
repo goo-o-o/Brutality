@@ -6,11 +6,9 @@ import net.goo.brutality.common.item.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.common.item.weapon.generic.CreaseOfCreation;
 import net.goo.brutality.common.item.weapon.spear.EventHorizon;
-import net.goo.brutality.common.item.weapon.sword.BladeOfTheRuinedKingSword;
 import net.goo.brutality.common.item.weapon.sword.DullKnifeSword;
 import net.goo.brutality.common.item.weapon.sword.SupernovaSword;
 import net.goo.brutality.common.item.weapon.tome.BaseMagicTome;
-import net.goo.brutality.common.item.weapon.trident.ThunderboltTrident;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.clientbound.ClientboundSyncItemCooldownPacket;
 import net.goo.brutality.common.registry.BrutalityEffects;
@@ -47,7 +45,8 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import static net.goo.brutality.util.EnvironmentColorManager.resetAllColors;
-import static net.goo.brutality.util.ModResources.*;
+import static net.goo.brutality.util.ModResources.CREASE_OF_CREATION_FX;
+import static net.goo.brutality.util.ModResources.LIGHTNING_AURA_FX;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgePlayerStateHandler {
@@ -113,7 +112,7 @@ public class ForgePlayerStateHandler {
 
     static {
         TOGGLE_ACTIONS.add(new Pair<>(
-                stack -> stack.getItem() instanceof CreaseOfCreation,
+                stack -> stack.is(BrutalityItems.CREASE_OF_CREATION.get()),
                 new HoldToggleAction(
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {
@@ -127,24 +126,24 @@ public class ForgePlayerStateHandler {
                             }
                         }
                 )));
-        TOGGLE_ACTIONS.add(new Pair<>(
-                stack -> stack.getItem() instanceof BladeOfTheRuinedKingSword,
-                new HoldToggleAction(
-                        (player) -> {
-                            if (!(player.level() instanceof ServerLevel)) {
-                                EntityEffect effect = new EntityEffect(RUINED_AURA_FX, player.level(), player, EntityEffect.AutoRotate.NONE);
-                                effect.start();
-                            }
-                        },
-                        (player) -> {
-                            if (!(player.level() instanceof ServerLevel)) {
-                                ModUtils.removeFX(player, RUINED_AURA_FX);
-                            }
-                        }
-                )));
+//        TOGGLE_ACTIONS.add(new Pair<>(
+//                stack -> stack.getItem() instanceof BladeOfTheRuinedKingSword,
+//                new HoldToggleAction(
+//                        (player) -> {
+//                            if (!(player.level() instanceof ServerLevel)) {
+//                                EntityEffect effect = new EntityEffect(RUINED_AURA_FX, player.level(), player, EntityEffect.AutoRotate.NONE);
+//                                effect.start();
+//                            }
+//                        },
+//                        (player) -> {
+//                            if (!(player.level() instanceof ServerLevel)) {
+//                                ModUtils.removeFX(player, RUINED_AURA_FX);
+//                            }
+//                        }
+//                )));
 
         TOGGLE_ACTIONS.add(new Pair<>(
-                stack -> stack.getItem() instanceof DullKnifeSword,
+                stack -> stack.is(BrutalityItems.DULL_KNIFE_DAGGER.get()),
                 new HoldToggleAction(
                         (player) -> {
                             if (player.level().isClientSide()) {
@@ -172,7 +171,7 @@ public class ForgePlayerStateHandler {
                 )));
 
         TOGGLE_ACTIONS.add(new Pair<>(
-                stack -> stack.getItem() instanceof ThunderboltTrident,
+                stack -> stack.is(BrutalityItems.THUNDERBOLT_TRIDENT.get()),
                 new HoldToggleAction(
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {

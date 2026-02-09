@@ -175,7 +175,7 @@ public class ForgeClientPlayerStateHandler {
 //                            setColorAutoReset(ColorType.WATER, FastColor.ARGB32.color(255,32, 92, 91)).
 //                            setColorAutoReset(ColorType.GRASS, FastColor.ARGB32.color(255,32, 92, 91)).
 //                            setColorAutoReset(ColorType.FOLIAGE, FastColor.ARGB32.color(255,32, 92, 91)).
-        setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255, 0, 0, 0)));
+            setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255, 0, 0, 0)));
         }
 
         boolean rayNearby = StreamSupport.stream(level.entitiesForRendering().spliterator(), false)

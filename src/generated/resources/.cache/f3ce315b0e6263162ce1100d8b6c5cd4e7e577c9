@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-01T03:43:40.303101	Block Models: brutality
+// 1.20.1	2026-02-04T08:01:03.4450532	Block Models: brutality
 8f26006b27053e5312acc6734c6761cc0f859b17 assets/brutality/models/block/black_concrete_slab.json
 febb01bc8e2d66ff0ba94645615b3f5e0efac34e assets/brutality/models/block/black_concrete_slab_top.json
 e13488fab2e5d4c208d92ebba21c1933506533fa assets/brutality/models/block/black_concrete_stair.json
@@ -30,6 +30,7 @@ e5a93756d4c904999cfd5f0dc8d7b70e1633e4b4 assets/brutality/models/block/green_con
 c4e28dfa7fe14ee23c65bdccfe6bb6932845e839 assets/brutality/models/block/green_concrete_stair.json
 8dda3a0499623af7d3309aab03ee1af8394fa10f assets/brutality/models/block/green_concrete_stair_inner.json
 ac81979638ca979a571731a34ce8d716283be34e assets/brutality/models/block/green_concrete_stair_outer.json
+b26f3cb5c2b6adfa8ae97d17494dbc939d7ced88 assets/brutality/models/block/large_mana_crystal_bud.json
 91773f8b0d18616f8c982cc8d072988cad020eb1 assets/brutality/models/block/light_blue_concrete_slab.json
 5a81a3649374cbcfa5d6fc7c18661bfa8e956aa4 assets/brutality/models/block/light_blue_concrete_slab_top.json
 ec7a6bbaf9bf61104e52bd24faeddddf342f62b4 assets/brutality/models/block/light_blue_concrete_stair.json
@@ -52,6 +53,8 @@ f4af5fe89ad85995260b93d18097be57d9de6f79 assets/brutality/models/block/magenta_c
 c0e411613d08f49967a09d82ac7499271823d340 assets/brutality/models/block/magenta_concrete_stair.json
 6799c9c2801d4f2549d2643b7173a3fd2b5e5c66 assets/brutality/models/block/magenta_concrete_stair_inner.json
 6c78c2154abb4e7a7d95c9124d45f64bc2e7a43f assets/brutality/models/block/magenta_concrete_stair_outer.json
+bbd1a6da20fc5e2e1378e3616ef1c940382e7de6 assets/brutality/models/block/mana_crystal_cluster.json
+9c10cdb723308a48da4f581cb9424b5b73200fb6 assets/brutality/models/block/medium_mana_crystal_bud.json
 f69d251dfd4016090ef739c921922dfc54f24a3b assets/brutality/models/block/orange_concrete_slab.json
 765d588dc0d004a93663e9e7731d8fa7fce113bf assets/brutality/models/block/orange_concrete_slab_top.json
 3f3096caea871fa2594c8f008093790cf8e24cdc assets/brutality/models/block/orange_concrete_stair.json
@@ -73,6 +76,7 @@ f97fbb9c9de58e0d48a99f80775afb7100166e48 assets/brutality/models/block/orange_co
 97b51f46cfa13af6bad868eafbac1183b96725e9 assets/brutality/models/block/red_concrete_stair.json
 7a9f5a001c698a6ab7541207fbad70609128d9a7 assets/brutality/models/block/red_concrete_stair_inner.json
 b6b9cff871b6bfc2f5d9e5053c74219d0a5373be assets/brutality/models/block/red_concrete_stair_outer.json
+bbb062f7e8997494d717e6a74dfe27102efd63d8 assets/brutality/models/block/small_mana_crystal_bud.json
 c40589b4748b4678571ced48e12adca792465e49 assets/brutality/models/block/upper_hvac.json
 43f61a5b1e582b7939c67ca2f0b3e6f5aca7bf72 assets/brutality/models/block/white_concrete_slab.json
 0c3a2f41601c4043d161251c8b7316d588226fa3 assets/brutality/models/block/white_concrete_slab_top.json

@@ -7,7 +7,7 @@ import net.goo.brutality.client.particle.providers.WaveParticleData;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -22,7 +22,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.RANGE;
 
 public class EdgeOfOblivionSpell extends BrutalitySpell {
 
@@ -31,7 +31,7 @@ public class EdgeOfOblivionSpell extends BrutalitySpell {
                 List.of(SpellCategory.INSTANT, SpellCategory.AOE),
                 "edge_of_oblivion",
                 30, 2, 80, 0, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 3, 1, 0F, 100F)
+                        new SpellTooltips.SpellStatComponent(RANGE, 3, 1, 0F, 100F)
                 ));
     }
 

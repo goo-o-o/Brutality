@@ -2,21 +2,24 @@ package net.goo.brutality.event.mod.client;
 
 import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
-import net.goo.brutality.common.block.custom.DustbinBlock;
 import net.goo.brutality.client.config.BrutalityClientConfig;
 import net.goo.brutality.client.datagen.ingredients.AnySharpnessBookIngredient;
+import net.goo.brutality.client.gui.SpellSelectionGui;
 import net.goo.brutality.client.gui.meters.CooldownMeter;
 import net.goo.brutality.client.gui.meters.ManaMeter;
 import net.goo.brutality.client.gui.meters.RageMeter;
-import net.goo.brutality.client.gui.SpellSelectionGui;
 import net.goo.brutality.client.gui.screen.FilingCabinetScreen;
-import net.goo.brutality.common.registry.BrutalityMenuTypes;
+import net.goo.brutality.common.block.custom.DustbinBlock;
 import net.goo.brutality.common.registry.BrutalityBlocks;
+import net.goo.brutality.common.registry.BrutalityFluids;
 import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.common.registry.BrutalityMenuTypes;
 import net.goo.brutality.util.BetterCombatIntegration;
 import net.goo.brutality.util.RarityBorderManager;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -93,7 +96,10 @@ public class ModClientSetup {
         if (ModList.get().isLoaded("bettercombat")) {
             BetterCombatIntegration.register();
         }
-
+        event.enqueueWork(() -> {
+            ItemBlockRenderTypes.setRenderLayer(BrutalityFluids.LIQUIFIED_MANA_SOURCE.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(BrutalityFluids.LIQUIFIED_MANA_FLOWING.get(), RenderType.translucent());
+        });
 
         event.enqueueWork(DustbinBlock::bootStrap);
 

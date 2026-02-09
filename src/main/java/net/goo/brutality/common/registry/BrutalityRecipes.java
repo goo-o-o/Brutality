@@ -1,8 +1,10 @@
 package net.goo.brutality.common.registry;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.common.magic.table_of_wizardry.ConjureRecipe;
-import net.goo.brutality.common.magic.table_of_wizardry.ConjureRecipeSerializer;
+import net.goo.brutality.common.recipe.ConjureRecipe;
+import net.goo.brutality.common.recipe.ConjureRecipeSerializer;
+import net.goo.brutality.common.recipe.ManaTransformationRecipe;
+import net.goo.brutality.common.recipe.ManaTransformationRecipeSerializer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -21,6 +23,8 @@ public class BrutalityRecipes {
     // The Serializer: Handles JSON <-> Object conversion
     public static final RegistryObject<RecipeSerializer<ConjureRecipe>> CONJURE_SERIALIZER =
         SERIALIZERS.register("conjure", ConjureRecipeSerializer::new);
+    public static final RegistryObject<RecipeSerializer<ManaTransformationRecipe>> MANA_TRANSFORMATION_SERIALIZER =
+        SERIALIZERS.register("mana_transformation", ManaTransformationRecipeSerializer::new);
 
     // The Type: The "Category" for the recipe (like minecraft:crafting)
     public static final RegistryObject<RecipeType<ConjureRecipe>> CONJURE_TYPE =
@@ -28,6 +32,14 @@ public class BrutalityRecipes {
             @Override
             public String toString() { return "conjure"; }
         });
+
+    public static final RegistryObject<RecipeType<ManaTransformationRecipe>> MANA_TRANSFORMATION_TYPE =
+        TYPES.register("mana_transformation", () -> new RecipeType<>() {
+            @Override
+            public String toString() { return "mana_transformation"; }
+        });
+
+
 
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);

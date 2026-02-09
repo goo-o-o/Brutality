@@ -105,7 +105,7 @@ public class CrescentScythe extends BrutalityAbstractArrow implements BrutalityG
 
     @Override
     protected int getLifespan() {
-        return 20;
+        return 60;
     }
 
     @Override

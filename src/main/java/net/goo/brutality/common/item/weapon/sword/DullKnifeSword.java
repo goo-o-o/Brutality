@@ -2,12 +2,11 @@ package net.goo.brutality.common.item.weapon.sword;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.base.BrutalitySwordItem;
-import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityEffects;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalitySounds;
-import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.EnvironmentColorManager;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -72,15 +71,6 @@ public class DullKnifeSword extends BrutalitySwordItem {
         }
     }
 
-    @Override
-    public @NotNull Component getName(ItemStack pStack) {
-        String identifier = getRegistryName();
-        EmotionColor emotionColor = EmotionColor.byId(ModUtils.getTextureIdx(pStack));
-
-        return BrutalityTooltipHelper.tooltipHelper(
-                "item." + Brutality.MOD_ID + "." + identifier, false, null, 0.5F, 2F, emotionColor.primaryColor, emotionColor.secondaryColor);
-    }
-
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
@@ -90,8 +80,7 @@ public class DullKnifeSword extends BrutalitySwordItem {
         for (EmotionColor emotion : EmotionColor.values()) {
             String emotionKey = emotion.name().toLowerCase(Locale.ROOT);
 
-            pTooltipComponents.add(
-                    BrutalityTooltipHelper.tooltipHelper("item." + Brutality.MOD_ID + ".dull_knife." + emotionKey, true, null, 0F, 1F, emotion.primaryColor, emotion.secondaryColor));
+            pTooltipComponents.add(Component.translatable("item." + Brutality.MOD_ID + ".dull_knife." + emotionKey));
 
             for (int j = 1; j <= 3; j++) {
                 MutableComponent component = Component.translatable("item." + Brutality.MOD_ID + ".dull_knife." + emotionKey + ".desc." + j);

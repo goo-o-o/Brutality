@@ -32,7 +32,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Random;
 
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.CHANCE;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.CHANCE;
 
 public class AnnihilationEntity extends BrutalityAbstractArrow implements BrutalityGeoEntity, IBrutalitySpellEntity {
     private static final EntityDataAccessor<Integer> SPELL_LEVEL_DATA = SynchedEntityData.defineId(AnnihilationEntity.class, EntityDataSerializers.INT);

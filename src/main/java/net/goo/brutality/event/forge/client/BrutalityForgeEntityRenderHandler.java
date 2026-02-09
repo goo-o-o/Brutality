@@ -12,7 +12,7 @@ import net.goo.brutality.common.entity.spells.IBrutalitySpellEntity;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.BrutalityEntityRotations;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.EntityModel;
@@ -56,7 +56,7 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
 
                     TRANSLUCENT_TRANSPARENCY.setupRenderState();
                     RenderSystem.setShaderColor(1f, 1f, 1f, 0.3f);
-                    mc.gui.renderTextureOverlay(gui, ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/sanguine_spectacles_overlay.png"), 1.0F);
+                    mc.gui.renderTextureOverlay(gui, ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/overlay/sanguine_spectacles.png"), 1.0F);
                     TRANSLUCENT_TRANSPARENCY.clearRenderState();
                 }));
 
@@ -73,7 +73,7 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
             float finalScale = 1.0F + (spellLevel - 1) * scaleIncrement; // Scale factor: 1.0 at level 1, 1.5 at level 2, 2.0 at level 3, etc.
 
             BrutalitySpell spell = entity.getSpell();
-            BrutalityTooltipHelper.SpellStatComponent sizeStat = spell.getStat(BrutalityTooltipHelper.SpellStatComponents.SIZE);
+            SpellTooltips.SpellStatComponent sizeStat = spell.getStat(SpellTooltips.SpellStatComponents.SIZE);
             if (sizeStat == null) return;
 //            finalScale = Mth.clamp(finalScale, 1.0F, sizeStat.max() / 2F); // Ensure scale doesn't exceed max range relative to base size
             PoseStack poseStack = event.getPoseStack();

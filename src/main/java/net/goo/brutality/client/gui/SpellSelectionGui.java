@@ -108,7 +108,7 @@ public class SpellSelectionGui implements IGuiOverlay {
 
             if (SpellCooldownTracker.isOnCooldown(player, entry.spell())) {
             float progress = SpellCooldownTracker.getRemainingCooldownPercentage(player, entry.spell()); // 0 = just started, 1 = finished
-            int filledHeight = Math.round(ICON_SIZE * (1.0f - progress));  // invert: full at 0, empty at 1
+            int filledHeight = Math.round(ICON_SIZE * progress);  // invert: full at 0, empty at 1
             int fillY = iconY + (ICON_SIZE - filledHeight);
             gui.fill(iconX, fillY, iconX + ICON_SIZE, iconY + ICON_SIZE, WHITE);  // or use a dark texture/tint
             } else if (isSelected && SpellCastingHandler.currentlyChannellingSpell(player, tome)) {

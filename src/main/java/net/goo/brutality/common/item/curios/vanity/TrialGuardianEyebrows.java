@@ -16,13 +16,15 @@ import top.theillusivec4.curios.api.SlotContext;
 
 public class TrialGuardianEyebrows extends BrutalityCurioItem {
 
+
+
+    protected String[] expressions = new String[]{"angry", "neutral", "shocked", "sad", "suspicious"};
+    protected static String EXPRESSIONS = "expressions";
+
     public TrialGuardianEyebrows(Rarity rarity) {
         super(rarity);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }
-
-    protected String[] expressions = new String[]{"angry", "neutral", "shocked", "sad", "suspicious"};
-    protected static String EXPRESSIONS = "expressions";
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {

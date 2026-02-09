@@ -1,10 +1,11 @@
 package net.goo.brutality.common.magic;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.util.ModResources;
 import net.goo.brutality.util.magic.SpellStorage;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalityItems;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.mcreator.terramity.init.TerramityModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -126,7 +127,7 @@ public interface IBrutalitySpell {
 
     int getDescriptionCount();
 
-    List<BrutalityTooltipHelper.SpellStatComponent> getStatComponents();
+    List<SpellTooltips.SpellStatComponent> getStatComponents();
 
     // --- Translation Helpers ---
 
@@ -175,7 +176,7 @@ public interface IBrutalitySpell {
      * Resolves a stat component (like range or radius) to a final float,
      * applying level scaling and min/max clamping.
      */
-    default float getFinalStat(int spellLevel, @Nullable BrutalityTooltipHelper.SpellStatComponent stat) {
+    default float getFinalStat(int spellLevel, @Nullable SpellTooltips.SpellStatComponent stat) {
         if (stat != null) {
             float value = stat.base() + stat.levelDelta() * spellLevel;
             if (stat.max() != null && stat.min() != null) {
@@ -225,7 +226,9 @@ public interface IBrutalitySpell {
         UTILITY("🔧"), INSTANT("⏯"), TOGGLE("🎚"), CHANNELLING("🚹"),
         CONTINUOUS("↺");
 
-        public final String icon;
-        SpellCategory(String icon) { this.icon = icon; }
+        public final MutableComponent icon;
+        SpellCategory(String icon) {
+            this.icon = Component.literal(icon).withStyle(s -> s.withFont(ModResources.ICON_FONT));
+        }
     }
 }

@@ -1,7 +1,7 @@
 package net.goo.brutality.common.item.base;
 
-import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.common.item.BrutalityCategories;
+import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
@@ -9,7 +9,6 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.common.ToolAction;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -22,11 +21,9 @@ import java.util.function.Consumer;
 public class BrutalitySpearItem extends AxeItem implements BrutalityGeoItem {
     private final List<ItemDescriptionComponent> descriptionComponents;
     public String identifier;
-    public Rarity rarity;
 
     public BrutalitySpearItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, new Properties());
-        this.rarity = rarity;
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, new Properties().rarity(rarity));
         this.descriptionComponents = descriptionComponents;
     }
 
@@ -56,19 +53,8 @@ public class BrutalitySpearItem extends AxeItem implements BrutalityGeoItem {
     }
 
     @Override
-    public @NotNull Rarity getRarity(@NotNull ItemStack pStack) {
-        return this.rarity;
-    }
-
-    @Override
-    public @NotNull Component getName(ItemStack pStack) {
-        return brutalityNameHandler(pStack);
-    }
-
-    @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, rarity);
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
     }
 
     @Override

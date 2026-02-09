@@ -4,7 +4,7 @@ import net.goo.brutality.common.entity.spells.cosmic.CosmicCataclysmEntity;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEntities;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
+import net.goo.brutality.util.tooltip.SpellTooltips;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
@@ -13,8 +13,8 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.RANGE;
-import static net.goo.brutality.util.tooltip.BrutalityTooltipHelper.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SIZE;
 
 public class CosmicCataclysmSpell extends BrutalitySpell {
 
@@ -24,8 +24,8 @@ public class CosmicCataclysmSpell extends BrutalitySpell {
                 List.of(SpellCategory.CHANNELLING, SpellCategory.AOE),
                 "cosmic_cataclysm",
                 100, 10, 100, 20, 1, List.of(
-                        new BrutalityTooltipHelper.SpellStatComponent(RANGE, 15, 5, 0F, 100F),
-                        new BrutalityTooltipHelper.SpellStatComponent(SIZE, 3, 1, 3F, 50F)
+                        new SpellTooltips.SpellStatComponent(RANGE, 15, 5, 0F, 100F),
+                        new SpellTooltips.SpellStatComponent(SIZE, 3, 1, 3F, 50F)
                 ));
     }
 

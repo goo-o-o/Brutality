@@ -255,19 +255,6 @@ public class ModUtils {
         return Mth.sqrt(x * x + z * z);
     }
 
-    /**
-     * Gets the velocity of the arrow entity from the bow's charge,
-     * this is copied from {@link BowItem}, as that method is protected
-     */
-    public static float getPowerForTime(int pCharge) {
-        float f = (float)pCharge / 20.0F;
-        f = (f * f + f * 2.0F) / 3.0F;
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-
-        return f;
-    }
 
     public record RayData<T extends Entity>(List<T> entityList, int distance, Vec3 endPos) {
         public RayData(List<T> entityList, int distance, Vec3 endPos) {

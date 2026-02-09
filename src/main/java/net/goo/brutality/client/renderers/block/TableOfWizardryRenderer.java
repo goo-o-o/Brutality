@@ -8,7 +8,7 @@ import net.goo.brutality.client.sounds.ClientSoundManager;
 import net.goo.brutality.common.block.block_entity.PedestalOfWizardryBlockEntity;
 import net.goo.brutality.common.block.block_entity.TableOfWizardryBlockEntity;
 import net.goo.brutality.common.magic.IBrutalitySpell;
-import net.goo.brutality.common.magic.table_of_wizardry.ConjureRecipe;
+import net.goo.brutality.common.recipe.ConjureRecipe;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.common.registry.BrutalityRecipes;
 import net.goo.brutality.util.RenderUtils;
@@ -39,12 +39,14 @@ import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 public class TableOfWizardryRenderer implements BlockEntityRenderer<TableOfWizardryBlockEntity> {
-    Color BLUE = new Color(0.043F, 0.0275F, 0.745F, 1F);
-    Color BLUE_TRANSPARENT = new Color(0.047F, 0.435F, 0.843F, 0F);
-    Color GREEN = new Color(0.341F, 0.808F, 0.035F, 1F);
-    Color GREEN_TRANSPARENT = new Color(0.592F, 0.937F, 0.071F, 0F);
+    static Color BLUE = new Color(0.184F, 0.212F, 0.639F, 1F);
+    static Color BLUE_TRANSPARENT = new Color(0.216F, 0.275F, 0.745F, 0F);
+    static Color YELLOW = new Color(0.984F, 0.875F, 0.443F, 1F);
+    static int[] rayColors = new int[]{BLUE.getRGB(), YELLOW.getRGB()};
+    static Color GREEN = new Color(0.341F, 0.808F, 0.035F, 1F);
+    static Color GREEN_TRANSPARENT = new Color(0.592F, 0.937F, 0.071F, 0F);
     public static Color RED = new Color(0.753F, 0.039F, 0.039F, 1F);
-    Color RED_TRANSPARENT = new Color(0.961F, 0.282F, 0.055F, 0F);
+    static Color RED_TRANSPARENT = new Color(0.961F, 0.282F, 0.055F, 0F);
 
     public static final ResourceLocation BOOK_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/entity/table_of_wizardry_book.png");
@@ -161,12 +163,20 @@ public class TableOfWizardryRenderer implements BlockEntityRenderer<TableOfWizar
                     pPoseStack.pushPose();
                     pPoseStack.translate(0, 0.15, 0);
 
-                    float deathRayProgress = Mth.clamp((normalizedProgress - 0.65F) / 0.35F, 0.0F, 1.0F);
                     IBrutalitySpell.MagicSchool school = pBlockEntity.currentSpell.getSchool();
+
+                    float deathRayProgress = Mth.clamp((normalizedProgress - 0.65F) / 0.35F, 0.0F, 1.0F);
                     int totalBeams = 45;
-                    int perColor = totalBeams / school.colors.length;
-                    for (int i = 0; i < school.colors.length; i++) {
-                        RenderUtils.renderDragonDeathRays(deathRayProgress, pPoseStack, pBuffer, 0.5F, 0.25F, perColor, school.colors[i], 432L + i);
+                    if (school.colors.length > 0) {
+                        int perColor = totalBeams / school.colors.length;
+                        for (int i = 0; i < school.colors.length; i++) {
+                            RenderUtils.renderDragonDeathRays(deathRayProgress, pPoseStack, pBuffer, 0.5F, 0.25F, perColor, school.colors[i], 432L + i);
+                        }
+                    } else {
+                        int perColor = totalBeams / rayColors.length;
+                        for (int i = 0; i < rayColors.length; i++) {
+                            RenderUtils.renderDragonDeathRays(deathRayProgress, pPoseStack, pBuffer, 0.5F, 0.25F, perColor, rayColors[i], 432L + i);
+                        }
                     }
 
 
@@ -179,8 +189,6 @@ public class TableOfWizardryRenderer implements BlockEntityRenderer<TableOfWizar
             }
         }
 
-        // --- 2. Render the Book ---
-        // IMPORTANT: We do NOT pop here. We push a new layer on the existing block-space pose.
         pPoseStack.pushPose();
         pPoseStack.translate(0.5, 1.1, 0.5); // 1.1 height to sit on the table
 
