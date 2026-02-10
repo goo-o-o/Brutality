@@ -23,7 +23,8 @@ public class SpellPageView extends TableOfWizardryView {
 
     @Override
     public void init() {
-        if (this.screen.block.currentSpell == null) return;
+        if (this.screen.getBlockEntity().currentSpell == null) return;
+        Minecraft mc = Minecraft.getInstance();
 
         ImageButton btn = new ImageButton(screen.width / 2 + 70, screen.height / 2 - 83,
                 12, 10, 0, 0, 10, BACK_BUTTON,
@@ -35,23 +36,30 @@ public class SpellPageView extends TableOfWizardryView {
         int leftX = screen.width / 2 - 82;
         int rightX  = screen.width / 2 + 6;
 
-        TableOfWizardryBlockEntity block = screen.block;
+        TableOfWizardryBlockEntity blockEntity = screen.getBlockEntity();
 
-        MutableComponent spellName = block.currentSpell.getTranslatedSpellName()
+        MutableComponent spellName = blockEntity.currentSpell.getTranslatedSpellName()
                 .withStyle(s -> s.withFont(ModResources.TABLE_OF_WIZARDRY_FONT));
 
         StringBuilder catBuilder = new StringBuilder();
-        block.currentSpell.getCategories().forEach(c -> catBuilder.append(c.icon));
+        blockEntity.currentSpell.getCategories().forEach(c -> catBuilder.append(c.icon));
         Component categories = Component.literal(catBuilder.toString());
 
         MutableComponent desc = Component.empty();
-        IntStream.rangeClosed(1, block.currentSpell.getDescriptionCount()).forEach(i ->
-                desc.append(block.currentSpell.getSpellDescription(i)).append(". ")
+        IntStream.rangeClosed(1, blockEntity.currentSpell.getDescriptionCount()).forEach(i ->
+                desc.append(blockEntity.currentSpell.getSpellDescription(i)).append(". ")
         );
         MutableComponent formattedDesc = desc.withStyle(s -> s.withFont(ModResources.TABLE_OF_WIZARDRY_FONT));
 
-        Minecraft mc = Minecraft.getInstance();
-        AbstractWidgetList schoolList = new AbstractWidgetList(mc, 76, 104, top, leftX, 0, 5);
+        AbstractWidgetList leftList = new AbstractWidgetList(mc, 76, 104, top, leftX, 0, 5);
+
+        StringWidget title = new StringWidget(spellName, mc.font);
+        StringWidget categoriesWidget = new StringWidget(categories, mc.font);
+        StringWidget description = new StringWidget(formattedDesc, mc.font);
+        leftList.add(title);
+        leftList.add(categoriesWidget);
+        leftList.add(description);
+        screen.addRenderableWidget(leftList);
     }
 
     @Override

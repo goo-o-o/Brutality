@@ -2,6 +2,7 @@ package net.goo.brutality.client.gui.screen;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.gui.screen.table_of_wizardry.ConjureView;
+import net.goo.brutality.client.gui.screen.table_of_wizardry.SpellPageView;
 import net.goo.brutality.client.gui.screen.table_of_wizardry.TableOfWizardryBookSection;
 import net.goo.brutality.client.gui.screen.table_of_wizardry.TableOfWizardryView;
 import net.goo.brutality.common.block.block_entity.TableOfWizardryBlockEntity;
@@ -52,7 +53,7 @@ public class TableOfWizardryScreen extends Screen {
     public static final int DARK_GRAY = 0xFF35394A;
     public static final int BLUE = FastColor.ARGB32.color(255, 12, 111, 215);
 
-    public final TableOfWizardryBlockEntity block;
+    private final TableOfWizardryBlockEntity block;
     private TableOfWizardryView currentView;
     private final Map<EntityType<?>, LivingEntity> dummyEntities = new HashMap<>();
 
@@ -90,7 +91,7 @@ public class TableOfWizardryScreen extends Screen {
             }
             // else if (block.currentSection == TableOfWizardryBookSection.SYNTHESIS) currentView = new SynthesisView(this);
         } else if (block.currentState == TableOfWizardryBlockEntity.GuiState.SPELL_PAGE) {
-            // currentView = new SpellPageView(this);
+             currentView = new SpellPageView(this);
         }
 
         if (currentView != null) currentView.init();

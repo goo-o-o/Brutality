@@ -1,17 +1,18 @@
 package net.goo.brutality.client.gui.components;
 
-import net.goo.brutality.util.RenderUtils;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class FlexibleTextAndImageButton extends Button {
@@ -23,12 +24,36 @@ public class FlexibleTextAndImageButton extends Button {
     protected final int textureHeight;
     private final int xOffset;
     private final int yOffset;
+    private final int xTextOffset;
+    private final int yTextOffset;
     private final int usedTextureWidth;
     private final int usedTextureHeight;
     private final boolean dropShadow;
     private final float alignX;
+    private final Integer activeColor;   // null = use fallback 16777215 (white)
+    private final Integer hoverColor;    // null = use fallback 10526880
+    private final Integer defaultColor;  // null = use fallback -1
+    private final Integer xIconOffset;
+    private final Integer yIconOffset;
+    private final Integer iconWidth;
+    private final Integer iconHeight;
+    private final ResourceLocation icon;
 
-    FlexibleTextAndImageButton(Component pMessage, int pWidth, int pHeight, int pXTexStart, int pYTexStart, int pXOffset, int pYOffset, int pYDiffTex, int pUsedTextureWidth, int pUsedTextureHeight, int pTextureWidth, int pTextureHeight, float alignX, boolean dropShadow, ResourceLocation pResourceLocation, Button.OnPress pOnPress) {
+    public FlexibleTextAndImageButton(
+            Component pMessage, int pWidth, int pHeight,
+            int pXTexStart, int pYTexStart,
+            int pXOffset, int pYOffset,
+            int xTextOffset, int yTextOffset,
+            int pYDiffTex,
+            int pUsedTextureWidth, int pUsedTextureHeight,
+            int pTextureWidth, int pTextureHeight,
+            float alignX, boolean dropShadow,
+            ResourceLocation pResourceLocation,
+            Button.OnPress pOnPress,
+            Integer hoverColor, Integer activeColor, Integer defaultColor,
+            Integer xIconOffset, Integer yIconOffset, ResourceLocation icon,
+            Integer iconWidth, Integer iconHeight
+    ) {
         super(0, 0, pWidth, pHeight, pMessage, pOnPress, DEFAULT_NARRATION);
         this.textureWidth = pTextureWidth;
         this.textureHeight = pTextureHeight;
@@ -38,21 +63,52 @@ public class FlexibleTextAndImageButton extends Button {
         this.resourceLocation = pResourceLocation;
         this.xOffset = pXOffset;
         this.yOffset = pYOffset;
+        this.xTextOffset = xTextOffset;
+        this.yTextOffset = yTextOffset;
         this.usedTextureWidth = pUsedTextureWidth;
         this.usedTextureHeight = pUsedTextureHeight;
         this.dropShadow = dropShadow;
         this.alignX = alignX;
+        this.hoverColor = hoverColor;
+        this.activeColor = activeColor;
+        this.defaultColor = defaultColor;
+        this.xIconOffset = xIconOffset;
+        this.yIconOffset = yIconOffset;
+        this.iconWidth = iconWidth;
+        this.iconHeight = iconHeight;
+        this.icon = icon;
     }
 
-    public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+
+    public void renderWidget(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderTexture(pGuiGraphics, this.resourceLocation, this.getXOffset(), this.getYOffset(), this.xTexStart, this.yTexStart, this.yDiffTex, this.usedTextureWidth, this.usedTextureHeight, this.textureWidth, this.textureHeight);
         Minecraft minecraft = Minecraft.getInstance();
         int i = getFGColor();
         this.renderString(pGuiGraphics, minecraft.font, i | Mth.ceil(this.alpha * 255.0F) << 24);
+
+        if (this.icon != null && this.xIconOffset != null && this.yIconOffset != null) {
+            int actualXOffset = xIconOffset > 0 ? xIconOffset : this.width - this.iconWidth + xIconOffset;
+            int actualYOffset = yIconOffset > 0 ? yIconOffset : this.height - this.iconHeight + yIconOffset;
+            pGuiGraphics.blit(icon, this.getX() + actualXOffset, this.getY() + actualYOffset, 0,0, iconWidth, iconHeight, iconWidth, iconHeight);
+        }
+
+    }
+
+    @Override
+    public int getFGColor() {
+        int colorToUse;
+        if (!this.active) {
+            colorToUse = Objects.requireNonNullElse(this.defaultColor, -1);
+        } else if (this.isHoveredOrFocused()) {
+            colorToUse = Objects.requireNonNullElse(this.hoverColor, 10526880);
+        } else {
+            colorToUse = Objects.requireNonNullElse(this.activeColor, 16777215);
+        }
+        return colorToUse;
     }
 
     public void renderString(GuiGraphics pGuiGraphics, Font pFont, int pColor) {
-        renderScrollingString(pGuiGraphics, pFont, this.getMessage(), this.getX(), this.getY(), this.getX() + this.getWidth(), this.getY() + this.getHeight(), pColor, this.dropShadow);
+        renderScrollingString(pGuiGraphics, pFont, this.getMessage(), this.getX() + xTextOffset, this.getY() + yTextOffset, xTextOffset + this.getX() + this.getWidth(), yTextOffset + this.getY() + this.getHeight(), pColor, this.dropShadow);
     }
 
     @Override
@@ -76,7 +132,6 @@ public class FlexibleTextAndImageButton extends Button {
             pGuiGraphics.drawString(pFont, pText, pMinX - (int) d3, j, pColor, dropShadow);
             pGuiGraphics.disableScissor();
         } else {
-        // 1. Calculate the available space
             int availableWidth = pMaxX - pMinX;
             int textWidth = pFont.width(pText);
 
@@ -116,16 +171,36 @@ public class FlexibleTextAndImageButton extends Button {
         private int textureHeight;
         private int xOffset;
         private int yOffset;
+        private int xTextOffset;
+        private int yTextOffset;
         private int width;
         private int height;
         private float alignX;
         private boolean dropShadow;
+        private Integer activeColor = null;   // null = use fallback 16777215 (white)
+        private Integer hoverColor = null;    // null = use fallback 10526880
+        private Integer defaultColor = null;  // null = use fallback -1
+        private ResourceLocation icon;
+        private Integer xIconOffset;
+        private Integer yIconOffset;
+        private Integer iconWidth;
+        private Integer iconHeight;
 
         public Builder(Component pMessage, ResourceLocation pResourceLocation, Button.OnPress pOnPress) {
             this.message = pMessage;
             this.resourceLocation = pResourceLocation;
             this.onPress = pOnPress;
         }
+
+        public FlexibleTextAndImageButton.Builder withIcon(ResourceLocation icon, int xOffset, int yOffset, int iconWidth, int iconHeight) {
+            this.xIconOffset = xOffset;
+            this.yIconOffset = yOffset;
+            this.iconWidth = iconWidth;
+            this.iconHeight = iconHeight;
+            this.icon = icon;
+            return this;
+        }
+
 
         public FlexibleTextAndImageButton.Builder texStart(int pX, int pY) {
             this.xTexStart = pX;
@@ -187,9 +262,43 @@ public class FlexibleTextAndImageButton extends Button {
             return this;
         }
 
+        public Builder activeColor(int color) {
+            this.activeColor = color;
+            return this;
+        }
+
+        public Builder hoverColor(int color) {
+            this.hoverColor = color;
+            return this;
+        }
+
+        public Builder defaultColor(int color) {
+            this.defaultColor = color;
+            return this;
+        }
+
+        public Builder textOffset(int x, int y) {
+            this.xTextOffset = x;
+            this.yTextOffset = y;
+            return this;
+        }
 
         public FlexibleTextAndImageButton build() {
-            return new FlexibleTextAndImageButton(this.message, this.width, this.height, this.xTexStart, this.yTexStart, this.xOffset, this.yOffset, this.yDiffTex, this.usedTextureWidth, this.usedTextureHeight, this.textureWidth, this.textureHeight, this.alignX, this.dropShadow, this.resourceLocation, this.onPress);
+            return new FlexibleTextAndImageButton(
+                    this.message, this.width, this.height,
+                    this.xTexStart, this.yTexStart,
+                    this.xOffset, this.yOffset,
+                    this.xTextOffset, this.yTextOffset,
+                    this.yDiffTex,
+                    this.usedTextureWidth, this.usedTextureHeight,
+                    this.textureWidth, this.textureHeight,
+                    this.alignX, this.dropShadow,
+                    this.resourceLocation, this.onPress,
+                    this.hoverColor, this.activeColor, this.defaultColor,   // pass the Integer fields
+                    this.xIconOffset, this.yIconOffset, this.icon,
+                    this.iconWidth, this.iconHeight
+            );
         }
+
     }
 }
