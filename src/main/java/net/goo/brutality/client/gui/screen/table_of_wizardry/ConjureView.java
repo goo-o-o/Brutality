@@ -2,7 +2,7 @@ package net.goo.brutality.client.gui.screen.table_of_wizardry;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.gui.components.AbstractWidgetList;
-import net.goo.brutality.client.gui.components.FlexibleTextAndImageButton;
+import net.goo.brutality.client.gui.components.EnhancedTextAndImageButton;
 import net.goo.brutality.client.gui.screen.TableOfWizardryScreen;
 import net.goo.brutality.common.block.block_entity.TableOfWizardryBlockEntity;
 import net.goo.brutality.common.magic.BrutalitySpell;
@@ -33,11 +33,12 @@ public class ConjureView extends TableOfWizardryView {
         AbstractWidgetList schoolList = new AbstractWidgetList(minecraft, 76, 104, top, schoolX, 0, 5);
         for (IBrutalitySpell.MagicSchool school : IBrutalitySpell.MagicSchool.values()) {
             String name = school.name().toLowerCase(Locale.ROOT);
-            FlexibleTextAndImageButton button = new FlexibleTextAndImageButton.Builder(Component.translatable("school." + Brutality.MOD_ID + "." + name)
+            EnhancedTextAndImageButton button = new EnhancedTextAndImageButton.Builder(Component.translatable("school." + Brutality.MOD_ID + "." + name)
                     .withStyle(s -> s.withFont(ModResources.TABLE_OF_WIZARDRY_FONT)), TableOfWizardryScreen.BUTTON_TEXTURE, b -> {
                 screen.schoolListScroll = schoolList.getScrollDistance();
                 blockEntity.currentSchool = school;
                 screen.rebuildWidgets();
+                screen.updateServerAndRefresh();
             })
                     .yDiffTex(18).texStart(0, 0).offset(0, 0).size(70, 18)
                     .withIcon(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/spells/" + school.name().toLowerCase(Locale.ROOT) + "/icon.png"), 0, 0, 18, 18)
@@ -55,12 +56,13 @@ public class ConjureView extends TableOfWizardryView {
             AbstractWidgetList spellList = new AbstractWidgetList(minecraft, 76, 104, top, spellX, 0, 5);
             BrutalitySpells.getSpellsFromSchool(blockEntity.currentSchool).forEach(spell -> {
 
-                FlexibleTextAndImageButton button = new FlexibleTextAndImageButton.Builder(spell.getTranslatedSpellName()
+                EnhancedTextAndImageButton button = new EnhancedTextAndImageButton.Builder(spell.getTranslatedSpellName()
                         .withStyle(s -> s.withFont(ModResources.TABLE_OF_WIZARDRY_FONT)), TableOfWizardryScreen.BUTTON_TEXTURE, b -> {
                     screen.spellListScroll = spellList.getScrollDistance();
                     blockEntity.currentState = TableOfWizardryBlockEntity.GuiState.SPELL_PAGE;
                     blockEntity.currentSpell = spell;
                     screen.rebuildWidgets();
+                    screen.updateServerAndRefresh();
                 })
                         .yDiffTex(18).texStart(0, 0).offset(0, 0).size(70, 18)
                         .dropShadow(false).alignCenter().defaultColor(TableOfWizardryScreen.DARK_GRAY).activeColor(TableOfWizardryScreen.GRAY).hoverColor(TableOfWizardryScreen.LIGHT_GRAY)

@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
-public class FlexibleTextAndImageButton extends Button {
+public class EnhancedTextAndImageButton extends Button {
     protected final ResourceLocation resourceLocation;
     protected final int xTexStart;
     protected final int yTexStart;
@@ -39,7 +39,7 @@ public class FlexibleTextAndImageButton extends Button {
     private final Integer iconHeight;
     private final ResourceLocation icon;
 
-    public FlexibleTextAndImageButton(
+    public EnhancedTextAndImageButton(
             Component pMessage, int pWidth, int pHeight,
             int pXTexStart, int pYTexStart,
             int pXOffset, int pYOffset,
@@ -153,8 +153,8 @@ public class FlexibleTextAndImageButton extends Button {
         return this.getY() + this.yOffset;
     }
 
-    public static FlexibleTextAndImageButton.Builder builder(Component pMessage, ResourceLocation pResourceLocation, Button.OnPress pOnPress) {
-        return new FlexibleTextAndImageButton.Builder(pMessage, pResourceLocation, pOnPress);
+    public static EnhancedTextAndImageButton.Builder builder(Component pMessage, ResourceLocation pResourceLocation, Button.OnPress pOnPress) {
+        return new EnhancedTextAndImageButton.Builder(pMessage, pResourceLocation, pOnPress);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -192,7 +192,7 @@ public class FlexibleTextAndImageButton extends Button {
             this.onPress = pOnPress;
         }
 
-        public FlexibleTextAndImageButton.Builder withIcon(ResourceLocation icon, int xOffset, int yOffset, int iconWidth, int iconHeight) {
+        public EnhancedTextAndImageButton.Builder withIcon(ResourceLocation icon, int xOffset, int yOffset, int iconWidth, int iconHeight) {
             this.xIconOffset = xOffset;
             this.yIconOffset = yOffset;
             this.iconWidth = iconWidth;
@@ -202,62 +202,62 @@ public class FlexibleTextAndImageButton extends Button {
         }
 
 
-        public FlexibleTextAndImageButton.Builder texStart(int pX, int pY) {
+        public EnhancedTextAndImageButton.Builder texStart(int pX, int pY) {
             this.xTexStart = pX;
             this.yTexStart = pY;
             return this;
         }
 
-        public FlexibleTextAndImageButton.Builder offset(int pX, int pY) {
+        public EnhancedTextAndImageButton.Builder offset(int pX, int pY) {
             this.xOffset = pX;
             this.yOffset = pY;
             return this;
         }
 
-        public FlexibleTextAndImageButton.Builder size(int pWidth, int pHeight) {
+        public EnhancedTextAndImageButton.Builder size(int pWidth, int pHeight) {
             this.width = pWidth;
             this.height = pHeight;
             return this;
         }
 
-        public FlexibleTextAndImageButton.Builder yDiffTex(int pYDiffTex) {
+        public EnhancedTextAndImageButton.Builder yDiffTex(int pYDiffTex) {
             this.yDiffTex = pYDiffTex;
             return this;
         }
 
-        public FlexibleTextAndImageButton.Builder dropShadow(boolean dropShadow) {
+        public EnhancedTextAndImageButton.Builder dropShadow(boolean dropShadow) {
             this.dropShadow = dropShadow;
             return this;
         }
 
-        public FlexibleTextAndImageButton.Builder usedTextureSize(int pWidth, int pHeight) {
+        public EnhancedTextAndImageButton.Builder usedTextureSize(int pWidth, int pHeight) {
             this.usedTextureWidth = pWidth;
             this.usedTextureHeight = pHeight;
             return this;
         }
 
-        public FlexibleTextAndImageButton.Builder textureSize(int pWidth, int pHeight) {
+        public EnhancedTextAndImageButton.Builder textureSize(int pWidth, int pHeight) {
             this.textureWidth = pWidth;
             this.textureHeight = pHeight;
             return this;
         }
 
-        public FlexibleTextAndImageButton.Builder horizontalAlignment(float alignX) {
+        public EnhancedTextAndImageButton.Builder horizontalAlignment(float alignX) {
             this.alignX = alignX;
             return this;
         }
 
-        public FlexibleTextAndImageButton.Builder alignLeft() {
+        public EnhancedTextAndImageButton.Builder alignLeft() {
             this.alignX = 0;
             return this;
         }
 
-        public FlexibleTextAndImageButton.Builder alignCenter() {
+        public EnhancedTextAndImageButton.Builder alignCenter() {
             this.alignX = 0.5F;
             return this;
         }
 
-        public FlexibleTextAndImageButton.Builder alignRight() {
+        public EnhancedTextAndImageButton.Builder alignRight() {
             this.alignX = 1F;
             return this;
         }
@@ -283,8 +283,8 @@ public class FlexibleTextAndImageButton extends Button {
             return this;
         }
 
-        public FlexibleTextAndImageButton build() {
-            return new FlexibleTextAndImageButton(
+        public EnhancedTextAndImageButton build() {
+            return new EnhancedTextAndImageButton(
                     this.message, this.width, this.height,
                     this.xTexStart, this.yTexStart,
                     this.xOffset, this.yOffset,

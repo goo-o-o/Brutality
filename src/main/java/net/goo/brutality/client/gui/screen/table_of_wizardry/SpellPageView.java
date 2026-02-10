@@ -2,6 +2,7 @@ package net.goo.brutality.client.gui.screen.table_of_wizardry;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.gui.components.AbstractWidgetList;
+import net.goo.brutality.client.gui.components.EnhancedStringWidget;
 import net.goo.brutality.client.gui.screen.TableOfWizardryScreen;
 import net.goo.brutality.common.block.block_entity.TableOfWizardryBlockEntity;
 import net.goo.brutality.util.ModResources;
@@ -28,7 +29,10 @@ public class SpellPageView extends TableOfWizardryView {
 
         ImageButton btn = new ImageButton(screen.width / 2 + 70, screen.height / 2 - 83,
                 12, 10, 0, 0, 10, BACK_BUTTON,
-                12, 30, b -> screen.showSection(TableOfWizardryBookSection.CONJURE));
+                12, 30, b -> {
+            screen.showSection(TableOfWizardryBookSection.CONJURE);
+            screen.getBlockEntity().currentSpell = null;
+        });
 
         screen.addRenderableWidget(btn);
 
@@ -41,9 +45,8 @@ public class SpellPageView extends TableOfWizardryView {
         MutableComponent spellName = blockEntity.currentSpell.getTranslatedSpellName()
                 .withStyle(s -> s.withFont(ModResources.TABLE_OF_WIZARDRY_FONT));
 
-        StringBuilder catBuilder = new StringBuilder();
-        blockEntity.currentSpell.getCategories().forEach(c -> catBuilder.append(c.icon));
-        Component categories = Component.literal(catBuilder.toString());
+        MutableComponent categories = Component.empty();
+        blockEntity.currentSpell.getCategories().forEach(c -> categories.append(c.icon));
 
         MutableComponent desc = Component.empty();
         IntStream.rangeClosed(1, blockEntity.currentSpell.getDescriptionCount()).forEach(i ->
@@ -53,9 +56,9 @@ public class SpellPageView extends TableOfWizardryView {
 
         AbstractWidgetList leftList = new AbstractWidgetList(mc, 76, 104, top, leftX, 0, 5);
 
-        StringWidget title = new StringWidget(spellName, mc.font);
-        StringWidget categoriesWidget = new StringWidget(categories, mc.font);
-        StringWidget description = new StringWidget(formattedDesc, mc.font);
+        StringWidget title = new StringWidget(78, mc.font.lineHeight, spellName, mc.font).alignCenter();
+        StringWidget categoriesWidget = new StringWidget(78, mc.font.lineHeight, categories, mc.font).alignCenter();
+        EnhancedStringWidget description = new EnhancedStringWidget(78, formattedDesc, mc.font, true);
         leftList.add(title);
         leftList.add(categoriesWidget);
         leftList.add(description);

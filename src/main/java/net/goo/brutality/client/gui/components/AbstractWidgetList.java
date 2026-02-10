@@ -109,26 +109,25 @@ public class AbstractWidgetList extends ScrollPanel {
     public float getScrollDistance() {
         return this.scrollDistance;
     }
+
     private int getMaxScroll() {
-        return this.getContentHeight() - (this.height - this.border);
+        // Calculate how much content is actually "overflowing" the box
+        return Math.max(0, this.getContentHeight() - (this.height - (this.border * 2)));
     }
 
     private void applyScrollLimits() {
         int max = this.getMaxScroll();
-        if (max < 0) {
-            max /= 2;
-        }
 
+        // Scroll distance should never be negative (clamped to top)
         if (this.scrollDistance < 0.0F) {
             this.scrollDistance = 0.0F;
         }
 
+        // Scroll distance should never exceed the content overflow (clamped to bottom)
         if (this.scrollDistance > (float)max) {
             this.scrollDistance = (float)max;
         }
-
     }
-
 
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
