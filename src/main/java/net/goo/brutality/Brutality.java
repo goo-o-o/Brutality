@@ -7,6 +7,8 @@ import net.goo.brutality.common.registry.BrutalitySpells;
 import net.goo.brutality.util.magic.SpellCommands;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.registry.CommonRegistry;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -16,6 +18,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 
 @Mod(Brutality.MOD_ID)
@@ -36,13 +39,10 @@ public class Brutality {
                 BrutalityCommonConfig.SPEC,
                 "brutality-common.toml"
         );
-
-        // Register client-only config
-        modLoadingContext.registerConfig(
-                ModConfig.Type.CLIENT,
-                BrutalityClientConfig.SPEC,
-                "brutality-client.toml"
-        );
+        if(FMLEnvironment.dist == Dist.CLIENT){
+            // 仅客户端执行客户端Config注册
+            this.clientConfigSetUp(modLoadingContext);
+        }
 
         modEventBus.addListener(this::commonSetup);
 
@@ -65,4 +65,14 @@ public class Brutality {
         LOGGER.info("Brutality: Server is starting!");
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public void clientConfigSetUp(FMLJavaModLoadingContext modLoadingContext){
+
+        // Register client-only config
+        modLoadingContext.registerConfig(
+                ModConfig.Type.CLIENT,
+                BrutalityClientConfig.SPEC,
+                "brutality-client.toml"
+        );
+    }
 }

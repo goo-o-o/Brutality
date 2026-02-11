@@ -8,6 +8,7 @@ import net.goo.brutality.common.entity.base.BrutalityAbstractThrowingProjectile;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.common.registry.BrutalitySounds;
+import net.goo.brutality.util.ClientModResources;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -26,9 +27,10 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.jetbrains.annotations.NotNull;
 
-import static net.goo.brutality.util.ModResources.RAINBOW_TRAIL_FX;
 
 public class BiomechReactor extends BrutalityAbstractPhysicsThrowingProjectile implements BrutalityGeoEntity {
     private static final EntityDataAccessor<Integer> HOMING_TARGET_ID = SynchedEntityData.defineId(BiomechReactor.class, EntityDataSerializers.INT);
@@ -81,10 +83,11 @@ public class BiomechReactor extends BrutalityAbstractPhysicsThrowingProjectile i
 
     @Override
     public void tick() {
-        if (firstTick && !(level() instanceof ServerLevel)) {
-            EntityEffect rainbowTrail = new EntityEffect(RAINBOW_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
+        if (firstTick && FMLEnvironment.dist == Dist.CLIENT && !(level() instanceof ServerLevel)) {
+            EntityEffect rainbowTrail = new EntityEffect(ClientModResources.RAINBOW_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
             rainbowTrail.start();
         }
+        super.tick();
 
 
         int cooldown = this.entityData.get(HOMING_COOLDOWN);

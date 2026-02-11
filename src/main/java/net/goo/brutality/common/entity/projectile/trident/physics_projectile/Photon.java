@@ -1,10 +1,15 @@
 package net.goo.brutality.common.entity.projectile.trident.physics_projectile;
 
 import com.lowdragmc.photon.client.fx.EntityEffect;
+import com.lowdragmc.photon.client.fx.FX;
+import com.lowdragmc.photon.client.fx.FXHelper;
+import net.goo.brutality.Brutality;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.common.entity.base.BrutalityAbstractThrowingProjectile;
+import net.goo.brutality.util.ClientModResources;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -15,10 +20,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
-import static net.goo.brutality.util.ModResources.PHOTON_TRAIL_FX;
 
 public class Photon extends BrutalityAbstractThrowingProjectile implements BrutalityGeoEntity {
     private Vec3 deltaMovementOld = Vec3.ZERO;
@@ -61,14 +68,20 @@ public class Photon extends BrutalityAbstractThrowingProjectile implements Bruta
 
     @Override
     public void tick() {
-        if (firstTick && !(level() instanceof ServerLevel)) {
-            EntityEffect photonTrail = new EntityEffect(PHOTON_TRAIL_FX, level(), this, EntityEffect.AutoRotate.NONE);
+        // 核心：先判断当前是客户端环境（FMLEnvironment.dist），再执行客户端逻辑
+        if (firstTick && FMLEnvironment.dist == Dist.CLIENT && !(level() instanceof ServerLevel)) {
+            // 仅客户端执行时，引用ClientModResources中的常量（安全）
+            EntityEffect photonTrail = new EntityEffect(
+                    ClientModResources.PHOTON_TRAIL_FX, // 引用接口中的FX常量
+                    level(),
+                    this,
+                    EntityEffect.AutoRotate.NONE
+            );
             photonTrail.start();
         }
 
         super.tick();
     }
-
 
 
     @Override

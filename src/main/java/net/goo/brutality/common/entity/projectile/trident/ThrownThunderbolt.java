@@ -4,6 +4,7 @@ import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.common.entity.base.BrutalityAbstractTrident;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
+import net.goo.brutality.util.ClientModResources;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -18,6 +19,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -25,8 +28,6 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static net.goo.brutality.util.ModResources.LIGHTNING_STRIKE_BURST_FX;
-import static net.goo.brutality.util.ModResources.LIGHTNING_TRAIL_FX;
 
 
 public class ThrownThunderbolt extends BrutalityAbstractTrident implements BrutalityGeoEntity {
@@ -48,8 +49,8 @@ public class ThrownThunderbolt extends BrutalityAbstractTrident implements Bruta
     }
 
     public void tick() {
-        if (firstTick && !(level() instanceof ServerLevel)) {
-            EntityEffect lightningTrail = new EntityEffect(LIGHTNING_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
+        if (firstTick && FMLEnvironment.dist == Dist.CLIENT && !(level() instanceof ServerLevel)) {
+            EntityEffect lightningTrail = new EntityEffect(ClientModResources.LIGHTNING_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
             lightningTrail.start();
         }
         super.tick();
@@ -66,8 +67,9 @@ public class ThrownThunderbolt extends BrutalityAbstractTrident implements Bruta
         if (getOwner() instanceof LivingEntity owner) {
             owner.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 10, 3, false, false));
         }
-        if (!(level() instanceof ServerLevel)) {
-            EntityEffect lightningStrike = new EntityEffect(LIGHTNING_STRIKE_BURST_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
+
+        if (FMLEnvironment.dist == Dist.CLIENT && !(level() instanceof ServerLevel)) {
+            EntityEffect lightningStrike = new EntityEffect(ClientModResources.LIGHTNING_STRIKE_BURST_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
             lightningStrike.start();
         }
 
@@ -79,7 +81,6 @@ public class ThrownThunderbolt extends BrutalityAbstractTrident implements Bruta
 
                 this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.LIGHTNING_BOLT_THUNDER, SoundSource.WEATHER, 10000.0F, 0.8F + this.random.nextFloat() * 0.2F);
                 this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.WEATHER, 2.0F, 0.5F + this.random.nextFloat() * 0.2F);
-
 
                 hitEntities.forEach(entity -> {
                     entity.invulnerableTime = 0;
