@@ -154,7 +154,7 @@ public class SingularityShiftEntity extends BrutalityAbstractPhysicsProjectile i
         } else {
             if (FMLEnvironment.dist == Dist.CLIENT) {
                 EntityEffect gravityField = new EntityEffect(
-                        isWeightless() ? ClientModResources.GRAVITY_FIELD_UP_FX : ClientModResources.GRAVITY_FIELD_DOWN_FX,
+                        isWeightless() ? ClientModResources.getGravityFieldUpFX() : ClientModResources.getGravityFieldDownFX(),
                         this.level(), this, EntityEffect.AutoRotate.NONE
                 );
                 float scale = getSpell().getFinalStat(getSpellLevel(), getSpell().getStat(SIZE));

@@ -1,12 +1,8 @@
 package net.goo.brutality.util;
 
-import com.lowdragmc.photon.client.fx.FX;
-import com.lowdragmc.photon.client.fx.FXHelper;
 import net.goo.brutality.Brutality;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public interface ModResources {
     // Fonts

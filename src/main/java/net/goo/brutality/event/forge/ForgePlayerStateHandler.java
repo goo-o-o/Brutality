@@ -128,13 +128,13 @@ public class ForgePlayerStateHandler {
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {
                                 // 直接引用CREASE_OF_CREATION_FX → 静态初始化阶段就触发FXHelper加载
-                                EntityEffect effect = new EntityEffect(ClientModResources.CREASE_OF_CREATION_FX, player.level(), player, EntityEffect.AutoRotate.NONE);
+                                EntityEffect effect = new EntityEffect(ClientModResources.getCreaseOfCreationFX(), player.level(), player, EntityEffect.AutoRotate.NONE);
                                 effect.start();
                             }
                         },
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {
-                                ModUtils.removeFX(player, ClientModResources.CREASE_OF_CREATION_FX);
+                                ModUtils.removeFX(player, ClientModResources.getCreaseOfCreationFX());
                             }
                         }
                 )));
@@ -187,13 +187,13 @@ public class ForgePlayerStateHandler {
                 new HoldToggleAction(
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {
-                                EntityEffect effect = new EntityEffect(ClientModResources.LIGHTNING_AURA_FX, player.level(), player, EntityEffect.AutoRotate.NONE);
+                                EntityEffect effect = new EntityEffect(ClientModResources.getLightningAuraFX(), player.level(), player, EntityEffect.AutoRotate.NONE);
                                 effect.start();
                             }
                         },
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {
-                                ModUtils.removeFX(player, ClientModResources.LIGHTNING_AURA_FX);
+                                ModUtils.removeFX(player, ClientModResources.getLightningAuraFX());
                             }
                         }
                 )));

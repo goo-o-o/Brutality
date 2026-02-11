@@ -72,7 +72,7 @@ public class Photon extends BrutalityAbstractThrowingProjectile implements Bruta
         if (firstTick && FMLEnvironment.dist == Dist.CLIENT && !(level() instanceof ServerLevel)) {
             // 仅客户端执行时，引用ClientModResources中的常量（安全）
             EntityEffect photonTrail = new EntityEffect(
-                    ClientModResources.PHOTON_TRAIL_FX, // 引用接口中的FX常量
+                    ClientModResources.getPhotonTrailFX(), // 引用接口中的FX常量
                     level(),
                     this,
                     EntityEffect.AutoRotate.NONE
