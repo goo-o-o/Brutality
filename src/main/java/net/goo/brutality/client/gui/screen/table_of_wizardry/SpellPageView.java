@@ -15,6 +15,8 @@ import net.minecraft.resources.ResourceLocation;
 
 public class SpellPageView extends TableOfWizardryView {
     public static final ResourceLocation BACK_BUTTON = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/back_arrow.png");
+    public static final ResourceLocation BUTTON_NINE_SLICED = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/button_nine_sliced.png");
+    public static final ResourceLocation BUTTON_NINE_SLICED_DARK = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/button_nine_sliced_dark.png");
 
     public SpellPageView(TableOfWizardryScreen screen) {
         super(screen);
@@ -37,7 +39,7 @@ public class SpellPageView extends TableOfWizardryView {
 
         int top = screen.height / 2 - 82;
         int leftX = screen.width / 2 - 82;
-        int rightX  = screen.width / 2 + 6;
+        int rightX = screen.width / 2 + 6;
 
         TableOfWizardryBlockEntity blockEntity = screen.getBlockEntity();
 
@@ -53,11 +55,13 @@ public class SpellPageView extends TableOfWizardryView {
         }
         MutableComponent formattedDesc = desc.withStyle(s -> s.withFont(ModResources.TABLE_OF_WIZARDRY_FONT));
 
-        AbstractWidgetList leftList = new AbstractWidgetList(mc, 76, 104, top, leftX, 4, 5);
+        AbstractWidgetList leftList = new AbstractWidgetList(mc, 76, 104, top, leftX, 4, 2, 5);
 
         StringWidget title = new StringWidget(78, mc.font.lineHeight, spellName, mc.font).alignCenter();
         StringWidget categoriesWidget = new StringWidget(78, mc.font.lineHeight, categories, mc.font).alignCenter();
-        EnhancedStringWidget description = new EnhancedStringWidget(78, formattedDesc, mc.font, true);
+        EnhancedStringWidget description = new EnhancedStringWidget.Builder(formattedDesc, mc.font, 0, 0, 76,
+                mc.font.wordWrapHeight(formattedDesc, 78), 2).wordWrap().alignCenter()
+                .withTextureNineSliced(BUTTON_NINE_SLICED, 0, 0, 0, 11, 11, 5, 5).build();
         leftList.add(title);
         leftList.add(categoriesWidget);
         leftList.add(description);

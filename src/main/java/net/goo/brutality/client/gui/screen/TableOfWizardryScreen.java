@@ -34,8 +34,6 @@ public class TableOfWizardryScreen extends Screen {
     public static final ResourceLocation PEDESTALS = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/pedestals.png");
     public static final ResourceLocation PEDESTALS_SHADE = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/pedestals_shade.png");
     public static final ResourceLocation PEDESTALS_OUTLINE = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/pedestals_outline.png");
-    public static final ResourceLocation BUTTON_NINE_SLICED = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/button_nine_sliced.png");
-    public static final ResourceLocation BUTTON_NINE_SLICED_DARK = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/button_nine_sliced_dark.png");
     public static final ResourceLocation BUTTON_TEXTURE = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/button.png");
 
 

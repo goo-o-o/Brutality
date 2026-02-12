@@ -29,7 +29,7 @@ public class ConjureView extends TableOfWizardryView {
         TableOfWizardryBlockEntity blockEntity = screen.getBlockEntity();
         Minecraft minecraft = Minecraft.getInstance();
         // School list
-        AbstractWidgetList schoolList = new AbstractWidgetList(minecraft, 76, 104, top, schoolX, 0, 5);
+        AbstractWidgetList schoolList = new AbstractWidgetList(minecraft, 76, 104, top, schoolX, 0, 2, 5);
         for (IBrutalitySpell.MagicSchool school : IBrutalitySpell.MagicSchool.values()) {
             String name = school.name().toLowerCase(Locale.ROOT);
             EnhancedTextAndImageButton button = new EnhancedTextAndImageButton.Builder(Component.translatable("school." + Brutality.MOD_ID + "." + name)
@@ -50,7 +50,7 @@ public class ConjureView extends TableOfWizardryView {
 
         // Spell list (only if school selected)
         if (blockEntity.currentSchool != null) {
-            AbstractWidgetList spellList = new AbstractWidgetList(minecraft, 76, 104, top, spellX, 0, 5);
+            AbstractWidgetList spellList = new AbstractWidgetList(minecraft, 76, 104, top, spellX, 0,2, 5);
             BrutalitySpells.getSpellsFromSchool(blockEntity.currentSchool).forEach(spell -> {
 
                 EnhancedTextAndImageButton button = new EnhancedTextAndImageButton.Builder(spell.getTranslatedSpellName()
