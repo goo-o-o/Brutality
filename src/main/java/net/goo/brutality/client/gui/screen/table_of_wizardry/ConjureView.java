@@ -5,7 +5,6 @@ import net.goo.brutality.client.gui.components.AbstractWidgetList;
 import net.goo.brutality.client.gui.components.EnhancedTextAndImageButton;
 import net.goo.brutality.client.gui.screen.TableOfWizardryScreen;
 import net.goo.brutality.common.block.block_entity.TableOfWizardryBlockEntity;
-import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.IBrutalitySpell;
 import net.goo.brutality.common.registry.BrutalitySpells;
 import net.goo.brutality.util.ModResources;
@@ -35,7 +34,6 @@ public class ConjureView extends TableOfWizardryView {
             String name = school.name().toLowerCase(Locale.ROOT);
             EnhancedTextAndImageButton button = new EnhancedTextAndImageButton.Builder(Component.translatable("school." + Brutality.MOD_ID + "." + name)
                     .withStyle(s -> s.withFont(ModResources.TABLE_OF_WIZARDRY_FONT)), TableOfWizardryScreen.BUTTON_TEXTURE, b -> {
-                screen.schoolListScroll = schoolList.getScrollDistance();
                 blockEntity.currentSchool = school;
                 screen.rebuildWidgets();
                 screen.updateServerAndRefresh();
@@ -48,7 +46,6 @@ public class ConjureView extends TableOfWizardryView {
             button.active = school != blockEntity.currentSchool;
             schoolList.add(button);
         }
-        schoolList.setScrollDistance(screen.schoolListScroll);
         screen.addRenderableWidget(schoolList);
 
         // Spell list (only if school selected)
@@ -58,7 +55,6 @@ public class ConjureView extends TableOfWizardryView {
 
                 EnhancedTextAndImageButton button = new EnhancedTextAndImageButton.Builder(spell.getTranslatedSpellName()
                         .withStyle(s -> s.withFont(ModResources.TABLE_OF_WIZARDRY_FONT)), TableOfWizardryScreen.BUTTON_TEXTURE, b -> {
-                    screen.spellListScroll = spellList.getScrollDistance();
                     blockEntity.currentState = TableOfWizardryBlockEntity.GuiState.SPELL_PAGE;
                     blockEntity.currentSpell = spell;
                     screen.rebuildWidgets();
@@ -72,7 +68,6 @@ public class ConjureView extends TableOfWizardryView {
                 button.active = spell != blockEntity.currentSpell;
                 spellList.add(button);
             });
-            spellList.setScrollDistance(screen.spellListScroll);
             screen.addRenderableWidget(spellList);
         }
     }
@@ -87,9 +82,4 @@ public class ConjureView extends TableOfWizardryView {
         return true;
     }
 
-    public void showSpellPage(TableOfWizardryScreen screen, BrutalitySpell spell) {
-        screen.getBlockEntity().currentSpell = spell;
-        screen.getBlockEntity().currentState = TableOfWizardryBlockEntity.GuiState.SPELL_PAGE;
-        screen.updateServerAndRefresh();
-    }
 }

@@ -13,8 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.stream.IntStream;
-
 public class SpellPageView extends TableOfWizardryView {
     public static final ResourceLocation BACK_BUTTON = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/screens/table_of_wizardry/back_arrow.png");
 
@@ -32,6 +30,7 @@ public class SpellPageView extends TableOfWizardryView {
                 12, 30, b -> {
             screen.showSection(TableOfWizardryBookSection.CONJURE);
             screen.getBlockEntity().currentSpell = null;
+            screen.updateServerAndRefresh();
         });
 
         screen.addRenderableWidget(btn);
@@ -49,12 +48,12 @@ public class SpellPageView extends TableOfWizardryView {
         blockEntity.currentSpell.getCategories().forEach(c -> categories.append(c.icon));
 
         MutableComponent desc = Component.empty();
-        IntStream.rangeClosed(1, blockEntity.currentSpell.getDescriptionCount()).forEach(i ->
-                desc.append(blockEntity.currentSpell.getSpellDescription(i)).append(". ")
-        );
+        for (int i = 1; i <= blockEntity.currentSpell.getDescriptionCount(); i++) {
+            desc.append(blockEntity.currentSpell.getSpellDescription(i) + ". ");
+        }
         MutableComponent formattedDesc = desc.withStyle(s -> s.withFont(ModResources.TABLE_OF_WIZARDRY_FONT));
 
-        AbstractWidgetList leftList = new AbstractWidgetList(mc, 76, 104, top, leftX, 0, 5);
+        AbstractWidgetList leftList = new AbstractWidgetList(mc, 76, 104, top, leftX, 4, 5);
 
         StringWidget title = new StringWidget(78, mc.font.lineHeight, spellName, mc.font).alignCenter();
         StringWidget categoriesWidget = new StringWidget(78, mc.font.lineHeight, categories, mc.font).alignCenter();
