@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:acacia_sapling"
+    },
+    "$": {
+      "item": "terramity:hermit_bean"
+    },
+    "@": {
+      "item": "brutality:olive_oil"
+    }
+  },
+  "pattern": [
+    "$#$",
+    "#@#",
+    "$#$"
+  ],
+  "result": {
+    "item": "brutality:extra_virgin_olive_oil"
+  },
+  "show_notification": true
+}

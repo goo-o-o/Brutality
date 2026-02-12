@@ -1,5 +1,6 @@
 package net.goo.brutality.common.magic.spells.celestia;
 
+import net.goo.brutality.Brutality;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalitySpells;
@@ -50,6 +51,7 @@ public class HolyMantleSpell extends BrutalitySpell {
     }
 
     public static void processHurt(LivingHurtEvent event, LivingEntity victim, float amount) {
+        Brutality.LOGGER.info("processHurt：{}", event.getAmount());
         if (victim.hasEffect(BrutalityEffects.GRACE.get())) {
             MobEffectInstance effectInstance = victim.getEffect(BrutalityEffects.GRACE.get());
             if (effectInstance != null &&

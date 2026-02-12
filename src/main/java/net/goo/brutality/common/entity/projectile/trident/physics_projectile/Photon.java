@@ -17,6 +17,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.crafting.StonecutterRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -68,8 +69,10 @@ public class Photon extends BrutalityAbstractThrowingProjectile implements Bruta
 
     @Override
     public void tick() {
+        Brutality.LOGGER.info("Photon: Tick");
         // 核心：先判断当前是客户端环境（FMLEnvironment.dist），再执行客户端逻辑
         if (firstTick && FMLEnvironment.dist == Dist.CLIENT && !(level() instanceof ServerLevel)) {
+            Brutality.LOGGER.info("Photon: Spawning photon trail");
             // 仅客户端执行时，引用ClientModResources中的常量（安全）
             EntityEffect photonTrail = new EntityEffect(
                     ClientModResources.getPhotonTrailFX(), // 引用接口中的FX常量

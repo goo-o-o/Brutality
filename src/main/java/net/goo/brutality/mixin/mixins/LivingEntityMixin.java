@@ -1,6 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import net.goo.brutality.Brutality;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.item.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.curios.charm.BaseBrokenClock;
@@ -25,6 +26,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.StonecutterRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -91,6 +93,7 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
                     modifiedArmor *= (float) (1 - armorPenValue); // invert so 20% armor pen = 80% effective armor
                     modifiedArmor -= (float) lethalityValue;
                     float modifiedDamage = CombatRules.getDamageAfterAbsorb(pDamageAmount, modifiedArmor, (float) target.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
+
                     cir.setReturnValue(modifiedDamage);
                 }
             }

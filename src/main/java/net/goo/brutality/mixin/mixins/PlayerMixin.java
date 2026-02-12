@@ -1,6 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.goo.brutality.common.item.base.BrutalityThrowingItem;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;

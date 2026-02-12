@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/pepper_shaker/pepper_shaker_inventory"
+  }
+}

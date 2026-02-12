@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/extra_virgin_olive_oil/extra_virgin_olive_oil_inventory"
+  }
+}

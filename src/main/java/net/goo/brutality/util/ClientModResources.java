@@ -26,62 +26,76 @@ public interface ClientModResources {
 
     @OnlyIn(Dist.CLIENT)
     public static FX getCreaseOfCreationFX() {
-        return CREASE_OF_CREATION_FX.get();
+        return getSafeFX(CREASE_OF_CREATION_FX);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static FX getPhotonTrailFX() {
-        return PHOTON_TRAIL_FX.get();
+        return getSafeFX(PHOTON_TRAIL_FX);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static FX getVampireTrialFX() {
-        return VAMPIRE_TRIAL_FX.get();
+        return getSafeFX(VAMPIRE_TRIAL_FX);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static FX getCelestialStarboardFX() {
-        return CELESTIAL_STARBOARD_FX.get();
+        return getSafeFX(CELESTIAL_STARBOARD_FX);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static FX getLightningStrikeBurstFX() {
-        return LIGHTNING_STRIKE_BURST_FX.get();
+        return getSafeFX(LIGHTNING_STRIKE_BURST_FX);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static FX getLightningAuraFX() {
-        return LIGHTNING_AURA_FX.get();
+        return getSafeFX(LIGHTNING_AURA_FX);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static FX getLightningTrailFX() {
-        return LIGHTNING_TRAIL_FX.get();
+        return getSafeFX(LIGHTNING_TRAIL_FX);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static FX getGravityFieldUpFX() {
-        return GRAVITY_FIELD_UP_FX.get();
+        return getSafeFX(GRAVITY_FIELD_UP_FX);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static FX getGravityFieldDownFX() {
-        return GRAVITY_FIELD_DOWN_FX.get();
+        return getSafeFX(GRAVITY_FIELD_DOWN_FX);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static FX getRainbowTrailFX() {
-        return RAINBOW_TRAIL_FX.get();
+        return getSafeFX(RAINBOW_TRAIL_FX);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static FX getAbyssTrailFX() {
-        return ABYSS_TRAIL_FX.get();
+        return getSafeFX(ABYSS_TRAIL_FX);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static FX getRuinedAuraFX() {
-        return RUINED_AURA_FX.get();
+        return getSafeFX(RUINED_AURA_FX);
+    }
+    @OnlyIn(Dist.CLIENT)
+    private static FX getSafeFX(Lazy<FX> lazyFX) {
+        try {
+            FX fx = lazyFX.get();
+            if (fx == null) {
+                Brutality.LOGGER.warn("FX is null! This may be due to early loading (before particle registration)");
+                return FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "empty_placeholder"));
+            }
+            return fx;
+        } catch (Exception e) {
+            Brutality.LOGGER.error("Failed to get FX", e);
+            return FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "empty_placeholder"));
+        }
     }
 }
 

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:conductite_upgrade_smithing_template"
+    },
+    "#": {
+      "item": "terramity:sapphire_block"
+    },
+    "@": {
+      "item": "terramity:conductite"
+    }
+  },
+  "pattern": [
+    " !@",
+    "#  ",
+    "@  "
+  ],
+  "result": {
+    "item": "brutality:sine"
+  },
+  "show_notification": true
+}

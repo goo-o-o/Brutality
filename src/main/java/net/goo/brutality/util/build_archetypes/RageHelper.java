@@ -1,5 +1,6 @@
 package net.goo.brutality.util.build_archetypes;
 
+import net.goo.brutality.Brutality;
 import net.goo.brutality.common.config.BrutalityCommonConfig;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.registry.BrutalityAttributes;

@@ -127,7 +127,6 @@ public class ForgePlayerStateHandler {
                 new HoldToggleAction(
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {
-                                // 直接引用CREASE_OF_CREATION_FX → 静态初始化阶段就触发FXHelper加载
                                 EntityEffect effect = new EntityEffect(ClientModResources.getCreaseOfCreationFX(), player.level(), player, EntityEffect.AutoRotate.NONE);
                                 effect.start();
                             }
