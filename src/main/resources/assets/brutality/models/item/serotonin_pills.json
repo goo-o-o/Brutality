@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/serotonin_pills/serotonin_pills_inventory"
+  }
+}

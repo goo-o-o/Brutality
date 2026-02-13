@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/paragon_of_the_first_mage/paragon_of_the_first_mage_inventory"
+  }
+}

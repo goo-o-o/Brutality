@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/earthen_blessing/earthen_blessing_inventory"
+  }
+}

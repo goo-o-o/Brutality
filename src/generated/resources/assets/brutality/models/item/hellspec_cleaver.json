@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:item/handheld",
+  "base": {
+    "parent": "minecraft:item/generated",
+    "textures": {
+      "layer0": "brutality:item/sword/hellspec_cleaver/hellspec_cleaver_inventory"
+    }
+  },
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "firstperson_lefthand": {
+      "parent": "brutality:item/sword/hellspec_cleaver_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/hellspec_cleaver/hellspec_cleaver_handheld"
+      }
+    },
+    "firstperson_righthand": {
+      "parent": "brutality:item/sword/hellspec_cleaver_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/hellspec_cleaver/hellspec_cleaver_handheld"
+      }
+    },
+    "ground": {
+      "parent": "brutality:item/sword/hellspec_cleaver_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/hellspec_cleaver/hellspec_cleaver_handheld"
+      }
+    },
+    "thirdperson_lefthand": {
+      "parent": "brutality:item/sword/hellspec_cleaver_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/hellspec_cleaver/hellspec_cleaver_handheld"
+      }
+    },
+    "thirdperson_righthand": {
+      "parent": "brutality:item/sword/hellspec_cleaver_handheld",
+      "textures": {
+        "layer0": "brutality:item/sword/hellspec_cleaver/hellspec_cleaver_handheld"
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/ender_dragon_stem_cells/ender_dragon_stem_cells_inventory"
+  }
+}

@@ -95,7 +95,7 @@ public class TableOfWizardryBlock extends BaseEntityBlock {
 
     @OnlyIn(Dist.CLIENT)
     private void openWizardScreen(TableOfWizardryBlockEntity blockEntity) {
-        Minecraft.getInstance().setScreen(new TableOfWizardryScreen(Component.translatable("block." + Brutality.MOD_ID + ".table_of_wizardry"), blockEntity));
+        Minecraft.getInstance().setScreen(new TableOfWizardryScreen(Component.translatable("block." + Brutality.MOD_ID + ".table_of_wizardry.json"), blockEntity));
     }
 
     @Override

@@ -13,7 +13,7 @@ public class BrutalityBlockEntities {
             DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Brutality.MOD_ID);
 
     public static final RegistryObject<BlockEntityType<TableOfWizardryBlockEntity>> TABLE_OF_WIZARDRY_BLOCK_ENTITY =
-            BLOCK_ENTITIES.register("table_of_wizardry",
+            BLOCK_ENTITIES.register("table_of_wizardry.json",
                     () -> BlockEntityType.Builder.of(
                             TableOfWizardryBlockEntity::new,
                             BrutalityBlocks.TABLE_OF_WIZARDRY.get()

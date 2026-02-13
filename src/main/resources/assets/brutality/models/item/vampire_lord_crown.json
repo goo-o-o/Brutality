@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/armor/vampire_lord/vampire_lord_crown_inventory"
+  }
+}

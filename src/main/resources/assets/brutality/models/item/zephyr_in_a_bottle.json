@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/zephyr_in_a_bottle/zephyr_in_a_bottle_inventory"
+  }
+}
