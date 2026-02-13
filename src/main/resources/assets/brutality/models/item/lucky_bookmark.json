@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/lucky_bookmark/lucky_bookmark_inventory"
+  }
+}

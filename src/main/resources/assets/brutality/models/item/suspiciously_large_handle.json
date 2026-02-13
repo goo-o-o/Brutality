@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/suspiciously_large_handle/suspiciously_large_handle_inventory"
+  }
+}

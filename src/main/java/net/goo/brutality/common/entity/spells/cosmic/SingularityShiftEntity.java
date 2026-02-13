@@ -8,6 +8,7 @@ import net.goo.brutality.common.entity.spells.IBrutalitySpellEntity;
 import net.goo.brutality.common.magic.spells.cosmic.SingularityShiftSpell;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityParticles;
+import net.goo.brutality.util.ClientModResources;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -23,6 +24,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -33,8 +36,6 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 
-import static net.goo.brutality.util.ModResources.GRAVITY_FIELD_DOWN_FX;
-import static net.goo.brutality.util.ModResources.GRAVITY_FIELD_UP_FX;
 import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.DURATION;
 import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SIZE;
 
@@ -151,12 +152,17 @@ public class SingularityShiftEntity extends BrutalityAbstractPhysicsProjectile i
 
             stopTriggeredAnimation(null, "show");
         } else {
-                EntityEffect gravityField = new EntityEffect(isWeightless() ? GRAVITY_FIELD_UP_FX : GRAVITY_FIELD_DOWN_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
+            if (FMLEnvironment.dist == Dist.CLIENT) {
+                EntityEffect gravityField = new EntityEffect(
+                        isWeightless() ? ClientModResources.getGravityFieldUpFX() : ClientModResources.getGravityFieldDownFX(),
+                        this.level(), this, EntityEffect.AutoRotate.NONE
+                );
                 float scale = getSpell().getFinalStat(getSpellLevel(), getSpell().getStat(SIZE));
                 scale *= 0.4F;
                 scale -= 0.8F;
                 gravityField.setScale(1 + scale, 1 + scale, 1 + scale);
                 gravityField.start();
+            }
         }
     }
 

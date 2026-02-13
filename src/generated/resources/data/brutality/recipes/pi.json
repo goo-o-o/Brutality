@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:pumpkin_pie"
+    },
+    "#": {
+      "item": "terramity:conductite_upgrade_smithing_template"
+    },
+    "@": {
+      "item": "terramity:conductite"
+    }
+  },
+  "pattern": [
+    "@@@",
+    "@#@",
+    "!!!"
+  ],
+  "result": {
+    "item": "brutality:pi"
+  },
+  "show_notification": true
+}

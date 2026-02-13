@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/salt_and_pepper/salt_and_pepper_inventory"
+  }
+}

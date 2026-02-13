@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/archmages_thesis_to_masterful_multicasting/archmages_thesis_to_masterful_multicasting_inventory"
+  }
+}

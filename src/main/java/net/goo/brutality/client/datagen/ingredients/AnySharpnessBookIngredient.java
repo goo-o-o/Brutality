@@ -51,9 +51,6 @@ public class AnySharpnessBookIngredient extends Ingredient {
         return Serializer.INSTANCE;
     }
 
-    // ──────────────────────────────────────────────────────────────
-    // Serializer – exact signature Forge 1.20.1 uses
-    // ──────────────────────────────────────────────────────────────
     public static class Serializer implements IIngredientSerializer<AnySharpnessBookIngredient> {
 
         public static final Serializer INSTANCE = new Serializer();

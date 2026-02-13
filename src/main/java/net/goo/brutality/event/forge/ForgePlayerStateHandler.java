@@ -1,6 +1,8 @@
 package net.goo.brutality.event.forge;
 
 import com.lowdragmc.photon.client.fx.EntityEffect;
+import com.lowdragmc.photon.client.fx.FX;
+import com.lowdragmc.photon.client.fx.FXHelper;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.weapon.axe.RhittaAxe;
@@ -13,9 +15,11 @@ import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.clientbound.ClientboundSyncItemCooldownPacket;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.util.ClientModResources;
 import net.goo.brutality.util.CooldownUtils;
 import net.goo.brutality.util.EnvironmentColorManager;
 import net.goo.brutality.util.ModUtils;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -29,6 +33,8 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingSwapItemsEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
@@ -45,12 +51,17 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import static net.goo.brutality.util.EnvironmentColorManager.resetAllColors;
-import static net.goo.brutality.util.ModResources.CREASE_OF_CREATION_FX;
-import static net.goo.brutality.util.ModResources.LIGHTNING_AURA_FX;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgePlayerStateHandler {
-
+    // 仅客户端加载
+    @OnlyIn(Dist.CLIENT)
+    public class ClientFXUtils {
+        // 封装FX的获取逻辑，仅客户端可用
+        public static FX getCreaseOfCreationFX() {
+            return FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "crease_of_creation_particle"));
+        }
+    }
     @SubscribeEvent
     public static void onSwitchItemHands(LivingSwapItemsEvent event) {
         if (event.getEntity() instanceof Player player) {
@@ -116,13 +127,13 @@ public class ForgePlayerStateHandler {
                 new HoldToggleAction(
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {
-                                EntityEffect effect = new EntityEffect(CREASE_OF_CREATION_FX, player.level(), player, EntityEffect.AutoRotate.NONE);
+                                EntityEffect effect = new EntityEffect(ClientModResources.getCreaseOfCreationFX(), player.level(), player, EntityEffect.AutoRotate.NONE);
                                 effect.start();
                             }
                         },
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {
-                                ModUtils.removeFX(player, CREASE_OF_CREATION_FX);
+                                ModUtils.removeFX(player, ClientModResources.getCreaseOfCreationFX());
                             }
                         }
                 )));
@@ -175,13 +186,13 @@ public class ForgePlayerStateHandler {
                 new HoldToggleAction(
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {
-                                EntityEffect effect = new EntityEffect(LIGHTNING_AURA_FX, player.level(), player, EntityEffect.AutoRotate.NONE);
+                                EntityEffect effect = new EntityEffect(ClientModResources.getLightningAuraFX(), player.level(), player, EntityEffect.AutoRotate.NONE);
                                 effect.start();
                             }
                         },
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {
-                                ModUtils.removeFX(player, LIGHTNING_AURA_FX);
+                                ModUtils.removeFX(player, ClientModResources.getLightningAuraFX());
                             }
                         }
                 )));

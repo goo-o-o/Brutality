@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "#": {
+      "item": "terramity:reinforced_blackstone_bricks"
+    },
+    "$": {
+      "item": "brutality:fridge"
+    },
+    "@": {
+      "item": "minecraft:redstone"
+    },
+    "^": {
+      "item": "minecraft:lapis_lazuli"
+    }
+  },
+  "pattern": [
+    "#!^",
+    "#$ ",
+    "#!@"
+  ],
+  "result": {
+    "item": "brutality:smart_fridge"
+  },
+  "show_notification": true
+}

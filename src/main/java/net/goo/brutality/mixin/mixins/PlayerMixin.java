@@ -1,6 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.goo.brutality.common.item.base.BrutalityThrowingItem;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
@@ -26,6 +27,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -66,7 +68,7 @@ public abstract class PlayerMixin extends LivingEntity {
     }
 
     @Shadow
-    public abstract void remove(Entity.RemovalReason pReason);
+    public abstract void remove(Entity.@NotNull RemovalReason pReason);
 
     @Shadow
     public abstract void attack(Entity pTarget);

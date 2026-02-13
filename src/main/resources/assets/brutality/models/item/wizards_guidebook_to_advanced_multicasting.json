@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brutality:item/curio/wizards_guidebook_to_advanced_multicasting/wizards_guidebook_to_advanced_multicasting_inventory"
+  }
+}

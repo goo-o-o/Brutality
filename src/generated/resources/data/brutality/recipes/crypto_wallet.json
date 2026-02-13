@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "!": {
+      "item": "terramity:fateful_coin"
+    },
+    "#": {
+      "item": "minecraft:gold_block"
+    },
+    "@": {
+      "item": "terramity:topaz"
+    }
+  },
+  "pattern": [
+    "#@#",
+    "@!@",
+    "#@#"
+  ],
+  "result": {
+    "item": "brutality:crypto_wallet"
+  },
+  "show_notification": true
+}

@@ -1,5 +1,6 @@
 package net.goo.brutality.common.entity.capabilities;
 
+import net.goo.brutality.Brutality;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;

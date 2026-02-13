@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "brutality:cheese_sauce"
+    },
+    {
+      "item": "brutality:tomato_sauce"
+    }
+  ],
+  "result": {
+    "item": "brutality:pizza_slop"
+  }
+}

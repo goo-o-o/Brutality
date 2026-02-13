@@ -4,6 +4,7 @@ import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.common.entity.base.BrutalityAbstractTrident;
 import net.goo.brutality.common.registry.BrutalityEffects;
+import net.goo.brutality.util.ClientModResources;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -19,13 +20,14 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import javax.annotation.Nullable;
 
-import static net.goo.brutality.util.ModResources.RAINBOW_TRAIL_FX;
 
 public class ExobladeBeam extends BrutalityAbstractTrident implements BrutalityGeoEntity {
     private static final EntityDataAccessor<Integer> HOMING_TARGET_ID = SynchedEntityData.defineId(ExobladeBeam.class, EntityDataSerializers.INT);
@@ -68,11 +70,9 @@ public class ExobladeBeam extends BrutalityAbstractTrident implements BrutalityG
 
 
     public void tick() {
-        if (firstTick && !(level() instanceof ServerLevel)) {
-//            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> {
-                EntityEffect rainbowTrail = new EntityEffect(RAINBOW_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
-                rainbowTrail.start();
-//            });
+        if (firstTick && FMLEnvironment.dist == Dist.CLIENT && !(level() instanceof ServerLevel)) {
+            EntityEffect rainbowTrail = new EntityEffect(ClientModResources.getRainbowTrailFX(), this.level(), this, EntityEffect.AutoRotate.NONE);
+            rainbowTrail.start();
         }
         super.tick();
 
