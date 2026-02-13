@@ -28,7 +28,8 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
     private boolean scrolling;
     protected float scrollDistance;
     protected boolean captureMouse = true;
-    protected final int border;
+    protected final int margin;
+    protected final int spacing;
 
     private final int barWidth;
     private final int barLeft;
@@ -50,10 +51,10 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
      * @param height the height
      * @param top    the offset from the top (y coord)
      * @param left   the offset from the left (x coord)
-     * @param border the size of the border
+     * @param margin the size of the border
      */
-    public AbstractWidgetList(Minecraft client, int width, int height, int top, int left, int border) {
-        this(client, width, height, top, left, border, 6);
+    public AbstractWidgetList(Minecraft client, int width, int height, int top, int left, int margin) {
+        this(client, width, height, top, left, margin, 0, 6);
     }
 
     /**
@@ -64,10 +65,10 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
      * @param height   the height
      * @param top      the offset from the top (y coord)
      * @param left     the offset from the left (x coord)
-     * @param border   the size of the border
+     * @param margin   the size of the border
      * @param barWidth the width of the scroll bar
      */
-    public AbstractWidgetList(Minecraft client, int width, int height, int top, int left, int border, int barWidth) {
+    public AbstractWidgetList(Minecraft client, int width, int height, int top, int left, int margin, int spacing, int barWidth) {
         this.client = client;
         this.width = width;
         this.height = height;
@@ -76,7 +77,8 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
         this.bottom = height + this.top;
         this.right = width + this.left;
         this.barLeft = this.left + this.width - barWidth;
-        this.border = border;
+        this.margin = margin;
+        this.spacing = spacing;
         this.barWidth = barWidth;
     }
 
@@ -84,8 +86,8 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
         if (widgets.isEmpty()) return 0;
 
         return widgets.stream().mapToInt(AbstractWidget::getHeight).sum()
-//                + Math.max(0, widgets.size() - 2) * margin
-                + Math.max(0, widgets.size() - 1) * border;
+                + Math.max(0, widgets.size() - 1) * spacing
+                + margin * 2;
     }
 
     /**
@@ -115,12 +117,14 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
         for (int i = 0; i < widgets.size(); i++) {
             AbstractWidget w = widgets.get(i);
             w.setX(left);
-            w.setY(cy);
+            if (i > 0 && i < widgets.size())
+                w.setY(cy + spacing * i);
+            else w.setY(cy);
 
             if (w.visible) {
                 w.render(gui, mouseX, mouseY, 0);
             }
-            cy += w.getHeight() + border;
+            cy += w.getHeight() + margin;
         }
     }
 
@@ -129,7 +133,7 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
     }
 
     private int getMaxScroll() {
-        return this.getContentHeight() - (this.height - this.border);
+        return this.getContentHeight() - (this.height - this.margin);
     }
 
     private void applyScrollLimits() {
@@ -175,9 +179,9 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
         if (this.scrolling) {
             return true;
         }
-        int mouseListY = ((int) mouseY) - this.top - this.getContentHeight() + (int) this.scrollDistance - border;
+        int mouseListY = ((int) mouseY) - this.top - this.getContentHeight() + (int) this.scrollDistance - margin;
         if (mouseX >= left && mouseX <= right && mouseListY < 0) {
-            return this.clickPanel(mouseX - left, mouseY - this.top + (int) this.scrollDistance - border, button);
+            return this.clickPanel(mouseX - left, mouseY - this.top + (int) this.scrollDistance - margin, button);
         }
         return false;
     }
@@ -196,8 +200,8 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
 
         if (barHeight < 32) barHeight = 32;
 
-        if (barHeight > height - border * 2)
-            barHeight = height - border * 2;
+        if (barHeight > height - margin * 2)
+            barHeight = height - margin * 2;
 
         return barHeight;
     }
@@ -224,7 +228,7 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
 
         this.drawBackground(guiGraphics, tess, partialTick);
 
-        int baseY = this.top + border - (int) this.scrollDistance;
+        int baseY = this.top + margin - (int) this.scrollDistance;
         this.drawPanel(guiGraphics, right, baseY, tess, mouseX, mouseY);
 
         RenderSystem.disableDepthTest();
