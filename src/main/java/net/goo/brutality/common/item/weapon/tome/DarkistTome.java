@@ -16,15 +16,15 @@ public class DarkistTome extends BaseMagicTome {
 
     UUID DARKIST_SCHOOL_BOOST_UUID = UUID.fromString("e4851548-661d-463a-905f-a0c28426c341");
 
-    public DarkistTome(Rarity rarity) {
-        super(rarity);
+    public DarkistTome(Rarity rarity, int baseSpellSlots, int baseAugmentSlots) {
+        super(rarity, baseSpellSlots, baseAugmentSlots);
     }
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = super.getAttributeModifiers(slot, stack);
 
-        if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) {
+        if (slot == EquipmentSlot.MAINHAND) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(modifiers);
             builder.put(

@@ -5,7 +5,6 @@ import com.google.common.collect.Multimap;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.curios.BrutalityMathFunctionCurio;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -25,14 +24,22 @@ public class Sine extends BrutalityMathFunctionCurio {
         super(rarity, descriptionComponents);
     }
 
+
     public static float getCurrentBonus(Level level) {
-        return Mth.sin(level.getGameTime() * 0.025F) * 5F + 2.5F;
+        // 1. Define constants as double for maximum precision during calculation
+        double frequency = 0.025;
+        double period = (Math.PI * 2) / frequency;
+
+        double remainder = level.getGameTime() % period;
+
+        // 3. Now that the number is small, casting to float is safe
+        return (float) Math.sin(remainder * frequency) * 0.2F + 0.1F; // -10 to 30%
     }
 
     @Override
     public double getDynamicAttributeBonus(LivingEntity owner, ItemStack stack, Attribute attribute, double currentBonus) {
         if (attribute == Attributes.ATTACK_DAMAGE) {
-            return Cosine.getCurrentBonus(owner.level()) * currentBonus;
+            return getCurrentBonus(owner.level()) * currentBonus;
         }
         return super.getDynamicAttributeBonus(owner, stack, attribute, currentBonus);
     }
@@ -46,29 +53,14 @@ public class Sine extends BrutalityMathFunctionCurio {
             Attribute attribute = Attributes.ATTACK_DAMAGE;
 
             AttributeModifier modifier = new AttributeModifier(uuid, String.format("%s_%s_modifier", Brutality.MOD_ID, attribute.getDescriptionId()),
-                    Cosine.getCurrentBonus(slotContext.entity().level()), AttributeModifier.Operation.MULTIPLY_TOTAL);
+                    getCurrentBonus(slotContext.entity().level()), AttributeModifier.Operation.MULTIPLY_TOTAL);
 
             builder.put(attribute, modifier);
+            return builder.build();
         }
 
         return super.getAttributeModifiers(slotContext, uuid, stack);
     }
 
-//    @Override
-//    public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
-//        super.appendHoverText(stack, world, tooltip, flag);
-//        tooltip.add(Component.empty());
-//
-//        tooltip.add(Component.translatable("curios.modifiers.charm").withStyle(ChatFormatting.GOLD));
-//        float value = getCurrentBonus(world);
-//
-//        String formattedValue = value % 1 == 0 ?
-//                String.format("%.0f", value) :
-//                String.format("%.1f", value);
-//
-//        tooltip.add(Component.literal((value >= 0 ? "+" : "") + formattedValue + " ").append(Component.translatable("attribute.name.generic.attack_damage"))
-//                .withStyle(value >= 0 ? ChatFormatting.BLUE : ChatFormatting.RED));
-//
-//    }
 
 }

@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.Locale;
 
 public enum TableOfWizardryBookSection {
-    CONJURE, SYNTHESISE, AUGMENT, INSCRIBE, EXPUNGE, SIPHON;
+    CONJURE, SYNTHESISE, AUGMENT, INSCRIBE, EXPUNGE, GLOSSARY;
     public final ResourceLocation bookmark;
 
     TableOfWizardryBookSection() {

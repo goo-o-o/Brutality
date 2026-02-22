@@ -17,13 +17,13 @@ import java.util.UUID;
 public class VoidTome extends BaseMagicTome {
 
 
-    public VoidTome(Rarity rarity) {
-        super(rarity);
+    public VoidTome(Rarity rarity, int baseSpellSlots, int baseAugmentSlots) {
+        super(rarity, baseSpellSlots, baseAugmentSlots);
     }
 
     @Override
     public @NotNull ItemStack getDefaultInstance() {
-        ItemStack stack = new ItemStack(this);
+        ItemStack stack = super.getDefaultInstance();
         SpellStorage.addSpell(stack, BrutalitySpells.GRAVITIC_IMPLOSION.get(), 1);
         SpellStorage.addSpell(stack, BrutalitySpells.SPATIAL_RUPTURE.get(), 1);
         SpellStorage.addSpell(stack, BrutalitySpells.VOID_WALK.get(), 10);
@@ -37,7 +37,7 @@ public class VoidTome extends BaseMagicTome {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = super.getAttributeModifiers(slot, stack);
 
-        if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) {
+        if (slot == EquipmentSlot.MAINHAND) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(modifiers);
             builder.put(

@@ -2,7 +2,7 @@ package net.goo.brutality.common.magic.spells.celestia;
 
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.mcreator.terramity.entity.HolyBeamEntity;
 import net.mcreator.terramity.init.TerramityModEntities;
 import net.minecraft.core.BlockPos;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.AOE;
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.CHANNELLING;
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.RANGE;
 
 public class DivineRetributionSpell extends BrutalitySpell {
 
@@ -23,7 +23,7 @@ public class DivineRetributionSpell extends BrutalitySpell {
                 List.of(CHANNELLING, AOE),
                 "divine_retribution",
                 50, 0, 20 * 40, 140, 1, List.of(
-                        new SpellTooltips.SpellStatComponent(RANGE, 15, 5, null, null)
+                        new SpellTooltipRenderer.SpellStatComponent(RANGE, 15, 5, null, null)
                 ));
     }
 

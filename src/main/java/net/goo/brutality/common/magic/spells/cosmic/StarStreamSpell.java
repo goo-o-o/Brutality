@@ -5,7 +5,7 @@ import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEntities;
 import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -19,18 +19,18 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.CONTINUOUS;
-import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.TARGET;
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SPEED;
+import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.TARGETABLE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.SPEED;
 
 public class StarStreamSpell extends BrutalitySpell {
 
 
     public StarStreamSpell() {
         super(MagicSchool.COSMIC,
-                List.of(CONTINUOUS, TARGET),
+                List.of(CONTINUOUS, TARGETABLE),
                 "star_stream",
                 8, 3, 20, 10, 1, List.of(
-                        new SpellTooltips.SpellStatComponent(SPEED, 1, 0.25F, 1F, 3F)
+                        new SpellTooltipRenderer.SpellStatComponent(SPEED, 1, 0.25F, 1F, 3F)
                 ));
     }
 

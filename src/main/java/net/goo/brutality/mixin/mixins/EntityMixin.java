@@ -1,20 +1,50 @@
 package net.goo.brutality.mixin.mixins;
 
-import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityEffects;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.theillusivec4.curios.api.CuriosApi;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
+    @Shadow
+    protected Vec3 stuckSpeedMultiplier;
 
+    @Inject(method = "makeStuckInBlock", at = @At("TAIL"))
+    private void bypassBlockSlowdown(BlockState pState, Vec3 pMotionMultiplier, CallbackInfo ci) {
+        Entity entity = ((Entity) (Object) this);
+        if (entity instanceof LivingEntity livingEntity) {
+            CuriosApi.getCuriosInventory(livingEntity).ifPresent(handler -> {
+                if (handler.isEquipped(BrutalityItems.GLOBETROTTERS_BADGE.get())) {
+                    this.stuckSpeedMultiplier = Vec3.ZERO;
+                    return;
+                }
+
+                if (handler.isEquipped(BrutalityItems.SCOUTS_BADGE.get())) {
+                    if (pState.is(Blocks.COBWEB) || pState.is(Blocks.SWEET_BERRY_BUSH)) {
+                        double x = Math.min(1.0, this.stuckSpeedMultiplier.x * 2);
+                        double y = Math.min(1.0, this.stuckSpeedMultiplier.y * 2);
+                        double z = Math.min(1.0, this.stuckSpeedMultiplier.z * 2);
+                        this.stuckSpeedMultiplier = new Vec3(x, y, z);
+                    }
+                }
+            });
+        }
+
+    }
 
     @Redirect(
             method = "baseTick",

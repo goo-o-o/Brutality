@@ -35,8 +35,8 @@ import java.util.List;
 
 import static net.goo.brutality.util.ModResources.GRAVITY_FIELD_DOWN_FX;
 import static net.goo.brutality.util.ModResources.GRAVITY_FIELD_UP_FX;
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.DURATION;
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.DURATION;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.SIZE;
 
 public class SingularityShiftEntity extends BrutalityAbstractPhysicsProjectile implements BrutalityGeoEntity, IBrutalitySpellEntity {
     private static final EntityDataAccessor<Integer> SPELL_LEVEL_DATA = SynchedEntityData.defineId(SingularityShiftEntity.class, EntityDataSerializers.INT);
@@ -151,7 +151,7 @@ public class SingularityShiftEntity extends BrutalityAbstractPhysicsProjectile i
 
             stopTriggeredAnimation(null, "show");
         } else {
-                EntityEffect gravityField = new EntityEffect(isWeightless() ? GRAVITY_FIELD_UP_FX : GRAVITY_FIELD_DOWN_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
+                EntityEffect gravityField = new EntityEffect(isWeightless() ? GRAVITY_FIELD_UP_FX.get() : GRAVITY_FIELD_DOWN_FX.get(), this.level(), this, EntityEffect.AutoRotate.NONE);
                 float scale = getSpell().getFinalStat(getSpellLevel(), getSpell().getStat(SIZE));
                 scale *= 0.4F;
                 scale -= 0.8F;

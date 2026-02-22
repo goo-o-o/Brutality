@@ -82,7 +82,7 @@ public class BiomechReactor extends BrutalityAbstractPhysicsThrowingProjectile i
     @Override
     public void tick() {
         if (firstTick && !(level() instanceof ServerLevel)) {
-            EntityEffect rainbowTrail = new EntityEffect(RAINBOW_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
+            EntityEffect rainbowTrail = new EntityEffect(RAINBOW_TRAIL_FX.get(), this.level(), this, EntityEffect.AutoRotate.NONE);
             rainbowTrail.start();
         }
 

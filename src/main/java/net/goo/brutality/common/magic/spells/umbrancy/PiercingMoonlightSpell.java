@@ -5,7 +5,7 @@ import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEntities;
 import net.goo.brutality.util.math.phys.hitboxes.HitboxUtils;
 import net.goo.brutality.util.math.phys.hitboxes.OrientedBoundingBox;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -15,7 +15,7 @@ import java.util.List;
 
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.AOE;
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.INSTANT;
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.RANGE;
 
 public class PiercingMoonlightSpell extends BrutalitySpell {
 
@@ -26,7 +26,7 @@ public class PiercingMoonlightSpell extends BrutalitySpell {
                 "piercing_moonlight",
                 40, 3, 50, 0, 1, List.of(
 //                        new BrutalityTooltipHelper.SpellStatComponent(PIERCE, 100, 0, null, null),
-                        new SpellTooltips.SpellStatComponent(RANGE, 50, 5, 50F, 100F)
+                        new SpellTooltipRenderer.SpellStatComponent(RANGE, 50, 5, 50F, 100F)
                 ));
     }
 
@@ -47,7 +47,7 @@ public class PiercingMoonlightSpell extends BrutalitySpell {
         player.level().addFreshEntity(piercingMoonlight);
 
         float range = getFinalStat(spellLevel, getStat(RANGE));
-        float damage = getFinalDamage(player, spellLevel);
+        float damage = getActualDamage(player, spellLevel);
 
         OrientedBoundingBox hitbox = new OrientedBoundingBox(Vec3.ZERO, new Vec3(0.0625F, 0.0625F, range).scale(0.5F), 0, 0, 0);
         Vec3 offset = new Vec3(0, 0, zOffset + hitbox.halfExtents.z);

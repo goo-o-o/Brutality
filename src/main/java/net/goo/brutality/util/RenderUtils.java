@@ -91,19 +91,30 @@ public class RenderUtils {
         }
     }
 
-    public static void drawWordWrapCentered(GuiGraphics gui, Font pFont, FormattedText pText, int pX, int pY, int maxWidth, int pColor, boolean dropShadow) {
+
+    public static void drawWordWrapWithAlignment(GuiGraphics gui, Font pFont, Component pText, int pX, int pY, int maxWidth, int pColor, int lineHeight, boolean dropShadow, float alignX) {
         for (FormattedCharSequence charSequence : pFont.split(pText, maxWidth)) {
-            int centeredX = pX + (maxWidth - pFont.width(charSequence)) / 2;
+            int centeredX = (int) (pX + (maxWidth - pFont.width(charSequence)) * alignX);
             gui.drawString(pFont, charSequence, centeredX, pY, pColor, dropShadow);
-            pY += pFont.lineHeight;
+            pY += lineHeight;
+        }
+    }
+    public static void drawWordWrap(GuiGraphics gui, Font pFont, FormattedText pText, int pX, int pY, int pLineWidth, int lineHeight, int pColor) {
+        for(FormattedCharSequence formattedcharsequence : pFont.split(pText, pLineWidth)) {
+            gui.drawString(pFont, formattedcharsequence, pX, pY, pColor, false);
+            pY += lineHeight;
         }
     }
 
+    // with drop shadow
     public static void drawCenteredString(GuiGraphics gui, Font pFont, Component pText, int pX, int pY, int pColor, boolean dropShadow) {
         FormattedCharSequence formattedcharsequence = pText.getVisualOrderText();
         gui.drawString(pFont, formattedcharsequence, pX - pFont.width(formattedcharsequence) / 2, pY, pColor, dropShadow);
     }
 
+    public static int wordWrapHeight(Font font, Component text, int maxWidth, int lineHeight) {
+        return lineHeight * font.getSplitter().splitLines(text, maxWidth, text.getStyle()).size();
+    }
 
     public static void renderItemInWorld(ItemStack stack, PoseStack poseStack, MultiBufferSource vertexConsumers, float partialTick, int overlay, int light) {
         poseStack.pushPose();

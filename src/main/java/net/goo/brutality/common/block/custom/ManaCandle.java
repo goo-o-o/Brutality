@@ -20,11 +20,9 @@ public class ManaCandle extends CandleBlock implements IBrutalityMagicBlock {
 
     @Override
     public int getMagicPower(BlockState state) {
-        return 5 * state.getValue(CANDLES);
-    }
-
-    @Override
-    public int getMaxCount() {
+        if (state.hasProperty(CANDLES)) {
+            return 5 * state.getValue(CANDLES);
+        }
         return 5;
     }
 

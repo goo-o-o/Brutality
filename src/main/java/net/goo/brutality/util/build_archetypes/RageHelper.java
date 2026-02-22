@@ -5,7 +5,7 @@ import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
-import net.goo.brutality.util.ModTags;
+import net.goo.brutality.util.BrutalityTags;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -42,7 +42,7 @@ public class RageHelper {
 
             // Checks if any equipped Curio belongs to the 'rage_items' tag
             if (handler.isEquipped(BrutalityItems.ANGER_MANAGEMENT.get())) return;
-            if (handler.isEquipped(item -> item.is(ModTags.Items.RAGE_ITEMS))) {
+            if (handler.isEquipped(item -> item.is(BrutalityTags.Items.RAGE_ITEMS))) {
 
                 // Apply Attribute scaling (e.g., items that increase rage gain efficiency)
                 damage *= (float) player.getAttributeValue(BrutalityAttributes.DAMAGE_TO_RAGE_RATIO.get());

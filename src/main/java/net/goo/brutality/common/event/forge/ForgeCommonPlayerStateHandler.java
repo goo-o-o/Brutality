@@ -1,7 +1,8 @@
-package net.goo.brutality.event.forge;
+package net.goo.brutality.common.event.forge;
 
 import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.Brutality;
+import net.goo.brutality.client.ClientAccess;
 import net.goo.brutality.common.item.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.common.item.weapon.generic.CreaseOfCreation;
@@ -49,7 +50,7 @@ import static net.goo.brutality.util.ModResources.CREASE_OF_CREATION_FX;
 import static net.goo.brutality.util.ModResources.LIGHTNING_AURA_FX;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class ForgePlayerStateHandler {
+public class ForgeCommonPlayerStateHandler {
 
     @SubscribeEvent
     public static void onSwitchItemHands(LivingSwapItemsEvent event) {
@@ -77,7 +78,7 @@ public class ForgePlayerStateHandler {
 
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
-       CooldownUtils.persistCooldowns(event);
+        CooldownUtils.persistCooldowns(event);
     }
 
 
@@ -115,14 +116,14 @@ public class ForgePlayerStateHandler {
                 stack -> stack.is(BrutalityItems.CREASE_OF_CREATION.get()),
                 new HoldToggleAction(
                         (player) -> {
-                            if (!(player.level() instanceof ServerLevel)) {
-                                EntityEffect effect = new EntityEffect(CREASE_OF_CREATION_FX, player.level(), player, EntityEffect.AutoRotate.NONE);
+                            if (player.level().isClientSide) {
+                                EntityEffect effect = new EntityEffect(CREASE_OF_CREATION_FX.get(), player.level(), player, EntityEffect.AutoRotate.NONE);
                                 effect.start();
                             }
                         },
                         (player) -> {
-                            if (!(player.level() instanceof ServerLevel)) {
-                                ModUtils.removeFX(player, CREASE_OF_CREATION_FX);
+                            if (player.level().isClientSide) {
+                                ModUtils.removeFX(player, CREASE_OF_CREATION_FX.get());
                             }
                         }
                 )));
@@ -141,6 +142,22 @@ public class ForgePlayerStateHandler {
 //                            }
 //                        }
 //                )));
+
+        TOGGLE_ACTIONS.add(new Pair<>(
+                stack -> stack.is(BrutalityItems.OLD_GPU.get()),
+                new HoldToggleAction(
+                        (player) -> {
+                            if (player.level().isClientSide) {
+                                ClientAccess.loadBitShader();
+                            }
+                        },
+                        (player) -> {
+                            if (player.level().isClientSide) {
+                                ClientAccess.stopAllShaders();
+                            }
+                        }
+                )
+        ));
 
         TOGGLE_ACTIONS.add(new Pair<>(
                 stack -> stack.is(BrutalityItems.DULL_KNIFE_DAGGER.get()),
@@ -175,13 +192,13 @@ public class ForgePlayerStateHandler {
                 new HoldToggleAction(
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {
-                                EntityEffect effect = new EntityEffect(LIGHTNING_AURA_FX, player.level(), player, EntityEffect.AutoRotate.NONE);
+                                EntityEffect effect = new EntityEffect(LIGHTNING_AURA_FX.get(), player.level(), player, EntityEffect.AutoRotate.NONE);
                                 effect.start();
                             }
                         },
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {
-                                ModUtils.removeFX(player, LIGHTNING_AURA_FX);
+                                ModUtils.removeFX(player, LIGHTNING_AURA_FX.get());
                             }
                         }
                 )));

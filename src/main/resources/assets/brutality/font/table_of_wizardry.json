@@ -2,7 +2,7 @@
   "providers": [
     {
       "type": "bitmap",
-      "file": "brutality:font/small.png",
+      "file": "brutality:font/table_of_wizardry.png",
       "ascent": 5,
       "height": 6,
       "chars": [

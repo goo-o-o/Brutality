@@ -70,7 +70,7 @@ public class ExobladeBeam extends BrutalityAbstractTrident implements BrutalityG
     public void tick() {
         if (firstTick && !(level() instanceof ServerLevel)) {
 //            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> {
-                EntityEffect rainbowTrail = new EntityEffect(RAINBOW_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
+                EntityEffect rainbowTrail = new EntityEffect(RAINBOW_TRAIL_FX.get(), this.level(), this, EntityEffect.AutoRotate.NONE);
                 rainbowTrail.start();
 //            });
         }

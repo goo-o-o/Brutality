@@ -3,7 +3,7 @@ package net.goo.brutality.util.build_archetypes;
 import net.goo.brutality.common.mob_effect.gastronomy.IGastronomyEffect;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
-import net.goo.brutality.util.ModTags;
+import net.goo.brutality.util.BrutalityTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -32,7 +32,7 @@ public class GastronomyHelper {
      * @return The new damage amount after gastronomy multipliers are applied.
      */
     public static float applyGastronomyDamageMultiplier(Player attacker, LivingEntity victim, ItemStack weapon, float amount) {
-        if (!weapon.is(ModTags.Items.GASTRONOMIST_ITEMS)) return amount;
+        if (!weapon.is(BrutalityTags.Items.GASTRONOMIST_ITEMS)) return amount;
 
         float currentAmount = amount;
 

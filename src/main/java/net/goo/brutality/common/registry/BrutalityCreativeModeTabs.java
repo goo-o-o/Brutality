@@ -67,6 +67,12 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityBlocks.SOLIDIFIED_MANA_BUTTON.get());
                         output.accept(BrutalityBlocks.SOLIDIFIED_MANA_PRESSURE_PLATE.get());
 
+                        output.accept(BrutalityBlocks.MANA_CRYSTAL_BLOCK.get());
+                        output.accept(BrutalityBlocks.MANA_CRYSTAL_CLUSTER.get());
+                        output.accept(BrutalityBlocks.LARGE_MANA_CRYSTAL_BUD.get());
+                        output.accept(BrutalityBlocks.MEDIUM_MANA_CRYSTAL_BUD.get());
+                        output.accept(BrutalityBlocks.SMALL_MANA_CRYSTAL_BUD.get());
+
                         output.accept(BrutalityItems.WATER_COOLER_ITEM.get());
                         output.accept(BrutalityBlocks.PLASTERBOARD.get());
                         output.accept(BrutalityBlocks.LIGHT_GRAY_OFFICE_RUG.get());
@@ -367,6 +373,7 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.PERFECT_CELL.get());
                         output.accept(BrutalityItems.SAD_UVOGRE.get());
                         output.accept(BrutalityItems.SUSPICIOUSLY_LARGE_HANDLE.get());
+                        output.accept(BrutalityItems.ERROR_404.get());
 
                         output.accept(BrutalityItems.BROKEN_CLOCK.get());
                         output.accept(BrutalityItems.SHATTERED_CLOCK.get());
@@ -374,6 +381,9 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.TIMEKEEPERS_CLOCK.get());
                         output.accept(BrutalityItems.THE_CLOCK_OF_FROZEN_TIME.get());
                         output.accept(BrutalityItems.OMNIDIRECTIONAL_MOVEMENT_GEAR.get());
+                        output.accept(BrutalityItems.VECTOR_STABILIZER.get());
+                        output.accept(BrutalityItems.KINETIC_COMPENSATOR.get());
+                        output.accept(BrutalityItems.WAY_OF_THE_WIND.get());
                         output.accept(BrutalityItems.PORTABLE_TRAMPOLINE.get());
                         output.accept(BrutalityItems.QUANTUM_LUBRICANT.get());
                         output.accept(BrutalityItems.AEROPHOBIC_NANOCOATING.get());
@@ -408,6 +418,13 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.WIZARDS_GUIDEBOOK_TO_ADVANCED_MULTICASTING.get());
                         output.accept(BrutalityItems.ARCHMAGES_THESIS_TO_MASTERFUL_MULTICASTING.get());
                         output.accept(BrutalityItems.PARAGON_OF_THE_FIRST_MAGE.get());
+                        output.accept(BrutalityItems.AQUEOUS_TUNER.get());
+                        output.accept(BrutalityItems.SOLAR_LENS.get());
+                        output.accept(BrutalityItems.LUNAR_LENS.get());
+                        output.accept(BrutalityItems.OVERCLOCKED_CORE.get());
+                        output.accept(BrutalityItems.DELICATE_JEWEL.get());
+                        output.accept(BrutalityItems.GLOBETROTTERS_BADGE.get());
+                        output.accept(BrutalityItems.SCOUTS_BADGE.get());
                     }).build());
 
 
@@ -556,6 +573,21 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.EXODIC_SPELL_SCROLL.get().getDefaultInstance());
                         output.accept(BrutalityItems.UMBRAL_SPELL_SCROLL.get().getDefaultInstance());
                         output.accept(BrutalityItems.VOLTWEAVER_SPELL_SCROLL.get().getDefaultInstance());
+
+                        output.accept(BrutalityItems.DRAGON_SINEW_BINDING.get().getDefaultInstance());
+                        output.accept(BrutalityItems.QUICKSILVER_SPINE.get().getDefaultInstance());
+                        output.accept(BrutalityItems.QUICKSILVER_INK.get().getDefaultInstance());
+                        output.accept(BrutalityItems.ARCHANGELS_TEARS.get().getDefaultInstance());
+                        output.accept(BrutalityItems.SOUL_INFUSED_INK.get().getDefaultInstance());
+                        output.accept(BrutalityItems.VOID_TOUCHED_INK.get().getDefaultInstance());
+                        output.accept(BrutalityItems.FEATHER_OF_THE_FIRST_WIND.get().getDefaultInstance());
+                        output.accept(BrutalityItems.PROFANED_INK.get().getDefaultInstance());
+                        output.accept(BrutalityItems.FORBIDDEN_MANUSCRIPT.get().getDefaultInstance());
+                        output.accept(BrutalityItems.UVOGRE_VELLUM.get().getDefaultInstance());
+                        output.accept(BrutalityItems.SOLID_SPELL_DRIVE.get().getDefaultInstance());
+                        output.accept(BrutalityItems.IRIDESCENT_BOOKMARK.get().getDefaultInstance());
+                        output.accept(BrutalityItems.VEGAS_VELLUM.get().getDefaultInstance());
+                        output.accept(BrutalityItems.RUNE_OF_THE_ROYAL_FLUSH.get().getDefaultInstance());
 
                     })
                     .build());

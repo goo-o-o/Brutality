@@ -4,7 +4,7 @@ import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityDamageTypes;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.ParticleHelper;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -16,17 +16,17 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.RANGE;
 
 public class DematerializeSpell extends BrutalitySpell {
 
 
     public DematerializeSpell() {
         super(MagicSchool.VOIDWALKER,
-                List.of(SpellCategory.INSTANT, SpellCategory.TARGET),
+                List.of(SpellCategory.INSTANT, SpellCategory.TARGETABLE),
                 "dematerialize",
                 40, 7, 120, 0, 1, List.of(
-                        new SpellTooltips.SpellStatComponent(RANGE, 10, 2, 0F, 50F)
+                        new SpellTooltipRenderer.SpellStatComponent(RANGE, 10, 2, 0F, 50F)
                 ));
     }
 
@@ -44,7 +44,7 @@ public class DematerializeSpell extends BrutalitySpell {
             player.displayClientMessage(Component.translatable("spell.brutality.dematerialize.no_target_found"), true);
             return false;
         }
-        if (livingTarget.getHealth() > getFinalDamage(player, spellLevel)) {
+        if (livingTarget.getHealth() > getActualDamage(player, spellLevel)) {
             player.displayClientMessage(Component.translatable("spell.brutality.dematerialize.too_much_health"), true);
             return false;
         }

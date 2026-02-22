@@ -2,7 +2,7 @@ package net.goo.brutality.common.magic.spells.cosmic;
 
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -15,19 +15,19 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.*;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.*;
 
 public class GravitokinesisSpell extends BrutalitySpell {
 
 
     public GravitokinesisSpell() {
         super(MagicSchool.COSMIC,
-                List.of(SpellCategory.INSTANT, SpellCategory.TARGET, SpellCategory.UTILITY),
+                List.of(SpellCategory.INSTANT, SpellCategory.TARGETABLE, SpellCategory.UTILITY),
                 "gravitokinesis",
                 40, 0, 160, 0, 1, List.of(
-                        new SpellTooltips.SpellStatComponent(RANGE, 5, 2, 5F, 100F),
-                        new SpellTooltips.SpellStatComponent(SIZE, 1, 0.5F, 1F, 5F),
-                        new SpellTooltips.SpellStatComponent(PIERCE, 3, 1, 1F, null)
+                        new SpellTooltipRenderer.SpellStatComponent(RANGE, 5, 2, 5F, 100F),
+                        new SpellTooltipRenderer.SpellStatComponent(SIZE, 1, 0.5F, 1F, 5F),
+                        new SpellTooltipRenderer.SpellStatComponent(PIERCE, 3, 1, 1F, null)
                 ));
     }
 

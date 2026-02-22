@@ -23,6 +23,8 @@ import net.goo.brutality.common.item.curios.charm.*;
 import net.goo.brutality.common.item.curios.hands.Handcuffs;
 import net.goo.brutality.common.item.curios.hands.PerfectCell;
 import net.goo.brutality.common.item.curios.hands.PhantomFinger;
+import net.goo.brutality.common.item.curios.head.LunarLens;
+import net.goo.brutality.common.item.curios.head.SolarLens;
 import net.goo.brutality.common.item.curios.heart.BrutalHeart;
 import net.goo.brutality.common.item.curios.heart.FrozenHeart;
 import net.goo.brutality.common.item.curios.heart.RuneOfDelta;
@@ -32,6 +34,7 @@ import net.goo.brutality.common.item.curios.necklace.BloodHowlPendant;
 import net.goo.brutality.common.item.curios.necklace.KnightsPendant;
 import net.goo.brutality.common.item.curios.ring.RoadRunnersRing;
 import net.goo.brutality.common.item.curios.vanity.TrialGuardianEyebrows;
+import net.goo.brutality.common.item.generic.BrutalityAugmentItem;
 import net.goo.brutality.common.item.generic.PrisonKey;
 import net.goo.brutality.common.item.generic.SpellScroll;
 import net.goo.brutality.common.item.generic.StatTrakkerItem;
@@ -59,12 +62,13 @@ import net.goo.brutality.common.item.weapon.tome.*;
 import net.goo.brutality.common.item.weapon.trident.DepthCrusherTrident;
 import net.goo.brutality.common.item.weapon.trident.GungnirTrident;
 import net.goo.brutality.common.item.weapon.trident.ThunderboltTrident;
+import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.IBrutalitySpell;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.event.mod.client.Keybindings;
+import net.goo.brutality.util.BrutalityTags;
 import net.goo.brutality.util.CooldownUtils;
 import net.goo.brutality.util.ModExplosionHelper;
-import net.goo.brutality.util.ModTags;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
 import net.goo.brutality.util.attribute.AttributeContainer;
@@ -103,6 +107,7 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
+import static net.goo.brutality.common.item.base.BrutalityMagicItem.MagicItemType.*;
 import static net.goo.brutality.util.tooltip.ItemDescriptionComponent.ItemDescriptionComponents.*;
 import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.*;
 
@@ -133,6 +138,61 @@ public class BrutalityItems {
     public static final RegistryObject<Item> EXODIC_SPELL_SCROLL = ITEMS.register("exodic_spell_scroll", () -> new SpellScroll(new Item.Properties()).withSchool(IBrutalitySpell.MagicSchool.EXODIC));
     public static final RegistryObject<Item> VOLTWEAVER_SPELL_SCROLL = ITEMS.register("voltweaver_spell_scroll", () -> new SpellScroll(new Item.Properties()).withSchool(IBrutalitySpell.MagicSchool.VOLTWEAVER));
     public static final RegistryObject<Item> DAEMONIC_SPELL_SCROLL = ITEMS.register("daemonic_spell_scroll", () -> new SpellScroll(new Item.Properties()).withSchool(IBrutalitySpell.MagicSchool.DAEMONIC));
+
+    public static final RegistryObject<Item> DRAGON_SINEW_BINDING = ITEMS.register("dragon_sinew_binding", () -> new BrutalityAugmentItem(new Item.Properties(), TOME, STAFF, WAND).withAttributes(
+            new AttributeContainer(BrutalityAttributes.UNIVERSAL_SCHOOL_LEVEL.get(), 2, ADDITION)));
+
+    public static final RegistryObject<Item> QUICKSILVER_INK = ITEMS.register("quicksilver_ink", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withAttributes(
+            new AttributeContainer(BrutalityAttributes.CAST_TIME.get(), -0.15, MULTIPLY_TOTAL),
+            new AttributeContainer(BrutalityAttributes.SPELL_COOLDOWN.get(), -0.15, MULTIPLY_TOTAL)));
+
+    public static final RegistryObject<Item> QUICKSILVER_SPINE = ITEMS.register("quicksilver_spine", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withPassiveLines(1));
+    public static final RegistryObject<Item> ARCHANGELS_TEARS = ITEMS.register("archangels_tears", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withAttributes(
+            new AttributeContainer(BrutalityAttributes.CELESTIA_SCHOOL_LEVEL.get(), 2, ADDITION)));
+    public static final RegistryObject<Item> FORBIDDEN_MANUSCRIPT = ITEMS.register("forbidden_manuscript", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(1));
+    public static final RegistryObject<Item> UVOGRE_VELLUM = ITEMS.register("uvogre_vellum", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(1));
+    public static final RegistryObject<Item> SOLID_SPELL_DRIVE = ITEMS.register("solid_spell_drive", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(2));
+    public static final RegistryObject<Item> IRIDESCENT_BOOKMARK = ITEMS.register("iridescent_bookmark", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withAttributes(
+            new AttributeContainer(BrutalityAttributes.MAX_MANA.get(), 40, ADDITION),
+            new AttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), -0.05, MULTIPLY_TOTAL)));
+
+    public static final RegistryObject<Item> RUNE_OF_THE_ROYAL_FLUSH = ITEMS.register("rune_of_the_royal_flush", () -> new BrutalityAugmentItem(new Item.Properties(), TOME) {
+        @Override
+        public int onAugmentedItemPreCast(Player caster, ItemStack parent, BrutalitySpell spell, int spellLevel, IBrutalitySpell.SpellCategory type) {
+            float roll = caster.getRandom().nextFloat();
+            if (roll <= 0.1) {
+                return 0;
+            }
+            return spellLevel + 3;
+        }
+    }.withPassiveLines(2));
+
+    public static final RegistryObject<Item> VEGAS_VELLUM = ITEMS.register("vegas_vellum", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(1).withAttributes(
+            new AttributeContainer(Attributes.LUCK, 1.5, ADDITION)));
+
+
+    public static final RegistryObject<Item> SOUL_INFUSED_INK = ITEMS.register("soul_infused_ink", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withAttributes(
+            new AttributeContainer(BrutalityAttributes.MAX_MANA.get(), 25, ADDITION),
+            new AttributeContainer(BrutalityAttributes.MANA_COST.get(), -0.1, MULTIPLY_TOTAL)));
+
+    public static final RegistryObject<Item> VOID_TOUCHED_INK = ITEMS.register("void_touched_ink", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withAttributes(
+            new AttributeContainer(BrutalityAttributes.VOIDWALKER_SCHOOL_LEVEL.get(), 2, ADDITION),
+            new AttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), -0.05, MULTIPLY_TOTAL)));
+
+    public static final RegistryObject<Item> FEATHER_OF_THE_FIRST_WIND = ITEMS.register("feather_of_the_first_wind", () -> new BrutalityAugmentItem(new Item.Properties(), TOME, STAFF, WAND).withAttributes(
+            new AttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), -0.05, MULTIPLY_TOTAL),
+            new AttributeContainer(BrutalityAttributes.CAST_TIME.get(), -0.2, MULTIPLY_TOTAL),
+            new AttributeContainer(BrutalityAttributes.SPELL_COOLDOWN.get(), -0.2, MULTIPLY_TOTAL)));
+
+    public static final RegistryObject<Item> PROFANED_INK = ITEMS.register("profaned_ink", () -> new BrutalityAugmentItem(new Item.Properties(), TOME) {
+        @Override
+        public void onAugmentedItemPostCast(Player caster, ItemStack parent, BrutalitySpell spell, int spellLevel, IBrutalitySpell.SpellCategory type) {
+            caster.hurt(caster.damageSources().indirectMagic(caster, null), 1);
+            caster.invulnerableTime = 0;
+        }
+    }.withAttributes(
+            new AttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), 0.15, MULTIPLY_TOTAL),
+            new AttributeContainer(BrutalityAttributes.UNIVERSAL_SCHOOL_LEVEL.get(), 1, ADDITION)));
 
 
     public static final RegistryObject<Item> BASIC_STAT_TRAKKER = ITEMS.register("basic_stat_trakker",
@@ -564,15 +624,18 @@ public class BrutalityItems {
             BrutalityEntities.HOLY_HAND_GRENADE));
 
 
-    public static final RegistryObject<Item> DAEMONIC_TOME = ITEMS.register("daemonic_tome", () -> new DaemonicTome(BrutalityRarities.LEGENDARY));
-    public static final RegistryObject<Item> DARKIST_TOME = ITEMS.register("darkist_tome", () -> new DarkistTome(BrutalityRarities.LEGENDARY));
-    public static final RegistryObject<Item> EVERGREEN_TOME = ITEMS.register("evergreen_tome", () -> new EvergreenTome(BrutalityRarities.LEGENDARY));
-    public static final RegistryObject<Item> COSMIC_TOME = ITEMS.register("cosmic_tome", () -> new CosmicTome(BrutalityRarities.LEGENDARY));
-    public static final RegistryObject<Item> UMBRAL_TOME = ITEMS.register("umbral_tome", () -> new UmbralTome(BrutalityRarities.LEGENDARY));
-    public static final RegistryObject<Item> VOIDWALKER_TOME = ITEMS.register("voidwalker_tome", () -> new VoidTome(BrutalityRarities.LEGENDARY));
-    public static final RegistryObject<Item> EXODIC_TOME = ITEMS.register("exodic_tome", () -> new ExodicTome(BrutalityRarities.LEGENDARY));
-    public static final RegistryObject<Item> CELESTIA_TOME = ITEMS.register("celestia_tome", () -> new CelestiaTome(BrutalityRarities.LEGENDARY));
-    public static final RegistryObject<Item> BRIMWIELDER_TOME = ITEMS.register("brimwielder_tome", () -> new BrimwielderTome(BrutalityRarities.LEGENDARY));
+    public static final RegistryObject<Item> DAEMONIC_TOME = ITEMS.register("daemonic_tome", () -> new DaemonicTome(BrutalityRarities.LEGENDARY, 3, 1));
+
+    public static final RegistryObject<Item> DARKIST_TOME = ITEMS.register("darkist_tome", () -> new DarkistTome(BrutalityRarities.LEGENDARY, 4, 2));
+    public static final RegistryObject<Item> EVERGREEN_TOME = ITEMS.register("evergreen_tome", () -> new EvergreenTome(BrutalityRarities.LEGENDARY, 4, 2));
+    public static final RegistryObject<Item> COSMIC_TOME = ITEMS.register("cosmic_tome", () -> new CosmicTome(BrutalityRarities.LEGENDARY, 4, 2));
+
+    public static final RegistryObject<Item> VOIDWALKER_TOME = ITEMS.register("voidwalker_tome", () -> new VoidTome(BrutalityRarities.LEGENDARY, 5, 3));
+    public static final RegistryObject<Item> BRIMWIELDER_TOME = ITEMS.register("brimwielder_tome", () -> new BrimwielderTome(BrutalityRarities.LEGENDARY, 5, 3));
+    // conductite tbd
+    public static final RegistryObject<Item> UMBRAL_TOME = ITEMS.register("umbral_tome", () -> new UmbralTome(BrutalityRarities.LEGENDARY, 6, 4));
+    public static final RegistryObject<Item> EXODIC_TOME = ITEMS.register("exodic_tome", () -> new ExodicTome(BrutalityRarities.LEGENDARY, 6, 4));
+    public static final RegistryObject<Item> CELESTIA_TOME = ITEMS.register("celestia_tome", () -> new CelestiaTome(BrutalityRarities.LEGENDARY, 6, 4));
 
 
     public static final RegistryObject<Item> PLUNDER_CHEST = ITEMS.register("plunder_chest", () -> new PlunderChest(
@@ -731,7 +794,7 @@ public class BrutalityItems {
         @Override
         public void curioTick(SlotContext slotContext, ItemStack stack) {
             if (slotContext.entity() instanceof Player player && ManaHelper.getCurrentManaPercentage(player) < 0.25)
-                player.kill();
+                if (player.tickCount % 20 == 0) player.hurt(player.damageSources().indirectMagic(player, null), 5);
         }
     }.withAttributes(
             new AttributeContainer(BrutalityAttributes.MAX_MANA.get(), 2, MULTIPLY_TOTAL),
@@ -784,7 +847,8 @@ public class BrutalityItems {
             if (slotContext.entity().tickCount % 40 == 0)
                 slotContext.entity().addEffect(new MobEffectInstance(TerramityModMobEffects.VULNERABLE.get(), 41));
         }
-    }.withAttributes(new AttributeContainer(BrutalityAttributes.MANA_REGEN.get(), 15, ADDITION)));
+    }.withAttributes(
+            new AttributeContainer(BrutalityAttributes.MANA_REGEN.get(), 15, ADDITION)));
 
     public static final RegistryObject<Item> FURY_BATTERY = ITEMS.register("fury_battery", () -> new BrutalityCurioItem(
             BrutalityRarities.STYGIAN).withAttributes(
@@ -965,7 +1029,8 @@ public class BrutalityItems {
 
     public static final RegistryObject<Item> BLOOD_PACK = ITEMS.register("blood_pack", () -> new BrutalityCurioItem(
             BrutalityRarities.LEGENDARY).withAttributes(
-            new AttributeContainer(Attributes.MAX_HEALTH, -3, ADDITION), new AttributeContainer(BrutalityAttributes.LIFESTEAL.get(), 0.125, ADDITION)));
+            new AttributeContainer(Attributes.MAX_HEALTH, -3, ADDITION),
+            new AttributeContainer(BrutalityAttributes.LIFESTEAL.get(), 0.125, ADDITION)));
 
     public static final RegistryObject<Item> BROKEN_CLOCK = ITEMS.register("broken_clock", () -> new BaseBrokenClock(
             Rarity.EPIC, List.of(
@@ -1920,6 +1985,19 @@ public class BrutalityItems {
     public static final RegistryObject<Item> OMNIDIRECTIONAL_MOVEMENT_GEAR = ITEMS.register("omnidirectional_movement_gear", () -> new OmnidirectionalMovementGear(
             BrutalityRarities.GODLY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> KINETIC_COMPENSATOR = ITEMS.register("kinetic_compensator", () -> new BrutalityCurioItem(
+            BrutalityRarities.GODLY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> WAY_OF_THE_WIND = ITEMS.register("way_of_the_wind", () -> new BrutalityCurioItem(
+            BrutalityRarities.GODLY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> VECTOR_STABILIZER = ITEMS.register("vector_stabilizer", () -> new BrutalityCurioItem(
+            BrutalityRarities.GODLY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+
+    public static final RegistryObject<Item> ERROR_404 = ITEMS.register("error_404", () -> new BrutalityCurioItem(
+            BrutalityRarities.NULL, List.of(
+            new ItemDescriptionComponent(LORE, 1))));
 
     public static final RegistryObject<Item> QUANTUM_LUBRICANT = ITEMS.register("quantum_lubricant", () -> new BrutalityCurioItem(
             BrutalityRarities.FABLED).withAttributes(
@@ -1996,7 +2074,7 @@ public class BrutalityItems {
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
         public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
-            if (weapon.is(ModTags.Items.GASTRONOMIST_ITEMS) && victim instanceof LivingEntity livingVictim) {
+            if (weapon.is(BrutalityTags.Items.GASTRONOMIST_ITEMS) && victim instanceof LivingEntity livingVictim) {
                 livingVictim.addEffect(new MobEffectInstance(BrutalityEffects.PULVERIZED.get(), 3, 3));
             }
             return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
@@ -2008,7 +2086,7 @@ public class BrutalityItems {
             new ItemDescriptionComponent(PASSIVE, 1, 60))) {
         @Override
         public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
-            if (curio.is(ModTags.Items.GASTRONOMIST_ITEMS) && victim instanceof LivingEntity livingVictim && attacker instanceof Player playerAttacker) {
+            if (curio.is(BrutalityTags.Items.GASTRONOMIST_ITEMS) && victim instanceof LivingEntity livingVictim && attacker instanceof Player playerAttacker) {
                 if (AttributeCalculationHelper.Luck.roll(attacker, 0.1F, 0.1F))
                     CooldownUtils.validateCurioCooldown(playerAttacker, curio.getItem(), 60, () ->
                             livingVictim.addEffect(new MobEffectInstance(BrutalityEffects.STUNNED.get(), 4, 0)));
@@ -2105,16 +2183,54 @@ public class BrutalityItems {
             BrutalityRarities.GODLY, List.of(
             new ItemDescriptionComponent(PASSIVE, 2))));
 
+    public static final RegistryObject<Item> AQUEOUS_TUNER = ITEMS.register("aqueous_tuner", () -> new AqueousTuner(
+            BrutalityRarities.MYTHIC, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+
+    public static final RegistryObject<Item> SOLAR_LENS = ITEMS.register("solar_lens", () -> new SolarLens(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> LUNAR_LENS = ITEMS.register("lunar_lens", () -> new LunarLens(
+            BrutalityRarities.NOCTURNAL, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> SCOUTS_BADGE = ITEMS.register("scouts_badge", () -> new BrutalityCurioItem(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> GLOBETROTTERS_BADGE = ITEMS.register("globetrotters_badge", () -> new BrutalityCurioItem(
+            BrutalityRarities.PRISMATIC, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+
+    public static final RegistryObject<Item> MAGICIANS_TOP_HAT = ITEMS.register("magicians_top_hat", () -> new BrutalityCurioItem(
+            BrutalityRarities.CONDUCTIVE).withAttributes(
+            new AttributeContainer(BrutalityAttributes.MANA_REGEN.get(), 5, ADDITION),
+            new AttributeContainer(BrutalityAttributes.MAX_MANA.get(), 0.15, MULTIPLY_TOTAL)));
+
+    public static final RegistryObject<Item> OVERCLOCKED_CORE = ITEMS.register("overclocked_core", () -> new BrutalityCurioItem(
+            BrutalityRarities.CONDUCTIVE).withAttributes(
+            new AttributeContainer(BrutalityAttributes.DAMAGE_TAKEN.get(), 5, MULTIPLY_TOTAL),
+            new AttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), 5, MULTIPLY_TOTAL),
+            new AttributeContainer(BrutalityAttributes.MANA_COST.get(), 0.25, MULTIPLY_TOTAL)));
+
+    public static final RegistryObject<Item> DELICATE_JEWEL = ITEMS.register("delicate_jewel", () -> new DelicateJewel(
+            BrutalityRarities.PRISMATIC, List.of(
+            new ItemDescriptionComponent(LORE, 1),
+            new ItemDescriptionComponent(PASSIVE, 1)))
+            .withAttributes(
+                    new AttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), 0.25, MULTIPLY_TOTAL),
+                    new AttributeContainer(BrutalityAttributes.MANA_COST.get(), -0.25, MULTIPLY_TOTAL)));
+
+
     public static final RegistryObject<Item> PI = ITEMS.register("pi", () -> new Pi(
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(LORE, 1),
             new ItemDescriptionComponent(PASSIVE, 2)))
             .withAttributes(
-                    new AttributeContainer(Attributes.MOVEMENT_SPEED, 0.0314, MULTIPLY_TOTAL), new AttributeContainer(Attributes.ATTACK_SPEED, 0.0314, MULTIPLY_TOTAL), new AttributeContainer(Attributes.ATTACK_DAMAGE, 3.14, ADDITION)));
+                    new AttributeContainer(Attributes.MOVEMENT_SPEED, 0.0314, MULTIPLY_TOTAL),
+                    new AttributeContainer(Attributes.ATTACK_SPEED, 0.0314, MULTIPLY_TOTAL),
+                    new AttributeContainer(Attributes.ATTACK_DAMAGE, 3.14, ADDITION)));
 
     public static final RegistryObject<Item> EXPONENTIAL_CHARM = ITEMS.register("exponential_charm", () -> new BrutalityMathFunctionCurio(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 5)))
+            Rarity.EPIC)
             .withAttributes(
                     new AttributeContainer(Attributes.KNOCKBACK_RESISTANCE, 0.0271828F, MULTIPLY_TOTAL),
                     new AttributeContainer(Attributes.LUCK, 0.0271828F, MULTIPLY_TOTAL),
@@ -2171,7 +2287,7 @@ public class BrutalityItems {
     public static final RegistryObject<Item> SINE = ITEMS.register("sine", () -> new Sine(
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(LORE, 1),
-            new ItemDescriptionComponent(PASSIVE, 3))) {
+            new ItemDescriptionComponent(PASSIVE, 2))) {
         @Override
         public float onWearerHit(LivingEntity attacker, ItemStack stack, Entity victim, DamageSource source, float amount) {
             if (attacker.level() instanceof ServerLevel serverLevel)
@@ -2183,7 +2299,7 @@ public class BrutalityItems {
     public static final RegistryObject<Item> COSINE = ITEMS.register("cosine", () -> new Cosine(
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(LORE, 1),
-            new ItemDescriptionComponent(PASSIVE, 3))));
+            new ItemDescriptionComponent(PASSIVE, 2))));
 
     public static final RegistryObject<Item> SCIENTIFIC_CALCULATOR = ITEMS.register("scientific_calculator", () -> new ScientificCalculator(
             Rarity.EPIC, List.of(
@@ -2254,7 +2370,8 @@ public class BrutalityItems {
             new ItemDescriptionComponent(LORE, 1),
             new ItemDescriptionComponent(PASSIVE, 1)))
             .withAttributes(
-                    new AttributeContainer(BrutalityAttributes.DAMAGE_TO_RAGE_RATIO.get(), 2, MULTIPLY_TOTAL), new AttributeContainer(
+                    new AttributeContainer(BrutalityAttributes.DAMAGE_TO_RAGE_RATIO.get(), 2, MULTIPLY_TOTAL),
+                    new AttributeContainer(
                             BrutalityAttributes.RAGE_TIME.get(), -0.5, MULTIPLY_TOTAL)));
 
 

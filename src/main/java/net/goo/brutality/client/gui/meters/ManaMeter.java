@@ -6,13 +6,14 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.renderers.BrutalityShaders;
 import net.goo.brutality.client.config.BrutalityClientConfig;
+import net.goo.brutality.client.renderers.BrutalityShaders;
 import net.goo.brutality.util.CommonConstants;
 import net.goo.brutality.util.magic.ManaHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -70,12 +71,14 @@ public class ManaMeter implements IGuiOverlay {
             Tesselator.getInstance().end();
         }
 
-
+        float prevPercent;
         @Override
         public void render(GuiGraphics gui, Player player) {
             float percent = ManaHelper.getCurrentManaPercentage(player);
+            float partialTick = Minecraft.getInstance().getPartialTick();
 
-            percent = Math.min(1, percent);
+            float lerpedMana = Mth.lerp(partialTick, prevPercent, percent);
+            lerpedMana = Math.min(1, lerpedMana);
 
             ManaMeter.Position position = BrutalityClientConfig.MANA_METER_POSITION.get();
             int bgX = position.getX(gui.guiWidth(), bgW);
@@ -91,8 +94,10 @@ public class ManaMeter implements IGuiOverlay {
             bgY += BrutalityClientConfig.RAGE_METER_Y_OFFSET.get();
 
             gui.blit(BG, bgX, bgY, 0, 0, bgW, bgH, bgW, bgH);
-            renderOrb(gui, bgX, bgY + bgH, bgW, percent);
+            renderOrb(gui, bgX, bgY + bgH, bgW, lerpedMana);
             gui.blit(FG, bgX, bgY, 0, 0, bgW, bgH, bgW, bgH);
+
+            this.prevPercent = percent;
         }
 
     }

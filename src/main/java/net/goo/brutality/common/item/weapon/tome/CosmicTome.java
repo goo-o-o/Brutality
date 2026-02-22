@@ -21,15 +21,16 @@ public class CosmicTome extends BaseMagicTome {
 
     UUID COSMIC_SCHOOL_BOOST_UUID = UUID.fromString("4272d112-263a-4419-9d6a-856d59b5757f");
 
-    public CosmicTome(Rarity rarity) {
-        super(rarity);
+    public CosmicTome(Rarity rarity, int baseSpellSlots, int baseAugmentSlots) {
+        super(rarity, baseSpellSlots, baseAugmentSlots);
     }
+
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = super.getAttributeModifiers(slot, stack);
 
-        if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) {
+        if (slot == EquipmentSlot.MAINHAND) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(modifiers);
             builder.put(

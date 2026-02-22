@@ -4,7 +4,7 @@ import net.goo.brutality.common.entity.spells.cosmic.MeteorShowerEntity;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEntities;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -15,19 +15,19 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.*;
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.RANGE;
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.RANGE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.SIZE;
 
-public class MeteorShowerSpell extends BrutalitySpell {
+public class    MeteorShowerSpell extends BrutalitySpell {
 
 
     public MeteorShowerSpell() {
         super(MagicSchool.COSMIC,
-                List.of(CONTINUOUS, AOE, TARGET),
+                List.of(CONTINUOUS, AOE, TARGETABLE),
                 "meteor_shower",
                 10, 7, 100, 10, 1, List.of(
-                        new SpellTooltips.SpellStatComponent(RANGE, 15, 5, 0F, 100F),
-                        new SpellTooltips.SpellStatComponent(SIZE, 3, 0, 3F, 3F)
+                        new SpellTooltipRenderer.SpellStatComponent(RANGE, 15, 5, 0F, 100F),
+                        new SpellTooltipRenderer.SpellStatComponent(SIZE, 3, 0, 3F, 3F)
                 ));
     }
 

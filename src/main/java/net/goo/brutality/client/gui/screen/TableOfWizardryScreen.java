@@ -1,10 +1,7 @@
 package net.goo.brutality.client.gui.screen;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.gui.screen.table_of_wizardry.ConjureView;
-import net.goo.brutality.client.gui.screen.table_of_wizardry.SpellPageView;
-import net.goo.brutality.client.gui.screen.table_of_wizardry.TableOfWizardryBookSection;
-import net.goo.brutality.client.gui.screen.table_of_wizardry.TableOfWizardryView;
+import net.goo.brutality.client.gui.screen.table_of_wizardry.*;
 import net.goo.brutality.common.block.block_entity.TableOfWizardryBlockEntity;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.serverbound.ServerboundTableOfWizardryUpdatePacket;
@@ -55,7 +52,7 @@ public class TableOfWizardryScreen extends Screen {
     private TableOfWizardryView currentView;
     private final Map<EntityType<?>, LivingEntity> dummyEntities = new HashMap<>();
 
-    public float schoolListScroll, spellListScroll;
+    public double schoolListScroll, spellListScroll;
 
     public TableOfWizardryScreen(Component pTitle, TableOfWizardryBlockEntity block) {
         super(pTitle);
@@ -83,14 +80,21 @@ public class TableOfWizardryScreen extends Screen {
         initBookmarks();
 
         // Dynamic View Switching
-        if (block.currentState == TableOfWizardryBlockEntity.GuiState.SECTION_VIEW) {
-            if (block.currentSection == TableOfWizardryBookSection.CONJURE) {
-                currentView = new ConjureView(this);
+        if (block.currentSpell != null) {
+            currentView = new SpellPageView(this);
+        } else if (block.currentState != null)
+            switch (block.currentState) {
+                case SECTION_VIEW -> {
+                    if (block.currentSection != null)
+                        switch (block.currentSection) {
+                            case CONJURE -> currentView = new ConjureView(this);
+                            case GLOSSARY -> currentView = new GlossaryView(this);
+                            case SYNTHESISE -> currentView = new SynthesisView(this);
+                            case AUGMENT -> currentView = new AugmentView(this);
+                        }
+                }
+                case SPELL_PAGE -> currentView = new SpellPageView(this);
             }
-            // else if (block.currentSection == TableOfWizardryBookSection.SYNTHESIS) currentView = new SynthesisView(this);
-        } else if (block.currentState == TableOfWizardryBlockEntity.GuiState.SPELL_PAGE) {
-             currentView = new SpellPageView(this);
-        }
 
         if (currentView != null) currentView.init();
     }
@@ -108,9 +112,9 @@ public class TableOfWizardryScreen extends Screen {
     }
 
 
-
     public void showSection(TableOfWizardryBookSection section) {
         this.block.currentSection = section;
+        this.block.currentSpell = null;
         this.block.currentState = TableOfWizardryBlockEntity.GuiState.SECTION_VIEW;
         updateServerAndRefresh();
     }

@@ -49,7 +49,7 @@ public class ThrownThunderbolt extends BrutalityAbstractTrident implements Bruta
 
     public void tick() {
         if (firstTick && !(level() instanceof ServerLevel)) {
-            EntityEffect lightningTrail = new EntityEffect(LIGHTNING_TRAIL_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
+            EntityEffect lightningTrail = new EntityEffect(LIGHTNING_TRAIL_FX.get(), this.level(), this, EntityEffect.AutoRotate.NONE);
             lightningTrail.start();
         }
         super.tick();
@@ -67,7 +67,7 @@ public class ThrownThunderbolt extends BrutalityAbstractTrident implements Bruta
             owner.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 10, 3, false, false));
         }
         if (!(level() instanceof ServerLevel)) {
-            EntityEffect lightningStrike = new EntityEffect(LIGHTNING_STRIKE_BURST_FX, this.level(), this, EntityEffect.AutoRotate.NONE);
+            EntityEffect lightningStrike = new EntityEffect(LIGHTNING_STRIKE_BURST_FX.get(), this.level(), this, EntityEffect.AutoRotate.NONE);
             lightningStrike.start();
         }
 

@@ -6,7 +6,7 @@ import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.client.particle.providers.FlatParticleData;
 import net.goo.brutality.common.registry.BrutalityEntities;
 import net.goo.brutality.common.registry.BrutalityParticles;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -17,16 +17,16 @@ import net.minecraft.world.phys.Vec3;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.*;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.*;
 
 public class AnnihilationSpell extends BrutalitySpell {
 
 
     public AnnihilationSpell() {
         super(MagicSchool.BRIMWIELDER, List.of(SpellCategory.CHANNELLING, SpellCategory.AOE), "annihilation", 100, 5, 200, 80, 1, List.of(
-                new SpellTooltips.SpellStatComponent(SIZE, 5, 1, 5F, 15F),
-                new SpellTooltips.SpellStatComponent(CHANCE, 5, 3, 5F, 50F),
-                new SpellTooltips.SpellStatComponent(QUANTITY, 25, 5, 25F, 75F)));
+                new SpellTooltipRenderer.SpellStatComponent(SIZE, 5, 1, 5F, 15F),
+                new SpellTooltipRenderer.SpellStatComponent(CHANCE, 5, 3, 5F, 50F),
+                new SpellTooltipRenderer.SpellStatComponent(QUANTITY, 25, 5, 25F, 75F)));
     }
 
     @Override
@@ -91,7 +91,7 @@ public class AnnihilationSpell extends BrutalitySpell {
                 annihilationEntity.setPos(finalPos.x, finalPos.y, finalPos.z);
                 annihilationEntity.setOwner(player);
                 annihilationEntity.setSpellLevel(spellLevel);
-                annihilationEntity.setBaseDamage(getFinalDamage(player, spellLevel));
+                annihilationEntity.setBaseDamage(getActualDamage(player, spellLevel));
                 DelayedTaskScheduler.queueServerWork(serverLevel, globalCount, () -> serverLevel.addFreshEntity(annihilationEntity));
                 globalCount++;
             }

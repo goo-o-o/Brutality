@@ -62,7 +62,7 @@ public class Photon extends BrutalityAbstractThrowingProjectile implements Bruta
     @Override
     public void tick() {
         if (firstTick && !(level() instanceof ServerLevel)) {
-            EntityEffect photonTrail = new EntityEffect(PHOTON_TRAIL_FX, level(), this, EntityEffect.AutoRotate.NONE);
+            EntityEffect photonTrail = new EntityEffect(PHOTON_TRAIL_FX.get(), level(), this, EntityEffect.AutoRotate.NONE);
             photonTrail.start();
         }
 

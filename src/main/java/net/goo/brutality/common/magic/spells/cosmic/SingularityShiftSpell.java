@@ -3,15 +3,15 @@ package net.goo.brutality.common.magic.spells.cosmic;
 import net.goo.brutality.common.entity.spells.cosmic.SingularityShiftEntity;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEntities;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.DURATION;
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.DURATION;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.SIZE;
 
 public class SingularityShiftSpell extends BrutalitySpell {
 
@@ -21,8 +21,8 @@ public class SingularityShiftSpell extends BrutalitySpell {
                 List.of(SpellCategory.INSTANT, SpellCategory.UTILITY, SpellCategory.AOE),
                 "singularity_shift",
                 80, 0, 1200, 0, 1, List.of(
-                        new SpellTooltips.SpellStatComponent(SIZE, 2, 1F, 2F, 7F),
-                        new SpellTooltips.SpellStatComponent(DURATION, 300, 100, 300F, 1100F)
+                        new SpellTooltipRenderer.SpellStatComponent(SIZE, 2, 1F, 2F, 7F),
+                        new SpellTooltipRenderer.SpellStatComponent(DURATION, 300, 100, 300F, 1100F)
                 ));
     }
 

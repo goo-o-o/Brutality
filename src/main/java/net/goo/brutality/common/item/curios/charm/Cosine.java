@@ -5,7 +5,6 @@ import com.google.common.collect.Multimap;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.curios.BrutalityMathFunctionCurio;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -26,13 +25,22 @@ public class Cosine extends BrutalityMathFunctionCurio {
     }
 
     public static float getCurrentBonus(Level level) {
-        return Mth.cos(level.getGameTime() * 0.025f) * 0.25f + 0.125f;
+        // 1. Define constants as double for maximum precision during calculation
+        double frequency = 0.025;
+        double period = (Math.PI * 2) / frequency;
+
+        // 2. Perform the modulo on the raw long/double time
+        // This keeps 'remainder' small (between 0 and ~251.32)
+        double remainder = level.getGameTime() % period;
+
+        // 3. Now that the number is small, casting to float is safe
+        return (float) Math.cos(remainder * frequency) * 0.175F + 0.075F; // -10% to 25%
     }
 
     @Override
     public double getDynamicAttributeBonus(LivingEntity owner, ItemStack stack, Attribute attribute, double currentBonus) {
         if (attribute == Attributes.ATTACK_SPEED) {
-            return Cosine.getCurrentBonus(owner.level()) * currentBonus;
+            return getCurrentBonus(owner.level()) * currentBonus;
         }
         return super.getDynamicAttributeBonus(owner, stack, attribute, currentBonus);
     }
@@ -46,9 +54,9 @@ public class Cosine extends BrutalityMathFunctionCurio {
             Attribute attribute = Attributes.ATTACK_SPEED;
 
             AttributeModifier modifier = new AttributeModifier(uuid, String.format("%s_%s_modifier", Brutality.MOD_ID, attribute.getDescriptionId()),
-                    Cosine.getCurrentBonus(slotContext.entity().level()), AttributeModifier.Operation.MULTIPLY_TOTAL);
-
+                    getCurrentBonus(slotContext.entity().level()), AttributeModifier.Operation.MULTIPLY_TOTAL);
             builder.put(attribute, modifier);
+            return builder.build();
         }
 
         return super.getAttributeModifiers(slotContext, uuid, stack);

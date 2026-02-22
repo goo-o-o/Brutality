@@ -17,7 +17,7 @@ public class BaseRecursor extends BrutalityCurioItem {
     @Override
     public boolean canEquip(SlotContext slotContext, ItemStack stack) {
         return CuriosApi.getCuriosInventory(slotContext.entity()).map(handler ->
-            handler.isEquipped(itemStack -> itemStack.getItem() instanceof BaseRecursor)
+            !handler.isEquipped(itemStack -> itemStack.getItem() instanceof BaseRecursor)
         ).orElse(super.canEquip(slotContext, stack));
     }
 }

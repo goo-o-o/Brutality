@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import java.util.Map;
 
 @Mixin(value = top.theillusivec4.curios.client.ClientEventHandler.class, remap = false)
-public class ClientEventHandler {
+public class ClientEventHandlerMixinCuriosAPI {
 
     /**
      * Mimics logic in {@link ItemStackMixin#modifyOperationType(AttributeModifier.Operation, Map.Entry)} but for curio items

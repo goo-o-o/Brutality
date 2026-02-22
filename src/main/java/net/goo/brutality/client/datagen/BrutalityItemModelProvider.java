@@ -200,9 +200,9 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
                 } else if (hasInventoryTexture) {
                     Brutality.LOGGER.info("withExistingParentGenerated({})", registryName);
                     withExistingParent(registryName, mcLoc("item/generated")).texture("layer0", inventoryTexture);
+                } else {
+                    Brutality.LOGGER.warn("Missing textures for {}", item);
                 }
-
-                Brutality.LOGGER.warn("Missing textures for {}", item);
             } else {
                 Brutality.LOGGER.info("basicItem({})", item);
                 basicItem(item);

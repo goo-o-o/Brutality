@@ -172,7 +172,7 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
                             player.connection.send(new ClientboundSetEntityMotionPacket(player));
                         }
 
-                        float finalDamage = getSpell().getFinalDamage(getOwner(), spellLevel);
+                        float finalDamage = getSpell().getActualDamage(getOwner(), spellLevel);
                         if (getOwner() != null)
                             entity.hurt(entity.damageSources().indirectMagic(getOwner(), null), finalDamage);
                         else

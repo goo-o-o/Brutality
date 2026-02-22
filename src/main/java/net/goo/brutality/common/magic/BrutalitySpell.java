@@ -2,7 +2,7 @@ package net.goo.brutality.common.magic;
 
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;
@@ -17,14 +17,14 @@ public abstract class BrutalitySpell implements IBrutalitySpell {
     private final int baseManaCost;
     private final float baseDamage;
     private final int baseCooldown;
-    private final List<SpellTooltips.SpellStatComponent> statComponents;
+    private final List<SpellTooltipRenderer.SpellStatComponent> statComponents;
     private final int descriptionCount;
     private final int baseCastTime;
-    private Map<SpellTooltips.SpellStatComponents, SpellTooltips.SpellStatComponent> statMap = new HashMap<>();
+    private Map<SpellTooltipRenderer.SpellStatComponentType, SpellTooltipRenderer.SpellStatComponent> statMap = new HashMap<>();
 
     protected BrutalitySpell(MagicSchool school, List<SpellCategory> categories, String name,
                              int baseManaCost, float baseDamage, int baseCooldown, int baseCastTime, int descriptionCount,
-                             @Nullable List<SpellTooltips.SpellStatComponent> statComponents) {
+                             @Nullable List<SpellTooltipRenderer.SpellStatComponent> statComponents) {
         this.school = school;
         this.categories = categories;
         this.name = name;
@@ -36,7 +36,7 @@ public abstract class BrutalitySpell implements IBrutalitySpell {
         this.descriptionCount = descriptionCount;
 
         if (!this.statComponents.isEmpty()) {
-            this.statMap = this.statComponents.stream().collect(Collectors.toMap(SpellTooltips.SpellStatComponent::type, Function.identity()));
+            this.statMap = this.statComponents.stream().collect(Collectors.toMap(SpellTooltipRenderer.SpellStatComponent::type, Function.identity()));
         }
     }
 
@@ -55,15 +55,15 @@ public abstract class BrutalitySpell implements IBrutalitySpell {
     }
 
     /**
-     * Retrieves the {@link SpellTooltips.SpellStatComponent} for the specified {@link SpellTooltips.SpellStatComponents} type.
+     * Retrieves the {@link SpellTooltipRenderer.SpellStatComponent} for the specified {@link SpellTooltipRenderer.SpellStatComponentType} type.
      * The stat component contains detailed information, such as its base value, level scaling ({@code levelDelta}), and optional minimum/maximum bounds.
      *
-     * @param type The {@link SpellTooltips.SpellStatComponents} type specifying the desired statistic (e.g., {@code RANGE}, {@code SPEED}, etc.).
+     * @param type The {@link SpellTooltipRenderer.SpellStatComponentType} type specifying the desired statistic (e.g., {@code RANGE}, {@code SPEED}, etc.).
      *             Must be non-null to retrieve a valid result.
-     * @return The corresponding {@link SpellTooltips.SpellStatComponent} if available, or {@code null} if the given {@code type} is not mapped in {@code statMap}.
+     * @return The corresponding {@link SpellTooltipRenderer.SpellStatComponent} if available, or {@code null} if the given {@code type} is not mapped in {@code statMap}.
      */
     @Nullable
-    public SpellTooltips.SpellStatComponent getStat(SpellTooltips.SpellStatComponents type) {
+    public SpellTooltipRenderer.SpellStatComponent getStat(SpellTooltipRenderer.SpellStatComponentType type) {
         //        throw new NullPointerException("Could not find " + type + " stat for spell: " + this);
         return this.statMap.get(type);
     }
@@ -94,7 +94,7 @@ public abstract class BrutalitySpell implements IBrutalitySpell {
     }
 
 
-    public List<SpellTooltips.SpellStatComponent> getStatComponents() {
+    public List<SpellTooltipRenderer.SpellStatComponent> getStatComponents() {
         return statComponents;
     }
 

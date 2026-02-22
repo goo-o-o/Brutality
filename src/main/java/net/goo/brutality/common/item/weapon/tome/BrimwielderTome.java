@@ -17,15 +17,16 @@ public class BrimwielderTome extends BaseMagicTome {
 
     UUID BRIMWIELDER_SCHOOL_BOOST_UUID = UUID.fromString("e5f08d24-acbf-4ec5-a19f-33977d4245e9");
 
-    public BrimwielderTome(Rarity rarity) {
-        super(rarity);
+    public BrimwielderTome(Rarity rarity, int baseSpellSlots, int baseAugmentSlots) {
+        super(rarity, baseSpellSlots, baseAugmentSlots);
     }
+
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = super.getAttributeModifiers(slot, stack);
 
-        if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) {
+        if (slot == EquipmentSlot.MAINHAND) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(modifiers);
             builder.put(
