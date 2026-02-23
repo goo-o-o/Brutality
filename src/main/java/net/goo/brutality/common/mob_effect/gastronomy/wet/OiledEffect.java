@@ -18,7 +18,7 @@ public class OiledEffect extends MobEffect implements IGastronomyEffect {
 
     public OiledEffect(MobEffectCategory category, int color) {
         super(category, color);
-        this.addAttributeModifier(BrutalityAttributes.GROUND_FRICTION.get(), String.valueOf(FRICTION), 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(BrutalityAttributes.GROUND_FRICTION.get(), String.valueOf(FRICTION), 0, AttributeModifier.Operation.MULTIPLY_BASE);
         this.addAttributeModifier(BrutalityAttributes.JUMP_HEIGHT.get(), String.valueOf(JUMP_HEIGHT), 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 

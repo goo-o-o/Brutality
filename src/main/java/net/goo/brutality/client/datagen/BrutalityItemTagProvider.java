@@ -327,7 +327,13 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.ROAD_RUNNERS_RING.get()
         );
 
-
+        this.tag(BrutalityTags.Items.FEET).add(
+                BrutalityItems.HIGH_HEALS.get(),
+                BrutalityItems.VOID_STEPPERS.get(),
+                BrutalityItems.UMBRAL_TIPTOES.get(),
+                BrutalityItems.PLATED_STEELCAPS.get(),
+                BrutalityItems.ICE_SKATES.get()
+        );
 
     }
 }

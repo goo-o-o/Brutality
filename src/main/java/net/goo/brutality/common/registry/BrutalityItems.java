@@ -20,6 +20,9 @@ import net.goo.brutality.common.item.curios.anklet.*;
 import net.goo.brutality.common.item.curios.belt.BattleScars;
 import net.goo.brutality.common.item.curios.belt.ScientificCalculator;
 import net.goo.brutality.common.item.curios.charm.*;
+import net.goo.brutality.common.item.curios.feet.IceSkates;
+import net.goo.brutality.common.item.curios.feet.PlatedSteelcaps;
+import net.goo.brutality.common.item.curios.feet.VoidSteppers;
 import net.goo.brutality.common.item.curios.hands.Handcuffs;
 import net.goo.brutality.common.item.curios.hands.PerfectCell;
 import net.goo.brutality.common.item.curios.hands.PhantomFinger;
@@ -1537,9 +1540,39 @@ public class BrutalityItems {
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))));
 
+    public static final RegistryObject<Item> PLATED_STEELCAPS = ITEMS.register("plated_steelcaps", () -> new PlatedSteelcaps(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+
+    public static final RegistryObject<Item> VOID_STEPPERS = ITEMS.register("void_steppers", () -> new VoidSteppers(
+            BrutalityRarities.DARK, List.of(
+            new ItemDescriptionComponent(PASSIVE, 2)), 0.05F, 0.5F));
+    public static final RegistryObject<Item> UMBRAL_TIPTOES = ITEMS.register("umbral_tiptoes", () -> new VoidSteppers(
+            BrutalityRarities.NOCTURNAL, List.of(
+            new ItemDescriptionComponent(PASSIVE, 2)), 0.1F, 0.75F));
+
+    public static final RegistryObject<Item> ICE_SKATES = ITEMS.register("ice_skates", () -> new IceSkates(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+
+    public static final RegistryObject<Item> HIGH_HEALS = ITEMS.register("high_heals", () -> new BrutalityCurioItem(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))) {
+        @Override
+        public void curioTick(SlotContext slotContext, ItemStack stack) {
+            if (slotContext.entity().tickCount % 5 == 0 && slotContext.entity().isSprinting()) {
+                slotContext.entity().addEffect(new MobEffectInstance(MobEffects.REGENERATION, 10, 0));
+            }
+        }
+    });
+
+
+
+
     public static final RegistryObject<Item> EMERGENCY_MEETING = ITEMS.register("emergency_meeting", () -> new BrutalityCurioItem(
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(ACTIVE, 1, 20 * 60, DistExecutor.unsafeRunForDist(() -> Keybindings::getActiveAbilityKey, () -> () -> null)))));
+
 
     public static final RegistryObject<Item> PENCIL_SHARPENER = ITEMS.register("pencil_sharpener", () -> new BrutalityCurioItem(
             BrutalityRarities.LEGENDARY).withAttributes(

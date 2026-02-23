@@ -30,6 +30,7 @@ public class BrutalityTags {
         public static final TagKey<Item> HEART = tag(Curios.MODID, "heart");
         public static final TagKey<Item> NECKLACE = tag(Curios.MODID, "necklace");
         public static final TagKey<Item> RING = tag(Curios.MODID, "ring");
+        public static final TagKey<Item> FEET = tag(Curios.MODID, "feet");
 
         private static TagKey<Item> tag(String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, name));

@@ -69,6 +69,29 @@
   "item.brutality.basic_stat_trakker.description.3": "chance to automatically be attached upon crafting or looting",
   "item.brutality.basic_stat_trakker.description.4": "§eTracks stats relevant to an Item",
 
+  "item.brutality.plated_steelcaps": "Plated Steelcaps",
+  "item.brutality.plated_steelcaps.passive.1": "§e -Take -25% Damage while Sprinting",
+
+  "item.brutality.high_heals": "High Heals",
+  "item.brutality.high_heals.passive.1": "§e -Grants §dRegeneration I §ewhile Sprinting",
+
+  "item.brutality.ice_skates": "Ice Skates",
+  "item.brutality.ice_skates.passive.1": "§9-95% Friction while on Ice",
+
+  "item.brutality.void_steppers": "Void Steppers",
+  "item.brutality.void_steppers.passive.1": "§9+5% Move Speed for each Light Level below 15",
+  "item.brutality.void_steppers.passive.2": "§e -The wearer's footsteps are silent",
+
+  "item.brutality.umbral_tiptoes": "Umbral Tiptoes",
+  "item.brutality.umbral_tiptoes.passive.1": "§9+10% Move Speed for each Light Level below 15",
+  "item.brutality.umbral_tiptoes.passive.2": "§e -The wearer's footsteps are silent",
+
+  "item.brutality.flamewalker": "Flamewalker",
+  "item.brutality.flamethreader": "Flamethreader",
+  "item.brutality.flamestomper": "Flamestomper",
+
+  "item.brutality.lava_waders": "Lava Waders",
+
 
 
   "item.brutality.prison_key": "Prison Key",

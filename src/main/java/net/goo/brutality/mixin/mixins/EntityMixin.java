@@ -1,11 +1,14 @@
 package net.goo.brutality.mixin.mixins;
 
+import net.goo.brutality.common.item.curios.feet.VoidSteppers;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -78,5 +81,33 @@ public abstract class EntityMixin {
         }
         return originalTime;
     }
+
+
+    @Inject(method = "playStepSound", at = @At("HEAD"), cancellable = true)
+    private void cancelStepSound(BlockPos pPos, BlockState pState, CallbackInfo ci) {
+        VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
+    }
+
+    @Inject(method = "playCombinationStepSounds", at = @At("HEAD"), cancellable = true)
+    private void cancelCombinationStepSound(BlockState primaryState, BlockState secondaryState, BlockPos primaryPos, BlockPos secondaryPos, CallbackInfo ci) {
+        VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
+    }
+
+    @Inject(method = "playMuffledStepSound", at = @At("HEAD"), cancellable = true)
+    private void cancelMuffledStepSound(BlockState state, BlockPos pos, CallbackInfo ci) {
+        VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
+    }
+
+    @Inject(method = "walkingStepSound", at = @At("HEAD"), cancellable = true)
+    private void cancelWalkingStepSound(BlockPos pPos, BlockState pState, CallbackInfo ci) {
+        VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
+    }
+
+    @Inject(method = "playAmethystStepSound", at = @At("HEAD"), cancellable = true)
+    private void cancelWalkingStepSound(CallbackInfo ci) {
+        VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
+    }
+
+
 
 }

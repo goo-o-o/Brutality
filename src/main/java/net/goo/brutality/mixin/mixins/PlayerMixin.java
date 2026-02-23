@@ -15,6 +15,7 @@ import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.build_archetypes.GastronomyHelper;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
 import net.goo.brutality.util.item.SealUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -26,6 +27,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -66,7 +68,7 @@ public abstract class PlayerMixin extends LivingEntity {
     }
 
     @Shadow
-    public abstract void remove(Entity.RemovalReason pReason);
+    public abstract void remove(RemovalReason pReason);
 
     @Shadow
     public abstract void attack(Entity pTarget);
@@ -168,7 +170,6 @@ public abstract class PlayerMixin extends LivingEntity {
     }
 
 
-    // Replace the entire @Redirect method body with this cleaned version
     @Redirect(
             method = "attack",
             at = @At(
@@ -201,7 +202,6 @@ public abstract class PlayerMixin extends LivingEntity {
 
         return victim.hurt(pSource, modifiedAmount);
     }
-
 
 }
 

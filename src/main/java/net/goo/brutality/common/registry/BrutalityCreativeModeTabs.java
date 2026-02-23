@@ -337,6 +337,11 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.FALLEN_ANGELS_HALO.get());
                         output.accept(BrutalityItems.HELLSPEC_TIE.get());
                         output.accept(BrutalityItems.BLOOD_PACK.get());
+                        output.accept(BrutalityItems.ICE_SKATES.get());
+                        output.accept(BrutalityItems.HIGH_HEALS.get());
+                        output.accept(BrutalityItems.PLATED_STEELCAPS.get());
+                        output.accept(BrutalityItems.VOID_STEPPERS.get());
+                        output.accept(BrutalityItems.UMBRAL_TIPTOES.get());
 
 
 
