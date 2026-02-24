@@ -10,7 +10,7 @@ import net.goo.brutality.client.renderers.BrutalityShaders;
 import net.goo.brutality.client.config.BrutalityClientConfig;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.util.CommonConstants;
-import net.goo.brutality.util.ModTags;
+import net.goo.brutality.util.BrutalityTags;
 import net.goo.brutality.util.build_archetypes.RageHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -231,7 +231,7 @@ public class RageMeter implements IGuiOverlay {
     public static boolean shouldRender(Player player) {
         if (player == null) return false;
         return CuriosApi.getCuriosInventory(player).resolve()
-                .map(handler -> handler.isEquipped(stack -> stack.is(ModTags.Items.RAGE_ITEMS)))
+                .map(handler -> handler.isEquipped(stack -> stack.is(BrutalityTags.Items.RAGE_ITEMS)))
                 .orElse(false);
     }
 }

@@ -5,22 +5,22 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.common.registry.BrutalityRarities;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.item.Rarity;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RarityBorderManager extends SimpleJsonResourceReloadListener {
-    private final Map<Pair<Rarity, BorderType>, BorderData> borderDataMap = new ConcurrentHashMap<>() {};
-    private static final String DIRECTORY = "textures/rarity_borders";
+    private final Map<Pair<String, BorderType>, BorderData> borderDataMap = new ConcurrentHashMap<>();
+
+    private static final String DIRECTORY = "textures/gui/tooltip_borders";
     private static RarityBorderManager INSTANCE;
 
     public RarityBorderManager() {
@@ -39,6 +39,7 @@ public class RarityBorderManager extends SimpleJsonResourceReloadListener {
     public enum BorderType {
         OPEN, IDLE
     }
+
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> jsons, ResourceManager resourceManager, ProfilerFiller profiler) {
         borderDataMap.clear();
@@ -51,8 +52,8 @@ public class RarityBorderManager extends SimpleJsonResourceReloadListener {
 
                 if (parts.length != 2) return;
 
-                Rarity rarity = Rarity.valueOf(parts[0].toUpperCase());
-                BorderType type = BorderType.valueOf(parts[1].toUpperCase());
+                String identifier = parts[0].toLowerCase(Locale.ROOT);
+                BorderType type = BorderType.valueOf(parts[1].toUpperCase(Locale.ROOT));
 
                 int frameWidth = GsonHelper.getAsInt(json, "frame_width");
                 int frameHeight = GsonHelper.getAsInt(json, "frame_height");
@@ -62,26 +63,25 @@ public class RarityBorderManager extends SimpleJsonResourceReloadListener {
 
                 ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(
                         resourceLocation.getNamespace(),
-                        "textures/rarity_borders/" + path + ".png"
+                        DIRECTORY + "/" + path + ".png"
                 );
 
                 // Compute frame count from texture
                 int frameCount = computeFrameCount(resourceManager, texture, frameHeight);
 
                 BorderData data = new BorderData(
-                        rarity, type, frameWidth, frameHeight,
+                        identifier, type, frameWidth, frameHeight, // BorderData record needs updating too
                         cornerSize, frameTime, texture,
                         resourceLocation, frameCount, colorShift
                 );
 
-                borderDataMap.put(Pair.of(rarity, type), data);
-
+                borderDataMap.put(Pair.of(identifier, type), data);
             } catch (Exception e) {
                 Brutality.LOGGER.error("Failed to load border: {}", resourceLocation, e);
             }
         });
 
-        updateRarityData();
+        updateColorDataBorders();
     }
 
 
@@ -98,29 +98,34 @@ public class RarityBorderManager extends SimpleJsonResourceReloadListener {
     }
 
 
-    private void updateRarityData() {
-        for (BrutalityRarities.RarityData rarityData : BrutalityRarities.RarityData.values()) {
-            BorderData idleBorder = getBorderData(rarityData.rarity, BorderType.IDLE);
-            BorderData openBorder = getBorderData(rarityData.rarity, BorderType.OPEN);
+    private void updateColorDataBorders() {
+        // Loop through your RarityData enum directly
+        for (ColorUtils.ColorData data : ColorUtils.ColorData.values()) {
+            // Use the enum name (e.g., "LEGENDARY") to look up the border
+            String name = data.name().toLowerCase(Locale.ROOT);
 
-            rarityData.setBorders(idleBorder, openBorder != null ? openBorder : idleBorder);
+            BorderData idleBorder = getBorderData(name, BorderType.IDLE);
+            BorderData openBorder = getBorderData(name, BorderType.OPEN);
+
+            // Assign the borders directly to the RarityData instance
+            data.setBorders(idleBorder, openBorder != null ? openBorder : idleBorder);
         }
     }
 
-    public BorderData getBorderData(Rarity rarity, BorderType type) {
-        return borderDataMap.get(Pair.of(rarity, type));
+    public BorderData getBorderData(String identifier, BorderType type) {
+        return borderDataMap.get(Pair.of(identifier, type));
     }
 
-    public BorderData getIdleBorder(Rarity rarity) {
-        return getBorderData(rarity, BorderType.IDLE);
+    public BorderData getIdleBorder(String identifier) {
+        return getBorderData(identifier, BorderType.IDLE);
     }
 
-    public BorderData getOpenBorder(Rarity rarity) {
-        return getBorderData(rarity, BorderType.OPEN);
+    public BorderData getOpenBorder(String identifier) {
+        return getBorderData(identifier, BorderType.OPEN);
     }
 
     public record BorderData(
-            Rarity rarity,
+            String rarity,
             BorderType type,
             int frameWidth,
             int frameHeight,
@@ -142,6 +147,7 @@ public class RarityBorderManager extends SimpleJsonResourceReloadListener {
         public int getFrameTimeMs() {
             return frameTime * 50;
         }
+
         public int getFrameForTime(long timeMs) {
             if (frameCount <= 1) return 0;
             return (int) ((timeMs / getFrameTimeMs()) % frameCount);

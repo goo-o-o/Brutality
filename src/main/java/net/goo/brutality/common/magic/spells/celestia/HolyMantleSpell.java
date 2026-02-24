@@ -4,7 +4,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalitySpells;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -13,8 +13,8 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.DEFENSE;
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.DURATION;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.DEFENSE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.DURATION;
 
 public class HolyMantleSpell extends BrutalitySpell {
 
@@ -24,8 +24,8 @@ public class HolyMantleSpell extends BrutalitySpell {
                 List.of(SpellCategory.INSTANT, SpellCategory.SELF, SpellCategory.BUFF),
                 "holy_mantle",
                 50, 0, 200, 0, 1, List.of(
-                        new SpellTooltips.SpellStatComponent(DURATION, 200, 40, null, null),
-                        new SpellTooltips.SpellStatComponent(SpellTooltips.SpellStatComponents.DEFENSE, 0, 4, null, null)
+                        new SpellTooltipRenderer.SpellStatComponent(DURATION, 200, 40, null, null),
+                        new SpellTooltipRenderer.SpellStatComponent(SpellTooltipRenderer.SpellStatComponentType.DEFENSE, 0, 4, null, null)
                 ));
     }
 
@@ -56,7 +56,7 @@ public class HolyMantleSpell extends BrutalitySpell {
             MobEffectInstance effectInstance = victim.getEffect(BrutalityEffects.GRACE.get());
             if (effectInstance != null &&
                     amount <= effectInstance.getAmplifier() * BrutalitySpells.HOLY_MANTLE.get()
-                            .getStat(SpellTooltips.SpellStatComponents.DEFENSE).levelDelta()) {
+                            .getStat(SpellTooltipRenderer.SpellStatComponentType.DEFENSE).levelDelta()) {
 
                 event.setCanceled(true);
                 victim.removeEffect(BrutalityEffects.GRACE.get());

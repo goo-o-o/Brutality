@@ -24,7 +24,7 @@ public class StringRenderOutputMixin {
 
     @Inject(method = "accept", at = @At("HEAD"))
     public void brutality$captureStyle(int pos, Style style, int codePoint, CallbackInfoReturnable<Boolean> cir) {
-        BrutalityFontHooks.setActiveRarity(style.getInsertion());
+        BrutalityFontHooks.setActiveColorData(style.getInsertion());
     }
 
 

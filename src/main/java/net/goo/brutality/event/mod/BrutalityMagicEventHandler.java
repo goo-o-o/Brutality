@@ -1,16 +1,17 @@
 package net.goo.brutality.event.mod;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.common.item.curios.charm.DelicateJewel;
+import net.goo.brutality.common.magic.IBrutalitySpell;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.event.ConsumeManaEvent;
 import net.goo.brutality.event.SpellCastEvent;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
-import net.goo.brutality.common.magic.IBrutalitySpell;
+import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.magic.ManaHelper;
 import net.goo.brutality.util.magic.SpellCastingHandler;
 import net.goo.brutality.util.magic.SpellCooldownTracker;
 import net.goo.brutality.util.magic.SpellStorage;
-import net.goo.brutality.common.registry.BrutalityItems;
-import net.goo.brutality.util.ModUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -36,9 +37,11 @@ public class BrutalityMagicEventHandler {
         IBrutalitySpell spell = event.getSpell();
         int spellLevel = event.getSpellLevel();
         ItemStack tome = event.getStack();
-        float manaCost = IBrutalitySpell.getActualManaCost(player, spell, spellLevel);
+        float manaCost = spell.getActualManaCost(player, spellLevel);
 
         CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
+            DelicateJewel.damageItemOnSpellCast(player, handler);
+
             if (handler.isEquipped(BrutalityItems.HELLSPEC_TIE.get())) {
                 if (spell.getSchool() == IBrutalitySpell.MagicSchool.BRIMWIELDER) {
                     ManaHelper.modifyManaValue(player, manaCost * 0.25F);
@@ -95,8 +98,8 @@ public class BrutalityMagicEventHandler {
 
                     for (int i = 0; i < count; i++) {
                         SpellStorage.SpellEntry entry = entries.get(i);
-                        int spellLevel = IBrutalitySpell.getActualSpellLevel(player, entry.spell(), entry.level());
-                        float cost = IBrutalitySpell.getActualManaCost(player, entry.spell(), spellLevel) * cfg.manaMult();
+                        int spellLevel = entry.spell().getActualSpellLevel(player, entry.level());
+                        float cost = entry.spell().getActualManaCost(player, spellLevel) * cfg.manaMult();
 
                         if (ManaHelper.getMana(player) > cost
                                 && !SpellCooldownTracker.isOnCooldown(player, entry.spell())) {
@@ -149,7 +152,7 @@ public class BrutalityMagicEventHandler {
                 for (int i = 0; i < count; i++) {
                     final int delay = i + 1; // slight stagger
                     DelayedTaskScheduler.queueServerWork(player.level(), delay, () -> {
-                        float cost = IBrutalitySpell.getActualManaCost(player, spell, spellLevel) * costMult;
+                        float cost = spell.getActualManaCost(player, spellLevel) * costMult;
                         if (ManaHelper.getMana(player) > cost) {
                             spell.onStartCast(player, tome, spellLevel);
                         }

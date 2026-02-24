@@ -4,7 +4,6 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.util.item.ItemCategoryUtils;
 import net.goo.brutality.util.item.StatTrakUtils;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -93,10 +92,8 @@ public class StatTrakkerItem extends Item {
                 pTooltipComponents.add(Component.translatable("stat_trak." + Brutality.MOD_ID + "." + i));
             }
         } else {
-            pTooltipComponents.add(
-                    Component.translatable("message." + Brutality.MOD_ID + ".press")
-                            .append(Minecraft.getInstance().options.keyShift.getKey().getDisplayName())
-                            .append(Component.translatable("message." + Brutality.MOD_ID + ".show_more")).withStyle(ChatFormatting.DARK_GRAY));
+            pTooltipComponents.add(Component.translatable("message." + Brutality.MOD_ID + ".press_for_more_info",
+                    Component.keybind(Minecraft.getInstance().options.keyShift.getName())));
         }
     }
 

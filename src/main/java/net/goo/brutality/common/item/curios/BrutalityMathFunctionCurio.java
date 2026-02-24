@@ -3,6 +3,7 @@ package net.goo.brutality.common.item.curios;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -27,10 +28,11 @@ public class BrutalityMathFunctionCurio extends BrutalityCurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         if (!pStack.is(BrutalityItems.SCIENTIFIC_CALCULATOR.get())) {
-            pTooltipComponents.add(Component.translatable("message." + Brutality.MOD_ID + ".requires_scientific_calculator"));
+            pTooltipComponents.add(Component.translatable("message." + Brutality.MOD_ID + ".requires_scientific_calculator").withStyle(ChatFormatting.DARK_GRAY));
+            pTooltipComponents.add(Component.empty());
         }
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
     @Override

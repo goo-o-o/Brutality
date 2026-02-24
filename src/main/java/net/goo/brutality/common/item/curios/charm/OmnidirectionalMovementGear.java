@@ -68,17 +68,11 @@ public class OmnidirectionalMovementGear extends BrutalityCurioItem {
      */
     @OnlyIn(Dist.CLIENT)
     public static Optional<Boolean> getOmnidirectionalImpulse(LocalPlayer player) {
-        // Vanilla behavior: Swimming always requires forward momentum to sprint.
-        if (player.isUnderWater()) {
-            return Optional.of(player.input.hasForwardImpulse());
-        }
 
         // We use AtomicReference because variables accessed inside a lambda (ifPresent)
         // must be effectively final. This acts as a mutable container for our result.
         AtomicReference<Boolean> result = new AtomicReference<>(null);
 
-        // Access the Curios capability. This is a LazyOptional, so we use ifPresent
-        // to ensure we only run the logic if the inventory is actually available.
         CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
             if (handler.isEquipped(BrutalityItems.OMNIDIRECTIONAL_MOVEMENT_GEAR.get())) {
                 // Check for ANY movement input.

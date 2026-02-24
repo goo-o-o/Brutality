@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.goo.brutality.Brutality;
+import net.goo.brutality.common.item.generic.SpellScroll;
 import net.goo.brutality.common.item.weapon.tome.BaseMagicTome;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalitySpells;
@@ -71,23 +72,25 @@ public class SpellCommands {
         Player player = context.getSource().getPlayerOrException();
         ItemStack heldItem = player.getMainHandItem();
 
-        if (!(heldItem.getItem() instanceof BaseMagicTome)) {
-            context.getSource().sendFailure(Component.literal("You must be holding a magic tome!"));
+        if (!(heldItem.getItem() instanceof BaseMagicTome || heldItem.getItem() instanceof SpellScroll)) {
+            context.getSource().sendFailure(Component.translatable("message." + Brutality.MOD_ID + ".spell_command_fail_invalid_item"));
             return 0;
         }
 
         ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, spellName.toLowerCase());
         BrutalitySpell spell = BrutalitySpells.getSpell(spellId);
         if (spell == null) {
-            context.getSource().sendFailure(Component.literal("Unknown spell: " + spellName));
+            context.getSource().sendFailure(Component.translatable("message." + Brutality.MOD_ID + ".spell_command_fail_unknown", spellName));
             return 0;
         }
 
         if (SpellStorage.addSpell(heldItem, spell, level)) {
-            context.getSource().sendSuccess(() -> Component.literal("Added spell " + spellName + " at level " + level), true);
+            context.getSource().sendSuccess(() -> Component.translatable("message." + Brutality.MOD_ID + ".spell_add_success", spellName, level), true);
             return 1;
+        } else {
+            context.getSource().sendFailure(Component.translatable("message." + Brutality.MOD_ID + ".insufficient_slots"));
         }
-        context.getSource().sendFailure(Component.literal("Failed to add spell"));
+        context.getSource().sendFailure(Component.translatable("message." + Brutality.MOD_ID + ".spell_add_fail", spellName));
         return 0;
     }
 
@@ -96,23 +99,23 @@ public class SpellCommands {
         Player player = context.getSource().getPlayerOrException();
         ItemStack heldItem = player.getMainHandItem();
 
-        if (!(heldItem.getItem() instanceof BaseMagicTome)) {
-            context.getSource().sendFailure(Component.literal("You must be holding a magic tome!"));
+        if (!(heldItem.getItem() instanceof BaseMagicTome || heldItem.getItem() instanceof SpellScroll)) {
+            context.getSource().sendFailure(Component.translatable("message." + Brutality.MOD_ID + ".spell_command_fail_invalid_item"));
             return 0;
         }
 
         ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, spellName.toLowerCase());
         BrutalitySpell spell = BrutalitySpells.getSpell(spellId);
         if (spell == null) {
-            context.getSource().sendFailure(Component.literal("Unknown spell: " + spellName));
+            context.getSource().sendFailure(Component.translatable("message." + Brutality.MOD_ID + ".spell_command_fail_unknown", spellName));
             return 0;
         }
 
         if (SpellStorage.removeSpell(heldItem, spell)) {
-            context.getSource().sendSuccess(() -> Component.literal("Removed spell " + spellName), true);
+            context.getSource().sendSuccess(() -> Component.translatable("message." + Brutality.MOD_ID + ".spell_remove_success", spellName), true);
             return 1;
         }
-        context.getSource().sendFailure(Component.literal("Failed to remove spell"));
+        context.getSource().sendFailure(Component.translatable("message." + Brutality.MOD_ID + ".spell_add_fail", spellName));
         return 0;
     }
 }

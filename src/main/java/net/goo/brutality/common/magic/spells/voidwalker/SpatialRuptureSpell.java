@@ -7,7 +7,7 @@ import net.goo.brutality.common.network.clientbound.ClientboundParticlePacket;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -24,7 +24,7 @@ import java.util.List;
 
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.AOE;
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.INSTANT;
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.SIZE;
 
 public class SpatialRuptureSpell extends BrutalitySpell {
 
@@ -33,7 +33,7 @@ public class SpatialRuptureSpell extends BrutalitySpell {
                 List.of(INSTANT, AOE),
                 "spatial_rupture",
                 30, 2, 80, 0, 1, List.of(
-                        new SpellTooltips.SpellStatComponent(SIZE, 3, 1, 0F, 100F)
+                        new SpellTooltipRenderer.SpellStatComponent(SIZE, 3, 1, 0F, 100F)
                 ));
     }
 
@@ -67,7 +67,7 @@ public class SpatialRuptureSpell extends BrutalitySpell {
                         playerToEntity.add(0, 0.1, 0).scale(0.2 * spellLevel);
 
                         e.push(playerToEntity.x, playerToEntity.y, playerToEntity.z);
-                        e.hurt(e.damageSources().flyIntoWall(), getFinalDamage(player, spellLevel));
+                        e.hurt(e.damageSources().flyIntoWall(), getActualDamage(player, spellLevel));
                         if (e instanceof Player) {
                             ((ServerPlayer) player).connection.send(new ClientboundSetEntityMotionPacket(e));
                         }

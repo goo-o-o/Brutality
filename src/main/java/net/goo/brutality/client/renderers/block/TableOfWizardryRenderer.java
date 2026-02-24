@@ -4,14 +4,17 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.goo.brutality.Brutality;
+import net.goo.brutality.client.gui.screen.table_of_wizardry.TableOfWizardryBookSection;
 import net.goo.brutality.client.sounds.ClientSoundManager;
 import net.goo.brutality.common.block.block_entity.PedestalOfWizardryBlockEntity;
 import net.goo.brutality.common.block.block_entity.TableOfWizardryBlockEntity;
+import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.IBrutalitySpell;
 import net.goo.brutality.common.recipe.ConjureRecipe;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.common.registry.BrutalityRecipes;
 import net.goo.brutality.util.RenderUtils;
+import net.goo.brutality.util.magic.SpellStorage;
 import net.goo.brutality.util.math.CoordinateUtils;
 import net.minecraft.client.model.BookModel;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -122,37 +125,88 @@ public class TableOfWizardryRenderer implements BlockEntityRenderer<TableOfWizar
             }
         }
         ClientSoundManager.handleTableOfWizardrySound(pBlockEntity);
-
+        boolean isAugment = pBlockEntity.currentSection == TableOfWizardryBookSection.AUGMENT && pBlockEntity.canAugment();
         // --- 2. Render Animated Items (If Crafting) ---
-        if (pBlockEntity.isCrafting && normalizedProgress < 0.65F) {
-            for (int i = 0; i < items.size(); i++) {
-                Pair<ItemStack, Vec3> pair = items.get(i);
-                Vec3 pedestalOffset = pair.getRight();
+        if (pBlockEntity.isCrafting) {
+            if (normalizedProgress < 0.65F) {
+                for (int i = 0; i < items.size(); i++) {
+                    Pair<ItemStack, Vec3> pair = items.get(i);
+                    Vec3 pedestalOffset = pair.getRight();
 
-                Vec3 itemOffset = TableOfWizardryBlockEntity.getConjureItemOffset(pedestalOffset, normalizedProgress, items.size(), i);
-                pPoseStack.pushPose();
-                // Translate to the dynamic conjure position
-                pPoseStack.translate(0.5 + itemOffset.x, 1 + (pair.getLeft().getItem() instanceof BlockItem ? 0 : 0.15) + itemOffset.y, 0.5 + itemOffset.z);
+                    Vec3 itemOffset = TableOfWizardryBlockEntity.getRenderItemOffset(pedestalOffset, normalizedProgress, items.size(), i);
+                    pPoseStack.pushPose();
+                    // Translate to the dynamic conjure position
+                    pPoseStack.translate(0.5 + itemOffset.x, 1 + (pair.getLeft().getItem() instanceof BlockItem ? 0 : 0.15) + itemOffset.y, 0.5 + itemOffset.z);
 
-                RenderUtils.renderItemInWorld(pair.getLeft(), pPoseStack, pBuffer, pPartialTick, pPackedOverlay, lightAbove);
-                pPoseStack.popPose();
+                    RenderUtils.renderItemInWorld(pair.getLeft(), pPoseStack, pBuffer, pPartialTick, pPackedOverlay, lightAbove);
+                    pPoseStack.popPose();
 
-                // Particles
-                if (level.random.nextFloat() < 0.075f) {
-                    level.addParticle(BrutalityParticles.WIZARDRY_PARTICLE.get(),
-                            blockEntityPos.getX() + 0.5 + itemOffset.x,
-                            blockEntityPos.getY() + 1.15 + itemOffset.y,
-                            blockEntityPos.getZ() + 0.5 + itemOffset.z,
-                            0, 0.02, 0);
+                    // Particles
+                    if (level.random.nextFloat() < 0.075f) {
+                        level.addParticle(BrutalityParticles.WIZARDRY_PARTICLE.get(),
+                                blockEntityPos.getX() + 0.5 + itemOffset.x,
+                                blockEntityPos.getY() + 1.15 + itemOffset.y,
+                                blockEntityPos.getZ() + 0.5 + itemOffset.z,
+                                0, 0.02, 0);
+                    }
                 }
-            }
-        }
 
-        if (pBlockEntity.isCrafting && normalizedProgress > 0.65) {
+                if (isAugment) {
+                    Vec3 startPosWorld = pBlockEntity.craftingPlayerStartPos;
+                    // The target hover point (center of block, 2.5 blocks up)
+                    Vec3 endPosLocal = new Vec3(0.5, 1 + 2.5, 0.5);
 
-            if (recipeOpt.isPresent()) {
+                    if (startPosWorld != null) {
+                        // Convert world pos to local pos relative to the block
+                        Vec3 startPosLocal = new Vec3(
+                                startPosWorld.x - blockEntityPos.getX(),
+                                startPosWorld.y - blockEntityPos.getY(),
+                                startPosWorld.z - blockEntityPos.getZ()
+                        );
 
-                ItemStack resultStack = recipeOpt.get().getResultItem(level.registryAccess());
+                        // Remap 0.0 -> 0.65 progress into a 0.0 -> 1.0 lerp factor
+                        float lerpFactor = Mth.clamp(normalizedProgress / 0.65F, 0.0F, 1.0F);
+
+                        // Apply Quadratic Easing (optional, makes it start fast and slow down at the center)
+                        float easing = 1.0F - (1.0F - lerpFactor) * (1.0F - lerpFactor);
+
+                        double curX = Mth.lerp(easing, startPosLocal.x, endPosLocal.x);
+                        double curY = Mth.lerp(easing, startPosLocal.y, endPosLocal.y);
+                        double curZ = Mth.lerp(easing, startPosLocal.z, endPosLocal.z);
+
+                        pPoseStack.pushPose();
+                        pPoseStack.translate(curX, curY, curZ);
+
+                        // Add a gentle bobbing/rotation to the item as it travels
+                        pPoseStack.mulPose(Axis.YP.rotationDegrees(gameTime * 3.0f));
+                        float bob = Mth.sin(gameTime * 0.1f) * 0.05f;
+                        pPoseStack.translate(0, bob, 0);
+
+                        RenderUtils.renderItemInWorld(pBlockEntity.craftingItem, pPoseStack, pBuffer, pPartialTick, pPackedOverlay, lightAbove);
+
+                        // Trail particles from the player to the table
+                        if (level.random.nextFloat() < 0.15f) {
+                            level.addParticle(BrutalityParticles.WIZARDRY_PARTICLE.get(),
+                                    blockEntityPos.getX() + curX, blockEntityPos.getY() + curY, blockEntityPos.getZ() + curZ,
+                                    0, -0.01, 0);
+                        }
+
+                        pPoseStack.popPose();
+                    }
+                }
+            } else if (normalizedProgress > 0.65) {
+                ItemStack resultStack = ItemStack.EMPTY;
+                IBrutalitySpell.MagicSchool school = null;
+                if (recipeOpt.isPresent()) {
+                    resultStack = recipeOpt.get().getResultItem(level.registryAccess());
+                    school = pBlockEntity.currentSpell.getSchool();
+                } else if (pBlockEntity.currentSection == TableOfWizardryBookSection.SYNTHESISE && pBlockEntity.canSynthesise()) {
+                    BrutalitySpell spell = SpellStorage.getSpells(pBlockEntity.getPedestalItemsFiltered().get(0)).get(0).spell();
+                    school = spell.getSchool();
+                    resultStack = SpellStorage.getScrollFromSpell(spell, 0); // this is fine as we are just rendering
+                } else if (isAugment) {
+                    resultStack = pBlockEntity.craftingItem;
+                }
 
                 if (!resultStack.isEmpty()) {
                     pPoseStack.pushPose();
@@ -163,22 +217,23 @@ public class TableOfWizardryRenderer implements BlockEntityRenderer<TableOfWizar
                     pPoseStack.pushPose();
                     pPoseStack.translate(0, 0.15, 0);
 
-                    IBrutalitySpell.MagicSchool school = pBlockEntity.currentSpell.getSchool();
 
                     float deathRayProgress = Mth.clamp((normalizedProgress - 0.65F) / 0.35F, 0.0F, 1.0F);
                     int totalBeams = 45;
-                    if (school.colors.length > 0) {
-                        int perColor = totalBeams / school.colors.length;
-                        for (int i = 0; i < school.colors.length; i++) {
-                            RenderUtils.renderDragonDeathRays(deathRayProgress, pPoseStack, pBuffer, 0.5F, 0.25F, perColor, school.colors[i], 432L + i);
-                        }
+                    int[] colors;
+
+                    if (school != null) {
+                        colors = school.colorData.colors;
                     } else {
-                        int perColor = totalBeams / rayColors.length;
-                        for (int i = 0; i < rayColors.length; i++) {
-                            RenderUtils.renderDragonDeathRays(deathRayProgress, pPoseStack, pBuffer, 0.5F, 0.25F, perColor, rayColors[i], 432L + i);
-                        }
+                        colors = rayColors;
                     }
 
+                    if (colors.length > 0) {
+                        int perColor = totalBeams / colors.length;
+                        for (int i = 0; i < colors.length; i++) {
+                            RenderUtils.renderDragonDeathRays(deathRayProgress, pPoseStack, pBuffer, 0.5F, 0.25F, perColor, colors[i], 432L + i);
+                        }
+                    }
 
                     pPoseStack.popPose();
                     RenderUtils.renderItemInWorld(resultStack, pPoseStack, pBuffer, pPartialTick, pPackedOverlay, lightAbove);

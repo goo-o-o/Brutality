@@ -26,13 +26,13 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
     protected final int right;
     protected final int left;
     private boolean scrolling;
-    protected float scrollDistance;
-    protected boolean captureMouse = true;
+    protected double scrollDistance;
     protected final int margin;
     protected final int spacing;
 
     private final int barWidth;
     private final int barLeft;
+
 
     /**
      * @param client the minecraft instance this AbstractWidgetList should use
@@ -42,7 +42,7 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
      * @param left   the offset from the left (x coord)
      */
     public AbstractWidgetList(Minecraft client, int width, int height, int top, int left) {
-        this(client, width, height, top, left, 4);
+        this(client, width, height, top, left, 0);
     }
 
     /**
@@ -76,7 +76,7 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
         this.left = left;
         this.bottom = height + this.top;
         this.right = width + this.left;
-        this.barLeft = this.left + this.width - barWidth;
+        this.barLeft = this.right - barWidth;
         this.margin = margin;
         this.spacing = spacing;
         this.barWidth = barWidth;
@@ -113,10 +113,21 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
     }
 
     protected void drawPanel(GuiGraphics gui, int entryRight, int relativeY, Tesselator tess, int mouseX, int mouseY) {
+        if (getMaxScroll() > 0)
+            gui.enableScissor(this.left, this.top, this.barLeft - 1, this.bottom);
+
         int cy = relativeY;
         for (int i = 0; i < widgets.size(); i++) {
             AbstractWidget w = widgets.get(i);
-            w.setX(left);
+
+            int centeredX = this.left;
+            if (getMaxScroll() > 0) {
+                centeredX += (this.width - barWidth - w.getWidth()) / 2;
+            } else {
+                centeredX += (this.width - w.getWidth()) / 2;
+            }
+            w.setX(centeredX);
+
             if (i > 0 && i < widgets.size())
                 w.setY(cy + spacing * i);
             else w.setY(cy);
@@ -126,6 +137,9 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
             }
             cy += w.getHeight() + margin;
         }
+
+        if (getMaxScroll() > 0)
+            gui.disableScissor();
     }
 
     protected boolean clickPanel(double mouseX, double mouseY, int button) {
@@ -133,12 +147,10 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
     }
 
     private int getMaxScroll() {
-        return this.getContentHeight() - (this.height - this.margin);
+        return this.getContentHeight() - (this.height);
     }
 
     private void applyScrollLimits() {
-        // Math.max(0, ...) ensures that if the content is short,
-        // the max allowed scroll is just 0.
         int max = Math.max(0, getMaxScroll());
 
         if (this.scrollDistance < 0.0F) {
@@ -211,7 +223,7 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
         if (this.scrolling) {
             int maxScroll = height - getBarHeight();
             double moved = deltaY / maxScroll;
-            this.scrollDistance += (float) (getMaxScroll() * moved);
+            this.setScrollDistance((float) (scrollDistance + getMaxScroll() * moved));
             applyScrollLimits();
             return true;
         }
@@ -233,9 +245,8 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
 
         RenderSystem.disableDepthTest();
 
-        int contentH = getContentHeight();
-        int maxScroll = Math.max(0, contentH - height);
-        if (maxScroll > 0) {
+        int maxScroll = getMaxScroll();
+        if (maxScroll > 0 && barWidth > 0) {
             int barHeight = getBarHeight();
 
             int barTop = (int) this.scrollDistance * (height - barHeight) / maxScroll + this.top;
@@ -243,21 +254,19 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
                 barTop = this.top;
             }
 
-            int sbX = left + width - barWidth;
-            int sbEndX = sbX + barWidth;
+            int sbEndX = barLeft + barWidth;
 
 
             // Track background
-            guiGraphics.fill(sbX, top, sbEndX, top + height, GRAY);
-            guiGraphics.renderOutline(sbX, top, barWidth, height, DARK_GRAY);
+            guiGraphics.fill(barLeft, top, sbEndX, top + height, GRAY);
+            guiGraphics.renderOutline(barLeft, top, barWidth, height, DARK_GRAY);
 
             // Thumb
-            guiGraphics.fill(sbX, barTop, sbEndX, barTop + barHeight, LIGHTER_GRAY);
-            guiGraphics.fill(sbX + 1, barTop + 1, sbEndX - 1, barTop + barHeight - 1, LIGHT_GRAY);
-            guiGraphics.renderOutline(sbX + 1, barTop + 1, barWidth - 2, barHeight - 2, WHITE);
-            guiGraphics.fill(sbX + 2, barTop + 2, sbEndX - 2, barTop + barHeight - 2, DARK_WHITE);
+            guiGraphics.fill(barLeft, barTop, sbEndX, barTop + barHeight, LIGHTER_GRAY);
+            guiGraphics.fill(barLeft + 1, barTop + 1, sbEndX - 1, barTop + barHeight - 1, LIGHT_GRAY);
+            guiGraphics.renderOutline(barLeft + 1, barTop + 1, barWidth - 2, barHeight - 2, WHITE);
+            guiGraphics.fill(barLeft + 2, barTop + 2, sbEndX - 2, barTop + barHeight - 2, DARK_WHITE);
         }
-
         RenderSystem.disableBlend();
         RenderSystem.disableScissor();
     }
@@ -279,5 +288,13 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
     @Override
     public void updateNarration(NarrationElementOutput pNarrationElementOutput) {
 
+    }
+
+    public double getScrollDistance() {
+        return scrollDistance;
+    }
+
+    public void setScrollDistance(double scrollDistance) {
+        this.scrollDistance = scrollDistance;
     }
 }

@@ -1,6 +1,10 @@
 package net.goo.brutality.common.block.block_entity;
 
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import net.goo.brutality.client.gui.screen.table_of_wizardry.SynthesisView;
 import net.goo.brutality.client.gui.screen.table_of_wizardry.TableOfWizardryBookSection;
+import net.goo.brutality.common.block.IBrutalityMagicBlock;
+import net.goo.brutality.common.item.generic.BrutalityAugmentItem;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.IBrutalitySpell;
 import net.goo.brutality.common.recipe.ConjureRecipe;
@@ -8,7 +12,9 @@ import net.goo.brutality.common.registry.BrutalityBlockEntities;
 import net.goo.brutality.common.registry.BrutalityRecipes;
 import net.goo.brutality.common.registry.BrutalitySpells;
 import net.goo.brutality.util.ParticleHelper;
+import net.goo.brutality.util.magic.AugmentHelper;
 import net.goo.brutality.util.magic.ManaHelper;
+import net.goo.brutality.util.magic.SpellStorage;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -37,6 +43,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable {
@@ -46,6 +54,7 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
     private static final String TAG_STATE = "State";
     private static final String TAG_SCHOOL = "School";
     private static final String TAG_SPELL = "Spell";
+    private static final String TAG_CRAFTING_ITEM = "CraftingItem";
 
     public int time;
     public float flip, oFlip, flipT, flipA;
@@ -58,18 +67,78 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
     public int progress;
     public int maxProgress;
 
-    public TableOfWizardryBookSection currentSection;
+    public TableOfWizardryBookSection currentSection = TableOfWizardryBookSection.GLOSSARY;
     public IBrutalitySpell.MagicSchool currentSchool;
     public BrutalitySpell currentSpell;
     public GuiState currentState = GuiState.SECTION_VIEW;
+
+    public Object2IntOpenHashMap<BlockState> counts = new Object2IntOpenHashMap<>();
 
     public static final List<Vec3> PEDESTAL_OFFSETS = List.of(
             new Vec3(0, 0, -3), new Vec3(2, 0, -2), new Vec3(3, 0, 0), new Vec3(2, 0, 2),
             new Vec3(0, 0, 3), new Vec3(-2, 0, 2), new Vec3(-3, 0, 0), new Vec3(-2, 0, -2)
     );
+    private Player craftingPlayer;
+    public Vec3 craftingPlayerStartPos;
+    public ItemStack craftingItem;
 
     public TableOfWizardryBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BrutalityBlockEntities.TABLE_OF_WIZARDRY_BLOCK_ENTITY.get(), pPos, pBlockState);
+        counts.defaultReturnValue(0);
+    }
+
+    public int getMaxProgress() {
+        return Math.max(200 - getTotalPoints(), 100);
+    }
+
+    public int getTotalPoints() {
+        int sum = 0;
+        for (IBrutalityMagicBlock.MagicBlockGroup group : IBrutalityMagicBlock.MagicBlockGroup.values()) {
+            int blocksInGroupUsed = 0;
+
+            List<BlockState> sortedGroupBlocks = Arrays.stream(group.getBlockStates())
+                    .filter(state -> counts.containsKey(state))
+                    .sorted(Comparator.comparingInt((BlockState s) -> (((IBrutalityMagicBlock) s.getBlock()).getMagicPower(s)))
+                            .reversed()).toList();
+
+            for (BlockState state : sortedGroupBlocks) {
+                if (blocksInGroupUsed >= group.maximumBlockCount) break;
+                int countInWorld = counts.getInt(state);
+                int power = ((IBrutalityMagicBlock) state.getBlock()).getMagicPower(state);
+
+                // Determine how many of this specific block we can actually count
+                int remainingCap = group.maximumBlockCount - blocksInGroupUsed;
+                int amountToCount = Math.min(countInWorld, remainingCap);
+
+                sum += amountToCount * power;
+                blocksInGroupUsed += amountToCount;
+            }
+        }
+
+        return sum;
+    }
+
+    public void updateNearbyMagicBlockCount() {
+        if (level == null) return;
+        int radius = 6;
+        counts.clear();
+
+        BlockPos center = this.getBlockPos();
+        BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
+
+        for (int x = -radius; x <= radius; x++) {
+            for (int y = -radius; y <= radius; y++) {
+                for (int z = -radius; z <= radius; z++) {
+                    mutable.set(center.getX() + x, center.getY() + y, center.getZ() + z);
+
+                    // Use getBlockState once
+                    BlockState state = level.getBlockState(mutable);
+                    if (state.getBlock() instanceof IBrutalityMagicBlock) {
+                        counts.addTo(state, 1);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -84,26 +153,20 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
         if (this.currentSpell != null) {
             pTag.putString(TAG_SPELL, BrutalitySpells.getIdFromSpell(this.currentSpell).toString());
         }
+        if (this.craftingItem != null && !this.craftingItem.isEmpty()) {
+            pTag.put(TAG_CRAFTING_ITEM, this.craftingItem.save(new CompoundTag()));
+        }
     }
 
     @Override
     public void load(@NotNull CompoundTag pTag) {
         super.load(pTag);
-        if (pTag.contains(TAG_CUSTOM_NAME, 8)) {
-            this.name = Component.Serializer.fromJson(pTag.getString(TAG_CUSTOM_NAME));
-        }
-        if (pTag.contains(TAG_SECTION)) {
-            this.currentSection = TableOfWizardryBookSection.valueOf(pTag.getString(TAG_SECTION));
-        }
-        if (pTag.contains(TAG_STATE)) {
-            this.currentState = GuiState.valueOf(pTag.getString(TAG_STATE));
-        }
-        if (pTag.contains(TAG_SCHOOL)) {
-            this.currentSchool = IBrutalitySpell.MagicSchool.valueOf(pTag.getString(TAG_SCHOOL));
-        }
-        if (pTag.contains(TAG_SPELL)) {
-            this.currentSpell = BrutalitySpells.getSpell(ResourceLocation.parse(pTag.getString(TAG_SPELL)));
-        }
+        if (pTag.contains(TAG_CUSTOM_NAME, 8)) this.name = Component.Serializer.fromJson(pTag.getString(TAG_CUSTOM_NAME));
+        if (pTag.contains(TAG_SECTION)) this.currentSection = TableOfWizardryBookSection.valueOf(pTag.getString(TAG_SECTION));
+        if (pTag.contains(TAG_STATE)) this.currentState = GuiState.valueOf(pTag.getString(TAG_STATE));
+        if (pTag.contains(TAG_SCHOOL)) this.currentSchool = IBrutalitySpell.MagicSchool.valueOf(pTag.getString(TAG_SCHOOL));
+        if (pTag.contains(TAG_SPELL)) this.currentSpell = BrutalitySpells.getSpell(ResourceLocation.parse(pTag.getString(TAG_SPELL)));
+        if (pTag.contains(TAG_CRAFTING_ITEM)) this.craftingItem = ItemStack.of(pTag.getCompound(TAG_CRAFTING_ITEM));
     }
 
     private PedestalOfWizardryBlockEntity getPedestalAt(Vec3 offset) {
@@ -117,6 +180,15 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
         for (Vec3 offset : PEDESTAL_OFFSETS) {
             PedestalOfWizardryBlockEntity pedestal = getPedestalAt(offset);
             items.add(pedestal != null ? pedestal.getStoredItem() : ItemStack.EMPTY);
+        }
+        return items;
+    }
+
+    public List<ItemStack> getPedestalItemsFiltered() {
+        List<ItemStack> items = new ArrayList<>();
+        for (Vec3 offset : PEDESTAL_OFFSETS) {
+            PedestalOfWizardryBlockEntity pedestal = getPedestalAt(offset);
+            if (pedestal != null && !pedestal.getStoredItem().isEmpty()) items.add(pedestal.getStoredItem());
         }
         return items;
     }
@@ -136,6 +208,7 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
         return (float) progress / maxProgress;
     }
 
+
     public static class Tickers {
 
         public static void commonTick(Level level, TableOfWizardryBlockEntity blockEntity) {
@@ -150,6 +223,8 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
                 blockEntity.prevProgress = 0;
                 blockEntity.progress = 0;
             }
+
+            if (level.getGameTime() % 20 == 0) blockEntity.updateNearbyMagicBlockCount();
         }
 
         public static void clientTick(Level pLevel, BlockPos pPos, BlockState pState, TableOfWizardryBlockEntity blockEntity) {
@@ -202,10 +277,10 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
         }
     }
 
-    public void tryStartCrafting(Player player, ItemStack tome) {
+    public void tryStartCrafting(Player player, ItemStack item) {
         if (this.level == null || this.currentSection == null) return;
-        delegateCraftingOperation(this.currentSection);
 
+        delegateCraftingOperation(this.currentSection, player, item);
 
     }
 
@@ -215,15 +290,121 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
         this.stopCrafting();
     }
 
-    private void delegateCraftingOperation(TableOfWizardryBookSection section) {
+    private void delegateCraftingOperation(TableOfWizardryBookSection section, Player player, ItemStack craftingItem) {
         switch (section) {
             case CONJURE -> startConjureOperation();
+            case SYNTHESISE -> startSynthesisOperation();
+            case AUGMENT -> startAugmentOperation(player, craftingItem);
         }
     }
 
     private void delegateCraftingFinished(TableOfWizardryBookSection section) {
         switch (section) {
             case CONJURE -> completeConjureOperation();
+            case SYNTHESISE -> completeSynthesisOperation();
+            case AUGMENT -> completeAugmentOperation();
+        }
+    }
+
+    public boolean canSynthesise() {
+        if (this.level != null) {
+            List<ItemStack> filtered = getPedestalItemsFiltered();
+            if (filtered.size() != 2) return false;
+            return SpellStorage.getSpells(filtered.get(0)).get(0).equals(SpellStorage.getSpells(filtered.get(1)).get(0));
+        }
+        return false;
+    }
+
+    public boolean canAugment() {
+        if (this.level != null) {
+            List<ItemStack> filtered = getPedestalItemsFiltered();
+            for (ItemStack stack : filtered) {
+                if (stack.getItem() instanceof BrutalityAugmentItem) return true;
+            }
+        }
+        return false;
+    }
+
+    private void startAugmentOperation(Player player, ItemStack item) {
+        if (canAugment()) {
+            this.craftingPlayer = player;
+            this.craftingPlayerStartPos = player.getPosition(0);
+            this.craftingItem = item;
+
+
+            if (this.craftingPlayer.getInventory().contains(this.craftingItem)) {
+                this.craftingPlayer.getInventory().removeItem(craftingItem);
+                this.isCrafting = true;
+                this.progress = 0;
+                this.maxProgress = getMaxProgress();
+                this.setChanged();
+                if (this.level != null) {
+                    this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
+                }
+            }
+        }
+    }
+
+    private void completeAugmentOperation() {
+        if (canAugment()) {
+            if (this.craftingItem != null) {
+                List<ItemStack> consumedStacks = AugmentHelper.addAugments(
+                        this.craftingItem,
+                        getPedestalItemsFiltered().toArray(new ItemStack[0])
+                );
+
+                if (!consumedStacks.isEmpty()) {
+                    for (ItemStack consumed : consumedStacks) {
+                        for (Vec3 offset : PEDESTAL_OFFSETS) {
+                            PedestalOfWizardryBlockEntity pedestal = getPedestalAt(offset);
+                            if (pedestal != null) {
+                                ItemStack pedestalStack = pedestal.getStoredItem();
+                                // Match by reference or equality to ensure we don't shrink the wrong stack
+                                if (!pedestalStack.isEmpty() && pedestalStack == consumed) {
+                                    pedestalStack.shrink(1);
+                                    pedestal.setChanged();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (level != null && !level.isClientSide()) {
+                    ItemStack result = craftingItem;
+                    ItemEntity itemEntity = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, result);
+                    level.addFreshEntity(itemEntity);
+                    craftingItem = null;
+                    this.setChanged();
+                }
+            }
+        }
+    }
+
+
+    private void startSynthesisOperation() {
+        if (canSynthesise()) {
+            this.isCrafting = true;
+            this.progress = 0;
+            this.maxProgress = getMaxProgress();
+            this.setChanged();
+            if (this.level != null) {
+                this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
+            }
+        }
+    }
+
+    private void completeSynthesisOperation() {
+        if (canSynthesise()) {
+            if (this.craftingPlayer != null && ManaHelper.getMana(this.craftingPlayer) >= 100) {
+                SpellStorage.SpellEntry spellEntry = SpellStorage.getSpells(getPedestalItemsFiltered().get(0)).get(0);
+                consumePedestalItems();
+                if (level != null && !level.isClientSide()) {
+                    ItemStack result = SpellStorage.getScrollFromSpell(spellEntry.spell(), spellEntry.level() + SynthesisView.SynthesisResult.getLevelBonus(getTotalPoints(), 0.0025));
+                    ItemEntity itemEntity = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, result);
+                    level.addFreshEntity(itemEntity);
+                }
+            }
         }
     }
 
@@ -232,47 +413,49 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
         List<ItemStack> pedestalItems = this.getPedestalItems();
         SimpleContainer container = new SimpleContainer(pedestalItems.toArray(new ItemStack[0]));
 
-        assert this.level != null;
-        this.level.getRecipeManager().getRecipeFor(BrutalityRecipes.CONJURE_TYPE.get(), container, this.level).ifPresent(recipe -> {
-            if (!recipe.requiredEntities().isEmpty()) {
-                List<Entity> nearbyEntities = this.level.getEntitiesOfClass(Entity.class,
-                        new AABB(this.worldPosition).inflate(5.0),
-                        entity -> recipe.requiredEntities().contains(entity.getType()));
-                if (nearbyEntities.isEmpty()) return;
-            }
-            this.isCrafting = true;
-            this.progress = 0;
-            this.maxProgress = 200;
-            this.setChanged();
-            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
-        });
+        if (this.level != null) {
+            this.level.getRecipeManager().getRecipeFor(BrutalityRecipes.CONJURE_TYPE.get(), container, this.level).ifPresent(recipe -> {
+                if (!recipe.requiredEntities().isEmpty()) {
+                    List<Entity> nearbyEntities = this.level.getEntitiesOfClass(Entity.class,
+                            new AABB(this.worldPosition).inflate(5.0),
+                            entity -> recipe.requiredEntities().contains(entity.getType()));
+                    if (nearbyEntities.isEmpty()) return;
+                }
+                this.isCrafting = true;
+                this.progress = 0;
+                this.maxProgress = getMaxProgress();
+                this.setChanged();
+                this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
+            });
+        }
     }
+
 
     private void completeConjureOperation() {
         List<ItemStack> pedestalItems = this.getPedestalItems();
         SimpleContainer container = new SimpleContainer(pedestalItems.toArray(new ItemStack[0]));
 
-        assert this.level != null;
-        this.level.getRecipeManager().getRecipeFor(BrutalityRecipes.CONJURE_TYPE.get(), container, this.level).ifPresent(recipe -> {
-            if (enoughMana(recipe)) {
-                if (sacrificeEntities(recipe)) {
-                    consumePedestalItems();
-                    if (!level.isClientSide()) {
-                        ItemStack result = recipe.getResultItem(this.level.registryAccess());
-                        ItemEntity itemEntity = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, result);
-                        level.addFreshEntity(itemEntity);
+        if (this.level != null) {
+            this.level.getRecipeManager().getRecipeFor(BrutalityRecipes.CONJURE_TYPE.get(), container, this.level).ifPresent(recipe -> {
+                if (enoughMana(recipe)) {
+                    if (sacrificeEntities(recipe)) {
+                        consumePedestalItems();
+                        if (!level.isClientSide()) {
+                            ItemStack result = recipe.getResultItem(this.level.registryAccess());
+                            ItemEntity itemEntity = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, result);
+                            level.addFreshEntity(itemEntity);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     private boolean enoughMana(ConjureRecipe recipe) {
         if (level != null) {
-            Player player = level.getNearestPlayer(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 5, false);
-            if (player != null) {
-                if (ManaHelper.getMana(player) >= recipe.mana()) {
-                    ManaHelper.modifyManaValue(player, -recipe.mana());
+            if (this.craftingPlayer != null) {
+                if (ManaHelper.getMana(this.craftingPlayer) >= recipe.mana()) {
+                    ManaHelper.modifyManaValue(this.craftingPlayer, -recipe.mana());
                     return true;
                 }
             }
@@ -353,7 +536,7 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
 
     public enum GuiState {SECTION_VIEW, SPELL_PAGE}
 
-    public static Vec3 getConjureItemOffset(Vec3 pedestalOffset, float progress, int itemCount, int itemIndex) {
+    public static Vec3 getRenderItemOffset(Vec3 pedestalOffset, float progress, int itemCount, int itemIndex) {
         float animationEnd = 0.65f;
         float ritualProgress = Mth.clamp(progress / animationEnd, 0.0f, 1.0f);
         if (progress >= animationEnd) return new Vec3(0, 2.5, 0);

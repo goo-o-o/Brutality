@@ -71,6 +71,7 @@ public class BrutalityModEvents {
                 BrutalityAttributes.SPELL_COOLDOWN.get(),
                 BrutalityAttributes.CAST_TIME.get(),
                 BrutalityAttributes.SPELL_DAMAGE.get(),
+                BrutalityAttributes.UNIVERSAL_SCHOOL_LEVEL.get(),
                 BrutalityAttributes.DAEMONIC_SCHOOL_LEVEL.get(),
                 BrutalityAttributes.DARKIST_SCHOOL_LEVEL.get(),
                 BrutalityAttributes.VOLTWEAVER_SCHOOL_LEVEL.get(),

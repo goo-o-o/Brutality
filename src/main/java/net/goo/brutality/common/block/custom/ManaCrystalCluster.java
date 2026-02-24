@@ -17,8 +17,4 @@ public class ManaCrystalCluster extends AmethystClusterBlock implements IBrutali
         return this.magicPower;
     }
 
-    @Override
-    public int getMaxCount() {
-        return 5;
-    }
 }

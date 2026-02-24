@@ -4,7 +4,7 @@ import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.client.particle.providers.PointToPointParticleData;
 import net.goo.brutality.common.registry.BrutalityParticles;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.mcreator.terramity.init.TerramityModSounds;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -19,16 +19,16 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SIZE;
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SPEED;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.SIZE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.SPEED;
 
 public class StygianStepSpell extends BrutalitySpell {
 
 
     public StygianStepSpell() {
-        super(MagicSchool.BRIMWIELDER, List.of(SpellCategory.INSTANT, SpellCategory.TARGET, SpellCategory.UTILITY), "stygian_step", 30, 5, 20, 0, 1, List.of(
-                new SpellTooltips.SpellStatComponent(SPEED, 1F, 0.25F, 1F, 5F),
-                new SpellTooltips.SpellStatComponent(SIZE, 3, 0, 3F, 3F)
+        super(MagicSchool.BRIMWIELDER, List.of(SpellCategory.INSTANT, SpellCategory.TARGETABLE, SpellCategory.UTILITY), "stygian_step", 30, 5, 20, 0, 1, List.of(
+                new SpellTooltipRenderer.SpellStatComponent(SPEED, 1F, 0.25F, 1F, 5F),
+                new SpellTooltipRenderer.SpellStatComponent(SIZE, 3, 0, 3F, 3F)
         ));
     }
 
@@ -66,7 +66,7 @@ public class StygianStepSpell extends BrutalitySpell {
 
         DelayedTaskScheduler.queueServerWork(player.level(), 5, () -> {
             player.level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, player, player.getBoundingBox().inflate(size)).forEach(e -> {
-                e.hurt(e.damageSources().flyIntoWall(), getFinalDamage(player, spellLevel));
+                e.hurt(e.damageSources().flyIntoWall(), getActualDamage(player, spellLevel));
                 Vec3 pushAng = e.getPosition(1).subtract(player.getPosition(1));
                 pushAng.normalize().scale(speed / 10F);
                 e.push(pushAng.x(), pushAng.y(), pushAng.z());

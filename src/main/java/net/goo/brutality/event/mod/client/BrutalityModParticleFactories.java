@@ -79,7 +79,7 @@ public class BrutalityModParticleFactories {
 
         event.registerSpecial(BrutalityParticles.NUCLEAR_EXPLOSION_EMITTER.get(), new NuclearExplosionParticleEmitter.Provider());
         event.registerSpriteSet(BrutalityParticles.NUCLEAR_EXPLOSION_PARTICLE.get(), NuclearExplosionParticle.Provider::new);
-        event.registerSpecial(BrutalityParticles.BLOOD_EXPLOSION_EMITTER.get(), new BloodExplosionEmitter.Provider());
+        event.registerSpecial(BrutalityParticles.BLOOD_EXPLOSION_EMITTER.get(), new BloodExplosionParticleEmitter.Provider());
         event.registerSpriteSet(BrutalityParticles.BLOOD_EXPLOSION_PARTICLE.get(), BloodExplosionParticle.Provider::new);
         event.registerSpecial(BrutalityParticles.NAPALM_EXPLOSION_EMITTER.get(), new NapalmExplosionParticleEmitter.Provider());
         event.registerSpriteSet(BrutalityParticles.NAPALM_EXPLOSION_PARTICLE.get(), NapalmExplosionParticle.Provider::new);

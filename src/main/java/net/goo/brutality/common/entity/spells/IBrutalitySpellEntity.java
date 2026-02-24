@@ -19,7 +19,7 @@ public interface IBrutalitySpellEntity {
     int getSpellLevel();
 
     default float getFinalDamage(IBrutalitySpell spell, @Nullable Entity owner, int spellLevel) {
-        return spell.getFinalDamage(owner, spellLevel);
+        return spell.getActualDamage(owner, spellLevel);
     }
 
     float getSizeScaling();

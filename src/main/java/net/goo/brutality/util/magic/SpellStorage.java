@@ -1,7 +1,9 @@
 package net.goo.brutality.util.magic;
 
+import net.goo.brutality.common.item.base.BrutalityMagicItem;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalitySpells;
+import net.goo.brutality.util.NBTUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -14,6 +16,7 @@ import java.util.List;
 
 public class SpellStorage {
     private static final String SPELLS_TAG = "Spells";
+    private static final String SPELL_MOD = "SpellMod";
     private static final String SPELL_ID_TAG = "SpellId";
     private static final String SPELL_LEVEL_TAG = "SpellLevel";
     private static final String SELECTED_SPELL_INDEX = "SelectedSpellIndex";
@@ -23,6 +26,19 @@ public class SpellStorage {
         public boolean equals(Object obj) {
             return obj instanceof SpellEntry spellEntry && spellEntry.spell() == spell && spellEntry.level() == level;
         }
+    }
+
+    public static void addSpellSlot(ItemStack stack, int amount) {
+        if (stack.getItem() instanceof BrutalityMagicItem) {
+            stack.getOrCreateTag().putInt(SPELL_MOD, stack.getOrCreateTag().getInt(SPELL_MOD) + amount);
+        }
+    }
+
+    public static int getSpellSlotCount(ItemStack stack) {
+        if (stack.getItem() instanceof BrutalityMagicItem magicItem) {
+            return magicItem.baseSpellSlots + NBTUtils.getInt(stack, SPELL_MOD, 0);
+        }
+        return -1;
     }
 
     public static ItemStack getScrollFromSpell(BrutalitySpell spell, int level) {
@@ -64,6 +80,8 @@ public class SpellStorage {
         CompoundTag tag = stack.getOrCreateTag();
         ListTag spellsTag = tag.contains(SPELLS_TAG) ? tag.getList(SPELLS_TAG, Tag.TAG_COMPOUND) : new ListTag();
 
+        if (spellsTag.size() > getSpellSlotCount(stack)) return false;
+
         ResourceLocation spellId = BrutalitySpells.getIdFromSpell(spell);
         for (int i = 0; i < spellsTag.size(); i++) {
             if (spellsTag.getCompound(i).getString(SPELL_ID_TAG).equals(spellId.toString())) {
@@ -89,6 +107,7 @@ public class SpellStorage {
         if (!stack.hasTag()) return false;
 
         CompoundTag tag = stack.getTag();
+        if (tag == null) return false;
         ListTag spellsTag = tag.contains(SPELLS_TAG) ? tag.getList(SPELLS_TAG, Tag.TAG_COMPOUND) : new ListTag();
         ResourceLocation spellId = BrutalitySpells.getIdFromSpell(spell);
 
@@ -124,17 +143,16 @@ public class SpellStorage {
         return true;
     }
 
-    public static boolean cycleSelectedSpell(ItemStack stack, int direction) {
-        if (!stack.hasTag() || !stack.getTag().contains(SPELLS_TAG)) return false;
+    public static void cycleSelectedSpell(ItemStack stack, int direction) {
+        if (!stack.hasTag() || !stack.getTag().contains(SPELLS_TAG)) return;
 
         ListTag spellsTag = stack.getTag().getList(SPELLS_TAG, Tag.TAG_COMPOUND);
-        if (spellsTag.isEmpty()) return false;
+        if (spellsTag.isEmpty()) return;
 
         int currentIndex = stack.getTag().getInt(SELECTED_SPELL_INDEX);
         int newIndex = currentIndex + direction;
         if (newIndex >= spellsTag.size()) newIndex = 0;
         if (newIndex < 0) newIndex = spellsTag.size() - 1;
         stack.getTag().putInt(SELECTED_SPELL_INDEX, newIndex);
-        return true;
     }
 }

@@ -11,6 +11,7 @@ import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.event.LivingDodgeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -29,25 +30,56 @@ import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 import static net.goo.brutality.Brutality.LOGGER;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class ClientAccess {
     private static ExtinctionSpellSoundInstance extinctionSpellSoundInstance;
+    private static final Minecraft mc = Minecraft.getInstance();
     private static DeathsawSoundInstance deathsawSoundInstance;
+
+    public static void loadBitShader() {
+        mc.gameRenderer.loadEffect(GameRenderer.EFFECTS[16]);
+    }
+
+    public static void stopAllShaders() {
+        mc.gameRenderer.shutdownEffect();
+    }
+
+    private static long lastReloadTime = 0;
+    private static final long RELOAD_CD_MS = 25;
+
+    public static void safeReloadChunks(int delayMs) {
+        long currentTime = System.currentTimeMillis();
+
+        // Only proceed if enough time has passed since the last reload
+        if (currentTime - lastReloadTime >= RELOAD_CD_MS) {
+            lastReloadTime = currentTime; // we should update this immediately so any other calls do not pass through
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.level != null) {
+                var delayed = CompletableFuture.delayedExecutor(delayMs, TimeUnit.MILLISECONDS);
+
+                CompletableFuture.runAsync(() -> mc.execute(mc.levelRenderer::allChanged), delayed);
+
+            }
+        }
+    }
+
 
     /**
      * Handles the synchronization of a capability's data on the client side based on the provided key and
      * serialized data. This method resolves the registered capability using the provided key, and updates
      * the specific instance associated with the local player using the deserialized data.
      *
-     * @param key A unique identifier for the target capability to be synchronized. Used to retrieve the correct
-     *            capability instance.
+     * @param key  A unique identifier for the target capability to be synchronized. Used to retrieve the correct
+     *             capability instance.
      * @param data The serialized {@link CompoundTag} containing the new data to be applied to the capability.
      */
     public static void handleSync(int entityId, String key, CompoundTag data) {
-        Level level = Minecraft.getInstance().level;
+        Level level = mc.level;
         if (level == null) return;
 
         Entity entity = level.getEntity(entityId);
@@ -62,34 +94,33 @@ public class ClientAccess {
 
     public static void playExtinctionSpellSound(ExtinctionEntity extinctionEntity) {
         ClientAccess.extinctionSpellSoundInstance = new ExtinctionSpellSoundInstance(extinctionEntity);
-        Minecraft.getInstance().getSoundManager().queueTickingSound(ClientAccess.extinctionSpellSoundInstance);
+        mc.getSoundManager().queueTickingSound(ClientAccess.extinctionSpellSoundInstance);
     }
 
 
     public static void stopExtinctionSpellSound() {
-        Minecraft.getInstance().getSoundManager().stop(extinctionSpellSoundInstance);
+        mc.getSoundManager().stop(extinctionSpellSoundInstance);
     }
 
     public static void startDeathsawSound(Player player) {
         ClientAccess.deathsawSoundInstance = new DeathsawSoundInstance(player);
         player.playSound(BrutalitySounds.CHAINSAW_START.get(), 1.0F, 1.0F);
-        SoundManager soundManager = Minecraft.getInstance().getSoundManager();
+        SoundManager soundManager = mc.getSoundManager();
 
         if (deathsawSoundInstance.canPlaySound() && !soundManager.isActive(deathsawSoundInstance))
-            Minecraft.getInstance().getSoundManager().playDelayed(ClientAccess.deathsawSoundInstance, 23);
+            mc.getSoundManager().playDelayed(ClientAccess.deathsawSoundInstance, 23);
     }
 
     public static void stopDeathsawSound(LivingEntity livingEntity) {
         livingEntity.playSound(BrutalitySounds.CHAINSAW_STOP.get(), 1.0F, 1.0F);
-        SoundManager soundManager = Minecraft.getInstance().getSoundManager();
+        SoundManager soundManager = mc.getSoundManager();
         if (soundManager.isActive(deathsawSoundInstance))
             soundManager.stop(ClientAccess.deathsawSoundInstance);
     }
 
 
-
     public static void syncItemCooldowns(Map<Item, ItemCooldowns.CooldownInstance> cooldowns, int tickCount) {
-        Player player = Minecraft.getInstance().player;
+        Player player = mc.player;
         if (player != null) {
             ItemCooldowns newCooldowns = player.getCooldowns();
             newCooldowns.cooldowns.clear();
@@ -99,8 +130,8 @@ public class ClientAccess {
     }
 
     public static void spawnParticles(ClientboundParticlePacket packet) {
-        if (Minecraft.getInstance().level == null) return;
-        ClientLevel level = Minecraft.getInstance().level;
+        if (mc.level == null) return;
+        ClientLevel level = mc.level;
 
         for (int i = 0; i < packet.count; ++i) {
             float xOffset = (float) (level.random.nextGaussian() * packet.xDist);
@@ -118,7 +149,7 @@ public class ClientAccess {
     }
 
     public static void handleDodgeClient(ClientboundDodgePacket packet) {
-        ClientLevel level = Minecraft.getInstance().level;
+        ClientLevel level = mc.level;
         if (level == null) return;
         Holder<DamageType> damageType = level.registryAccess()
                 .registryOrThrow(Registries.DAMAGE_TYPE)

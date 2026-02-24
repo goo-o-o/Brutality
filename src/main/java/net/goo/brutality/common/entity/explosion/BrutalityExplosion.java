@@ -39,7 +39,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class BrutalityExplosion extends Explosion {
+public abstract class BrutalityExplosion extends Explosion {
     private final Map<Entity, Vec3> hitEntities = Maps.newHashMap();
     public float damageScale = 1;
     public float knockbackScale = 1;

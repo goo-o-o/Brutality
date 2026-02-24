@@ -1,12 +1,13 @@
 package net.goo.brutality.common.block.custom;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.common.block.block_entity.TableOfWizardryBlockEntity;
 import net.goo.brutality.client.gui.screen.TableOfWizardryScreen;
+import net.goo.brutality.common.block.block_entity.TableOfWizardryBlockEntity;
 import net.goo.brutality.common.registry.BrutalityBlockEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -52,6 +53,20 @@ public class TableOfWizardryBlock extends BaseEntityBlock {
 
     public @NotNull VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return SHAPE;
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (state.hasBlockEntity() && (!state.is(newState.getBlock()) || !newState.hasBlockEntity())) {
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be instanceof TableOfWizardryBlockEntity wizardTable) {
+                // Drop the crafting item safely
+                if (wizardTable.craftingItem != null && !wizardTable.craftingItem.isEmpty()) {
+                    Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), wizardTable.craftingItem);
+                }
+            }
+            level.removeBlockEntity(pos);
+        }
     }
 
     public @NotNull RenderShape getRenderShape(BlockState pState) {

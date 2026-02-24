@@ -16,6 +16,7 @@ import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.build_archetypes.GastronomyHelper;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
 import net.goo.brutality.util.item.SealUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -170,7 +171,6 @@ public abstract class PlayerMixin extends LivingEntity {
     }
 
 
-    // Replace the entire @Redirect method body with this cleaned version
     @Redirect(
             method = "attack",
             at = @At(
@@ -203,7 +203,6 @@ public abstract class PlayerMixin extends LivingEntity {
 
         return victim.hurt(pSource, modifiedAmount);
     }
-
 
 }
 

@@ -24,8 +24,4 @@ public class BookshelfOfWizardry extends Block implements IBrutalityMagicBlock {
         return 5;
     }
 
-    @Override
-    public int getMaxCount() {
-        return 15;
-    }
 }

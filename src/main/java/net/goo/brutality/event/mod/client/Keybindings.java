@@ -10,7 +10,7 @@ import net.goo.brutality.common.network.serverbound.ServerboundActiveAbilityPres
 import net.goo.brutality.common.network.serverbound.ServerboundArmorSetBonusAbilityPressPacket;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
-import net.goo.brutality.util.ModTags;
+import net.goo.brutality.util.BrutalityTags;
 import net.mcreator.terramity.init.TerramityModKeyMappings;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.player.LocalPlayer;
@@ -62,7 +62,7 @@ public final class Keybindings {
                 if (Keybindings.RAGE_ACTIVATE_KEY.consumeClick()) {
                     CuriosApi.getCuriosInventory(player).ifPresent(
                             handler -> {
-                                if (!handler.findCurios(stack -> stack.is(ModTags.Items.RAGE_ITEMS)).isEmpty()) {
+                                if (!handler.findCurios(stack -> stack.is(BrutalityTags.Items.RAGE_ITEMS)).isEmpty()) {
                                     player.getCapability(BrutalityCapabilities.RAGE).ifPresent(cap -> {
                                         if (handler.isEquipped(BrutalityItems.ANGER_MANAGEMENT.get())) {
                                             PacketHandler.sendToServer(new ServerboundActivateRagePacket());

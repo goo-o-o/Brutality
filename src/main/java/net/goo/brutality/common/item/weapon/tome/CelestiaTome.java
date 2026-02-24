@@ -19,15 +19,16 @@ public class CelestiaTome extends BaseMagicTome {
 
     UUID CELESTIA_SCHOOL_BOOST_UUID = UUID.fromString("e0ff2fb1-3857-4508-be0f-ed20beadcef8");
 
-    public CelestiaTome(Rarity rarity) {
-        super(rarity);
+    public CelestiaTome(Rarity rarity, int baseSpellSlots, int baseAugmentSlots) {
+        super(rarity, baseSpellSlots, baseAugmentSlots);
     }
+
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = super.getAttributeModifiers(slot, stack);
 
-        if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) {
+        if (slot == EquipmentSlot.MAINHAND) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(modifiers);
             builder.put(

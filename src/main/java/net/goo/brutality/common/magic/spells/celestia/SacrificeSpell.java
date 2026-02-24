@@ -4,7 +4,7 @@ import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.client.particle.providers.WaveParticleData;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.RANGE;
 
 public class SacrificeSpell extends BrutalitySpell {
 
@@ -23,8 +23,8 @@ public class SacrificeSpell extends BrutalitySpell {
                 List.of(SpellCategory.INSTANT, SpellCategory.AOE, SpellCategory.BUFF),
                 "sacrifice",
                 80, 0, 600, 0, 1, List.of(
-                        new SpellTooltips.SpellStatComponent(SpellTooltips.SpellStatComponents.HEALING, 10, 2, null, null),
-                        new SpellTooltips.SpellStatComponent(SpellTooltips.SpellStatComponents.RANGE, 5, 1, null, 25F)
+                        new SpellTooltipRenderer.SpellStatComponent(SpellTooltipRenderer.SpellStatComponentType.HEALING, 10, 2, null, null),
+                        new SpellTooltipRenderer.SpellStatComponent(SpellTooltipRenderer.SpellStatComponentType.RANGE, 5, 1, null, 25F)
                 ));
     }
 
@@ -45,7 +45,7 @@ public class SacrificeSpell extends BrutalitySpell {
 
     @Override
     public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
-        SpellTooltips.SpellStatComponent healthStat = getStat(SpellTooltips.SpellStatComponents.HEALING);
+        SpellTooltipRenderer.SpellStatComponent healthStat = getStat(SpellTooltipRenderer.SpellStatComponentType.HEALING);
         float healPool = getFinalStat(spellLevel, healthStat);
 
         if (player.level() instanceof ServerLevel serverLevel) {
@@ -62,7 +62,7 @@ public class SacrificeSpell extends BrutalitySpell {
             );
         }
 
-        List<Player> nearbyPlayers = ModUtils.getEntitiesInSphere(Player.class, player, p -> p != player, getFinalStat(spellLevel, getStat(SpellTooltips.SpellStatComponents.RANGE)));
+        List<Player> nearbyPlayers = ModUtils.getEntitiesInSphere(Player.class, player, p -> p != player, getFinalStat(spellLevel, getStat(SpellTooltipRenderer.SpellStatComponentType.RANGE)));
 
         float casterMissingHealth = player.getMaxHealth() - player.getHealth();
         float casterHealAmount = Math.min(casterMissingHealth, healPool);

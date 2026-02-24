@@ -8,6 +8,7 @@ import net.goo.brutality.common.item.curios.charm.BaseBrokenClock;
 import net.goo.brutality.common.item.curios.charm.OmnidirectionalMovementGear;
 import net.goo.brutality.common.item.weapon.scythe.DarkinScythe;
 import net.goo.brutality.common.registry.BrutalityAttributes;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.mixin.accessors.IBrutalityAttribute;
 import net.goo.brutality.util.BrutalityEntityRotations;
 import net.goo.brutality.util.ModUtils;
@@ -37,6 +38,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import top.theillusivec4.curios.api.CuriosApi;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements BrutalityEntityRotations {
@@ -142,6 +144,48 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
                 cir.setReturnValue(false);
     }
 
+    @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;add(DDD)Lnet/minecraft/world/phys/Vec3;", ordinal = 1))
+    private Vec3 modifyElytraAcceleration(Vec3 instance, double x, double y, double z) {
+        LivingEntity livingEntity = (LivingEntity) (Object) this;
+
+        double multiplier = 1.0;
+        if (CuriosApi.getCuriosInventory(livingEntity).map(h -> h.isEquipped(BrutalityItems.WAY_OF_THE_WIND.get())).orElse(false)) {
+            multiplier = 3;
+        }
+
+        return instance.add(x * multiplier, y * multiplier, z * multiplier);
+    }
+//
+//    @ModifyConstant(method = "travel", constant = @Constant(doubleValue = 0.04D))
+//    private double buffLift(double constant) {
+//        return constant * 3 * 0.5;
+//    }
+//    @ModifyConstant(method = "travel", constant = @Constant(doubleValue = 0.1D, ordinal = 1))
+//    private double buffTurnAlignment(double constant) {
+//        return constant * 3.0D;
+//    }
+//    @ModifyVariable(method = "travel", at = @At(value = "STORE", ordinal = 0), name = "d6")
+//    private double multiplySwoop(double d6) {
+//        LivingEntity livingEntity = (LivingEntity) (Object) this;
+//
+//        if (CuriosApi.getCuriosInventory(livingEntity).map(h -> h.isEquipped(BrutalityItems.WAY_OF_THE_WIND.get())).orElse(false)) {
+//            return d6 * 3;
+//        }
+//        return d6;
+//    }
+//    @ModifyArgs(
+//            method = "travel",
+//            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;multiply(DDD)Lnet/minecraft/world/phys/Vec3;")
+//    )
+//    private void applyElytraSpeed(Args args) {
+//        // Index 0 = x, 1 = y, 2 = z
+//        // We only want to apply this if we are actually fall flying
+//        if (((LivingEntity) (Object) this).isFallFlying()) {
+//            args.set(0, 0.998D); // 5x less horizontal drag
+//            args.set(1, 0.996D); // 5x less vertical drag
+//            args.set(2, 0.998D); // 5x less horizontal drag
+//        }
+//    }
 
     @ModifyVariable(
             method = "travel",

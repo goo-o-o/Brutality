@@ -1,7 +1,7 @@
 package net.goo.brutality.common.item.curios.belt;
 
 import net.goo.brutality.common.item.curios.BrutalityMathFunctionCurio;
-import net.goo.brutality.util.ModTags;
+import net.goo.brutality.util.BrutalityTags;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +24,7 @@ public class ScientificCalculator extends BrutalityMathFunctionCurio {
         LivingEntity entity = slotContext.entity();
         if (entity instanceof Player player) {
             CuriosApi.getCuriosInventory(entity).ifPresent(handler -> {
-                List<SlotResult> mathItems = handler.findCurios(itemStack -> itemStack.is(ModTags.Items.MATH_ITEMS));
+                List<SlotResult> mathItems = handler.findCurios(itemStack -> itemStack.is(BrutalityTags.Items.MATH_ITEMS));
 
                 mathItems.forEach(slotResult -> {
                     SlotContext resultContext = slotResult.slotContext();

@@ -17,15 +17,15 @@ public class UmbralTome extends BaseMagicTome {
 
     UUID UMBRANCY_SCHOOL_BOOST_UUID = UUID.fromString("b0c554bd-f97e-4f2c-a3c8-304536f96d62");
 
-    public UmbralTome(Rarity rarity) {
-        super(rarity);
+    public UmbralTome(Rarity rarity, int baseSpellSlots, int baseAugmentSlots) {
+        super(rarity, baseSpellSlots, baseAugmentSlots);
     }
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = super.getAttributeModifiers(slot, stack);
 
-        if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) {
+        if (slot == EquipmentSlot.MAINHAND) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(modifiers);
             builder.put(

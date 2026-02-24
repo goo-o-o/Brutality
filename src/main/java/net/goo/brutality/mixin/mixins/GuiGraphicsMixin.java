@@ -3,13 +3,13 @@ package net.goo.brutality.mixin.mixins;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.goo.brutality.client.gui.tooltip.StatTrakGui;
 import net.goo.brutality.common.registry.BrutalityRarities;
+import net.goo.brutality.util.ColorUtils;
 import net.goo.brutality.util.RarityBorderManager;
 import net.goo.brutality.util.item.StatTrakUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import org.spongepowered.asm.mixin.Mixin;
@@ -61,23 +61,15 @@ public abstract class GuiGraphicsMixin {
         int l = pHeight + 3 + 3;
 
 
-        BrutalityRarities.RarityData data = BrutalityRarities.from(brutality$cachedMainStack);
+        ColorUtils.ColorData data = BrutalityRarities.from(brutality$cachedMainStack);
         if (data == null) return;
-        Rarity rarity = data.rarity;
-        RarityBorderManager manager = RarityBorderManager.getInstance();
 
-        // Get borders
-        RarityBorderManager.BorderData idleBorder = manager.getIdleBorder(rarity);
-        RarityBorderManager.BorderData openBorder = manager.getOpenBorder(rarity);
-
+        RarityBorderManager.BorderData borderToRender = data.idle;
+        if (data.open != null && brutality$hoverTime < data.open.getAnimationDurationMs()) {
+            borderToRender = data.open;
+        }
         // Determine which border to render based on hover time
         long timeMs = brutality$hoverTime;
-        RarityBorderManager.BorderData borderToRender = idleBorder; // Default to idle
-
-
-        if (openBorder != null && timeMs < openBorder.getAnimationDurationMs()) {
-            borderToRender = openBorder;
-        }
 
         borderTop = data.colors[0];
         borderBottom = data.colors[1];

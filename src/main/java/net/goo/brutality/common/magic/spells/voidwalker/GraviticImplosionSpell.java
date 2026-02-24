@@ -3,7 +3,7 @@ package net.goo.brutality.common.magic.spells.voidwalker;
 import net.goo.brutality.common.entity.spells.voidwalker.GraviticImplosionEntity;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEntities;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -17,7 +17,7 @@ public class GraviticImplosionSpell extends BrutalitySpell {
                 List.of(SpellCategory.INSTANT, SpellCategory.AOE),
                 "gravitic_implosion",
                 30, 5, 80, 0, 1, List.of(
-                        new SpellTooltips.SpellStatComponent(SpellTooltips.SpellStatComponents.SIZE, 3, 1, 3F, 50F)
+                        new SpellTooltipRenderer.SpellStatComponent(SpellTooltipRenderer.SpellStatComponentType.SIZE, 3, 1, 3F, 50F)
                 ));
     }
 

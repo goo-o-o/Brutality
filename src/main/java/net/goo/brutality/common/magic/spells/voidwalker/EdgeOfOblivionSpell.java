@@ -7,7 +7,7 @@ import net.goo.brutality.client.particle.providers.WaveParticleData;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -22,7 +22,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.RANGE;
 
 public class EdgeOfOblivionSpell extends BrutalitySpell {
 
@@ -31,7 +31,7 @@ public class EdgeOfOblivionSpell extends BrutalitySpell {
                 List.of(SpellCategory.INSTANT, SpellCategory.AOE),
                 "edge_of_oblivion",
                 30, 2, 80, 0, 1, List.of(
-                        new SpellTooltips.SpellStatComponent(RANGE, 3, 1, 0F, 100F)
+                        new SpellTooltipRenderer.SpellStatComponent(RANGE, 3, 1, 0F, 100F)
                 ));
     }
 
@@ -76,7 +76,7 @@ public class EdgeOfOblivionSpell extends BrutalitySpell {
                         playerToEntity.add(0, 0.1, 0).scale(0.2 * spellLevel);
 
                         e.push(playerToEntity.x, playerToEntity.y, playerToEntity.z);
-                        e.hurt(e.damageSources().flyIntoWall(), getFinalDamage(player, spellLevel));
+                        e.hurt(e.damageSources().flyIntoWall(), getActualDamage(player, spellLevel));
                         if (e instanceof Player) {
                             ((ServerPlayer) player).connection.send(new ClientboundSetEntityMotionPacket(e));
                         }

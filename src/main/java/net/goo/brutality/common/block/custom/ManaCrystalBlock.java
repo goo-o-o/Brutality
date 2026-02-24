@@ -98,11 +98,7 @@ public class ManaCrystalBlock extends BuddingAmethystBlock implements IBrutality
 
     @Override
     public int getMagicPower(BlockState state) {
-        return 10;
+        return 5;
     }
 
-    @Override
-    public int getMaxCount() {
-        return 10;
-    }
 }

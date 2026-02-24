@@ -17,15 +17,16 @@ public class ExodicTome extends BaseMagicTome {
 
     UUID EXODIC_SCHOOL_BOOST_UUID = UUID.fromString("e36c1e30-0ca9-4b23-8251-398634bd9c42");
 
-    public ExodicTome(Rarity rarity) {
-        super(rarity);
+    public ExodicTome(Rarity rarity, int baseSpellSlots, int baseAugmentSlots) {
+        super(rarity, baseSpellSlots, baseAugmentSlots);
     }
+
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = super.getAttributeModifiers(slot, stack);
 
-        if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) {
+        if (slot == EquipmentSlot.MAINHAND) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(modifiers);
             builder.put(

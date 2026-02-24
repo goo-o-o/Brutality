@@ -1,12 +1,17 @@
 package net.goo.brutality.util.magic;
 
+import net.goo.brutality.common.item.generic.BrutalityAugmentItem;
 import net.goo.brutality.common.item.weapon.tome.BaseMagicTome;
 import net.goo.brutality.common.magic.BrutalitySpell;
-import net.goo.brutality.common.magic.IBrutalitySpell;
 import net.goo.brutality.event.SpellCastEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.ModLoader;
+
+import java.util.List;
+
+import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.*;
+import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.CHANNELLING;
 
 public class SpellCastingHandler {
 
@@ -31,12 +36,23 @@ public class SpellCastingHandler {
         SpellCastEvent.Pre event = new SpellCastEvent.Pre(player, stack, spell, spellLevel);
         ModLoader.get().postEvent(event);
         if (event.isCanceled()) return false;
+        List<BrutalityAugmentItem> augmentItems = AugmentHelper.getAugmentsFromItem(stack);
 
         if (hasEnoughManaToCast(player, spell, spellLevel) && !SpellCooldownTracker.isOnCooldown(player, spell)) {
+
+            for (BrutalityAugmentItem augment : augmentItems) {
+                spellLevel = augment.onAugmentedItemPreCast(player, stack, spell, spellLevel, INSTANT);
+            }
+
             if (spell.onStartCast(player, stack, spellLevel)) {
                 spell.onEndCast(player, stack, spellLevel);
                 subtractSpellCost(player, spell, spellLevel);
                 setCooldown(player, spell, spellLevel);
+
+                for (BrutalityAugmentItem brutalityAugmentItem : augmentItems) {
+                    brutalityAugmentItem.onAugmentedItemPostCast(player, stack, spell, spellLevel, INSTANT);
+                }
+
                 ModLoader.get().postEvent(new SpellCastEvent.Post(player, stack, spell, spellLevel));
                 return true;
             }
@@ -65,9 +81,19 @@ public class SpellCastingHandler {
         ModLoader.get().postEvent(event);
         if (event.isCanceled()) return false;
 
+        List<BrutalityAugmentItem> augmentItems = AugmentHelper.getAugmentsFromItem(stack);
+
         if (hasEnoughManaToCast(player, spell, spellLevel) && !SpellCooldownTracker.isOnCooldown(player, spell)) {
+
+            for (BrutalityAugmentItem augment : augmentItems) {
+                spellLevel = augment.onAugmentedItemPreCast(player, stack, spell, spellLevel, CONTINUOUS);
+            }
+
             if (spell.onStartCast(player, stack, spellLevel)) {
                 subtractSpellCost(player, spell, spellLevel);
+                for (BrutalityAugmentItem brutalityAugmentItem : augmentItems) {
+                    brutalityAugmentItem.onAugmentedItemPostCast(player, stack, spell, spellLevel, CONTINUOUS);
+                }
                 ModLoader.get().postEvent(new SpellCastEvent.Post(player, stack, spell, spellLevel));
                 return true;
             }
@@ -94,6 +120,8 @@ public class SpellCastingHandler {
         if (hasEnoughManaToCast(player, spell, spellLevel) && !SpellCooldownTracker.isOnCooldown(player, spell)) {
             spell.onCastTick(player, stack, spellLevel);
             subtractSpellCost(player, spell, spellLevel);
+            AugmentHelper.getAugmentsFromItem(stack).forEach(augmentItem ->
+                    augmentItem.onAugmentedItemPostCast(player, stack, spell, spellLevel, CONTINUOUS));
             ModLoader.get().postEvent(new SpellCastEvent.Post(player, stack, spell, spellLevel));
         } else {
             player.releaseUsingItem();
@@ -135,17 +163,26 @@ public class SpellCastingHandler {
      * @return {@code true} if the channeling spell was successfully cast; {@code false} otherwise.
      */
     public static boolean castChannellingSpell(Player player, ItemStack stack, BrutalitySpell spell, int spellLevel, int remainingTicks) {
-        int castTime = IBrutalitySpell.getActualCastTime(player, spell, spellLevel);
+        int castTime = spell.getActualCastTime(player, spellLevel);
         if (remainingTicks <= stack.getUseDuration() - castTime) {
             SpellCastEvent.Pre event = new SpellCastEvent.Pre(player, stack, spell, spellLevel);
             ModLoader.get().postEvent(event);
             if (event.isCanceled()) return false;
+
+            List<BrutalityAugmentItem> augmentItems = AugmentHelper.getAugmentsFromItem(stack);
+
+            for (BrutalityAugmentItem augment : augmentItems) {
+                spellLevel = augment.onAugmentedItemPreCast(player, stack, spell, spellLevel, CHANNELLING);
+            }
 
             if (spell.onStartCast(player, stack, spellLevel)) {
                 spell.onEndCast(player, stack, spellLevel);
                 subtractSpellCost(player, spell, spellLevel);
                 setCooldown(player, spell, spellLevel);
                 ModLoader.get().postEvent(new SpellCastEvent.Post(player, stack, spell, spellLevel));
+                for (BrutalityAugmentItem augment : augmentItems) {
+                    augment.onAugmentedItemPostCast(player, stack, spell, spellLevel, CHANNELLING);
+                }
                 player.releaseUsingItem();
                 return true;
             }
@@ -165,7 +202,7 @@ public class SpellCastingHandler {
      * @param spellLevel The level of the spell, which influences the cooldown duration.
      */
     public static void setCooldown(Player player, BrutalitySpell spell, int spellLevel) {
-        SpellCooldownTracker.setCooldown(player, spell, IBrutalitySpell.getActualCooldown(player, spell, spellLevel));
+        SpellCooldownTracker.setCooldown(player, spell, spell.getActualCooldown(player, spellLevel));
     }
 
 
@@ -182,7 +219,7 @@ public class SpellCastingHandler {
      * @param spellLevel The level of the spell being cast, influencing the mana cost.
      */
     public static void subtractSpellCost(Player player, BrutalitySpell spell, int spellLevel) {
-        ManaHelper.modifyManaValue(player, -IBrutalitySpell.getActualManaCost(player, spell, spellLevel));
+        ManaHelper.modifyManaValue(player, -spell.getActualManaCost(player, spellLevel));
     }
 
     public static boolean currentlyChannellingSpell(Player player, ItemStack stack) {
@@ -200,7 +237,7 @@ public class SpellCastingHandler {
         if (stack.getItem() instanceof BaseMagicTome) {
             SpellStorage.SpellEntry currentSpell = SpellStorage.getCurrentSpellEntry(stack);
             if (currentSpell == null) return false;
-            if (currentSpell.spell().getCategories().contains(BrutalitySpell.SpellCategory.CONTINUOUS)) {
+            if (currentSpell.spell().getCategories().contains(CONTINUOUS)) {
                 return player.isUsingItem() && !SpellCooldownTracker.isOnCooldown(player, currentSpell.spell());
             }
         }
@@ -212,17 +249,14 @@ public class SpellCastingHandler {
             SpellStorage.SpellEntry currentSpell = SpellStorage.getCurrentSpellEntry(stack);
             if (currentSpell == null) return 0F;
             if (currentSpell.spell().getCategories().contains(BrutalitySpell.SpellCategory.CHANNELLING)) {
-                return (float) (stack.getUseDuration() - player.getUseItemRemainingTicks()) / IBrutalitySpell.getActualCastTime(player, currentSpell.spell(), currentSpell.level());
+                return (float) (stack.getUseDuration() - player.getUseItemRemainingTicks()) / currentSpell.spell().getActualCastTime(player, currentSpell.level());
             }
         }
         return 0F;
     }
 
-    public static boolean hasEnoughManaToCast(Player player, SpellStorage.SpellEntry spellEntry) {
-        return ManaHelper.getMana(player) >= IBrutalitySpell.getActualManaCost(player, spellEntry);
-    }
 
     public static boolean hasEnoughManaToCast(Player player, BrutalitySpell spell, int spellLevel) {
-        return ManaHelper.getMana(player) >= IBrutalitySpell.getActualManaCost(player, spell, spellLevel);
+        return ManaHelper.getMana(player) >= spell.getActualManaCost(player, spellLevel);
     }
 }

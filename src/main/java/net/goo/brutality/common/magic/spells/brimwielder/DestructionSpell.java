@@ -3,20 +3,20 @@ package net.goo.brutality.common.magic.spells.brimwielder;
 import net.goo.brutality.common.entity.spells.brimwielder.DestructionEntity;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEntities;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.SIZE;
 
 public class DestructionSpell extends BrutalitySpell {
 
 
     public DestructionSpell() {
         super(MagicSchool.BRIMWIELDER, List.of(SpellCategory.INSTANT, SpellCategory.AOE), "destruction", 50, 10, 140, 0, 1, List.of(
-                new SpellTooltips.SpellStatComponent(SIZE, 3, 0, 3F, 3F)
+                new SpellTooltipRenderer.SpellStatComponent(SIZE, 3, 0, 3F, 3F)
         ));
     }
 

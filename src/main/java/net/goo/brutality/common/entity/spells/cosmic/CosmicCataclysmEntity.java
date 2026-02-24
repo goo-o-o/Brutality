@@ -42,7 +42,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SIZE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.SIZE;
 
 public class CosmicCataclysmEntity extends BrutalityAbstractArrow implements BrutalityGeoEntity, IBrutalitySpellEntity {
     private static final EntityDataAccessor<Integer> SPELL_LEVEL_DATA = SynchedEntityData.defineId(CosmicCataclysmEntity.class, EntityDataSerializers.INT);
@@ -144,7 +144,7 @@ public class CosmicCataclysmEntity extends BrutalityAbstractArrow implements Bru
             if (shouldApplyWaveEffect)
                 ModUtils.applyWaveEffect(serverLevel, this, Entity.class, waveParticleData, e -> e != owner,
                         e -> {
-                            e.hurt(e.damageSources().flyIntoWall(), spell.getFinalDamage(owner, spellLevel));
+                            e.hurt(e.damageSources().flyIntoWall(), spell.getActualDamage(owner, spellLevel));
                             if (e instanceof Player) {
                                 ((ServerPlayer) owner).connection.send(new ClientboundSetEntityMotionPacket(e));
                             }

@@ -25,7 +25,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.PIERCE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.PIERCE;
 
 public class CrescentDart extends BrutalityShuriken implements BrutalityGeoEntity, IBrutalitySpellEntity {
     private static final EntityDataAccessor<Integer> SPELL_LEVEL_DATA = SynchedEntityData.defineId(CrescentDart.class, EntityDataSerializers.INT);

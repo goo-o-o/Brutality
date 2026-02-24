@@ -1,6 +1,7 @@
 package net.goo.brutality.event.forge;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.client.ClientAccess;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.item.armor.VampireLordArmorItem;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
@@ -15,6 +16,7 @@ import net.goo.brutality.common.item.weapon.sword.SupernovaSword;
 import net.goo.brutality.common.registry.BrutalityDamageTypes;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.util.EnvironmentColorManager;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
 import net.goo.brutality.util.item.ItemCategoryUtils;
@@ -22,6 +24,7 @@ import net.goo.brutality.util.item.SealUtils;
 import net.goo.brutality.util.item.StatTrakUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -38,12 +41,30 @@ import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.event.CurioEquipEvent;
+import top.theillusivec4.curios.api.event.CurioUnequipEvent;
 
 import static net.goo.brutality.common.item.curios.charm.Gluttony.SOULS;
 import static net.goo.brutality.util.EnvironmentColorManager.resetAllColors;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
 public class LivingEntityEventHandler {
+
+    @SubscribeEvent
+    public static void onCurioEquip(CurioEquipEvent event) {
+        if (event.getStack().is(BrutalityItems.ERROR_404.get())) {
+            ClientAccess.safeReloadChunks(175);
+            EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.SKY, FastColor.ARGB32.color(255, 248, 0, 248));
+            EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.FOG, FastColor.ARGB32.color(255, 0, 0, 0));
+        }
+    }
+    @SubscribeEvent
+    public static void onCurioUnequip(CurioUnequipEvent event) {
+        if (event.getStack().is(BrutalityItems.ERROR_404.get())) {
+            ClientAccess.safeReloadChunks(175);
+            EnvironmentColorManager.resetAllColors();
+        }
+    }
 
     @SubscribeEvent
     public static void onEquipmentChange(LivingEquipmentChangeEvent event) {

@@ -1,7 +1,6 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.goo.brutality.common.registry.BrutalityRarities;
 import net.goo.brutality.mixin.accessors.BrutalityFontHooks;
 import net.goo.brutality.util.ColorUtils;
 import net.minecraft.client.gui.font.glyphs.BakedGlyph;
@@ -42,10 +41,10 @@ public abstract class BakedGlyphMixin {
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     public void render(boolean pItalic, float pX, float pY, Matrix4f pMatrix, VertexConsumer pBuffer, float pRed, float pGreen, float pBlue, float pAlpha, int pPackedLight, CallbackInfo ci) {
-        String rarityTag = BrutalityFontHooks.getActiveRarity();
+        String rarityTag = BrutalityFontHooks.getActiveColorData();
         if (rarityTag == null) return;
-        BrutalityRarities.RarityData rarityData = BrutalityRarities.RarityData.getSafe(rarityTag);
-        if (rarityData == null) return;
+        ColorUtils.ColorData colorData = ColorUtils.ColorData.getSafe(rarityTag);
+        if (colorData == null) return;
         ci.cancel();
         // 1. Position Setup
 
@@ -59,8 +58,8 @@ public abstract class BakedGlyphMixin {
         float italicBottomOffset = pItalic ? 1.0F - 0.25F * downOffset : 0.0F;
 
 
-        int colorLeft = ColorUtils.getGradientAt(leftPos, rarityData.spread, rarityData.waveSpeed, rarityData.colors);
-        int colorRight = ColorUtils.getGradientAt(rightPos, rarityData.spread, rarityData.waveSpeed, rarityData.colors);
+        int colorLeft = ColorUtils.getGradientAt(leftPos, colorData.spread, colorData.waveSpeed, colorData.colors);
+        int colorRight = ColorUtils.getGradientAt(rightPos, colorData.spread, colorData.waveSpeed, colorData.colors);
 
         // Left side components
 

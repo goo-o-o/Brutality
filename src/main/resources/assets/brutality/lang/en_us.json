@@ -35,8 +35,6 @@
   "block.brutality.solidified_mana_block_pressure_plate": "Solidified Mana Pressure Plate",
   "block.brutality.solidified_mana_block_button": "Solidified Mana Button",
 
-  "message.brutality.press": "Press ",
-  "message.brutality.show_more": " to show more Info",
 
   "stat_trak.brutality.1": "§8Mobs Killed",
   "stat_trak.brutality.2": "§8Shield Blocks",
@@ -71,6 +69,32 @@
   "item.brutality.basic_stat_trakker.description.3": "chance to automatically be attached upon crafting or looting",
   "item.brutality.basic_stat_trakker.description.4": "§eTracks stats relevant to an Item",
 
+  "item.brutality.plated_steelcaps": "Plated Steelcaps",
+  "item.brutality.plated_steelcaps.passive.1": "§e -Take -25% Damage while Sprinting",
+
+  "item.brutality.high_heals": "High Heals",
+  "item.brutality.high_heals.passive.1": "§e -Grants §dRegeneration I §ewhile Sprinting",
+
+  "item.brutality.flame_walker": "Flamewalker",
+  "item.brutality.flame_walker.passive.1": "§e -You leave a trail of fire when sprinting",
+
+  "item.brutality.flame_stomper": "Flamestomper",
+  "item.brutality.flame_stomper.passive.1": "§e -You leave a trail of explosions when sprinting",
+
+  "item.brutality.ice_skates": "Ice Skates",
+  "item.brutality.ice_skates.passive.1": "§9-95% Friction while on Ice",
+
+  "item.brutality.void_steppers": "Void Steppers",
+  "item.brutality.void_steppers.passive.1": "§9+5% Move Speed for each Light Level below 15",
+  "item.brutality.void_steppers.passive.2": "§e -The wearer's footsteps are silent",
+
+  "item.brutality.umbral_tiptoes": "Umbral Tiptoes",
+  "item.brutality.umbral_tiptoes.passive.1": "§9+10% Move Speed for each Light Level below 15",
+  "item.brutality.umbral_tiptoes.passive.2": "§e -The wearer's footsteps are silent",
+
+
+  "item.brutality.lava_waders": "Lava Waders",
+
 
 
   "item.brutality.prison_key": "Prison Key",
@@ -83,6 +107,8 @@
   "item.brutality.boiling_blood": "Boiling Blood",
   "item.brutality.boiling_blood.passive.1": "§e -Take 25% increased Damage while §cEnraged",
 
+  "item.brutality.error_404": "Error 404",
+  "item.brutality.error_404.lore.1": "§9You shouldn't have this!§8... or should you?",
   "item.brutality.bead_of_life": "Bead of Life",
   "item.brutality.earthen_blessing": "Earthen Blessing",
   "item.brutality.bead_of_life.passive.1": "§e -Grants §dRegeneration III §efor 2 seconds whenever the wearer takes Damage",
@@ -99,7 +125,7 @@
   "item.brutality.serotonin_pills.active.2": "§e -Grants Tranquility X for 10 seconds",
 
   "item.brutality.lucky_bookmark": "Lucky Bookmark",
-  "item.brutality.lucky_bookmark.passive.1": "§e -Gain 25%§r 💦§9 Mana Regen§e per level of §aLuck",
+  "item.brutality.lucky_bookmark.passive.1": "§e -Gain 25% Mana Regen per level of §aLuck",
 
   "item.brutality.pack_of_cigarettes": "Pack of Cigarettes",
   "item.brutality.prismatic_orb": "Prismatic Orb",
@@ -264,7 +290,7 @@
 
   "item.brutality.blade_of_the_ruined_king": "Blade of the Ruined King",
   "item.brutality.blade_of_the_ruined_king.lore.1": "§9Love ruins all",
-  "item.brutality.blade_of_the_ruined_king.on_hit.1": "§e -Additionally deal 8% of the target's current§r ❤§9 Health§e as Physical Damage",
+  "item.brutality.blade_of_the_ruined_king.on_hit.1": "§e -Additionally deal 8% of the target's current Health as Physical Damage",
   "item.brutality.blade_of_the_ruined_king.on_hit.2": "§e -Applies §3Ruined §efor 6 seconds, stacking up to 3 times. The third stack consumes them all to slow the target by 30% for 1 second",
   "item.brutality.blade_of_the_ruined_king.on_right_click.1": "§e -Launches a §3Spectral Maw§e in front of the user that inflicts §6Stunned §efor 3 ticks",
   "item.brutality.blade_of_the_ruined_king.on_right_click.2": "§e -§3Spectral Maw§e distance is based on charge time",
@@ -439,7 +465,7 @@
   "item.brutality.bikers_helmet": "Biker's Helmet",
   "item.brutality.bikers_helmet.passive.1": "§e -Deflect incoming projectiles near the wearer's Head",
   "item.brutality.escape_key": "Escape Key",
-  "item.brutality.escape_key.passive.1": "§e -Grants§e Invisibility§e and§b Speed II§e when below 25%§r ❤§9 Health§e",
+  "item.brutality.escape_key.passive.1": "§e -Grants§e Invisibility§e and§b Speed II§e when below 25% Health",
   "item.brutality.essential_oils": "Essential Oils",
   "item.brutality.essential_oils.passive.1": "§e -Grants§2 Oiled II§e",
   "item.brutality.miracle_cure": "Miracle Cure",
@@ -514,8 +540,8 @@
   "item.brutality.prismatic_greatsword.on_hit.1": "§e -Reduce Ability Cooldowns by 1 second per Enemy hit",
 
   "item.brutality.crimson_scissor_blade": "Crimson Scissorblade",
-  "item.brutality.crimson_scissor_blade.on_swing.1": "§e -Consume 4§r ❤§9 Health§e to launch a Bloodslash",
-  "item.brutality.crimson_scissor_blade.on_swing.2": "§e -Bloodslashes §aheal§e 4§r ❤§9 Health§e per Enemy hit",
+  "item.brutality.crimson_scissor_blade.on_swing.1": "§e -Consume 4 Health to launch a Bloodslash",
+  "item.brutality.crimson_scissor_blade.on_swing.2": "§e -Bloodslashes §aheal§e 4 Health per Enemy hit",
 
   "item.brutality.shadowflame_scissor_blade": "Shadowflame Scissorblade",
   "item.brutality.shadowflame_scissor_blade.on_swing.1": "§e -Launch a Shadowflame Slash that inflicts §dShadowflame",
@@ -524,7 +550,7 @@
   "item.brutality.darkin_blade": "The Darkin Blade",
   "item.brutality.darkin_blade.lore": "I am§9 not your enemy, I am The Enemy!",
   "item.brutality.darkin_blade.passive.1": "§e -Every few seconds, charge up an empowered attack",
-  "item.brutality.darkin_blade.passive.2": "§e -Empowered attacks deal an additional 10% Max§r ❤§9 Health§e Magic Damage and heals",
+  "item.brutality.darkin_blade.passive.2": "§e -Empowered attacks deal an additional 10% Max Health Magic Damage and heals",
 
 
   "item.brutality.darkin_scythe": "The Darkin Scythe",
@@ -566,14 +592,12 @@
   "item.brutality.sine": "Sine Function",
   "item.brutality.sine.lore.1": "§9A trigonometric function",
   "item.brutality.sine.passive.1": "§e -Increases Attack Damage using the formula:",
-  "item.brutality.sine.passive.2": "",
-  "item.brutality.sine.passive.3": "§9 sin§f(§etime §fx §e0.1§f) §fx §e5 §f+ §e2.5",
+  "item.brutality.sine.passive.2": "  §f(§9sin§f(§etime §fx §e0.025§f) §fx §e20 §f+ §e10§f)%",
 
   "item.brutality.cosine": "Cosine Function",
   "item.brutality.cosine.lore.1": "§9A trigonometric function",
   "item.brutality.cosine.passive.1": "§e -Increases Attack Speed using the formula:",
-  "item.brutality.cosine.passive.2": "",
-  "item.brutality.cosine.passive.3": "§c cos§f(§etime §fx §e0.1§f) §fx §e0.25 §f+ §e0.125",
+  "item.brutality.cosine.passive.2": "  §f(§ccos§f(§etime §fx §e0.025§f) §fx §e17.5 §f+ §e7.5§f)%",
 
   "item.brutality.addition": "Addition (+)",
   "item.brutality.multiplication": "Multiplication (x)",
@@ -608,6 +632,7 @@
   "item.brutality.yata_no_kagami.lore.1": "§9The Eight Hand Mirror, one of the Three Sacred Treasures",
   "item.brutality.yata_no_kagami.passive.1": "§e -15% of Damage taken is reflected back to the attacker as Magic Damage",
 
+  "item.brutality.magicians_top_hat": "Magician's Top Hat",
   "item.brutality.brain_rot": "Brainrot",
   "item.brutality.brain_rot.lore.1": "§9What the sigma?",
   "item.brutality.brain_rot.passive.1": "§e -True melee hits apply §aNausea I§e for 4 seconds",
@@ -615,33 +640,37 @@
 
   "item.brutality.divergent_recursor": "Divergent Recursor",
   "item.brutality.divergent_recursor.passive.1": "§e -15% chance after casting a spell to recast that spell for 100% cost",
-  "item.brutality.divergent_recursor.passive.2": "§e -Does not work with Continuous§r ↺§e type spells.",
+  "item.brutality.divergent_recursor.passive.2": "§e -Does not work with Continuous type spells.",
 
   "item.brutality.convergent_recursor": "Convergent Recursor",
   "item.brutality.convergent_recursor.passive.1": "§e -15% chance after casting a spell to recast that spell for 50% cost",
   "item.brutality.convergent_recursor.passive.2": "§e -If successful, recast that spell again with a 15% chance, repeats until failure",
-  "item.brutality.convergent_recursor.passive.3": "§e -Does not work with Continuous§r ↺§e type spells.",
+  "item.brutality.convergent_recursor.passive.3": "§e -Does not work with Continuous type spells.",
 
   "item.brutality.infinite_recursor": "Infinite Recursor",
   "item.brutality.infinite_recursor.passive.1": "§e -25%, increased by 3% per level of§a Luck§e, chance after casting a spell to recast that spell for 25% cost",
   "item.brutality.infinite_recursor.passive.2": "§e -If successful, recast that spell again with the base chance, reduced by 2% each time",
-  "item.brutality.infinite_recursor.passive.3": "§e -Does not work with Continuous§r ↺§e type spells.",
+  "item.brutality.infinite_recursor.passive.3": "§e -Does not work with Continuous type spells.",
 
   "item.brutality.apprentices_manual_to_basic_multicasting": "Apprentice's Manual to Basic Multicasting",
   "item.brutality.apprentices_manual_to_basic_multicasting.passive.1": "§e -15% chance to cast an additional random spell from your Tome for 100% cost",
-  "item.brutality.apprentices_manual_to_basic_multicasting.passive.2": "§e -Does not work with Continuous§r ↺§e type spells.",
+  "item.brutality.apprentices_manual_to_basic_multicasting.passive.2": "§e -Does not work with Continuous type spells.",
 
   "item.brutality.wizards_guidebook_to_advanced_multicasting": "Wizard's Guidebook to Advanced Multicasting",
   "item.brutality.wizards_guidebook_to_advanced_multicasting.passive.1": "§e -15% chance to cast 2 additional random spells from your Tome for 75% cost",
-  "item.brutality.wizards_guidebook_to_advanced_multicasting.passive.2": "§e -Does not work with Continuous§r ↺§e type spells.",
+  "item.brutality.wizards_guidebook_to_advanced_multicasting.passive.2": "§e -Does not work with Continuous type spells.",
 
   "item.brutality.archmages_thesis_to_masterful_multicasting": "Archmage's Thesis to Masterful Multicasting",
   "item.brutality.archmages_thesis_to_masterful_multicasting.passive.1": "§e -15%, increased by 3% per level of§a Luck§e, chance to cast 3 additional random spells from your Tome for 50% cost",
-  "item.brutality.archmages_thesis_to_masterful_multicasting.passive.2": "§e -Does not work with Continuous§r ↺§e type spells.",
+  "item.brutality.archmages_thesis_to_masterful_multicasting.passive.2": "§e -Does not work with Continuous type spells.",
 
   "item.brutality.paragon_of_the_first_mage": "Paragon of the First Mage",
   "item.brutality.paragon_of_the_first_mage.passive.1": "§e -20%, increased by 3% per level of§a Luck§e, chance to cast 3 additional random spells from your Tome for 25% cost",
-  "item.brutality.paragon_of_the_first_mage.passive.2": "§e -Does not work with Continuous§r ↺§e type spells.",
+  "item.brutality.paragon_of_the_first_mage.passive.2": "§e -Does not work with Continuous type spells.",
+
+  "item.brutality.aqueous_tuner": "Aqueous Tuner",
+  "item.brutality.aqueous_tuner.passive.1": "§9 +1.25x Spell Damage while in water or rain",
+  "item.brutality.overclocked_core": "Overclocked Core",
 
 
 
@@ -670,7 +699,7 @@
   "item.brutality.spite_shard.passive.1": "§e -Gain Rage equivalent to a fifth of all aggro'd mobs within a 5 block radius",
 
   "item.brutality.blood_howl_pendant": "Blood Howl Pendant",
-  "item.brutality.blood_howl_pendant.passive.1": "§9 +50%§c Damage to Rage Ratio§9 when below 50%§r ❤§9 Health",
+  "item.brutality.blood_howl_pendant.passive.1": "§9 +50%§c Damage to Rage Ratio§9 when below 50% Health",
 
   "item.brutality.battle_scars": "Battle Scars",
   "item.brutality.battle_scars.passive.1": "§9 +15%§c Damage to Rage Ratio§9 for each active §cHarmful§9 effect",
@@ -715,25 +744,25 @@
   "item.brutality.deck_of_cards.active.1": "§e -Grants Magic Power LII for 2 to 10 seconds",
 
   "item.brutality.crowbar": "Crowbar",
-  "item.brutality.crowbar.passive.1": "§e -Deal 40% more Damage to mobs above 90%§r ❤§9 Health",
+  "item.brutality.crowbar.passive.1": "§e -Deal 40% more Damage to mobs above 90% Health",
   "item.brutality.wire_cutters": "Wire Cutters",
 
 
   "item.brutality.archmages_trick": "Archmage's Trick",
-  "item.brutality.archmages_trick.passive.1": "§e -Convert half of your§r ❤§9 Health§e into§r 💧§9 Mana",
-  "item.brutality.archmages_trick.passive.2": "§e -1§r ❤§9 Heart = 15§r 💧§9 Mana",
+  "item.brutality.archmages_trick.passive.1": "§e -Convert half of your Health into Mana",
+  "item.brutality.archmages_trick.passive.2": "§e -1 Heart = 15 Mana",
 
   "item.brutality.hellspec_tie": "Hellspec Tie",
-  "item.brutality.hellspec_tie.passive.1": "§e -Refund 25% of§r 💧§9 Mana§e consumed whenever a§r ☠§e Brimwielder Spell is cast",
+  "item.brutality.hellspec_tie.passive.1": "§e -Refund 25% of Mana consumed whenever a Brimwielder Spell is cast",
 
   "item.brutality.soul_stone": "Soul Stone",
-  "item.brutality.soul_stone.passive.1": "§e -5% chance of fully refunding§r 💧§9 Mana§e costs, else refunds 15% of§r 💧§9 Mana§e costs",
+  "item.brutality.soul_stone.passive.1": "§e -5% chance of fully refunding Mana costs, else refunds 15% of Mana costs",
 
   "item.brutality.scribes_index": "Scribe's Index",
-  "item.brutality.scribes_index.passive.1": "§e -Gain 25%§9 Spell Damage§e when at§r 🔵§9 90% Mana§e, else gain -10% Spell Damage",
+  "item.brutality.scribes_index.passive.1": "§e -Gain 25%§9 Spell Damage§e when at 90% Mana, else gain -10% Spell Damage",
 
   "item.brutality.emergency_flask": "Emergency Flask",
-  "item.brutality.emergency_flask.passive.1": "§e -Gain 33%§r 🪄§e Cast Speed when below 50%§r ❤§9 Health",
+  "item.brutality.emergency_flask.passive.1": "§e -Gain 33%§r 🪄§e Cast Speed when below 50% Health",
 
   "item.brutality.vindicator_steroids": "Vindicator Steroids",
   "item.brutality.vindicator_steroids.active.1": "§e -Grants§f Haste I§e and§c Strength I§e for 10 seconds",
@@ -745,12 +774,12 @@
   "item.brutality.stygian_chain": "Stygian Chain",
 
   "item.brutality.silver_respawn_card": "Silver Respawn Card",
-  "item.brutality.silver_respawn_card.passive.1": "§e -Defy §4Death§e and return with 1§r ❤§e Heart",
+  "item.brutality.silver_respawn_card.passive.1": "§e -Defy §4Death§e and return with 1 Heart",
   "item.brutality.silver_respawn_card.passive.2": "§e -Consumed on Use",
   "item.brutality.diamond_respawn_card": "Diamond Respawn Card",
-  "item.brutality.diamond_respawn_card.passive.1": "§e -Defy §4Death§e and return with 2§r ❤§e Hearts",
+  "item.brutality.diamond_respawn_card.passive.1": "§e -Defy §4Death§e and return with 2 Hearts",
   "item.brutality.evil_king_respawn_card": "Evil King Respawn Card",
-  "item.brutality.evil_king_respawn_card.passive.1": "§e -Defy §4Death§e and return with 3§r ❤§e Hearts",
+  "item.brutality.evil_king_respawn_card.passive.1": "§e -Defy §4Death§e and return with 3 Hearts",
 
   "item.brutality.silver_booster_pack": "Silver Booster Pack",
   "item.brutality.silver_booster_pack.passive.1": "§e -Grants 30 seconds of§b Speed II§e,§e Absorption II§e and§a Jump Boost II§e on respawn",
@@ -767,16 +796,16 @@
   "item.brutality.evil_king_booster_pack.passive.4": "§e -Soulbound",
 
   "item.brutality.onyx_idol": "Onyx Idol",
-  "item.brutality.onyx_idol.passive.1": "§e -Every 200§r 💧§9 Mana§e Spent, instantly reset all your§r ⌛§9 Spell Cooldowns",
+  "item.brutality.onyx_idol.passive.1": "§e -Every 200 Mana Spent, instantly reset all your Spell Cooldowns",
 
   "item.brutality.echo_chamber": "Echo Chamber",
-  "item.brutality.echo_chamber.passive.1": "§e -§r⌛§9 Spell Cooldowns§e are reduced based on the Spell Cost at a ratio of (10§r 💧§9 Mana§e = 1%), with a Maximum of 25%",
+  "item.brutality.echo_chamber.passive.1": "§e -Spell Cooldowns are reduced based on the Spell Cost at a ratio of (10 Mana = 1%), with a Maximum of 25%",
 
   "item.brutality.ring_of_mana": "Ring Of Mana",
   "item.brutality.ring_of_mana_plus": "Ring Of Mana +",
 
   "item.brutality.rune_of_delta": "Rune of Delta",
-  "item.brutality.rune_of_delta.passive.1": "§e -Additional 1§r 💦§9 Mana Regen§e per point of light level below 7 at the wearer's position",
+  "item.brutality.rune_of_delta.passive.1": "§e -Additional 1 Mana Regen per point of light level below 7 at the wearer's position",
 
   "item.brutality.fury_battery": "Fury Battery",
   "item.brutality.rage_bait": "Rage Bait",
@@ -789,10 +818,10 @@
   "item.brutality.seratonin_pills.active.2": "§e -The level of §bTranquility §egained is equivalent to the Rage Level that could be obtained with the consumed Rage Points",
 
   "item.brutality.conservative_concoction": "Conservative Concoction",
-  "item.brutality.conservative_concoction.passive.1": "§e -Gain up to 100% increased§r 💦§9 Mana Regen§e Based on how close to§r 🔵§9 Max Mana§e the wearer is",
+  "item.brutality.conservative_concoction.passive.1": "§e -Gain up to 100% increased Mana Regen Based on how close to Max Mana the wearer is",
 
   "item.brutality.pride": "Sin of Pride",
-  "item.brutality.pride.passive.1": "§e -Grants more Damage the fuller the wearer's§r ❤§9 Health",
+  "item.brutality.pride.passive.1": "§e -Grants more Damage the fuller the wearer's Health",
   "item.brutality.wrath": "Sin of Wrath",
   "item.brutality.greed": "Sin of Greed",
   "item.brutality.greed.passive.1": "§e -Grants 2% Damage for each mob within 7 blocks (Max 50%)",
@@ -800,7 +829,7 @@
   "item.brutality.sloth.passive.1": "§e -True melee hits inflict §8Weakness I, §7Slowness I§e and §fMining Fatigue I§e for 1 second",
   "item.brutality.envy": "Sin of Envy",
   "item.brutality.envy.lore.1": "§8WIP",
-  "item.brutality.envy.passive.1": "§e -Grants half the§r ❤§9 Health§e difference between you and the nearest player",
+  "item.brutality.envy.passive.1": "§e -Grants half the Health difference between you and the nearest player",
   "item.brutality.lust": "Sin of Lust",
   "item.brutality.lust.passive.1": "§e -Currently does nothing",
   "item.brutality.gluttony": "Sin of Gluttony",
@@ -826,7 +855,7 @@
   "item.brutality.dragonheart.passive.2": "§e -Grants §cStrength III",
 
   "item.brutality.uvogre_heart": "Uvogre Heart",
-  "item.brutality.uvogre_heart.passive.1": "§e -Grants §dRegeneration IV§e when below 25%§r ❤§9 Health",
+  "item.brutality.uvogre_heart.passive.1": "§e -Grants §dRegeneration IV§e when below 25% Health",
 
   "item.brutality.frozen_heart": "Frozen Heart",
   "item.brutality.frozen_heart.passive.1": "§e -Inflicts §7Slowness I§e and §fMining Fatigue I§e to nearby mobs",
@@ -837,15 +866,15 @@
   "item.brutality.second_heart": "Second Heart",
   "item.brutality.scope_goggles": "Scope Goggles",
   "item.brutality.black_matter_necklace": "Black Matter Necklace",
-  "item.brutality.black_matter_necklace.passive.1": "§e- Gain +2%§r 💥§9 Crit Chance§e and -1%§r 🧨§9 Crit Damage§e per§r 🦺§9 Armor§e point",
+  "item.brutality.black_matter_necklace.passive.1": "§e- Gain +2% Crit Chance§e and -1% Crit Damage§e per Armor point",
   "item.brutality.ninja_heart": "Ninja Heart",
   "item.brutality.brutal_heart": "Brutal Heart",
-  "item.brutality.brutal_heart.passive.1": "§e -Converts§r ❤§9 Health§e lost into§r 💥§9 Crit Chance§e at a ratio of 1§r ❤§9 Heart§e to 10%§r 💥§9 Crit Chance",
+  "item.brutality.brutal_heart.passive.1": "§e -Converts Health lost into Crit Chance§e at a ratio of 1 Heart§e to 10% Crit Chance",
 
   "item.brutality.black_hole_orb": "Black Hole Orb",
 
   "item.brutality.forbidden_orb": "Forbidden Orb",
-  "item.brutality.forbidden_orb.passive.1": "§e -Immediately die if your§r 💧§9 Mana§e falls below 30%",
+  "item.brutality.forbidden_orb.passive.1": "§e -Take 5 Damage per Second when your Mana is below 25%",
 
   "item.brutality.mask_of_madness": "Mask Of Madness",
   "item.brutality.aqua_ruler": "Aqua Ruler",
@@ -859,14 +888,28 @@
 
   "item.brutality.portable_trampoline": "Portable Trampoline",
   "item.brutality.portable_trampoline.passive.1": "§e -Allows the user to bounce anywhere",
+  "item.brutality.way_of_the_wind": "Way of the Wind",
+  "item.brutality.way_of_the_wind.passive.1": "§e -Doubles Elytra Acceleration and Top Speed",
+  "item.brutality.movement_god": "Movement God",
+  "item.brutality.movement_god.passive.1": "§e -Negates movement slowdown while using Items",
+  "item.brutality.movement_god.passive.2": "§e -Allows the wearer to Sprint while using Items",
+  "item.brutality.movement_god.passive.3": "§e -Allows the wearer to Sprint in any direction",
+  "item.brutality.kinetic_compensator": "Kinetic Compensator",
+  "item.brutality.kinetic_compensator.passive.1": "§e -Negates movement slowdown while using Items",
+  "item.brutality.vector_stabilizer": "Vector Stabilizer",
+  "item.brutality.vector_stabilizer.passive.1": "§e -Allows the wearer to Sprint while using Items",
   "item.brutality.omnidirectional_movement_gear": "Omnidirectional Movement Gear",
   "item.brutality.omnidirectional_movement_gear.passive.1": "§e -Allows the wearer to Sprint in any direction",
+  "item.brutality.scouts_badge": "Scout's Badge",
+  "item.brutality.scouts_badge.passive.1": "§e -Allows the wearer to walk through Cobwebs and Berry Bushes twice as fast",
+  "item.brutality.globetrotters_badge": "Globetrotters's Badge",
+  "item.brutality.globetrotters_badge.passive.1": "§e -The wearer is unaffected by Cobwebs and Berry Bushes and anything similar",
 
   "item.brutality.blood_orb": "Blood Orb",
-  "item.brutality.blood_orb.passive.1": "§e -Gain 15§r 💧§9 Mana§e per heart of Damage taken",
+  "item.brutality.blood_orb.passive.1": "§e -Gain 15 Mana per heart of Damage taken",
 
   "item.brutality.crown_of_tyranny": "Crown of Tyranny",
-  "item.brutality.crown_of_tyranny.passive.1": "§e -Deal up to 75% additional Damage based on the target's missing§r ❤§9 Health",
+  "item.brutality.crown_of_tyranny.passive.1": "§e -Deal up to 75% additional Damage based on the target's missing Health",
 
   "item.brutality.crown_of_domination": "Crown of Domination",
   "item.brutality.crown_of_domination.lore.1": "§dMultiplayer Only",
@@ -884,9 +927,9 @@
   "item.brutality.deadshot_brooch": "Deadshot Brooch",
   "item.brutality.energy_focuser": "Energy Focuser",
   "item.brutality.target_cube": "Target Cube",
-  "item.brutality.target_cube.passive.1": "§e -Grants 10%§r 💥§9 Critical Chance§e per level of §aLuck",
+  "item.brutality.target_cube.passive.1": "§e -Grants 10% Critical Chance§e per level of §aLuck",
   "item.brutality.mana_syringe": "Mana Syringe",
-  "item.brutality.mana_syringe.on_hit.1": "§e -Returns 25% of true Melee Damage dealt as§r 💧§9 Mana§e",
+  "item.brutality.mana_syringe.on_hit.1": "§e -Returns 25% of true Melee Damage dealt as Mana",
   "item.brutality.profanum_reactor": "Profanum Reactor",
   "item.brutality.profanum_reactor.passive.1": "§e -Grants Vulnerability",
 
@@ -894,11 +937,11 @@
   "item.brutality.the_oath.passive.1": "§e -Deal an additional 10% of Damage as Magic Damage",
 
   "item.brutality.knights_pendant": "Knight's Pendant",
-  "item.brutality.knights_pendant.passive.1": "§e -Gain 5%§r 🏹§e Armor Penetration while under 75%§r ❤§9 Health",
+  "item.brutality.knights_pendant.passive.1": "§e -Gain 5% Armor Penetration while under 75% Health",
 
 
   "item.brutality.heart_of_gold": "Heart of Gold",
-  "item.brutality.heart_of_gold.passive.1": "§e -25% of Damage taken is reapplied as §6Absorption, maxes out when equivalent to your Max§r ❤§9 Health§e",
+  "item.brutality.heart_of_gold.passive.1": "§e -25% of Damage taken is reapplied as §6Absorption, maxes out when equivalent to your Max Health",
 
   "item.brutality.resplendent_feather": "Resplendent Feather",
   "item.brutality.resplendent_feather.lore.1": "§9Toasty",
@@ -1063,13 +1106,13 @@
   "item.brutality.dull_knife.angry.desc.3": "",
 
   "item.brutality.lucky_insoles": "Lucky Insoles",
-  "item.brutality.lucky_insoles.passive.1": "§e -Gain 20%§r 💥§9 Critical Chance§e when on the ground",
+  "item.brutality.lucky_insoles.passive.1": "§e -Gain 20% Critical Chance§e when on the ground",
   "item.brutality.daemonium_sewing_kit": "Daemonium Sewing Kit",
   "item.brutality.gamblers_chain": "Gambler's Chain",
   "item.brutality.pincushion": "Pincushion",
-  "item.brutality.pincushion.passive.1": "§e -Gain 1§r 🪡§9 Lethality§e per arrow stuck in the wearer's body",
+  "item.brutality.pincushion.passive.1": "§e -Gain 1 Lethality per arrow stuck in the wearer's body",
   "item.brutality.old_guillotine": "Old Guillotine",
-  "item.brutality.old_guillotine.passive.1": "§e -If an Attack were to leave an enemy with 5§r ❤§9 Health§e or less, execute them",
+  "item.brutality.old_guillotine.passive.1": "§e -If an Attack were to leave an enemy with 5 Health or less, execute them",
   "item.brutality.knuckle_wraps": "Knuckle Wraps",
   "item.brutality.knuckle_wraps.passive.1": "§e -Consecutive Melee hits grant 3 stacks of Precision for 4 seconds, landing a Critical Hit clears all stacks of Precision",
 
@@ -1078,10 +1121,10 @@
   "item.brutality.crease_of_creation.lore.1": "§9Gravity is a harness, I have harnessed the harness.",
   "item.brutality.crease_of_creation.on_shift_right_click.1": "§e -Launches the §rSelected Entity§e away from the player",
   "item.brutality.crease_of_creation.on_hold_right_click.1": "§e -Select an §rEntity§e and manipulate them to your will",
-  "item.brutality.crease_of_creation.on_hold_right_click.2": "§e -The Entity must have less than 50§r ❤§9 Hearts",
+  "item.brutality.crease_of_creation.on_hold_right_click.2": "§e -The Entity must have less than 50 Hearts",
 
   "item.brutality.the_cloud": "The Cloud",
-  "item.brutality.the_cloud.on_shift_right_click.1": "§e -Stores player data such as§r ❤§9 Health§e, hunger and active effects and uploads them to the cloud",
+  "item.brutality.the_cloud.on_shift_right_click.1": "§e -Stores player data such as Health, hunger and active effects and uploads them to the cloud",
   "item.brutality.the_cloud.on_right_click.1": "§e -Retrieves and loads data from the cloud",
   "item.brutality.the_cloud.stored_data": "§e§lStored Data",
   "item.brutality.the_cloud.health": "§cHealth",
@@ -1117,7 +1160,7 @@
   "item.brutality.fiery_anklet.on_successful_dodge.1": "§e -Burns the Attacker for 2 seconds",
 
   "item.brutality.anklet_of_the_imprisoned": "Anklet of The Imprisoned",
-  "item.brutality.anklet_of_the_imprisoned.passive.1": "§e -Gain 15%§r 💥§9 Critical Chance§e and §r 🧨§9 Critical Damage§e per missing§r ❤§9 Heart",
+  "item.brutality.anklet_of_the_imprisoned.passive.1": "§e -Gain 15% Critical Chance§e and Critical Damage§e per missing Heart",
   "item.brutality.anklet_of_the_imprisoned.passive.2": "§e -Take 1 Damage per second",
 
   "item.brutality.suspiciously_large_handle": "Suspiciously Large Handle",
@@ -1157,7 +1200,7 @@
   "item.brutality.ankle_monitor.passive.3": "§e -Increased villager trade prices",
 
   "item.brutality.ultra_dodge_anklet": "Ultra Dodge Anklet",
-  "item.brutality.ultra_dodge_anklet.on_successful_dodge.1": "§e -Grants +100§r 🦺§9 Armor§e for 5 seconds",
+  "item.brutality.ultra_dodge_anklet.on_successful_dodge.1": "§e -Grants +100 Armor§e for 5 seconds",
 
   "item.brutality.trial_anklet": "Trial Anklet",
   "item.brutality.trial_anklet.on_successful_dodge.1": "§e -Grants §bResistance III§e and §7Slowness III§e 10 seconds",
@@ -1222,29 +1265,29 @@
   "item.brutality.windswept_anklet": "Windswept Anklet",
 
   "item.brutality.glass_seal": "Glass Seal",
-  "item.brutality.glass_seal.passive.1": "§e -Attach it onto an Item using an anvil to get More§r ❗§9 Attack Damage§e, but More§9 Damage Taken§e and Less§r ❤§9 Health§e and§r 🛡§9 Armor",
+  "item.brutality.glass_seal.passive.1": "§e -Attach it onto an Item using an anvil to get More Attack Damage§e, but More§9 Damage Taken§e and Less Health and Armor",
   "item.brutality.quantite_seal": "Quantite Seal",
-  "item.brutality.quantite_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🏹§9 Armor Penetration",
+  "item.brutality.quantite_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent Armor Penetration",
   "item.brutality.void_seal": "Void Seal",
-  "item.brutality.void_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🏹§9 Armor Penetration",
+  "item.brutality.void_seal.passive.1": "§e -Currently does nothing",
   "item.brutality.black_seal": "Black Seal",
-  "item.brutality.black_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🪡§9 Lethality",
+  "item.brutality.black_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent Lethality",
   "item.brutality.blue_seal": "Blue Seal",
-  "item.brutality.blue_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🛡§9 Armor",
+  "item.brutality.blue_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent Armor",
   "item.brutality.green_seal": "Green Seal",
-  "item.brutality.green_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🍀§9 Luck",
+  "item.brutality.green_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent Luck",
   "item.brutality.orange_seal": "Orange Seal",
-  "item.brutality.orange_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 💥§9 Critical Chance",
+  "item.brutality.orange_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent Critical Chance",
   "item.brutality.pink_seal": "Pink Seal",
   "item.brutality.pink_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🪓§9 Lifesteal",
   "item.brutality.purple_seal": "Purple Seal",
   "item.brutality.purple_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r 🎈§9 Tenacity",
   "item.brutality.red_seal": "Red Seal",
-  "item.brutality.red_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r ❤§9 Health",
+  "item.brutality.red_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent Health",
   "item.brutality.yellow_seal": "Yellow Seal",
   "item.brutality.yellow_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r ‼§9 Attack Speed",
   "item.brutality.cyan_seal": "Cyan Seal",
-  "item.brutality.cyan_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent§r ❗§9 Attack Damage",
+  "item.brutality.cyan_seal.passive.1": "§e -Attach it onto an Item using an anvil to give it permanent Attack Damage",
   "item.brutality.bomb_seal": "Bomb Seal",
   "item.brutality.bomb_seal.passive.1": "§e -Attach it onto an Item using an anvil to make it Explosive",
   "brutality.bomb_seal": "§2 Bomb Sealed§r 💣",
@@ -1279,6 +1322,34 @@
   "item.brutality.exodic_spell_scroll": "Exodic Spell Scroll",
   "item.brutality.umbral_spell_scroll": "Umbral Spell Scroll",
   "item.brutality.voltweaver_spell_scroll": "Voltweaver Spell Scroll",
+
+  "item.brutality.delicate_jewel": "Delicate Jewel",
+  "item.brutality.delicate_jewel.lore.1": "§9A small crack appears each time you cast a spell",
+  "item.brutality.delicate_jewel.passive.1": "§e -Uses 1 Durability per Spell Cast",
+  "item.brutality.forbidden_manuscript": "Forbidden Manuscript",
+  "item.brutality.uvogre_vellum": "Uvogre Vellum",
+  "item.brutality.vegas_vellum": "Vegas Vellum",
+  "item.brutality.solid_spell_drive": "Solid Spell Drive",
+  "item.brutality.archangels_tears": "Archangel's Tears",
+  "item.brutality.quicksilver_spine": "Quicksilver Spine",
+  "item.brutality.quicksilver_spine.passive.1": "§2Move at full speed while Channelling",
+  "item.brutality.rune_of_the_royal_flush": "Rune of the Royal Flush",
+  "item.brutality.rune_of_the_royal_flush.passive.1": "§290% chance to add 3 levels to your Spell",
+  "item.brutality.rune_of_the_royal_flush.passive.2": "§210% chance for a casted Spell to have 0 Spell Level",
+
+  "item.brutality.dragon_sinew_binding": "Dragon-sinew Binding",
+  "item.brutality.quicksilver_ink": "Quicksilver Ink",
+  "item.brutality.soul_infused_ink": "Soul-infused Ink",
+  "item.brutality.void_touched_ink": "Void-touched Ink",
+  "item.brutality.iridescent_bookmark": "Iridescent Bookmark",
+  "item.brutality.feather_of_the_first_wind": "Feather of the First Wind",
+  "item.brutality.profaned_ink": "Profaned Ink",
+  "item.brutality.profaned_ink.passive.1": "§2Take 1 Damage whenever you cast a Spell",
+
+  "item.brutality.solar_lens": "Solar Lens",
+  "item.brutality.solar_lens.passive.1": "§e -Grants more Spell Damage the closer it is to Noon",
+  "item.brutality.lunar_lens": "Lunar Lens",
+  "item.brutality.lunar_lens.passive.1": "§e -Grants more Spell Damage the closer it is to Midnight",
 
 
   "block.brutality.toilet": "Toilet",
@@ -1364,105 +1435,135 @@
   "spell.brutality.empty": "§8No available spells",
 
   "spell.brutality.void_walk": "Void Walk",
-  "spell.brutality.void_walk.description.1": "§8Blink instantly to a targeted location within range",
+  "spell.brutality.void_walk.description.1": "Blink instantly to a targeted location within range",
 
   "spell.brutality.spatial_rupture": "Spatial Rupture",
-  "spell.brutality.spatial_rupture.description.1": "§8Conjure a ripple in space, knocking back nearby mobs and damaging them",
+  "spell.brutality.spatial_rupture.description.1": "Conjure a ripple in space, knocking back nearby mobs and damaging them",
 
   "spell.brutality.gravitic_implosion": "Gravitic Implosion",
-  "spell.brutality.gravitic_implosion.description.1": "§8Throw a collapsing singularity that draws in nearby mobs and deals AoE damage",
+  "spell.brutality.gravitic_implosion.description.1": "Throw a collapsing singularity that draws in nearby mobs and deals AoE damage",
 
   "spell.brutality.intangible": "Intangible",
-  "spell.brutality.intangible.description.1": "§8Grants §5Phasing§8",
+  "spell.brutality.intangible.description.1": "Grants §5Phasing§8",
 
   "spell.brutality.dematerialize": "Dematerialize",
-  "spell.brutality.dematerialize.description.1": "§8Deletes the targeted mob, only if their§9 Health§8 is below the threshold (Deletes all drops)",
+  "spell.brutality.dematerialize.description.1": "Deletes the targeted mob, only if their§9 Health§8 is below the threshold (Deletes all drops)",
   "spell.brutality.dematerialize.no_target_found": "§cNo target found!",
-  "spell.brutality.dematerialize.too_much_health": "§cTarget has too much§r ❤§9 Health§e!",
+  "spell.brutality.dematerialize.too_much_health": "§cTarget has too much Health!",
   "spell.brutality.dematerialize.invalid_target": "§cInvalid target!",
 
   "spell.brutality.edge_of_oblivion": "Edge of Oblivion",
-  "spell.brutality.edge_of_oblivion.description.1": "§8Materialize a disc of antimatter, and launches it forward, shredding through mobs",
+  "spell.brutality.edge_of_oblivion.description.1": "Materialize a disc of antimatter, and launches it forward, shredding through mobs",
 
 
   "spell.brutality.heavenly_flight": "Heavenly Flight",
-  "spell.brutality.heavenly_flight.description.1": "§8Grants §eMortal Flight",
+  "spell.brutality.heavenly_flight.description.1": "Grants §eMortal Flight",
 
   "spell.brutality.holy_mantle": "Holy Mantle",
-  "spell.brutality.holy_mantle.description.1": "§8Grants §eGrace§8, nullifying the next instance of damage you take, scales with level",
+  "spell.brutality.holy_mantle.description.1": "Grants §eGrace§8, nullifying the next instance of damage you take, scales with level",
 
   "spell.brutality.sacrifice": "Sacrifice",
   "spell.brutality.sacrifice.description.1": "§aHeals§8 nearby players, including the caster, healing is distributed evenly and any excess is transferred to the next lowest player. Prioritizes the caster",
 
   "spell.brutality.sacred_oath": "Sacred Oath",
-  "spell.brutality.sacred_oath.description.1": "§8Materialize a disc of antimatter, and launches it forward, shredding through mobs",
+  "spell.brutality.sacred_oath.description.1": "Materialize a disc of antimatter, and launches it forward, shredding through mobs",
 
   "spell.brutality.divine_retribution": "Divine Retribution",
-  "spell.brutality.divine_retribution.description.1": "§8Call down God's judgement at the targeted location",
+  "spell.brutality.divine_retribution.description.1": "Call down God's judgement at the targeted location",
 
   "spell.brutality.light_binding": "Light Binding",
-  "spell.brutality.light_binding.description.1": "§8Bind the target in shackles of light, halting their movement",
+  "spell.brutality.light_binding.description.1": "Bind the target in shackles of light, halting their movement",
 
 
   "spell.brutality.cosmic_cataclysm": "Cosmic Cataclysm",
-  "spell.brutality.cosmic_cataclysm.description.1": "§8Call down a massive meteor, causing a shockwave on impact",
+  "spell.brutality.cosmic_cataclysm.description.1": "Call down a massive meteor, causing a shockwave on impact",
 
   "spell.brutality.meteor_shower": "Meteor Shower",
-  "spell.brutality.meteor_shower.description.1": "§8Calls down a continuous barrage of meteors at the target location",
+  "spell.brutality.meteor_shower.description.1": "Calls down a continuous barrage of meteors at the target location",
 
   "spell.brutality.gravitokinesis": "Gravitokinesis",
-  "spell.brutality.gravitokinesis.description.1": "§8Pulls targeted mobs towards the caster, can be inverted by crouching, knocking mobs away while pushing back the player",
+  "spell.brutality.gravitokinesis.description.1": "Pulls targeted mobs towards the caster, can be inverted by crouching, knocking mobs away while pushing back the player",
 
   "spell.brutality.star_stream": "Star Stream",
-  "spell.brutality.star_stream.description.1": "§8Unleashes a continuous barrage of stars at the targeted location",
+  "spell.brutality.star_stream.description.1": "Unleashes a continuous barrage of stars at the targeted location",
 
   "spell.brutality.star_burst": "Star Burst",
-  "spell.brutality.star_burst.description.1": "§8Unleashes a burst of stars at the targeted direction",
+  "spell.brutality.star_burst.description.1": "Unleashes a burst of stars at the targeted direction",
 
   "spell.brutality.singularity_shift": "Singularity Shift",
-  "spell.brutality.singularity_shift.description.1": "§8Throw a star that spawns a field of augmented gravity upon impact. Gravity direction can be changed by shifting",
+  "spell.brutality.singularity_shift.description.1": "Throw a star that spawns a field of augmented gravity upon impact. Gravity direction can be changed by shifting",
 
   "spell.brutality.annihilation": "Annihilation",
-  "spell.brutality.annihilation.description.1": "§8Summon lances in a star around the caster. Lances apply §cHexed§8 and have a chance to explode on contact",
+  "spell.brutality.annihilation.description.1": "Summon lances in a star around the caster. Lances apply §cHexed§8 and have a chance to explode on contact",
 
   "spell.brutality.extinction": "Extinction",
-  "spell.brutality.extinction.description.1": "§8Unleash a beam of destruction",
+  "spell.brutality.extinction.description.1": "Unleash a beam of destruction",
 
   "spell.brutality.stygian_step": "Stygian Step",
-  "spell.brutality.stygian_step.description.1": "§8Dash forward, damaging mobs at the end of the dash",
+  "spell.brutality.stygian_step.description.1": "Dash forward, damaging mobs at the end of the dash",
 
   "spell.brutality.chthonic_capsule": "Chthonic Capsule",
-  "spell.brutality.chthonic_capsule.description.1": "§8Throw out a blood clot that explodes some time after hitting the ground. Explodes prematurely when hitting an enemy",
+  "spell.brutality.chthonic_capsule.description.1": "Throw out a blood clot that explodes some time after hitting the ground. Explodes prematurely when hitting an enemy",
 
   "spell.brutality.brimspike": "Brimspike",
-  "spell.brutality.brimspike.description.1": "§8Conjure a Brimspike that spins rapidly and can be shot out, damage dealt is based on time charged",
+  "spell.brutality.brimspike.description.1": "Conjure a Brimspike that spins rapidly and can be shot out, damage dealt is based on time charged",
   "spell.brutality.brimspike.fail": "§cOnly one Brimspike can be present at a time",
 
   "spell.brutality.nightfall": "Nightfall",
-  "spell.brutality.nightfall.description.1": "§8Temporarily makes it midnight, nearby mobs are inflicted with §7Slowness§8 and§8 Blindness",
+  "spell.brutality.nightfall.description.1": "Temporarily makes it midnight, nearby mobs are inflicted with §7Slowness§8 and§8 Blindness",
 
   "spell.brutality.moonlit_mending": "Moonlit Mending",
   "spell.brutality.moonlit_mending.healed_for": "§aHealed for %s%% Max Health",
-  "spell.brutality.moonlit_mending.description.1": "§8§aHeals§8 the caster depending on the time of day, up to 100% Max Health at Midnight",
+  "spell.brutality.moonlit_mending.description.1": "§aHeals§8 the caster depending on the time of day, up to 100% Max Health at Midnight",
 
   "spell.brutality.crescent_scythe": "Crescent Scythe",
-  "spell.brutality.crescent_scythe.description.1": "§8Shoot out a Crescent Scythe that pierces infinitely and accelerates over time",
+  "spell.brutality.crescent_scythe.description.1": "Shoot out a Crescent Scythe that pierces infinitely and accelerates over time",
   "spell.brutality.crescent_dart": "Crescent Dart",
-  "spell.brutality.crescent_dart.description.1": "§8Shoot out a Crescent Dart that homes in onto enemies",
+  "spell.brutality.crescent_dart.description.1": "Shoot out a Crescent Dart that homes in onto enemies",
 
   "spell.brutality.piercing_moonlight": "Piercing Moonlight",
-  "spell.brutality.piercing_moonlight.description.1": "§8Shoot out a beam a Piercing Moonlight that pierces infinitely, deals 2x Damage at Night",
+  "spell.brutality.piercing_moonlight.description.1": "Shoot out a beam a Piercing Moonlight that pierces infinitely, deals 2x Damage at Night",
 
   "tooltip.brutality.conjure": "Conjure",
   "tooltip.brutality.synthesise": "Synthesise",
   "tooltip.brutality.augment": "Augment",
   "tooltip.brutality.inscribe": "Inscribe",
   "tooltip.brutality.expunge": "Expunge",
+  "tooltip.brutality.glossary": "Glossary",
+
+  "message.brutality.table_of_wizardry.current_points" : "Current Points: %s",
+  "message.brutality.table_of_wizardry.ritual_duration" : "Ritual Duration: %ss",
+
+  "message.brutality.spell_slots": "%s Spell Slots",
+  "message.brutality.empty_slot": "§8Empty Slot",
+  "message.brutality.press_for_more_info": "§8Press §8%s §8for More Info",
+  "message.brutality.press_to_show_all_spells": "§8Press §8%s §8to view All Spells",
 
   "message.brutality.caffeine_sleep": "You are caffeinated!",
   "message.brutality.requires_scientific_calculator": "Requires the Scientific Calculator",
   "message.brutality.condition.on_ground": "§cOnly Castable when on the ground",
   "message.brutality.condition.teleport_failed": "§cYou cannot teleport there!",
+
+  "message.brutality.spell_command_fail_invalid_item": "Player is not holding a Magic Tome or a Spell Scroll!",
+  "message.brutality.spell_command_fail_unknown": "Unknown spell with name %s",
+  "message.brutality.spell_add_fail": "Failed to add %s!",
+  "message.brutality.insufficient_slots": "Not enough Spell Slots!",
+  "message.brutality.spell_remove_fail": "Player is not holding a Magic Tome or a Spell Scroll!",
+  "message.brutality.spell_add_success": "Successfully added %s with level %s",
+  "message.brutality.spell_remove_success": "Successfully removed %s",
+
+  "message.brutality.table_of_wizardry.synthesis.description": "The art of Synthesis, perfected by the fathers of magic, allows a practitioner to forcibly transcend the limits of a scroll. By fusing two spell scrolls of the same lineage and potency along with 100 %s Mana, their essences are woven together to be reborn anew as a single, superior scroll. Only those of identical strength may be merged; any imbalance in the ritual would surely result in failure.",
+  "message.brutality.table_of_wizardry.synthesis.chance": "+%s Level: %s%%",
+
+  "message.brutality.table_of_wizardry.augment.description.1": "The art of Augmentation, a forgotten discipline rescued from decay of time. By integrating various materials such as inks or jewels, a practitioner may refine their mediums beyond their original capacity, resulting in greater results and overall magical prowess.",
+  "message.brutality.table_of_wizardry.augment.description.2": "Be warned that each medium only has a certain number of Augment slots, and that they are inseparable once augmented. Right click the Table with a magical medium to commence the ritual.",
+
+  "message.brutality.table_of_wizardry.inscribe.description.1": "The art of Inscribing, a fundamental rite in the pursuit of true magical mastery. Through this ritual a spell's mana signature may be imbued into a medium, giving these spells a place to be called upon time and time again.",
+  "message.brutality.table_of_wizardry.inscribe.description.2": "Be warned that each medium only has a certain number of Spell slots, however they may be extracted with little to no cost via the Expunge ritual. Right click the Table with a magical medium to commence the ritual.",
+
+  "message.brutality.table_of_wizardry.expunge.description": "The art of Expunging, the delicate yet dangerous reclamation of power. Reach into the etheric depths of a medium, to unravel a bound spell. Only the most skilled of mages may perform this rite, lest something disastrous were to occur.",
+
+
 
   "message.brutality.last_death_location": "Last Death Location: ",
   "message.brutality.no_mana": "Insufficient Mana!",
@@ -1552,39 +1653,40 @@
 
   "attribute.name.generic.ground_friction": "Ground Friction",
   "attribute.name.generic.air_friction": "Air Friction",
-  "attribute.name.generic.rage_time": "§f⭕§r Rage Time",
-  "attribute.name.generic.rage_level": "§f🔴§r Rage Level",
-  "attribute.name.generic.damage_to_rage_ratio": "§f💢§r Damage To Rage Ratio",
-  "attribute.name.generic.max_rage": "§f😡§r Max Rage",
+  "attribute.name.generic.rage_time": "Rage Time",
+  "attribute.name.generic.rage_level": "Rage Level",
+  "attribute.name.generic.damage_to_rage_ratio": "Damage To Rage Ratio",
+  "attribute.name.generic.max_rage": "Max Rage",
 
-  "attribute.name.generic.max_mana": "§f🔵§r Max Mana",
-  "attribute.name.generic.mana_regen": "§f💦§r Mana Regen",
-  "attribute.name.generic.mana_cost": "§f🔹§r Mana Cost",
+  "attribute.name.generic.max_mana": "Max Mana",
+  "attribute.name.generic.mana_regen": "Mana Regen",
+  "attribute.name.generic.mana_cost": "Mana Cost",
 
-  "attribute.name.generic.cast_time": "§f🪄§r Cast Time",
-  "attribute.name.generic.spell_cooldown": "§f⌛§r Spell Cooldown",
+  "attribute.name.generic.cast_time": "Cast Time",
+  "attribute.name.generic.spell_cooldown": "Spell Cooldown",
 
-  "attribute.name.generic.omnivamp": "§f🧛§r Omnivamp",
-  "attribute.name.generic.lifesteal": "§f🪓§r Lifesteal",
-  "attribute.name.generic.dodge_chance": "§f💨§r Dodge Chance",
-  "attribute.name.generic.jump_height": "§f🦘§r Jump Height",
+  "attribute.name.generic.omnivamp": "Omnivamp",
+  "attribute.name.generic.lifesteal": "Lifesteal",
+  "attribute.name.generic.dodge_chance": "Dodge Chance",
+  "attribute.name.generic.jump_height": "Jump Height",
 
-  "attribute.name.generic.critical_strike_chance": "§f💥§r Critical Chance",
-  "attribute.name.generic.critical_strike_damage": "§f🧨§r Critical Damage",
+  "attribute.name.generic.critical_strike_chance": "Critical Chance",
+  "attribute.name.generic.critical_strike_damage": "Critical Damage",
 
-  "attribute.name.generic.stun_chance": "§f🎉§r Stun Chance",
-  "attribute.name.generic.stun_duration": "§f🎊§r Stun Duration",
-  "attribute.name.generic.tenacity": "§f🎈§r Tenacity",
+  "attribute.name.generic.stun_chance": "Stun Chance",
+  "attribute.name.generic.stun_duration": "Stun Duration",
+  "attribute.name.generic.tenacity": "Tenacity",
 
-  "attribute.name.generic.daemonic_school_level": "§f💀§r Daemonic School Level",
-  "attribute.name.generic.darkist_school_level": "§f🔊§r Darkist School Level",
-  "attribute.name.generic.evergreen_school_level": "§f🍃§r Evergreen School Level",
-  "attribute.name.generic.cosmic_school_level": "§f🪐§r Cosmic School Level",
-  "attribute.name.generic.celestia_school_level": "§f👼§r Celestia School Level",
-  "attribute.name.generic.umbrancy_school_level": "§f🌙§r Umbrancy School Level",
-  "attribute.name.generic.exodic_school_level": "§f✖§r Exodic School Level",
-  "attribute.name.generic.brimwielder_school_level": "§f☠§r Brimwielder School Level",
-  "attribute.name.generic.voidwalker_school_level": "§f⚫§r Voidwalker School Level",
+  "attribute.name.generic.universal_school_level": "Universal School Level",
+  "attribute.name.generic.daemonic_school_level": "Daemonic School Level",
+  "attribute.name.generic.darkist_school_level": "Darkist School Level",
+  "attribute.name.generic.evergreen_school_level": "Evergreen School Level",
+  "attribute.name.generic.cosmic_school_level": "Cosmic School Level",
+  "attribute.name.generic.celestia_school_level": "Celestia School Level",
+  "attribute.name.generic.umbrancy_school_level": "Umbrancy School Level",
+  "attribute.name.generic.exodic_school_level": "Exodic School Level",
+  "attribute.name.generic.brimwielder_school_level": "Brimwielder School Level",
+  "attribute.name.generic.voidwalker_school_level": "Voidwalker School Level",
 
   "attribute.name.generic.spell_damage": "Spell Damage",
   "attribute.name.generic.sword_damage": "Sword Damage",
@@ -1597,15 +1699,15 @@
   "attribute.name.generic.slash_damage": "Slash Damage",
   "attribute.name.generic.piercing_damage": "Piercing Damage",
 
-  "attribute.name.generic.lethality": "§f🪡§r Lethality",
-  "attribute.name.generic.armor_penetration": "§f🏹§r Armor Penetration",
+  "attribute.name.generic.lethality": "Lethality",
+  "attribute.name.generic.armor_penetration": "Armor Penetration",
 
-  "attribute.name.generic.stealth": "§f👁§r Stealth",
+  "attribute.name.generic.stealth": "Stealth",
   "attribute.name.generic.throw_strength": "Throw Strength",
   "attribute.name.generic.damage_taken": "Damage Taken",
 
-  "attribute.name.generic.attack_damage": "§f❗§r Attack Damage",
-  "attribute.name.generic.attack_speed": "§f‼§r Attack Speed",
+  "attribute.name.generic.attack_damage": "Attack Damage",
+  "attribute.name.generic.attack_speed": "Attack Speed",
 
 
   "attribute.modifier.equals.0": "%s %s",
@@ -1680,7 +1782,7 @@
   "brutality.description.type.on_shoot": "§6On Shoot:",
   "brutality.description.type.dash_ability": "§6Dash Ability:",
   "brutality.description.type.on_successful_dodge": "§6On Successful Dodge:",
-  "brutality.description.type.mana_cost": "§7Mana Cost§f 💧§7 :",
+  "brutality.description.type.mana_cost": "§7Mana Cost:",
 
   "brutality.description.type.shift_for_info": "§8Hold SHIFT for more info",
   "brutality.description.type.ctrl_for_info": "§8Hold CTRL for more info",
@@ -1690,6 +1792,10 @@
   "curios.identifier.anklet": "Anklet",
   "curios.modifiers.heart": "When worn as heart:",
   "curios.modifiers.anklet": "When worn as anklet:",
+
+  "item.modifiers.tome": "When in Tome:",
+  "item.modifiers.wand": "When in Wand:",
+  "item.modifiers.staff": "When in Staff:",
 
   "entity.brutality.black_hole": "Miniature Black Hole",
   "entity.brutality.cruel_sun": "Cruel Sun",

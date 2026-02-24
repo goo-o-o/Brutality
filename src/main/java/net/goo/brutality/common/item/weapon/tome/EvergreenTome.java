@@ -17,15 +17,16 @@ public class EvergreenTome extends BaseMagicTome {
 
     UUID EVERGREEN_SCHOOL_BOOST_UUID = UUID.fromString("d0d821da-bf95-4b38-b570-9f0e65c81800");
 
-    public EvergreenTome(Rarity rarity) {
-        super(rarity);
+    public EvergreenTome(Rarity rarity, int baseSpellSlots, int baseAugmentSlots) {
+        super(rarity, baseSpellSlots, baseAugmentSlots);
     }
+
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = super.getAttributeModifiers(slot, stack);
 
-        if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) {
+        if (slot == EquipmentSlot.MAINHAND) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(modifiers);
             builder.put(

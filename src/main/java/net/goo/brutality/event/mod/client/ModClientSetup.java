@@ -16,6 +16,7 @@ import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityMenuTypes;
 import net.goo.brutality.util.BetterCombatIntegration;
 import net.goo.brutality.util.RarityBorderManager;
+import net.goo.brutality.util.tooltip.MagicItemAugmentComponent;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -24,6 +25,7 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.common.crafting.CraftingHelper;
@@ -89,6 +91,11 @@ public class ModClientSetup {
     @SubscribeEvent
     public static void registerItemColorHandlersEvent(RegisterColorHandlersEvent.Item event) {
         event.register((itemStack, tintIndex) -> 4159204, BrutalityBlocks.PUDDLE.get());
+    }
+
+    @SubscribeEvent
+    public static void registerClientTooltipComponentFactoriesEvent(RegisterClientTooltipComponentFactoriesEvent event) {
+        event.register(MagicItemAugmentComponent.AugmentComponent.class, MagicItemAugmentComponent::new);
     }
 
     @SubscribeEvent

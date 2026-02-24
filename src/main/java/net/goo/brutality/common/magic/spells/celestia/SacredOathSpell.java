@@ -1,7 +1,7 @@
 package net.goo.brutality.common.magic.spells.celestia;
 
 import net.goo.brutality.common.magic.BrutalitySpell;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.DURATION;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.DURATION;
 
 public class SacredOathSpell extends BrutalitySpell {
 
@@ -19,7 +19,7 @@ public class SacredOathSpell extends BrutalitySpell {
                 List.of(SpellCategory.INSTANT, SpellCategory.SELF, SpellCategory.BUFF),
                 "sacred_oath",
                 50, 0, 200, 0, 1, List.of(
-                        new SpellTooltips.SpellStatComponent(DURATION, 20, 10, null, null)
+                        new SpellTooltipRenderer.SpellStatComponent(DURATION, 20, 10, null, null)
                 ));
     }
 

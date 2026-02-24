@@ -3,7 +3,7 @@ package net.goo.brutality.common.magic.spells.umbrancy;
 import net.goo.brutality.common.entity.spells.umbrancy.CrescentScythe;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEntities;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -12,7 +12,7 @@ import java.util.List;
 
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.AOE;
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.INSTANT;
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.SPEED;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.SPEED;
 
 public class CrescentScytheSpell extends BrutalitySpell {
 
@@ -23,7 +23,7 @@ public class CrescentScytheSpell extends BrutalitySpell {
                 "crescent_scythe",
                 40, 3, 100, 0, 1, List.of(
 //                        new BrutalityTooltipHelper.SpellStatComponent(QUANTITY, 1, 0.5F, 1F, null),
-                        new SpellTooltips.SpellStatComponent(SPEED, 0.25F, 0.15F, null, null)
+                        new SpellTooltipRenderer.SpellStatComponent(SPEED, 0.25F, 0.15F, null, null)
                 ));
     }
 

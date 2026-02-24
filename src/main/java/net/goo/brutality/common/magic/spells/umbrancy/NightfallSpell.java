@@ -2,7 +2,7 @@ package net.goo.brutality.common.magic.spells.umbrancy;
 
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.common.magic.BrutalitySpell;
-import net.goo.brutality.util.tooltip.SpellTooltips;
+import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -15,8 +15,8 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.*;
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.DURATION;
-import static net.goo.brutality.util.tooltip.SpellTooltips.SpellStatComponents.RANGE;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.DURATION;
+import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.RANGE;
 
 public class NightfallSpell extends BrutalitySpell {
 
@@ -26,8 +26,8 @@ public class NightfallSpell extends BrutalitySpell {
                 List.of(CHANNELLING, AOE, UTILITY),
                 "nightfall",
                 60, 0, 400, 40, 1, List.of(
-                        new SpellTooltips.SpellStatComponent(RANGE, 25, 1, 25F, 50F),
-                        new SpellTooltips.SpellStatComponent(DURATION, 200, 10, 200F, 400F)
+                        new SpellTooltipRenderer.SpellStatComponent(RANGE, 25, 1, 25F, 50F),
+                        new SpellTooltipRenderer.SpellStatComponent(DURATION, 200, 10, 200F, 400F)
                 ));
     }
 

@@ -2,6 +2,8 @@ package net.goo.brutality.client.renderers.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.goo.brutality.client.event.forge.ForgeClientPlayerStateHandler;
+import net.goo.brutality.client.renderers.item.Error404BakedModel;
 import net.goo.brutality.common.block.PreciseRotatableBlock;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -32,6 +34,11 @@ public class RotatableBlockRenderer<T extends BlockEntity & PreciseRotatableBloc
     public void render(T blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
         BlockState state = blockEntity.getBlockState();
         BakedModel model = blockRenderer.getBlockModel(state);
+
+        if (ForgeClientPlayerStateHandler.ERROR_404_EQUIPPED) {
+            model = new Error404BakedModel(model);
+        }
+
         poseStack.pushPose();
         poseStack.translate(0.5, 0, 0.5); // Center rotation
         float angle = blockEntity.getRotation() * -22.5F; // Convert to degrees
