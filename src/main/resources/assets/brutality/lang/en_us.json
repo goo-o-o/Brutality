@@ -80,6 +80,7 @@
 
   "item.brutality.flame_stomper": "Flamestomper",
   "item.brutality.flame_stomper.passive.1": "§e -You leave a trail of explosions when sprinting",
+  "item.brutality.flame_stomper.passive.2": "§e -Explosions scale off the wearer's speed",
 
   "item.brutality.ice_skates": "Ice Skates",
   "item.brutality.ice_skates.passive.1": "§9-95% Friction while on Ice",

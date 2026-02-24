@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-22T06:58:44.9116843	Item Models: brutality
+// 1.20.1	2026-02-24T17:46:56.7347305	Item Models: brutality
 4d2cb5931bdfc05b9f9f74aa98fcf2124089e766 assets/brutality/models/item/absolute_zero.json
 6e80778fb947ee57e15d0cfa92468737fd05e5f1 assets/brutality/models/item/abyssal_necklace.json
 25df89f31d038542a1f43c7b84dcb5669fd44b4a assets/brutality/models/item/addition.json
@@ -150,6 +150,8 @@ a6cd234603d184ff975c9fe0bfe75db30aa74255 assets/brutality/models/item/fallen_ang
 5d7a3f4a021d0dc15e8fd2c5d2e993ee91aa7fb4 assets/brutality/models/item/feather_of_the_first_wind.json
 fb13ca9cb2cf6165a61edb38a2153954fe8c3634 assets/brutality/models/item/fiery_anklet.json
 09b6c336f27206ae13c0ac067fd2c83f100f8a5c assets/brutality/models/item/fire_extinguisher.json
+283b97a553a3db86174ce02e1bf2793ae369b6e0 assets/brutality/models/item/flame_stomper.json
+4088ba536bdb99418a90fb9e852e8859298060bb assets/brutality/models/item/flame_walker.json
 e189fff2c395efb31c2ebb4b065e429519f7195a assets/brutality/models/item/forbidden_manuscript.json
 d54690281f93ce945baa56cb803c1111aad9a296 assets/brutality/models/item/forbidden_orb.json
 ba379d2b2483fe5bfd027a932792a939ede26f58 assets/brutality/models/item/fridge.json
@@ -192,6 +194,7 @@ f18dd8a8d20d24b09a87582a1478919b70dc0c99 assets/brutality/models/item/gungnir.js
 722258862646d4f015d9f46814036cdcb76cf6e8 assets/brutality/models/item/hemograft_needle.json
 1109c5e4c6e4ac76b95ae095d238211893123309 assets/brutality/models/item/hemomatic_locket.json
 b1306ee6b048520c70118133bf32a83261da6323 assets/brutality/models/item/high_frequency_alloy.json
+50047d20ba9dfcc6875926f95e0e348c2fe833be assets/brutality/models/item/high_heals.json
 ea1f07584b1bc31c8fcab13acf1df68f714ea9f0 assets/brutality/models/item/holy_hand_grenade.json
 c4c91121b13c5183b5cf6d81bd92c7678751f390 assets/brutality/models/item/hot_sauce.json
 54785d4a8069232adb2c5cd128f85646c2f65794 assets/brutality/models/item/hyperbolic_feather.json
@@ -288,6 +291,7 @@ a6ae42dd320cb3af4c1b5118bfb69fc205629e2b assets/brutality/models/item/pink_concr
 8afeb81b3b6ea73718b7a9348d5f5ac2e27bd28d assets/brutality/models/item/pink_slime_ball.json
 c2ef707b32c0770f29ecfe61412dc4b7fc422333 assets/brutality/models/item/pizza_slop.json
 72d0b117afa02a55fb13b45708b9e3129387715d assets/brutality/models/item/plasterboard.json
+9a32d4d7f0cdbb015b6320b19a54fcb728827202 assets/brutality/models/item/plated_steelcaps.json
 6c8aa329c2b5ea15f7292ee23d254a1c7b85b4fe assets/brutality/models/item/plunder_chest.json
 2f6d0ddb9eb66f034e62ba93f9a4f86ca9e88b83 assets/brutality/models/item/pocket_black_hole.json
 b8b8d7061c140f83d9c699e3fd95d8e47a0114d1 assets/brutality/models/item/portable_mining_rig.json
@@ -416,6 +420,7 @@ ffbb1e4a8c480d57f3354b4d4249e66c5470a24f assets/brutality/models/item/trial_guar
 4fa2aa84a9ce049d0ad79a2f64fb925f40a77321 assets/brutality/models/item/tsukuyomi.json
 54b40c577913d81d32164782feaf6663aca1d3f3 assets/brutality/models/item/ultra_dodge_anklet.json
 59e602ea68c12e0837c6365a480b7dc4ecf77690 assets/brutality/models/item/umbral_spell_scroll.json
+0eb9acb53e491021023d711adc56702374268540 assets/brutality/models/item/umbral_tiptoes.json
 8b23075a4a0b8733bbc8bd7a8dbd10c961ec3c80 assets/brutality/models/item/umbral_tome.json
 b1b61b689659a41cfda4fe2f794f3646a90685c2 assets/brutality/models/item/unbridled_rage.json
 5fd323434887eee3eb4a55dfd40158e075ab00b6 assets/brutality/models/item/upper_hvac.json
@@ -438,6 +443,7 @@ df4bbfa88b45372d8e71b79ebc69d3c4230eb440 assets/brutality/models/item/voidwalker
 9356156935dadc81e0878c321afb07f69e1a1d02 assets/brutality/models/item/void_anklet.json
 f606e8214cd5692969b226538ea3303ea9137804 assets/brutality/models/item/void_knife.json
 8bbe3a5001847dc33446b398b10be882da3dfe43 assets/brutality/models/item/void_seal.json
+a225b99011263677d9fb9bc1e99d58eecf3b7a5c assets/brutality/models/item/void_steppers.json
 ba5014ac3c5e6c5d52e94299ac7ab770400c8e27 assets/brutality/models/item/void_touched_ink.json
 f1bc6968250baa927d4be1aa96ebb8c9bea97a79 assets/brutality/models/item/voltweaver_spell_scroll.json
 3342ff76495db54e98fdad79ba0cae78a787ee62 assets/brutality/models/item/warpslice_scabbard.json

@@ -18,8 +18,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class FlameStomper extends BrutalityCurioItem {
-    private final Map<UUID, Vec3> lastExplosionMap = new ConcurrentHashMap<>();
-
     public FlameStomper(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
@@ -27,25 +25,60 @@ public class FlameStomper extends BrutalityCurioItem {
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
-        lastExplosionMap.put(slotContext.entity().getUUID(), slotContext.entity().getPosition(0));
+        LivingEntity livingEntity = slotContext.entity();
+        lastExplosionMap.put(livingEntity.getUUID(), new ExplosionData(livingEntity.getPosition(0), livingEntity.level().getGameTime()));
     }
+
+    private final Map<UUID, ExplosionData> lastExplosionMap = new ConcurrentHashMap<>();
+
+    // Small record to hold our tracking data
+    private record ExplosionData(Vec3 pos, long time) {}
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
-        LivingEntity livingEntity = slotContext.entity();
-        if (livingEntity.level().isClientSide())
-            return;
+        LivingEntity entity = slotContext.entity();
+        if (entity.level().isClientSide()) return;
 
-        UUID uuid = livingEntity.getUUID();
-        Vec3 currentPos = livingEntity.getPosition(0);
-        Vec3 previousPos = lastExplosionMap.getOrDefault(uuid, currentPos);
-        if (currentPos.distanceToSqr(previousPos) > 1) {
-//            Vec3 behind = livingEntity.getDeltaMovement().normalize().scale(-2).add(currentPos);
-            RandomSource random = livingEntity.getRandom();
-            NapalmExplosion explosion = new NapalmExplosion(livingEntity.level(), livingEntity, null, null, previousPos.x + random.nextFloat(), previousPos.y + random.nextFloat() + 1, previousPos.z + random.nextFloat(), 2, false, Level.ExplosionInteraction.NONE);
-            explosion.setEntityFilter(e -> e != livingEntity);
-            ModExplosionHelper.Server.explode(explosion, livingEntity.level(), true);
-            lastExplosionMap.put(uuid, currentPos);
+        UUID uuid = entity.getUUID();
+        Vec3 currentPos = entity.position();
+        long currentTime = System.currentTimeMillis();
+
+        // 1. Get previous data or initialize if missing
+        ExplosionData data = lastExplosionMap.get(uuid);
+        if (data == null) {
+            lastExplosionMap.put(uuid, new ExplosionData(currentPos, currentTime));
+            return;
+        }
+
+        // 2. Distance check (1.0 block squared)
+        double distSqr = currentPos.distanceToSqr(data.pos());
+        if (distSqr >= 4.0) {
+            double distance = Math.sqrt(distSqr);
+            long timeDiffMs = currentTime - data.time();
+
+            // Prevent division by zero and absurdly high speeds (teleportation)
+            float blocksPerSecond = 0;
+            if (timeDiffMs > 0) {
+                // formula: (distance / ms) * 1000 = blocks per second
+                blocksPerSecond = (float) ((distance / timeDiffMs) * 1000.0);
+            }
+
+
+            RandomSource random = entity.getRandom();
+            NapalmExplosion explosion = new NapalmExplosion(
+                    entity.level(), entity, null, null,
+                    data.pos().x + (random.nextFloat() - 0.5),
+                    data.pos().y + 0.5,
+                    data.pos().z + (random.nextFloat() - 0.5),
+                    blocksPerSecond * 0.25F, false, Level.ExplosionInteraction.NONE
+            );
+
+            explosion.setDamageFilter(e -> e != entity);
+            explosion.knockbackFilter = e -> e != entity;
+            ModExplosionHelper.Server.explode(explosion, entity.level(), true);
+
+            // 5. Update the Map with NEW anchor position and NEW time
+            lastExplosionMap.put(uuid, new ExplosionData(currentPos, currentTime));
         }
     }
 

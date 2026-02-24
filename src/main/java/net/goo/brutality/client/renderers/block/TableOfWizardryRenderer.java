@@ -15,7 +15,7 @@ import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.common.registry.BrutalityRecipes;
 import net.goo.brutality.util.RenderUtils;
 import net.goo.brutality.util.magic.SpellStorage;
-import net.goo.brutality.util.math.CoordinateUtils;
+import net.goo.brutality.util.math.PhysicsUtils;
 import net.minecraft.client.model.BookModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -94,7 +94,7 @@ public class TableOfWizardryRenderer implements BlockEntityRenderer<TableOfWizar
                     Vec3 offset = pedestalOffsets.get(i);
                     Ingredient ing = (i < recipe.ingredients().size()) ? recipe.ingredients().get(i) : Ingredient.EMPTY;
                     if (ing.isEmpty()) continue;
-                    BlockEntity blockEntityAtPedestalLoc = level.getBlockEntity(pBlockEntity.getBlockPos().offset(CoordinateUtils.toVector3i(offset)));
+                    BlockEntity blockEntityAtPedestalLoc = level.getBlockEntity(pBlockEntity.getBlockPos().offset(PhysicsUtils.toVector3i(offset)));
                     ItemStack pedestalStack = ItemStack.EMPTY;
                     pPoseStack.pushPose();
                     pPoseStack.translate(offset.x, offset.y, offset.z);

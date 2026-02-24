@@ -20,8 +20,11 @@ public class FlameWalker extends BrutalityCurioItem {
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         LivingEntity livingEntity = slotContext.entity();
         if (livingEntity.tickCount % 2 != 0 || !livingEntity.onGround()) return;
-        BlockPos current = livingEntity.getOnPos().above();
-        BlockPos previous = new BlockPos((int) livingEntity.xo, (int) livingEntity.yo, (int) livingEntity.zo);
+        BlockPos current = livingEntity.blockPosition();
+        BlockPos previous = BlockPos.containing(livingEntity.xo, livingEntity.yo, livingEntity.zo);
+        System.out.println("Current: " + current);
+        System.out.println("Previous: " + previous);
+        System.out.println("----");
         if (!current.equals(previous)) {
             // entity has moved to a new block
             // we can now safely set it on fire

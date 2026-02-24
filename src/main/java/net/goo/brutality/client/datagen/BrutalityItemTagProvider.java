@@ -82,7 +82,6 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.PORTABLE_QUANTUM_THINGAMABOB.get(),
                 BrutalityItems.DAEMONIUM_WHETSTONE.get(),
                 BrutalityItems.OMNIDIRECTIONAL_MOVEMENT_GEAR.get(),
-                BrutalityItems.VECTOR_STABILIZER.get(),
                 BrutalityItems.ERROR_404.get(),
                 BrutalityItems.KINETIC_COMPENSATOR.get(),
                 BrutalityItems.WAY_OF_THE_WIND.get(),
@@ -334,6 +333,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.VOID_STEPPERS.get(),
                 BrutalityItems.UMBRAL_TIPTOES.get(),
                 BrutalityItems.PLATED_STEELCAPS.get(),
+                BrutalityItems.VECTOR_STABILIZER.get(),
                 BrutalityItems.ICE_SKATES.get()
         );
 

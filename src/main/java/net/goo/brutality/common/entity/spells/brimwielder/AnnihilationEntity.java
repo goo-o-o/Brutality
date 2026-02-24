@@ -130,7 +130,7 @@ public class AnnihilationEntity extends BrutalityAbstractArrow implements Brutal
         if (seeded.nextInt(0, 100) < getSpell().getFinalStat(getSpellLevel(), getSpell().getStat(CHANCE))) {
             BloodExplosion explosion = new BloodExplosion(level(), getOwner(), null, null, loc.x, loc.y, loc.z, 3, false, Level.ExplosionInteraction.NONE);
             explosion.damageScale = getSpellLevel() * 0.15F;
-            explosion.setEntityFilter(e -> !(e instanceof AnnihilationEntity));
+            explosion.setDamageFilter(e -> !(e instanceof AnnihilationEntity));
             ModExplosionHelper.Server.explode(explosion, level(), true);
         }
     }

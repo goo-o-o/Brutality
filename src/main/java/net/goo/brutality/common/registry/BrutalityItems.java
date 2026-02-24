@@ -1548,7 +1548,7 @@ public class BrutalityItems {
 
     public static final RegistryObject<Item> FLAME_STOMPER = ITEMS.register("flame_stomper", () -> new FlameStomper(
             BrutalityRarities.FIRE, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))));
+            new ItemDescriptionComponent(PASSIVE, 2))));
 
     public static final RegistryObject<Item> VOID_STEPPERS = ITEMS.register("void_steppers", () -> new VoidSteppers(
             BrutalityRarities.DARK, List.of(
