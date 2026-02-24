@@ -127,6 +127,7 @@ public class ModExplosionHelper {
                 if (mc.player == null) return;
                 mc.player.setDeltaMovement(mc.player.getDeltaMovement().add(packet.getKnockbackX(), packet.getKnockbackY(), packet.getKnockbackZ()));
             } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+                Brutality.LOGGER.error("Failed to summon {} explosion: {}", packet.getClazz(), e);
                 Explosion explosion = new Explosion(level, null, packet.getX(), packet.getY(), packet.getZ(), packet.getPower(), packet.getToBlow());
                 explosion.finalizeExplosion(packet.isSpawnParticles());
                 if (mc.player == null) return;

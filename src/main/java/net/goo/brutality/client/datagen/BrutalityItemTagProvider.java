@@ -329,6 +329,8 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
 
         this.tag(BrutalityTags.Items.FEET).add(
                 BrutalityItems.HIGH_HEALS.get(),
+                BrutalityItems.FLAME_WALKER.get(),
+                BrutalityItems.FLAME_STOMPER.get(),
                 BrutalityItems.VOID_STEPPERS.get(),
                 BrutalityItems.UMBRAL_TIPTOES.get(),
                 BrutalityItems.PLATED_STEELCAPS.get(),

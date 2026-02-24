@@ -75,6 +75,12 @@
   "item.brutality.high_heals": "High Heals",
   "item.brutality.high_heals.passive.1": "§e -Grants §dRegeneration I §ewhile Sprinting",
 
+  "item.brutality.flame_walker": "Flamewalker",
+  "item.brutality.flame_walker.passive.1": "§e -You leave a trail of fire when sprinting",
+
+  "item.brutality.flame_stomper": "Flamestomper",
+  "item.brutality.flame_stomper.passive.1": "§e -You leave a trail of explosions when sprinting",
+
   "item.brutality.ice_skates": "Ice Skates",
   "item.brutality.ice_skates.passive.1": "§9-95% Friction while on Ice",
 
@@ -86,9 +92,6 @@
   "item.brutality.umbral_tiptoes.passive.1": "§9+10% Move Speed for each Light Level below 15",
   "item.brutality.umbral_tiptoes.passive.2": "§e -The wearer's footsteps are silent",
 
-  "item.brutality.flamewalker": "Flamewalker",
-  "item.brutality.flamethreader": "Flamethreader",
-  "item.brutality.flamestomper": "Flamestomper",
 
   "item.brutality.lava_waders": "Lava Waders",
 

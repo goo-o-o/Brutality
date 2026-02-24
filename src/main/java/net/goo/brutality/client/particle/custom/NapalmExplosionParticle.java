@@ -5,11 +5,17 @@ import net.minecraft.client.particle.HugeExplosionParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.particles.SimpleParticleType;
 
 public class NapalmExplosionParticle extends HugeExplosionParticle {
     protected NapalmExplosionParticle(ClientLevel pLevel, double pX, double pY, double pZ, double pQuadSizeMultiplier, SpriteSet pSprites) {
         super(pLevel, pX, pY, pZ, pQuadSizeMultiplier, pSprites);
+    }
+
+    @Override
+    public int getLightColor(float pPartialTick) {
+        return LightTexture.FULL_BRIGHT;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

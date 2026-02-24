@@ -342,6 +342,8 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.PLATED_STEELCAPS.get());
                         output.accept(BrutalityItems.VOID_STEPPERS.get());
                         output.accept(BrutalityItems.UMBRAL_TIPTOES.get());
+                        output.accept(BrutalityItems.FLAME_WALKER.get());
+                        output.accept(BrutalityItems.FLAME_STOMPER.get());
 
 
 

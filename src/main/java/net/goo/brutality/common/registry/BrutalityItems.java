@@ -20,9 +20,7 @@ import net.goo.brutality.common.item.curios.anklet.*;
 import net.goo.brutality.common.item.curios.belt.BattleScars;
 import net.goo.brutality.common.item.curios.belt.ScientificCalculator;
 import net.goo.brutality.common.item.curios.charm.*;
-import net.goo.brutality.common.item.curios.feet.IceSkates;
-import net.goo.brutality.common.item.curios.feet.PlatedSteelcaps;
-import net.goo.brutality.common.item.curios.feet.VoidSteppers;
+import net.goo.brutality.common.item.curios.feet.*;
 import net.goo.brutality.common.item.curios.hands.Handcuffs;
 import net.goo.brutality.common.item.curios.hands.PerfectCell;
 import net.goo.brutality.common.item.curios.hands.PhantomFinger;
@@ -1544,6 +1542,14 @@ public class BrutalityItems {
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))));
 
+    public static final RegistryObject<Item> FLAME_WALKER = ITEMS.register("flame_walker", () -> new FlameWalker(
+            BrutalityRarities.FIRE, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+
+    public static final RegistryObject<Item> FLAME_STOMPER = ITEMS.register("flame_stomper", () -> new FlameStomper(
+            BrutalityRarities.FIRE, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+
     public static final RegistryObject<Item> VOID_STEPPERS = ITEMS.register("void_steppers", () -> new VoidSteppers(
             BrutalityRarities.DARK, List.of(
             new ItemDescriptionComponent(PASSIVE, 2)), 0.05F, 0.5F));
@@ -1565,7 +1571,6 @@ public class BrutalityItems {
             }
         }
     });
-
 
 
 

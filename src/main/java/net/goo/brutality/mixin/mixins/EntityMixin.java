@@ -88,22 +88,22 @@ public abstract class EntityMixin {
         VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
     }
 
-    @Inject(method = "playCombinationStepSounds", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "playCombinationStepSounds", at = @At("HEAD"), cancellable = true, remap = false)
     private void cancelCombinationStepSound(BlockState primaryState, BlockState secondaryState, BlockPos primaryPos, BlockPos secondaryPos, CallbackInfo ci) {
         VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
     }
 
-    @Inject(method = "playMuffledStepSound", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "playMuffledStepSound", at = @At("HEAD"), cancellable = true, remap = false)
     private void cancelMuffledStepSound(BlockState state, BlockPos pos, CallbackInfo ci) {
         VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
     }
 
-    @Inject(method = "walkingStepSound", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "walkingStepSound", at = @At("HEAD"), cancellable = true, remap = false)
     private void cancelWalkingStepSound(BlockPos pPos, BlockState pState, CallbackInfo ci) {
         VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
     }
 
-    @Inject(method = "playAmethystStepSound", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "playAmethystStepSound", at = @At("HEAD"), cancellable = true, remap = false)
     private void cancelWalkingStepSound(CallbackInfo ci) {
         VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
     }

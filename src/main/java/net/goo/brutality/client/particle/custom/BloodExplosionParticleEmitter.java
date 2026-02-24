@@ -7,10 +7,10 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.SimpleParticleType;
 
-public class BloodExplosionEmitter extends NoRenderParticle {
+public class BloodExplosionParticleEmitter extends NoRenderParticle {
     private int life;
 
-    BloodExplosionEmitter(ClientLevel pLevel, double pX, double pY, double pZ) {
+    BloodExplosionParticleEmitter(ClientLevel pLevel, double pX, double pY, double pZ) {
         super(pLevel, pX, pY, pZ, 0.0D, 0.0D, 0.0D);
     }
 
@@ -33,7 +33,7 @@ public class BloodExplosionEmitter extends NoRenderParticle {
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, double pX, double pY, double pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
-            return new BloodExplosionEmitter(pLevel, pX, pY, pZ);
+            return new BloodExplosionParticleEmitter(pLevel, pX, pY, pZ);
         }
     }
 }
