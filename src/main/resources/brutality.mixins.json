@@ -22,6 +22,7 @@
     "EntityMixin",
     "ExperienceOrbMixin",
     "FishingHookMixin",
+    "FluidTypeMixin",
     "GeoModelMixin",
     "HoeItemMixin",
     "InfinityEnchantmentMixin",
@@ -44,6 +45,7 @@
     "TridentItemMixin",
     "TripWireBlockMixin",
     "VanillaHopperItemHandlerMixin",
+    "VibrationSystemUserMixin",
     "VillagerMixin"
   ],
   "priority": 900,

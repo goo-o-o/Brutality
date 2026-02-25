@@ -5,6 +5,8 @@ import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.util.ModExplosionHelper;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -32,12 +34,16 @@ public class FlameStomper extends BrutalityCurioItem {
     private final Map<UUID, ExplosionData> lastExplosionMap = new ConcurrentHashMap<>();
 
     // Small record to hold our tracking data
-    private record ExplosionData(Vec3 pos, long time) {}
+    private record ExplosionData(Vec3 pos, long time) {
+    }
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         LivingEntity entity = slotContext.entity();
         if (entity.level().isClientSide()) return;
+
+        if (entity.tickCount % 2 == 0)
+            entity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 10, 0));
 
         UUID uuid = entity.getUUID();
         Vec3 currentPos = entity.position();

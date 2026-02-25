@@ -77,10 +77,12 @@
 
   "item.brutality.flame_walker": "Flamewalker",
   "item.brutality.flame_walker.passive.1": "§e -You leave a trail of fire when sprinting",
+  "item.brutality.flame_walker.passive.2": "§e -Grants §6Fire Resistance",
 
   "item.brutality.flame_stomper": "Flamestomper",
   "item.brutality.flame_stomper.passive.1": "§e -You leave a trail of explosions when sprinting",
   "item.brutality.flame_stomper.passive.2": "§e -Explosions scale off the wearer's speed",
+  "item.brutality.flame_stomper.passive.3": "§e -Grants §6Fire Resistance",
 
   "item.brutality.ice_skates": "Ice Skates",
   "item.brutality.ice_skates.passive.1": "§9-95% Friction while on Ice",
@@ -93,6 +95,17 @@
   "item.brutality.umbral_tiptoes.passive.1": "§9+10% Move Speed for each Light Level below 15",
   "item.brutality.umbral_tiptoes.passive.2": "§e -The wearer's footsteps are silent",
 
+  "item.brutality.seismic_stompers": "Seismic Stompers",
+  "item.brutality.seismic_stompers.passive.1": "§e -Releases a shockwave when the wearer hits the ground",
+  "item.brutality.seismic_stompers.passive.2": "§e -Shockwave strength scales with distance fell",
+
+  "item.brutality.amphibian_boots": "Amphibian Boots",
+  "item.brutality.water_walkers": "Water Walkers",
+  "item.brutality.water_walkers.passive.1": "§e -Allows the wearer to walk on water",
+  "item.brutality.lava_walkers": "Lava Walkers",
+  "item.brutality.lava_walkers.passive.1": "§e -Allows the wearer to walk on lava",
+  "item.brutality.salamander_boots": "Salamander Boots",
+  "item.brutality.salamander_boots.passive.1": "§e -Allows the wearer to swim in lava",
 
   "item.brutality.lava_waders": "Lava Waders",
 

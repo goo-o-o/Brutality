@@ -1544,11 +1544,19 @@ public class BrutalityItems {
 
     public static final RegistryObject<Item> FLAME_WALKER = ITEMS.register("flame_walker", () -> new FlameWalker(
             BrutalityRarities.FIRE, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))));
+            new ItemDescriptionComponent(PASSIVE, 2))));
 
     public static final RegistryObject<Item> FLAME_STOMPER = ITEMS.register("flame_stomper", () -> new FlameStomper(
             BrutalityRarities.FIRE, List.of(
+            new ItemDescriptionComponent(PASSIVE, 3))));
+
+    public static final RegistryObject<Item> SEISMIC_STOMPERS = ITEMS.register("seismic_stompers", () -> new SeismicStompers(
+            BrutalityRarities.FABLED, List.of(
             new ItemDescriptionComponent(PASSIVE, 2))));
+
+    public static final RegistryObject<Item> SALAMANDER_BOOTS = ITEMS.register("salamander_boots", () -> new BrutalityCurioItem(
+            BrutalityRarities.FIRE, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
 
     public static final RegistryObject<Item> VOID_STEPPERS = ITEMS.register("void_steppers", () -> new VoidSteppers(
             BrutalityRarities.DARK, List.of(

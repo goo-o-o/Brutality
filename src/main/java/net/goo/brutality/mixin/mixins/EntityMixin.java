@@ -19,12 +19,23 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.theillusivec4.curios.api.CuriosApi;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
     @Shadow
     protected Vec3 stuckSpeedMultiplier;
+
+
+    @Inject(method = "dampensVibrations", at = @At("HEAD"), cancellable = true)
+    private void cancelVibrations(CallbackInfoReturnable<Boolean> cir) {
+        Entity entity = (((Entity) (Object) this));
+
+        if (entity instanceof LivingEntity livingEntity) {
+            CuriosApi.getCuriosInventory(livingEntity).ifPresent(handler -> handler.findFirstCurio(stack -> stack.getItem() instanceof VoidSteppers).ifPresent(slotResult -> cir.setReturnValue(true)));
+        }
+    }
 
     @Inject(method = "makeStuckInBlock", at = @At("TAIL"))
     private void bypassBlockSlowdown(BlockState pState, Vec3 pMotionMultiplier, CallbackInfo ci) {
