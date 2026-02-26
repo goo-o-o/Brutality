@@ -122,7 +122,7 @@ public class ModExplosionHelper {
 
                 BrutalityExplosion explosion = (BrutalityExplosion) constructor.newInstance(
                         level, null, packet.getX(), packet.getY(), packet.getZ(), packet.getPower(), packet.getToBlow());
-                explosion.explode();
+//                explosion.explode();
                 explosion.finalizeExplosion(packet.isSpawnParticles());
                 if (mc.player == null) return;
                 mc.player.setDeltaMovement(mc.player.getDeltaMovement().add(packet.getKnockbackX(), packet.getKnockbackY(), packet.getKnockbackZ()));

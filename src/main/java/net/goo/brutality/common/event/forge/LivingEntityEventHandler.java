@@ -1,4 +1,4 @@
-package net.goo.brutality.event.forge;
+package net.goo.brutality.common.event.forge;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.ClientAccess;

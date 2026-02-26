@@ -82,7 +82,7 @@ public class BlastBarrel extends BrutalityAbstractPhysicsThrowingProjectile impl
     private void explode(Vec3 loc) {
         NapalmExplosion explosion = new NapalmExplosion(level(), getOwner(), null, null, loc.x, loc.y, loc.z, 3, true,
                 ModUtils.getThrowingWeaponExplosionInteractionFromConfig());
-        explosion.setEntityFilter(e -> e != getOwner());
+        explosion.setDamageFilter(e -> e != getOwner());
         ModExplosionHelper.Server.explode(explosion, level(), true);
     }
 }

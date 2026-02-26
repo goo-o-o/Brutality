@@ -208,7 +208,22 @@ public class BrutalityParticles {
                 }
             });
 
-    public static final RegistryObject<ParticleType<WaveParticleData<?>>> SONIC_WAVE = PARTICLE_TYPES.register("sonic_wave", () ->
+    public static final RegistryObject<ParticleType<WaveParticleData<?>>> SONIC_BOOM_WAVE = PARTICLE_TYPES.register("sonic_boom_wave", () ->
+            new ParticleType<>(false, WaveParticleData.DESERIALIZER) {
+                @Override
+                public @NotNull Codec<WaveParticleData<?>> codec() {
+                    return WaveParticleData.CODEC;
+                }
+            });
+
+    public static final RegistryObject<ParticleType<WaveParticleData<?>>> SHOCKWAVE = PARTICLE_TYPES.register("shockwave", () ->
+            new ParticleType<>(false, WaveParticleData.DESERIALIZER) {
+                @Override
+                public @NotNull Codec<WaveParticleData<?>> codec() {
+                    return WaveParticleData.CODEC;
+                }
+            });
+    public static final RegistryObject<ParticleType<WaveParticleData<?>>> SEISMIC_SHOCKWAVE = PARTICLE_TYPES.register("seismic_shockwave", () ->
             new ParticleType<>(false, WaveParticleData.DESERIALIZER) {
                 @Override
                 public @NotNull Codec<WaveParticleData<?>> codec() {

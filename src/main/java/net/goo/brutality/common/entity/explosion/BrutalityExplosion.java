@@ -44,8 +44,9 @@ public abstract class BrutalityExplosion extends Explosion {
     public float damageScale = 1;
     public float knockbackScale = 1;
     public Float damage = null;
-    Predicate<Entity> entityFilter = e -> true;
+    Predicate<Entity> damageFilter = e -> true;
     protected Level.ExplosionInteraction explosionInteraction;
+    public Predicate<Entity> knockbackFilter = e -> true;
 
 
     public BrutalityExplosion(Level pLevel, @Nullable Entity pSource, double pToBlowX, double pToBlowY, double pToBlowZ, float pRadius, List<BlockPos> pPositions) {
@@ -98,12 +99,9 @@ public abstract class BrutalityExplosion extends Explosion {
         return true;
     }
 
-    public Predicate<Entity> getEntityFilter() {
-        return entityFilter;
-    }
 
-    public void setEntityFilter(Predicate<Entity> entityFilter) {
-        this.entityFilter = entityFilter;
+    public void setDamageFilter(Predicate<Entity> damageFilter) {
+        this.damageFilter = damageFilter;
     }
 
     @Override
@@ -236,7 +234,7 @@ public abstract class BrutalityExplosion extends Explosion {
         Vec3 explosionCenter = new Vec3(this.x, this.y, this.z);
 
         for (Entity entity : nearbyEntities) {
-            if (!entity.ignoreExplosion() && getEntityFilter().test(entity)) {
+            if (!entity.ignoreExplosion() && damageFilter.test(entity)) {
                 double distanceRatio = Math.sqrt(entity.distanceToSqr(explosionCenter)) / (double) explosionDiameter;
                 if (distanceRatio <= (double) 1.0F) {
 
@@ -259,20 +257,23 @@ public abstract class BrutalityExplosion extends Explosion {
                                         () -> (float) ((impactFactor * impactFactor + impactFactor) / 2.0F * 7.0F * explosionDiameter + 1.0F)));
                         onHit(entity, impactFactor);
                         double knockbackFactor;
-                        if (entity instanceof LivingEntity livingEntity) {
-                            knockbackFactor = ProtectionEnchantment.getExplosionKnockbackAfterDampener(livingEntity, impactFactor);
-                        } else {
-                            knockbackFactor = impactFactor;
+                        Vec3 knockbackVector = Vec3.ZERO;
+
+                        if (knockbackFilter.test(entity)) {
+                            if (entity instanceof LivingEntity livingEntity) {
+                                knockbackFactor = ProtectionEnchantment.getExplosionKnockbackAfterDampener(livingEntity, impactFactor);
+                            } else {
+                                knockbackFactor = impactFactor;
+                            }
+
+                            knockbackFactor *= knockbackScale;
+
+                            deltaX *= knockbackFactor;
+                            deltaY *= knockbackFactor;
+                            deltaZ *= knockbackFactor;
+                            knockbackVector = new Vec3(deltaX, deltaY, deltaZ);
+                            entity.setDeltaMovement(entity.getDeltaMovement().add(knockbackVector));
                         }
-
-                        knockbackFactor *= knockbackScale;
-
-                        deltaX *= knockbackFactor;
-                        deltaY *= knockbackFactor;
-                        deltaZ *= knockbackFactor;
-
-                        Vec3 knockbackVector = new Vec3(deltaX, deltaY, deltaZ);
-                        entity.setDeltaMovement(entity.getDeltaMovement().add(knockbackVector));
 
                         if (entity instanceof Player player) {
                             if (!player.isSpectator() && (!player.isCreative() || !player.getAbilities().flying)) {

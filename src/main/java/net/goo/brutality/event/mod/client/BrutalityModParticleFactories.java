@@ -74,7 +74,9 @@ public class BrutalityModParticleFactories {
         event.registerSpriteSet(BrutalityParticles.HEAL_WAVE.get(), WaveParticle.Provider::new);
         event.registerSpriteSet(BrutalityParticles.FROSTMOURNE_WAVE.get(), WaveParticle.Provider::new);
         event.registerSpriteSet(BrutalityParticles.COSMIC_WAVE.get(), WaveParticle.Provider::new);
-        event.registerSpriteSet(BrutalityParticles.SONIC_WAVE.get(), WaveParticle.Provider::new);
+        event.registerSpriteSet(BrutalityParticles.SONIC_BOOM_WAVE.get(), WaveParticle.Provider::new);
+        event.registerSpriteSet(BrutalityParticles.SHOCKWAVE.get(), WaveParticle.Provider::new);
+        event.registerSpriteSet(BrutalityParticles.SEISMIC_SHOCKWAVE.get(), WaveParticle.Provider::new);
         event.registerSpriteSet(BrutalityParticles.ANTIMATTER_WAVE.get(), WaveParticle.Provider::new);
 
         event.registerSpecial(BrutalityParticles.NUCLEAR_EXPLOSION_EMITTER.get(), new NuclearExplosionParticleEmitter.Provider());

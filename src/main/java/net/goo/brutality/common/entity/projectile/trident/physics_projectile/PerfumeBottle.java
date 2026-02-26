@@ -87,7 +87,7 @@ public class PerfumeBottle extends BrutalityAbstractPhysicsThrowingProjectile im
         if (isExplosive) {
             NapalmExplosion explosion = new NapalmExplosion(level(), getOwner(), null, null, loc.x, loc.y, loc.z, 3, true,
                     ModUtils.getThrowingWeaponExplosionInteractionFromConfig());
-            explosion.setEntityFilter(e -> e != getOwner());
+            explosion.setDamageFilter(e -> e != getOwner());
             ModExplosionHelper.Server.explode(explosion, level(), true);
         } else {
             if (level() instanceof ServerLevel serverLevel) {

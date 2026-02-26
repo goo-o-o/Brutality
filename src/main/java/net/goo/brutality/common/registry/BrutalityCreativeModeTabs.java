@@ -344,6 +344,11 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.UMBRAL_TIPTOES.get());
                         output.accept(BrutalityItems.FLAME_WALKER.get());
                         output.accept(BrutalityItems.FLAME_STOMPER.get());
+                        output.accept(BrutalityItems.SEISMIC_STOMPERS.get());
+                        output.accept(BrutalityItems.SALAMANDER_BOOTS.get());
+                        output.accept(BrutalityItems.AMPHIBIAN_BOOTS.get());
+                        output.accept(BrutalityItems.LAVA_WALKERS.get());
+                        output.accept(BrutalityItems.WATER_WALKERS.get());
 
 
 

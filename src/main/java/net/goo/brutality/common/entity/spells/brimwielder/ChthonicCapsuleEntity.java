@@ -134,7 +134,7 @@ public class ChthonicCapsuleEntity extends BrutalityAbstractPhysicsProjectile im
         BloodExplosion explosion = new BloodExplosion(level(), getOwner(), null, null, this.getX(), this.getY(), this.getZ(), 3, false, Level.ExplosionInteraction.NONE);
         explosion.damage = getFinalDamage(getSpell(), getOwner(), getSpellLevel());
 
-        explosion.setEntityFilter(e -> (!(e instanceof ChthonicCapsuleEntity)) && e != getOwner());
+        explosion.setDamageFilter(e -> (!(e instanceof ChthonicCapsuleEntity)) && e != getOwner());
         ModExplosionHelper.Server.explode(explosion, level(), true);
 
         float size = getSpell().getFinalStat(getSpellLevel(), getSpell().getStat(SIZE));
