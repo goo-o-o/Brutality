@@ -1558,6 +1558,17 @@ public class BrutalityItems {
             BrutalityRarities.FIRE, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))));
 
+    public static final RegistryObject<Item> AMPHIBIAN_BOOTS = ITEMS.register("amphibian_boots", () -> new AmphibianBoots(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+
+    public static final RegistryObject<Item> LAVA_WALKERS = ITEMS.register("lava_walkers", () -> new BrutalityCurioItem(
+            BrutalityRarities.FIRE, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> WATER_WALKERS = ITEMS.register("water_walkers", () -> new BrutalityCurioItem(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+
     public static final RegistryObject<Item> VOID_STEPPERS = ITEMS.register("void_steppers", () -> new VoidSteppers(
             BrutalityRarities.DARK, List.of(
             new ItemDescriptionComponent(PASSIVE, 2)), 0.05F, 0.5F));

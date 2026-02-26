@@ -4,29 +4,107 @@ import net.goo.brutality.common.item.curios.feet.VoidSteppers;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+
+import java.util.Optional;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
     @Shadow
     protected Vec3 stuckSpeedMultiplier;
 
+    @ModifyVariable(method = "move", ordinal = 1, index = 3, name = "vec32", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/entity/Entity;collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"))
+    private Vec3 giveFluidCollision(Vec3 original) {
+
+        Entity entity = (((Entity) (Object) this));
+
+        if (original.y > 0) return original; // early return if they are moving upwards
+
+        Level level = entity.level();
+
+        // to ensure we don't phase through different liquid levels, iterate through nearby fluids
+
+        // and yes, this was roughly adapted from Relics' Aqua Walker
+        int[][] offsets = {
+                {1, 0, 1}, {1, 0, 0}, {1, -1, 0}, {1, 0, -1},
+                {0, 0, 1}, {0, 0, 0}, {0, -1, 0}, {0, 0, -1},
+                {-1, 0, 1}, {-1, 0, 0}, {-1, -1, 0}, {-1, 0, -1}
+        };
+
+        double highestValue = original.y;
+        FluidState highestFluid = null;
+
+        BlockPos source = entity.blockPosition();
+        for (int[] offset : offsets) {
+            BlockPos targetPos = source.offset(offset[0], offset[1], offset[2]);
+            FluidState fluidState = level.getFluidState(targetPos);
+
+            if (fluidState.isEmpty()) continue;
+
+            // get a 1x1 hitbox with the uppermost part matching the fluid
+            VoxelShape shape = Shapes.block().move(targetPos.getX(), targetPos.getY() + fluidState.getOwnHeight(), targetPos.getZ());
+            // inflate for robustness
+            if (Shapes.joinIsNotEmpty(shape, Shapes.create(entity.getBoundingBox().inflate(0.175)), BooleanOp.AND)) {
+                double height = shape.max(Direction.Axis.Y) - entity.getY() - 1;
+                // absolute y coords - entity y coords - 1 to offset feet position
+
+                if (highestValue < height) {
+                    highestValue = height;
+                    highestFluid = fluidState;
+                }
+            }
+
+        }
+
+        if (highestFluid == null) return original;
+
+        // now to actually stop the player from falling
+        boolean cancel = false;
+        if (entity instanceof LivingEntity livingEntity) {
+            Optional<ICuriosItemHandler> curiosOpt = CuriosApi.getCuriosInventory(livingEntity).resolve();
+            if (curiosOpt.isPresent()) {
+                ICuriosItemHandler handler = curiosOpt.get();
+                if (handler.isEquipped(BrutalityItems.LAVA_WALKERS.get())) {
+                    if (highestFluid.is(FluidTags.LAVA)) {
+                        cancel = true;
+                    }
+                }
+                if (handler.isEquipped(BrutalityItems.WATER_WALKERS.get())) {
+                    if (highestFluid.is(FluidTags.WATER)) {
+                        cancel = true;
+                    }
+                }
+            }
+        }
+
+        if (cancel) {
+            entity.fallDistance = 0;
+            entity.setOnGround(true);
+            return new Vec3(original.x, highestValue, original.z);
+        }
+
+        return original;
+    }
 
     @Inject(method = "dampensVibrations", at = @At("HEAD"), cancellable = true)
     private void cancelVibrations(CallbackInfoReturnable<Boolean> cir) {
@@ -118,7 +196,6 @@ public abstract class EntityMixin {
     private void cancelWalkingStepSound(CallbackInfo ci) {
         VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
     }
-
 
 
 }

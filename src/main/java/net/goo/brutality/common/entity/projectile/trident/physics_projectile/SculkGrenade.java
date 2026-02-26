@@ -72,7 +72,7 @@ public class SculkGrenade extends BrutalityAbstractPhysicsThrowingProjectile imp
     @Override
     protected void onHit(@NotNull HitResult hitResult) {
         super.onHit(hitResult);
-        WaveParticleData<?> waveParticleData = new WaveParticleData<>(BrutalityParticles.SONIC_WAVE.get(), 2.5F, 50);
+        WaveParticleData<?> waveParticleData = new WaveParticleData<>(BrutalityParticles.SONIC_BOOM_WAVE.get(), 2.5F, 50);
         DamageSource damageSource;
         if (getOwner() instanceof LivingEntity living) {
             damageSource = damageSources().mobAttack(living);

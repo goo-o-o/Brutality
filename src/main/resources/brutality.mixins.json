@@ -45,7 +45,6 @@
     "TridentItemMixin",
     "TripWireBlockMixin",
     "VanillaHopperItemHandlerMixin",
-    "VibrationSystemUserMixin",
     "VillagerMixin"
   ],
   "priority": 900,

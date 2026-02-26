@@ -47,7 +47,7 @@ public class EdgeOfOblivionSpell extends BrutalitySpell {
         float radius = getFinalStat(spellLevel, getStat(RANGE));
 
         if (player.level() instanceof ServerLevel serverLevel) {
-            double playerX = player.getX(), playerY = player.getY(), playerZ = player.getZ();
+            double playerX = player.getX(), playerY = player.getY(0.5), playerZ = player.getZ();
             float offset = 0.1F + 0.025F * (spellLevel + 1);
             for (int i = 0; i < 16 + spellLevel * 4; i++) {
                 PacketHandler.sendToNearbyClients(serverLevel, playerX, playerY, playerZ, 128, new ClientboundParticlePacket(
@@ -62,7 +62,7 @@ public class EdgeOfOblivionSpell extends BrutalitySpell {
             serverLevel.sendParticles(
                     waveParticleData,
                     playerX,
-                    playerY + player.getBbHeight() / 3,
+                    player.getY(0.1),
                     playerZ,
                     1,
                     0, 0, 0,

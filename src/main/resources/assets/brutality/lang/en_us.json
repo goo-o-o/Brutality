@@ -89,17 +89,18 @@
 
   "item.brutality.void_steppers": "Void Steppers",
   "item.brutality.void_steppers.passive.1": "§9+5% Move Speed for each Light Level below 15",
-  "item.brutality.void_steppers.passive.2": "§e -The wearer's footsteps are silent",
+  "item.brutality.void_steppers.passive.2": "§e -The wearer's footsteps are silent and are undetectable by Sculk",
 
   "item.brutality.umbral_tiptoes": "Umbral Tiptoes",
   "item.brutality.umbral_tiptoes.passive.1": "§9+10% Move Speed for each Light Level below 15",
-  "item.brutality.umbral_tiptoes.passive.2": "§e -The wearer's footsteps are silent",
+  "item.brutality.umbral_tiptoes.passive.2": "§e -The wearer's footsteps are silent and are undetectable by Sculk",
 
   "item.brutality.seismic_stompers": "Seismic Stompers",
   "item.brutality.seismic_stompers.passive.1": "§e -Releases a shockwave when the wearer hits the ground",
   "item.brutality.seismic_stompers.passive.2": "§e -Shockwave strength scales with distance fell",
 
   "item.brutality.amphibian_boots": "Amphibian Boots",
+  "item.brutality.amphibian_boots.passive.1": "§e -Increased Attack Speed while underwater",
   "item.brutality.water_walkers": "Water Walkers",
   "item.brutality.water_walkers.passive.1": "§e -Allows the wearer to walk on water",
   "item.brutality.lava_walkers": "Lava Walkers",
