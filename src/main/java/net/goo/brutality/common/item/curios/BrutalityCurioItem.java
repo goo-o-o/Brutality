@@ -314,7 +314,7 @@ public class BrutalityCurioItem extends BrutalityGenericItem implements ICurioIt
          * from all equipped curios of type {@link BrutalityCurioItem}. Each applicable item can
          * contribute a specific bonus to the provided attribute value.
          *
-         * @implNote Do not get an attribute value while modifying the value, for example,
+         * Do not get an attribute value while modifying the value, for example,
          * do not get the {@link net.minecraft.world.entity.ai.attributes.Attributes#MAX_HEALTH} of an entity if you plan to modify the bonus of {@code MAX_HEALTH}. Doing so will result in a {@link StackOverflowError}, surround with an if statement. Look at {@link net.goo.brutality.common.item.curios.anklet.AnkletOfTheImprisoned} for an example
          *
          * @param livingEntity The {@link LivingEntity} whose attribute value is being modified. This entity

@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-04T07:42:42.1070659	Loot Tables
+// 1.20.1	2026-02-28T19:32:41.9723356	Loot Tables
 7a6fcc73c90bbb6da3eb58d7116390cf9bd9c488 data/brutality/loot_tables/blocks/black_concrete_slab.json
 1b7531c557b612154a5ac964a8ae4a07a93855cf data/brutality/loot_tables/blocks/black_concrete_stair.json
 810cd4456c93df5ac1f0613594ea963cc927f113 data/brutality/loot_tables/blocks/black_office_chair.json
@@ -36,6 +36,7 @@ fe21065b660ec5137ff2325055838444979b7a04 data/brutality/loot_tables/blocks/light
 875b523e59894026aab9c3fb29fc80518c6d53e8 data/brutality/loot_tables/blocks/light_gray_office_rug.json
 b10736f7d970889447031e8e7e94d046d96128db data/brutality/loot_tables/blocks/lime_concrete_slab.json
 4113f07a6d9c0c2d6e5252c0672d40cb98c608bb data/brutality/loot_tables/blocks/lime_concrete_stair.json
+43101eb54ec01531eb63d56f8b6ae36ea1fd873c data/brutality/loot_tables/blocks/liquified_mana_cauldron.json
 681c2218e1d4691f3fc27ba345d2a181edc5f19a data/brutality/loot_tables/blocks/lower_hvac.json
 04aef48e1356ee6a4f0dbb9fa360b0aea2e52b2f data/brutality/loot_tables/blocks/magenta_concrete_slab.json
 c500d215a230aaebf8c05b0ee54dba8947c98b93 data/brutality/loot_tables/blocks/magenta_concrete_stair.json

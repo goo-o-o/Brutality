@@ -1,7 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.goo.brutality.mixin.accessors.BrutalityFontHooks;
+import net.goo.brutality.common.mixin_helpers.BrutalityFontHooks;
 import net.goo.brutality.util.ColorUtils;
 import net.minecraft.client.gui.font.glyphs.BakedGlyph;
 import org.joml.Matrix4f;

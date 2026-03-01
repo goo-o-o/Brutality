@@ -66,7 +66,7 @@ public interface IBrutalitySpell {
      *                     of mana cost.
      * @return The calculated mana cost for the spell, adjusted by livingEntity attributes and
      * constrained to a minimum of 1.
-     * @implNote The actual spell level (affected by attributes) should be passed in
+     *  The actual spell level (affected by attributes) should be passed in
      */
     default float getActualManaCost(LivingEntity livingEntity, int spellLevel) {
         float base = getBaseManaCost() + getManaCostLevelScaling() * spellLevel;

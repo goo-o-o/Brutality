@@ -3030,7 +3030,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(TerramityModItems.PROFANED_ORE.get()), has(TerramityModItems.PROFANED_ORE.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.MANA_SYRINGE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.MANA_INFUSED_WHETSTONE.get())
                 .pattern("ECD")
                 .pattern("EAC")
                 .pattern("BEE")

@@ -1,7 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
-import net.goo.brutality.mixin.accessors.IBrutalityAttribute;
+import net.goo.brutality.common.mixin_helpers.IBrutalityAttribute;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;

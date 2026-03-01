@@ -1,7 +1,7 @@
 package net.goo.brutality.common.mob_effect;
 
 import net.goo.brutality.common.entity.projectile.generic.HealingProjectile;
-import net.goo.brutality.mixin.accessors.MobEffectInstanceSourceAccessor;
+import net.goo.brutality.common.mixin_helpers.MobEffectInstanceSourceAccessor;
 import net.goo.brutality.common.registry.BrutalityEntities;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.minecraft.world.effect.MobEffect;

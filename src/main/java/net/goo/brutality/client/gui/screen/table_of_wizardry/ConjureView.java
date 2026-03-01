@@ -35,7 +35,6 @@ public class ConjureView extends TableOfWizardryView {
                     .withStyle(s -> s.withFont(ModResources.TABLE_OF_WIZARDRY_FONT)), TableOfWizardryScreen.BUTTON_TEXTURE, b -> {
                 blockEntity.currentSchool = school;
                 screen.schoolListScroll = schoolList.getScrollDistance();
-                screen.rebuildWidgets();
                 screen.updateServerAndRefresh();
             })
                     .yDiffTex(18).texStart(0, 0).offset(0, 0).size(70, 18)
@@ -59,7 +58,6 @@ public class ConjureView extends TableOfWizardryView {
                     blockEntity.currentState = TableOfWizardryBlockEntity.GuiState.SPELL_PAGE;
                     blockEntity.currentSpell = spell;
                     screen.spellListScroll = spellList.getScrollDistance();
-                    screen.rebuildWidgets();
                     screen.updateServerAndRefresh();
                 })
                         .yDiffTex(18).texStart(0, 0).offset(0, 0).size(70, 18)

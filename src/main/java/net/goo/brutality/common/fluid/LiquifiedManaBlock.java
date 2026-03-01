@@ -38,6 +38,7 @@ public class LiquifiedManaBlock extends LiquidBlock {
         }
     }
 
+
     @Override
     public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
         if (pEntity instanceof LivingEntity livingEntity) {

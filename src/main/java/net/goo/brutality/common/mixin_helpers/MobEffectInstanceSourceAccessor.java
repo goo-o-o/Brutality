@@ -1,4 +1,4 @@
-package net.goo.brutality.mixin.accessors;
+package net.goo.brutality.common.mixin_helpers;
 
 public interface MobEffectInstanceSourceAccessor {
     Integer brutality$getSourceID();

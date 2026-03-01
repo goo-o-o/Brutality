@@ -59,15 +59,16 @@ public class ConjureRecipeSerializer implements RecipeSerializer<ConjureRecipe> 
         int count = GsonHelper.getAsInt(json, "count", 0);
         return new ConjureRecipe(id, ingredients, entities, mana, count, spell);
     }
+
     @Override
     public void toNetwork(FriendlyByteBuf buf, ConjureRecipe recipe) {
-        // Start directly with ingredients to match fromNetwork
         for (Ingredient ing : recipe.ingredients()) {
             ing.toNetwork(buf);
         }
         buf.writeCollection(recipe.requiredEntities(), (b, type) ->
                 b.writeResourceLocation(ForgeRegistries.ENTITY_TYPES.getKey(type)));
         buf.writeInt(recipe.mana());
+        buf.writeInt(recipe.count()); // ADD THIS LINE
     }
 
     @Override

@@ -47,8 +47,9 @@ public class SpellCommands {
                                             }
                                             return builder.buildFuture();
                                         })
-                                        .executes(SpellCommands::removeSpellFromHeldItem)
-                                )
+                                        .then(Commands.argument("spell_level", IntegerArgumentType.integer(1))
+                                                .executes(SpellCommands::removeSpellFromHeldItem))
+                                        .executes(SpellCommands::removeSpellFromHeldItem))
                         )
                         .then(Commands.literal("cooldowns")
                                 .then(Commands.literal("reset")
@@ -111,7 +112,14 @@ public class SpellCommands {
             return 0;
         }
 
-        if (SpellStorage.removeSpell(heldItem, spell)) {
+        Integer spellLevel = null;
+        try {
+            spellLevel = IntegerArgumentType.getInteger(context, "spell_level");
+        } catch (IllegalArgumentException e) {
+            // Argument not present, spellLevel remains null
+        }
+
+        if (SpellStorage.removeSpell(heldItem, spell, spellLevel)) {
             context.getSource().sendSuccess(() -> Component.translatable("message." + Brutality.MOD_ID + ".spell_remove_success", spellName), true);
             return 1;
         }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brutality:item/curio/mana_syringe/mana_syringe_inventory"
+    "layer0": "brutality:item/generic/mana_syringe/mana_syringe_inventory"
   }
 }

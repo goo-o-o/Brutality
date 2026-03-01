@@ -52,7 +52,7 @@ public class TableOfWizardryScreen extends Screen {
     private TableOfWizardryView currentView;
     private final Map<EntityType<?>, LivingEntity> dummyEntities = new HashMap<>();
 
-    public double schoolListScroll, spellListScroll;
+    public double schoolListScroll, spellListScroll, expungeListScroll;
 
     public TableOfWizardryScreen(Component pTitle, TableOfWizardryBlockEntity block) {
         super(pTitle);
@@ -91,6 +91,8 @@ public class TableOfWizardryScreen extends Screen {
                             case GLOSSARY -> currentView = new GlossaryView(this);
                             case SYNTHESISE -> currentView = new SynthesisView(this);
                             case AUGMENT -> currentView = new AugmentView(this);
+                            case INSCRIBE -> currentView = new InscribeView(this);
+                            case EXPUNGE -> currentView = new ExpungeView(this);
                         }
                 }
                 case SPELL_PAGE -> currentView = new SpellPageView(this);
@@ -121,7 +123,7 @@ public class TableOfWizardryScreen extends Screen {
 
     public void updateServerAndRefresh() {
         ResourceLocation id = block.currentSpell != null ? BrutalitySpells.getIdFromSpell(block.currentSpell) : null;
-        PacketHandler.sendToServer(new ServerboundTableOfWizardryUpdatePacket(block.getBlockPos(), block.currentSection.name(), block.currentState.name(), id));
+        PacketHandler.sendToServer(new ServerboundTableOfWizardryUpdatePacket(block.getBlockPos(), block.currentSection.name(), block.currentState.name(), id, block.expungeEntry, block.craftingItem));
         this.rebuildWidgets();
     }
 

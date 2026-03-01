@@ -11,6 +11,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
@@ -81,17 +82,19 @@ public abstract class EntityMixin {
         // now to actually stop the player from falling
         boolean cancel = false;
         if (entity instanceof LivingEntity livingEntity) {
-            Optional<ICuriosItemHandler> curiosOpt = CuriosApi.getCuriosInventory(livingEntity).resolve();
-            if (curiosOpt.isPresent()) {
-                ICuriosItemHandler handler = curiosOpt.get();
-                if (handler.isEquipped(BrutalityItems.LAVA_WALKERS.get())) {
-                    if (highestFluid.is(FluidTags.LAVA)) {
-                        cancel = true;
+            if (!livingEntity.isDescending()) {
+                Optional<ICuriosItemHandler> curiosOpt = CuriosApi.getCuriosInventory(livingEntity).resolve();
+                if (curiosOpt.isPresent()) {
+                    ICuriosItemHandler handler = curiosOpt.get();
+                    if (handler.isEquipped(BrutalityItems.LAVA_WALKERS.get())) {
+                        if (highestFluid.is(FluidTags.LAVA)) {
+                            cancel = true;
+                        }
                     }
-                }
-                if (handler.isEquipped(BrutalityItems.WATER_WALKERS.get())) {
-                    if (highestFluid.is(FluidTags.WATER)) {
-                        cancel = true;
+                    if (handler.isEquipped(BrutalityItems.WATER_WALKERS.get())) {
+                        if (highestFluid.is(FluidTags.WATER)) {
+                            cancel = true;
+                        }
                     }
                 }
             }
@@ -171,31 +174,47 @@ public abstract class EntityMixin {
         return originalTime;
     }
 
+    @ModifyVariable(
+            method = "vibrationAndSoundEffectsFromBlock",
+            at = @At("HEAD"),
+            argsOnly = true,
+            index = 3 // index of boolean pPlayStepSound
+    )
+    private boolean forceSilence(boolean pPlayStepSound) {
 
-    @Inject(method = "playStepSound", at = @At("HEAD"), cancellable = true)
-    private void cancelStepSound(BlockPos pPos, BlockState pState, CallbackInfo ci) {
-        VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
+        if ((((Entity) (Object) this)) instanceof LivingEntity livingEntity) {
+            Optional<ICuriosItemHandler> curiosOpt = CuriosApi.getCuriosInventory(livingEntity).resolve();
+
+            if (curiosOpt.isPresent()) {
+                if (curiosOpt.get().isEquipped(stack -> stack.getItem() instanceof VoidSteppers)) // check for instance since umbral tiptoes also exist
+                    return false;
+            }
+        }
+
+        return pPlayStepSound;
     }
 
-    @Inject(method = "playCombinationStepSounds", at = @At("HEAD"), cancellable = true, remap = false)
-    private void cancelCombinationStepSound(BlockState primaryState, BlockState secondaryState, BlockPos primaryPos, BlockPos secondaryPos, CallbackInfo ci) {
-        VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
+
+    @Redirect(method = "getBlockJumpFactor", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;getJumpFactor()F"))
+    private float modifyJumpFactor(Block instance) {
+        if ((((Entity) (Object) this)) instanceof LivingEntity livingEntity) {
+            Optional<ICuriosItemHandler> handlerOpt = CuriosApi.getCuriosInventory(livingEntity).resolve();
+            if (handlerOpt.isPresent()) {
+                if (handlerOpt.get().isEquipped(BrutalityItems.CONSTRUCTION_BOOTS.get())) return 1;
+            }
+        }
+        return instance.getJumpFactor();
     }
 
-    @Inject(method = "playMuffledStepSound", at = @At("HEAD"), cancellable = true, remap = false)
-    private void cancelMuffledStepSound(BlockState state, BlockPos pos, CallbackInfo ci) {
-        VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
+    @Redirect(method = "getBlockSpeedFactor", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;getSpeedFactor()F"))
+    private float modifySpeedFactor(Block instance) {
+        if ((((Entity) (Object) this)) instanceof LivingEntity livingEntity) {
+            Optional<ICuriosItemHandler> handlerOpt = CuriosApi.getCuriosInventory(livingEntity).resolve();
+            if (handlerOpt.isPresent()) {
+                if (handlerOpt.get().isEquipped(BrutalityItems.CONSTRUCTION_BOOTS.get())) return 1;
+            }
+        }
+        return instance.getSpeedFactor();
     }
-
-    @Inject(method = "walkingStepSound", at = @At("HEAD"), cancellable = true, remap = false)
-    private void cancelWalkingStepSound(BlockPos pPos, BlockState pState, CallbackInfo ci) {
-        VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
-    }
-
-    @Inject(method = "playAmethystStepSound", at = @At("HEAD"), cancellable = true, remap = false)
-    private void cancelWalkingStepSound(CallbackInfo ci) {
-        VoidSteppers.cancelSoundIfNeeded((((Entity) (Object) this)), ci);
-    }
-
 
 }

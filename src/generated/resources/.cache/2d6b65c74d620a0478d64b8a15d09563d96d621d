@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-04T09:23:28.9484765	Block States: brutality
+// 1.20.1	2026-02-28T19:32:41.9542912	Block States: brutality
 3cbac55a896aac1c3bcafe23ae23b1b7ad0f6f96 assets/brutality/blockstates/black_concrete_slab.json
 6edc9482f776e62bcafde7142b849fab7f5776b7 assets/brutality/blockstates/black_concrete_stair.json
 68ea8a49de4c9ca83e75eeba8b8c2a80dd32dce3 assets/brutality/blockstates/blue_concrete_slab.json
@@ -31,6 +31,7 @@ fc86b11c8f0677eafd81a44e395a11ebf6b2a61c assets/brutality/blockstates/light_gray
 63863ff60620840bee9d19b11ac480d6588b42f7 assets/brutality/blockstates/lime_concrete_slab.json
 76d9a078688276abeed0f0dfa40f11502b371f0f assets/brutality/blockstates/lime_concrete_stair.json
 943f250df1dc678178a050f0fc175be825f5610e assets/brutality/blockstates/liquified_mana.json
+34855b0c8c7298714f03fd426231f87eade2f1d4 assets/brutality/blockstates/liquified_mana_cauldron.json
 5a6e9f56dba2f3312621f881026c18606659e3a2 assets/brutality/blockstates/lower_hvac.json
 28c7ca16d4116184d4dcd8764d515c66b0f79d56 assets/brutality/blockstates/magenta_concrete_slab.json
 7a16bc02adb96ad3b464576dca6af8945105cce4 assets/brutality/blockstates/magenta_concrete_stair.json
@@ -123,6 +124,9 @@ c61b290e25971f102a52e5411df3fd6866b6c566 assets/brutality/models/block/lime_conc
 82383669fd6dd53c16dde5c2a626b4a3106656c8 assets/brutality/models/block/lime_concrete_stair_inner.json
 081c981f0e7afef3a5778958e28dc831477a75c6 assets/brutality/models/block/lime_concrete_stair_outer.json
 5b766e0f61b66c7c6e57476273d2725d32055dd6 assets/brutality/models/block/liquid_mana_block.json
+0073a6b9ed44fbc1289e40fc983ff5264522bc5f assets/brutality/models/block/liquified_mana_cauldron_full.json
+251cd40c90919514ed17f13dc7ff5a567702c2e4 assets/brutality/models/block/liquified_mana_cauldron_level1.json
+526d6a85594254bed314f77523bcad21116c36d0 assets/brutality/models/block/liquified_mana_cauldron_level2.json
 f4af5fe89ad85995260b93d18097be57d9de6f79 assets/brutality/models/block/magenta_concrete_slab.json
 205f90b0224cf03801fa1b25f8ed99e393e1b8d2 assets/brutality/models/block/magenta_concrete_slab_top.json
 c0e411613d08f49967a09d82ac7499271823d340 assets/brutality/models/block/magenta_concrete_stair.json

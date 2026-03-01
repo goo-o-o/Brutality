@@ -25,6 +25,7 @@
 
 
   "item.brutality.solidified_mana": "Solidified Mana",
+  "item.brutality.solidified_mana.description.1": "§7Can be liquified in a Cauldron above a heat source",
   "item.brutality.liquified_mana_bucket": "Liquified Mana Bucket",
   "block.brutality.solidified_mana_block": "Block of Solidified Mana",
   "block.brutality.solidified_mana_block_wall": "Solidified Mana Wall",
@@ -34,6 +35,7 @@
   "block.brutality.solidified_mana_block_trapdoor": "Solidified Mana Trapdoor",
   "block.brutality.solidified_mana_block_pressure_plate": "Solidified Mana Pressure Plate",
   "block.brutality.solidified_mana_block_button": "Solidified Mana Button",
+  "block.brutality.liquified_mana_cauldron": "Liquified Mana Cauldron",
 
 
   "stat_trak.brutality.1": "§8Mobs Killed",
@@ -99,16 +101,27 @@
   "item.brutality.seismic_stompers.passive.1": "§e -Releases a shockwave when the wearer hits the ground",
   "item.brutality.seismic_stompers.passive.2": "§e -Shockwave strength scales with distance fell",
 
+  "item.brutality.slipstream_tracers": "Slipstream Tracers",
+  "item.brutality.slipstream_tracers.passive.1": "§e -Gain 10% Movement Speed for each second the wearer is Sprinting, up to infinity",
+  "item.brutality.pool_float": "Pool Float",
+  "item.brutality.pool_float.passive.1": "§e -Float upwards when inside water, accelerating infinitely",
+  "item.brutality.pool_float.passive.2": "§e -Crouch to slow down",
+  "item.brutality.construction_boots": "Construction Boots",
+  "item.brutality.construction_boots.passive.1": "§e -Negates the Movement Speed and Jump Height penalty of certain blocks such as Soul Sand and Honey",
+
   "item.brutality.amphibian_boots": "Amphibian Boots",
   "item.brutality.amphibian_boots.passive.1": "§e -Increased Attack Speed while underwater",
   "item.brutality.water_walkers": "Water Walkers",
   "item.brutality.water_walkers.passive.1": "§e -Allows the wearer to walk on water",
   "item.brutality.lava_walkers": "Lava Walkers",
   "item.brutality.lava_walkers.passive.1": "§e -Allows the wearer to walk on lava",
-  "item.brutality.salamander_boots": "Salamander Boots",
-  "item.brutality.salamander_boots.passive.1": "§e -Allows the wearer to swim in lava",
+  "item.brutality.salamanders_striders": "Salamander's Striders",
+  "item.brutality.salamanders_striders.passive.1": "§e -Allows the wearer to swim in lava",
 
   "item.brutality.lava_waders": "Lava Waders",
+
+  "item.brutality.mana_infused_whetstone": "Mana-Infused Whetstone",
+  "item.brutality.mana_infused_whetstone.on_hit.1": "§e -Returns 25% of true Melee Damage dealt as Mana",
 
 
 
@@ -208,12 +221,15 @@
   "item.brutality.overclocked_toaster.when_thrown.1": "§e -Throws out an Overclocked Toaster that shoots out Toast at the nearest enemy",
 
   "item.brutality.cannonball_cabbage": "Cannonball Cabbage",
+  "item.brutality.cannonball_cabbage.when_thrown.1": "§e -Throws out a Cabbage",
   "item.brutality.golden_phoenix": "Golden Phoenix",
+  "item.brutality.golden_phoenix.when_thrown.1": "§e -Throws out a Durian that deals high damage",
 
   "item.brutality.winter_melon": "Winter Melon",
   "item.brutality.winter_melon.when_thrown.1": "§e -Throws out a Winter Melon that slows and freezes nearby enemies",
 
   "item.brutality.crimson_delight": "Crimson Delight",
+  "item.brutality.crimson_delight.when_thrown.1": "§e -Throws out an Apple",
 
   "item.brutality.cavendish": "Cavendish",
   "item.brutality.cavendish.when_thrown.1": "§e -Throws out a Banana that stays on the ground as a Banana Peel",
@@ -944,9 +960,12 @@
   "item.brutality.target_cube": "Target Cube",
   "item.brutality.target_cube.passive.1": "§e -Grants 10% Critical Chance§e per level of §aLuck",
   "item.brutality.mana_syringe": "Mana Syringe",
-  "item.brutality.mana_syringe.on_hit.1": "§e -Returns 25% of true Melee Damage dealt as Mana",
+  "item.brutality.mana_syringe.on_hold_right_click.1": "§e -Converts 50 Mana to 1 Solidified Mana, per second",
+  "item.brutality.mana_syringe.passive.1": "§e -Can be enchanted with Efficiency, reducing the Mana Cost by 5 per level",
   "item.brutality.profanum_reactor": "Profanum Reactor",
   "item.brutality.profanum_reactor.passive.1": "§e -Grants Vulnerability",
+  "item.brutality.head_cushion": "Head Cushion",
+  "item.brutality.head_cushion.passive.1": "§e -Negates Elytra Kinetic Damage",
 
   "item.brutality.the_oath": "The Oath",
   "item.brutality.the_oath.passive.1": "§e -Deal an additional 10% of Damage as Magic Damage",
@@ -1366,6 +1385,11 @@
   "item.brutality.lunar_lens": "Lunar Lens",
   "item.brutality.lunar_lens.passive.1": "§e -Grants more Spell Damage the closer it is to Midnight",
 
+  "item.brutality.max": "M.A.X.",
+  "item.brutality.max.lore.1": "§8Multiphase Annihilation X-Terminator Mk.4",
+  "item.brutality.max.lore.2": "§7The perfected form of the M.A.X. weapon. Truly, finally, this is a weapon that can fulfill its glorious, magnificent purpose.",
+  "item.brutality.max.lore.3": "Deicide.",
+
 
   "block.brutality.toilet": "Toilet",
   "block.brutality.urinal": "Urinal",
@@ -1576,13 +1600,13 @@
   "message.brutality.table_of_wizardry.inscribe.description.1": "The art of Inscribing, a fundamental rite in the pursuit of true magical mastery. Through this ritual a spell's mana signature may be imbued into a medium, giving these spells a place to be called upon time and time again.",
   "message.brutality.table_of_wizardry.inscribe.description.2": "Be warned that each medium only has a certain number of Spell slots, however they may be extracted with little to no cost via the Expunge ritual. Right click the Table with a magical medium to commence the ritual.",
 
-  "message.brutality.table_of_wizardry.expunge.description": "The art of Expunging, the delicate yet dangerous reclamation of power. Reach into the etheric depths of a medium, to unravel a bound spell. Only the most skilled of mages may perform this rite, lest something disastrous were to occur.",
+  "message.brutality.table_of_wizardry.expunge.description.1": "The art of Expunging, the delicate yet dangerous reclamation of power. Reach into the etheric depths of a medium, to unravel a bound spell. Only the most skilled of mages may perform this rite, lest something disastrous were to occur.",
 
 
 
   "message.brutality.last_death_location": "Last Death Location: ",
   "message.brutality.no_mana": "Insufficient Mana!",
-  "message.brutality.no_spells": "No Spells!",
+  "message.brutality.no_spells": "§8No Spells",
   "message.brutality.on_cooldown": "Spell is on Cooldown! You may cast in ",
   "message.brutality.seconds": " seconds",
   "message.brutality.cast_failed": "Cast Failed!",
@@ -1804,6 +1828,7 @@
   "brutality.description.type.alt_for_info": "§8Hold ALT for more info",
 
   "curios.identifier.heart": "Heart",
+  "curios.identifier.feet": "Feet",
   "curios.identifier.anklet": "Anklet",
   "curios.modifiers.heart": "When worn as heart:",
   "curios.modifiers.anklet": "When worn as anklet:",

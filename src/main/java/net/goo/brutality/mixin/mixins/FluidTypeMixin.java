@@ -1,6 +1,5 @@
 package net.goo.brutality.mixin.mixins;
 
-import net.goo.brutality.common.registry.BrutalityFluidTypes;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,7 +20,7 @@ public class FluidTypeMixin {
         if (entity instanceof LivingEntity livingEntity) {
             FluidType fluidType = (((FluidType) (Object) this));
             CuriosApi.getCuriosInventory(livingEntity).ifPresent(handler -> {
-                if (handler.isEquipped(BrutalityItems.SALAMANDER_BOOTS.get())) {
+                if (handler.isEquipped(BrutalityItems.SALAMANDERS_STRIDERS.get())) {
                     if (fluidType == Fluids.LAVA.getFluidType() || fluidType == Fluids.FLOWING_LAVA.getFluidType()) {
                         cir.setReturnValue(true);
                     }

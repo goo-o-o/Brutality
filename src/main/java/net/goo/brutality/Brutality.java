@@ -3,6 +3,7 @@ package net.goo.brutality;
 import com.mojang.logging.LogUtils;
 import net.goo.brutality.client.config.BrutalityClientConfig;
 import net.goo.brutality.common.config.BrutalityCommonConfig;
+import net.goo.brutality.common.registry.BrutalityCauldronInteraction;
 import net.goo.brutality.common.registry.BrutalitySpells;
 import net.goo.brutality.util.magic.SpellCommands;
 import net.goo.brutality.common.network.PacketHandler;
@@ -52,6 +53,7 @@ public class Brutality {
     @SubscribeEvent
     public void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(PacketHandler::register);
+        event.enqueueWork(BrutalityCauldronInteraction::bootstrap);
         LOGGER.info("Brutality: Performing common setup");
     }
 

@@ -8,10 +8,12 @@ import net.goo.brutality.common.item.curios.charm.OmnidirectionalMovementGear;
 import net.goo.brutality.common.item.weapon.scythe.DarkinScythe;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalityItems;
-import net.goo.brutality.mixin.accessors.IBrutalityAttribute;
+import net.goo.brutality.common.mixin_helpers.IBrutalityAttribute;
 import net.goo.brutality.util.BrutalityEntityRotations;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.CombatRules;
@@ -37,6 +39,9 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+
+import java.util.Optional;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements BrutalityEntityRotations {
@@ -152,6 +157,35 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
 
         return instance.add(x * multiplier, y * multiplier, z * multiplier);
     }
+
+    @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFallDamageSound(I)Lnet/minecraft/sounds/SoundEvent;"))
+    private SoundEvent modifyElytraHitWallSound(LivingEntity instance, int pHeight) {
+        Optional<ICuriosItemHandler> curiosOpt = CuriosApi.getCuriosInventory(instance).resolve();
+        if (curiosOpt.isPresent()) {
+            if (curiosOpt.get().isEquipped(BrutalityItems.HEAD_CUSHION.get())) {
+                return SoundEvents.WOOL_FALL;
+            }
+        }
+        return pHeight > 4 ? instance.getFallSounds().big() : instance.getFallSounds().small();
+    }
+
+    @Inject(
+            method = "travel",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z",
+                    ordinal = 0
+            ),
+            cancellable = true
+    )
+    private void brutality$modifyElytraDamage(Vec3 vec3, CallbackInfo ci) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        CuriosApi.getCuriosInventory(entity).ifPresent(handler -> {
+            if (handler.isEquipped(BrutalityItems.HEAD_CUSHION.get())) ci.cancel();
+        });
+    }
+
+
 //
 //    @ModifyConstant(method = "travel", constant = @Constant(doubleValue = 0.04D))
 //    private double buffLift(double constant) {

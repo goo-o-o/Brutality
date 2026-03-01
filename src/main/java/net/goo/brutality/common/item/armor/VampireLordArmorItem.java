@@ -13,7 +13,7 @@ import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.common.registry.BrutalitySounds;
-import net.goo.brutality.mixin.accessors.MobEffectInstanceSourceAccessor;
+import net.goo.brutality.common.mixin_helpers.MobEffectInstanceSourceAccessor;
 import net.goo.brutality.util.ModExplosionHelper;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.build_archetypes.BloodHelper;

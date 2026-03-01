@@ -100,7 +100,7 @@ public class BrutalityCommonConfig {
         BUILDER.push("Miscellaneous");
         {
             VANILLA_CRITS = BUILDER.comment("Re-enable Vanilla Crits, as well as Brutality crits")
-                    .define("reEnableVanillaCrits", false);
+                    .define("reEnableVanillaCrits", true);
 
             GUNGNIR_HIT_QUOTA = BUILDER
                     .comment("How many times Gungnir will hit before returning (Default = 3)")

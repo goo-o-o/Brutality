@@ -33,6 +33,10 @@ public class SpellScroll extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         List<SpellStorage.SpellEntry> spellEntries = SpellStorage.getSpells(pStack);
+        if (spellEntries.isEmpty()) {
+            pTooltipComponents.add(Component.translatable("message." + Brutality.MOD_ID + ".no_spells"));
+            return;
+        }
 
         Minecraft mc = Minecraft.getInstance();
         boolean shiftDown = InputConstants.isKeyDown(mc.getWindow().getWindow(), mc.options.keyShift.getKey().getValue());

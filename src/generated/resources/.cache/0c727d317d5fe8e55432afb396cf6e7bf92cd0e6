@@ -1,10 +1,10 @@
-// 1.20.1	2026-02-25T15:07:02.8592503	Tags for minecraft:item mod id brutality
+// 1.20.1	2026-02-28T20:36:28.5601913	Tags for minecraft:item mod id brutality
 65575a81f405554adffbb7dd3cd3fa9a7ad68920 data/curios/tags/items/anklet.json
-c8ee898bfd155feb760d5f1314c4ed63d972d2d0 data/curios/tags/items/belt.json
-d8b7f58094224152a35a84885837b60da040eca1 data/curios/tags/items/charm.json
-6e148584b80d66f4730af5f92ab6915e7c0c15ad data/curios/tags/items/feet.json
+ecb63f66f67cd898dc6c6fa33f1a43e01585132d data/curios/tags/items/belt.json
+ce333f4c313e77a162a12d031a34fbcf11856ad6 data/curios/tags/items/charm.json
+dcfb530f207ceae6481b0ca26c6e4dc311a0208c data/curios/tags/items/feet.json
 e9de00084cd7bf9cb285cc5565586d4ec4aeab2a data/curios/tags/items/hands.json
-ee17e05907108f81582ad366dec21330d7c0881b data/curios/tags/items/head.json
+302385a286f3e9cc6aa5f3371c35f52cb33b4f9f data/curios/tags/items/head.json
 b0726d2a77053659f7877015b3e931cfc020b8d5 data/curios/tags/items/heart.json
 3f161d5cccd98de9d345767c51f82b5909b4160e data/curios/tags/items/necklace.json
 5da8a0f27b384c2507e8be51ae2b30a5b388f901 data/curios/tags/items/ring.json

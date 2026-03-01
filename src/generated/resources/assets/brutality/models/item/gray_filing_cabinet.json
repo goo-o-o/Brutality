@@ -68,6 +68,6 @@
     }
   },
   "textures": {
-    "particle": "brutality:block/dark_gray_filing_cabinet"
+    "particle": "brutality:block/gray_filing_cabinet"
   }
 }

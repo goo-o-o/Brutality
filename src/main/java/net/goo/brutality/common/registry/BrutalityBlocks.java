@@ -328,6 +328,7 @@ public class BrutalityBlocks {
     public static final RegistryObject<Block> MEDIUM_MANA_CRYSTAL_BUD = registerBlock("medium_mana_crystal_bud", () -> new ManaCrystalCluster(4, 3, 5, BlockBehaviour.Properties.copy(MANA_CRYSTAL_CLUSTER.get()).sound(SoundType.LARGE_AMETHYST_BUD).forceSolidOn().lightLevel((blockState) -> 2).pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> SMALL_MANA_CRYSTAL_BUD = registerBlock("small_mana_crystal_bud", () -> new ManaCrystalCluster(3, 4, 3, BlockBehaviour.Properties.copy(MANA_CRYSTAL_CLUSTER.get()).sound(SoundType.SMALL_AMETHYST_BUD).forceSolidOn().lightLevel((blockState) -> 1).pushReaction(PushReaction.DESTROY)));
 
+    public static final RegistryObject<Block> MANA_CAULDRON = registerBlock("liquified_mana_cauldron", () -> new ManaCauldronBlock(BlockBehaviour.Properties.copy(Blocks.CAULDRON).lightLevel((blockState) -> 15)));
 
     public static final RegistryObject<LiquidBlock> LIQUIFIED_MANA = BLOCKS.register("liquified_mana",
             () -> new LiquifiedManaBlock(BrutalityFluids.LIQUIFIED_MANA_SOURCE, BlockBehaviour.Properties.of()
@@ -336,7 +337,7 @@ public class BrutalityBlocks {
                     .strength(100.0F)
                     .pushReaction(PushReaction.DESTROY)
                     .noLootTable()
-                    .liquid()
+                    .liquid().replaceable()
             ));
 
     private static boolean never(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {

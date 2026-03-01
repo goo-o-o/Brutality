@@ -91,10 +91,10 @@ public class OmnidirectionalMovementGear extends BrutalityCurioItem {
     /**
      * Calculates a 3D world-space velocity boost for jumping, based on the entity's
      * internal movement inputs (strafe and forward/back).
-     * * <p>By default, Minecraft's jump boost only applies to the "Forward" vector.
+     * By default, Minecraft's jump boost only applies to the "Forward" vector.
      * This method intercepts that logic to allow for "Omni-directional" boosts,
-     * enabling strafe-jumping and backward-jumping with consistent momentum.</p>
-     * * <p><b>Mathematical Logic:</b>
+     * enabling strafe-jumping and backward-jumping with consistent momentum.
+     * * <b>Mathematical Logic:</b>
      * <ol>
      * <li>The method checks for the {@code OMNIDIRECTIONAL_MOVEMENT_GEAR} in a Curios slot.</li>
      * <li>It captures the local input variables {@code xxa} (strafe) and {@code zza} (forward).</li>
@@ -103,7 +103,6 @@ public class OmnidirectionalMovementGear extends BrutalityCurioItem {
      * <li>The resulting vector is normalized to prevent "diagonal speedup" and scaled
      * by a fixed constant (0.2D).</li>
      * </ol>
-     * </p>
      * *
      *
      * @param entity The {@link LivingEntity} performing the jump.

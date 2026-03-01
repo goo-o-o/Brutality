@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-08T04:46:12.3768357	Recipes
+// 1.20.1	2026-02-28T20:36:28.5546615	Recipes
 a9f15db28ff602a7e8ee1e70e57e8548ad5dcb94 data/brutality/advancements/recipes/building_blocks/black_concrete_slab.json
 e8bfcd4a034d8220d57b6563ad6d85a753633afd data/brutality/advancements/recipes/building_blocks/black_concrete_stair.json
 9ecf167f4fd83034b9419f134d4097712d01398e data/brutality/advancements/recipes/building_blocks/black_office_chair.json
@@ -212,7 +212,7 @@ fd7cb274e33bbf939b0a1d7d85583bda2f72192e data/brutality/advancements/recipes/com
 b07b2728bd0b49eaa1d59a3b4d148ca5ec0b59c1 data/brutality/advancements/recipes/combat/lollipop_of_eternity.json
 8b6e585f107b87355ba73d7538b7c2bbce5f6bb2 data/brutality/advancements/recipes/combat/lucky_insoles.json
 c839f2d1a8a4432a033e86c6e9e71a591f6ac4e2 data/brutality/advancements/recipes/combat/lust.json
-edbf73c2ffefb56aa5dd926ea19eb2ef50e48b63 data/brutality/advancements/recipes/combat/mana_syringe.json
+d1f164196ba867f2b62b57d456f7f4826bf745b0 data/brutality/advancements/recipes/combat/mana_infused_whetstone.json
 b33a616dbc9e489f1266b3bc604def3492e3f8c5 data/brutality/advancements/recipes/combat/mechanical_aorta.json
 91e9c3d681585a18100fcc42aa5eb9e832c4de3b data/brutality/advancements/recipes/combat/meloncholy.json
 06012d3568a83ff1d2cbf3d5572efb980d400b58 data/brutality/advancements/recipes/combat/metal_ruler.json
@@ -562,7 +562,7 @@ d003c35569988308b9817ab20a2696f9d429e9d4 data/brutality/recipes/lime_concrete_st
 7ae512ce3c8bd1698832dd41e0a8c588b7f87e40 data/brutality/recipes/lust.json
 536fdd8ffc8d557a08a18b2c59e417418f887add data/brutality/recipes/magenta_concrete_slab.json
 43a7485fe48a804ab66232c6f886a46730404a52 data/brutality/recipes/magenta_concrete_stair.json
-3b7e3362f3b446fed69f1343ee1a4efb903fc490 data/brutality/recipes/mana_syringe.json
+279f5209abecd64011825671b120cdf6d07ab551 data/brutality/recipes/mana_infused_whetstone.json
 86408dec0fdb782e0cae5725a6973b9de71a4aa4 data/brutality/recipes/mana_transform/prismatic_crystal_block_to_mana_crystal_block.json
 374d26bd12f69f919d889fb67add6ac46c424812 data/brutality/recipes/mechanical_aorta.json
 c74ad82c796878bc89f7f35a30b1953ea954bc77 data/brutality/recipes/meloncholy.json

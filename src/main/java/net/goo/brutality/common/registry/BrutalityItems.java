@@ -35,10 +35,7 @@ import net.goo.brutality.common.item.curios.necklace.BloodHowlPendant;
 import net.goo.brutality.common.item.curios.necklace.KnightsPendant;
 import net.goo.brutality.common.item.curios.ring.RoadRunnersRing;
 import net.goo.brutality.common.item.curios.vanity.TrialGuardianEyebrows;
-import net.goo.brutality.common.item.generic.BrutalityAugmentItem;
-import net.goo.brutality.common.item.generic.PrisonKey;
-import net.goo.brutality.common.item.generic.SpellScroll;
-import net.goo.brutality.common.item.generic.StatTrakkerItem;
+import net.goo.brutality.common.item.generic.*;
 import net.goo.brutality.common.item.seals.*;
 import net.goo.brutality.common.item.weapon.axe.Deathsaw;
 import net.goo.brutality.common.item.weapon.axe.OldGpuAxe;
@@ -57,6 +54,7 @@ import net.goo.brutality.common.item.weapon.spear.Rhongomyniad;
 import net.goo.brutality.common.item.weapon.staff.BambooStaff;
 import net.goo.brutality.common.item.weapon.staff.ChopstickStaff;
 import net.goo.brutality.common.item.weapon.sword.*;
+import net.goo.brutality.common.item.weapon.sword.max.MAX;
 import net.goo.brutality.common.item.weapon.sword.phasesaber.BasePhasesaber;
 import net.goo.brutality.common.item.weapon.throwing.*;
 import net.goo.brutality.common.item.weapon.tome.*;
@@ -95,6 +93,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -127,7 +126,12 @@ public class BrutalityItems {
     public static final RegistryObject<Item> UNBRIDLED_RAGE = ITEMS.register("unbridled_rage", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> BLUE_SLIME_BALL = ITEMS.register("blue_slime_ball", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> PINK_SLIME_BALL = ITEMS.register("pink_slime_ball", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> SOLIDIFIED_MANA = ITEMS.register("solidified_mana", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SOLIDIFIED_MANA = ITEMS.register("solidified_mana", () -> new Item(new Item.Properties()) {
+        @Override
+        public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+            pTooltipComponents.add(Component.translatable("item." + Brutality.MOD_ID + ".solidified_mana.description.1"));
+        }
+    });
 
     public static final RegistryObject<Item> VOIDWALKER_SPELL_SCROLL = ITEMS.register("voidwalker_spell_scroll", () -> new SpellScroll(new Item.Properties()).withSchool(IBrutalitySpell.MagicSchool.VOIDWALKER));
     public static final RegistryObject<Item> BRIMWIELDER_SPELL_SCROLL = ITEMS.register("brimwielder_spell_scroll", () -> new SpellScroll(new Item.Properties()).withSchool(IBrutalitySpell.MagicSchool.BRIMWIELDER));
@@ -273,6 +277,9 @@ public class BrutalityItems {
     public static final RegistryObject<Item> CALDRITH = ITEMS.register("caldrith", () -> new Caldrith(
             Tiers.NETHERITE, 6, -3F, BrutalityRarities.DIVINE, List.of(
             new ItemDescriptionComponent(ON_RIGHT_CLICK, 1))));
+
+    public static final RegistryObject<Item> MAX = ITEMS.register("max", () -> new MAX(
+            Tiers.NETHERITE, 35, -3F, BrutalityRarities.GODLY));
 
     public static final RegistryObject<Item> SCHISM = ITEMS.register("schism", () -> new Schism(
             Tiers.NETHERITE, 8, -3.5F, BrutalityRarities.DIVINE, List.of(
@@ -982,7 +989,15 @@ public class BrutalityItems {
         }
     });
 
-    public static final RegistryObject<Item> MANA_SYRINGE = ITEMS.register("mana_syringe", () -> new BrutalityCurioItem(
+    public static final RegistryObject<Item> MANA_SYRINGE = ITEMS.register("mana_syringe", () -> new ManaSyringe(
+            BrutalityRarities.CATACLYSMIC, List.of(
+            new ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1),
+            new ItemDescriptionComponent(PASSIVE, 1)
+    )));
+
+
+
+    public static final RegistryObject<Item> MANA_INFUSED_WHETSTONE = ITEMS.register("mana_infused_whetstone", () -> new BrutalityCurioItem(
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(ON_HIT, 1))) {
         @Override
@@ -998,9 +1013,14 @@ public class BrutalityItems {
             BrutalityRarities.PRISMATIC).withAttributes(
             new AttributeContainer(BrutalityAttributes.SPELL_COOLDOWN.get(), 0.25, MULTIPLY_TOTAL)));
 
+
     public static final RegistryObject<Item> SUSPICIOUSLY_LARGE_HANDLE = ITEMS.register("suspiciously_large_handle", () -> new BrutalityCurioItem(
             BrutalityRarities.PRISMATIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 2))));
+
+    public static final RegistryObject<Item> HEAD_CUSHION = ITEMS.register("head_cushion", () -> new BrutalityCurioItem(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
 
     public static final RegistryObject<Item> SAD_UVOGRE = ITEMS.register("sad_uvogre", () -> new BrutalityCurioItem(
             BrutalityRarities.PRISMATIC, List.of(
@@ -1542,6 +1562,10 @@ public class BrutalityItems {
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))));
 
+    public static final RegistryObject<Item> SLIPSTREAM_TRACERS = ITEMS.register("slipstream_tracers", () -> new SlipstreamTracers(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+
     public static final RegistryObject<Item> FLAME_WALKER = ITEMS.register("flame_walker", () -> new FlameWalker(
             BrutalityRarities.FIRE, List.of(
             new ItemDescriptionComponent(PASSIVE, 2))));
@@ -1554,13 +1578,17 @@ public class BrutalityItems {
             BrutalityRarities.FABLED, List.of(
             new ItemDescriptionComponent(PASSIVE, 2))));
 
-    public static final RegistryObject<Item> SALAMANDER_BOOTS = ITEMS.register("salamander_boots", () -> new BrutalityCurioItem(
+    public static final RegistryObject<Item> SALAMANDERS_STRIDERS = ITEMS.register("salamanders_striders", () -> new BrutalityCurioItem(
             BrutalityRarities.FIRE, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))));
 
     public static final RegistryObject<Item> AMPHIBIAN_BOOTS = ITEMS.register("amphibian_boots", () -> new AmphibianBoots(
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> CONSTRUCTION_BOOTS = ITEMS.register("construction_boots", () -> new BrutalityCurioItem(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+
 
     public static final RegistryObject<Item> LAVA_WALKERS = ITEMS.register("lava_walkers", () -> new BrutalityCurioItem(
             BrutalityRarities.FIRE, List.of(
@@ -1568,6 +1596,17 @@ public class BrutalityItems {
     public static final RegistryObject<Item> WATER_WALKERS = ITEMS.register("water_walkers", () -> new BrutalityCurioItem(
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> POOL_FLOAT = ITEMS.register("pool_float", () -> new BrutalityCurioItem(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 2))) {
+        @Override
+        public void curioTick(SlotContext slotContext, ItemStack stack) {
+            if (slotContext.entity().isInWater() && !slotContext.entity().isDescending()) {
+                slotContext.entity().addDeltaMovement(new Vec3(0, 0.15, 0));
+                slotContext.entity().setDeltaMovement(slotContext.entity().getDeltaMovement().multiply(1, 1.2, 1));
+            }
+        }
+    });
 
     public static final RegistryObject<Item> VOID_STEPPERS = ITEMS.register("void_steppers", () -> new VoidSteppers(
             BrutalityRarities.DARK, List.of(
@@ -1590,7 +1629,6 @@ public class BrutalityItems {
             }
         }
     });
-
 
 
     public static final RegistryObject<Item> EMERGENCY_MEETING = ITEMS.register("emergency_meeting", () -> new BrutalityCurioItem(
@@ -2054,7 +2092,11 @@ public class BrutalityItems {
 
     public static final RegistryObject<Item> ERROR_404 = ITEMS.register("error_404", () -> new BrutalityCurioItem(
             BrutalityRarities.NULL, List.of(
-            new ItemDescriptionComponent(LORE, 1))));
+            new ItemDescriptionComponent(LORE, 1)))
+            .withAttributes(
+                    new AttributeContainer(Attributes.ATTACK_DAMAGE, 2, MULTIPLY_TOTAL),
+                    new AttributeContainer(BrutalityAttributes.SLASH_DAMAGE.get(), 2, MULTIPLY_TOTAL)
+            ));
 
     public static final RegistryObject<Item> QUANTUM_LUBRICANT = ITEMS.register("quantum_lubricant", () -> new BrutalityCurioItem(
             BrutalityRarities.FABLED).withAttributes(
@@ -2258,7 +2300,7 @@ public class BrutalityItems {
             new ItemDescriptionComponent(PASSIVE, 1))));
 
     public static final RegistryObject<Item> MAGICIANS_TOP_HAT = ITEMS.register("magicians_top_hat", () -> new BrutalityCurioItem(
-            BrutalityRarities.CONDUCTIVE).withAttributes(
+            BrutalityRarities.LEGENDARY).withAttributes(
             new AttributeContainer(BrutalityAttributes.MANA_REGEN.get(), 5, ADDITION),
             new AttributeContainer(BrutalityAttributes.MAX_MANA.get(), 0.15, MULTIPLY_TOTAL)));
 

@@ -41,7 +41,7 @@ public class ManaHelper {
      *               `BrutalityCapabilities.MANA` capability attached to access mana data.
      * @return The current mana value of the player as a float. If the mana capability is not
      * present or accessible, it returns 0.
-     * @implNote Always use this instead of the capability itself
+     * Always use this instead of the capability itself
      */
     public static float getMana(Player player) {
         return player.getCapability(BrutalityCapabilities.MANA).map(PlayerManaCap::getMana).orElse(0F);

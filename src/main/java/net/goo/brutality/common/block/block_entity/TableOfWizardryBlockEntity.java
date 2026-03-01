@@ -5,6 +5,7 @@ import net.goo.brutality.client.gui.screen.table_of_wizardry.SynthesisView;
 import net.goo.brutality.client.gui.screen.table_of_wizardry.TableOfWizardryBookSection;
 import net.goo.brutality.common.block.IBrutalityMagicBlock;
 import net.goo.brutality.common.item.generic.BrutalityAugmentItem;
+import net.goo.brutality.common.item.generic.SpellScroll;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.IBrutalitySpell;
 import net.goo.brutality.common.recipe.ConjureRecipe;
@@ -54,6 +55,8 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
     private static final String TAG_STATE = "State";
     private static final String TAG_SCHOOL = "School";
     private static final String TAG_SPELL = "Spell";
+    private static final String TAG_EXPUNGE_SPELL = "ExpungeSpell";
+    private static final String TAG_EXPUNGE_SPELL_LEVEL = "ExpungeSpellLevel";
     private static final String TAG_CRAFTING_ITEM = "CraftingItem";
 
     public int time;
@@ -81,6 +84,7 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
     private Player craftingPlayer;
     public Vec3 craftingPlayerStartPos;
     public ItemStack craftingItem;
+    public SpellStorage.SpellEntry expungeEntry = null;
 
     public TableOfWizardryBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BrutalityBlockEntities.TABLE_OF_WIZARDRY_BLOCK_ENTITY.get(), pPos, pBlockState);
@@ -153,6 +157,10 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
         if (this.currentSpell != null) {
             pTag.putString(TAG_SPELL, BrutalitySpells.getIdFromSpell(this.currentSpell).toString());
         }
+        if (this.expungeEntry != null) {
+            pTag.putString(TAG_EXPUNGE_SPELL, BrutalitySpells.getIdFromSpell(this.expungeEntry.spell()).toString());
+            pTag.putInt(TAG_EXPUNGE_SPELL_LEVEL, this.expungeEntry.level());
+        }
         if (this.craftingItem != null && !this.craftingItem.isEmpty()) {
             pTag.put(TAG_CRAFTING_ITEM, this.craftingItem.save(new CompoundTag()));
         }
@@ -166,6 +174,9 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
         if (pTag.contains(TAG_STATE)) this.currentState = GuiState.valueOf(pTag.getString(TAG_STATE));
         if (pTag.contains(TAG_SCHOOL)) this.currentSchool = IBrutalitySpell.MagicSchool.valueOf(pTag.getString(TAG_SCHOOL));
         if (pTag.contains(TAG_SPELL)) this.currentSpell = BrutalitySpells.getSpell(ResourceLocation.parse(pTag.getString(TAG_SPELL)));
+        if (pTag.contains(TAG_EXPUNGE_SPELL_LEVEL) && pTag.contains(TAG_EXPUNGE_SPELL)) {
+            this.expungeEntry = new SpellStorage.SpellEntry(BrutalitySpells.getSpell(ResourceLocation.parse(pTag.getString(TAG_EXPUNGE_SPELL))), pTag.getInt(TAG_EXPUNGE_SPELL_LEVEL));
+        }
         if (pTag.contains(TAG_CRAFTING_ITEM)) this.craftingItem = ItemStack.of(pTag.getCompound(TAG_CRAFTING_ITEM));
     }
 
@@ -280,7 +291,11 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
     public void tryStartCrafting(Player player, ItemStack item) {
         if (this.level == null || this.currentSection == null) return;
 
-        delegateCraftingOperation(this.currentSection, player, item);
+        this.craftingPlayer = player;
+        this.craftingPlayerStartPos = player.getPosition(0);
+        this.craftingItem = item;
+
+        delegateCraftingOperation(this.currentSection);
 
     }
 
@@ -290,20 +305,25 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
         this.stopCrafting();
     }
 
-    private void delegateCraftingOperation(TableOfWizardryBookSection section, Player player, ItemStack craftingItem) {
+    private void delegateCraftingOperation(TableOfWizardryBookSection section) {
         switch (section) {
             case CONJURE -> startConjureOperation();
             case SYNTHESISE -> startSynthesisOperation();
-            case AUGMENT -> startAugmentOperation(player, craftingItem);
+            case AUGMENT -> startAugmentOperation();
+            case INSCRIBE -> startInscribeOperation();
+            case EXPUNGE -> startExpungeOperation();
         }
     }
 
     private void delegateCraftingFinished(TableOfWizardryBookSection section) {
-        switch (section) {
-            case CONJURE -> completeConjureOperation();
-            case SYNTHESISE -> completeSynthesisOperation();
-            case AUGMENT -> completeAugmentOperation();
-        }
+        if (this.craftingPlayer != null)
+            switch (section) {
+                case CONJURE -> completeConjureOperation();
+                case SYNTHESISE -> completeSynthesisOperation();
+                case AUGMENT -> completeAugmentOperation();
+                case INSCRIBE -> completeInscribeOperation();
+                case EXPUNGE -> completeExpungeOperation();
+            }
     }
 
     public boolean canSynthesise() {
@@ -325,12 +345,135 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
         return false;
     }
 
-    private void startAugmentOperation(Player player, ItemStack item) {
-        if (canAugment()) {
-            this.craftingPlayer = player;
-            this.craftingPlayerStartPos = player.getPosition(0);
-            this.craftingItem = item;
+    public boolean canInscribe() {
+        if (this.level != null) {
+            List<ItemStack> filtered = getPedestalItemsFiltered();
+            for (ItemStack stack : filtered) {
+                if (stack.getItem() instanceof SpellScroll) return true;
+            }
+        }
+        return false;
+    }
 
+    public boolean canExpunge() {
+        return expungeEntry != null;
+    }
+
+    private void startExpungeOperation() {
+        if (canExpunge())
+            if (this.craftingPlayer.getInventory().contains(this.craftingItem)) {
+                this.craftingPlayer.getInventory().removeItem(craftingItem);
+                this.isCrafting = true;
+                this.progress = 0;
+                this.maxProgress = getMaxProgress();
+                this.setChanged();
+                if (this.level != null) {
+                    this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
+                }
+            }
+    }
+
+    private void completeExpungeOperation() {
+        if (canExpunge() && craftingItem != null) {
+            SpellStorage.SpellEntry toExpunge = this.expungeEntry;
+            List<SpellStorage.SpellEntry> allEntries = SpellStorage.getSpells(craftingItem);
+            boolean present = false;
+            for (SpellStorage.SpellEntry entry : allEntries) {
+                if (entry.equals(expungeEntry)) {
+                    present = true;
+                    break;
+                }
+            }
+
+            if (present) {
+                if (level != null) {
+                    SpellStorage.removeSpell(craftingItem, toExpunge.spell(), toExpunge.level());
+                    ItemEntity book = new ItemEntity(level, RESULT_LOC.x(), RESULT_LOC.y(), RESULT_LOC.z(), craftingItem);
+
+                    level.addFreshEntity(book);
+                    ItemStack spellScroll = SpellStorage.getScrollFromSpell(toExpunge.spell(), toExpunge.level());
+                    ItemEntity scroll = new ItemEntity(level, RESULT_LOC.x(), RESULT_LOC.y(), RESULT_LOC.z(), spellScroll);
+                    level.addFreshEntity(scroll);
+
+                    craftingItem = null;
+                    expungeEntry = null;
+                    this.setChanged();
+                }
+            }
+        }
+    }
+
+    private final Vec3 RESULT_LOC = new Vec3(worldPosition.getX() + 0.5, worldPosition.getY() + 2.5, worldPosition.getZ() + 0.5);
+
+    private void startInscribeOperation() {
+        if (canInscribe()) {
+
+            if (this.craftingPlayer.getInventory().contains(this.craftingItem)) {
+                this.craftingPlayer.getInventory().removeItem(craftingItem);
+                this.isCrafting = true;
+                this.progress = 0;
+                this.maxProgress = getMaxProgress();
+                this.setChanged();
+                if (this.level != null) {
+                    this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
+                }
+            }
+        }
+    }
+
+    private void completeInscribeOperation() {
+        if (canInscribe()) {
+            if (this.craftingItem != null) {
+                // Get all scrolls from pedestals
+                ItemStack[] scrolls = getPedestalItemsFiltered().toArray(new ItemStack[0]);
+
+                // Attempt to add all spells
+                List<SpellStorage.SpellEntry> addedSpells = SpellStorage.addSpells(
+                        this.craftingItem, scrolls
+                );
+
+                // Logic to shrink ONLY the scrolls that contributed
+                // This requires checking if a scroll's spells are in addedSpells
+                for (ItemStack scroll : scrolls) {
+                    if (!(scroll.getItem() instanceof SpellScroll)) continue;
+
+                    List<SpellStorage.SpellEntry> entriesInScroll = SpellStorage.getSpells(scroll);
+                    boolean scrollContributed = false;
+
+                    // If any spell in this scroll was successfully added, shrink it
+                    for (SpellStorage.SpellEntry entry : entriesInScroll) {
+                        if (addedSpells.contains(entry)) {
+                            scrollContributed = true;
+                            break;
+                        }
+                    }
+
+                    if (scrollContributed) {
+                        // Find and shrink the specific pedestal stack
+                        for (Vec3 offset : PEDESTAL_OFFSETS) {
+                            PedestalOfWizardryBlockEntity pedestal = getPedestalAt(offset);
+                            if (pedestal != null && pedestal.getStoredItem() == scroll) {
+                                pedestal.getStoredItem().shrink(1);
+                                pedestal.setChanged();
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (level != null && !level.isClientSide()) {
+                    ItemStack result = craftingItem;
+                    ItemEntity itemEntity = new ItemEntity(level, RESULT_LOC.x(), RESULT_LOC.y(), RESULT_LOC.z(), result);
+                    level.addFreshEntity(itemEntity);
+                    craftingItem = null;
+                    this.setChanged();
+                }
+            }
+        }
+    }
+
+    private void startAugmentOperation() {
+        if (canAugment()) {
 
             if (this.craftingPlayer.getInventory().contains(this.craftingItem)) {
                 this.craftingPlayer.getInventory().removeItem(craftingItem);
@@ -372,7 +515,7 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
 
                 if (level != null && !level.isClientSide()) {
                     ItemStack result = craftingItem;
-                    ItemEntity itemEntity = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, result);
+                    ItemEntity itemEntity = new ItemEntity(level, RESULT_LOC.x(), RESULT_LOC.y(), RESULT_LOC.z(), result);
                     level.addFreshEntity(itemEntity);
                     craftingItem = null;
                     this.setChanged();
@@ -396,12 +539,12 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
 
     private void completeSynthesisOperation() {
         if (canSynthesise()) {
-            if (this.craftingPlayer != null && ManaHelper.getMana(this.craftingPlayer) >= 100) {
+            if (ManaHelper.getMana(this.craftingPlayer) >= 100) {
                 SpellStorage.SpellEntry spellEntry = SpellStorage.getSpells(getPedestalItemsFiltered().get(0)).get(0);
                 consumePedestalItems();
                 if (level != null && !level.isClientSide()) {
                     ItemStack result = SpellStorage.getScrollFromSpell(spellEntry.spell(), spellEntry.level() + SynthesisView.SynthesisResult.getLevelBonus(getTotalPoints(), 0.0025));
-                    ItemEntity itemEntity = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, result);
+                    ItemEntity itemEntity = new ItemEntity(level, RESULT_LOC.x(), RESULT_LOC.y(), RESULT_LOC.z(), result);
                     level.addFreshEntity(itemEntity);
                 }
             }
@@ -442,7 +585,7 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
                         consumePedestalItems();
                         if (!level.isClientSide()) {
                             ItemStack result = recipe.getResultItem(this.level.registryAccess());
-                            ItemEntity itemEntity = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, result);
+                            ItemEntity itemEntity = new ItemEntity(level, RESULT_LOC.x(), RESULT_LOC.y(), RESULT_LOC.z(), result);
                             level.addFreshEntity(itemEntity);
                         }
                     }
@@ -453,11 +596,9 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
 
     private boolean enoughMana(ConjureRecipe recipe) {
         if (level != null) {
-            if (this.craftingPlayer != null) {
-                if (ManaHelper.getMana(this.craftingPlayer) >= recipe.mana()) {
-                    ManaHelper.modifyManaValue(this.craftingPlayer, -recipe.mana());
-                    return true;
-                }
+            if (ManaHelper.getMana(this.craftingPlayer) >= recipe.mana()) {
+                ManaHelper.modifyManaValue(this.craftingPlayer, -recipe.mana());
+                return true;
             }
         }
         return false;

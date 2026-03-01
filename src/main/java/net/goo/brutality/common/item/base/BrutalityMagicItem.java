@@ -6,6 +6,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.datafixers.util.Either;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.generic.BrutalityAugmentItem;
+import net.goo.brutality.util.NBTUtils;
 import net.goo.brutality.util.attribute.AttributeContainer;
 import net.goo.brutality.util.magic.AugmentHelper;
 import net.goo.brutality.util.magic.SpellStorage;
@@ -32,6 +33,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
+
+import static net.goo.brutality.util.magic.SpellStorage.SPELL_MOD;
 
 public class BrutalityMagicItem extends BrutalityGenericItem {
     public int baseSpellSlots, baseAugmentSlots;
@@ -150,10 +153,11 @@ public class BrutalityMagicItem extends BrutalityGenericItem {
         tooltip.add(Component.translatable("message." + Brutality.MOD_ID + ".press_for_more_info",
                 Component.keybind(Minecraft.getInstance().options.keyShift.getName())));
 
+        int extraSlots = NBTUtils.getInt(stack, SPELL_MOD, 0);
+
         tooltip.add(Component.translatable("message." + Brutality.MOD_ID + ".press_to_show_all_spells",
                 Component.keybind(Minecraft.getInstance().options.keySprint.getName()))
-
-                .append(" [" + spellEntries.size() + "/" + SpellStorage.getSpellSlotCount(stack) + "]"));
+                .append(" [" + spellEntries.size() + "/" + baseSpellSlots + (extraSlots > 0 ? " + " + extraSlots : "") + "]"));
 
     }
 

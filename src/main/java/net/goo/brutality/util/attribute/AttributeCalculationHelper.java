@@ -46,13 +46,11 @@ public class AttributeCalculationHelper {
 
     /**
      * Calculates modified jump power based on the {@link BrutalityAttributes#JUMP_HEIGHT} attribute.
-     * <p>
      * <b>Calibration Logic:</b>
      * <ul>
      * <li>{@code 1.2522}: The baseline offset for zero additional height.</li>
      * <li>{@code 0.159}: The conversion factor where +0.159 motion delta equals +1 block height.</li>
      * </ul>
-     * </p>
      *
      * @param livingEntity The jumping entity.
      * @param original     The base jump power (default 0.42f).

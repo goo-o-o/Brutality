@@ -49,6 +49,7 @@ public class BrutalityBlockStateProvider extends BlockStateProvider {
         crystalClusterState(BrutalityBlocks.LARGE_MANA_CRYSTAL_BUD.get());
         crystalClusterState(BrutalityBlocks.MANA_CRYSTAL_CLUSTER.get());
 
+        manaCauldronBlock(BrutalityBlocks.MANA_CAULDRON.get());
 
         simpleBlock(BrutalityBlocks.LIQUIFIED_MANA.get(), models().getBuilder("liquid_mana_block").parent(models().getExistingFile(mcLoc("block/water"))));
 
@@ -247,6 +248,28 @@ public class BrutalityBlockStateProvider extends BlockStateProvider {
                 .texture("particle", modLoc("block/" + name));
 
         simpleBlockWithItem(blockRegistryObject.get(), model);
+    }
+
+
+    private void manaCauldronBlock(Block block) {
+        ResourceLocation manaTexture = modLoc("block/liquified_mana_still");
+
+        // 2. Build the variants based on the LEVEL property
+        getVariantBuilder(block).forAllStates(state -> {
+            int level = state.getValue(LayeredCauldronBlock.LEVEL);
+
+            ModelFile model;
+
+            if (level == 3) {
+                model = models().withExistingParent(name(block) + "_full", "minecraft:block/template_cauldron_full")
+                        .texture("content", manaTexture);
+            } else {
+                model = models().withExistingParent(name(block) + "_level" + level, "minecraft:block/template_cauldron_level" + level)
+                        .texture("content", manaTexture);
+            }
+
+            return ConfiguredModel.builder().modelFile(model).build();
+        });
     }
 
     private void crystalClusterState(Block block) {

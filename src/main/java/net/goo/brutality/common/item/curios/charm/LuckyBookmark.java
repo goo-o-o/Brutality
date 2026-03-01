@@ -25,7 +25,7 @@ public class LuckyBookmark extends BrutalityCurioItem {
     @Override
     public double getDynamicAttributeBonus(LivingEntity owner, ItemStack stack, Attribute attribute, double currentBonus) {
         if (attribute == BrutalityAttributes.MANA_REGEN.get()) {
-            return owner.getAttributeValue(Attributes.LUCK) * 0.25F * attribute.getDefaultValue(); // This should be the same as base value 99% of the time
+            return currentBonus * (owner.getAttributeValue(Attributes.LUCK) * 0.15F); // This should be the same as base value 99% of the time
         }
         return super.getDynamicAttributeBonus(owner, stack, attribute, currentBonus);
     }
@@ -35,7 +35,7 @@ public class LuckyBookmark extends BrutalityCurioItem {
         if (slotContext.entity() != null && slotContext.entity().level().isClientSide()) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
             builder.put(BrutalityAttributes.MANA_REGEN.get(), new AttributeModifier(uuid, "Mana Regen Buff",
-                    slotContext.entity().getAttributeValue(Attributes.LUCK) * 0.25F, AttributeModifier.Operation.MULTIPLY_BASE));
+                    slotContext.entity().getAttributeValue(Attributes.LUCK) * 0.15F, AttributeModifier.Operation.MULTIPLY_TOTAL));
             return builder.build();
         }
         return super.getAttributeModifiers(slotContext, uuid, stack);

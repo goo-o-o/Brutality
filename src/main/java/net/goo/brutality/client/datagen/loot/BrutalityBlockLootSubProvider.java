@@ -58,6 +58,7 @@ public class BrutalityBlockLootSubProvider extends BlockLootSubProvider {
         this.add(BrutalityBlocks.BOOKSHELF_OF_WIZARDRY.get(), (block) -> this.createSingleItemTableWithSilkTouch(block, Items.BOOK, ConstantValue.exactly(3.0F)));
 
         this.dropSelf(BrutalityBlocks.MANA_CRYSTAL_BLOCK.get());
+        this.dropSelf(BrutalityBlocks.MANA_CAULDRON.get());
 
         this.add(BrutalityBlocks.MANA_CRYSTAL_CLUSTER.get(), (block) -> createSilkTouchDispatchTable(block, LootItem.lootTableItem(BrutalityItems.SOLIDIFIED_MANA.get()).apply(SetItemCountFunction.setCount(ConstantValue.exactly(4.0F))).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)).when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(ItemTags.CLUSTER_MAX_HARVESTABLES))).otherwise(this.applyExplosionDecay(block, LootItem.lootTableItem(BrutalityItems.SOLIDIFIED_MANA.get()).apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F)))))));
         this.dropWhenSilkTouch(BrutalityBlocks.SMALL_MANA_CRYSTAL_BUD.get());

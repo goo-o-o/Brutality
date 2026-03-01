@@ -39,6 +39,13 @@ ordering="AFTER"
 side="BOTH"
 
 [[dependencies.${mod_id}]]
+modId="playeranimator"
+mandatory=true
+versionRange="[1.0.2-rc1,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
 modId="terramity"
 mandatory=true
 versionRange="[0.9.8,)"

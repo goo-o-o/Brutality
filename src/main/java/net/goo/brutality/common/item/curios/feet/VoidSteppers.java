@@ -5,15 +5,12 @@ import com.google.common.collect.Multimap;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
@@ -29,15 +26,7 @@ public class VoidSteppers extends BrutalityCurioItem {
         this.stealth = stealth;
     }
 
-    public static void cancelSoundIfNeeded(Entity entity, CallbackInfo ci) {
-        if (entity instanceof LivingEntity livingEntity) {
-            CuriosApi.getCuriosInventory(livingEntity).ifPresent(handler -> {
-                if (handler.isEquipped(stack -> stack.getItem() instanceof VoidSteppers)) {
-                    ci.cancel();
-                }
-            });
-        }
-    }
+
 
     @Override
     public double getDynamicAttributeBonus(LivingEntity owner, ItemStack stack, Attribute attribute, double currentBonus) {

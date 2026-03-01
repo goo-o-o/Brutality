@@ -1,4 +1,4 @@
-package net.goo.brutality.mixin.accessors;
+package net.goo.brutality.common.mixin_helpers;
 
 public class BrutalityFontHooks {
     private static final ThreadLocal<String> ACTIVE_COLOR_DATA = ThreadLocal.withInitial(() -> null);

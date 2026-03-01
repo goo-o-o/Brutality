@@ -125,7 +125,9 @@ public class TableOfWizardryRenderer implements BlockEntityRenderer<TableOfWizar
             }
         }
         ClientSoundManager.handleTableOfWizardrySound(pBlockEntity);
-        boolean isAugment = pBlockEntity.currentSection == TableOfWizardryBookSection.AUGMENT && pBlockEntity.canAugment();
+        boolean shouldRenderBook = pBlockEntity.currentSection == TableOfWizardryBookSection.AUGMENT && pBlockEntity.canAugment();
+        shouldRenderBook |= pBlockEntity.currentSection == TableOfWizardryBookSection.INSCRIBE && pBlockEntity.canInscribe();
+        shouldRenderBook |= pBlockEntity.currentSection == TableOfWizardryBookSection.EXPUNGE && pBlockEntity.canExpunge();
         // --- 2. Render Animated Items (If Crafting) ---
         if (pBlockEntity.isCrafting) {
             if (normalizedProgress < 0.65F) {
@@ -151,7 +153,7 @@ public class TableOfWizardryRenderer implements BlockEntityRenderer<TableOfWizar
                     }
                 }
 
-                if (isAugment) {
+                if (shouldRenderBook) {
                     Vec3 startPosWorld = pBlockEntity.craftingPlayerStartPos;
                     // The target hover point (center of block, 2.5 blocks up)
                     Vec3 endPosLocal = new Vec3(0.5, 1 + 2.5, 0.5);
@@ -204,7 +206,7 @@ public class TableOfWizardryRenderer implements BlockEntityRenderer<TableOfWizar
                     BrutalitySpell spell = SpellStorage.getSpells(pBlockEntity.getPedestalItemsFiltered().get(0)).get(0).spell();
                     school = spell.getSchool();
                     resultStack = SpellStorage.getScrollFromSpell(spell, 0); // this is fine as we are just rendering
-                } else if (isAugment) {
+                } else if (shouldRenderBook) {
                     resultStack = pBlockEntity.craftingItem;
                 }
 

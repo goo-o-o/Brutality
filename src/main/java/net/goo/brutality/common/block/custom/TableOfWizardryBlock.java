@@ -2,7 +2,9 @@ package net.goo.brutality.common.block.custom;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.gui.screen.TableOfWizardryScreen;
+import net.goo.brutality.client.gui.screen.table_of_wizardry.TableOfWizardryBookSection;
 import net.goo.brutality.common.block.block_entity.TableOfWizardryBlockEntity;
+import net.goo.brutality.common.item.base.BrutalityMagicItem;
 import net.goo.brutality.common.registry.BrutalityBlockEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -98,9 +100,16 @@ public class TableOfWizardryBlock extends BaseEntityBlock {
     public @NotNull InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (pLevel.getBlockEntity(pPos) instanceof TableOfWizardryBlockEntity blockEntity) {
             if (!blockEntity.isCrafting) {
-                if (pPlayer.isShiftKeyDown()) {
-                    if (pPlayer.level().isClientSide())
+                ItemStack stack = pPlayer.getItemInHand(pHand);
+                boolean expunge = (blockEntity.currentSection == TableOfWizardryBookSection.EXPUNGE && stack.getItem() instanceof BrutalityMagicItem);
+                if (pPlayer.isShiftKeyDown() || expunge) {
+                    if (pPlayer.level().isClientSide()) {
+                        if (expunge) {
+                            blockEntity.craftingItem = stack;
+                        }
                         openWizardScreen(blockEntity);
+
+                    }
                 } else
                     blockEntity.tryStartCrafting(pPlayer, pPlayer.getItemInHand(pHand));
             }

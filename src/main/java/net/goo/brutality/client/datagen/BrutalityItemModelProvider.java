@@ -119,9 +119,18 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
         blockWithFlatItem(BrutalityBlocks.LARGE_MANA_CRYSTAL_BUD.get(), modLoc("block/large_mana_crystal_bud"));
         blockWithFlatItem(BrutalityBlocks.MEDIUM_MANA_CRYSTAL_BUD.get(), modLoc("block/medium_mana_crystal_bud"));
         blockWithFlatItem(BrutalityBlocks.SMALL_MANA_CRYSTAL_BUD.get(), modLoc("block/small_mana_crystal_bud"));
+        blockWithFlatItem(BrutalityBlocks.MANA_CAULDRON.get(), mcLoc("item/cauldron"), modLoc("block/liquified_mana_still"));
 
         generateFamilyItems(BrutalityBlockFamilies.SOLIDIFIED_MANA);
     }
+
+    public void blockWithFlatItem(Block block, ResourceLocation itemTexture, ResourceLocation particleTexture) {
+        withExistingParent(ForgeRegistries.ITEMS.getKey(block.asItem()).getPath(),
+                ResourceLocation.parse("item/generated"))
+                .texture("layer0", itemTexture)
+                .texture("particle", particleTexture);
+    }
+
 
     public void blockWithFlatItem(Block block, ResourceLocation itemTexture) {
         withExistingParent(ForgeRegistries.ITEMS.getKey(block.asItem()).getPath(),

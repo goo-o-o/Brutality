@@ -3,7 +3,7 @@ package net.goo.brutality.common.item.weapon.sword;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.common.item.base.BrutalitySwordItem;
-import net.goo.brutality.mixin.accessors.MobEffectInstanceSourceAccessor;
+import net.goo.brutality.common.mixin_helpers.MobEffectInstanceSourceAccessor;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;

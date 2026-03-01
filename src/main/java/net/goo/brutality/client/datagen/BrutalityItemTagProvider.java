@@ -69,6 +69,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.BRUTESKIN_BELT.get(),
                 BrutalityItems.MINIATURE_ANCHOR.get(),
                 BrutalityItems.WARPSLICE_SCABBARD.get(),
+                BrutalityItems.POOL_FLOAT.get(),
                 BrutalityItems.BATTLE_SCARS.get()
         );
 
@@ -176,7 +177,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.FORBIDDEN_ORB.get(),
                 BrutalityItems.BLOOD_ORB.get(),
                 BrutalityItems.PROFANUM_REACTOR.get(),
-                BrutalityItems.MANA_SYRINGE.get(),
+                BrutalityItems.MANA_INFUSED_WHETSTONE.get(),
                 BrutalityItems.DECK_OF_CARDS.get(),
 
                 // Culinary Set
@@ -259,6 +260,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
 
         this.tag(BrutalityTags.Items.HEAD).add(
                 BrutalityItems.MAGICIANS_TOP_HAT.get(),
+                BrutalityItems.HEAD_CUSHION.get(),
                 BrutalityItems.SERAPHIM_HALO.get(),
                 BrutalityItems.GOLDEN_HEADBAND.get(),
                 BrutalityItems.WOOLY_BLINDFOLD.get(),
@@ -331,13 +333,15 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.FLAME_WALKER.get(),
                 BrutalityItems.FLAME_STOMPER.get(),
                 BrutalityItems.SEISMIC_STOMPERS.get(),
-                BrutalityItems.SALAMANDER_BOOTS.get(),
+                BrutalityItems.SALAMANDERS_STRIDERS.get(),
                 BrutalityItems.AMPHIBIAN_BOOTS.get(),
                 BrutalityItems.LAVA_WALKERS.get(),
                 BrutalityItems.WATER_WALKERS.get(),
                 BrutalityItems.VOID_STEPPERS.get(),
                 BrutalityItems.UMBRAL_TIPTOES.get(),
                 BrutalityItems.PLATED_STEELCAPS.get(),
+                BrutalityItems.SLIPSTREAM_TRACERS.get(),
+                BrutalityItems.CONSTRUCTION_BOOTS.get(),
                 BrutalityItems.VECTOR_STABILIZER.get(),
                 BrutalityItems.ICE_SKATES.get()
         );
