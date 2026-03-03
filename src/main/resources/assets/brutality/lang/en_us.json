@@ -555,7 +555,7 @@
 
   "item.brutality.jackpot": "Jackpot",
   "item.brutality.jackpot.lore.1": "§9Just give me one more chance...",
-  "item.brutality.jackpot.on_hit.1": "§e -Randomly an additional (-5 to 10) Damage",
+  "item.brutality.jackpot.on_hit.1": "§e -Randomly deal -5 to 15 Damage",
   "item.brutality.jackpot.message.1": "§a§l§oCHA-CHING!§r You dealt %s damage!",
   "item.brutality.jackpot.message.2": "§b§l§oHUGE WIN!§r You dealt %s damage!",
   "item.brutality.jackpot.message.3": "§c§l§oJACKPOT!§r You dealt %s damage!",

@@ -40,7 +40,7 @@ public class Schism extends BrutalityScytheItem {
 
 
         int delay = (int) (pPlayer.getCurrentItemAttackStrengthDelay() * 0.25F);
-        DelayedTaskScheduler.queueServerWork(serverLevel, delay, () -> {
+        DelayedTaskScheduler.queueCommonWork(serverLevel, delay, () -> {
             FlatParticleData<?> data = new FlatParticleData<>(BrutalityParticles.VOID_SLASH_PARTICLE.get(),
                     5F, -pPlayer.getViewXRot(0), -pPlayer.getViewYRot(0) + 180F, combo * 180);
 

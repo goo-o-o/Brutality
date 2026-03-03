@@ -85,7 +85,7 @@ public class LastPrism extends BrutalityGenericItem {
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {
         if (getLastPrismRay(pLevel, pStack) instanceof LastPrismRay lastPrismRay) {
             lastPrismRay.triggerAnim("controller", "despawn");
-            DelayedTaskScheduler.queueServerWork(pLevel, 20, lastPrismRay::discard);
+            DelayedTaskScheduler.queueCommonWork(pLevel, 20, lastPrismRay::discard);
         }
 
     }

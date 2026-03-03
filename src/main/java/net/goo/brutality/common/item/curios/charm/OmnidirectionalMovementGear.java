@@ -78,8 +78,8 @@ public class OmnidirectionalMovementGear extends BrutalityCurioItem {
                 // Check for ANY movement input.
                 // forwardImpulse: Positive (W), Negative (S)
                 // leftImpulse: Positive (A), Negative (D)
-                boolean hasAnyInput = Math.abs(player.input.forwardImpulse) > 1.0E-5F ||
-                        Math.abs(player.input.leftImpulse) > 1.0E-5F;
+                boolean hasAnyInput = Math.abs(player.input.forwardImpulse) > 0.00001F ||
+                        Math.abs(player.input.leftImpulse) > 0.00001F;
                 result.set(hasAnyInput);
             }
         });

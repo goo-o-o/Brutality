@@ -24,6 +24,7 @@ import net.goo.brutality.common.item.curios.feet.*;
 import net.goo.brutality.common.item.curios.hands.Handcuffs;
 import net.goo.brutality.common.item.curios.hands.PerfectCell;
 import net.goo.brutality.common.item.curios.hands.PhantomFinger;
+import net.goo.brutality.common.item.curios.hands.SuspiciouslyLargeHandle;
 import net.goo.brutality.common.item.curios.head.LunarLens;
 import net.goo.brutality.common.item.curios.head.SolarLens;
 import net.goo.brutality.common.item.curios.heart.BrutalHeart;
@@ -340,7 +341,7 @@ public class BrutalityItems {
             new ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 2),
             new ItemDescriptionComponent(ON_HIT, 1))));
 
-    public static final RegistryObject<Item> JACKPOT_HAMMER = ITEMS.register("jackpot", () -> new JackpotHammer(
+    public static final RegistryObject<Item> JACKPOT_HAMMER = ITEMS.register("jackpot", () -> new Jackpot(
             Tiers.DIAMOND, 0, -2.6F, BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(LORE, 1),
             new ItemDescriptionComponent(ON_HIT, 1))));
@@ -695,13 +696,13 @@ public class BrutalityItems {
             BrutalityRarities.FABLED, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             if (victim instanceof LivingEntity livingVictim) {
                 livingVictim.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 20, 0));
                 livingVictim.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 20, 0));
                 livingVictim.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 0));
             }
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -981,11 +982,11 @@ public class BrutalityItems {
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             ModUtils.modifyEffect(attacker, BrutalityEffects.PRECISION.get(),
                     new ModUtils.ModValue(80, true), new ModUtils.ModValue(3, false),
                     null, living -> living.addEffect(new MobEffectInstance(BrutalityEffects.PRECISION.get(), 80, 0)), null);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -1001,10 +1002,10 @@ public class BrutalityItems {
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(ON_HIT, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             if (attacker instanceof Player player)
                 ManaHelper.modifyManaValue(player, amount * 0.25F);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     }.withAttributes(
             new AttributeContainer(BrutalityAttributes.MAX_MANA.get(), 20, ADDITION)));
@@ -1014,7 +1015,7 @@ public class BrutalityItems {
             new AttributeContainer(BrutalityAttributes.SPELL_COOLDOWN.get(), 0.25, MULTIPLY_TOTAL)));
 
 
-    public static final RegistryObject<Item> SUSPICIOUSLY_LARGE_HANDLE = ITEMS.register("suspiciously_large_handle", () -> new BrutalityCurioItem(
+    public static final RegistryObject<Item> SUSPICIOUSLY_LARGE_HANDLE = ITEMS.register("suspiciously_large_handle", () -> new SuspiciouslyLargeHandle(
             BrutalityRarities.PRISMATIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 2))));
 
@@ -1433,7 +1434,7 @@ public class BrutalityItems {
         public void onWearerFall(LivingFallEvent event, ItemStack curio) {
             if (event.getEntity() instanceof Player player)
                 CooldownUtils.validateCooldown(player, curio.getItem(), 80, () ->
-                        DelayedTaskScheduler.queueServerWork(event.getEntity().level(), 1, () ->
+                        DelayedTaskScheduler.queueCommonWork(event.getEntity().level(), 1, () ->
                                 player.heal(2 * player.calculateFallDamage(event.getDistance(), event.getDamageMultiplier()))));
         }
     });
@@ -1474,10 +1475,10 @@ public class BrutalityItems {
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1, 80))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             if (attacker instanceof Player playerAttacker)
                 CooldownUtils.validateCurioCooldown(playerAttacker, curio.getItem(), 80, () -> attacker.heal(amount * 0.5F));
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     }.withAttributes(
             new AttributeContainer(BrutalityAttributes.LIFESTEAL.get(), 0.05, ADDITION)));
@@ -1790,10 +1791,10 @@ public class BrutalityItems {
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             if (victim instanceof LivingEntity livingVictim)
                 livingVictim.addEffect(new MobEffectInstance(MobEffects.HUNGER, 100, 0));
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -1813,7 +1814,7 @@ public class BrutalityItems {
             float toHeal = amount * 0.25F;
             float maxPossible = Math.max(wearer.getMaxHealth() - wearer.getAbsorptionAmount(), 0);
             float finalToHeal = Math.min(toHeal, maxPossible);
-            DelayedTaskScheduler.queueServerWork(wearer.level(), 1, () -> wearer.setAbsorptionAmount(wearer.getAbsorptionAmount() + finalToHeal));
+            DelayedTaskScheduler.queueCommonWork(wearer.level(), 1, () -> wearer.setAbsorptionAmount(wearer.getAbsorptionAmount() + finalToHeal));
             return toHeal;
         }
     });
@@ -1822,10 +1823,10 @@ public class BrutalityItems {
             BrutalityRarities.FABLED, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             if (victim instanceof LivingEntity livingVictim)
                 livingVictim.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 80, 0));
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -1935,9 +1936,9 @@ public class BrutalityItems {
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SALTED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -1945,9 +1946,9 @@ public class BrutalityItems {
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.PEPPERED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -1966,9 +1967,9 @@ public class BrutalityItems {
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.STEAMED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -1976,9 +1977,9 @@ public class BrutalityItems {
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SMOKED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -1996,9 +1997,9 @@ public class BrutalityItems {
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.GLAZED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -2006,9 +2007,9 @@ public class BrutalityItems {
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SPRINKLED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -2016,9 +2017,9 @@ public class BrutalityItems {
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.CANDIED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -2162,9 +2163,9 @@ public class BrutalityItems {
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.CARAMELIZED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -2172,11 +2173,11 @@ public class BrutalityItems {
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             if (weapon.is(BrutalityTags.Items.GASTRONOMIST_ITEMS) && victim instanceof LivingEntity livingVictim) {
                 livingVictim.addEffect(new MobEffectInstance(BrutalityEffects.PULVERIZED.get(), 3, 3));
             }
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -2184,13 +2185,13 @@ public class BrutalityItems {
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1, 60))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             if (curio.is(BrutalityTags.Items.GASTRONOMIST_ITEMS) && victim instanceof LivingEntity livingVictim && attacker instanceof Player playerAttacker) {
                 if (AttributeCalculationHelper.Luck.roll(attacker, 0.1F, 0.1F))
                     CooldownUtils.validateCurioCooldown(playerAttacker, curio.getItem(), 60, () ->
                             livingVictim.addEffect(new MobEffectInstance(BrutalityEffects.STUNNED.get(), 4, 0)));
             }
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -2198,9 +2199,9 @@ public class BrutalityItems {
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SLICKED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -2208,9 +2209,9 @@ public class BrutalityItems {
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SLICKED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -2238,9 +2239,9 @@ public class BrutalityItems {
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.OILED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
     });
 
@@ -2409,7 +2410,7 @@ public class BrutalityItems {
             BrutalityRarities.STYGIAN, List.of(
             new ItemDescriptionComponent(PASSIVE, 2))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             attacker.addEffect(new MobEffectInstance(TerramityModMobEffects.LIFESTEAL.get(), 30, 0));
             return amount * 1.3F;
         }
@@ -2419,7 +2420,7 @@ public class BrutalityItems {
             BrutalityRarities.STYGIAN, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             return amount * 1.3F;
         }
     }.withAttributes(

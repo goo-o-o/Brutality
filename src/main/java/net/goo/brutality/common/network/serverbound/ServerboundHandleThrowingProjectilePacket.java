@@ -28,7 +28,7 @@ public class ServerboundHandleThrowingProjectilePacket {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
             if (player == null || !(packet.stack.getItem() instanceof BrutalityThrowingItem throwingItem)) return;
-            DelayedTaskScheduler.queueServerWork(player.serverLevel(), 6, () -> throwingItem.handleThrowPacket(packet.stack, player));
+            DelayedTaskScheduler.queueCommonWork(player.serverLevel(), 6, () -> throwingItem.handleThrowPacket(packet.stack, player));
             ctx.get().setPacketHandled(true);
         });
     }

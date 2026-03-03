@@ -1,8 +1,8 @@
 package net.goo.brutality.mixin.mixins;
 
 import net.goo.brutality.common.item.curios.charm.BaseBrokenClock;
+import net.goo.brutality.common.mixin_helpers.MixinInterfaces;
 import net.goo.brutality.common.mob_effect.gastronomy.wet.SteamedEffect;
-import net.goo.brutality.common.mixin_helpers.MobEffectInstanceSourceAccessor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -14,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 /**
  * Injected into {@link MobEffectInstance} to track the source of an effect.
@@ -24,7 +23,7 @@ import java.util.Optional;
  * </p>
  */
 @Mixin(MobEffectInstance.class)
-public class MobEffectInstanceMixin implements MobEffectInstanceSourceAccessor {
+public class MobEffectInstanceMixin implements MixinInterfaces.MobEffectInstanceSourceAccessor {
 
 
     /**
@@ -66,22 +65,7 @@ public class MobEffectInstanceMixin implements MobEffectInstanceSourceAccessor {
             ((MobEffectInstanceMixin) (Object) instance).brutality$SourceID = pNbt.getInt("BrutalitySourceID");
         }
     }
-
-    // --- Accessors ---
-
-    @Unique
-    public void setSourceId(int id) {
-        this.brutality$SourceID = id;
-    }
-
-    @Unique
-    @Nullable
-    public Integer getSourceId() {
-        return this.brutality$SourceID;
-    }
-
-
-    /**
+        /**
      * Intercepts the per-tick update of a MobEffectInstance to conditionally bypass duration reduction.
      * <p>
      * This injection targets the invocation of {@code tickDownDuration()}, allowing custom logic
@@ -112,4 +96,13 @@ public class MobEffectInstanceMixin implements MobEffectInstanceSourceAccessor {
         BaseBrokenClock.pauseTickDown(pEntity, effectInstance, cir);
     }
 
+    @Override
+    public Integer brutality$getSourceID() {
+        return brutality$SourceID;
+    }
+
+    @Override
+    public void brutality$setSourceID(int id) {
+        this.brutality$SourceID = id;
+    }
 }

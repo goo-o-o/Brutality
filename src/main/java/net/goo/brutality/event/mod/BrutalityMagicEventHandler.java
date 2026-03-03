@@ -151,7 +151,7 @@ public class BrutalityMagicEventHandler {
                 float costMult = cfg.manaMult();
                 for (int i = 0; i < count; i++) {
                     final int delay = i + 1; // slight stagger
-                    DelayedTaskScheduler.queueServerWork(player.level(), delay, () -> {
+                    DelayedTaskScheduler.queueCommonWork(player.level(), delay, () -> {
                         float cost = spell.getActualManaCost(player, spellLevel) * costMult;
                         if (ManaHelper.getMana(player) > cost) {
                             spell.onStartCast(player, tome, spellLevel);

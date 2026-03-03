@@ -139,10 +139,10 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
         int spellLevel = getSpellLevel();
         if (level() instanceof ServerLevel serverLevel) {
 
-            DelayedTaskScheduler.queueServerWork(serverLevel, 6, () -> playSound(BrutalitySounds.SPACE_EXPLOSION.get(), Math.min(spellLevel, 50),
+            DelayedTaskScheduler.queueCommonWork(serverLevel, 6, () -> playSound(BrutalitySounds.SPACE_EXPLOSION.get(), Math.min(spellLevel, 50),
                     1.5F - (spellLevel / 50F)));
 
-            DelayedTaskScheduler.queueServerWork(serverLevel, 15, () -> {
+            DelayedTaskScheduler.queueCommonWork(serverLevel, 15, () -> {
 
                 for (int i = 0; i < 16 + spellLevel * 4; i++) {
                     float randomX = (float) this.getRandomX(5 + spellLevel);

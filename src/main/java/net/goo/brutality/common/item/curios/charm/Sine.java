@@ -5,8 +5,8 @@ import com.google.common.collect.Multimap;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.curios.BrutalityMathFunctionCurio;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
@@ -37,11 +37,11 @@ public class Sine extends BrutalityMathFunctionCurio {
     }
 
     @Override
-    public double getDynamicAttributeBonus(LivingEntity owner, ItemStack stack, Attribute attribute, double currentBonus) {
-        if (attribute == Attributes.ATTACK_DAMAGE) {
-            return getCurrentBonus(owner.level()) * currentBonus;
+    public double getDynamicAttributeBonus(SlotContext slotContext, ItemStack stack, AttributeInstance attributeInstance, double currentBonus) {
+        if (attributeInstance.getAttribute() == Attributes.ATTACK_DAMAGE) {
+            return getCurrentBonus(slotContext.entity().level()) * currentBonus;
         }
-        return super.getDynamicAttributeBonus(owner, stack, attribute, currentBonus);
+        return super.getDynamicAttributeBonus(slotContext, stack, attributeInstance, currentBonus);
     }
 
     @Override

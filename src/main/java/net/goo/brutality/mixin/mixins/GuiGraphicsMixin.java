@@ -1,11 +1,10 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.goo.brutality.client.gui.tooltip.StatTrakGui;
+import net.goo.brutality.client.config.BrutalityClientConfig;
 import net.goo.brutality.common.registry.BrutalityRarities;
 import net.goo.brutality.util.ColorUtils;
 import net.goo.brutality.util.RarityBorderManager;
-import net.goo.brutality.util.item.StatTrakUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -21,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-@Mixin(GuiGraphics.class)
+@Mixin(value = GuiGraphics.class, priority = 0) // tooltip overhaul has a priority of 1, so we go under that
 public abstract class GuiGraphicsMixin {
     @Unique
     private static ItemStack brutality$cachedMainStack = ItemStack.EMPTY;
@@ -44,11 +43,11 @@ public abstract class GuiGraphicsMixin {
 
         ItemStack current = this.tooltipStack;
         if (current != null && !current.isEmpty()) {
-            brutality$updateTimerValue(current);
-            brutality$cachedMainStack = current.copy();
-            brutality$renderTooltipBackground(guiGraphics, x, y, width, height, 400, colorEvent.getBackgroundStart(), colorEvent.getBackgroundEnd(), colorEvent.getBorderStart(), colorEvent.getBorderEnd());
-            if (StatTrakUtils.hasStatTrak(current))
-                StatTrakGui.render(current, guiGraphics, x, y, width, height, 401);
+            if (BrutalityClientConfig.RENDER_CUSTOM_TOOLTIP_BORDERS.get()) {
+                brutality$updateTimerValue(current);
+                brutality$cachedMainStack = current.copy();
+                brutality$renderTooltipBackground(guiGraphics, x, y, width, height, 400, colorEvent.getBackgroundStart(), colorEvent.getBackgroundEnd(), colorEvent.getBorderStart(), colorEvent.getBorderEnd());
+            }
         }
     }
 

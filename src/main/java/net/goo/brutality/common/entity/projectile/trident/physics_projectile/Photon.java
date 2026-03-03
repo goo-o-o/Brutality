@@ -55,7 +55,6 @@ public class Photon extends BrutalityAbstractThrowingProjectile implements Bruta
 
     @Override
     protected float getDamageMultiplier() {
-        System.out.println(getDeltaMovement());
         return (float) getDeltaMovement().length();
     }
 

@@ -169,7 +169,7 @@ public class BrutalityAbstractPhysicsThrowingProjectile extends BrutalityAbstrac
             inGround = true;
             onFinalBounce(hitResult);
             if (shouldDiscardAfterBounce() && !level().isClientSide()) {
-                DelayedTaskScheduler.queueServerWork(level(), 2, this::discard);
+                DelayedTaskScheduler.queueCommonWork(level(), 2, this::discard);
             }
         }
 

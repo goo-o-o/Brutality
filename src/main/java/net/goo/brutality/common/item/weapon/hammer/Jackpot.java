@@ -11,7 +11,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -22,16 +21,16 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 import java.util.Set;
 
-public class JackpotHammer extends BrutalityHammerItem {
+public class Jackpot extends BrutalityHammerItem {
 
 
-    public JackpotHammer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
+    public Jackpot(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
     @Override
-    public float hurtEnemyModifiable(Player attacker, LivingEntity victim, ItemStack weapon, DamageSource source, float amount) {
-        int damage = attacker.getRandom().nextInt(-5, 11);
+    public float hurtEnemyModifiable(Player attacker, LivingEntity victim, ItemStack weapon, float amount) {
+        int damage = attacker.getRandom().nextInt(-5, 16);
         Level level = attacker.level();
         if (damage > 8) {
 
@@ -73,6 +72,6 @@ public class JackpotHammer extends BrutalityHammerItem {
     }
 
     public static float getRandomDamage(Player player) {
-        return player.tickCount % 10 + 4;
+        return player.tickCount % 20 - 5;
     }
 }

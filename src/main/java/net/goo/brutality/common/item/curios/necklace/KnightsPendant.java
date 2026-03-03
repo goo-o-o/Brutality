@@ -7,6 +7,7 @@ import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -21,11 +22,10 @@ public class KnightsPendant extends BrutalityCurioItem {
     }
 
 
-
     @Override
-    public double getDynamicAttributeBonus(LivingEntity owner, ItemStack stack, Attribute attribute, double currentBonus) {
-        if (attribute == BrutalityAttributes.ARMOR_PENETRATION.get()) {
-            if (owner.getHealth() / owner.getMaxHealth() < 0.75f) {
+    public double getDynamicAttributeBonus(SlotContext slotContext, ItemStack stack, AttributeInstance attributeInstance, double currentBonus) {
+        if (attributeInstance.getAttribute() == BrutalityAttributes.ARMOR_PENETRATION.get()) {
+            if (slotContext.entity().getHealth() / slotContext.entity().getMaxHealth() < 0.75f) {
                 return 0.05;
             }
         }

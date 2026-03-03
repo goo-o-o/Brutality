@@ -15,7 +15,6 @@ public class ForgeClientTooltipEvents {
     @SubscribeEvent
     public static void onGatherComponents(RenderTooltipEvent.GatherComponents event) {
         BrutalityMagicItem.renderAugmentSlots(event);
-
-
     }
+
 }

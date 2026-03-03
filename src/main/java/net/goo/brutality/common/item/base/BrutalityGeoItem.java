@@ -9,6 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -130,18 +131,18 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
      * This prevents unintended damage scaling from indirect sources, such as pets (e.g., Wolves)
      * or projectiles, even if the player is holding the item.
      * </p>
-     * * <p><b>Implementation Note:</b>
-     * This is called in {@link net.goo.brutality.mixin.mixins.PlayerMixin}
+     * <p><b>Implementation Note:</b>
+     * This is called in {@link net.goo.brutality.mixin.mixins.PlayerMixin} <br>
+     * Do not ever call {@link Entity#hurt(DamageSource, float)} with a playerAttack damage source, infinite recursion
      * </p>
      *
      * @param attacker The {@link Player} initiating the attack.
      * @param victim   The {@link LivingEntity} receiving the hit.
      * @param weapon   The {@link ItemStack} currently being used to strike.
-     * @param source   The {@link DamageSource} of the attack, useful for checking damage types.
      * @param amount   The current damage value before this modification.
      * @return The modified damage value. By default, returns the {@code amount} unchanged.
      */
-    default float hurtEnemyModifiable(Player attacker, LivingEntity victim, ItemStack weapon, DamageSource source, float amount) {
+    default float hurtEnemyModifiable(Player attacker, LivingEntity victim, ItemStack weapon, float amount) {
         return amount;
     }
 

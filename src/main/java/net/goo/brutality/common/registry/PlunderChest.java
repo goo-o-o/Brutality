@@ -3,7 +3,6 @@ package net.goo.brutality.common.registry;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +19,7 @@ public class PlunderChest extends BrutalityCurioItem {
     }
 
     @Override
-    public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+    public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
         if (attacker instanceof Player playerAttacker && victim instanceof LivingEntity livingVictim) {
             if (!playerAttacker.getCooldowns().isOnCooldown(curio.getItem())) {
                 if (AttributeCalculationHelper.Luck.roll(attacker, 0.1F, 0.01F)) {
@@ -42,6 +41,6 @@ public class PlunderChest extends BrutalityCurioItem {
                 }
             }
         }
-        return super.onWearerMeleeHit(attacker, weapon, curio, victim, source, amount);
+        return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
     }
 }

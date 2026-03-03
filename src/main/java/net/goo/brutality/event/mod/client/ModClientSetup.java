@@ -14,7 +14,7 @@ import net.goo.brutality.common.registry.BrutalityBlocks;
 import net.goo.brutality.common.registry.BrutalityFluids;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityMenuTypes;
-import net.goo.brutality.util.BetterCombatIntegration;
+import net.goo.brutality.common.compat.BetterCombatIntegration;
 import net.goo.brutality.util.RarityBorderManager;
 import net.goo.brutality.util.tooltip.MagicItemAugmentComponent;
 import net.minecraft.client.gui.screens.MenuScreens;

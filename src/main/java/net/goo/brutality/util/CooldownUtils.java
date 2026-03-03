@@ -45,7 +45,7 @@ public class CooldownUtils {
             }
 
             if (shouldSync)
-                DelayedTaskScheduler.queueServerWork(newPlayer.level(), 1, () ->
+                DelayedTaskScheduler.queueCommonWork(newPlayer.level(), 1, () ->
                         PacketHandler.sendToPlayerClient(new ClientboundSyncItemCooldownPacket(newCooldowns.cooldowns, newCooldowns.tickCount), ((ServerPlayer) newPlayer)));
         }
     }

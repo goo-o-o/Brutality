@@ -170,7 +170,7 @@ public class BoosterPack extends BrutalityCurioItem {
      * Usually called from a {@link net.minecraftforge.event.entity.player.PlayerEvent.PlayerRespawnEvent}.
      */
     public static void handleRespawn(Player player) {
-        DelayedTaskScheduler.queueServerWork(player.level(), 2, () ->
+        DelayedTaskScheduler.queueCommonWork(player.level(), 2, () ->
                 player.getCapability(BrutalityCapabilities.BOOSTER_PACK).ifPresent(cap -> {
                     BoosterType type = cap.getBoosterType();
 

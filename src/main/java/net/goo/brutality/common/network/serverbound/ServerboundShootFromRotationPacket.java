@@ -67,7 +67,7 @@ public class ServerboundShootFromRotationPacket {
             ServerPlayer player = ctx.get().getSender();
             if (player == null) return;
             ServerLevel level = player.serverLevel();
-            DelayedTaskScheduler.queueServerWork(level, 6, () -> {
+            DelayedTaskScheduler.queueCommonWork(level, 6, () -> {
 
             EntityType<?> entityType = ForgeRegistries.ENTITY_TYPES.getValue(packet.entityTypeId);
                 if (entityType != null) {

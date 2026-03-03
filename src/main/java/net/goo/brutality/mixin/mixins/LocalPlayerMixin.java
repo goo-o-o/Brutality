@@ -7,6 +7,7 @@ import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -18,22 +19,8 @@ import java.util.Optional;
 
 @Mixin(LocalPlayer.class)
 public class LocalPlayerMixin {
-
-    @Inject(method = "hasEnoughImpulseToStartSprinting", at = @At("HEAD"), cancellable = true)
-    private void handleOmniSprintStart(CallbackInfoReturnable<Boolean> cir) {
-        LocalPlayer player = (LocalPlayer) (Object) this;
-        // Emulate vanilla logic
-        if (player.isUnderWater()) {
-            cir.setReturnValue(player.input.hasForwardImpulse());
-            return;
-        }
-
-        OmnidirectionalMovementGear.getOmnidirectionalImpulse(player).ifPresent(cir::setReturnValue);
-
-        CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
-            if (handler.isEquipped(BrutalityItems.VECTOR_STABILIZER.get())) cir.setReturnValue(true);
-        });
-    }
+    @Shadow
+    public Input input;
 
     @Redirect(
             method = "aiStep",
@@ -45,6 +32,24 @@ public class LocalPlayerMixin {
     private boolean checkAnyHorizontalImpulseToMaintainSprint(Input instance) {
         LocalPlayer localPlayer = (((LocalPlayer) (Object) this));
         return OmnidirectionalMovementGear.handleOmnidirectionalImpulseToMaintainSprint(localPlayer, instance);
+    }
+
+    @Inject(method = "hasEnoughImpulseToStartSprinting", at = @At("HEAD"), cancellable = true)
+    private void modifyHasEnoughImpulseToStartSprinting(CallbackInfoReturnable<Boolean> cir) {
+        LocalPlayer player = (LocalPlayer) (Object) this;
+        // Emulate vanilla logic
+        if (player.isUnderWater()) {
+            cir.setReturnValue(player.input.hasForwardImpulse());
+            return;
+        }
+
+        OmnidirectionalMovementGear.getOmnidirectionalImpulse(player).ifPresent(cir::setReturnValue);
+
+        CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
+            if (handler.isEquipped(BrutalityItems.VECTOR_STABILIZER.get())){
+                cir.setReturnValue(player.input.forwardImpulse > 0.00001F);
+            }
+        });
     }
 
     @Redirect(method = "canStartSprinting", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUsingItem()Z"))
@@ -76,12 +81,16 @@ public class LocalPlayerMixin {
         return instance.isUsingItem();
     }
 
+
+    @Shadow
+    protected int sprintTriggerTime;
     @Redirect(
             method = "aiStep",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUsingItem()Z", ordinal = 0)
     )
     private boolean bypassItemUseSlowdown(LocalPlayer instance) {
         ItemStack usedItem = instance.getUseItem();
+
 
         boolean hasBypassAugment = AugmentHelper.hasAugment(usedItem, BrutalityItems.QUICKSILVER_SPINE.get());
 
@@ -93,6 +102,13 @@ public class LocalPlayerMixin {
         if (curiosOpt.isPresent()) {
             ICuriosItemHandler handler = curiosOpt.get();
             if (handler.isEquipped(BrutalityItems.KINETIC_COMPENSATOR.get())) return false;
+            if (handler.isEquipped(BrutalityItems.VECTOR_STABILIZER.get())) {
+                if (instance.isUsingItem() && !instance.isPassenger()) {
+                    this.input.leftImpulse *= 0.2F;
+                    this.input.forwardImpulse *= 0.2F; // mimic slowdown
+                }
+                return false;
+            }
         }
 
         return instance.isUsingItem();

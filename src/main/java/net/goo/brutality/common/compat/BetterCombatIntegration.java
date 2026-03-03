@@ -1,4 +1,4 @@
-package net.goo.brutality.util;
+package net.goo.brutality.common.compat;
 
 import net.bettercombat.api.client.BetterCombatClientEvents;
 import net.goo.brutality.common.network.PacketHandler;
@@ -16,6 +16,7 @@ public class BetterCombatIntegration {
             if (hand == null) return;
             ItemStack stack = hand.isOffHand() ? player.getOffhandItem() : player.getMainHandItem();
             PacketHandler.sendToServer(new ServerboundBetterCombatAttackStartListenerPacket(stack, hand.combo().current()));
+
         });
 
     }

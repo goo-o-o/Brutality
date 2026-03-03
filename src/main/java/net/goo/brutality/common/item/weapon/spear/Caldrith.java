@@ -53,7 +53,7 @@ public class Caldrith extends BrutalitySpearItem {
             List<LivingEntity> targets = HITBOX.inWorld(pPlayer, OFFSET, 0, pPlayer.getYRot()).findEntitiesHit(pPlayer, LivingEntity.class, null);
 
 
-            DelayedTaskScheduler.queueServerWork(serverLevel, 7, () -> {
+            DelayedTaskScheduler.queueCommonWork(serverLevel, 7, () -> {
 
                 targets.forEach(livingEntity -> livingEntity.hurt(livingEntity.damageSources().playerAttack(pPlayer), 20));
 

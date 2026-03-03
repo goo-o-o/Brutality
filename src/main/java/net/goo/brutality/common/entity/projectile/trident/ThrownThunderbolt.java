@@ -74,7 +74,7 @@ public class ThrownThunderbolt extends BrutalityAbstractTrident implements Bruta
         if (level().isClientSide()) {
             this.level().setSkyFlashTime(2);
         } else {
-            DelayedTaskScheduler.queueServerWork(level(), 3, () -> {
+            DelayedTaskScheduler.queueCommonWork(level(), 3, () -> {
                 List<Entity> hitEntities = this.level().getEntities(this, this.getBoundingBox().inflate(4), Entity::isAlive);
 
                 this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.LIGHTNING_BOLT_THUNDER, SoundSource.WEATHER, 10000.0F, 0.8F + this.random.nextFloat() * 0.2F);

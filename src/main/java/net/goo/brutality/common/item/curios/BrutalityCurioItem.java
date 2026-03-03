@@ -10,6 +10,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -41,22 +42,22 @@ public class BrutalityCurioItem extends BrutalityGenericItem implements ICurioIt
     public BrutalityCurioItem(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
+
     public BrutalityCurioItem(Rarity rarity) {
         super(rarity, List.of());
     }
 
 
     /**
-     * Calculates a dynamic attribute bonus for a given entity based on the provided parameters.
+     * Calculates a dynamic attributeInstance bonus for a given entity based on the provided parameters.
      *
-     * @param owner        The {@link LivingEntity} wearing the item that may provide a dynamic attribute bonus.
-     *                     Typically the entity being evaluated for attribute modification.
-     * @param stack        The {@link ItemStack} representing the gear equipped by the entity, which may modify the attribute.
-     * @param attribute    The {@link Attribute} being evaluated for potential dynamic adjustment via this method.
-     * @param currentBonus The current value of the attribute bonus before applying the dynamic computation.
-     * @return A {@code double} value representing the additional or modified attribute bonus provided by this item.
+     * @param slotContext       The {@link SlotContext}
+     * @param stack             The {@link ItemStack} representing the gear equipped by the entity, which may modify the attributeInstance.
+     * @param attributeInstance The {@link Attribute} being evaluated for potential dynamic adjustment via this method.
+     * @param currentBonus      The current value of the attributeInstance bonus before applying the dynamic computation.
+     * @return A {@code double} value representing the additional or modified attributeInstance bonus provided by this item.
      */
-    public double getDynamicAttributeBonus(LivingEntity owner, ItemStack stack, Attribute attribute, double currentBonus) {
+    public double getDynamicAttributeBonus(SlotContext slotContext, ItemStack stack, AttributeInstance attributeInstance, double currentBonus) {
         return 0;
     }
 
@@ -193,10 +194,9 @@ public class BrutalityCurioItem extends BrutalityGenericItem implements ICurioIt
      * @param weapon   The stack used to attack the mob.
      * @param curio    The curio being worn.
      * @param victim   The entity being struck by the attacker.
-     * @param source   The source of the damage dealt.
      * @param amount   The final amount of damage dealt to the victim.
      */
-    public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, DamageSource source, float amount) {
+    public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
         return amount;
     }
 
@@ -294,46 +294,46 @@ public class BrutalityCurioItem extends BrutalityGenericItem implements ICurioIt
          * @param attacker The player who is performing the melee attack.
          * @param victim   The living entity being attacked.
          * @param weapon   The item stack representing the weapon used in the melee attack.
-         * @param source   The damage source associated with the melee attack.
          * @param amount   The initial amount of damage dealt by the melee attack.
          * @return The final amount of damage after being modified by equipped curios, if applicable.
          */
-        public static float applyOnWearerMeleeHit(Player attacker, LivingEntity victim, ItemStack weapon, DamageSource source, float amount) {
+        public static float applyOnWearerMeleeHit(Player attacker, LivingEntity victim, ItemStack weapon, float amount) {
             float current = amount;
             Optional<ICuriosItemHandler> opt = CuriosApi.getCuriosInventory(attacker).resolve();
             if (opt.isPresent()) {
                 for (SlotResult result : opt.get().findCurios(s -> s.getItem() instanceof BrutalityCurioItem)) {
-                    current = ((BrutalityCurioItem) result.stack().getItem()).onWearerMeleeHit(attacker, weapon, result.stack(), victim, source, current);
+                    current = ((BrutalityCurioItem) result.stack().getItem()).onWearerMeleeHit(attacker, weapon, result.stack(), victim, current);
                 }
             }
             return current;
         }
 
         /**
-         * Modifies the given dynamic attribute value by calculating additional bonuses
+         * Modifies the given dynamic attributeInstance value by calculating additional bonuses
          * from all equipped curios of type {@link BrutalityCurioItem}. Each applicable item can
-         * contribute a specific bonus to the provided attribute value.
-         *
-         * Do not get an attribute value while modifying the value, for example,
+         * contribute a specific bonus to the provided attributeInstance value.
+         * <p>
+         * Do not get an attributeInstance value while modifying the value, for example,
          * do not get the {@link net.minecraft.world.entity.ai.attributes.Attributes#MAX_HEALTH} of an entity if you plan to modify the bonus of {@code MAX_HEALTH}. Doing so will result in a {@link StackOverflowError}, surround with an if statement. Look at {@link net.goo.brutality.common.item.curios.anklet.AnkletOfTheImprisoned} for an example
          *
-         * @param livingEntity The {@link LivingEntity} whose attribute value is being modified. This entity
-         *                     is expected to wear any applicable curios.
-         * @param attribute    The {@link Attribute} being modified. Each curio may contribute a dynamic
-         *                     bonus to this attribute.
-         * @param amount       The initial value of the attribute that is to be modified.
-         * @return The total modified attribute value after applying bonuses from all applicable curios.
+         * @param livingEntity      The {@link LivingEntity} whose attributeInstance value is being modified. This entity
+         *                          is expected to wear any applicable curios.
+         * @param attributeInstance The {@link AttributeInstance} being modified. Each curio may contribute a dynamic
+         *                          bonus to this attributeInstance.
+         * @param amount            The initial value of the attributeInstance that is to be modified.
+         * @return The total modified attributeInstance value after applying bonuses from all applicable curios.
          */
-        public static double modifyDynamicAttributeValues(LivingEntity livingEntity, Attribute attribute, double amount) {
+        public static double modifyDynamicAttributeValues(LivingEntity livingEntity, AttributeInstance attributeInstance, double amount) {
             double total = amount;
             Optional<ICuriosItemHandler> opt = CuriosApi.getCuriosInventory(livingEntity).resolve();
             if (opt.isPresent()) {
                 // Find all items that are BrutalityCurioItems
                 for (SlotResult result : opt.get().findCurios(s -> s.getItem() instanceof BrutalityCurioItem)) {
+
                     BrutalityCurioItem item = (BrutalityCurioItem) result.stack().getItem();
 
                     // Add the item's specific bonus to our running total
-                    total += item.getDynamicAttributeBonus(livingEntity, result.stack(), attribute, total);
+                    total += item.getDynamicAttributeBonus(result.slotContext(), result.stack(), attributeInstance, total);
                 }
             }
             return total;

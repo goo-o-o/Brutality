@@ -41,6 +41,7 @@ public class PacketHandler {
         NETWORK_CHANNEL.registerMessage(id++, ClientboundGenericSyncPacket.class, ClientboundGenericSyncPacket::write, ClientboundGenericSyncPacket::new, ClientboundGenericSyncPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundEnvironmentColorManagerPacket.class, ClientboundEnvironmentColorManagerPacket::write, ClientboundEnvironmentColorManagerPacket::new, ClientboundEnvironmentColorManagerPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundParticlePacket.class, ClientboundParticlePacket::write, ClientboundParticlePacket::new, ClientboundParticlePacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundChainLightningPacket.class, ClientboundChainLightningPacket::write, ClientboundChainLightningPacket::new, ClientboundChainLightningPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundDodgePacket.class, ClientboundDodgePacket::write, ClientboundDodgePacket::new, ClientboundDodgePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncItemCooldownPacket.class, ClientboundSyncItemCooldownPacket::write, ClientboundSyncItemCooldownPacket::decode, ClientboundSyncItemCooldownPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundPlayerAnimationPacket.class, ClientboundPlayerAnimationPacket::write, ClientboundPlayerAnimationPacket::new, ClientboundPlayerAnimationPacket::handle);

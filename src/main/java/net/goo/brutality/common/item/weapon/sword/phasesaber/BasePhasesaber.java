@@ -8,7 +8,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -73,14 +72,10 @@ public class BasePhasesaber extends BrutalitySwordItem {
         return false;
     }
 
-    @Override
-    public boolean hurtEnemy(@NotNull ItemStack pStack, LivingEntity pTarget, @NotNull LivingEntity pAttacker) {
-        pTarget.setSecondsOnFire(3);
-        return super.hurtEnemy(pStack, pTarget, pAttacker);
-    }
 
     @Override
-    public float hurtEnemyModifiable(Player attacker, LivingEntity victim, ItemStack weapon, DamageSource source, float amount) {
+    public float hurtEnemyModifiable(Player attacker, LivingEntity victim, ItemStack weapon, float amount) {
+        victim.setSecondsOnFire(3);
         victim.hurt(attacker.damageSources().indirectMagic(attacker, attacker), amount);
         return 0;
     }

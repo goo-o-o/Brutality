@@ -1,6 +1,6 @@
 package net.goo.brutality.common.item.weapon.scythe;
 
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.base.BrutalityScytheItem;
@@ -13,7 +13,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -39,25 +38,23 @@ import java.util.UUID;
 public class DarkinScythe extends BrutalityScytheItem {
     protected String[] types = new String[]{"", "_shadow_assassin", "_rhaast"};
     private final UUID DARKIN_SCYTHE_MS_UUID = UUID.fromString("c0aa6baf-16a7-45e1-a65c-cfb82a65ff4c");
-    private final UUID DARKIN_SCYTHE_AS_UUID = UUID.fromString("5386a75c-a1df-4b83-a62d-04dcb0fce7ff");
-    private final UUID DARKIN_SCYTHE_AD_UUID = UUID.fromString("57b3f5d9-9f58-45d0-80f5-11ad07675bc6");
 
     public DarkinScythe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
     @Override
-    public float hurtEnemyModifiable(Player attacker, LivingEntity victim, ItemStack weapon, DamageSource source, float amount) {
+    public float hurtEnemyModifiable(Player attacker, LivingEntity victim, ItemStack weapon, float amount) {
         int tex = ModUtils.getTextureIdx(weapon);
         if (tex == 1) {
-            victim.invulnerableTime = 0;
             victim.hurt(attacker.damageSources().indirectMagic(attacker, null), amount * 0.25F);
-            return 0;
+            victim.invulnerableTime = 0;
+            return amount * 0.75F;
         } else if (tex == 2) {
             attacker.heal(amount * 0.2F);
         }
 
-        return super.hurtEnemyModifiable(attacker, victim, weapon, source, amount);
+        return super.hurtEnemyModifiable(attacker, victim, weapon, amount);
     }
 
     @Override
@@ -107,9 +104,10 @@ public class DarkinScythe extends BrutalityScytheItem {
 
     }
 
+
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        Multimap<Attribute, AttributeModifier> modifiers = HashMultimap.create();
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
 
         if (slot == EquipmentSlot.MAINHAND) {
             float attackSpeed, attackDamage;
@@ -117,8 +115,8 @@ public class DarkinScythe extends BrutalityScytheItem {
 
             switch (index) {
                 case 1 -> {
-                    attackSpeed = -0F;
-                    attackDamage = 6;
+                    attackSpeed = 0F;
+                    attackDamage = 6F;
                 }
                 case 2 -> {
                     attackSpeed = -3.1F;
@@ -131,16 +129,16 @@ public class DarkinScythe extends BrutalityScytheItem {
 
             }
 
-            modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(DARKIN_SCYTHE_AD_UUID,
+            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID,
                     "Weapon damage", attackDamage, AttributeModifier.Operation.ADDITION));
 
-            modifiers.put(Attributes.ATTACK_SPEED, new AttributeModifier(DARKIN_SCYTHE_AS_UUID,
+            builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID,
                     "Weapon speed", attackSpeed, AttributeModifier.Operation.ADDITION));
 
-            modifiers.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(DARKIN_SCYTHE_MS_UUID,
+            builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(DARKIN_SCYTHE_MS_UUID,
                     "Move speed", (index == 1) ? .4 : 0, AttributeModifier.Operation.MULTIPLY_TOTAL));
         }
-        return modifiers;
+        return builder.build();
     }
 
 

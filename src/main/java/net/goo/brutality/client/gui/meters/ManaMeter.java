@@ -54,7 +54,7 @@ public class ManaMeter implements IGuiOverlay {
             if (shader != null) {
                 float time = (System.currentTimeMillis() - startTime) / 1000f;
                 shader.safeGetUniform("Time").set(time);
-                shader.safeGetUniform("FillLevel").set(percent);  // intensity scales with rage
+                shader.safeGetUniform("FillLevel").set(percent);  // intensity scales with mana
             }
 
             RenderSystem.setShader(BrutalityShaders::getManaOrbShader);
@@ -90,8 +90,8 @@ public class ManaMeter implements IGuiOverlay {
                 }
             }
 
-            bgX += BrutalityClientConfig.RAGE_METER_X_OFFSET.get();
-            bgY += BrutalityClientConfig.RAGE_METER_Y_OFFSET.get();
+            bgX += BrutalityClientConfig.MANA_METER_X_OFFSET.get();
+            bgY += BrutalityClientConfig.MANA_METER_Y_OFFSET.get();
 
             gui.blit(BG, bgX, bgY, 0, 0, bgW, bgH, bgW, bgH);
             renderOrb(gui, bgX, bgY + bgH, bgW, lerpedMana);

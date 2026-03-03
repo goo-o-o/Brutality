@@ -7,8 +7,8 @@ import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -25,15 +25,15 @@ public class BattleScars extends BrutalityCurioItem {
     }
 
     @Override
-    public double getDynamicAttributeBonus(LivingEntity owner, ItemStack stack, Attribute attribute, double currentBonus) {
-        if (attribute == BrutalityAttributes.DAMAGE_TO_RAGE_RATIO.get()) {
+    public double getDynamicAttributeBonus(SlotContext slotContext, ItemStack stack, AttributeInstance attributeInstance, double currentBonus) {
+        if (attributeInstance.getAttribute() == BrutalityAttributes.DAMAGE_TO_RAGE_RATIO.get()) {
             int count = 0;
-            for (MobEffectInstance mobEffectInstance : owner.getActiveEffects())
+            for (MobEffectInstance mobEffectInstance : slotContext.entity().getActiveEffects())
                 if (mobEffectInstance.getEffect().getCategory() == MobEffectCategory.HARMFUL) count++;
 
             return count * 0.15;
         }
-        return super.getDynamicAttributeBonus(owner, stack, attribute, currentBonus);
+        return super.getDynamicAttributeBonus(slotContext, stack, attributeInstance, currentBonus);
     }
 
     @Override

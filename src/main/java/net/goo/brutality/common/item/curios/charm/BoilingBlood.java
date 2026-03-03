@@ -6,8 +6,8 @@ import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -22,11 +22,11 @@ public class BoilingBlood extends BrutalityCurioItem {
     }
 
     @Override
-    public double getDynamicAttributeBonus(LivingEntity owner, ItemStack stack, Attribute attribute, double currentBonus) {
-        if (attribute == BrutalityAttributes.DAMAGE_TAKEN.get()) {
-            return owner.hasEffect(BrutalityEffects.ENRAGED.get()) ? 0.25F : 0;
+    public double getDynamicAttributeBonus(SlotContext slotContext, ItemStack stack, AttributeInstance attributeInstance, double currentBonus) {
+        if (attributeInstance.getAttribute() == BrutalityAttributes.DAMAGE_TAKEN.get()) {
+            return slotContext.entity().hasEffect(BrutalityEffects.ENRAGED.get()) ? 0.25F : 0;
         }
-        return super.getDynamicAttributeBonus(owner, stack, attribute, currentBonus);
+        return super.getDynamicAttributeBonus(slotContext, stack, attributeInstance, currentBonus);
     }
 
     @Override

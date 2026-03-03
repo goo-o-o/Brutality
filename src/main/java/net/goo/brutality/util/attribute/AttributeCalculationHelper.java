@@ -43,6 +43,11 @@ import java.util.function.Predicate;
  * </p>
  */
 public class AttributeCalculationHelper {
+    @Nullable
+    public static Double getAttributeValueSafe(LivingEntity livingEntity, Attribute attribute) {
+        if (livingEntity.getAttribute(attribute) != null) return livingEntity.getAttributeValue(attribute);
+        return null;
+    }
 
     /**
      * Calculates modified jump power based on the {@link BrutalityAttributes#JUMP_HEIGHT} attribute.

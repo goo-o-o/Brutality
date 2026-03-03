@@ -1,9 +1,9 @@
 package net.goo.brutality.common.mob_effect;
 
 import net.goo.brutality.common.entity.projectile.generic.HealingProjectile;
-import net.goo.brutality.common.mixin_helpers.MobEffectInstanceSourceAccessor;
 import net.goo.brutality.common.registry.BrutalityEntities;
 import net.goo.brutality.common.registry.BrutalityEffects;
+import net.goo.brutality.common.mixin_helpers.MixinInterfaces;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -23,7 +23,7 @@ public class SiphonedEffect extends MobEffect {
         MobEffectInstance inst = target.getEffect(BrutalityEffects.SIPHONED.get());
 
         if (inst != null) {
-            Integer sourceID = ((MobEffectInstanceSourceAccessor) inst).getSourceId();
+            Integer sourceID = ((MixinInterfaces.MobEffectInstanceSourceAccessor) inst).brutality$getSourceID();
             if (sourceID != null && target.level().getEntity(sourceID) instanceof LivingEntity source) {
 
                 HealingProjectile healingProjectile = new HealingProjectile(BrutalityEntities.HEALING_PROJECTILE.get(), target.level());

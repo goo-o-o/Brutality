@@ -19,7 +19,7 @@ import java.util.Locale;
 public class StatTrakGui {
     protected static ResourceLocation BASE = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/stat_trak/");
     private static final int overlayPadding = 4, totalFrames = 17;
-    private static final int screenTextureW = 41, screenTextureH = 15, overlayW = screenTextureW + (overlayPadding * 2), overlayH = screenTextureH + (overlayPadding * 2);
+    public static final int screenTextureW = 41, screenTextureH = 15, overlayW = screenTextureW + (overlayPadding * 2), overlayH = screenTextureH + (overlayPadding * 2);
     private static final int totalHeight = totalFrames * overlayH;
 
     protected static int padding = 3; // tooltipHeight and tooltipWidth do not account for the extra borders rendered, so we manually add an offset, I will do it only for y values

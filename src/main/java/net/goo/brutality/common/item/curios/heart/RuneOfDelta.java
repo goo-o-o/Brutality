@@ -5,8 +5,8 @@ import com.google.common.collect.Multimap;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -21,11 +21,11 @@ public class RuneOfDelta extends BrutalityCurioItem {
     }
 
     @Override
-    public double getDynamicAttributeBonus(LivingEntity owner, ItemStack stack, Attribute attribute, double currentBonus) {
-        if (attribute == BrutalityAttributes.MANA_REGEN.get()) {
-            return Math.max(0, 7 - owner.level().getMaxLocalRawBrightness(owner.getOnPos().above()));
+    public double getDynamicAttributeBonus(SlotContext slotContext, ItemStack stack, AttributeInstance attributeInstance, double currentBonus) {
+        if (attributeInstance.getAttribute() == BrutalityAttributes.MANA_REGEN.get()) {
+            return Math.max(0, 7 - slotContext.entity().level().getMaxLocalRawBrightness(slotContext.entity().getOnPos().above()));
         }
-        return super.getDynamicAttributeBonus(owner, stack, attribute, currentBonus);
+        return super.getDynamicAttributeBonus(slotContext, stack, attributeInstance, currentBonus);
     }
 
     @Override

@@ -7,6 +7,7 @@ import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -29,10 +30,10 @@ public class AnkletOfTheImprisoned extends BrutalityAnkletItem {
     }
 
     @Override
-    public double getDynamicAttributeBonus(LivingEntity owner, ItemStack stack, Attribute attribute, double currentBonus) {
+    public double getDynamicAttributeBonus(SlotContext slotContext, ItemStack stack, AttributeInstance attributeInstance, double currentBonus) {
 
-        if (attribute == BrutalityAttributes.CRITICAL_STRIKE_CHANCE.get() || attribute == BrutalityAttributes.CRITICAL_STRIKE_DAMAGE.get()) {
-            float missingHealth = owner.getMaxHealth() - owner.getHealth(); // only get attribute values once you are sure they do not recurse
+        if (attributeInstance.getAttribute() == BrutalityAttributes.CRITICAL_STRIKE_CHANCE.get() || attributeInstance.getAttribute() == BrutalityAttributes.CRITICAL_STRIKE_DAMAGE.get()) {
+            float missingHealth = slotContext.entity().getMaxHealth() - slotContext.entity().getHealth(); // only get attribute values once you are sure they do not recurse
             return missingHealth * 0.075F;
         }
         return 0;

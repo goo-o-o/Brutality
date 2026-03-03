@@ -52,7 +52,7 @@ public class ModUtils {
     protected static final RandomSource random = RandomSource.create();
 
     private static final boolean HAS_BETTER_COMBAT = ModList.get().isLoaded("bettercombat");
-    private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
+
     private static MethodHandle getComboCount;
     private static MethodHandle getCurrentAttack;
     private static MethodHandle shouldAttackWithOffHand;
@@ -303,7 +303,7 @@ public class ModUtils {
             previousGrowthProgress = Mth.clamp(previousGrowthProgress, 0.0F, 1.0F);
             final float previousRadius = maxRadius * ModEasings.easeOut(previousGrowthProgress);
 
-            DelayedTaskScheduler.queueServerWork(level, age, () -> {
+            DelayedTaskScheduler.queueCommonWork(level, age, () -> {
                 CylindricalBoundingBox circle = new CylindricalBoundingBox(center, 0.1F, currentRadius, previousRadius);
 
                 List<T> entities = level.getEntitiesOfClass(clazz, circle.getAABB().inflate(2), entity ->

@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
@@ -22,11 +22,11 @@ public class AmphibianBoots extends BrutalityCurioItem {
     }
 
     @Override
-    public double getDynamicAttributeBonus(LivingEntity owner, ItemStack stack, Attribute attribute, double currentBonus) {
-        if (attribute == Attributes.ATTACK_SPEED && owner.isInWater()) {
+    public double getDynamicAttributeBonus(SlotContext slotContext, ItemStack stack, AttributeInstance attributeInstance, double currentBonus) {
+        if (attributeInstance.getAttribute() == Attributes.ATTACK_SPEED && slotContext.entity().isInWater()) {
             return currentBonus * 1.5;
         }
-        return super.getDynamicAttributeBonus(owner, stack, attribute, currentBonus);
+        return super.getDynamicAttributeBonus(slotContext, stack, attributeInstance, currentBonus);
     }
 
     @Override

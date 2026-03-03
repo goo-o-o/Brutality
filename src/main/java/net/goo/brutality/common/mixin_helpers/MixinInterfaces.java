@@ -12,5 +12,8 @@ public class MixinInterfaces {
         InteractionResult apply(Player player, Entity entity, InteractionHand hand);
     }
 
-
+    public interface MobEffectInstanceSourceAccessor {
+        Integer brutality$getSourceID();
+        void brutality$setSourceID(int id);
+    }
 }

@@ -66,17 +66,17 @@ public class ParticleHelper {
     /**
      * Sends particle effects to all players within the given {@link ServerLevel} who are near the specified position.
      *
-     * @param serverLevel   The {@link ServerLevel} instance where particles should be sent.
-     * @param pType         The type of particle to be displayed, extending {@link ParticleOptions}.
-     * @param longDistance  If {@code true}, particles will be visible from a greater distance.
-     * @param pPosX         The X-coordinate where the particles will spawn.
-     * @param pPosY         The Y-coordinate where the particles will spawn.
-     * @param pPosZ         The Z-coordinate where the particles will spawn.
+     * @param serverLevel    The {@link ServerLevel} instance where particles should be sent.
+     * @param pType          The type of particle to be displayed, extending {@link ParticleOptions}.
+     * @param longDistance   If {@code true}, particles will be visible from a greater distance.
+     * @param pPosX          The X-coordinate where the particles will spawn.
+     * @param pPosY          The Y-coordinate where the particles will spawn.
+     * @param pPosZ          The Z-coordinate where the particles will spawn.
      * @param pParticleCount The number of particles to spawn.
-     * @param pXOffset      The X-axis offset applied to particle positions.
-     * @param pYOffset      The Y-axis offset applied to particle positions.
-     * @param pZOffset      The Z-axis offset applied to particle positions.
-     * @param pSpeed        The speed modifier for particle movement.
+     * @param pXOffset       The X-axis offset applied to particle positions.
+     * @param pYOffset       The Y-axis offset applied to particle positions.
+     * @param pZOffset       The Z-axis offset applied to particle positions.
+     * @param pSpeed         The speed modifier for particle movement.
      * @return The number of players who successfully received the particle packet.
      */
     public static <T extends ParticleOptions> int sendParticles(ServerLevel serverLevel, T pType, boolean longDistance, double pPosX, double pPosY, double pPosZ, int pParticleCount, double pXOffset, double pYOffset, double pZOffset, double pSpeed) {
@@ -96,15 +96,15 @@ public class ParticleHelper {
      * Sends particles to all players within the specified {@link ServerLevel} near the position of the given entity.
      * The particle effects will originate around the entity with the specified offsets, speed, and count.
      *
-     * @param serverLevel   The {@link ServerLevel} instance where particles should be sent.
-     * @param pType         The type of particle to be displayed, extending {@link ParticleOptions}.
-     * @param longDistance  If {@code true}, particles will be visible from a greater distance.
-     * @param toSpawnOn     The {@link Entity} around which the particles will spawn.
-     * @param pXOffset      The X-axis offset applied to the particle positions in relation to the entity.
-     * @param pYOffset      The Y-axis offset applied to the particle positions in relation to the entity.
-     * @param pZOffset      The Z-axis offset applied to the particle positions in relation to the entity.
+     * @param serverLevel    The {@link ServerLevel} instance where particles should be sent.
+     * @param pType          The type of particle to be displayed, extending {@link ParticleOptions}.
+     * @param longDistance   If {@code true}, particles will be visible from a greater distance.
+     * @param toSpawnOn      The {@link Entity} around which the particles will spawn.
+     * @param pXOffset       The X-axis offset applied to the particle positions in relation to the entity.
+     * @param pYOffset       The Y-axis offset applied to the particle positions in relation to the entity.
+     * @param pZOffset       The Z-axis offset applied to the particle positions in relation to the entity.
      * @param pParticleCount The number of particles to spawn.
-     * @param pSpeed        The speed modifier for particle movement.
+     * @param pSpeed         The speed modifier for particle movement.
      * @return The number of players who successfully received the particle packet.
      */
     public static <T extends ParticleOptions> int sendParticles(ServerLevel serverLevel, T pType,
@@ -118,15 +118,15 @@ public class ParticleHelper {
      * This method determines particle positions based on the provided {@link Vec3} spawn position and other parameters,
      * and sends them to the server for rendering.
      *
-     * @param serverLevel   The {@link ServerLevel} instance where particles should be sent.
-     * @param pType         The type of particle to be displayed, extending {@link ParticleOptions}.
-     * @param longDistance  If {@code true}, particles will be visible from a greater distance.
-     * @param spawnPos      A {@link Vec3} specifying the exact spawn position of the particles.
-     * @param pXOffset      The X-axis offset applied to particle positions.
-     * @param pYOffset      The Y-axis offset applied to particle positions.
-     * @param pZOffset      The Z-axis offset applied to particle positions.
+     * @param serverLevel    The {@link ServerLevel} instance where particles should be sent.
+     * @param pType          The type of particle to be displayed, extending {@link ParticleOptions}.
+     * @param longDistance   If {@code true}, particles will be visible from a greater distance.
+     * @param spawnPos       A {@link Vec3} specifying the exact spawn position of the particles.
+     * @param pXOffset       The X-axis offset applied to particle positions.
+     * @param pYOffset       The Y-axis offset applied to particle positions.
+     * @param pZOffset       The Z-axis offset applied to particle positions.
      * @param pParticleCount The number of particles to spawn.
-     * @param pSpeed        The speed modifier for particle movement.
+     * @param pSpeed         The speed modifier for particle movement.
      * @return The number of players who successfully received the particle packet.
      */
     public static <T extends ParticleOptions> int sendParticles(ServerLevel serverLevel, T pType,
@@ -139,14 +139,14 @@ public class ParticleHelper {
      * Sends particle effects to all players within the given {@link ServerLevel} who are near the specified position.
      * This variant of the method does not use individual axis offsets and sets them to zero internally.
      *
-     * @param serverLevel   The {@link ServerLevel} instance where particles should be sent.
-     * @param pType         The type of particle to be displayed, extending {@link ParticleOptions}.
-     * @param longDistance  If {@code true}, particles will be visible from a greater distance.
-     * @param pPosX         The X-coordinate where the particles will spawn.
-     * @param pPosY         The Y-coordinate where the particles will spawn.
-     * @param pPosZ         The Z-coordinate where the particles will spawn.
+     * @param serverLevel    The {@link ServerLevel} instance where particles should be sent.
+     * @param pType          The type of particle to be displayed, extending {@link ParticleOptions}.
+     * @param longDistance   If {@code true}, particles will be visible from a greater distance.
+     * @param pPosX          The X-coordinate where the particles will spawn.
+     * @param pPosY          The Y-coordinate where the particles will spawn.
+     * @param pPosZ          The Z-coordinate where the particles will spawn.
      * @param pParticleCount The number of particles to spawn.
-     * @param pSpeed        The speed modifier for particle movement.
+     * @param pSpeed         The speed modifier for particle movement.
      * @return The number of players who successfully received the particle packet.
      */
     public static <T extends ParticleOptions> int sendParticles(ServerLevel serverLevel, T pType,
@@ -166,7 +166,7 @@ public class ParticleHelper {
      * @param pPosZ         The Z-coordinate of the particle effect's position.
      * @param pPacket       The {@link Packet} containing the particle data to send to the player.
      * @return {@code true} if the particle effect was successfully sent to the player;
-     *         {@code false} otherwise.
+     * {@code false} otherwise.
      */
     private static boolean sendParticles(ServerLevel serverLevel, ServerPlayer pPlayer, boolean pLongDistance, double pPosX, double pPosY, double pPosZ, Packet<?> pPacket) {
         if (pPlayer.level() != serverLevel) {
@@ -181,4 +181,6 @@ public class ParticleHelper {
             }
         }
     }
+
+
 }

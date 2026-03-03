@@ -32,7 +32,7 @@ public abstract class AttributeInstanceMixin implements IBrutalityAttribute {
         if (this.brutality$owner != null) {
             double original = cir.getReturnValue();
             double modified = BrutalityCurioItem.Hooks.modifyDynamicAttributeValues(
-                    this.brutality$owner, this.getAttribute(), original
+                    this.brutality$owner, (((AttributeInstance) (Object) this)), original
             );
             cir.setReturnValue(modified);
         }

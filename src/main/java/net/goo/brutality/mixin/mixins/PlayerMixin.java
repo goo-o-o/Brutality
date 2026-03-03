@@ -5,6 +5,7 @@ import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.goo.brutality.common.item.base.BrutalityThrowingItem;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.item.curios.charm.Cosine;
+import net.goo.brutality.common.item.curios.hands.SuspiciouslyLargeHandle;
 import net.goo.brutality.common.item.weapon.sword.MurasamaSword;
 import net.goo.brutality.common.item.weapon.sword.ShadowstepSword;
 import net.goo.brutality.common.item.weapon.sword.SupernovaSword;
@@ -12,22 +13,20 @@ import net.goo.brutality.common.item.weapon.throwing.VampireKnives;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.build_archetypes.GastronomyHelper;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
+import net.goo.brutality.util.build_archetypes.GastronomyHelper;
 import net.goo.brutality.util.item.SealUtils;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -120,16 +119,7 @@ public abstract class PlayerMixin extends LivingEntity {
         originalDamage = (float) AttributeCalculationHelper.computeAttributes(player, stack, originalDamage);
         originalDamage += (float) player.getAttributeBaseValue(Attributes.ATTACK_DAMAGE);
 
-        Optional<ICuriosItemHandler> handlerOptional = CuriosApi.getCuriosInventory(player).resolve();
-        if (handlerOptional.isPresent()) {
-            ICuriosItemHandler handler = handlerOptional.get();
-            if (!stack.isEmpty() && handler.isEquipped(BrutalityItems.SUSPICIOUSLY_LARGE_HANDLE.get())) {
-                float attackSpeed = (float) player.getAttributeValue(Attributes.ATTACK_SPEED);
-                float difference = attackSpeed - 0.5F;
-                float damageBoost = difference * 5F;
-                originalDamage += damageBoost;
-            }
-        }
+        originalDamage += SuspiciouslyLargeHandle.getDamageModification(player, stack);
 
         return originalDamage;
     }
@@ -139,7 +129,7 @@ public abstract class PlayerMixin extends LivingEntity {
             method = "getCurrentItemAttackStrengthDelay",
             at = @At("RETURN")
     )
-    private float modifyAttackSpeed(float originalDelay) {
+    private float modifyAttackDelay(float originalDelay) {
         Player player = (Player) (Object) this;
 
         if (player.isHolding(BrutalityItems.VAMPIRE_KNIVES.get())) return VampireKnives.ATTACK_SPEED;
@@ -171,36 +161,36 @@ public abstract class PlayerMixin extends LivingEntity {
 
 
     @Redirect(
-            method = "attack",
+            method = "attack(Lnet/minecraft/world/entity/Entity;)V",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"
+                    target = "Lnet/minecraft/world/entity/player/Player;getAttributeValue(Lnet/minecraft/world/entity/ai/attributes/Attribute;)D",
+                    ordinal = 0
             )
     )
-    private boolean handleWeaponAttacks(Entity entity, DamageSource pSource, float pAmount) {
-        if (!(entity instanceof LivingEntity victim)) return entity.hurt(pSource, pAmount);
-
-        Player attacker = (Player) pSource.getEntity();
-        if (attacker == null) return entity.hurt(pSource, pAmount);
-
+    private double modifyInitialAttackDamage(Player instance, Attribute attribute, Entity pTarget) {
+        Player attacker = (Player) ((Object) this);
         ItemStack stack = ModUtils.getAttackStack(attacker);
         Item item = stack.getItem();
         Level level = level();
 
-        float modifiedAmount = pAmount;
+        double pAmount = instance.getAttributeValue(attribute);
+        if (!(pTarget instanceof LivingEntity livingEntity)) return pAmount;
+
+        float modifiedAmount = (float) pAmount;
 
         AttributeCalculationHelper.handleLifesteal(modifiedAmount, attacker);
-        AttributeCalculationHelper.handleStunChance(attacker, victim);
-        modifiedAmount = BrutalityCurioItem.Hooks.applyOnWearerMeleeHit(attacker, victim, stack, pSource, modifiedAmount);
-        modifiedAmount = GastronomyHelper.applyGastronomyDamageMultiplier(attacker, victim, stack, modifiedAmount);
+        AttributeCalculationHelper.handleStunChance(attacker, livingEntity);
+        modifiedAmount = BrutalityCurioItem.Hooks.applyOnWearerMeleeHit(attacker, livingEntity, stack, modifiedAmount);
+        modifiedAmount = GastronomyHelper.applyGastronomyDamageMultiplier(attacker, livingEntity, stack, modifiedAmount);
 
         if (item instanceof BrutalityGeoItem geoItem) {
-            modifiedAmount = geoItem.hurtEnemyModifiable(attacker, victim, stack, pSource, modifiedAmount);
+            modifiedAmount = geoItem.hurtEnemyModifiable(attacker, livingEntity, stack, modifiedAmount);
         }
 
-        SealUtils.handleSealProcOffensive(level, attacker, victim.getPosition(1).add(0, victim.getBbHeight() * 0.5F, 0), stack);
+        SealUtils.handleSealProcOffensive(level, attacker, livingEntity.getPosition(1).add(0, livingEntity.getBbHeight() * 0.5F, 0), stack);
 
-        return victim.hurt(pSource, modifiedAmount);
+        return modifiedAmount;
     }
 
 }

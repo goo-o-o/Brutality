@@ -26,6 +26,10 @@ public class BrutalityRenderTypes extends RenderType {
         super(string, vertexFormat, mode, i, b, b1, runnable, runnable1);
     }
 
+    public static final RenderType LIGHTNING = RenderType.create(Brutality.MOD_ID + ":lightning", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder()
+            .setShaderState(POSITION_COLOR_SHADER)
+            .setTransparencyState(RenderStateShard.LIGHTNING_TRANSPARENCY)
+            .createCompositeState(false));
 
     public static RenderType getfullBright(ResourceLocation locationIn) {
         TextureStateShard textureStateShard = new TextureStateShard(locationIn, false, false);

@@ -92,7 +92,7 @@ public class AnnihilationSpell extends BrutalitySpell {
                 annihilationEntity.setOwner(player);
                 annihilationEntity.setSpellLevel(spellLevel);
                 annihilationEntity.setBaseDamage(getActualDamage(player, spellLevel));
-                DelayedTaskScheduler.queueServerWork(serverLevel, globalCount, () -> serverLevel.addFreshEntity(annihilationEntity));
+                DelayedTaskScheduler.queueCommonWork(serverLevel, globalCount, () -> serverLevel.addFreshEntity(annihilationEntity));
                 globalCount++;
             }
         } else {

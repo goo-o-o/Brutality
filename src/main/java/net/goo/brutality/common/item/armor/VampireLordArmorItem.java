@@ -7,13 +7,13 @@ import net.goo.brutality.client.particle.providers.WaveParticleData;
 import net.goo.brutality.common.entity.explosion.BloodExplosion;
 import net.goo.brutality.common.item.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.base.BrutalityArmorItem;
-import net.goo.brutality.common.mixin_helpers.MobEffectInstanceSourceAccessor;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.clientbound.ClientboundParticlePacket;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.common.registry.BrutalitySounds;
+import net.goo.brutality.common.mixin_helpers.MixinInterfaces;
 import net.goo.brutality.util.ModExplosionHelper;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.build_archetypes.BloodHelper;
@@ -86,7 +86,7 @@ public class VampireLordArmorItem extends BrutalityArmorItem {
 
         serverLevel.getNearbyEntities(LivingEntity.class, TargetingConditions.forCombat(), player, player.getBoundingBox().inflate(5)).forEach(e -> {
             MobEffectInstance instance = new MobEffectInstance(BrutalityEffects.SIPHONED.get(), 20, 2);
-            ((MobEffectInstanceSourceAccessor) instance).setSourceId(player.getId());
+            ((MixinInterfaces.MobEffectInstanceSourceAccessor) instance).brutality$setSourceID(player.getId());
             e.addEffect(instance);
 
             serverLevel.playSound(null, e.getX(), e.getY(0.5), e.getZ(), BrutalitySounds.BLOOD_SPLATTER.get(), SoundSource.PLAYERS, 1,

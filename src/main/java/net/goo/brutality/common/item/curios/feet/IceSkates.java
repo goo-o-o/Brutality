@@ -6,12 +6,11 @@ import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.common.Tags;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
@@ -25,11 +24,11 @@ public class IceSkates extends BrutalityCurioItem {
     }
 
     @Override
-    public double getDynamicAttributeBonus(LivingEntity owner, ItemStack stack, Attribute attribute, double currentBonus) {
-        if (attribute == BrutalityAttributes.GROUND_FRICTION.get() && owner.getBlockStateOn().is(BlockTags.ICE)) {
-            return -0.95F * owner.getAttributeBaseValue(BrutalityAttributes.GROUND_FRICTION.get());
+    public double getDynamicAttributeBonus(SlotContext slotContext, ItemStack stack, AttributeInstance attributeInstance, double currentBonus) {
+        if (attributeInstance.getAttribute() == BrutalityAttributes.GROUND_FRICTION.get() && slotContext.entity().getBlockStateOn().is(BlockTags.ICE)) {
+            return -0.95F * slotContext.entity().getAttributeBaseValue(BrutalityAttributes.GROUND_FRICTION.get());
         }
-        return super.getDynamicAttributeBonus(owner, stack, attribute, currentBonus);
+        return super.getDynamicAttributeBonus(slotContext, stack, attributeInstance, currentBonus);
     }
 
     @Override

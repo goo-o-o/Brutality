@@ -117,7 +117,7 @@ public class ThrowableWeaponUtils {
         if (handleCooldown(player, throwingItem)) {
             playThrowSound(player);
             if (player.level() instanceof ServerLevel serverLevel) {
-                DelayedTaskScheduler.queueServerWork(serverLevel, 6, () -> throwingItem.handleThrowPacket(stack, player));
+                DelayedTaskScheduler.queueCommonWork(serverLevel, 6, () -> throwingItem.handleThrowPacket(stack, player));
             } else {
                 PacketHandler.sendToServer(new ServerboundHandleThrowingProjectilePacket(stack));
             }

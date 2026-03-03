@@ -99,7 +99,4 @@ public class BrutalityScytheItem extends TieredItem implements BrutalityGeoItem 
         return pEquipmentSlot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(pEquipmentSlot);
     }
 
-    public float getAttackDamage() {
-        return this.attackDamage;
-    }
 }

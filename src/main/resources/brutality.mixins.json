@@ -14,7 +14,6 @@
     "mixins.BlockMixin",
     "mixins.BowItemMixin",
     "mixins.ClientboundSetEntityMotionPacketMixin",
-    "mixins.ClientEventHandlerMixinCuriosAPI",
     "mixins.CombatTrackerMixin",
     "mixins.DigDurabilityEnchantmentMixin",
     "mixins.EggItemMixin",
@@ -45,13 +44,16 @@
     "mixins.TridentItemMixin",
     "mixins.TripWireBlockMixin",
     "mixins.VanillaHopperItemHandlerMixin",
-    "mixins.VillagerMixin"
+    "mixins.VillagerMixin",
+    "mixins.compat.ClientEventHandlerMixinCuriosAPI",
+    "mixins.compat.TooltipRendererMixinTooltipOverhaul"
   ],
   "priority": 900,
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
+    "accessors.FontAccessor",
     "mixins.BakedGlyphMixin",
     "mixins.BiomeMixin",
     "mixins.BlockEntityRenderDispatcherMixin",
@@ -63,6 +65,7 @@
     "mixins.ItemRendererMixin",
     "mixins.ItemTransformDeserializerMixin",
     "mixins.KeyboardInputMixin",
+    "mixins.LevelRendererMixin",
     "mixins.LivingEntityRendererMixin",
     "mixins.LocalPlayerMixin",
     "mixins.ModelBlockRendererMixin",
@@ -75,7 +78,6 @@
     "mixins.StringRenderOutputMixin",
     "mixins.StyleMixin",
     "mixins.TextureAtlasMixin",
-    "mixins.WindowMixin",
-    "accessors.FontAccessor"
+    "mixins.WindowMixin"
   ]
 }

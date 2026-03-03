@@ -4,7 +4,6 @@ import net.goo.brutality.common.item.base.BrutalitySwordItem;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,7 +20,7 @@ public class Amaterasu extends BrutalitySwordItem {
     }
 
     @Override
-    public float hurtEnemyModifiable(Player attacker, LivingEntity victim, ItemStack weapon, DamageSource source, float amount) {
+    public float hurtEnemyModifiable(Player attacker, LivingEntity victim, ItemStack weapon, float amount) {
         if (attacker.level() instanceof ServerLevel serverLevel)
             serverLevel.sendParticles(BrutalityParticles.YIN_PARTICLE.get(), victim.getX(), victim.getY(0.5), victim.getZ(), 10, 1, 1, 1, 0.15);
 

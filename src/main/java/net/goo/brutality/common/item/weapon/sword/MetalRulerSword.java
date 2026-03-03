@@ -2,7 +2,6 @@ package net.goo.brutality.common.item.weapon.sword;
 
 import net.goo.brutality.common.item.base.BrutalitySwordItem;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +27,7 @@ public class MetalRulerSword extends BrutalitySwordItem {
     }
 
     @Override
-    public float hurtEnemyModifiable(Player attacker, LivingEntity victim, ItemStack weapon, DamageSource source, float amount) {
+    public float hurtEnemyModifiable(Player attacker, LivingEntity victim, ItemStack weapon, float amount) {
         return amount * (victim.getBbHeight() * 0.75F);
     }
 }

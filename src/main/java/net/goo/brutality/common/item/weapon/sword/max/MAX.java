@@ -3,7 +3,9 @@ package net.goo.brutality.common.item.weapon.sword.max;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.base.BrutalitySwordItem;
 import net.goo.brutality.util.ColorUtils;
+import net.goo.brutality.util.lightning.ChainLightningHelper;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
@@ -29,7 +31,14 @@ public class MAX extends BrutalitySwordItem {
                 .withStyle(style -> style.withInsertion(ColorUtils.ColorData.MAX.name()).withBold(true)));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
 
 
+    @Override
+    public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
+        // server only
+        ChainLightningHelper.chainLightning(pAttacker, pStack, pTarget, 10, 3.5F, 20, 0.25F, 3, ChainLightningHelper.LightningType.MAX);
+
+        return super.hurtEnemy(pStack, pTarget, pAttacker);
     }
 }

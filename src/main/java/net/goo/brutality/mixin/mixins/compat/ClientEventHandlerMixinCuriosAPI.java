@@ -1,9 +1,10 @@
-package net.goo.brutality.mixin.mixins;
+package net.goo.brutality.mixin.mixins.compat;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.goo.brutality.common.registry.BrutalityAttributes;
+import net.goo.brutality.mixin.mixins.ItemStackMixin;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import org.spongepowered.asm.mixin.Mixin;

@@ -175,7 +175,7 @@ public class CreaseOfCreation extends BrutalityGenericItem {
 
             if (target != null && target.isAlive()) {
 
-                DelayedTaskScheduler.queueServerWork(serverLevel, 30, () -> setShouldRotate(target, false));
+                DelayedTaskScheduler.queueCommonWork(serverLevel, 30, () -> setShouldRotate(target, false));
 
                 if (!pLivingEntity.isShiftKeyDown()) return;
 
