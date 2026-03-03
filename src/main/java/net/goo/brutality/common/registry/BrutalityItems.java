@@ -2479,8 +2479,8 @@ public class BrutalityItems {
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
         public float onWearerHit(LivingEntity attacker, ItemStack stack, Entity victim, DamageSource source, float amount) {
-            if (attacker.hasEffect(BrutalityEffects.ENRAGED.get())) {
-                BloodExplosion explosion = new BloodExplosion(attacker.level(), attacker, null, null, source.getSourcePosition().x, source.getSourcePosition().y, source.getSourcePosition().z, 3, false, Level.ExplosionInteraction.NONE);
+            if (attacker.hasEffect(BrutalityEffects.ENRAGED.get()) && !attacker.level().isClientSide()) {
+                BloodExplosion explosion = new BloodExplosion(attacker.level(), attacker, null, null, victim.position().x, victim.position().y, victim.position().z, 3, false, Level.ExplosionInteraction.NONE);
                 ModExplosionHelper.Server.explode(explosion, attacker.level(), true);
             }
             return amount;

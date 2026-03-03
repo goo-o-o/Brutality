@@ -3,7 +3,7 @@ package net.goo.brutality.mixin.mixins;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.entity.base.BrutalityAbstractPhysicsThrowingProjectile;
-import net.goo.brutality.util.MixinInterfaces;
+import net.goo.brutality.common.mixin_helpers.MixinInterfaces;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.server.level.ServerLevel;

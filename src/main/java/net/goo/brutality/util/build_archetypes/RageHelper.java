@@ -41,7 +41,6 @@ public class RageHelper {
             ICuriosItemHandler handler = victimOpt.get();
 
             // Checks if any equipped Curio belongs to the 'rage_items' tag
-            if (handler.isEquipped(BrutalityItems.ANGER_MANAGEMENT.get())) return;
             if (handler.isEquipped(item -> item.is(BrutalityTags.Items.RAGE_ITEMS))) {
 
                 // Apply Attribute scaling (e.g., items that increase rage gain efficiency)
@@ -50,7 +49,10 @@ public class RageHelper {
                 // Apply global server configuration multiplier for balancing
                 damage *= BrutalityCommonConfig.RAGE_GAIN_MULTIPLIER.get();
                 modifyRageValue(player, damage);
-                tryTriggerRage(player);
+                if (!handler.isEquipped(BrutalityItems.ANGER_MANAGEMENT.get())) {
+                    tryTriggerRage(player);
+                }
+
             }
         }
     }

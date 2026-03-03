@@ -70,13 +70,13 @@ public class MobEffectInstanceMixin implements MobEffectInstanceSourceAccessor {
     // --- Accessors ---
 
     @Unique
-    public void brutality$setSourceID(int id) {
+    public void setSourceId(int id) {
         this.brutality$SourceID = id;
     }
 
     @Unique
     @Nullable
-    public Integer brutality$getSourceID() {
+    public Integer getSourceId() {
         return this.brutality$SourceID;
     }
 

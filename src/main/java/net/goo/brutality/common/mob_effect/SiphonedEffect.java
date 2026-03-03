@@ -23,7 +23,7 @@ public class SiphonedEffect extends MobEffect {
         MobEffectInstance inst = target.getEffect(BrutalityEffects.SIPHONED.get());
 
         if (inst != null) {
-            Integer sourceID = ((MobEffectInstanceSourceAccessor) inst).brutality$getSourceID();
+            Integer sourceID = ((MobEffectInstanceSourceAccessor) inst).getSourceId();
             if (sourceID != null && target.level().getEntity(sourceID) instanceof LivingEntity source) {
 
                 HealingProjectile healingProjectile = new HealingProjectile(BrutalityEntities.HEALING_PROJECTILE.get(), target.level());

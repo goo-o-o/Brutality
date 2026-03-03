@@ -24,11 +24,13 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
         addCurioTags();
-
+        addMagicTags();
+        addRageTags();
+        addGastronomistTags();
         this.tag(ItemTags.CANDLES).add(BrutalityBlocks.MANA_CANDLE.get().asItem());
     }
 
-    private void addCurioTags() {
+    private void addAnkletTags() {
         this.tag(BrutalityTags.Items.ANKLET).add(
                 BrutalityItems.DAVYS_ANKLET.get(),
                 BrutalityItems.ANKLET_OF_THE_IMPRISONED.get(),
@@ -63,16 +65,9 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.IRONCLAD_ANKLET.get(),
                 BrutalityItems.BLOOD_CLOT_ANKLET.get()
         );
+    }
 
-        this.tag(BrutalityTags.Items.BELT).add(
-                BrutalityItems.SCIENTIFIC_CALCULATOR.get(),
-                BrutalityItems.BRUTESKIN_BELT.get(),
-                BrutalityItems.MINIATURE_ANCHOR.get(),
-                BrutalityItems.WARPSLICE_SCABBARD.get(),
-                BrutalityItems.POOL_FLOAT.get(),
-                BrutalityItems.BATTLE_SCARS.get()
-        );
-
+    private void addCharmTags() {
         // done by AI to save time
         this.tag(BrutalityTags.Items.CHARM).add(
                 // Original Items
@@ -226,7 +221,20 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.PORTABLE_MINING_RIG.get(),
                 BrutalityItems.CARTON_OF_PRISM_SOLUTION_MILK.get()
         );
+    }
 
+    private void addBeltTags() {
+        this.tag(BrutalityTags.Items.BELT).add(
+                BrutalityItems.SCIENTIFIC_CALCULATOR.get(),
+                BrutalityItems.BRUTESKIN_BELT.get(),
+                BrutalityItems.MINIATURE_ANCHOR.get(),
+                BrutalityItems.WARPSLICE_SCABBARD.get(),
+                BrutalityItems.POOL_FLOAT.get(),
+                BrutalityItems.BATTLE_SCARS.get()
+        );
+    }
+
+    private void addHandTags() {
         this.tag(BrutalityTags.Items.HANDS).add(
                 BrutalityItems.NANOMACHINES.get(),
                 BrutalityItems.AQUEOUS_TUNER.get(),
@@ -257,7 +265,9 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.ARCHMAGES_THESIS_TO_MASTERFUL_MULTICASTING.get(),
                 BrutalityItems.PARAGON_OF_THE_FIRST_MAGE.get()
         );
+    }
 
+    private void addHeadTags() {
         this.tag(BrutalityTags.Items.HEAD).add(
                 BrutalityItems.MAGICIANS_TOP_HAT.get(),
                 BrutalityItems.HEAD_CUSHION.get(),
@@ -286,7 +296,9 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.SOLAR_LENS.get(),
                 BrutalityItems.LUNAR_LENS.get()
         );
+    }
 
+    private void addHeartTags() {
         this.tag(BrutalityTags.Items.HEART).add(
                 BrutalityItems.RUNE_OF_DELTA.get(),
                 BrutalityItems.OVERCLOCKED_CORE.get(),
@@ -304,7 +316,9 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.BRUTAL_HEART.get(),
                 TerramityModItems.CRYSTAL_HEART.get()
         );
+    }
 
+    private void addNecklaceTags() {
         this.tag(BrutalityTags.Items.NECKLACE).add(
                 BrutalityItems.ABYSSAL_NECKLACE.get(),
                 BrutalityItems.BLOOD_HOWL_PENDANT.get(),
@@ -316,7 +330,9 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.FUZZY_DICE.get(),
                 BrutalityItems.CARAMEL_CRUNCH_MEDALLION.get()
         );
+    }
 
+    private void addRingTags() {
         this.tag(BrutalityTags.Items.RING).add(
                 BrutalityItems.FURY_BAND.get(),
                 BrutalityItems.MICROBLADE_BAND.get(),
@@ -327,7 +343,9 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.ROCK_CANDY_RING.get(),
                 BrutalityItems.ROAD_RUNNERS_RING.get()
         );
+    }
 
+    private void addFeetTags() {
         this.tag(BrutalityTags.Items.FEET).add(
                 BrutalityItems.HIGH_HEALS.get(),
                 BrutalityItems.FLAME_WALKER.get(),
@@ -345,6 +363,136 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.VECTOR_STABILIZER.get(),
                 BrutalityItems.ICE_SKATES.get()
         );
+    }
 
+    private void addRageTags() {
+        this.tag(BrutalityTags.Items.RAGE_ITEMS).add(
+                BrutalityItems.RAGE_STONE.get(),
+                BrutalityItems.PACK_OF_CIGARETTES.get(),
+                BrutalityItems.STRESS_PILLS.get(),
+                BrutalityItems.SEROTONIN_PILLS.get(),
+                BrutalityItems.FURY_BATTERY.get(),
+                BrutalityItems.PAIN_CATALYST.get(),
+                BrutalityItems.RAMPAGE_CLOCK.get(),
+                BrutalityItems.BLOOD_HOWL_PENDANT.get(),
+                BrutalityItems.RAGE_BAIT.get(),
+                BrutalityItems.OMEGA_GAUNTLET.get(),
+                BrutalityItems.SPITE_SHARD.get(),
+                BrutalityItems.HATE_SIGIL.get(),
+                BrutalityItems.HEART_OF_WRATH.get(),
+                BrutalityItems.EYE_FOR_VIOLENCE.get(),
+                BrutalityItems.BATTLE_SCARS.get(),
+                BrutalityItems.MECHANICAL_AORTA.get(),
+                BrutalityItems.BLOOD_PULSE_GAUNTLETS.get(),
+                BrutalityItems.BROKEN_CONTROLLER.get(),
+                BrutalityItems.FURY_BAND.get(),
+                BrutalityItems.GRUDGE_TOTEM.get(),
+                BrutalityItems.BLOOD_STONE.get(),
+                BrutalityItems.WRATH.get(),
+                BrutalityItems.ENDER_DRAGON_STEM_CELLS.get(),
+                BrutalityItems.ANGER_MANAGEMENT.get(),
+                BrutalityItems.FACE_PIE.get(),
+                BrutalityItems.MASK_OF_MADNESS.get()
+        );
+    }
+
+    private void addGastronomistTags() {
+        this.tag(BrutalityTags.Items.GASTRONOMIST_ITEMS).add(
+                BrutalityItems.SPATULA_HAMMER.get(),
+                BrutalityItems.THE_GOLDEN_SPATULA_HAMMER.get(),
+                BrutalityItems.IRON_KNIFE.get(),
+                BrutalityItems.GOLD_KNIFE.get(),
+                BrutalityItems.DIAMOND_KNIFE.get(),
+                BrutalityItems.VOID_KNIFE.get(),
+                BrutalityItems.MELONCHOLY_SWORD.get(),
+                BrutalityItems.APPLE_CORE_LANCE.get(),
+                BrutalityItems.CHOPSTICK_STAFF.get(),
+                BrutalityItems.BAMBOO_STAFF.get(),
+                BrutalityItems.FRYING_PAN.get(),
+                BrutalityItems.POTATO_MASHER.get(),
+                BrutalityItems.WHISK_HAMMER.get(),
+                BrutalityItems.PEPPER_SHAKER.get(),
+                BrutalityItems.SALT_SHAKER.get(),
+                BrutalityItems.SALT_AND_PEPPER.get(),
+                BrutalityItems.SMOKE_STONE.get(),
+                BrutalityItems.THE_SMOKEHOUSE.get(),
+                BrutalityItems.BAMBOO_STEAMER.get(),
+                BrutalityItems.SUGAR_GLAZE.get(),
+                BrutalityItems.RAINBOW_SPRINKLES.get(),
+                BrutalityItems.ROCK_CANDY_RING.get(),
+                BrutalityItems.SEARED_SUGAR_BROOCH.get(),
+                BrutalityItems.DUNKED_DONUT.get(),
+                BrutalityItems.CARAMEL_CRUNCH_MEDALLION.get(),
+                BrutalityItems.LOLLIPOP_OF_ETERNITY.get(),
+                BrutalityItems.ICE_CREAM_SANDWICH.get(),
+                BrutalityItems.MORTAR_AND_PESTLE.get(),
+                BrutalityItems.BUTTER_GAUNTLETS.get(),
+                BrutalityItems.TOMATO_SAUCE.get(),
+                BrutalityItems.CHEESE_SAUCE.get(),
+                BrutalityItems.PIZZA_SLOP.get(),
+                BrutalityItems.HOT_SAUCE.get(),
+                BrutalityItems.OLIVE_OIL.get(),
+                BrutalityItems.EXTRA_VIRGIN_OLIVE_OIL.get(),
+                BrutalityItems.FRIDGE.get(),
+                BrutalityItems.SMART_FRIDGE.get()
+        );
+    }
+
+    private void addCurioTags() {
+        addAnkletTags();
+        addBeltTags();
+        addCharmTags();
+        addHandTags();
+        addHeadTags();
+        addHeartTags();
+        addNecklaceTags();
+        addRingTags();
+        addFeetTags();
+    }
+
+    private void addMagicTags() {
+        this.tag(BrutalityTags.Items.MAGIC_ITEMS).addTags(BrutalityTags.Items.SPELL_SCROLLS, BrutalityTags.Items.MAGIC_AUGMENTS, BrutalityTags.Items.MAGIC_TOMES);
+
+        this.tag(BrutalityTags.Items.MAGIC_TOMES).add(
+                BrutalityItems.DAEMONIC_TOME.get(),
+                BrutalityItems.EVERGREEN_TOME.get(),
+                BrutalityItems.DARKIST_TOME.get(),
+                BrutalityItems.COSMIC_TOME.get(),
+                BrutalityItems.VOIDWALKER_TOME.get(),
+                BrutalityItems.BRIMWIELDER_TOME.get(),
+                BrutalityItems.CELESTIA_TOME.get(),
+                BrutalityItems.EXODIC_TOME.get(),
+                BrutalityItems.UMBRAL_TOME.get()
+        ); // TODO: Add voltweaver tome
+
+        this.tag(BrutalityTags.Items.MAGIC_AUGMENTS).add(
+                BrutalityItems.DRAGON_SINEW_BINDING.get(),
+                BrutalityItems.QUICKSILVER_SPINE.get(),
+                BrutalityItems.QUICKSILVER_INK.get(),
+                BrutalityItems.ARCHANGELS_TEARS.get(),
+                BrutalityItems.SOUL_INFUSED_INK.get(),
+                BrutalityItems.VOID_TOUCHED_INK.get(),
+                BrutalityItems.FEATHER_OF_THE_FIRST_WIND.get(),
+                BrutalityItems.PROFANED_INK.get(),
+                BrutalityItems.FORBIDDEN_MANUSCRIPT.get(),
+                BrutalityItems.UVOGRE_VELLUM.get(),
+                BrutalityItems.SOLID_SPELL_DRIVE.get(),
+                BrutalityItems.IRIDESCENT_BOOKMARK.get(),
+                BrutalityItems.VEGAS_VELLUM.get(),
+                BrutalityItems.RUNE_OF_THE_ROYAL_FLUSH.get()
+        );
+
+        this.tag(BrutalityTags.Items.SPELL_SCROLLS).add(
+                BrutalityItems.DAEMONIC_SPELL_SCROLL.get(),
+                BrutalityItems.EVERGREEN_SPELL_SCROLL.get(),
+                BrutalityItems.DARKIST_SPELL_SCROLL.get(),
+                BrutalityItems.COSMIC_SPELL_SCROLL.get(),
+                BrutalityItems.VOIDWALKER_SPELL_SCROLL.get(),
+                BrutalityItems.BRIMWIELDER_SPELL_SCROLL.get(),
+                BrutalityItems.VOLTWEAVER_SPELL_SCROLL.get(),
+                BrutalityItems.CELESTIA_SPELL_SCROLL.get(),
+                BrutalityItems.EXODIC_SPELL_SCROLL.get(),
+                BrutalityItems.UMBRAL_SPELL_SCROLL.get()
+        );
     }
 }

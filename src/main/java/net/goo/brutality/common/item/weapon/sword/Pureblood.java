@@ -46,7 +46,7 @@ public class Pureblood extends BrutalitySwordItem {
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         MobEffectInstance instance = new MobEffectInstance(BrutalityEffects.SIPHONED.get(), 60, 0, false, false, true);
-        ((MobEffectInstanceSourceAccessor) instance).brutality$setSourceID(attacker.getId());
+        ((MobEffectInstanceSourceAccessor) instance).setSourceId(attacker.getId());
         target.addEffect(instance);
 
         return super.hurtEnemy(stack, target, attacker);

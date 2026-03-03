@@ -6,6 +6,7 @@ import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.util.CooldownUtils;
 import net.goo.brutality.util.build_archetypes.RageHelper;
+import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.mcreator.terramity.init.TerramityModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -38,7 +39,7 @@ public class ServerboundActiveAbilityPressPacket {
             CooldownUtils.validateCurioCooldown(sender, BrutalityItems.DECK_OF_CARDS.get(), 20 * 21, () -> sender.addEffect(new MobEffectInstance(BrutalityEffects.ARCANE_SURGE.get(),
                     (sender.getRandom().nextIntBetweenInclusive(40, 200)), 51)));
 
-            CooldownUtils.validateCurioCooldown(sender, BrutalityItems.MIRACLE_CURE.get(), 20 * 60, () -> sender.getActiveEffects().stream().map(MobEffectInstance::getEffect).filter(effect -> !effect.isBeneficial()).forEach(sender::removeEffect));
+            CooldownUtils.validateCurioCooldown(sender, BrutalityItems.MIRACLE_CURE.get(), 20 * 60, () -> sender.getActiveEffects().stream().map(MobEffectInstance::getEffect).filter(effect -> !effect.isBeneficial() && effect != TerramityModMobEffects.ABILITY_COOLDOWN.get()).forEach(sender::removeEffect));
 
             CooldownUtils.validateCurioCooldown(sender, BrutalityItems.EMERGENCY_MEETING.get(), 20 * 60, () -> {
                 sender.level().playSound(null, BlockPos.containing(sender.position()), BrutalitySounds.EMERGENCY_MEETING.get(), SoundSource.PLAYERS, 0.75F, 1.0F);

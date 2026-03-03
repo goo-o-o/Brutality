@@ -1,4 +1,4 @@
-package net.goo.brutality.util;
+package net.goo.brutality.common.mixin_helpers;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -11,4 +11,6 @@ public class MixinInterfaces {
     public interface InteractionFunction {
         InteractionResult apply(Player player, Entity entity, InteractionHand hand);
     }
+
+
 }
