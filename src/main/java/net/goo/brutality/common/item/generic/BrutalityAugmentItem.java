@@ -1,6 +1,7 @@
 package net.goo.brutality.common.item.generic;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.common.item.base.BrutalityMagicItem;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.IBrutalitySpell;
@@ -31,14 +32,13 @@ import java.util.Locale;
 
 import static net.minecraft.world.item.ItemStack.ATTRIBUTE_MODIFIER_FORMAT;
 
-public class BrutalityAugmentItem extends Item {
-    public final BrutalityMagicItem.MagicItemType[] magicItemTypes;
-    public int spellSlotBonus = 0;
+public abstract class BrutalityAugmentItem extends Item {
     private int passiveLines = 0;
+    public final BrutalityCategories[] itemTypes;
 
-    public BrutalityAugmentItem(Properties pProperties, BrutalityMagicItem.MagicItemType... magicItemTypes) {
+    public BrutalityAugmentItem(Properties pProperties, BrutalityCategories... itemTypes) {
         super(pProperties);
-        this.magicItemTypes = magicItemTypes;
+        this.itemTypes = itemTypes;
     }
 
     public BrutalityAugmentItem withPassiveLines(int passiveLines) {
@@ -46,10 +46,11 @@ public class BrutalityAugmentItem extends Item {
         return this;
     }
 
-    public BrutalityAugmentItem withSpellSlotBonus(int spellSlotBonus) {
-        this.spellSlotBonus = spellSlotBonus;
-        return this;
+    protected boolean shouldShowSection() {
+        return !this.attributeTemplates.isEmpty() && passiveLines > 0;
     }
+
+    protected abstract void addCustomTooltipLines(List<Component> components);
 
     public List<AttributeContainer> attributeTemplates = List.of();
 
@@ -71,9 +72,7 @@ public class BrutalityAugmentItem extends Item {
             Minecraft mc = Minecraft.getInstance();
             Player pPlayer = mc.player;
 
-            for (BrutalityMagicItem.MagicItemType type : magicItemTypes) {
-
-
+            for (BrutalityCategories type : itemTypes) {
                 // 1. Collect all template containers
                 List<AttributeContainer> allTemplates = new ArrayList<>(this.attributeTemplates);
 
@@ -83,7 +82,7 @@ public class BrutalityAugmentItem extends Item {
                     allTemplates.addAll(augment.attributeTemplates);
                 }
 
-                if (!allTemplates.isEmpty() || spellSlotBonus != 0 || passiveLines > 0) {
+                if (shouldShowSection()) {
                     pTooltipComponents.add(CommonComponents.EMPTY);
                     pTooltipComponents.add(Component.translatable("item.modifiers." + type.toString().toLowerCase(Locale.ROOT))
                             .withStyle(ChatFormatting.GRAY));
@@ -92,11 +91,7 @@ public class BrutalityAugmentItem extends Item {
                         pTooltipComponents.add(Component.translatable("item." + Brutality.MOD_ID + "." + pStack.getItem() + ".passive." + i));
                     }
 
-                    if (spellSlotBonus > 0) {
-                        pTooltipComponents.add(Component.translatable("message.brutality.spell_slots", ("+" + spellSlotBonus)).withStyle(ChatFormatting.BLUE));
-                    } else if (spellSlotBonus < 0) {
-                        pTooltipComponents.add(Component.translatable("message.brutality.spell_slots", spellSlotBonus).withStyle(ChatFormatting.RED));
-                    }
+                    addCustomTooltipLines(pTooltipComponents);
 
                     for (AttributeContainer holder : allTemplates) {
                         Attribute attribute = holder.attribute();
@@ -148,15 +143,6 @@ public class BrutalityAugmentItem extends Item {
     public BrutalityAugmentItem withAttributes(AttributeContainer... attributes) {
         this.attributeTemplates = List.of(attributes);
         return this;
-    }
-
-    // ran everytime a magic item is cast which has this item, ran after a spell is actually cast
-    public void onAugmentedItemPostCast(Player caster, ItemStack parent, BrutalitySpell spell, int spellLevel, IBrutalitySpell.SpellCategory type) {
-    }
-
-    // ran everytime a magic item is cast which has this item, ran before a spell is actually cast, can also be used to modify spell level
-    public int onAugmentedItemPreCast(Player caster, ItemStack parent, BrutalitySpell spell, int spellLevel, IBrutalitySpell.SpellCategory type) {
-        return spellLevel;
     }
 
     // for stuff like adding slots or something

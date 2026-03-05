@@ -5,9 +5,12 @@ import net.goo.brutality.client.renderers.item.BrutalityItemRenderer;
 import net.goo.brutality.common.item.base.BrutalityBlockItem;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.item.base.BrutalityGeoItem;
+import net.goo.brutality.util.item.ItemCategoryUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import software.bernie.geckolib.model.GeoModel;
+
+import java.util.Locale;
 
 public class BrutalityItemModel<T extends Item & BrutalityGeoItem> extends GeoModel<T> {
     public BrutalityItemRenderer<T> renderer;
@@ -21,7 +24,7 @@ public class BrutalityItemModel<T extends Item & BrutalityGeoItem> extends GeoMo
             return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "geo/block/" + animatable.getRegistryName() + ".geo.json");
         }
 
-        return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "geo/item/" + (animatable instanceof BrutalityCurioItem ? "/curio/" : "") + animatable.getCategoryAsString() + "/" +
+        return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "geo/item/" + (animatable instanceof BrutalityCurioItem ? "/curio/" : "") + getCategoryAsString(animatable) + "/" +
                 identifier + "_handheld.geo.json");
     }
 
@@ -34,7 +37,7 @@ public class BrutalityItemModel<T extends Item & BrutalityGeoItem> extends GeoMo
             return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/block/" + animatable.getRegistryName() + ".png");
         }
 
-        return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/item/" + (animatable instanceof BrutalityCurioItem ? "/curio/" : "") + animatable.getCategoryAsString()
+        return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/item/" + (animatable instanceof BrutalityCurioItem ? "/curio/" : "") + getCategoryAsString(animatable)
                 + "/" + animatable.getRegistryName() + "/" +
                 identifier + "_handheld.png");
     }
@@ -48,9 +51,13 @@ public class BrutalityItemModel<T extends Item & BrutalityGeoItem> extends GeoMo
             return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "animations/block/" + animatable.getRegistryName() + ".animation.json");
         }
 
-        return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "animations/item/" + animatable.getCategoryAsString() + "/" +
+        return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "animations/item/" + getCategoryAsString(animatable) + "/" +
                 identifier + "_handheld.animation.json");
 
+    }
+
+    private String getCategoryAsString(T animatable) {
+        return ItemCategoryUtils.getCategory(animatable.getDefaultInstance()).toString().toLowerCase(Locale.ROOT);
     }
 
 

@@ -37,7 +37,6 @@ public abstract class BaseMagicTome extends BrutalityMagicItem {
     public BaseMagicTome(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents, int baseSpellSlots, int baseAugmentSlots) {
         super(rarity, descriptionComponents, baseSpellSlots, baseAugmentSlots);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
-        this.type = MagicItemType.TOME;
     }
 
     public BaseMagicTome(Rarity rarity, int baseSpellSlots, int baseAugmentSlots) {
@@ -54,7 +53,7 @@ public abstract class BaseMagicTome extends BrutalityMagicItem {
 
     @Override
     public BrutalityCategories category() {
-        return BrutalityCategories.ItemType.TOME;
+        return BrutalityCategories.MagicItemType.TOME;
     }
 
     @Override

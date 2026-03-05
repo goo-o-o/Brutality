@@ -1,12 +1,17 @@
 package net.goo.brutality.util.item;
 
+import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.common.item.base.*;
+import net.goo.brutality.util.BrutalityTags;
 import net.mcreator.terramity.init.TerramityModItems;
+import net.mcreator.terramity.item.CosmiliteArmorItem;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
+import top.theillusivec4.curios.Curios;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.util.Locale;
 import java.util.Set;
@@ -56,6 +61,62 @@ public class ItemCategoryUtils {
             TerramityModItems.PLANET_BUSTER.get(),
             TerramityModItems.CONDUCTITE_LASER_RIFLE.get()
     );
+
+    public static BrutalityCategories getCategory(ItemStack stack) {
+        // 1. Check Magic Items First (Specialized classes)
+        if (stack.getItem() instanceof BrutalityMagicItem magicItem) {
+            return magicItem.type; // Returns MagicItemType.STAFF, TOME, etc.
+        }
+
+        if (isSword(stack)) return BrutalityCategories.ItemType.SWORD;
+        if (isAxe(stack)) return BrutalityCategories.ItemType.AXE;
+        if (isHammer(stack)) return BrutalityCategories.ItemType.HAMMER;
+        if (isScythe(stack)) return BrutalityCategories.ItemType.SCYTHE;
+        if (isSpear(stack)) return BrutalityCategories.ItemType.SPEAR;
+        if (isTrident(stack)) return BrutalityCategories.ItemType.TRIDENT;
+        if (isBow(stack)) return BrutalityCategories.ItemType.BOW;
+        if (isThrowing(stack)) return BrutalityCategories.ItemType.THROWING;
+        if (isPickaxe(stack)) return BrutalityCategories.ItemType.PICKAXE;
+
+        // 3. Handle Curios and Armor (if applicable)
+        if (isArmor(stack)) return BrutalityCategories.ItemType.ARMOR;
+        if (stack.getItem() instanceof BlockItem) return BrutalityCategories.ItemType.BLOCK;
+        if (isCurio(stack)) return BrutalityCategories.ItemType.CURIO;
+        // 4. Default Fallback
+        return BrutalityCategories.ItemType.GENERIC;
+    }
+
+    public static boolean isCurio(ItemStack stack) {
+        return stack.getItem() instanceof ICurioItem || stack.is(BrutalityTags.Items.ANKLET) || stack.is(BrutalityTags.Items.BELT) ||
+                stack.is(BrutalityTags.Items.BELT) || stack.is(BrutalityTags.Items.CHARM) || stack.is(BrutalityTags.Items.FEET) ||
+                stack.is(BrutalityTags.Items.HANDS) || stack.is(BrutalityTags.Items.HEAD) || stack.is(BrutalityTags.Items.HEART) ||
+                stack.is(BrutalityTags.Items.NECKLACE) || stack.is(BrutalityTags.Items.RING);
+    }
+
+    public static boolean isArmor(ItemStack stack) {
+        return stack.getItem() instanceof ArmorItem && stack.is(Tags.Items.ARMORS) || stack.is(ItemTags.TRIMMABLE_ARMOR) ||
+                isHelmet(stack) || isChestplate(stack) || isLeggings(stack) || isBoots(stack);
+    }
+
+    public static boolean isHelmet(ItemStack stack) {
+        return stack.is(Tags.Items.ARMORS_HELMETS) ||
+                stack.getItem() instanceof ArmorItem armorItem && armorItem.getType() == ArmorItem.Type.HELMET;
+    }
+
+    public static boolean isChestplate(ItemStack stack) {
+        return stack.is(Tags.Items.ARMORS_CHESTPLATES) ||
+                stack.getItem() instanceof ArmorItem armorItem && armorItem.getType() == ArmorItem.Type.CHESTPLATE;
+    }
+
+    public static boolean isLeggings(ItemStack stack) {
+        return stack.is(Tags.Items.ARMORS_LEGGINGS) ||
+                stack.getItem() instanceof ArmorItem armorItem && armorItem.getType() == ArmorItem.Type.LEGGINGS;
+    }
+
+    public static boolean isBoots(ItemStack stack) {
+        return stack.is(Tags.Items.ARMORS_BOOTS) ||
+                stack.getItem() instanceof ArmorItem armorItem && armorItem.getType() == ArmorItem.Type.BOOTS;
+    }
 
     public static boolean isWeapon(ItemStack stack) {
         return isAxe(stack) || isSword(stack) || isScythe(stack) || isHammer(stack) || isRangedWeapon(stack);

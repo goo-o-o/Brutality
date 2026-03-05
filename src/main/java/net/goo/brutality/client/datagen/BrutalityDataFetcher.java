@@ -10,6 +10,7 @@ import com.mojang.serialization.Lifecycle;
 import net.daphne.lethality.LethalityMod;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.base.BrutalityGeoItem;
+import net.goo.brutality.util.item.ItemCategoryUtils;
 import net.mcreator.terramity.TerramityMod;
 import net.mcreator.terramity.entity.*;
 import net.mehvahdjukaar.moonlight.core.misc.FakeLevel;
@@ -384,7 +385,7 @@ public class BrutalityDataFetcher implements DataProvider {
 
 
             // Determine item type
-            data.itemType = determineItemType(item, stack, curioTypes);
+            data.itemType = ItemCategoryUtils.getCategory(stack).toString().toLowerCase(Locale.ROOT);
 
             // Basic properties
             if (item.getMaxDamage(stack) > 0) {
@@ -417,13 +418,7 @@ public class BrutalityDataFetcher implements DataProvider {
             return data;
         }
 
-        private static String determineItemType(Item item, ItemStack stack, Map<String, String> curioTypes) {
-            if (item instanceof BlockItem) return "block";
-            if (item instanceof BrutalityGeoItem geo) return geo.getCategoryAsString();
-            if (item instanceof ICurioItem) return curioTypes.getOrDefault(
-                    ForgeRegistries.ITEMS.getKey(item).toString(), "curio");
-            return ItemTypeMapper.getVanillaType(stack);
-        }
+
 
         private static JsonArray getAllowedEnchants(ItemStack stack, Map<String, String> translations) {
             JsonArray array = new JsonArray();
@@ -634,26 +629,7 @@ public class BrutalityDataFetcher implements DataProvider {
         }
     }
 
-    static class ItemTypeMapper {
-        private static final Map<Predicate<ItemStack>, String> TYPES = Map.ofEntries(
-                Map.entry(stack -> stack.getItem() instanceof SwordItem || stack.is(ItemTags.SWORDS), "sword"),
-                Map.entry(stack -> stack.getItem() instanceof PickaxeItem || stack.is(ItemTags.PICKAXES), "pickaxe"),
-                Map.entry(stack -> stack.getItem() instanceof AxeItem || stack.is(ItemTags.AXES), "axe"),
-                Map.entry(stack -> stack.getItem() instanceof ShovelItem || stack.is(ItemTags.SHOVELS), "shovel"),
-                Map.entry(stack -> stack.getItem() instanceof HoeItem || stack.is(ItemTags.HOES), "hoe"),
-                Map.entry(stack -> stack.getItem() instanceof BowItem, "bow"),
-                Map.entry(stack -> stack.getItem() instanceof CrossbowItem, "crossbow"),
-                Map.entry(stack -> stack.getItem() instanceof ArmorItem || stack.is(ItemTags.TRIMMABLE_ARMOR), "armor")
-        );
 
-        public static String getVanillaType(ItemStack stack) {
-            return TYPES.entrySet().stream()
-                    .filter(entry -> entry.getKey().test(stack))
-                    .map(Map.Entry::getValue)
-                    .findFirst()
-                    .orElse("generic");
-        }
-    }
 
 
     static class RegistryHelper {

@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.datafixers.util.Either;
 import net.goo.brutality.Brutality;
+import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.common.item.generic.BrutalityAugmentItem;
 import net.goo.brutality.util.NBTUtils;
 import net.goo.brutality.util.attribute.AttributeContainer;
@@ -38,18 +39,21 @@ import static net.goo.brutality.util.magic.SpellStorage.SPELL_MOD;
 
 public class BrutalityMagicItem extends BrutalityGenericItem {
     public int baseSpellSlots, baseAugmentSlots;
-    public MagicItemType type;
+    public BrutalityCategories.ItemType.MagicItemType type;
 
-    public enum MagicItemType {
-        TOME,
-        STAFF,
-        WAND
-    }
 
     public BrutalityMagicItem(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents, int baseSpellSlots, int baseAugmentSlots) {
         super(rarity, descriptionComponents);
         this.baseSpellSlots = baseSpellSlots;
         this.baseAugmentSlots = baseAugmentSlots;
+    }
+
+    @Override
+    public ItemStack getDefaultInstance() {
+        ItemStack stack = new ItemStack(this);
+
+
+        return super.getDefaultInstance();
     }
 
     @Override

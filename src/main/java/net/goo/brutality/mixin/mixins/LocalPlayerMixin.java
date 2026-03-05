@@ -82,8 +82,6 @@ public class LocalPlayerMixin {
     }
 
 
-    @Shadow
-    protected int sprintTriggerTime;
     @Redirect(
             method = "aiStep",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUsingItem()Z", ordinal = 0)

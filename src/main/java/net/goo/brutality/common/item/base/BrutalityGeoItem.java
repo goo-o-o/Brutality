@@ -30,6 +30,8 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
         return Objects.requireNonNull(ForgeRegistries.ITEMS.getKey((Item) this)).getPath().toLowerCase(Locale.ROOT);
     }
 
+    int baseAugmentSlots = 1;
+
     BrutalityCategories.AttackType getAttackType();
 
     UUID BASE_STUN_CHANCE_UUID = UUID.fromString("6d3d3787-e06f-4111-b03f-aed7c9317416");
@@ -47,10 +49,6 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
 
     default String animation(@Nullable ItemStack stack) {
         return null;
-    }
-
-    default String getCategoryAsString() {
-        return category().toString().toLowerCase(Locale.ROOT);
     }
 
     GeoAnimatable cacheItem();

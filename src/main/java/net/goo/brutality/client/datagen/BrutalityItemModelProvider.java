@@ -11,6 +11,7 @@ import net.goo.brutality.common.item.weapon.throwing.StyrofoamCup;
 import net.goo.brutality.common.registry.BrutalityBlockFamilies;
 import net.goo.brutality.common.registry.BrutalityBlocks;
 import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.util.item.ItemCategoryUtils;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -184,7 +185,7 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
                 if (EXCLUDED_ITEMS.contains(geoItem.getClass())) continue;
 
                 String registryName = geoItem.getRegistryName();
-                String category = geoItem.getCategoryAsString();
+                String category = ItemCategoryUtils.getCategory(item.getDefaultInstance()).toString().toLowerCase(Locale.ROOT);
                 ResourceLocation basePath =
                         modLoc("item/" + category + "/" + (
                                 geoItem instanceof ArmorItem armorItem ? armorItem.getMaterial().toString().toLowerCase(Locale.ROOT) : registryName) + "/" + registryName);

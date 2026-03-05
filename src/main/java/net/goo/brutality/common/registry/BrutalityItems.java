@@ -110,7 +110,7 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-import static net.goo.brutality.common.item.base.BrutalityMagicItem.MagicItemType.*;
+import static net.goo.brutality.common.item.BrutalityCategories.MagicItemType.*;
 import static net.goo.brutality.util.tooltip.ItemDescriptionComponent.ItemDescriptionComponents.*;
 import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.*;
 
@@ -147,24 +147,24 @@ public class BrutalityItems {
     public static final RegistryObject<Item> VOLTWEAVER_SPELL_SCROLL = ITEMS.register("voltweaver_spell_scroll", () -> new SpellScroll(new Item.Properties()).withSchool(IBrutalitySpell.MagicSchool.VOLTWEAVER));
     public static final RegistryObject<Item> DAEMONIC_SPELL_SCROLL = ITEMS.register("daemonic_spell_scroll", () -> new SpellScroll(new Item.Properties()).withSchool(IBrutalitySpell.MagicSchool.DAEMONIC));
 
-    public static final RegistryObject<Item> DRAGON_SINEW_BINDING = ITEMS.register("dragon_sinew_binding", () -> new BrutalityAugmentItem(new Item.Properties(), TOME, STAFF, WAND).withAttributes(
+    public static final RegistryObject<Item> DRAGON_SINEW_BINDING = ITEMS.register("dragon_sinew_binding", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME, STAFF, WAND).withAttributes(
             new AttributeContainer(BrutalityAttributes.UNIVERSAL_SCHOOL_LEVEL.get(), 2, ADDITION)));
 
-    public static final RegistryObject<Item> QUICKSILVER_INK = ITEMS.register("quicksilver_ink", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withAttributes(
+    public static final RegistryObject<Item> QUICKSILVER_INK = ITEMS.register("quicksilver_ink", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withAttributes(
             new AttributeContainer(BrutalityAttributes.CAST_TIME.get(), -0.15, MULTIPLY_TOTAL),
             new AttributeContainer(BrutalityAttributes.SPELL_COOLDOWN.get(), -0.15, MULTIPLY_TOTAL)));
 
-    public static final RegistryObject<Item> QUICKSILVER_SPINE = ITEMS.register("quicksilver_spine", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withPassiveLines(1));
-    public static final RegistryObject<Item> ARCHANGELS_TEARS = ITEMS.register("archangels_tears", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withAttributes(
+    public static final RegistryObject<Item> QUICKSILVER_SPINE = ITEMS.register("quicksilver_spine", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withPassiveLines(1));
+    public static final RegistryObject<Item> ARCHANGELS_TEARS = ITEMS.register("archangels_tears", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withAttributes(
             new AttributeContainer(BrutalityAttributes.CELESTIA_SCHOOL_LEVEL.get(), 2, ADDITION)));
-    public static final RegistryObject<Item> FORBIDDEN_MANUSCRIPT = ITEMS.register("forbidden_manuscript", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(1));
-    public static final RegistryObject<Item> UVOGRE_VELLUM = ITEMS.register("uvogre_vellum", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(1));
-    public static final RegistryObject<Item> SOLID_SPELL_DRIVE = ITEMS.register("solid_spell_drive", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(2));
-    public static final RegistryObject<Item> IRIDESCENT_BOOKMARK = ITEMS.register("iridescent_bookmark", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withAttributes(
+    public static final RegistryObject<Item> FORBIDDEN_MANUSCRIPT = ITEMS.register("forbidden_manuscript", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(1));
+    public static final RegistryObject<Item> UVOGRE_VELLUM = ITEMS.register("uvogre_vellum", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(1));
+    public static final RegistryObject<Item> SOLID_SPELL_DRIVE = ITEMS.register("solid_spell_drive", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(2));
+    public static final RegistryObject<Item> IRIDESCENT_BOOKMARK = ITEMS.register("iridescent_bookmark", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withAttributes(
             new AttributeContainer(BrutalityAttributes.MAX_MANA.get(), 40, ADDITION),
             new AttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), -0.05, MULTIPLY_TOTAL)));
 
-    public static final RegistryObject<Item> RUNE_OF_THE_ROYAL_FLUSH = ITEMS.register("rune_of_the_royal_flush", () -> new BrutalityAugmentItem(new Item.Properties(), TOME) {
+    public static final RegistryObject<Item> RUNE_OF_THE_ROYAL_FLUSH = ITEMS.register("rune_of_the_royal_flush", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME) {
         @Override
         public int onAugmentedItemPreCast(Player caster, ItemStack parent, BrutalitySpell spell, int spellLevel, IBrutalitySpell.SpellCategory type) {
             float roll = caster.getRandom().nextFloat();
@@ -175,24 +175,24 @@ public class BrutalityItems {
         }
     }.withPassiveLines(2));
 
-    public static final RegistryObject<Item> VEGAS_VELLUM = ITEMS.register("vegas_vellum", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(1).withAttributes(
+    public static final RegistryObject<Item> VEGAS_VELLUM = ITEMS.register("vegas_vellum", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(1).withAttributes(
             new AttributeContainer(Attributes.LUCK, 1.5, ADDITION)));
 
 
-    public static final RegistryObject<Item> SOUL_INFUSED_INK = ITEMS.register("soul_infused_ink", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withAttributes(
+    public static final RegistryObject<Item> SOUL_INFUSED_INK = ITEMS.register("soul_infused_ink", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withAttributes(
             new AttributeContainer(BrutalityAttributes.MAX_MANA.get(), 25, ADDITION),
             new AttributeContainer(BrutalityAttributes.MANA_COST.get(), -0.1, MULTIPLY_TOTAL)));
 
-    public static final RegistryObject<Item> VOID_TOUCHED_INK = ITEMS.register("void_touched_ink", () -> new BrutalityAugmentItem(new Item.Properties(), TOME).withAttributes(
+    public static final RegistryObject<Item> VOID_TOUCHED_INK = ITEMS.register("void_touched_ink", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withAttributes(
             new AttributeContainer(BrutalityAttributes.VOIDWALKER_SCHOOL_LEVEL.get(), 2, ADDITION),
             new AttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), -0.05, MULTIPLY_TOTAL)));
 
-    public static final RegistryObject<Item> FEATHER_OF_THE_FIRST_WIND = ITEMS.register("feather_of_the_first_wind", () -> new BrutalityAugmentItem(new Item.Properties(), TOME, STAFF, WAND).withAttributes(
+    public static final RegistryObject<Item> FEATHER_OF_THE_FIRST_WIND = ITEMS.register("feather_of_the_first_wind", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME, STAFF, WAND).withAttributes(
             new AttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), -0.05, MULTIPLY_TOTAL),
             new AttributeContainer(BrutalityAttributes.CAST_TIME.get(), -0.2, MULTIPLY_TOTAL),
             new AttributeContainer(BrutalityAttributes.SPELL_COOLDOWN.get(), -0.2, MULTIPLY_TOTAL)));
 
-    public static final RegistryObject<Item> PROFANED_INK = ITEMS.register("profaned_ink", () -> new BrutalityAugmentItem(new Item.Properties(), TOME) {
+    public static final RegistryObject<Item> PROFANED_INK = ITEMS.register("profaned_ink", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME) {
         @Override
         public void onAugmentedItemPostCast(Player caster, ItemStack parent, BrutalitySpell spell, int spellLevel, IBrutalitySpell.SpellCategory type) {
             caster.hurt(caster.damageSources().indirectMagic(caster, null), 1);
@@ -2497,7 +2497,6 @@ public class BrutalityItems {
                     new AttributeContainer(BrutalityAttributes.DAMAGE_TO_RAGE_RATIO.get(), 2, MULTIPLY_TOTAL),
                     new AttributeContainer(
                             BrutalityAttributes.RAGE_TIME.get(), -0.5, MULTIPLY_TOTAL)));
-
 
     public static final RegistryObject<Item> BLOOD_PULSE_GAUNTLETS = ITEMS.register("blood_pulse_gauntlets", () -> new BrutalityCurioItem(
             BrutalityRarities.STYGIAN, List.of(
