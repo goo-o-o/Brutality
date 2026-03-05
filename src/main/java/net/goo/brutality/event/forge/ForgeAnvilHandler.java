@@ -34,6 +34,7 @@ public class ForgeAnvilHandler {
 
                 event.setOutput(output);
                 event.setCost(5);
+                event.setMaterialCost(1);
                 return; // Exit so we don't hit the weapon check below
             }
         }
@@ -61,6 +62,7 @@ public class ForgeAnvilHandler {
                 }
                 event.setOutput(output);
                 event.setCost(5);
+                event.setMaterialCost(1);
             }
         }
 

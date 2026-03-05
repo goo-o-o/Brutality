@@ -4,15 +4,21 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.common.registry.BrutalityBlocks;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.BrutalityTags;
+import net.goo.brutality.util.item.ItemCategoryUtils;
 import net.mcreator.terramity.init.TerramityModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
 public class BrutalityItemTagProvider extends ItemTagsProvider {
@@ -27,8 +33,65 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
         addMagicTags();
         addRageTags();
         addGastronomistTags();
+        addWeaponTags();
         this.tag(ItemTags.CANDLES).add(BrutalityBlocks.MANA_CANDLE.get().asItem());
     }
+
+    private void addWeaponTags() {
+        Collection<RegistryObject<Item>> itemsEntries = BrutalityItems.ITEMS.getEntries();
+
+        for (RegistryObject<Item> itemRegistryObject : itemsEntries) {
+            Item item = itemRegistryObject.get();
+            ItemStack stack = item.getDefaultInstance();
+            if (ItemCategoryUtils.isSword(stack)) {
+                this.tag(ItemTags.SWORDS).add(item);
+            }
+            if (ItemCategoryUtils.isTool(stack)) {
+                this.tag(ItemTags.TOOLS).add(item);
+            }
+            if (ItemCategoryUtils.isPickaxe(stack)) {
+                this.tag(ItemTags.PICKAXES).add(item);
+            }
+            if (ItemCategoryUtils.isAxe(stack)) {
+                this.tag(ItemTags.AXES).add(item);
+            }
+            if (ItemCategoryUtils.isHoe(stack)) {
+                this.tag(ItemTags.HOES).add(item);
+            }
+            if (ItemCategoryUtils.isShovel(stack)) {
+                this.tag(ItemTags.SHOVELS).add(item);
+            }
+            if (ItemCategoryUtils.isShear(stack)) {
+                this.tag(Tags.Items.SHEARS).add(item);
+            }
+            if (ItemCategoryUtils.isTrident(stack)) {
+                this.tag(Tags.Items.TOOLS_TRIDENTS).add(item);
+            }
+            if (ItemCategoryUtils.isShield(stack)) {
+                this.tag(Tags.Items.TOOLS_SHIELDS).add(item);
+            }
+            if (ItemCategoryUtils.isBow(stack)) {
+                this.tag(Tags.Items.TOOLS_BOWS).add(item);
+            }
+
+            if (ItemCategoryUtils.isGun(stack)) {
+                this.tag(BrutalityTags.Items.GUN).add(item);
+            }
+            if (ItemCategoryUtils.isScythe(stack)) {
+                this.tag(BrutalityTags.Items.SCYTHE).add(item);
+            }
+            if (ItemCategoryUtils.isHammer(stack)) {
+                this.tag(BrutalityTags.Items.HAMMER).add(item);
+            }
+            if (ItemCategoryUtils.isSpear(stack)) {
+                this.tag(BrutalityTags.Items.SPEAR).add(item);
+            }
+
+
+        }
+
+    }
+
 
     private void addAnkletTags() {
         this.tag(BrutalityTags.Items.ANKLET).add(

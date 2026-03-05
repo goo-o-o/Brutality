@@ -56,6 +56,8 @@ import net.goo.brutality.common.item.weapon.staff.BambooStaff;
 import net.goo.brutality.common.item.weapon.staff.ChopstickStaff;
 import net.goo.brutality.common.item.weapon.sword.*;
 import net.goo.brutality.common.item.weapon.sword.max.MAX;
+import net.goo.brutality.common.item.weapon.sword.max.Maxima;
+import net.goo.brutality.common.item.weapon.sword.max.Maximus;
 import net.goo.brutality.common.item.weapon.sword.phasesaber.BasePhasesaber;
 import net.goo.brutality.common.item.weapon.throwing.*;
 import net.goo.brutality.common.item.weapon.tome.*;
@@ -279,8 +281,21 @@ public class BrutalityItems {
             Tiers.NETHERITE, 6, -3F, BrutalityRarities.DIVINE, List.of(
             new ItemDescriptionComponent(ON_RIGHT_CLICK, 1))));
 
+    public static final RegistryObject<Item> MAXIM = ITEMS.register("maxim", () -> new BrutalitySwordItem(
+            Tiers.NETHERITE, 5, -2.6F, BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(LORE, 2)
+    )));
+    public static final RegistryObject<Item> MAXIMA = ITEMS.register("maxima", () -> new Maxima(
+            Tiers.NETHERITE, 15, -2.6F, 0.25F, BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(LORE, 4)
+    )));
+    public static final RegistryObject<Item> MAXIMUS = ITEMS.register("maximus", () -> new Maximus(
+            Tiers.NETHERITE, 25, -2.6F, 0.5F, 5, BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(LORE, 2)
+    )));
     public static final RegistryObject<Item> MAX = ITEMS.register("max", () -> new MAX(
-            Tiers.NETHERITE, 35, -3F, BrutalityRarities.GODLY));
+            Tiers.NETHERITE, 35, -3F, 0.75F, 10, BrutalityRarities.GODLY));
+
 
     public static final RegistryObject<Item> SCHISM = ITEMS.register("schism", () -> new Schism(
             Tiers.NETHERITE, 8, -3.5F, BrutalityRarities.DIVINE, List.of(
@@ -995,7 +1010,6 @@ public class BrutalityItems {
             new ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1),
             new ItemDescriptionComponent(PASSIVE, 1)
     )));
-
 
 
     public static final RegistryObject<Item> MANA_INFUSED_WHETSTONE = ITEMS.register("mana_infused_whetstone", () -> new BrutalityCurioItem(
@@ -2144,7 +2158,17 @@ public class BrutalityItems {
             new ItemDescriptionComponent(PASSIVE, 1))));
 
     public static final RegistryObject<Item> MASK_OF_MADNESS = ITEMS.register("mask_of_madness", () -> new BrutalityCurioItem(
-            BrutalityRarities.STYGIAN).withAttributes(
+            BrutalityRarities.STYGIAN, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1)
+    )) {
+        @Override
+        public void curioTick(SlotContext slotContext, ItemStack stack) {
+            if (slotContext.entity().tickCount % 20 == 0 && slotContext.entity().level().canSeeSky(slotContext.entity().blockPosition()) && slotContext.entity().level().isDay()) {
+                slotContext.entity().addEffect(new MobEffectInstance(TerramityModMobEffects.NYXIUM_FIRE.get(), 21, 0));
+                slotContext.entity().addEffect(new MobEffectInstance(MobEffects.WITHER, 21, 0));
+            }
+        }
+    }.withAttributes(
             new AttributeContainer(BrutalityAttributes.MAX_RAGE.get(), 50, ADDITION),
             new AttributeContainer(BrutalityAttributes.LIFESTEAL.get(), 0.5, MULTIPLY_TOTAL),
             new AttributeContainer(BrutalityAttributes.DAMAGE_TAKEN.get(), 0.25, MULTIPLY_BASE),
@@ -2479,7 +2503,7 @@ public class BrutalityItems {
             BrutalityRarities.STYGIAN, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public float onWearerHit(LivingEntity attacker, ItemStack stack, Entity victim, DamageSource source, float amount) {
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
             if (attacker.hasEffect(BrutalityEffects.ENRAGED.get()) && !attacker.level().isClientSide()) {
                 BloodExplosion explosion = new BloodExplosion(attacker.level(), attacker, null, null, victim.position().x, victim.position().y, victim.position().z, 3, false, Level.ExplosionInteraction.NONE);
                 ModExplosionHelper.Server.explode(explosion, attacker.level(), true);

@@ -7,6 +7,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.curios.hands.SuspiciouslyLargeHandle;
 import net.goo.brutality.common.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.common.item.weapon.hammer.Jackpot;
+import net.goo.brutality.common.item.weapon.sword.max.MAX;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.NBTUtils;
@@ -86,7 +87,7 @@ public abstract class ItemStackMixin {
             modified = AttributeCalculationHelper.computeAttributes(player, stack, modified);
             modified += player.getAttributeBaseValue(Attributes.ATTACK_DAMAGE);
             modified += SuspiciouslyLargeHandle.getDamageModification(player, stack);
-
+            modified += MAX.getDamageBonusFromHealth(player, stack);
 
 
             return modified - itemBase;
@@ -120,7 +121,7 @@ public abstract class ItemStackMixin {
                         }
 
 
-                        if (handler.isEquipped(BrutalityItems.SUSPICIOUSLY_LARGE_HANDLE.get())) return -itemAttackSpeed + 0.5;
+                        if (handler.isEquipped(BrutalityItems.SUSPICIOUSLY_LARGE_HANDLE.get())) return -itemAttackSpeed + SuspiciouslyLargeHandle.BASE_ATTACK_SPEED;
 
                         return player.getAttributeBaseValue(attribute);
 

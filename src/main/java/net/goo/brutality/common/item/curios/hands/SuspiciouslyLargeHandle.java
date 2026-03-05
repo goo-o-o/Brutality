@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class SuspiciouslyLargeHandle extends BrutalityCurioItem {
-    private static final float BASE_ATTACK_SPEED = 0.65F;
+    public static final float BASE_ATTACK_SPEED = 0.65F, RATIO = 7.5F;
 
     public SuspiciouslyLargeHandle(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
@@ -35,7 +35,7 @@ public class SuspiciouslyLargeHandle extends BrutalityCurioItem {
             if (!stack.isEmpty() && handler.isEquipped(BrutalityItems.SUSPICIOUSLY_LARGE_HANDLE.get())) {
                 float attackSpeed = (float) player.getAttributeValue(Attributes.ATTACK_SPEED);
                 float difference = attackSpeed - 0.65F;
-                return difference * 5F;
+                return difference * RATIO;
             }
         }
         return 0;
@@ -51,7 +51,7 @@ public class SuspiciouslyLargeHandle extends BrutalityCurioItem {
             if (currentAttackSpeed != null) {
                 float speedToModify = (float) (BASE_ATTACK_SPEED - currentAttackSpeed);
                 builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(uuid, "Speed Modification", speedToModify, AttributeModifier.Operation.ADDITION));
-                float damageToModify = speedToModify * -5F;
+                float damageToModify = speedToModify * -RATIO;
                 builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, "Attack Damage Modification", damageToModify, AttributeModifier.Operation.ADDITION));
                 return builder.build();
             }

@@ -26,6 +26,11 @@ public class BrutalityTags {
         public static final TagKey<Item> MATH_ITEMS = tag("math_items");
         public static final TagKey<Item> RAGE_ITEMS = tag("rage_items");
 
+        public static final TagKey<Item> SPEAR = tag("spear");
+        public static final TagKey<Item> HAMMER = tag("hammer");
+        public static final TagKey<Item> SCYTHE = tag("scythe");
+        public static final TagKey<Item> GUN = tag("gun");
+
         public static final TagKey<Item> ANKLET = tag(Curios.MODID, "anklet");
         public static final TagKey<Item> BELT = tag(Curios.MODID, "belt");
         public static final TagKey<Item> CHARM = tag(Curios.MODID, "charm");

@@ -9,6 +9,7 @@ import net.goo.brutality.common.item.curios.hands.SuspiciouslyLargeHandle;
 import net.goo.brutality.common.item.weapon.sword.MurasamaSword;
 import net.goo.brutality.common.item.weapon.sword.ShadowstepSword;
 import net.goo.brutality.common.item.weapon.sword.SupernovaSword;
+import net.goo.brutality.common.item.weapon.sword.max.MAX;
 import net.goo.brutality.common.item.weapon.throwing.VampireKnives;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityParticles;
@@ -120,6 +121,7 @@ public abstract class PlayerMixin extends LivingEntity {
         originalDamage += (float) player.getAttributeBaseValue(Attributes.ATTACK_DAMAGE);
 
         originalDamage += SuspiciouslyLargeHandle.getDamageModification(player, stack);
+        originalDamage += MAX.getDamageBonusFromHealth(player, stack);
 
         return originalDamage;
     }
@@ -152,7 +154,7 @@ public abstract class PlayerMixin extends LivingEntity {
 
         if (!this.getMainHandItem().isEmpty() && handler.isPresent()) {
             if (handler.get().isEquipped(BrutalityItems.SUSPICIOUSLY_LARGE_HANDLE.get())) {
-                return (float) (1.0D / 0.5F * 20.0D);
+                return (float) (1.0D / SuspiciouslyLargeHandle.BASE_ATTACK_SPEED * 20.0D);
             }
         }
 

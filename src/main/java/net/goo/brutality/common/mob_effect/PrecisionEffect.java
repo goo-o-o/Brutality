@@ -13,7 +13,7 @@ public class PrecisionEffect extends MobEffect {
 
     public PrecisionEffect(MobEffectCategory category, int color) {
         super(category, color);
-        this.addAttributeModifier(BrutalityAttributes.CRITICAL_STRIKE_CHANCE.get(), String.valueOf(PRECISION_UUID), 0, AttributeModifier.Operation.ADDITION);
+        this.addAttributeModifier(BrutalityAttributes.CRITICAL_STRIKE_CHANCE.get(), String.valueOf(PRECISION_UUID), 0, AttributeModifier.Operation.MULTIPLY_BASE);
     }
 
     @Override

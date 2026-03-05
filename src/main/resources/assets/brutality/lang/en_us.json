@@ -908,6 +908,7 @@
   "item.brutality.forbidden_orb.passive.1": "§e -Take 5 Damage per Second when your Mana is below 25%",
 
   "item.brutality.mask_of_madness": "Mask Of Madness",
+  "item.brutality.mask_of_madness.passive.1": "§e -The wearer burns with§d Shadowflame§e and§8 Wither§e while under Sunlight",
   "item.brutality.aqua_ruler": "Aqua Ruler",
   "item.brutality.face_pie": "Face Pie",
   "item.brutality.quantum_lubricant": "Quantum Lubricant",
@@ -1199,7 +1200,7 @@
 
   "item.brutality.suspiciously_large_handle": "Suspiciously Large Handle",
   "item.brutality.suspiciously_large_handle.passive.1": "§e -Sets the wearer's Attack Speed to 0.65",
-  "item.brutality.suspiciously_large_handle.passive.2": "§e -For every 0.01 Attack Speed lost, gain 0.05 Attack Damage",
+  "item.brutality.suspiciously_large_handle.passive.2": "§e -For every 0.01 Attack Speed lost, gain 0.075 Attack Damage",
 
   "item.brutality.empty_anklet": "Empty Anklet",
   "item.brutality.davys_anklet": "Davy's Anklet",
@@ -1386,9 +1387,24 @@
   "item.brutality.lunar_lens.passive.1": "§e -Grants more Spell Damage the closer it is to Midnight",
 
   "item.brutality.max": "M.A.X.",
-  "item.brutality.max.lore.1": "§8Multiphase Annihilation X-Terminator Mk.4",
-  "item.brutality.max.lore.2": "§7The perfected form of the M.A.X. weapon. Truly, finally, this is a weapon that can fulfill its glorious, magnificent purpose.",
-  "item.brutality.max.lore.3": "Deicide.",
+  "item.brutality.max.lore.1": "§8[Multiphase Annihilation X-Terminator Mk.4]",
+  "item.brutality.max.lore.2": "§7§oThe perfected form of the M.A.X. weapon. Truly, finally, this is a weapon that can fulfill its glorious, magnificent purpose.",
+  "item.brutality.max.lore.3": "",
+  "item.brutality.max.lore.4": "Deicide.",
+
+  "item.brutality.maximus": "Maximus",
+  "item.brutality.maximus.lore.1": "§8[M.A.X. Mk.3]",
+  "item.brutality.maximus.lore.2": "§7§oImprovement after improvement. What’s missing? What’s missing? It’s not yet perfect. It must be perfect. It must be perfect. It must be perfect.",
+
+  "item.brutality.maxima": "Maxima",
+  "item.brutality.maxima.lore.1": "§8[M.A.X. Mk.2]",
+  "item.brutality.maxima.lore.2": "§7§oAn improved version of the M.A.X. weapon. New materials have given the sword an improvement.",
+  "item.brutality.maxima.lore.3": "",
+  "item.brutality.maxima.lore.4": "§7§oBut it’s still not perfect.",
+
+  "item.brutality.maxim": "Maxim",
+  "item.brutality.maxim.lore.1": "§8[M.A.X. Mk.1]",
+  "item.brutality.maxim.lore.2": "§7§oAn experimental greatsword built using scavenged technology from powerful mechs. A prototype, but powerful nonetheless.",
 
 
   "block.brutality.toilet": "Toilet",

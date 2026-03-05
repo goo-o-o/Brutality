@@ -502,6 +502,9 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.WORLD_TREE_SWORD.get());
                         output.accept(BrutalityItems.RHONGOMYNIAD.get());
                         output.accept(BrutalityItems.CALDRITH.get());
+                        output.accept(BrutalityItems.MAXIM.get());
+                        output.accept(BrutalityItems.MAXIMA.get());
+                        output.accept(BrutalityItems.MAXIMUS.get());
                         output.accept(BrutalityItems.MAX.get());
                         output.accept(BrutalityItems.SCHISM.get());
                         output.accept(BrutalityItems.HELLSPEC_CLEAVER.get());

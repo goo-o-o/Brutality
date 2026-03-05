@@ -58,6 +58,10 @@ public class ModUtils {
     private static MethodHandle shouldAttackWithOffHand;
     private static MethodHandle getItemStack;
 
+    public static void resetAttackCooldown(Player player) {
+        player.attackStrengthTicker = (int) player.getCurrentItemAttackStrengthDelay();
+    }
+
     static {
         if (HAS_BETTER_COMBAT) {
             try {
