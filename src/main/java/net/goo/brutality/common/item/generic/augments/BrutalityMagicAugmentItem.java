@@ -1,25 +1,31 @@
 package net.goo.brutality.common.item.generic;
 
 import net.goo.brutality.common.item.BrutalityCategories;
-import net.goo.brutality.common.item.base.BrutalityMagicItem;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.IBrutalitySpell;
-import net.goo.brutality.util.magic.AugmentHelper;
+import net.goo.brutality.util.AugmentHelper;
 import net.goo.brutality.util.magic.SpellStorage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class BrutalityMagicAugmentItem extends BrutalityAugmentItem{
+public class BrutalityMagicAugmentItem extends BrutalityAugmentItem {
     public int spellSlotBonus = 0;
 
     public BrutalityMagicAugmentItem(Properties pProperties, BrutalityCategories... itemTypes) {
         super(pProperties, itemTypes);
     }
 
+    @Override
+    public @NotNull ItemStack getDefaultInstance() {
+        ItemStack stack = super.getDefaultInstance();
+        AugmentHelper.addAugmentItemTypes(stack, itemTypes);
+        return stack;
+    }
 
     @Override
     protected boolean shouldShowSection() {
