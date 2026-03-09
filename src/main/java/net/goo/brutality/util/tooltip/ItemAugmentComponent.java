@@ -1,14 +1,16 @@
 package net.goo.brutality.util.tooltip;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.common.item.generic.BrutalityAugmentItem;
+import net.goo.brutality.common.item.generic.augments.BrutalityAugmentItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.renderer.ItemModelShaper;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
@@ -17,13 +19,13 @@ import org.joml.Matrix4f;
 
 import java.util.List;
 
-public class MagicItemAugmentComponent implements ClientTooltipComponent {
+public class ItemAugmentComponent implements ClientTooltipComponent {
     // Roughly adapted from https://github.com/Shadows-of-Fire/Apotheosis/blob/1.21/src/main/java/dev/shadowsoffire/apotheosis/client/SocketTooltipRenderer.java
     private final int spacing = 12;
     private static final ResourceLocation AUGMENT_SLOT = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/augment_slot.png");
     private final AugmentComponent component;
 
-    public MagicItemAugmentComponent(AugmentComponent component) {
+    public ItemAugmentComponent(AugmentComponent component) {
         this.component = component;
     }
 
@@ -50,9 +52,11 @@ public class MagicItemAugmentComponent implements ClientTooltipComponent {
 
         int currentY = pY;
         for (BrutalityAugmentItem augmentItem : this.component.augments()) {
-            TextureAtlasSprite model = Minecraft.getInstance().getItemRenderer().getModel(augmentItem.getDefaultInstance(), null, null, 0).getParticleIcon();
+            ItemModelShaper shaper = Minecraft.getInstance().getItemRenderer().getItemModelShaper();
+            BakedModel model = shaper.getItemModel(augmentItem);
+            TextureAtlasSprite sprite = model.getParticleIcon();
 
-            pGuiGraphics.blit(pX + 1, currentY + 1, 0, 8, 8, model);
+            pGuiGraphics.blit(pX + 1, currentY + 1, 0, 8, 8, sprite);
 
             currentY += spacing;
         }

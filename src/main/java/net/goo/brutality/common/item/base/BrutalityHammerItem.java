@@ -73,11 +73,6 @@ public class BrutalityHammerItem extends TieredItem implements BrutalityGeoItem 
         return this;
     }
 
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.ItemType.HAMMER;
-    }
-
 
     AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 

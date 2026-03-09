@@ -2,9 +2,10 @@ package net.goo.brutality.util.lightning;
 
 import net.goo.brutality.client.particle.base.ChainLightningParticle;
 import net.goo.brutality.client.particle.providers.ChainLightningParticleData;
+import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.clientbound.ClientboundChainLightningPacket;
-import net.goo.brutality.util.item.SealUtils;
+import net.goo.brutality.util.AugmentHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
@@ -41,19 +42,16 @@ public class ChainLightningHelper {
         Level level = origin.level();
 
         int modifiedQuota = quota;
-
         LivingEntity current = origin;
         Set<LivingEntity> hitMobs = new HashSet<>();
         while (modifiedQuota > 0) {
             LivingEntity closestEntity = level.getNearestEntity(LivingEntity.class,
                     TargetingConditions.DEFAULT.ignoreLineOfSight().selector(e -> !hitMobs.contains(e)), origin, position.x(), position.y(), position.z(),
                     current.getBoundingBox().inflate(radius));
+            float amount = maxDamage * ((float) modifiedQuota / quota);
 
             if (closestEntity != null) {
-                closestEntity.hurt(closestEntity.damageSources().lightningBolt(), maxDamage * ((float) modifiedQuota / quota));
-
-
-
+                closestEntity.hurt(closestEntity.damageSources().lightningBolt(), amount);
 
                 hitMobs.add(closestEntity);
                 if (!level.isClientSide())
@@ -62,7 +60,13 @@ public class ChainLightningHelper {
                             closestEntity);
 
                 position = closestEntity.getRopeHoldPosition(0);
-                SealUtils.handleSealProcOffensive(level, attacker, position, weapon);
+
+                AugmentHelper.getAugmentCounts(weapon).forEach((brutalityAugmentItem, integer) -> {
+                    if (brutalityAugmentItem instanceof BrutalitySealAugmentItem sealAugmentItem) {
+                        sealAugmentItem.onHurtEntity(attacker, closestEntity, amount, integer);
+                    }
+                });
+
                 modifiedQuota--;
                 current = closestEntity;
                 continue;

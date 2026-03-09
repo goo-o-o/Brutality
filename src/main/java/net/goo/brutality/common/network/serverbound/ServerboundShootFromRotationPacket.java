@@ -1,8 +1,7 @@
 package net.goo.brutality.common.network.serverbound;
 
-import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
-import net.goo.brutality.util.item.SealUtils;
+import net.goo.brutality.util.AugmentHelper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -77,11 +76,7 @@ public class ServerboundShootFromRotationPacket {
                         projectile.shootFromRotation(player, packet.xRot, packet.yRot, 0, packet.vel, packet.inaccuracy);
                         projectile.setOwner(player);
 
-                        SealUtils.SEAL_TYPE sealType = SealUtils.getSealType(packet.stack);
-                        if (sealType != null) {
-                            projectile.getCapability(BrutalityCapabilities.SEAL_TYPE).ifPresent(cap -> cap.setSealType(sealType));
-
-                        }
+                        AugmentHelper.addAugmentsToProjectile(packet.stack, projectile);
 
                         level.addFreshEntity(projectile);
                     }

@@ -4,7 +4,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.client.player_animation.AnimationHelper;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.common.item.base.BrutalitySpearItem;
-import net.goo.brutality.common.network.clientbound.ClientboundPlayerAnimationPacket;
+import net.goo.brutality.common.network.clientbound.ClientboundStartPlayerAnimationPacket;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.client.particle.providers.FlatParticleData;
 import net.goo.brutality.common.registry.BrutalityParticles;
@@ -42,7 +42,7 @@ public class Caldrith extends BrutalitySpearItem {
         pPlayer.setYBodyRot(pPlayer.getYRot());
         if (pLevel instanceof ServerLevel serverLevel) {
             PacketHandler.sendToNearbyClients(serverLevel, pPlayer.getX(), pPlayer.getY(.5), pPlayer.getZ(), 128,
-                    new ClientboundPlayerAnimationPacket(pPlayer.getUUID(), animation,
+                    new ClientboundStartPlayerAnimationPacket(pPlayer.getUUID(), animation,
                             false, 1F));
 
 

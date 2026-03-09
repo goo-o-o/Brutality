@@ -1,6 +1,6 @@
 package net.goo.brutality.common.network.serverbound;
 
-import net.goo.brutality.common.item.BrutalityArmorMaterials;
+import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.armor.VampireLordArmorItem;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.network.FriendlyByteBuf;

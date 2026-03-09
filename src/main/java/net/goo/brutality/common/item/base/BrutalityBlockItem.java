@@ -21,11 +21,6 @@ public class BrutalityBlockItem extends BlockItem implements BrutalityGeoItem {
     }
 
     @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.ItemType.BLOCK;
-    }
-
-    @Override
     public BrutalityCategories.AttackType getAttackType() {
         return BrutalityCategories.AttackType.NONE;
     }

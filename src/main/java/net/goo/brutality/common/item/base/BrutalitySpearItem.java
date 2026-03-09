@@ -58,11 +58,6 @@ public class BrutalitySpearItem extends AxeItem implements BrutalityGeoItem {
     }
 
     @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.ItemType.SPEAR;
-    }
-
-    @Override
     public GeoAnimatable cacheItem() {
         return this;
     }

@@ -8,7 +8,7 @@ import net.goo.brutality.common.item.base.BrutalityThrowingItem;
 import net.goo.brutality.common.item.weapon.throwing.VampireKnives;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.serverbound.ServerboundHandleThrowingProjectilePacket;
-import net.goo.brutality.common.network.serverbound.ServerboundPlayerAnimationPacket;
+import net.goo.brutality.common.network.serverbound.ServerboundStartPlayerAnimationPacket;
 import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.minecraft.client.Minecraft;
@@ -104,8 +104,7 @@ public class ThrowableWeaponUtils {
         }
 
         AnimationHelper.playAnimation(player, animationLocation, offHand, speed);
-
-        PacketHandler.sendToServer(new ServerboundPlayerAnimationPacket(player.getUUID(), animationLocation, offHand, speed));
+        PacketHandler.sendToServer(new ServerboundStartPlayerAnimationPacket(player.getUUID(), animationLocation, offHand, speed));
     }
 
     /**

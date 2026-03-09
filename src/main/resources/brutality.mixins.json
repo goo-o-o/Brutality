@@ -54,6 +54,7 @@
   },
   "client": [
     "accessors.FontAccessor",
+    "mixins.AbstractClientPlayerEntityMixin",
     "mixins.BakedGlyphMixin",
     "mixins.BiomeMixin",
     "mixins.BlockEntityRenderDispatcherMixin",
@@ -62,6 +63,7 @@
     "mixins.GuiGraphicsMixin",
     "mixins.HierarchicalModelMixin",
     "mixins.HumanoidModelMixin",
+    "mixins.ItemInHandLayerMixin",
     "mixins.ItemRendererMixin",
     "mixins.ItemTransformDeserializerMixin",
     "mixins.KeyboardInputMixin",

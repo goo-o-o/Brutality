@@ -50,8 +50,7 @@ public class AnimationHelper {
                     }
 
 
-
-//                        layer.setAnimation(keyframeAnimationPlayer);
+                    //                        layer.setAnimation(keyframeAnimationPlayer);
 
                     SpeedModifier speedModifier = speedModifierMap.computeIfAbsent(player, k -> new SpeedModifier());
                     MirrorModifier mirrorModifier = mirrorModifierMap.computeIfAbsent(player, k -> new MirrorModifier());
@@ -67,12 +66,8 @@ public class AnimationHelper {
 
 
     /**
-     * Called from Packets
-     *
-     * @param playerUUID
-     * @param animationLocation
-     * @param mirrored
-     * @param speed
+     * Plays an animation on a remote player, identified by their {@link UUID}. This method checks local conditions
+     * to avoid processing
      */
     public static void playAnimation(UUID playerUUID, ResourceLocation animationLocation, boolean mirrored, float speed) {
         Minecraft mc = Minecraft.getInstance();
@@ -87,5 +82,37 @@ public class AnimationHelper {
             return;
         }
         playAnimation(player, animationLocation, mirrored, speed);
+    }
+
+
+    public static void stopAnimation(UUID playerUUID, int fadeTicks) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level == null || mc.player == null) {
+            return;
+        }
+        if (playerUUID.equals(mc.player.getUUID())) {
+            return;
+        }
+        AbstractClientPlayer player = (AbstractClientPlayer) mc.level.getPlayerByUUID(playerUUID);
+        if (player == null) {
+            return;
+        }
+        stopAnimation(player, fadeTicks);
+    }
+
+    public static void stopAnimation(Player player, int fadeTicks) {
+        if (player instanceof AbstractClientPlayer abstractClientPlayer) {
+            var animationData = PlayerAnimationAccess.getPlayerAssociatedData(abstractClientPlayer);
+            ModifierLayer<IAnimation> layer = (ModifierLayer<IAnimation>) animationData
+                    .get(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "animation"));
+
+            if (layer != null && layer.getAnimation() != null) {
+
+                layer.replaceAnimationWithFade(
+                        AbstractFadeModifier.standardFadeIn(fadeTicks, Ease.LINEAR),
+                        null
+                );
+            }
+        }
     }
 }

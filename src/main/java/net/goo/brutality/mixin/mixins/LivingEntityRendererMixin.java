@@ -1,7 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
 import net.goo.brutality.client.renderers.layers.*;
-import net.goo.brutality.common.item.BrutalityArmorMaterials;
+import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

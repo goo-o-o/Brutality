@@ -61,11 +61,6 @@ public class BrutalityGenericItem extends Item implements BrutalityGeoItem {
     }
 
     @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.ItemType.GENERIC;
-    }
-
-    @Override
     public GeoAnimatable cacheItem() {
         return this;
     }

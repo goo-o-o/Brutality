@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.curios.hands.SuspiciouslyLargeHandle;
+import net.goo.brutality.common.item.generic.augments.BrutalityAugmentItem;
 import net.goo.brutality.common.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.common.item.weapon.hammer.Jackpot;
 import net.goo.brutality.common.item.weapon.sword.max.MAX;
@@ -12,7 +13,6 @@ import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.NBTUtils;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
-import net.goo.brutality.util.item.SealUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -46,10 +46,9 @@ public abstract class ItemStackMixin {
     private static final UUID BASE_ATTACK_SPEED_UUID = UUID.fromString("FA233E1C-4180-4865-B01B-BCCE9785ACA3");
 
     @Inject(method = "getAttributeModifiers", at = @At("RETURN"), cancellable = true)
-    private void addSealAttributeModifiers(EquipmentSlot pSlot, CallbackInfoReturnable<Multimap<Attribute, AttributeModifier>> cir) {
+    private void modifyAttributeModifiers(EquipmentSlot pSlot, CallbackInfoReturnable<Multimap<Attribute, AttributeModifier>> cir) {
         ItemStack stack = (ItemStack) (Object) this;
-        SealUtils.SEAL_TYPE sealType = SealUtils.getSealType(stack);
-        SealUtils.handleSealAttributes(sealType, stack, pSlot, cir);
+        BrutalityAugmentItem.addAugmentAttributeModifiers(stack, pSlot, cir);
     }
 
     @Redirect(
@@ -121,7 +120,8 @@ public abstract class ItemStackMixin {
                         }
 
 
-                        if (handler.isEquipped(BrutalityItems.SUSPICIOUSLY_LARGE_HANDLE.get())) return -itemAttackSpeed + SuspiciouslyLargeHandle.BASE_ATTACK_SPEED;
+                        if (handler.isEquipped(BrutalityItems.SUSPICIOUSLY_LARGE_HANDLE.get()))
+                            return -itemAttackSpeed + SuspiciouslyLargeHandle.BASE_ATTACK_SPEED;
 
                         return player.getAttributeBaseValue(attribute);
 
@@ -155,8 +155,9 @@ public abstract class ItemStackMixin {
 
     /**
      * Tricks the game into thinking that {@link AttributeModifier.Operation#ADDITION} attributes that are {@link net.goo.brutality.common.registry.BrutalityAttributes.RangedPercentageAttribute}s to display as percentages
+     *
      * @param original The original operation
-     * @param entry The original attribute entry
+     * @param entry    The original attribute entry
      * @return {@link AttributeModifier.Operation#MULTIPLY_BASE} if the condition is true, else {@code original}
      */
     @ModifyExpressionValue(

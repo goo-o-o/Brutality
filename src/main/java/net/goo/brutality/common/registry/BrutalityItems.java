@@ -3,7 +3,7 @@ package net.goo.brutality.common.registry;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.config.BrutalityCommonConfig;
 import net.goo.brutality.common.entity.explosion.BloodExplosion;
-import net.goo.brutality.common.item.BrutalityArmorMaterials;
+import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.common.item.armor.NoirArmorItem;
 import net.goo.brutality.common.item.armor.TerraArmorItem;
@@ -36,8 +36,16 @@ import net.goo.brutality.common.item.curios.necklace.BloodHowlPendant;
 import net.goo.brutality.common.item.curios.necklace.KnightsPendant;
 import net.goo.brutality.common.item.curios.ring.RoadRunnersRing;
 import net.goo.brutality.common.item.curios.vanity.TrialGuardianEyebrows;
-import net.goo.brutality.common.item.generic.*;
-import net.goo.brutality.common.item.seals.*;
+import net.goo.brutality.common.item.generic.ManaSyringe;
+import net.goo.brutality.common.item.generic.PrisonKey;
+import net.goo.brutality.common.item.generic.SpellScroll;
+import net.goo.brutality.common.item.generic.StatTrakkerItem;
+import net.goo.brutality.common.item.generic.augments.BrutalityAugmentationDevice;
+import net.goo.brutality.common.item.generic.augments.BrutalityMagicAugmentItem;
+import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
+import net.goo.brutality.common.item.generic.augments.seals.BombSeal;
+import net.goo.brutality.common.item.generic.augments.seals.CosmicSeal;
+import net.goo.brutality.common.item.generic.augments.seals.VoidSeal;
 import net.goo.brutality.common.item.weapon.axe.Deathsaw;
 import net.goo.brutality.common.item.weapon.axe.OldGpuAxe;
 import net.goo.brutality.common.item.weapon.axe.RhittaAxe;
@@ -74,6 +82,7 @@ import net.goo.brutality.util.ModExplosionHelper;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
 import net.goo.brutality.util.attribute.AttributeContainer;
+import net.goo.brutality.util.attribute.SlottedAttributeContainer;
 import net.goo.brutality.util.build_archetypes.GastronomyHelper;
 import net.goo.brutality.util.magic.ManaHelper;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
@@ -88,6 +97,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
@@ -148,21 +158,21 @@ public class BrutalityItems {
     public static final RegistryObject<Item> DAEMONIC_SPELL_SCROLL = ITEMS.register("daemonic_spell_scroll", () -> new SpellScroll(new Item.Properties()).withSchool(IBrutalitySpell.MagicSchool.DAEMONIC));
 
     public static final RegistryObject<Item> DRAGON_SINEW_BINDING = ITEMS.register("dragon_sinew_binding", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME, STAFF, WAND).withAttributes(
-            new AttributeContainer(BrutalityAttributes.UNIVERSAL_SCHOOL_LEVEL.get(), 2, ADDITION)));
+            new SlottedAttributeContainer(BrutalityAttributes.UNIVERSAL_SCHOOL_LEVEL.get(), 2, ADDITION, EquipmentSlot.MAINHAND)));
 
     public static final RegistryObject<Item> QUICKSILVER_INK = ITEMS.register("quicksilver_ink", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withAttributes(
-            new AttributeContainer(BrutalityAttributes.CAST_TIME.get(), -0.15, MULTIPLY_TOTAL),
-            new AttributeContainer(BrutalityAttributes.SPELL_COOLDOWN.get(), -0.15, MULTIPLY_TOTAL)));
+            new SlottedAttributeContainer(BrutalityAttributes.CAST_TIME.get(), -0.15, MULTIPLY_TOTAL, EquipmentSlot.MAINHAND),
+            new SlottedAttributeContainer(BrutalityAttributes.SPELL_COOLDOWN.get(), -0.15, MULTIPLY_TOTAL, EquipmentSlot.MAINHAND)));
 
     public static final RegistryObject<Item> QUICKSILVER_SPINE = ITEMS.register("quicksilver_spine", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withPassiveLines(1));
     public static final RegistryObject<Item> ARCHANGELS_TEARS = ITEMS.register("archangels_tears", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withAttributes(
-            new AttributeContainer(BrutalityAttributes.CELESTIA_SCHOOL_LEVEL.get(), 2, ADDITION)));
+            new SlottedAttributeContainer(BrutalityAttributes.CELESTIA_SCHOOL_LEVEL.get(), 2, ADDITION, EquipmentSlot.MAINHAND)));
     public static final RegistryObject<Item> FORBIDDEN_MANUSCRIPT = ITEMS.register("forbidden_manuscript", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(1));
     public static final RegistryObject<Item> UVOGRE_VELLUM = ITEMS.register("uvogre_vellum", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(1));
     public static final RegistryObject<Item> SOLID_SPELL_DRIVE = ITEMS.register("solid_spell_drive", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(2));
     public static final RegistryObject<Item> IRIDESCENT_BOOKMARK = ITEMS.register("iridescent_bookmark", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withAttributes(
-            new AttributeContainer(BrutalityAttributes.MAX_MANA.get(), 40, ADDITION),
-            new AttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), -0.05, MULTIPLY_TOTAL)));
+            new SlottedAttributeContainer(BrutalityAttributes.MAX_MANA.get(), 40, ADDITION, EquipmentSlot.MAINHAND),
+            new SlottedAttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), -0.05, MULTIPLY_TOTAL, EquipmentSlot.MAINHAND)));
 
     public static final RegistryObject<Item> RUNE_OF_THE_ROYAL_FLUSH = ITEMS.register("rune_of_the_royal_flush", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME) {
         @Override
@@ -176,21 +186,21 @@ public class BrutalityItems {
     }.withPassiveLines(2));
 
     public static final RegistryObject<Item> VEGAS_VELLUM = ITEMS.register("vegas_vellum", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withSpellSlotBonus(1).withAttributes(
-            new AttributeContainer(Attributes.LUCK, 1.5, ADDITION)));
+            new SlottedAttributeContainer(Attributes.LUCK, 1.5, ADDITION, EquipmentSlot.MAINHAND)));
 
 
     public static final RegistryObject<Item> SOUL_INFUSED_INK = ITEMS.register("soul_infused_ink", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withAttributes(
-            new AttributeContainer(BrutalityAttributes.MAX_MANA.get(), 25, ADDITION),
-            new AttributeContainer(BrutalityAttributes.MANA_COST.get(), -0.1, MULTIPLY_TOTAL)));
+            new SlottedAttributeContainer(BrutalityAttributes.MAX_MANA.get(), 25, ADDITION, EquipmentSlot.MAINHAND),
+            new SlottedAttributeContainer(BrutalityAttributes.MANA_COST.get(), -0.1, MULTIPLY_TOTAL, EquipmentSlot.MAINHAND)));
 
     public static final RegistryObject<Item> VOID_TOUCHED_INK = ITEMS.register("void_touched_ink", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME).withAttributes(
-            new AttributeContainer(BrutalityAttributes.VOIDWALKER_SCHOOL_LEVEL.get(), 2, ADDITION),
-            new AttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), -0.05, MULTIPLY_TOTAL)));
+            new SlottedAttributeContainer(BrutalityAttributes.VOIDWALKER_SCHOOL_LEVEL.get(), 2, ADDITION, EquipmentSlot.MAINHAND),
+            new SlottedAttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), -0.05, MULTIPLY_TOTAL, EquipmentSlot.MAINHAND)));
 
     public static final RegistryObject<Item> FEATHER_OF_THE_FIRST_WIND = ITEMS.register("feather_of_the_first_wind", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME, STAFF, WAND).withAttributes(
-            new AttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), -0.05, MULTIPLY_TOTAL),
-            new AttributeContainer(BrutalityAttributes.CAST_TIME.get(), -0.2, MULTIPLY_TOTAL),
-            new AttributeContainer(BrutalityAttributes.SPELL_COOLDOWN.get(), -0.2, MULTIPLY_TOTAL)));
+            new SlottedAttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), -0.05, MULTIPLY_TOTAL, EquipmentSlot.MAINHAND),
+            new SlottedAttributeContainer(BrutalityAttributes.CAST_TIME.get(), -0.2, MULTIPLY_TOTAL, EquipmentSlot.MAINHAND),
+            new SlottedAttributeContainer(BrutalityAttributes.SPELL_COOLDOWN.get(), -0.2, MULTIPLY_TOTAL, EquipmentSlot.MAINHAND)));
 
     public static final RegistryObject<Item> PROFANED_INK = ITEMS.register("profaned_ink", () -> new BrutalityMagicAugmentItem(new Item.Properties(), TOME) {
         @Override
@@ -199,8 +209,8 @@ public class BrutalityItems {
             caster.invulnerableTime = 0;
         }
     }.withAttributes(
-            new AttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), 0.15, MULTIPLY_TOTAL),
-            new AttributeContainer(BrutalityAttributes.UNIVERSAL_SCHOOL_LEVEL.get(), 1, ADDITION)));
+            new SlottedAttributeContainer(BrutalityAttributes.SPELL_DAMAGE.get(), 0.15, MULTIPLY_TOTAL, EquipmentSlot.MAINHAND),
+            new SlottedAttributeContainer(BrutalityAttributes.UNIVERSAL_SCHOOL_LEVEL.get(), 1, ADDITION, EquipmentSlot.MAINHAND)));
 
 
     public static final RegistryObject<Item> BASIC_STAT_TRAKKER = ITEMS.register("basic_stat_trakker",
@@ -221,20 +231,83 @@ public class BrutalityItems {
     public static final RegistryObject<Item> IMPORTANT_DOCUMENTS = ITEMS.register("important_documents", () -> new ImportantDocumentsBlockItem(BrutalityBlocks.IMPORTANT_DOCUMENTS_BLOCK.get(), new Item.Properties()));
 
 
-    public static final RegistryObject<Item> BLACK_SEAL = ITEMS.register("black_seal", () -> new BlackSealItem(new Item.Properties()));
-    public static final RegistryObject<Item> BLUE_SEAL = ITEMS.register("blue_seal", () -> new BlueSealItem(new Item.Properties()));
-    public static final RegistryObject<Item> GREEN_SEAL = ITEMS.register("green_seal", () -> new GreenSealItem(new Item.Properties()));
-    public static final RegistryObject<Item> ORANGE_SEAL = ITEMS.register("orange_seal", () -> new OrangeSealItem(new Item.Properties()));
-    public static final RegistryObject<Item> PINK_SEAL = ITEMS.register("pink_seal", () -> new PinkSealItem(new Item.Properties()));
-    public static final RegistryObject<Item> PURPLE_SEAL = ITEMS.register("purple_seal", () -> new PurpleSealItem(new Item.Properties()));
-    public static final RegistryObject<Item> RED_SEAL = ITEMS.register("red_seal", () -> new RedSealItem(new Item.Properties()));
-    public static final RegistryObject<Item> CYAN_SEAL = ITEMS.register("cyan_seal", () -> new CyanSealItem(new Item.Properties()));
-    public static final RegistryObject<Item> YELLOW_SEAL = ITEMS.register("yellow_seal", () -> new YellowSealItem(new Item.Properties()));
-    public static final RegistryObject<Item> BOMB_SEAL = ITEMS.register("bomb_seal", () -> new BombSealItem(new Item.Properties()));
-    public static final RegistryObject<Item> COSMIC_SEAL = ITEMS.register("cosmic_seal", () -> new CosmicSealItem(new Item.Properties()));
-    public static final RegistryObject<Item> GLASS_SEAL = ITEMS.register("glass_seal", () -> new GlassSealItem(new Item.Properties()));
-    public static final RegistryObject<Item> QUANTITE_SEAL = ITEMS.register("quantite_seal", () -> new QuantiteSealItem(new Item.Properties()));
-    public static final RegistryObject<Item> VOID_SEAL = ITEMS.register("void_seal", () -> new VoidSealItem(new Item.Properties()));
+    public static final RegistryObject<Item> BLACK_SEAL = ITEMS.register("black_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
+            .withAttributes(
+                    new AttributeContainer(BrutalityAttributes.LETHALITY.get(), 2, ADDITION)
+            ));
+
+    public static final RegistryObject<Item> BLUE_SEAL = ITEMS.register("blue_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
+            .withAttributes(
+                    new AttributeContainer(Attributes.ARMOR, 2, ADDITION)
+            ));
+    public static final RegistryObject<Item> GREEN_SEAL = ITEMS.register("green_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
+            .withAttributes(
+                    new AttributeContainer(Attributes.LUCK, 0.5, ADDITION)
+            ));
+    public static final RegistryObject<Item> ORANGE_SEAL = ITEMS.register("orange_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
+            .withAttributes(
+                    new AttributeContainer(BrutalityAttributes.CRITICAL_STRIKE_CHANCE.get(),0.05, ADDITION)
+            ));
+    public static final RegistryObject<Item> PINK_SEAL = ITEMS.register("pink_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
+            .withAttributes(
+                    new AttributeContainer(BrutalityAttributes.LIFESTEAL.get(),0.002, ADDITION)
+            ));
+    public static final RegistryObject<Item> PURPLE_SEAL = ITEMS.register("purple_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
+            .withAttributes(
+                    new AttributeContainer(BrutalityAttributes.TENACITY.get(),0.015, ADDITION)
+            ));
+    public static final RegistryObject<Item> RED_SEAL = ITEMS.register("red_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
+            .withAttributes(
+                    new SlottedAttributeContainer(Attributes.MAX_HEALTH,2, ADDITION, EquipmentSlot.MAINHAND)
+            ));
+    public static final RegistryObject<Item> CYAN_SEAL = ITEMS.register("cyan_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
+            .withAttributes(
+                    new AttributeContainer(Attributes.ATTACK_DAMAGE,2, ADDITION)
+            ));
+    public static final RegistryObject<Item> YELLOW_SEAL = ITEMS.register("yellow_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
+            .withAttributes(
+                    new AttributeContainer(Attributes.ATTACK_SPEED,0.1, MULTIPLY_TOTAL)
+            ));
+    public static final RegistryObject<Item> BOMB_SEAL = ITEMS.register("bomb_seal", () -> new BombSeal(new Item.Properties()).withPassiveLines(1));
+    public static final RegistryObject<Item> COSMIC_SEAL = ITEMS.register("cosmic_seal", () -> new CosmicSeal(new Item.Properties()).withPassiveLines(1));
+    public static final RegistryObject<Item> VOID_SEAL = ITEMS.register("void_seal", () -> new VoidSeal(new Item.Properties()).withPassiveLines(1));
+
+    public static final RegistryObject<Item> GLASS_SEAL = ITEMS.register("glass_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
+            .withAttributes(
+                    new AttributeContainer(Attributes.ATTACK_DAMAGE,0.15, MULTIPLY_TOTAL),
+                    new AttributeContainer(Attributes.ARMOR,-1, MULTIPLY_TOTAL),
+                    new AttributeContainer(BrutalityAttributes.DAMAGE_TAKEN.get(), 0.25, MULTIPLY_TOTAL)
+            ));
+
+    public static final RegistryObject<Item> QUANTITE_SEAL = ITEMS.register("quantite_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
+            .withAttributes(
+                    new AttributeContainer(BrutalityAttributes.ARMOR_PENETRATION.get(),0.05, MULTIPLY_TOTAL)
+            ));
+
+    public static final RegistryObject<Item> DIMLITE_AUGMENTATION_DEVICE = ITEMS.register("dimlite_augmentation_device", () -> new BrutalityAugmentationDevice(
+            new Item.Properties(), 1));
+    public static final RegistryObject<Item> COSMILITE_AUGMENTATION_DEVICE = ITEMS.register("cosmilite_augmentation_device", () -> new BrutalityAugmentationDevice(
+            new Item.Properties(), 1));
+    public static final RegistryObject<Item> VIRENTIUM_AUGMENTATION_DEVICE = ITEMS.register("virentium_augmentation_device", () -> new BrutalityAugmentationDevice(
+            new Item.Properties(), 1));
+    public static final RegistryObject<Item> MOLTEN_AUGMENTATION_DEVICE = ITEMS.register("molten_augmentation_device", () -> new BrutalityAugmentationDevice(
+            new Item.Properties(), 1));
+    public static final RegistryObject<Item> COBALT_AUGMENTATION_DEVICE = ITEMS.register("cobalt_augmentation_device", () -> new BrutalityAugmentationDevice(
+            new Item.Properties(), 2));
+    public static final RegistryObject<Item> VOID_AUGMENTATION_DEVICE = ITEMS.register("void_augmentation_device", () -> new BrutalityAugmentationDevice(
+            new Item.Properties(), 2));
+    public static final RegistryObject<Item> HELLSPEC_AUGMENTATION_DEVICE = ITEMS.register("hellspec_augmentation_device", () -> new BrutalityAugmentationDevice(
+            new Item.Properties(), 2));
+    public static final RegistryObject<Item> CONDUCTITE_AUGMENTATION_DEVICE = ITEMS.register("conductite_augmentation_device", () -> new BrutalityAugmentationDevice(
+            new Item.Properties(), 2));
+    public static final RegistryObject<Item> NYXIUM_AUGMENTATION_DEVICE = ITEMS.register("nyxium_augmentation_device", () -> new BrutalityAugmentationDevice(
+            new Item.Properties(), 3));
+    public static final RegistryObject<Item> EXODIUM_AUGMENTATION_DEVICE = ITEMS.register("exodium_augmentation_device", () -> new BrutalityAugmentationDevice(
+            new Item.Properties(), 3));
+    public static final RegistryObject<Item> REVERIUM_AUGMENTATION_DEVICE = ITEMS.register("reverium_augmentation_device", () -> new BrutalityAugmentationDevice(
+            new Item.Properties(), 3));
+    public static final RegistryObject<Item> ADAMANTITE_AUGMENTATION_DEVICE = ITEMS.register("adamantite_augmentation_device", () -> new BrutalityAugmentationDevice(
+            new Item.Properties(), 3));
 
 
     public static final RegistryObject<Item> CELESTIAL_STARBOARD = ITEMS.register("celestial_starboard", () -> new CelestialStarboard(

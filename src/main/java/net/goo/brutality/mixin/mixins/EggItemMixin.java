@@ -1,8 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
-import net.goo.brutality.util.item.SealUtils;
+import net.goo.brutality.util.AugmentHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -26,11 +25,8 @@ public class EggItemMixin {
                     shift = At.Shift.BEFORE
             )
     )
-    private void attachSealToEnderPearl(Level pLevel, Player pPlayer, InteractionHand pHand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir, @Local ThrownEgg egg) {
+    private void attachAugmentToEgg(Level pLevel, Player pPlayer, InteractionHand pHand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir, @Local ThrownEgg egg) {
         ItemStack pStack = pPlayer.getItemInHand(pHand);
-        SealUtils.SEAL_TYPE sealType = SealUtils.getSealType(pStack);
-        if (sealType != null) {
-            egg.getCapability(BrutalityCapabilities.SEAL_TYPE).ifPresent(cap -> cap.setSealType(sealType));
-        }
+        AugmentHelper.addAugmentsToProjectile(pStack, egg);
     }
 }

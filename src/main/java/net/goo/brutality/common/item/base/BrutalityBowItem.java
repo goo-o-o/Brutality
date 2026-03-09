@@ -59,11 +59,6 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
         return this;
     }
 
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.ItemType.BOW;
-    }
-
     AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
     @Override

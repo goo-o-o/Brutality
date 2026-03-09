@@ -11,7 +11,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -30,6 +29,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
         addCurioTags();
+        addAugmentTags();
         addMagicTags();
         addRageTags();
         addGastronomistTags();
@@ -42,48 +42,47 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
 
         for (RegistryObject<Item> itemRegistryObject : itemsEntries) {
             Item item = itemRegistryObject.get();
-            ItemStack stack = item.getDefaultInstance();
-            if (ItemCategoryUtils.isSword(stack)) {
+            if (ItemCategoryUtils.isSword(item)) {
                 this.tag(ItemTags.SWORDS).add(item);
             }
-            if (ItemCategoryUtils.isTool(stack)) {
+            if (ItemCategoryUtils.isTool(item)) {
                 this.tag(ItemTags.TOOLS).add(item);
             }
-            if (ItemCategoryUtils.isPickaxe(stack)) {
+            if (ItemCategoryUtils.isPickaxe(item)) {
                 this.tag(ItemTags.PICKAXES).add(item);
             }
-            if (ItemCategoryUtils.isAxe(stack)) {
+            if (ItemCategoryUtils.isAxe(item)) {
                 this.tag(ItemTags.AXES).add(item);
             }
-            if (ItemCategoryUtils.isHoe(stack)) {
+            if (ItemCategoryUtils.isHoe(item)) {
                 this.tag(ItemTags.HOES).add(item);
             }
-            if (ItemCategoryUtils.isShovel(stack)) {
+            if (ItemCategoryUtils.isShovel(item)) {
                 this.tag(ItemTags.SHOVELS).add(item);
             }
-            if (ItemCategoryUtils.isShear(stack)) {
+            if (ItemCategoryUtils.isShear(item)) {
                 this.tag(Tags.Items.SHEARS).add(item);
             }
-            if (ItemCategoryUtils.isTrident(stack)) {
+            if (ItemCategoryUtils.isTrident(item)) {
                 this.tag(Tags.Items.TOOLS_TRIDENTS).add(item);
             }
-            if (ItemCategoryUtils.isShield(stack)) {
+            if (ItemCategoryUtils.isShield(item)) {
                 this.tag(Tags.Items.TOOLS_SHIELDS).add(item);
             }
-            if (ItemCategoryUtils.isBow(stack)) {
+            if (ItemCategoryUtils.isBow(item)) {
                 this.tag(Tags.Items.TOOLS_BOWS).add(item);
             }
 
-            if (ItemCategoryUtils.isGun(stack)) {
+            if (ItemCategoryUtils.isGun(item)) {
                 this.tag(BrutalityTags.Items.GUN).add(item);
             }
-            if (ItemCategoryUtils.isScythe(stack)) {
+            if (ItemCategoryUtils.isScythe(item)) {
                 this.tag(BrutalityTags.Items.SCYTHE).add(item);
             }
-            if (ItemCategoryUtils.isHammer(stack)) {
+            if (ItemCategoryUtils.isHammer(item)) {
                 this.tag(BrutalityTags.Items.HAMMER).add(item);
             }
-            if (ItemCategoryUtils.isSpear(stack)) {
+            if (ItemCategoryUtils.isSpear(item)) {
                 this.tag(BrutalityTags.Items.SPEAR).add(item);
             }
 
@@ -511,6 +510,42 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
         addNecklaceTags();
         addRingTags();
         addFeetTags();
+    }
+
+    private void addAugmentTags() {
+        this.tag(BrutalityTags.Items.AUGMENTS).addTags(BrutalityTags.Items.MAGIC_AUGMENTS, BrutalityTags.Items.AUGMENTATION_DEVICE, BrutalityTags.Items.SEALS);
+
+        this.tag(BrutalityTags.Items.AUGMENTATION_DEVICE).add(
+                BrutalityItems.DIMLITE_AUGMENTATION_DEVICE.get(),
+                BrutalityItems.COSMILITE_AUGMENTATION_DEVICE.get(),
+                BrutalityItems.VIRENTIUM_AUGMENTATION_DEVICE.get(),
+                BrutalityItems.MOLTEN_AUGMENTATION_DEVICE.get(),
+                BrutalityItems.COBALT_AUGMENTATION_DEVICE.get(),
+                BrutalityItems.VOID_AUGMENTATION_DEVICE.get(),
+                BrutalityItems.HELLSPEC_AUGMENTATION_DEVICE.get(),
+                BrutalityItems.CONDUCTITE_AUGMENTATION_DEVICE.get(),
+                BrutalityItems.NYXIUM_AUGMENTATION_DEVICE.get(),
+                BrutalityItems.EXODIUM_AUGMENTATION_DEVICE.get(),
+                BrutalityItems.REVERIUM_AUGMENTATION_DEVICE.get(),
+                BrutalityItems.ADAMANTITE_AUGMENTATION_DEVICE.get()
+        );
+
+        this.tag(BrutalityTags.Items.SEALS).add(
+                BrutalityItems.BLACK_SEAL.get(),
+                BrutalityItems.BLUE_SEAL.get(),
+                BrutalityItems.GREEN_SEAL.get(),
+                BrutalityItems.ORANGE_SEAL.get(),
+                BrutalityItems.PINK_SEAL.get(),
+                BrutalityItems.PURPLE_SEAL.get(),
+                BrutalityItems.RED_SEAL.get(),
+                BrutalityItems.CYAN_SEAL.get(),
+                BrutalityItems.YELLOW_SEAL.get(),
+                BrutalityItems.BOMB_SEAL.get(),
+                BrutalityItems.COSMIC_SEAL.get(),
+                BrutalityItems.GLASS_SEAL.get(),
+                BrutalityItems.QUANTITE_SEAL.get(),
+                BrutalityItems.VOID_SEAL.get()
+        );
     }
 
     private void addMagicTags() {

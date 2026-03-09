@@ -2,7 +2,7 @@ package net.goo.brutality.mixin.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
-import net.goo.brutality.common.item.BrutalityArmorMaterials;
+import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.curios.charm.BaseBrokenClock;
 import net.goo.brutality.common.item.curios.charm.OmnidirectionalMovementGear;
 import net.goo.brutality.common.item.weapon.scythe.DarkinScythe;
@@ -76,6 +76,15 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
 
 
         return modifiedInstance;
+    }
+
+    @Inject(method = "updateWalkAnimation", at = @At("HEAD"))
+    private void cancelWalkAnimation(float pPartialTick, CallbackInfo ci) {
+//        if ((((LivingEntity) (Object) this)) instanceof Player player) {
+//            if (BrutalityPoseHandler.getPoseForEntity(player).shouldCancelWalkAnimation(player)) {
+//                ci.cancel();
+//            }
+//        }
     }
 
 

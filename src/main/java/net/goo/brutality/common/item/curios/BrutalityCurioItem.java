@@ -2,7 +2,6 @@ package net.goo.brutality.common.item.curios;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.common.item.base.BrutalityGenericItem;
 import net.goo.brutality.util.attribute.AttributeContainer;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
@@ -107,11 +106,6 @@ public class BrutalityCurioItem extends BrutalityGenericItem implements ICurioIt
     public BrutalityCurioItem withAttributes(AttributeContainer... attributes) {
         this.attributeTemplates = List.of(attributes);
         return this;
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.ItemType.CURIO;
     }
 
 

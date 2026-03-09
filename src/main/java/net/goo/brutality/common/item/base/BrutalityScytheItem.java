@@ -66,11 +66,6 @@ public class BrutalityScytheItem extends TieredItem implements BrutalityGeoItem 
     }
 
     @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.ItemType.SCYTHE;
-    }
-
-    @Override
     public GeoAnimatable cacheItem() {
         return this;
     }

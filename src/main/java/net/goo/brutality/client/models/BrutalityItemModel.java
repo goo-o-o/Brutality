@@ -57,7 +57,7 @@ public class BrutalityItemModel<T extends Item & BrutalityGeoItem> extends GeoMo
     }
 
     private String getCategoryAsString(T animatable) {
-        return ItemCategoryUtils.getCategory(animatable.getDefaultInstance()).toString().toLowerCase(Locale.ROOT);
+        return ItemCategoryUtils.getCategory(animatable).toString().toLowerCase(Locale.ROOT);
     }
 
 

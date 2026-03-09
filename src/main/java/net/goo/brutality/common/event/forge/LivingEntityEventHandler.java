@@ -9,6 +9,7 @@ import net.goo.brutality.common.item.curios.charm.BoosterPack;
 import net.goo.brutality.common.item.curios.charm.RespawnCard;
 import net.goo.brutality.common.item.curios.charm.SelfRepairNexus;
 import net.goo.brutality.common.item.generic.StatTrakkerItem;
+import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
 import net.goo.brutality.common.item.weapon.generic.CreaseOfCreation;
 import net.goo.brutality.common.item.weapon.hammer.AtomicJudgementHammer;
 import net.goo.brutality.common.item.weapon.spear.EventHorizon;
@@ -20,7 +21,6 @@ import net.goo.brutality.util.EnvironmentColorManager;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
 import net.goo.brutality.util.item.ItemCategoryUtils;
-import net.goo.brutality.util.item.SealUtils;
 import net.goo.brutality.util.item.StatTrakUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -105,7 +105,7 @@ public class LivingEntityEventHandler {
     @SubscribeEvent
     public static void onProjectileImpact(ProjectileImpactEvent event) {
         if (event.getProjectile().getOwner() instanceof LivingEntity owner) {
-            event.getProjectile().getCapability(BrutalityCapabilities.SEAL_TYPE).ifPresent(cap -> {
+            event.getProjectile().getCapability(BrutalityCapabilities.AUGMENT).ifPresent(cap -> {
                 Vec3 location;
                 if (event.getRayTraceResult() instanceof EntityHitResult entityHitResult) {
                     location = entityHitResult.getEntity().getPosition(1).add(0, entityHitResult.getEntity().getY(0.5F), 0);
@@ -113,7 +113,11 @@ public class LivingEntityEventHandler {
                     location = event.getRayTraceResult().getLocation();
                 }
 
-                SealUtils.handleSealProcOffensive(owner.level(), owner, location, cap.getSealType());
+                cap.getAugmentCounts().forEach((brutalityAugmentItem, integer) -> {
+                    if (brutalityAugmentItem instanceof BrutalitySealAugmentItem sealAugmentItem) {
+                        sealAugmentItem.onProcAtLocation(owner, location, integer);
+                    }
+                });
             });
 
             if (!event.getEntity().isAlive()) {

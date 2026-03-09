@@ -15,8 +15,6 @@ import top.theillusivec4.curios.api.CuriosApi;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class OmnidirectionalMovementGear extends BrutalityCurioItem {
 
@@ -50,43 +48,7 @@ public class OmnidirectionalMovementGear extends BrutalityCurioItem {
             }
         }).orElseGet(() -> input.forwardImpulse > 1.0E-5F); // Fallback to vanilla if Curios is missing
     }
-
-    /**
-     * Determines if the player has enough directional input to initiate or maintain a sprint.
-     * <p>
-     * Under vanilla logic, Minecraft only allows sprinting if {@code forwardImpulse > 0}.
-     * This method overrides that check if the player has Omnidirectional Gear equipped,
-     * allowing for side-to-side (strafing) sprints.
-     * </p>
-     *
-     * @param player The local client-side player.
-     * @return An {@link Optional} containing the sprint eligibility:
-     * <ul>
-     * <li>{@code Optional.of(true/false)}: Override vanilla logic with this result.</li>
-     * <li>{@code Optional.empty()}: No gear equipped; proceed with vanilla logic.</li>
-     * </ul>
-     */
-    @OnlyIn(Dist.CLIENT)
-    public static Optional<Boolean> getOmnidirectionalImpulse(LocalPlayer player) {
-
-        // We use AtomicReference because variables accessed inside a lambda (ifPresent)
-        // must be effectively final. This acts as a mutable container for our result.
-        AtomicReference<Boolean> result = new AtomicReference<>(null);
-
-        CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
-            if (handler.isEquipped(BrutalityItems.OMNIDIRECTIONAL_MOVEMENT_GEAR.get())) {
-                // Check for ANY movement input.
-                // forwardImpulse: Positive (W), Negative (S)
-                // leftImpulse: Positive (A), Negative (D)
-                boolean hasAnyInput = Math.abs(player.input.forwardImpulse) > 0.00001F ||
-                        Math.abs(player.input.leftImpulse) > 0.00001F;
-                result.set(hasAnyInput);
-            }
-        });
-
-        return Optional.ofNullable(result.get());
-    }
-
+    
 
     /**
      * Calculates a 3D world-space velocity boost for jumping, based on the entity's

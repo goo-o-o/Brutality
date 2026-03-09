@@ -5,7 +5,6 @@ import com.google.common.collect.Multimap;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.particle.providers.WaveParticleData;
 import net.goo.brutality.common.entity.explosion.BloodExplosion;
-import net.goo.brutality.common.item.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.base.BrutalityArmorItem;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.clientbound.ClientboundParticlePacket;

@@ -2,7 +2,7 @@ package net.goo.brutality.mixin.mixins;
 
 import net.goo.brutality.common.item.curios.charm.OmnidirectionalMovementGear;
 import net.goo.brutality.common.registry.BrutalityItems;
-import net.goo.brutality.util.magic.AugmentHelper;
+import net.goo.brutality.util.AugmentHelper;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -42,14 +42,15 @@ public class LocalPlayerMixin {
             cir.setReturnValue(player.input.hasForwardImpulse());
             return;
         }
-
-        OmnidirectionalMovementGear.getOmnidirectionalImpulse(player).ifPresent(cir::setReturnValue);
-
-        CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
-            if (handler.isEquipped(BrutalityItems.VECTOR_STABILIZER.get())){
+        Optional<ICuriosItemHandler> curiosOpt = CuriosApi.getCuriosInventory(player).resolve();
+        if (curiosOpt.isPresent()) {
+            ICuriosItemHandler handler = curiosOpt.get();
+            if (handler.isEquipped(BrutalityItems.OMNIDIRECTIONAL_MOVEMENT_GEAR.get())) {
+                cir.setReturnValue(Math.abs(player.input.forwardImpulse) > 0.00001F || Math.abs(player.input.leftImpulse) > 0.00001F);
+            } else if (handler.isEquipped(BrutalityItems.VECTOR_STABILIZER.get())) {
                 cir.setReturnValue(player.input.forwardImpulse > 0.00001F);
             }
-        });
+        }
     }
 
     @Redirect(method = "canStartSprinting", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUsingItem()Z"))

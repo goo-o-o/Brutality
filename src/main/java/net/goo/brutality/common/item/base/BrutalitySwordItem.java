@@ -59,11 +59,6 @@ public class BrutalitySwordItem extends SwordItem implements BrutalityGeoItem {
 
 
     @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.ItemType.SWORD;
-    }
-
-    @Override
     public GeoAnimatable cacheItem() {
         return this;
     }

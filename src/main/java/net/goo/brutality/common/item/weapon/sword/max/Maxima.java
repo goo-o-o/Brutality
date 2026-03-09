@@ -1,6 +1,5 @@
 package net.goo.brutality.common.item.weapon.sword.max;
 
-import net.goo.brutality.common.item.base.BrutalitySwordItem;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
@@ -12,12 +11,13 @@ import net.minecraft.world.item.Tier;
 
 import java.util.List;
 
-public class Maxima extends BrutalitySwordItem {
+public class Maxima extends Maxim {
     private final float secondAttackDamage;
 
     public Maxima(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, float secondAttackDamage, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
         this.secondAttackDamage = secondAttackDamage;
+        this.rangeBonus = 1;
     }
 
 
@@ -43,7 +43,7 @@ public class Maxima extends BrutalitySwordItem {
 
     @Override
     public float hurtEnemyModifiable(Player attacker, LivingEntity victim, ItemStack weapon, float amount) {
-        if (weapon.hasTag() && weapon.getTag().getBoolean("ProcessingSecondHit")) {
+        if (weapon.hasTag() && weapon.getTag().getBoolean("hit")) {
             return amount * secondAttackDamage;
         }
 

@@ -1,9 +1,11 @@
 package net.goo.brutality.event.forge;
 
-import net.goo.brutality.common.item.seals.BaseSealItem;
+import net.goo.brutality.common.item.generic.augments.BrutalityAugmentItem;
+import net.goo.brutality.common.item.generic.augments.BrutalityAugmentationDevice;
+import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
 import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.util.AugmentHelper;
 import net.goo.brutality.util.item.ItemCategoryUtils;
-import net.goo.brutality.util.item.SealUtils;
 import net.goo.brutality.util.item.StatTrakUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -21,20 +23,32 @@ public class ForgeAnvilHandler {
         ItemStack right = event.getRight();
 
         // 1. Handle Seals
-        if (right.getItem() instanceof BaseSealItem sealItem && !(left.getItem() instanceof ICurioItem || left.getItem() instanceof BaseSealItem)) {
-            SealUtils.SEAL_TYPE sealType = sealItem.getSealType();
-            if (sealType != null && SealUtils.getSealType(left) == null) {
-                ItemStack output = left.copy();
-                SealUtils.addSeal(output, sealType);
-
-                // Apply the name the user typed in the Anvil box!
-                if (event.getName() != null && !event.getName().isEmpty()) {
-                    output.setHoverName(Component.literal(event.getName()));
-                }
-
+        if (right.getItem() instanceof BrutalityAugmentationDevice augmentationItem &&
+                !(left.getItem() instanceof ICurioItem || left.getItem() instanceof BrutalityAugmentationDevice || left.getItem() instanceof BrutalityAugmentItem)) {
+            ItemStack output = left.copy();
+            if (AugmentHelper.addAugmentSlot(output, augmentationItem)) {
                 event.setOutput(output);
                 event.setCost(5);
                 event.setMaterialCost(1);
+
+                if (event.getName() != null && !event.getName().isEmpty()) {
+                    output.setHoverName(Component.literal(event.getName()));
+                }
+                return;
+            }
+        }
+
+        if (right.getItem() instanceof BrutalitySealAugmentItem &&
+                !(left.getItem() instanceof ICurioItem || left.getItem() instanceof BrutalitySealAugmentItem)) {
+            ItemStack output = left.copy();
+            if (!AugmentHelper.addAugments(output, right).isEmpty()) {
+                event.setOutput(output);
+                event.setCost(5);
+                event.setMaterialCost(1);
+
+                if (event.getName() != null && !event.getName().isEmpty()) {
+                    output.setHoverName(Component.literal(event.getName()));
+                }
                 return; // Exit so we don't hit the weapon check below
             }
         }

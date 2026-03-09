@@ -5,10 +5,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
-import net.goo.brutality.common.item.BrutalityArmorMaterials;
+import net.goo.brutality.common.entity.spells.IBrutalitySpellEntity;
+import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
+import net.goo.brutality.common.item.weapon.RotatingAttackWeapon;
 import net.goo.brutality.common.item.weapon.generic.LastPrism;
 import net.goo.brutality.common.magic.BrutalitySpell;
-import net.goo.brutality.common.entity.spells.IBrutalitySpellEntity;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.BrutalityEntityRotations;
 import net.goo.brutality.util.ModUtils;
@@ -16,14 +17,13 @@ import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
@@ -102,52 +102,45 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
     }
 
 
+
     @SubscribeEvent
     public static <T extends LivingEntity, M extends EntityModel<T>> void onLivingRender(RenderLivingEvent.Pre<T, M> event) {
-        T entity = (T) event.getEntity();
-        PoseStack poseStack = event.getPoseStack();
-        float partialTick = event.getPartialTick();
-        int packedLight = event.getPackedLight();
-        LivingEntityRenderer<T, M> renderer = event.getRenderer();
-        M model = renderer.getModel();
-        MultiBufferSource originalBuffer = event.getMultiBufferSource();
+        LivingEntity entity = event.getEntity();
+        ItemStack useItem = entity.getUseItem();
 
 
-//        CuriosApi.getCuriosInventory(entity).ifPresent(handler ->
-//                handler.findFirstCurio(BrutalityModItems.SUSPICIOUS_SLOT_MACHINE.get()).ifPresent(slot ->
-//                event.setCanceled(true)));
+        if (!useItem.isEmpty() && useItem.getItem() instanceof RotatingAttackWeapon weapon && entity.isUsingItem()) {
+            if (useItem.is(BrutalityItems.MAX.get())) {
+                RotatingAttackWeapon.handleRenderEvent(event, weapon);
+            }
+        } else {
+            RotatingAttackWeapon.SPIN_ANCHORS.remove(entity);
+        }
 
-
-//        if (entity.getCapability(BrutalityCapabilitiesOld.ENTITY_EFFECT_CAP).map(EntityCapabilities.EntityEffectCap::isRage).orElse(false)) {
-//            poseStack.scale(1.25F, 1.25F, 1.25F);
-//        }
-
-//        if (ModUtils.hasFullArmorSet(entity, BrutalityArmorMaterials.NOIR)) event.setCanceled(true);
 
         if (entity instanceof BrutalityEntityRotations rotations) {
             entity.getCapability(BrutalityCapabilities.SHOULD_ROTATE).ifPresent(entityShouldRotateCap -> {
                 if (entityShouldRotateCap.isShouldRotate()) {
 
-//                System.out.println("rendering with rotation");
-
-                    float lerpedRoll = Mth.lerp(partialTick, rotations.brutality$getBrutalityPrevRoll(), rotations.brutality$getBrutalityRoll());
-                    float lerpedYaw = Mth.lerp(partialTick, rotations.brutality$getBrutalityPrevYaw(), rotations.brutality$getBrutalityYaw());
-                    float lerpedPitch = Mth.lerp(partialTick, rotations.brutality$getBrutalityPrevPitch(), rotations.brutality$getBrutalityPitch());
+                    float lerpedRoll = Mth.lerp(event.getPartialTick(), rotations.brutality$getBrutalityPrevRoll(), rotations.brutality$getBrutalityRoll());
+                    float lerpedYaw = Mth.lerp(event.getPartialTick(), rotations.brutality$getBrutalityPrevYaw(), rotations.brutality$getBrutalityYaw());
+                    float lerpedPitch = Mth.lerp(event.getPartialTick(), rotations.brutality$getBrutalityPrevPitch(), rotations.brutality$getBrutalityPitch());
 
                     float halfHeight = entity.getBbHeight() / 2.0f;
 
-                    poseStack.translate(0, halfHeight, 0);
+                    event.getPoseStack().translate(0, halfHeight, 0);
 
-                    poseStack.mulPose(Axis.YP.rotationDegrees(lerpedYaw));
-                    poseStack.mulPose(Axis.ZP.rotationDegrees(lerpedPitch));
-                    poseStack.mulPose(Axis.XP.rotationDegrees(lerpedRoll));
+                    event.getPoseStack().mulPose(Axis.YP.rotationDegrees(lerpedYaw));
+                    event.getPoseStack().mulPose(Axis.ZP.rotationDegrees(lerpedPitch));
+                    event.getPoseStack().mulPose(Axis.XP.rotationDegrees(lerpedRoll));
 
-                    poseStack.translate(0, -halfHeight, 0);
+                    event.getPoseStack().translate(0, -halfHeight, 0);
 
                 }
             });
         }
 
     }
+
 
 }

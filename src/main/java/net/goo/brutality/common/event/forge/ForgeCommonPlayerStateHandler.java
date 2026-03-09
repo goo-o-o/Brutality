@@ -3,7 +3,7 @@ package net.goo.brutality.common.event.forge;
 import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.ClientAccess;
-import net.goo.brutality.common.item.BrutalityArmorMaterials;
+import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.common.item.weapon.generic.CreaseOfCreation;
 import net.goo.brutality.common.item.weapon.spear.EventHorizon;

@@ -4,13 +4,11 @@ import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.common.item.base.*;
 import net.goo.brutality.util.BrutalityTags;
 import net.mcreator.terramity.init.TerramityModItems;
-import net.mcreator.terramity.item.CosmiliteArmorItem;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
-import top.theillusivec4.curios.Curios;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.util.Locale;
@@ -63,115 +61,184 @@ public class ItemCategoryUtils {
     );
 
     public static BrutalityCategories getCategory(ItemStack stack) {
+        return getCategory(stack.getItem());
+    }
+    public static BrutalityCategories getCategory(Item item) {
         // 1. Check Magic Items First (Specialized classes)
-        if (stack.getItem() instanceof BrutalityMagicItem magicItem) {
+        if (item instanceof BrutalityMagicItem magicItem) {
             return magicItem.type; // Returns MagicItemType.STAFF, TOME, etc.
         }
 
-        if (isSword(stack)) return BrutalityCategories.ItemType.SWORD;
-        if (isAxe(stack)) return BrutalityCategories.ItemType.AXE;
-        if (isHammer(stack)) return BrutalityCategories.ItemType.HAMMER;
-        if (isScythe(stack)) return BrutalityCategories.ItemType.SCYTHE;
-        if (isSpear(stack)) return BrutalityCategories.ItemType.SPEAR;
-        if (isTrident(stack)) return BrutalityCategories.ItemType.TRIDENT;
-        if (isBow(stack)) return BrutalityCategories.ItemType.BOW;
-        if (isThrowing(stack)) return BrutalityCategories.ItemType.THROWING;
-        if (isPickaxe(stack)) return BrutalityCategories.ItemType.PICKAXE;
+        if (isSword(item)) return BrutalityCategories.ItemType.SWORD;
+        if (isAxe(item)) return BrutalityCategories.ItemType.AXE;
+        if (isHammer(item)) return BrutalityCategories.ItemType.HAMMER;
+        if (isScythe(item)) return BrutalityCategories.ItemType.SCYTHE;
+        if (isSpear(item)) return BrutalityCategories.ItemType.SPEAR;
+        if (isTrident(item)) return BrutalityCategories.ItemType.TRIDENT;
+        if (isBow(item)) return BrutalityCategories.ItemType.BOW;
+        if (isThrowing(item)) return BrutalityCategories.ItemType.THROWING;
+        if (isPickaxe(item)) return BrutalityCategories.ItemType.PICKAXE;
 
         // 3. Handle Curios and Armor (if applicable)
-        if (isArmor(stack)) return BrutalityCategories.ItemType.ARMOR;
-        if (stack.getItem() instanceof BlockItem) return BrutalityCategories.ItemType.BLOCK;
-        if (isCurio(stack)) return BrutalityCategories.ItemType.CURIO;
+        if (isArmor(item)) return BrutalityCategories.ItemType.ARMOR;
+        if (item instanceof BlockItem) return BrutalityCategories.ItemType.BLOCK;
+        if (isCurio(item)) return BrutalityCategories.ItemType.CURIO;
         // 4. Default Fallback
         return BrutalityCategories.ItemType.GENERIC;
     }
 
-    public static boolean isCurio(ItemStack stack) {
-        return stack.getItem() instanceof ICurioItem || stack.is(BrutalityTags.Items.ANKLET) || stack.is(BrutalityTags.Items.BELT) ||
-                stack.is(BrutalityTags.Items.BELT) || stack.is(BrutalityTags.Items.CHARM) || stack.is(BrutalityTags.Items.FEET) ||
-                stack.is(BrutalityTags.Items.HANDS) || stack.is(BrutalityTags.Items.HEAD) || stack.is(BrutalityTags.Items.HEART) ||
-                stack.is(BrutalityTags.Items.NECKLACE) || stack.is(BrutalityTags.Items.RING);
+    public static boolean isCurio(Item item) {
+        return item instanceof ICurioItem || item.builtInRegistryHolder().is(BrutalityTags.Items.ANKLET) || item.builtInRegistryHolder().is(BrutalityTags.Items.BELT) ||
+                item.builtInRegistryHolder().is(BrutalityTags.Items.BELT) || item.builtInRegistryHolder().is(BrutalityTags.Items.CHARM) || item.builtInRegistryHolder().is(BrutalityTags.Items.FEET) ||
+                item.builtInRegistryHolder().is(BrutalityTags.Items.HANDS) || item.builtInRegistryHolder().is(BrutalityTags.Items.HEAD) || item.builtInRegistryHolder().is(BrutalityTags.Items.HEART) ||
+                item.builtInRegistryHolder().is(BrutalityTags.Items.NECKLACE) || item.builtInRegistryHolder().is(BrutalityTags.Items.RING);
     }
 
+    public static boolean isArmor(Item item) {
+        return item instanceof ArmorItem && item.builtInRegistryHolder().is(Tags.Items.ARMORS) || item.builtInRegistryHolder().is(ItemTags.TRIMMABLE_ARMOR) ||
+                isHelmet(item) || isChestplate(item) || isLeggings(item) || isBoots(item);
+    }
     public static boolean isArmor(ItemStack stack) {
-        return stack.getItem() instanceof ArmorItem && stack.is(Tags.Items.ARMORS) || stack.is(ItemTags.TRIMMABLE_ARMOR) ||
-                isHelmet(stack) || isChestplate(stack) || isLeggings(stack) || isBoots(stack);
+        return isArmor(stack.getItem());
+    }
+
+    public static boolean isHelmet(Item item) {
+        return item.builtInRegistryHolder().is(Tags.Items.ARMORS_HELMETS) ||
+                item instanceof ArmorItem armorItem && armorItem.getType() == ArmorItem.Type.HELMET;
+    }
+
+    public static boolean isChestplate(Item item) {
+        return item.builtInRegistryHolder().is(Tags.Items.ARMORS_CHESTPLATES) ||
+                item instanceof ArmorItem armorItem && armorItem.getType() == ArmorItem.Type.CHESTPLATE;
+    }
+
+    public static boolean isLeggings(Item item) {
+        return item.builtInRegistryHolder().is(Tags.Items.ARMORS_LEGGINGS) ||
+                item instanceof ArmorItem armorItem && armorItem.getType() == ArmorItem.Type.LEGGINGS;
+    }
+
+    public static boolean isBoots(Item item) {
+        return item.builtInRegistryHolder().is(Tags.Items.ARMORS_BOOTS) ||
+                item instanceof ArmorItem armorItem && armorItem.getType() == ArmorItem.Type.BOOTS;
     }
 
     public static boolean isHelmet(ItemStack stack) {
-        return stack.is(Tags.Items.ARMORS_HELMETS) ||
-                stack.getItem() instanceof ArmorItem armorItem && armorItem.getType() == ArmorItem.Type.HELMET;
+        return isHelmet(stack.getItem());
     }
 
     public static boolean isChestplate(ItemStack stack) {
-        return stack.is(Tags.Items.ARMORS_CHESTPLATES) ||
-                stack.getItem() instanceof ArmorItem armorItem && armorItem.getType() == ArmorItem.Type.CHESTPLATE;
+        return isChestplate(stack.getItem());
     }
 
     public static boolean isLeggings(ItemStack stack) {
-        return stack.is(Tags.Items.ARMORS_LEGGINGS) ||
-                stack.getItem() instanceof ArmorItem armorItem && armorItem.getType() == ArmorItem.Type.LEGGINGS;
+        return isLeggings(stack.getItem());
     }
 
     public static boolean isBoots(ItemStack stack) {
-        return stack.is(Tags.Items.ARMORS_BOOTS) ||
-                stack.getItem() instanceof ArmorItem armorItem && armorItem.getType() == ArmorItem.Type.BOOTS;
+        return isBoots(stack.getItem());
     }
 
+    public static boolean isWeapon(Item item) {
+        return isAxe(item) || isSword(item) || isScythe(item) || isHammer(item) || isRangedWeapon(item);
+    }
     public static boolean isWeapon(ItemStack stack) {
-        return isAxe(stack) || isSword(stack) || isScythe(stack) || isHammer(stack) || isRangedWeapon(stack);
+        return isWeapon(stack.getItem());
     }
 
+    public static boolean isRangedWeapon(Item item) {
+        return isGun(item) || isBow(item) || isThrowing(item) || isTrident(item);
+    }
     public static boolean isRangedWeapon(ItemStack stack) {
-        return isGun(stack) || isBow(stack) || isThrowing(stack) || isTrident(stack);
+        return isRangedWeapon(stack.getItem());
+    }
+
+    public static boolean isTool(Item item) {
+        return isShovel(item) || isPickaxe(item) || isAxe(item) || isHoe(item) || item.builtInRegistryHolder().is(Tags.Items.TOOLS) || isShear(item);
     }
 
     public static boolean isTool(ItemStack stack) {
-        return isShovel(stack) || isPickaxe(stack) || isAxe(stack) || isHoe(stack) || stack.is(Tags.Items.TOOLS) || isShear(stack);
+        return isTool(stack.getItem());
     }
 
+    public static boolean isGun(Item item) {
+        return GUNS.contains(item);
+    }
     public static boolean isGun(ItemStack stack) {
-        return GUNS.contains(stack.getItem());
+        return isGun(stack.getItem());
+    }
+
+
+    public static boolean isSpearOrTrident(Item item) {
+        return isSpear(item) || isTrident(item);
+    }
+    public static boolean isSpearOrTrident(ItemStack stack) {
+        return isSpear(stack.getItem()) || isTrident(stack.getItem());
+    }
+
+    public static boolean isSpear(Item item) {
+        return item instanceof BrutalitySpearItem;
+    }
+
+    public static boolean isTrident(Item item) {
+        return item instanceof TridentItem || item.builtInRegistryHolder().is(Tags.Items.TOOLS_TRIDENTS) || item instanceof BrutalityTridentItem || nameHas(item, "trident");
+    }
+    public static boolean isTrident(ItemStack stack) {
+        return isTrident(stack.getItem());
+    }
+
+    public static boolean isBow(Item item) {
+        return item instanceof BowItem || nameHas(item, "bow") || item.builtInRegistryHolder().is(Tags.Items.TOOLS_BOWS);
+    }
+    public static boolean isBow(ItemStack stack) {
+        return isBow(stack.getItem());
+    }
+
+    public static boolean isThrowing(Item item) {
+        return item instanceof BrutalityThrowingItem;
+    }
+
+    public static boolean isThrowing(ItemStack stack) {
+        return isThrowing(stack.getItem());
+    }
+
+    public static boolean isScythe(Item item) {
+        return item instanceof BrutalityScytheItem || nameHas(item, "scythe");
+    }
+
+    public static boolean isScythe(ItemStack stack) {
+        return isScythe(stack.getItem());
+    }
+
+    public static boolean isHammer(Item item) {
+        if (item instanceof BrutalityHammerItem) return true;
+
+        if (item == TerramityModItems.HELLROK_GIGATON_HAMMER.get()) return true;
+
+        return item.builtInRegistryHolder().is(BrutalityTags.Items.HAMMER);
+    }
+
+    public static boolean isHammer(ItemStack stack) {
+        return isHammer(stack.getItem());
+    }
+
+    public static boolean isSword(Item item) {
+        return item instanceof SwordItem || item.builtInRegistryHolder().is(ItemTags.SWORDS);
     }
 
     public static boolean isSword(ItemStack stack) {
-        if (stack.getItem() instanceof SwordItem || stack.is(ItemTags.SWORDS)) return true;
+        if (isSword(stack.getItem())) return true;
         for (ToolAction DEFAULT_SWORD_ACTION : ToolActions.DEFAULT_SWORD_ACTIONS) {
             if (stack.canPerformAction(DEFAULT_SWORD_ACTION)) return true;
         }
         return false;
     }
 
-    public static boolean isSpearOrTrident(ItemStack stack) {
-        return isSpear(stack) || isTrident(stack);
-    }
-
-    public static boolean isSpear(ItemStack stack) {
-        return stack.getItem() instanceof BrutalitySpearItem;
-    }
-
-    public static boolean isTrident(ItemStack stack) {
-        return stack.getItem() instanceof TridentItem || stack.is(Tags.Items.TOOLS_TRIDENTS) || stack.getItem() instanceof BrutalityTridentItem || nameHas(stack, "trident");
-    }
-
-    public static boolean isBow(ItemStack stack) {
-        return stack.getItem() instanceof BowItem || nameHas(stack, "bow") || stack.is(Tags.Items.TOOLS_BOWS);
-    }
-
-    public static boolean isThrowing(ItemStack stack) {
-        return stack.getItem() instanceof BrutalityThrowingItem;
-    }
-
-    public static boolean isScythe(ItemStack stack) {
-        return stack.getItem() instanceof BrutalityScytheItem || nameHas(stack, "scythe");
-    }
-
-    public static boolean isHammer(ItemStack stack) {
-        return stack.getItem() instanceof BrutalityHammerItem || stack.is(TerramityModItems.HELLROK_GIGATON_HAMMER.get());
+    public static boolean isAxe(Item item) {
+        return item instanceof AxeItem || item.builtInRegistryHolder().is(ItemTags.AXES);
     }
 
     public static boolean isAxe(ItemStack stack) {
-        if (stack.getItem() instanceof AxeItem || stack.is(ItemTags.AXES)) return true;
+        if (isAxe(stack.getItem())) return true;
 
         for (ToolAction toolAction : ToolActions.DEFAULT_AXE_ACTIONS) {
             if (stack.canPerformAction(toolAction)) return true;
@@ -179,48 +246,69 @@ public class ItemCategoryUtils {
         return false;
     }
 
+    public static boolean isPickaxe(Item item) {
+        return item instanceof PickaxeItem || item.builtInRegistryHolder().is(ItemTags.PICKAXES);
+    }
+
     public static boolean isPickaxe(ItemStack stack) {
-        if (stack.getItem() instanceof PickaxeItem || stack.is(ItemTags.PICKAXES)) return true;
+        if (isPickaxe(stack.getItem())) return true;
+
         for (ToolAction toolAction : ToolActions.DEFAULT_PICKAXE_ACTIONS) {
             if (stack.canPerformAction(toolAction)) return true;
         }
         return false;
     }
 
+    public static boolean isHoe(Item item) {
+        return item instanceof HoeItem || item.builtInRegistryHolder().is(ItemTags.HOES);
+    }
+
     public static boolean isHoe(ItemStack stack) {
-        if (stack.getItem() instanceof HoeItem || stack.is(ItemTags.HOES)) return true;
+        if (isHoe(stack.getItem())) return true;
         for (ToolAction toolAction : ToolActions.DEFAULT_HOE_ACTIONS) {
             if (stack.canPerformAction(toolAction)) return true;
         }
         return false;
     }
 
+    public static boolean isShovel(Item item) {
+        return item instanceof ShovelItem || item.builtInRegistryHolder().is(ItemTags.SHOVELS);
+    }
+
     public static boolean isShovel(ItemStack stack) {
-        if (stack.getItem() instanceof ShovelItem || stack.is(ItemTags.SHOVELS)) return true;
+        if (isShovel(stack.getItem())) return true;
         for (ToolAction toolAction : ToolActions.DEFAULT_SHOVEL_ACTIONS) {
             if (stack.canPerformAction(toolAction)) return true;
         }
         return false;
     }
 
+    public static boolean isShield(Item item) {
+        return item instanceof ShieldItem || item.builtInRegistryHolder().is(Tags.Items.TOOLS_SHIELDS);
+    }
+
     public static boolean isShield(ItemStack stack) {
-        if (stack.getItem() instanceof ShieldItem || stack.is(Tags.Items.TOOLS_SHIELDS)) return true;
+        if (isShield(stack.getItem())) return true;
         for (ToolAction toolAction : ToolActions.DEFAULT_SHIELD_ACTIONS) {
             if (stack.canPerformAction(toolAction)) return true;
         }
         return false;
     }
 
+    public static boolean isShear(Item item) {
+        return item instanceof ShearsItem || item.builtInRegistryHolder().is(Tags.Items.SHEARS);
+    }
+
     public static boolean isShear(ItemStack stack) {
-        if (stack.getItem() instanceof ShearsItem || stack.is(Tags.Items.SHEARS)) return true;
+        if (isShear(stack.getItem())) return true;
         for (ToolAction toolAction : ToolActions.DEFAULT_SHEARS_ACTIONS) {
             if (stack.canPerformAction(toolAction)) return true;
         }
         return false;
     }
 
-    public static boolean nameHas(ItemStack stack, String text) {
-        return stack.getDescriptionId().toLowerCase(Locale.ROOT).contains(text);
+    public static boolean nameHas(Item item, String text) {
+        return item.getDescriptionId().toLowerCase(Locale.ROOT).contains(text);
     }
 
 

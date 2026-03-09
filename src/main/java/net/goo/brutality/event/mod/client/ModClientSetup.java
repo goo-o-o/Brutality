@@ -10,13 +10,13 @@ import net.goo.brutality.client.gui.meters.ManaMeter;
 import net.goo.brutality.client.gui.meters.RageMeter;
 import net.goo.brutality.client.gui.screen.FilingCabinetScreen;
 import net.goo.brutality.common.block.custom.DustbinBlock;
+import net.goo.brutality.common.compat.BetterCombatIntegration;
 import net.goo.brutality.common.registry.BrutalityBlocks;
 import net.goo.brutality.common.registry.BrutalityFluids;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityMenuTypes;
-import net.goo.brutality.common.compat.BetterCombatIntegration;
 import net.goo.brutality.util.RarityBorderManager;
-import net.goo.brutality.util.tooltip.MagicItemAugmentComponent;
+import net.goo.brutality.util.tooltip.ItemAugmentComponent;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -95,7 +95,7 @@ public class ModClientSetup {
 
     @SubscribeEvent
     public static void registerClientTooltipComponentFactoriesEvent(RegisterClientTooltipComponentFactoriesEvent event) {
-        event.register(MagicItemAugmentComponent.AugmentComponent.class, MagicItemAugmentComponent::new);
+        event.register(ItemAugmentComponent.AugmentComponent.class, ItemAugmentComponent::new);
     }
 
     @SubscribeEvent
@@ -131,6 +131,8 @@ public class ModClientSetup {
 
 
         PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(ResourceLocation.fromNamespaceAndPath(MOD_ID, "animation"), 42,
+                (player) -> new ModifierLayer<>());
+        PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(ResourceLocation.fromNamespaceAndPath(MOD_ID, "pose"), 41,
                 (player) -> new ModifierLayer<>());
 
         event.enqueueWork(() -> {

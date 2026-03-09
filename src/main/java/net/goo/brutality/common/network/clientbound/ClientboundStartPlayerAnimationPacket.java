@@ -8,21 +8,21 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public class ClientboundPlayerAnimationPacket {
+public class ClientboundStartPlayerAnimationPacket {
     UUID playerId;
     ResourceLocation animation;
     boolean mirrored;
     float speed;
 
-    public ClientboundPlayerAnimationPacket(UUID playerId, ResourceLocation animation, boolean mirrored,
-                                            float speed) {
+    public ClientboundStartPlayerAnimationPacket(UUID playerId, ResourceLocation animation, boolean mirrored,
+                                                 float speed) {
         this.playerId = playerId;
         this.animation = animation;
         this.mirrored = mirrored;
         this.speed = speed;
     }
 
-    public ClientboundPlayerAnimationPacket(FriendlyByteBuf buf) {
+    public ClientboundStartPlayerAnimationPacket(FriendlyByteBuf buf) {
         this.playerId = buf.readUUID();
         this.animation = buf.readResourceLocation();
         this.mirrored = buf.readBoolean();
@@ -37,7 +37,7 @@ public class ClientboundPlayerAnimationPacket {
     }
 
 
-    public static void handle(ClientboundPlayerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public static void handle(ClientboundStartPlayerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> AnimationHelper.playAnimation(packet.playerId, packet.animation, packet.mirrored, packet.speed));
         ctx.get().setPacketHandled(true);
     }

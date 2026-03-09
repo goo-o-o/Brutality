@@ -16,6 +16,8 @@ public class Maximus extends Maxima {
     public Maximus(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, float secondAttackDamage, int lightningQuota, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, secondAttackDamage, rarity, descriptionComponents);
         this.lightningQuota = lightningQuota;
+        this.rangeBonus = 3;
+
     }
 
     @Override

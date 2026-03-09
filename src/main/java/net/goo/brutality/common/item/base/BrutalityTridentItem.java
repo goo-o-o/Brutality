@@ -95,11 +95,6 @@ public class BrutalityTridentItem extends TridentItem implements BrutalityGeoIte
 
 
     @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.ItemType.TRIDENT;
-    }
-
-    @Override
     public GeoAnimatable cacheItem() {
         return this;
     }

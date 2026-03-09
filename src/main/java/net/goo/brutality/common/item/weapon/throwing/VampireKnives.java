@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.common.item.base.BrutalityThrowingItem;
 import net.goo.brutality.common.registry.BrutalityAttributes;
+import net.goo.brutality.util.AugmentHelper;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -70,7 +71,7 @@ public class VampireKnives extends BrutalityThrowingItem {
                 projectile.shootFromRotation(player, player.getXRot(), player.getYRot() + angleOffset, 0, getThrowVelocity(player), throwInaccuracy);
                 projectile.setOwner(player);
 
-                handleSealType(projectile, stack);
+                AugmentHelper.addAugmentsToProjectile(stack, projectile);
 
 
                 level.addFreshEntity(projectile);

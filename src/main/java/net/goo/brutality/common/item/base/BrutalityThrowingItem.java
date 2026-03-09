@@ -3,11 +3,10 @@ package net.goo.brutality.common.item.base;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
-import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.common.registry.BrutalityAttributes;
-import net.goo.brutality.util.item.SealUtils;
+import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
+import net.goo.brutality.util.AugmentHelper;
 import net.goo.brutality.util.item.ThrowableWeaponUtils;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -93,16 +92,10 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
             projectile.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, getThrowVelocity(player), this.throwInaccuracy);
             projectile.setOwner(player);
 
-            handleSealType(projectile, stack);
+
+            AugmentHelper.addAugmentsToProjectile(stack, projectile);
 
             level.addFreshEntity(projectile);
-        }
-    }
-
-    protected void handleSealType(Projectile projectile, ItemStack stack) {
-        SealUtils.SEAL_TYPE sealType = SealUtils.getSealType(stack);
-        if (sealType != null) {
-            projectile.getCapability(BrutalityCapabilities.SEAL_TYPE).ifPresent(cap -> cap.setSealType(sealType));
         }
     }
 
@@ -189,11 +182,6 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
     @Override
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
         return true;
-    }
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.ItemType.THROWING;
     }
 
     @Override

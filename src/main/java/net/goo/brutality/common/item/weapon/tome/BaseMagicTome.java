@@ -5,6 +5,7 @@ import net.goo.brutality.common.item.base.BrutalityMagicItem;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.IBrutalitySpell;
 import net.goo.brutality.common.registry.BrutalitySounds;
+import net.goo.brutality.util.AugmentHelper;
 import net.goo.brutality.util.magic.SpellCastingHandler;
 import net.goo.brutality.util.magic.SpellCooldownTracker;
 import net.goo.brutality.util.magic.SpellStorage;
@@ -35,7 +36,7 @@ public abstract class BaseMagicTome extends BrutalityMagicItem {
 
 
     public BaseMagicTome(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents, int baseSpellSlots, int baseAugmentSlots) {
-        super(rarity, descriptionComponents, baseSpellSlots, baseAugmentSlots);
+        super(rarity, descriptionComponents, baseSpellSlots, baseAugmentSlots, BrutalityCategories.MagicItemType.TOME);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }
 
@@ -47,14 +48,10 @@ public abstract class BaseMagicTome extends BrutalityMagicItem {
     public @NotNull ItemStack getDefaultInstance() {
         ItemStack stack = super.getDefaultInstance();
         stack.getOrCreateTag().putBoolean("closed", true);
+        AugmentHelper.addAugmentItemTypes(stack, BrutalityCategories.MagicItemType.TOME);
         return stack;
     }
 
-
-    @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.MagicItemType.TOME;
-    }
 
     @Override
     public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack) {

@@ -56,11 +56,6 @@ public class BrutalityArmorItem extends ArmorItem implements BrutalityGeoItem {
     }
 
     @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.ItemType.ARMOR;
-    }
-
-    @Override
     public GeoAnimatable cacheItem() {
         return this;
     }

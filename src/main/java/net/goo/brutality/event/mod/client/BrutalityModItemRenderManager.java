@@ -5,7 +5,7 @@ import net.goo.brutality.client.renderers.item.BrutalityItemRenderer;
 import net.goo.brutality.client.renderers.layers.*;
 import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.goo.brutality.common.registry.BrutalityItems;
-import net.goo.brutality.util.item.SealUtils;
+import net.goo.brutality.util.item.SealDecoration;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
@@ -28,7 +28,7 @@ public class BrutalityModItemRenderManager {
 
     @SubscribeEvent
     public static void registerItemDecorations(RegisterItemDecorationsEvent event) {
-        ForgeRegistries.ITEMS.forEach(item -> event.register(item, new SealUtils()));
+        ForgeRegistries.ITEMS.forEach(item -> event.register(item, new SealDecoration()));
     }
 
 

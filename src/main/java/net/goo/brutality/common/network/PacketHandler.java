@@ -35,7 +35,8 @@ public class PacketHandler {
         NETWORK_CHANNEL.registerMessage(id++, ServerboundChangeSpellPacket.class, ServerboundChangeSpellPacket::write, ServerboundChangeSpellPacket::new, ServerboundChangeSpellPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundActiveAbilityPressPacket.class, ServerboundActiveAbilityPressPacket::write, ServerboundActiveAbilityPressPacket::new, ServerboundActiveAbilityPressPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ServerboundArmorSetBonusAbilityPressPacket.class, ServerboundArmorSetBonusAbilityPressPacket::write, ServerboundArmorSetBonusAbilityPressPacket::new, ServerboundArmorSetBonusAbilityPressPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ServerboundPlayerAnimationPacket.class, ServerboundPlayerAnimationPacket::write, ServerboundPlayerAnimationPacket::new, ServerboundPlayerAnimationPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundStartPlayerAnimationPacket.class, ServerboundStartPlayerAnimationPacket::write, ServerboundStartPlayerAnimationPacket::new, ServerboundStartPlayerAnimationPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ServerboundStopPlayerAnimationPacket.class, ServerboundStopPlayerAnimationPacket::write, ServerboundStopPlayerAnimationPacket::new, ServerboundStopPlayerAnimationPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundUpdateAbilityCooldownsPacket.class, ClientboundUpdateAbilityCooldownsPacket::write, ClientboundUpdateAbilityCooldownsPacket::new, ClientboundUpdateAbilityCooldownsPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundExactParticlePacket.class, ClientboundExactParticlePacket::write, ClientboundExactParticlePacket::new, ClientboundExactParticlePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundGenericSyncPacket.class, ClientboundGenericSyncPacket::write, ClientboundGenericSyncPacket::new, ClientboundGenericSyncPacket::handle);
@@ -44,7 +45,8 @@ public class PacketHandler {
         NETWORK_CHANNEL.registerMessage(id++, ClientboundChainLightningPacket.class, ClientboundChainLightningPacket::write, ClientboundChainLightningPacket::new, ClientboundChainLightningPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundDodgePacket.class, ClientboundDodgePacket::write, ClientboundDodgePacket::new, ClientboundDodgePacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundSyncItemCooldownPacket.class, ClientboundSyncItemCooldownPacket::write, ClientboundSyncItemCooldownPacket::decode, ClientboundSyncItemCooldownPacket::handle);
-        NETWORK_CHANNEL.registerMessage(id++, ClientboundPlayerAnimationPacket.class, ClientboundPlayerAnimationPacket::write, ClientboundPlayerAnimationPacket::new, ClientboundPlayerAnimationPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundStartPlayerAnimationPacket.class, ClientboundStartPlayerAnimationPacket::write, ClientboundStartPlayerAnimationPacket::new, ClientboundStartPlayerAnimationPacket::handle);
+        NETWORK_CHANNEL.registerMessage(id++, ClientboundStopPlayerAnimationPacket.class, ClientboundStopPlayerAnimationPacket::write, ClientboundStopPlayerAnimationPacket::new, ClientboundStopPlayerAnimationPacket::handle);
         NETWORK_CHANNEL.registerMessage(id++, ClientboundBrutalityExplodePacket.class, ClientboundBrutalityExplodePacket::write, ClientboundBrutalityExplodePacket::new, ClientboundBrutalityExplodePacket::handle);
     }
 

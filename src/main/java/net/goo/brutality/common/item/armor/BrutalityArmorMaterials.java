@@ -1,4 +1,4 @@
-package net.goo.brutality.common.item;
+package net.goo.brutality.common.item.armor;
 
 import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvent;

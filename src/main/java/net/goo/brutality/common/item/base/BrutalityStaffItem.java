@@ -66,11 +66,6 @@ public class BrutalityStaffItem extends AxeItem implements BrutalityGeoItem {
     }
 
     @Override
-    public BrutalityCategories category() {
-        return BrutalityCategories.ItemType.STAFF;
-    }
-
-    @Override
     public GeoAnimatable cacheItem() {
         return this;
     }

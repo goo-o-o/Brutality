@@ -2,6 +2,7 @@ package net.goo.brutality.common.item.weapon.throwing;
 
 import net.goo.brutality.common.item.base.BrutalityThrowingItem;
 import net.goo.brutality.common.registry.BrutalityEffects;
+import net.goo.brutality.util.AugmentHelper;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -95,7 +96,7 @@ public class Mug extends BrutalityThrowingItem {
             mug.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, getThrowVelocity(player), throwInaccuracy);
             mug.setOwner(player);
 
-            handleSealType(mug, stack);
+            AugmentHelper.addAugmentsToProjectile(stack, mug);
 
             mug.setMugTypeIndex(ModUtils.getTextureIdx(stack));
 

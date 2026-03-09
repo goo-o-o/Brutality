@@ -6,6 +6,8 @@ import net.goo.brutality.common.item.base.BrutalityThrowingItem;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.item.curios.charm.Cosine;
 import net.goo.brutality.common.item.curios.hands.SuspiciouslyLargeHandle;
+import net.goo.brutality.common.item.generic.augments.BrutalityAugmentItem;
+import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
 import net.goo.brutality.common.item.weapon.sword.MurasamaSword;
 import net.goo.brutality.common.item.weapon.sword.ShadowstepSword;
 import net.goo.brutality.common.item.weapon.sword.SupernovaSword;
@@ -13,10 +15,10 @@ import net.goo.brutality.common.item.weapon.sword.max.MAX;
 import net.goo.brutality.common.item.weapon.throwing.VampireKnives;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityParticles;
+import net.goo.brutality.util.AugmentHelper;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
 import net.goo.brutality.util.build_archetypes.GastronomyHelper;
-import net.goo.brutality.util.item.SealUtils;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -72,6 +74,7 @@ public abstract class PlayerMixin extends LivingEntity {
 
     @Shadow
     public abstract void attack(Entity pTarget);
+
 
     @Inject(method = "sweepAttack", at = @At("HEAD"), cancellable = true)
     private void sweepAttackParticle(CallbackInfo ci) {
@@ -174,7 +177,6 @@ public abstract class PlayerMixin extends LivingEntity {
         Player attacker = (Player) ((Object) this);
         ItemStack stack = ModUtils.getAttackStack(attacker);
         Item item = stack.getItem();
-        Level level = level();
 
         double pAmount = instance.getAttributeValue(attribute);
         if (!(pTarget instanceof LivingEntity livingEntity)) return pAmount;
@@ -190,7 +192,13 @@ public abstract class PlayerMixin extends LivingEntity {
             modifiedAmount = geoItem.hurtEnemyModifiable(attacker, livingEntity, stack, modifiedAmount);
         }
 
-        SealUtils.handleSealProcOffensive(level, attacker, livingEntity.getPosition(1).add(0, livingEntity.getBbHeight() * 0.5F, 0), stack);
+        for (Map.Entry<BrutalityAugmentItem, Integer> entry : AugmentHelper.getAugmentCounts(stack).entrySet()) {
+            BrutalityAugmentItem brutalityAugmentItem = entry.getKey();
+            Integer integer = entry.getValue();
+            if (brutalityAugmentItem instanceof BrutalitySealAugmentItem sealAugmentItem) {
+                sealAugmentItem.onHurtEntity(attacker, pTarget, modifiedAmount, integer);
+            }
+        }
 
         return modifiedAmount;
     }

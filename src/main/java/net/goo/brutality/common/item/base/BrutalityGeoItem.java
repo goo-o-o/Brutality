@@ -37,8 +37,6 @@ public interface BrutalityGeoItem extends GeoItem, ModResources {
     UUID BASE_STUN_CHANCE_UUID = UUID.fromString("6d3d3787-e06f-4111-b03f-aed7c9317416");
 
 
-    BrutalityCategories category();
-
     default String model(@Nullable ItemStack stack) {
         return null;
     }

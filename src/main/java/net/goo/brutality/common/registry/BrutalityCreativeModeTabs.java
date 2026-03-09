@@ -41,6 +41,20 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.GLASS_SEAL.get());
                         output.accept(BrutalityItems.QUANTITE_SEAL.get());
                         output.accept(BrutalityItems.VOID_SEAL.get());
+
+                        output.accept(BrutalityItems.DIMLITE_AUGMENTATION_DEVICE.get());
+                        output.accept(BrutalityItems.COSMILITE_AUGMENTATION_DEVICE.get());
+                        output.accept(BrutalityItems.VIRENTIUM_AUGMENTATION_DEVICE.get());
+                        output.accept(BrutalityItems.MOLTEN_AUGMENTATION_DEVICE.get());
+                        output.accept(BrutalityItems.COBALT_AUGMENTATION_DEVICE.get());
+                        output.accept(BrutalityItems.VOID_AUGMENTATION_DEVICE.get());
+                        output.accept(BrutalityItems.HELLSPEC_AUGMENTATION_DEVICE.get());
+                        output.accept(BrutalityItems.CONDUCTITE_AUGMENTATION_DEVICE.get());
+                        output.accept(BrutalityItems.NYXIUM_AUGMENTATION_DEVICE.get());
+                        output.accept(BrutalityItems.EXODIUM_AUGMENTATION_DEVICE.get());
+                        output.accept(BrutalityItems.REVERIUM_AUGMENTATION_DEVICE.get());
+                        output.accept(BrutalityItems.ADAMANTITE_AUGMENTATION_DEVICE.get());
+
                     })
                     .build());
 
@@ -597,20 +611,20 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.UMBRAL_SPELL_SCROLL.get());
                         output.accept(BrutalityItems.VOLTWEAVER_SPELL_SCROLL.get());
 
-                        output.accept(BrutalityItems.DRAGON_SINEW_BINDING.get());
-                        output.accept(BrutalityItems.QUICKSILVER_SPINE.get());
-                        output.accept(BrutalityItems.QUICKSILVER_INK.get());
-                        output.accept(BrutalityItems.ARCHANGELS_TEARS.get());
-                        output.accept(BrutalityItems.SOUL_INFUSED_INK.get());
-                        output.accept(BrutalityItems.VOID_TOUCHED_INK.get());
-                        output.accept(BrutalityItems.FEATHER_OF_THE_FIRST_WIND.get());
-                        output.accept(BrutalityItems.PROFANED_INK.get());
-                        output.accept(BrutalityItems.FORBIDDEN_MANUSCRIPT.get());
-                        output.accept(BrutalityItems.UVOGRE_VELLUM.get());
-                        output.accept(BrutalityItems.SOLID_SPELL_DRIVE.get());
-                        output.accept(BrutalityItems.IRIDESCENT_BOOKMARK.get());
-                        output.accept(BrutalityItems.VEGAS_VELLUM.get());
-                        output.accept(BrutalityItems.RUNE_OF_THE_ROYAL_FLUSH.get());
+                        output.accept(BrutalityItems.DRAGON_SINEW_BINDING.get().getDefaultInstance());
+                        output.accept(BrutalityItems.QUICKSILVER_SPINE.get().getDefaultInstance());
+                        output.accept(BrutalityItems.QUICKSILVER_INK.get().getDefaultInstance());
+                        output.accept(BrutalityItems.ARCHANGELS_TEARS.get().getDefaultInstance());
+                        output.accept(BrutalityItems.SOUL_INFUSED_INK.get().getDefaultInstance());
+                        output.accept(BrutalityItems.VOID_TOUCHED_INK.get().getDefaultInstance());
+                        output.accept(BrutalityItems.FEATHER_OF_THE_FIRST_WIND.get().getDefaultInstance());
+                        output.accept(BrutalityItems.PROFANED_INK.get().getDefaultInstance());
+                        output.accept(BrutalityItems.FORBIDDEN_MANUSCRIPT.get().getDefaultInstance());
+                        output.accept(BrutalityItems.UVOGRE_VELLUM.get().getDefaultInstance());
+                        output.accept(BrutalityItems.SOLID_SPELL_DRIVE.get().getDefaultInstance());
+                        output.accept(BrutalityItems.IRIDESCENT_BOOKMARK.get().getDefaultInstance());
+                        output.accept(BrutalityItems.VEGAS_VELLUM.get().getDefaultInstance());
+                        output.accept(BrutalityItems.RUNE_OF_THE_ROYAL_FLUSH.get().getDefaultInstance());
 
                     })
                     .build());

@@ -2,9 +2,9 @@ package net.goo.brutality.common.entity.projectile.trident.physics_projectile;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.common.entity.base.BrutalityAbstractThrowingProjectile;
-import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.registry.BrutalityDamageTypes;
 import net.goo.brutality.common.registry.BrutalityEntities;
+import net.goo.brutality.util.AugmentHelper;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -71,9 +71,7 @@ public class OverclockedToaster extends BrutalityAbstractThrowingProjectile impl
 
             toast.shoot(direction.x, direction.y, direction.z, 1.5F, 0);
 
-            getCapability(BrutalityCapabilities.SEAL_TYPE).ifPresent(toasterCap ->
-                    toast.getCapability(BrutalityCapabilities.SEAL_TYPE).ifPresent(toastCap ->
-                            toastCap.setSealType(toasterCap.getSealType())));
+            AugmentHelper.addAugmentsToProjectile(this, toast);
 
             toast.setOwner(livingEntity);
             level().addFreshEntity(toast);

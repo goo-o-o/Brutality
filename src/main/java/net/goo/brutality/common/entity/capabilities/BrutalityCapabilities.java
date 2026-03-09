@@ -30,7 +30,7 @@ public class BrutalityCapabilities {
     });
     public static final Capability<PlayerBoosterPackCap> BOOSTER_PACK = CapabilityManager.get(new CapabilityToken<>() {
     });
-    public static final Capability<EntitySealTypeCap> SEAL_TYPE = CapabilityManager.get(new CapabilityToken<>() {
+    public static final Capability<EntityAugmentCap> AUGMENT = CapabilityManager.get(new CapabilityToken<>() {
     });
     public static final Capability<EntityStickyBombCap> STICKY_BOMB = CapabilityManager.get(new CapabilityToken<>() {
     });
@@ -56,7 +56,7 @@ public class BrutalityCapabilities {
         register("spell_cooldowns", SPELL_COOLDOWNS, PlayerSpellCooldownsCap::new);
         register("should_rotate", SHOULD_ROTATE, EntityShouldRotateCap::new);
         register("booster_pack", BOOSTER_PACK, PlayerBoosterPackCap::new);
-        register("seal_type", SEAL_TYPE, EntitySealTypeCap::new);
+        register("augment", AUGMENT, EntityAugmentCap::new);
         register("sticky_bomb", STICKY_BOMB, EntityStickyBombCap::new);
         register("rage", RAGE, PlayerRageCap::new);
         register("blood", BLOOD, PlayerBloodCap::new);

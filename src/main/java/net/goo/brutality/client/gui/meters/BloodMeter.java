@@ -1,7 +1,7 @@
 package net.goo.brutality.client.gui.meters;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.common.item.BrutalityArmorMaterials;
+import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.build_archetypes.BloodHelper;
 import net.minecraft.client.Minecraft;

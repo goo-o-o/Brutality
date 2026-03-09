@@ -185,7 +185,7 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
                 if (EXCLUDED_ITEMS.contains(geoItem.getClass())) continue;
 
                 String registryName = geoItem.getRegistryName();
-                String category = ItemCategoryUtils.getCategory(item.getDefaultInstance()).toString().toLowerCase(Locale.ROOT);
+                String category = ItemCategoryUtils.getCategory(item).toString().toLowerCase(Locale.ROOT);
                 ResourceLocation basePath =
                         modLoc("item/" + category + "/" + (
                                 geoItem instanceof ArmorItem armorItem ? armorItem.getMaterial().toString().toLowerCase(Locale.ROOT) : registryName) + "/" + registryName);

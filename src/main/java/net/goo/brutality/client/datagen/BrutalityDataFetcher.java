@@ -9,7 +9,6 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Lifecycle;
 import net.daphne.lethality.LethalityMod;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.goo.brutality.util.item.ItemCategoryUtils;
 import net.mcreator.terramity.TerramityMod;
 import net.mcreator.terramity.entity.*;
@@ -23,20 +22,24 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ambient.AmbientCreature;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -56,7 +59,6 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.jar.JarFile;
 
 
@@ -385,7 +387,7 @@ public class BrutalityDataFetcher implements DataProvider {
 
 
             // Determine item type
-            data.itemType = ItemCategoryUtils.getCategory(stack).toString().toLowerCase(Locale.ROOT);
+            data.itemType = ItemCategoryUtils.getCategory(item).toString().toLowerCase(Locale.ROOT);
 
             // Basic properties
             if (item.getMaxDamage(stack) > 0) {

@@ -1,4 +1,4 @@
-package net.goo.brutality.common.item.generic;
+package net.goo.brutality.common.item.generic.augments;
 
 import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.common.magic.BrutalitySpell;

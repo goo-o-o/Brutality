@@ -17,11 +17,11 @@ public interface BrutalityCategories {
     }
 
     enum ItemType implements BrutalityCategories {
-        ARMOR, AXE, BOW, GENERIC, HAMMER, PICKAXE, SCYTHE, SWORD, TRIDENT, SPEAR, BLOCK, THROWING, CURIO;
+        ARMOR, AXE, BOW, GENERIC, HAMMER, PICKAXE, SCYTHE, SWORD, TRIDENT, SPEAR, BLOCK, THROWING, CURIO
     }
 
     enum MagicItemType implements BrutalityCategories {
-        STAFF, WAND, TOME;
+        STAFF, WAND, TOME
     }
 
     enum AttackType implements BrutalityCategories {

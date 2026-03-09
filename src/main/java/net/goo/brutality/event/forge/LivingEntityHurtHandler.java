@@ -2,11 +2,12 @@ package net.goo.brutality.event.forge;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
+import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
 import net.goo.brutality.common.magic.spells.celestia.HolyMantleSpell;
 import net.goo.brutality.common.mob_effect.SadEffect;
-import net.goo.brutality.util.build_archetypes.RageHelper;
+import net.goo.brutality.util.AugmentHelper;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
-import net.goo.brutality.util.item.SealUtils;
+import net.goo.brutality.util.build_archetypes.RageHelper;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -32,7 +33,7 @@ public class LivingEntityHurtHandler {
 
         // 1. UNIVERSAL PRE-PROCESSING
         // Applies to everything (Attributes, Holy Mantle)
-        amount = handleUniversalPreProcessing(event, victim, amount);
+        amount = handleUniversalPreProcessing(event, source, victim, amount);
 
         // 2. IDENTITY-BASED DISPATCHING
         if (victim instanceof Player victimPlayer) {
@@ -60,9 +61,10 @@ public class LivingEntityHurtHandler {
 
     // --- UNIVERSAL ---
 
-    private static float handleUniversalPreProcessing(LivingHurtEvent event, LivingEntity victim, float amount) {
+    private static float handleUniversalPreProcessing(LivingHurtEvent event, DamageSource source, LivingEntity victim, float amount) {
         amount = AttributeCalculationHelper.handleDamageTaken(amount, victim);
         HolyMantleSpell.processHurt(event, victim, amount);
+        handleArmorSealsHurt(victim, source, amount);
         return amount;
     }
 
@@ -82,7 +84,7 @@ public class LivingEntityHurtHandler {
     // --- 3. EVERYTIME A MOB GETS HURT FROM ANOTHER MOB ---
     private static float handleEverytimeMobHurtByMob(LivingEntity victim, LivingEntity attacker, DamageSource source, float amount) {
         amount = applyOnWearerHit(attacker, victim, source, amount);
-        handleArmorSeals(victim, attacker);
+        handleArmorSealsHurtByEntity(victim, attacker, source, amount);
         return amount;
     }
 
@@ -91,14 +93,14 @@ public class LivingEntityHurtHandler {
         amount = applyOnWearerHit(attacker, victim, source, amount);
         AttributeCalculationHelper.handleOmnivamp(amount, attacker);
         RageHelper.processDamage(attacker, amount); // Attacker gains rage from dealing damage
-        handleArmorSeals(victim, attacker);
+        handleArmorSealsHurtByEntity(victim, attacker, source, amount);
         return amount;
     }
 
     // --- 5. EVERYTIME A PLAYER GETS HURT BY ANOTHER MOB ---
     private static float handleEverytimePlayerHurtByMob(Player victim, LivingEntity attacker, DamageSource source, float amount) {
         amount = applyOnWearerHit(attacker, victim, source, amount);
-        handleArmorSeals(victim, attacker);
+        handleArmorSealsHurtByEntity(victim, attacker, source, amount);
         return amount;
     }
 
@@ -107,7 +109,7 @@ public class LivingEntityHurtHandler {
         amount = applyOnWearerHit(attacker, victim, source, amount);
         AttributeCalculationHelper.handleOmnivamp(amount, attacker);
         RageHelper.processDamage(attacker, amount);
-        handleArmorSeals(victim, attacker);
+        handleArmorSealsHurtByEntity(victim, attacker, source, amount);
         return amount;
     }
 
@@ -135,7 +137,19 @@ public class LivingEntityHurtHandler {
         return current;
     }
 
-    private static void handleArmorSeals(LivingEntity victim, LivingEntity attacker) {
-        victim.getArmorSlots().forEach(stack -> SealUtils.handleSealProcDefensive(victim.level(), attacker, victim, SealUtils.getSealType(stack)));
+    private static void handleArmorSealsHurtByEntity(LivingEntity victim, LivingEntity attacker, DamageSource source, float amount) {
+        victim.getArmorSlots().forEach(armor -> AugmentHelper.getAugmentCounts(armor).forEach((brutalityAugmentItem, integer) -> {
+            if (brutalityAugmentItem instanceof BrutalitySealAugmentItem augmentItem) {
+                augmentItem.onHurtByEntity(attacker, victim, source, amount, integer);
+            }
+        }));
+    }
+
+    private static void handleArmorSealsHurt(LivingEntity victim, DamageSource source, float amount) {
+        victim.getArmorSlots().forEach(armor -> AugmentHelper.getAugmentCounts(armor).forEach((brutalityAugmentItem, integer) -> {
+            if (brutalityAugmentItem instanceof BrutalitySealAugmentItem augmentItem) {
+                augmentItem.onHurt(victim, source, amount, integer);
+            }
+        }));
     }
 }

@@ -1,7 +1,7 @@
 package net.goo.brutality.common.network.serverbound;
 
 import net.goo.brutality.common.network.PacketHandler;
-import net.goo.brutality.common.network.clientbound.ClientboundPlayerAnimationPacket;
+import net.goo.brutality.common.network.clientbound.ClientboundStartPlayerAnimationPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -14,21 +14,21 @@ import java.util.function.Supplier;
 /**
  * Triggers an animation from client-side to be synchronized across other clients.
  */
-public class ServerboundPlayerAnimationPacket {
+public class ServerboundStartPlayerAnimationPacket {
     UUID playerId;
     ResourceLocation animation;
     boolean mirrored;
     float speed;
 
-    public ServerboundPlayerAnimationPacket(UUID playerId, ResourceLocation animation, boolean mirrored,
-                                            float speed) {
+    public ServerboundStartPlayerAnimationPacket(UUID playerId, ResourceLocation animation, boolean mirrored,
+                                                 float speed) {
         this.playerId = playerId;
         this.animation = animation;
         this.mirrored = mirrored;
         this.speed = speed;
     }
 
-    public ServerboundPlayerAnimationPacket(FriendlyByteBuf buf) {
+    public ServerboundStartPlayerAnimationPacket(FriendlyByteBuf buf) {
         this.playerId = buf.readUUID();
         this.animation = buf.readResourceLocation();
         this.mirrored = buf.readBoolean();
@@ -42,14 +42,14 @@ public class ServerboundPlayerAnimationPacket {
         buf.writeFloat(this.speed);
     }
 
-    public static void handle(ServerboundPlayerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public static void handle(ServerboundStartPlayerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer sender = ctx.get().getSender();
             if (sender == null) return;
             ServerLevel level = sender.serverLevel();
             for (ServerPlayer player : level.players()) {
                 if (player != ctx.get().getSender()) {
-                    PacketHandler.sendToPlayerClient(new ClientboundPlayerAnimationPacket(packet.playerId, packet.animation, packet.mirrored, packet.speed), player);
+                    PacketHandler.sendToPlayerClient(new ClientboundStartPlayerAnimationPacket(packet.playerId, packet.animation, packet.mirrored, packet.speed), player);
                 }
             }
         });
