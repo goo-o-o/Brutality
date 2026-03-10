@@ -5,9 +5,9 @@
 
 package net.goo.brutality.client.config;
 
-import net.goo.brutality.client.gui.meters.CooldownMeter;
-import net.goo.brutality.client.gui.meters.ManaMeter;
-import net.goo.brutality.client.gui.meters.RageMeter;
+import net.goo.brutality.client.gui.misc_elements.CooldownMeter;
+import net.goo.brutality.client.gui.misc_elements.ManaMeter;
+import net.goo.brutality.client.gui.misc_elements.RageMeter;
 import net.goo.brutality.client.gui.tooltip.StatTrakGui;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeConfigSpec;

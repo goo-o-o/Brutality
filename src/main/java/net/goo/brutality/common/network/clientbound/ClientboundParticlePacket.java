@@ -1,6 +1,7 @@
 package net.goo.brutality.common.network.clientbound;
 
 import net.goo.brutality.client.ClientAccess;
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
@@ -11,7 +12,7 @@ import java.util.function.Supplier;
 
 import static net.goo.brutality.Brutality.LOGGER;
 
-public class ClientboundParticlePacket {
+public class ClientboundParticlePacket implements IBrutalityPacket<ClientboundParticlePacket> {
     public final float x;
     public final float y;
     public final float z;
@@ -86,7 +87,7 @@ public class ClientboundParticlePacket {
         }
     }
 
-    public static void handle(ClientboundParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ClientboundParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> ClientAccess.spawnParticles(packet));
         ctx.get().setPacketHandled(true);
     }

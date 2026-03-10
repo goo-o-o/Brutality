@@ -2,7 +2,7 @@ package net.goo.brutality.event.mod.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.gui.meters.CooldownMeter;
+import net.goo.brutality.client.gui.misc_elements.CooldownMeter;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.serverbound.ServerboundActivateRagePacket;

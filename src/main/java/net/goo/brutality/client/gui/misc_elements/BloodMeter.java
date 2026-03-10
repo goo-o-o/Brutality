@@ -1,4 +1,4 @@
-package net.goo.brutality.client.gui.meters;
+package net.goo.brutality.client.gui.misc_elements;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;

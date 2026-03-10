@@ -1,5 +1,6 @@
 package net.goo.brutality.common.network.serverbound;
 
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
@@ -10,7 +11,7 @@ import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 
 import java.util.function.Supplier;
 
-public class ServerboundTriggerAnimationPacket {
+public class ServerboundTriggerAnimationPacket implements IBrutalityPacket<ServerboundTriggerAnimationPacket> {
     private final ItemStack stack;
     private final String controllerName, animationName;
     private final long id;
@@ -36,7 +37,7 @@ public class ServerboundTriggerAnimationPacket {
         buf.writeUtf(animationName);
     }
 
-    public static void handle(ServerboundTriggerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ServerboundTriggerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             Player sender = ctx.get().getSender();
             assert sender != null;

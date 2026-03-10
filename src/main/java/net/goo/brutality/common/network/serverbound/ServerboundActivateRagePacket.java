@@ -1,5 +1,6 @@
 package net.goo.brutality.common.network.serverbound;
 
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.goo.brutality.util.build_archetypes.RageHelper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -7,7 +8,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ServerboundActivateRagePacket {
+public class ServerboundActivateRagePacket implements IBrutalityPacket<ServerboundActivateRagePacket> {
     public ServerboundActivateRagePacket() {
     }
 
@@ -17,7 +18,7 @@ public class ServerboundActivateRagePacket {
     public void write(FriendlyByteBuf buf) {
     }
 
-    public static void handle(ServerboundActivateRagePacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ServerboundActivateRagePacket packet, Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
             ServerPlayer sender = context.getSender();

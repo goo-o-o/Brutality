@@ -1,5 +1,6 @@
 package net.goo.brutality.common.network.clientbound;
 
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
@@ -10,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
-public class ClientboundExactParticlePacket {
+public class ClientboundExactParticlePacket implements IBrutalityPacket<ClientboundExactParticlePacket> {
     public final double x;
     public final double y;
     public final double z;
@@ -47,7 +48,7 @@ public class ClientboundExactParticlePacket {
         return pParticleType.getDeserializer().fromNetwork(pParticleType, pBuffer);
     }
 
-    public static void handle(ClientboundExactParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ClientboundExactParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer sender = ctx.get().getSender();
             if (sender != null && sender.level() instanceof ServerLevel serverLevel) {

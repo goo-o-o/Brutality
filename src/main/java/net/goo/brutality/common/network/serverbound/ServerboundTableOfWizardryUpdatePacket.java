@@ -3,6 +3,7 @@ package net.goo.brutality.common.network.serverbound;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.gui.screen.table_of_wizardry.TableOfWizardryBookSection;
 import net.goo.brutality.common.block.block_entity.TableOfWizardryBlockEntity;
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.goo.brutality.common.registry.BrutalitySpells;
 import net.goo.brutality.util.magic.SpellStorage;
 import net.minecraft.core.BlockPos;
@@ -15,7 +16,7 @@ import net.minecraftforge.network.NetworkEvent;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
-public class ServerboundTableOfWizardryUpdatePacket {
+public class ServerboundTableOfWizardryUpdatePacket implements IBrutalityPacket<ServerboundTableOfWizardryUpdatePacket> {
     private final BlockPos pos;
     private final String section, state;
     private final @Nullable ResourceLocation spellId;
@@ -72,7 +73,7 @@ public class ServerboundTableOfWizardryUpdatePacket {
         }
     }
 
-    public static void handle(ServerboundTableOfWizardryUpdatePacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ServerboundTableOfWizardryUpdatePacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
             if (player == null) return;

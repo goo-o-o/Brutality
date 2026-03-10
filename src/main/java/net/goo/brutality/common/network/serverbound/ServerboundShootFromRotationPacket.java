@@ -1,5 +1,6 @@
 package net.goo.brutality.common.network.serverbound;
 
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.util.AugmentHelper;
 import net.minecraft.network.FriendlyByteBuf;
@@ -16,7 +17,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
-public class ServerboundShootFromRotationPacket {
+public class ServerboundShootFromRotationPacket implements IBrutalityPacket<ServerboundShootFromRotationPacket> {
     private final ResourceLocation entityTypeId;
     private final float x;
     float y;
@@ -61,7 +62,7 @@ public class ServerboundShootFromRotationPacket {
         buf.writeFloat(this.inaccuracy);
     }
 
-    public static void handle(ServerboundShootFromRotationPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ServerboundShootFromRotationPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
             if (player == null) return;

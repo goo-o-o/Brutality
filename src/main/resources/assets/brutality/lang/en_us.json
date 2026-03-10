@@ -1617,6 +1617,7 @@
 
 
   "message.brutality.last_death_location": "Last Death Location: ",
+  "message.brutality.default_loadout": "Default Loadout",
   "message.brutality.no_mana": "Insufficient Mana!",
   "message.brutality.no_spells": "§8No Spells",
   "message.brutality.on_cooldown": "Spell is on Cooldown! You may cast in ",

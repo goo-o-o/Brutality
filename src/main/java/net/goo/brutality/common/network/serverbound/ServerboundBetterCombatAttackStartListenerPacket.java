@@ -5,6 +5,7 @@ import net.goo.brutality.common.item.weapon.hammer.AtomicJudgementHammer;
 import net.goo.brutality.common.item.weapon.scythe.Schism;
 import net.goo.brutality.common.item.weapon.spear.Rhongomyniad;
 import net.goo.brutality.common.item.weapon.sword.*;
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,7 +16,7 @@ import software.bernie.geckolib.animatable.GeoItem;
 
 import java.util.function.Supplier;
 
-public class ServerboundBetterCombatAttackStartListenerPacket {
+public class ServerboundBetterCombatAttackStartListenerPacket implements IBrutalityPacket<ServerboundBetterCombatAttackStartListenerPacket> {
     private final ItemStack stack;
     private final int combo;
 
@@ -34,7 +35,7 @@ public class ServerboundBetterCombatAttackStartListenerPacket {
         buf.writeInt(combo);
     }
 
-    public static void handle(ServerboundBetterCombatAttackStartListenerPacket packet, Supplier<NetworkEvent.Context> contextSupplier) {
+    public void handle(ServerboundBetterCombatAttackStartListenerPacket packet, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> {
             ServerPlayer player = context.getSender();

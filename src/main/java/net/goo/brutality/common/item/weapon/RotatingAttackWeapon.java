@@ -5,7 +5,6 @@ import com.mojang.math.Axis;
 import net.goo.brutality.util.math.phys.hitboxes.ArcCylindricalBoundingBox;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -29,7 +28,7 @@ public interface RotatingAttackWeapon {
         ItemStack useItem = entity.getUseItem();
 
         // 1. Handle Body Rotation (The World-Lock)
-        float anchorYaw = SPIN_ANCHORS.computeIfAbsent(entity, Entity::getYRot);
+        float anchorYaw = SPIN_ANCHORS.computeIfAbsent(entity, LivingEntity::getVisualRotationYInDegrees);
         float vanillaF = Mth.rotLerp(partialTick, entity.yBodyRotO, entity.yBodyRot);
 
         int useTicks = useItem.getUseDuration() - entity.getUseItemRemainingTicks();
@@ -49,7 +48,7 @@ public interface RotatingAttackWeapon {
         float arcSweep = currentDegs - prevDegs;
 
         // Use the player's current rotation as the base, then offset by the spin
-        float anchorYaw = SPIN_ANCHORS.computeIfAbsent(player, Entity::getYRot);
+        float anchorYaw = SPIN_ANCHORS.computeIfAbsent(player, LivingEntity::getVisualRotationYInDegrees);
         float targetYRot = anchorYaw + prevDegs;
 
         if (!player.level().isClientSide())

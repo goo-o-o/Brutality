@@ -1,6 +1,7 @@
 package net.goo.brutality.common.network.clientbound;
 
-import net.goo.brutality.client.gui.meters.CooldownMeter;
+import net.goo.brutality.client.gui.misc_elements.CooldownMeter;
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.goo.brutality.util.CommonConstants;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
@@ -8,7 +9,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ClientboundUpdateAbilityCooldownsPacket {
+public class ClientboundUpdateAbilityCooldownsPacket implements IBrutalityPacket<ClientboundUpdateAbilityCooldownsPacket> {
 
     final int tickCount;
     final ItemStack itemStack;
@@ -32,19 +33,21 @@ public class ClientboundUpdateAbilityCooldownsPacket {
         buf.writeItem(itemStack);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(ClientboundUpdateAbilityCooldownsPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             switch (cooldownType) {
                 case ABILITY -> {
-                    CooldownMeter.AbilityCooldownMeter.maxTicks = tickCount;
-                    CooldownMeter.AbilityCooldownMeter.itemStack = itemStack;
+                    CooldownMeter.AbilityCooldownMeter.maxTicks = packet.tickCount;
+                    CooldownMeter.AbilityCooldownMeter.itemStack = packet.itemStack;
                 }
                 case ARMOR_SET -> {
-                    CooldownMeter.ArmorSetAbilityCooldownMeter.maxTicks = tickCount;
-                    CooldownMeter.ArmorSetAbilityCooldownMeter.itemStack = itemStack;
+                    CooldownMeter.ArmorSetAbilityCooldownMeter.maxTicks = packet.tickCount;
+                    CooldownMeter.ArmorSetAbilityCooldownMeter.itemStack = packet.itemStack;
                 }
             }
         });
         ctx.get().setPacketHandled(true);
     }
+
 }

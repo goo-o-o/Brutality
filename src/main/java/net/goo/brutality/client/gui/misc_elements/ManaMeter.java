@@ -1,4 +1,4 @@
-package net.goo.brutality.client.gui.meters;
+package net.goo.brutality.client.gui.misc_elements;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;

@@ -1,6 +1,6 @@
 package net.goo.brutality.util;
 
-import net.goo.brutality.client.gui.meters.CooldownMeter;
+import net.goo.brutality.client.gui.misc_elements.CooldownMeter;
 import net.mcreator.terramity.potion.AbilityCooldownMobEffect;
 import net.mcreator.terramity.potion.ArmorSetAbilityCooldownMobEffect;
 import net.minecraft.world.effect.MobEffect;

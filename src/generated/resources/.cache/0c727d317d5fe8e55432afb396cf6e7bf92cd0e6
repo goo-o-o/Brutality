@@ -1,9 +1,15 @@
-// 1.20.1	2026-03-03T15:21:10.2687137	Tags for minecraft:item mod id brutality
+// 1.20.1	2026-03-08T02:59:00.4583124	Tags for minecraft:item mod id brutality
+2e23f1ef91f98f9837dbab358acf2cdfdd27e7eb data/brutality/tags/items/augmentation_device.json
+5efc78f2e0c381ff1bfe40fbeaddde0ce462817e data/brutality/tags/items/augments.json
 536ad75514f467bfbe4ec28fff691a6daad14a08 data/brutality/tags/items/gastronomist_items.json
+b028cd9758e40201c2412bdaa5096eaf5b7cc5aa data/brutality/tags/items/hammer.json
 30391d4e8c0c9c344eea0406165fd2be16b5a44c data/brutality/tags/items/magic_augments.json
 90f4deb8c1aa5bd2dc0fe748865d31478ad82c80 data/brutality/tags/items/magic_items.json
 e069b14c604551221e457b52fb97ef18f7401894 data/brutality/tags/items/magic_tomes.json
 5be5e249c2e46f2d3339204696be65da8ac83b1c data/brutality/tags/items/rage_items.json
+e6d758347b8cbac234ab2cb481d04e6651b45800 data/brutality/tags/items/scythe.json
+939d0b68f2a68594e51f5d34476956c98a4f3516 data/brutality/tags/items/seals.json
+913bcbe0218f370b361b54934461eb2dde45ca65 data/brutality/tags/items/spear.json
 d15ccdbaa912876c9502be6e5cb42892848f0328 data/brutality/tags/items/spell_scrolls.json
 65575a81f405554adffbb7dd3cd3fa9a7ad68920 data/curios/tags/items/anklet.json
 ecb63f66f67cd898dc6c6fa33f1a43e01585132d data/curios/tags/items/belt.json
@@ -14,4 +20,9 @@ e9de00084cd7bf9cb285cc5565586d4ec4aeab2a data/curios/tags/items/hands.json
 b0726d2a77053659f7877015b3e931cfc020b8d5 data/curios/tags/items/heart.json
 3f161d5cccd98de9d345767c51f82b5909b4160e data/curios/tags/items/necklace.json
 5da8a0f27b384c2507e8be51ae2b30a5b388f901 data/curios/tags/items/ring.json
+ddd6b7ac695695384cc3844fd6ee89014f661fd5 data/forge/tags/items/tools/bows.json
+a7bd06a83b18d6caf25c6ee8439a9fce1bf84ad3 data/forge/tags/items/tools/tridents.json
+9593d2b7d3007cb16b6b75341986f3c2b917fb5e data/minecraft/tags/items/axes.json
 a4501b9fd50561e4fe3d81affad298c06ac8a041 data/minecraft/tags/items/candles.json
+8edd40871b06724aeb3a715e631189e7445f357c data/minecraft/tags/items/swords.json
+9593d2b7d3007cb16b6b75341986f3c2b917fb5e data/minecraft/tags/items/tools.json

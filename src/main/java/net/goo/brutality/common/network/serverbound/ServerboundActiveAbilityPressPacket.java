@@ -1,5 +1,6 @@
 package net.goo.brutality.common.network.serverbound;
 
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
@@ -20,7 +21,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ServerboundActiveAbilityPressPacket {
+public class ServerboundActiveAbilityPressPacket implements IBrutalityPacket<ServerboundActiveAbilityPressPacket> {
     public ServerboundActiveAbilityPressPacket() {
     }
 
@@ -30,7 +31,7 @@ public class ServerboundActiveAbilityPressPacket {
     public void write(FriendlyByteBuf buf) {
     }
 
-    public static void handle(ServerboundActiveAbilityPressPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ServerboundActiveAbilityPressPacket packet, Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
             ServerPlayer sender = context.getSender();

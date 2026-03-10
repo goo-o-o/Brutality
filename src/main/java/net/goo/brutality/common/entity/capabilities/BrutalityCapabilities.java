@@ -24,6 +24,8 @@ import java.util.function.Supplier;
 public class BrutalityCapabilities {
     public static final Capability<PlayerManaCap> MANA = CapabilityManager.get(new CapabilityToken<>() {
     });
+    public static final Capability<PlayerLoadoutsCap> LOADOUTS = CapabilityManager.get(new CapabilityToken<>() {
+    });
     public static final Capability<PlayerSpellCooldownsCap> SPELL_COOLDOWNS = CapabilityManager.get(new CapabilityToken<>() {
     });
     public static final Capability<EntityShouldRotateCap> SHOULD_ROTATE = CapabilityManager.get(new CapabilityToken<>() {
@@ -53,6 +55,7 @@ public class BrutalityCapabilities {
 
     static {
         register("mana", MANA, PlayerManaCap::new);
+        register("loadouts", LOADOUTS, PlayerLoadoutsCap::new);
         register("spell_cooldowns", SPELL_COOLDOWNS, PlayerSpellCooldownsCap::new);
         register("should_rotate", SHOULD_ROTATE, EntityShouldRotateCap::new);
         register("booster_pack", BOOSTER_PACK, PlayerBoosterPackCap::new);

@@ -1,13 +1,14 @@
 package net.goo.brutality.common.network.clientbound;
 
 import net.goo.brutality.client.player_animation.AnimationHelper;
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public class ClientboundStopPlayerAnimationPacket {
+public class ClientboundStopPlayerAnimationPacket implements IBrutalityPacket<ClientboundStopPlayerAnimationPacket> {
     UUID playerId;
     int fadeOutTicks;
 
@@ -27,7 +28,7 @@ public class ClientboundStopPlayerAnimationPacket {
     }
 
 
-    public static void handle(ClientboundStopPlayerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ClientboundStopPlayerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> AnimationHelper.stopAnimation(packet.playerId, packet.fadeOutTicks));
         ctx.get().setPacketHandled(true);
     }

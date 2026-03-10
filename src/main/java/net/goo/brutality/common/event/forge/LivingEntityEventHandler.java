@@ -218,6 +218,11 @@ public class LivingEntityEventHandler {
             if (victimPlayer.level() instanceof ServerLevel serverLevel) {
                 SupernovaSword.clearAsteroids(victimPlayer, serverLevel);
                 CreaseOfCreation.handleCreaseOfCreation(victimPlayer);
+
+                victimPlayer.getCapability(BrutalityCapabilities.LOADOUTS).ifPresent(cap -> {
+                    cap.dropLoadouts();
+                });
+
             }
 
             resetAllColors();

@@ -1,5 +1,6 @@
 package net.goo.brutality.common.network.serverbound;
 
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.clientbound.ClientboundStartPlayerAnimationPacket;
 import net.minecraft.network.FriendlyByteBuf;
@@ -14,7 +15,7 @@ import java.util.function.Supplier;
 /**
  * Triggers an animation from client-side to be synchronized across other clients.
  */
-public class ServerboundStartPlayerAnimationPacket {
+public class ServerboundStartPlayerAnimationPacket implements IBrutalityPacket<ServerboundStartPlayerAnimationPacket> {
     UUID playerId;
     ResourceLocation animation;
     boolean mirrored;
@@ -42,7 +43,7 @@ public class ServerboundStartPlayerAnimationPacket {
         buf.writeFloat(this.speed);
     }
 
-    public static void handle(ServerboundStartPlayerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ServerboundStartPlayerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer sender = ctx.get().getSender();
             if (sender == null) return;

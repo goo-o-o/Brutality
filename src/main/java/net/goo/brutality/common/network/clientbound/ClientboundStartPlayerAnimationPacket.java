@@ -1,6 +1,7 @@
 package net.goo.brutality.common.network.clientbound;
 
 import net.goo.brutality.client.player_animation.AnimationHelper;
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkEvent;
@@ -8,7 +9,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public class ClientboundStartPlayerAnimationPacket {
+public class ClientboundStartPlayerAnimationPacket implements IBrutalityPacket<ClientboundStartPlayerAnimationPacket> {
     UUID playerId;
     ResourceLocation animation;
     boolean mirrored;
@@ -37,7 +38,7 @@ public class ClientboundStartPlayerAnimationPacket {
     }
 
 
-    public static void handle(ClientboundStartPlayerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ClientboundStartPlayerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> AnimationHelper.playAnimation(packet.playerId, packet.animation, packet.mirrored, packet.speed));
         ctx.get().setPacketHandled(true);
     }

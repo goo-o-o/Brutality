@@ -1,5 +1,6 @@
 package net.goo.brutality.common.network.serverbound;
 
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,7 +14,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ServerboundDamageEntityPacket {
+public class ServerboundDamageEntityPacket implements IBrutalityPacket<ServerboundDamageEntityPacket> {
     private final int entityId;
     private final float damage;
     private final ResourceKey<DamageType> damageTypeKey;
@@ -45,7 +46,7 @@ public class ServerboundDamageEntityPacket {
                 .getHolderOrThrow(damageTypeKey));
     }
 
-    public static void handle(ServerboundDamageEntityPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ServerboundDamageEntityPacket packet, Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
             ServerPlayer sender = context.getSender();

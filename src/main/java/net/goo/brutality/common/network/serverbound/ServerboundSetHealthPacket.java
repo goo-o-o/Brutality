@@ -1,5 +1,6 @@
 package net.goo.brutality.common.network.serverbound;
 
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -9,7 +10,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ServerboundSetHealthPacket {
+public class ServerboundSetHealthPacket implements IBrutalityPacket<ServerboundSetHealthPacket> {
     private final int entityId;
     private final float health;
 
@@ -28,7 +29,7 @@ public class ServerboundSetHealthPacket {
         buf.writeFloat(health);
     }
 
-    public static void handle(ServerboundSetHealthPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ServerboundSetHealthPacket packet, Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
             ServerPlayer sender = context.getSender();

@@ -1,6 +1,7 @@
 package net.goo.brutality.common.network.clientbound;
 
 import net.goo.brutality.client.ClientAccess;
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -10,7 +11,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ClientboundDodgePacket {
+public class ClientboundDodgePacket implements IBrutalityPacket<ClientboundDodgePacket> {
     public final int entityId;
     public final ResourceLocation damageTypeId;
     public final float amount;
@@ -56,7 +57,7 @@ public class ClientboundDodgePacket {
         buf.writeItem(this.anklet);
     }
 
-    public static void handle(ClientboundDodgePacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ClientboundDodgePacket packet, Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> ClientAccess.handleDodgeClient(packet));
         context.setPacketHandled(true);

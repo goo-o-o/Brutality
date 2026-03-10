@@ -1,13 +1,14 @@
 package net.goo.brutality.common.network.clientbound;
 
 import net.goo.brutality.client.ClientAccess;
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ClientboundGenericSyncPacket {
+public class ClientboundGenericSyncPacket implements IBrutalityPacket<ClientboundGenericSyncPacket> {
     private final int entityId; // New field
     private final String key;
     private final CompoundTag data;
@@ -30,8 +31,9 @@ public class ClientboundGenericSyncPacket {
         buf.writeNbt(data);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> ClientAccess.handleSync(this.entityId, this.key, this.data));
+    @Override
+    public void handle(ClientboundGenericSyncPacket packet, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> ClientAccess.handleSync(packet.entityId, packet.key, packet.data));
         ctx.get().setPacketHandled(true);
     }
 }

@@ -1,5 +1,6 @@
 package net.goo.brutality.common.network.clientbound;
 
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.util.lightning.ChainLightningHelper;
 import net.goo.brutality.util.math.PhysicsUtils;
@@ -10,7 +11,7 @@ import org.joml.Vector3f;
 
 import java.util.function.Supplier;
 
-public class ClientboundChainLightningPacket {
+public class ClientboundChainLightningPacket implements IBrutalityPacket<ClientboundChainLightningPacket> {
     public Vector3f start;
     public Vector3f end;
     public float size;
@@ -47,7 +48,7 @@ public class ClientboundChainLightningPacket {
         buf.writeInt(this.delay);
     }
 
-    public static void handle(ClientboundChainLightningPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ClientboundChainLightningPacket packet, Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
 
         context.enqueueWork(() -> {

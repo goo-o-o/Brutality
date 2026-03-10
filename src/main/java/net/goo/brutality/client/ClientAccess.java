@@ -40,7 +40,6 @@ public class ClientAccess {
     private static ExtinctionSpellSoundInstance extinctionSpellSoundInstance;
     private static final Minecraft mc = Minecraft.getInstance();
     private static DeathsawSoundInstance deathsawSoundInstance;
-
     public static void loadBitShader() {
         mc.gameRenderer.loadEffect(GameRenderer.EFFECTS[16]);
     }

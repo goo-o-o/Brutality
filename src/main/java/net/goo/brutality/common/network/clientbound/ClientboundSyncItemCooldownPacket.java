@@ -1,6 +1,7 @@
 package net.goo.brutality.common.network.clientbound;
 
 import net.goo.brutality.client.ClientAccess;
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemCooldowns;
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class ClientboundSyncItemCooldownPacket {
+public class ClientboundSyncItemCooldownPacket implements IBrutalityPacket<ClientboundSyncItemCooldownPacket> {
     private final Map<Item, ItemCooldowns.CooldownInstance> cooldowns;
     private final int tickCount;
 
@@ -30,23 +31,25 @@ public class ClientboundSyncItemCooldownPacket {
         }
     }
 
-    public static ClientboundSyncItemCooldownPacket decode(FriendlyByteBuf buf) {
-        Map<Item, ItemCooldowns.CooldownInstance> cooldowns = new HashMap<>();
+    @Override
+    public void handle(ClientboundSyncItemCooldownPacket packet, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> ClientAccess.syncItemCooldowns(cooldowns, tickCount));
+        ctx.get().setPacketHandled(true);
+    }
+
+    public ClientboundSyncItemCooldownPacket(FriendlyByteBuf buf) {
+        Map<Item, ItemCooldowns.CooldownInstance> tempCooldowns = new HashMap<>();
         int size = buf.readVarInt();
-        int tickCount = buf.readVarInt();
+        this.tickCount = buf.readVarInt();
+
         for (int i = 0; i < size; i++) {
             ItemStack stack = buf.readItem();
             Item item = stack.getItem();
             int startTime = buf.readVarInt();
             int endTime = buf.readVarInt();
-            cooldowns.put(item, new ItemCooldowns.CooldownInstance(startTime, endTime));
+            tempCooldowns.put(item, new ItemCooldowns.CooldownInstance(startTime, endTime));
         }
-        return new ClientboundSyncItemCooldownPacket(cooldowns, tickCount);
+        this.cooldowns = tempCooldowns;
     }
 
-
-    public void handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> ClientAccess.syncItemCooldowns(cooldowns, tickCount));
-        ctx.get().setPacketHandled(true);
-    }
 }

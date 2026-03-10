@@ -1,6 +1,7 @@
 package net.goo.brutality.common.network.clientbound;
 
 import net.goo.brutality.common.entity.explosion.BrutalityExplosion;
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.goo.brutality.util.ModExplosionHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -8,12 +9,13 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundExplodePacket;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class ClientboundBrutalityExplodePacket extends ClientboundExplodePacket {
+public class ClientboundBrutalityExplodePacket extends ClientboundExplodePacket implements IBrutalityPacket<ClientboundBrutalityExplodePacket> {
     private final String clazz;
     private final boolean spawnParticles;
 
@@ -29,26 +31,31 @@ public class ClientboundBrutalityExplodePacket extends ClientboundExplodePacket 
         this.spawnParticles = buf.readBoolean();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    public void write(@NotNull FriendlyByteBuf buf) {
         super.write(buf);
         buf.writeUtf(this.clazz);
         buf.writeBoolean(this.spawnParticles);
     }
 
+
     public String getClazz() {
         return clazz;
     }
+
     public boolean isSpawnParticles() {
         return spawnParticles;
     }
 
 
     @Override
-    public void handle(ClientGamePacketListener pHandler) {
+    public void handle(@NotNull ClientGamePacketListener pHandler) {
 
     }
 
-    public static void handle(ClientboundBrutalityExplodePacket packet, Supplier<NetworkEvent.Context> ctx) {
+
+
+
+    public void handle(ClientboundBrutalityExplodePacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> ModExplosionHelper.Client.handleExplosion(packet));
         ctx.get().setPacketHandled(true);
     }

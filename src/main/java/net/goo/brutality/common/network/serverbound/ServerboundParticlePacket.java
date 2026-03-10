@@ -1,5 +1,6 @@
 package net.goo.brutality.common.network.serverbound;
 
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.ParticleTypes;
@@ -13,7 +14,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class ServerboundParticlePacket {
+public class ServerboundParticlePacket implements IBrutalityPacket<ServerboundParticlePacket> {
     private final double x, y, z, xDelta, yDelta, zDelta;
     private final ParticleOptions particle;
     private final int count;
@@ -75,7 +76,7 @@ public class ServerboundParticlePacket {
         return ParticleTypes.EXPLOSION;
     }
 
-    public static void handle(ServerboundParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(ServerboundParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             Player sender = ctx.get().getSender();
             assert sender != null;

@@ -2,6 +2,7 @@ package net.goo.brutality.common.network.serverbound;
 
 import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.armor.VampireLordArmorItem;
+import net.goo.brutality.common.network.IBrutalityPacket;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -9,7 +10,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ServerboundArmorSetBonusAbilityPressPacket {
+public class ServerboundArmorSetBonusAbilityPressPacket implements IBrutalityPacket<ServerboundArmorSetBonusAbilityPressPacket> {
     public ServerboundArmorSetBonusAbilityPressPacket() {
     }
 
@@ -19,7 +20,7 @@ public class ServerboundArmorSetBonusAbilityPressPacket {
     public void write(FriendlyByteBuf buf) {
     }
 
-    public static void handle(ServerboundArmorSetBonusAbilityPressPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public  void handle(ServerboundArmorSetBonusAbilityPressPacket packet, Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
             ServerPlayer sender = context.getSender();
