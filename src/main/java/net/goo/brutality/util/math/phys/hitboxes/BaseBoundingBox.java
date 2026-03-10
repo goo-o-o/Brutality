@@ -9,7 +9,6 @@ import org.joml.Matrix3f;
 import org.joml.Vector3f;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 public abstract class BaseBoundingBox {
     public Vec3 center;
@@ -73,6 +72,6 @@ public abstract class BaseBoundingBox {
         return entities.stream().filter(entity -> intersectsAABB(entity.getBoundingBox())).toList();
     }
 
-    public abstract <T extends Entity> List<T> findEntitiesHit(Player player, Class<T> clazz, Predicate<? super T> filter);
+    public abstract <T extends Entity> List<T> findEntitiesHit(Player player, Class<T> clazz);
 
 }

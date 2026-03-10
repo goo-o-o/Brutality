@@ -1,12 +1,14 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.goo.brutality.common.item.weapon.RotatingAttackWeapon;
 import net.goo.brutality.common.item.weapon.axe.Deathsaw;
 import net.goo.brutality.common.item.weapon.generic.LastPrism;
 import net.goo.brutality.common.item.weapon.scythe.Schism;
 import net.goo.brutality.common.item.weapon.spear.Caldrith;
 import net.goo.brutality.common.item.weapon.spear.Rhongomyniad;
 import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.util.math.phys.hitboxes.ArcCylindricalBoundingBox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -39,6 +41,9 @@ public abstract class DebugRendererMixin {
                         Caldrith.HITBOX.inWorld(player, Caldrith.OFFSET, 0, player.getYRot()).render(matrixStack);
                     } else if (player.isHolding(BrutalityItems.SCHISM.get())) {
                         Schism.HITBOX.inWorld(player, Schism.OFFSET).render(matrixStack);
+                    } else if (player.isHolding(BrutalityItems.MAX.get()) && player.isUsingItem()) {
+                        ArcCylindricalBoundingBox arc =  RotatingAttackWeapon.getHitbox(player, 0.25F, 9, player.getMainHandItem(), (RotatingAttackWeapon) BrutalityItems.MAX.get());
+                        arc.render(matrixStack);
                     }
 
                 }

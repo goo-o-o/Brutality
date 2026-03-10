@@ -1,6 +1,7 @@
 {
   "minVersion": "0.8.5",
   "required": true,
+  "plugin": "net.goo.brutality.mixin.mixins.compat.BrutalityMixinPlugin",
   "package": "net.goo.brutality.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "brutality.refmap.json",
@@ -54,7 +55,7 @@
   },
   "client": [
     "accessors.FontAccessor",
-    "mixins.AbstractClientPlayerEntityMixin",
+    "mixins.AbstractClientPlayerMixin",
     "mixins.BakedGlyphMixin",
     "mixins.BiomeMixin",
     "mixins.BlockEntityRenderDispatcherMixin",

@@ -46,7 +46,7 @@ public class Schism extends BrutalityScytheItem {
 
             ArcCylindricalBoundingBox hitbox = (ArcCylindricalBoundingBox) HITBOX.inWorld(pPlayer, OFFSET);
 
-            hitbox.findEntitiesHit(pPlayer, LivingEntity.class, null)
+            hitbox.findEntitiesHit(pPlayer, LivingEntity.class)
                     .forEach(livingEntity -> livingEntity.hurt(livingEntity.damageSources().playerAttack(pPlayer), 5));
 
 

@@ -26,7 +26,7 @@ public class PoseManager {
         // Example: Registering a pose for holding a shield
         register(new PoseDefinition(
                 entity -> entity.isUsingItem() && entity.getUseItem().is(BrutalityItems.MAX.get()),
-            ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID,"throw_swing"), 10));
+            ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID,"spinning_pose"), 10));
 
     }
 

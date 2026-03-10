@@ -1,15 +1,11 @@
 package net.goo.brutality.common.item.weapon.sword.max;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.player_animation.AnimationHelper;
 import net.goo.brutality.common.item.weapon.RotatingAttackWeapon;
-import net.goo.brutality.common.network.PacketHandler;
-import net.goo.brutality.common.network.serverbound.ServerboundStartPlayerAnimationPacket;
-import net.goo.brutality.common.network.serverbound.ServerboundStopPlayerAnimationPacket;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.ColorUtils;
+import net.goo.brutality.util.math.phys.hitboxes.ArcCylindricalBoundingBox;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -68,7 +64,16 @@ public class MAX extends Maximus implements RotatingAttackWeapon {
         return UseAnim.CUSTOM;
     }
 
-    private static final ResourceLocation SPIN_ANIM = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "pose_two_handed_heavy");
+    @Override
+    public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
+        if (pLivingEntity instanceof Player player) {
+            ArcCylindricalBoundingBox arc =  RotatingAttackWeapon.getHitbox(player, 0.5F, 9, pStack, this);
+            arc.findEntitiesHit(player, LivingEntity.class).forEach(e -> {
+                System.out.println("Hurt " + e + " for 10 dmg");
+                e.hurt(e.damageSources().playerAttack(player), 10);
+            });
+        }
+    }
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
@@ -76,26 +81,22 @@ public class MAX extends Maximus implements RotatingAttackWeapon {
             return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
         pPlayer.startUsingItem(pUsedHand);
 
-        AnimationHelper.playAnimation(pPlayer, SPIN_ANIM, false, 1);
-        PacketHandler.sendToServer(new ServerboundStartPlayerAnimationPacket(pPlayer.getUUID(), SPIN_ANIM, false, 1));
+//        AnimationHelper.playAnimation(pPlayer, SPIN_ANIM, false, 1);
+//        PacketHandler.sendToServer(new ServerboundStartPlayerAnimationPacket(pPlayer.getUUID(), SPIN_ANIM, false, 1));
 
         return InteractionResultHolder.consume(pPlayer.getItemInHand(pUsedHand));
     }
 
-    @Override
-    public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
-        pLivingEntity.walkAnimation.setSpeed(0);
-    }
 
-    @Override
-    public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {
-
-        if (pLivingEntity instanceof Player player) {
-            AnimationHelper.stopAnimation(player, 5);
-            PacketHandler.sendToServer(new ServerboundStopPlayerAnimationPacket(player.getUUID(),5));
-        }
-        super.releaseUsing(pStack, pLevel, pLivingEntity, pTimeCharged);
-    }
+//    @Override
+//    public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {
+//
+//        if (pLivingEntity instanceof Player player) {
+//            AnimationHelper.stopAnimation(player, 5);
+//            PacketHandler.sendToServer(new ServerboundStopPlayerAnimationPacket(player.getUUID(),5));
+//        }
+//        super.releaseUsing(pStack, pLevel, pLivingEntity, pTimeCharged);
+//    }
 
     public static float getDamageBonusFromHealth(Player player, ItemStack stack) {
         float missingHealth = player.getMaxHealth() - player.getHealth();

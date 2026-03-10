@@ -16,7 +16,6 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 public class CylindricalBoundingBox extends BaseBoundingBox {
     public float radius;
@@ -189,9 +188,8 @@ public class CylindricalBoundingBox extends BaseBoundingBox {
     }
 
     @Override
-    public <T extends Entity> List<T> findEntitiesHit(Player player, Class<T> clazz, Predicate<? super T> filter) {
+    public <T extends Entity> List<T> findEntitiesHit(Player player, Class<T> clazz) {
         List<T> candidates = player.level().getEntitiesOfClass(clazz, getAABB().inflate(2), e -> e.isAlive() && e.isPickable() && e != player && e != player.getVehicle());
-
         return filter(candidates);
     }
 }

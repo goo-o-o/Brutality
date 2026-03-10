@@ -16,7 +16,6 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 public final class OrientedBoundingBox extends BaseBoundingBox {
     public Vec3 halfExtents;
@@ -234,9 +233,8 @@ public final class OrientedBoundingBox extends BaseBoundingBox {
     }
 
     @Override
-    public <T extends Entity> List<T> findEntitiesHit(Player player, Class<T> clazz, Predicate<? super T> filter) {
-        List<T> candidates = player.level().getEntitiesOfClass(clazz, getAABB().inflate(2), e -> e.isAlive() && e.isPickable() && e != player && e != player.getVehicle());
-
+    public <T extends Entity> List<T> findEntitiesHit(Player player, Class<T> clazz) {
+        List<T> candidates = player.level().getEntitiesOfClass(clazz, getAABB().inflate(20), e -> e.isAlive() && e.isPickable() && e != player && e != player.getVehicle());
         return filter(candidates);
     }
 

@@ -53,7 +53,7 @@ public class HitboxUtils {
         }
 
         OrientedBoundingBox inWorld = (OrientedBoundingBox) hitbox.inWorld(player, origin, offset);
-        List<T> entitiesHit = inWorld.findEntitiesHit(player, clazz, null);
+        List<T> entitiesHit = inWorld.findEntitiesHit(player, clazz);
 
         if (rayType != null && player.level() instanceof ServerLevel serverLevel && rayLength > 0) {
             BrutalityRay ray = rayType.create(serverLevel);
