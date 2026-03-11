@@ -34,7 +34,7 @@ public class RenderUtils {
 
     public static MultiBufferSource makeGhostBuffer(MultiBufferSource original, float alpha) {
         return (renderType) -> {
-            // Blocks and most items live on the BLOCK_ATLAS.
+            // Blocks and most data live on the BLOCK_ATLAS.
             // We force a translucent entity render type using that atlas.
             RenderType ghostType = RenderType.entityTranslucent(InventoryMenu.BLOCK_ATLAS);
 

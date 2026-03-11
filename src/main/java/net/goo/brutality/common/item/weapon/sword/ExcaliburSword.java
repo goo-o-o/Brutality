@@ -11,8 +11,8 @@
 //import net.goo.brutality.util.helpers.AttributeHelper;
 //import net.goo.brutality.util.tooltip.BrutalityTooltipHelper;
 //import net.goo.brutality.util.ProjectileHelper;
-//import net.minecraft.nbt.CompoundTag;
-//import net.minecraft.nbt.StringTag;
+//import net.minecraft.data.CompoundTag;
+//import net.minecraft.data.StringTag;
 //import net.minecraft.world.InteractionHand;
 //import net.minecraft.world.InteractionResultHolder;
 //import net.minecraft.world.effect.MobEffectInstance;

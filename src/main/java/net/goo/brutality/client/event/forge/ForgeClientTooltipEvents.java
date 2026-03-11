@@ -22,7 +22,7 @@ import java.util.List;
 public class ForgeClientTooltipEvents {
 
 
-    // Move tooltipImage for magic items to the bottom
+    // Move tooltipImage for magic data to the bottom
     @SubscribeEvent
     public static void onGatherComponents(RenderTooltipEvent.GatherComponents event) {
         renderAugmentSlots(event);

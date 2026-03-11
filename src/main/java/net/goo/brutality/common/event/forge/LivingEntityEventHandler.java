@@ -3,6 +3,7 @@ package net.goo.brutality.common.event.forge;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.ClientAccess;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
+import net.goo.brutality.common.entity.capabilities.PlayerLoadoutsCap;
 import net.goo.brutality.common.item.armor.VampireLordArmorItem;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.item.curios.charm.BoosterPack;
@@ -58,6 +59,7 @@ public class LivingEntityEventHandler {
             EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.FOG, FastColor.ARGB32.color(255, 0, 0, 0));
         }
     }
+
     @SubscribeEvent
     public static void onCurioUnequip(CurioUnequipEvent event) {
         if (event.getStack().is(BrutalityItems.ERROR_404.get())) {
@@ -218,11 +220,6 @@ public class LivingEntityEventHandler {
             if (victimPlayer.level() instanceof ServerLevel serverLevel) {
                 SupernovaSword.clearAsteroids(victimPlayer, serverLevel);
                 CreaseOfCreation.handleCreaseOfCreation(victimPlayer);
-
-                victimPlayer.getCapability(BrutalityCapabilities.LOADOUTS).ifPresent(cap -> {
-                    cap.dropLoadouts();
-                });
-
             }
 
             resetAllColors();
@@ -238,5 +235,10 @@ public class LivingEntityEventHandler {
         }
     }
 
+    @SubscribeEvent
+    public static void onLivingDrops(LivingDropsEvent evt) {
+        LivingEntity livingEntity = evt.getEntity();
+       PlayerLoadoutsCap.handleDropEvent(evt, livingEntity);
+    }
 
 }

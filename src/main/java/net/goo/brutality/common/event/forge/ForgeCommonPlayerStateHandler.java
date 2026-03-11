@@ -3,6 +3,7 @@ package net.goo.brutality.common.event.forge;
 import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.ClientAccess;
+import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.common.item.weapon.generic.CreaseOfCreation;
@@ -70,6 +71,7 @@ public class ForgeCommonPlayerStateHandler {
         if (player.level() instanceof ServerLevel serverLevel) {
             SupernovaSword.clearAsteroids(player, serverLevel);
             CreaseOfCreation.handleCreaseOfCreation(player);
+
         }
 
         resetAllColors();
@@ -79,6 +81,9 @@ public class ForgeCommonPlayerStateHandler {
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
         CooldownUtils.persistCooldowns(event);
+        if (event.getEntity() instanceof ServerPlayer player) {
+            BrutalityCapabilities.sync(player, BrutalityCapabilities.LOADOUTS);
+        }
     }
 
 

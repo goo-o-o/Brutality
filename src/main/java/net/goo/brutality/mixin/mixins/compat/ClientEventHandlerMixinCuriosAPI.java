@@ -16,7 +16,7 @@ import java.util.Map;
 public class ClientEventHandlerMixinCuriosAPI {
 
     /**
-     * Mimics logic in {@link ItemStackMixin#modifyOperationType(AttributeModifier.Operation, Map.Entry)} but for curio items
+     * Mimics logic in {@link ItemStackMixin#modifyOperationType(AttributeModifier.Operation, Map.Entry)} but for curio data
      */
     @WrapOperation(
             method = "onTooltip",

@@ -21,7 +21,7 @@ public class AugmentHelper {
     private static final String AUGMENTS = "Augments", AUGMENT_SLOTS = "AugmentSlots", AUGMENT_ITEM_TYPES = "AugmentItemTypes";
 
     /**
-     * Attempts to add the specified augment items to the given item, provided they meet compatibility
+     * Attempts to add the specified augment data to the given item, provided they meet compatibility
      * criteria such as augment type and available slots on the item.
      *
      * @param toAugment The {@link ItemStack} to which the augments should be applied. This item determines

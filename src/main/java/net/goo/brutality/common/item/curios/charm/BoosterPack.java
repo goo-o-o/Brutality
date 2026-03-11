@@ -183,12 +183,12 @@ public class BoosterPack extends BrutalityCurioItem {
 
     /**
      * Handles the death event of a living entity, specifically a Player entity. It checks the player's
-     * inventory for specific booster pack items and updates the player's booster type capability based
-     * on the items present and their cooldown state.
+     * inventory for specific booster pack data and updates the player's booster type capability based
+     * on the data present and their cooldown state.
      *
      * @param event The {@link LivingDeathEvent} fired when an entity dies. The event contains details about
      *              the dead entity, allowing to determine if the entity is a player and to access the inventory
-     *              and capabilities for processing booster pack items.
+     *              and capabilities for processing booster pack data.
      */
     public static void handleDeath(LivingDeathEvent event) {
         if (event.getEntity() instanceof Player player)

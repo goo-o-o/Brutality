@@ -11,4 +11,5 @@ public interface IBrutalityData {
     default Predicate<Entity> predicate() {
         return e -> true;
     }
+    default boolean syncOnDeath() { return false; }
 }

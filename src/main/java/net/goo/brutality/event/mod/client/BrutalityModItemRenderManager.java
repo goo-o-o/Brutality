@@ -35,7 +35,7 @@ public class BrutalityModItemRenderManager {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            // Register layer configurations for items
+            // Register layer configurations for data
             registerItemLayers(BrutalityItems.FROSTMOURNE_SWORD.get(), renderer ->
                     renderer.addRenderLayer(new AutoGlowingGeoLayer<>(renderer)));
             registerItemLayers(BrutalityItems.BIOMECH_REACTOR.get(), renderer ->

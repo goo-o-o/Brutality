@@ -254,7 +254,7 @@ public class BrutalityAttributes {
             () -> new RangedPercentageAttribute("attribute.name.generic.stealth", 0, 0, 1).setSyncable(true));
 
     /**
-     * Velocity multiplier for thrown items.
+     * Velocity multiplier for thrown data.
      */
     public static final RegistryObject<Attribute> THROW_STRENGTH = ATTRIBUTES.register("throw_strength",
             () -> new RangedAttribute("attribute.name.generic.throw_strength", 1, 0, 1024F).setSyncable(true));

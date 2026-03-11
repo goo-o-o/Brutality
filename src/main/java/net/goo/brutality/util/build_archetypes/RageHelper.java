@@ -43,7 +43,7 @@ public class RageHelper {
             // Checks if any equipped Curio belongs to the 'rage_items' tag
             if (handler.isEquipped(item -> item.is(BrutalityTags.Items.RAGE_ITEMS))) {
 
-                // Apply Attribute scaling (e.g., items that increase rage gain efficiency)
+                // Apply Attribute scaling (e.g., data that increase rage gain efficiency)
                 damage *= (float) player.getAttributeValue(BrutalityAttributes.DAMAGE_TO_RAGE_RATIO.get());
 
                 // Apply global server configuration multiplier for balancing

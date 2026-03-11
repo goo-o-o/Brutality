@@ -33,7 +33,7 @@ public class BrutalityCurioItem extends BrutalityGenericItem implements ICurioIt
 
     /**
      * A list of attribute templates used to generate modifiers when the item is equipped.
-     * We use a template pattern to allow "building" items with different stats in the registry.
+     * We use a template pattern to allow "building" data with different stats in the registry.
      */
     private List<AttributeContainer> attributeTemplates = List.of();
     public boolean followBodyRotations = true, followHeadRotations = true, translateIfSneaking = true, rotateIfSneaking = true;
@@ -321,7 +321,7 @@ public class BrutalityCurioItem extends BrutalityGenericItem implements ICurioIt
             double total = amount;
             Optional<ICuriosItemHandler> opt = CuriosApi.getCuriosInventory(livingEntity).resolve();
             if (opt.isPresent()) {
-                // Find all items that are BrutalityCurioItems
+                // Find all data that are BrutalityCurioItems
                 for (SlotResult result : opt.get().findCurios(s -> s.getItem() instanceof BrutalityCurioItem)) {
 
                     BrutalityCurioItem item = (BrutalityCurioItem) result.stack().getItem();

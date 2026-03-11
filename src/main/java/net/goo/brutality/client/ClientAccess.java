@@ -10,6 +10,8 @@ import net.goo.brutality.common.network.clientbound.ClientboundParticlePacket;
 import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.event.LivingDodgeEvent;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.sounds.SoundManager;
@@ -28,6 +30,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.common.Mod;
+import top.theillusivec4.curios.client.gui.CuriosScreenV2;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -40,6 +43,7 @@ public class ClientAccess {
     private static ExtinctionSpellSoundInstance extinctionSpellSoundInstance;
     private static final Minecraft mc = Minecraft.getInstance();
     private static DeathsawSoundInstance deathsawSoundInstance;
+
     public static void loadBitShader() {
         mc.gameRenderer.loadEffect(GameRenderer.EFFECTS[16]);
     }
@@ -85,10 +89,26 @@ public class ClientAccess {
         if (entity == null) return;
 
         BrutalityCapabilities.getByKey(key).ifPresent(cap ->
-                entity.getCapability(cap).ifPresent(instance ->
-                        instance.deserializeNBT(data)
+                entity.getCapability(cap).ifPresent(instance -> {
+                            instance.deserializeNBT(data);
+                            if (cap == BrutalityCapabilities.LOADOUTS) {
+                                refreshScreenIfPossible(InventoryScreen.class, CuriosScreenV2.class);
+                            }
+                        }
                 )
         );
+    }
+
+    @SafeVarargs
+    public static void refreshScreenIfPossible(Class<? extends Screen>... screenClasses) {
+        Minecraft mc = Minecraft.getInstance();
+        // Check if the current screen is the inventory
+        if (mc.screen != null) {
+            for (Class<?> screenClass : screenClasses) {
+                if (screenClass.equals(mc.screen.getClass()))
+                    mc.screen.init(mc, mc.screen.width, mc.screen.height);
+            }
+        }
     }
 
     public static void playExtinctionSpellSound(ExtinctionEntity extinctionEntity) {

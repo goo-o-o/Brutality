@@ -11,6 +11,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -142,19 +143,47 @@ public class BrutalityCapabilities {
     }
 
     @SubscribeEvent
+    public static void onPlayerJoin(EntityJoinLevelEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player && !event.getLevel().isClientSide) {
+            BrutalityCapabilities.sync(player, BrutalityCapabilities.LOADOUTS);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerClone(PlayerEvent.Clone event) {
+        Player oldPlayer = event.getOriginal();
+        Player newPlayer = event.getEntity();
+
+        REGISTRY.forEach((name, entry) -> {
+            if (entry.dummy().syncOnDeath()) {
+                oldPlayer.reviveCaps(); // Keep caps alive during the transition
+                oldPlayer.getCapability(BrutalityCapabilities.LOADOUTS).ifPresent(oldCap ->
+                        newPlayer.getCapability(BrutalityCapabilities.LOADOUTS).ifPresent(newCap ->
+                                newCap.deserializeNBT(oldCap.serializeNBT())));
+                oldPlayer.invalidateCaps();
+
+                if (newPlayer instanceof ServerPlayer serverPlayer) {
+                    BrutalityCapabilities.sync(serverPlayer, entry.cap());
+                }
+            }
+        });
+    }
+
+    @SubscribeEvent
     public static void onStartTracking(PlayerEvent.StartTracking event) {
         if (event.getEntity() instanceof ServerPlayer serverPlayer) {
             Entity target = event.getTarget();
-
-            // Loop through all registered capabilities
-            REGISTRY.forEach((name, entry) -> {
-                // Check if this specific entity actually HAS this capability
-                // (e.g., don't try to sync Mana for a Cow)
-                if (entry.dummy().predicate().test(target)) {
-                    syncToPlayer(serverPlayer, target, entry.cap());
-                }
-            });
+            syncAllCaps(target, serverPlayer);
         }
+    }
+
+    public static void syncAllCaps(Entity target, ServerPlayer serverPlayer) {
+        // Loop through all registered capabilities
+        REGISTRY.forEach((name, entry) -> {
+            if (entry.dummy().predicate().test(target)) {
+                syncToPlayer(serverPlayer, target, entry.cap());
+            }
+        });
     }
 
     // Helper to sync a specific entity's cap to a specific player

@@ -114,8 +114,8 @@ public class SpellPageView extends TableOfWizardryView {
         gui.blit(PEDESTALS_SHADE, hX + 8, hY - 64, 0, 0, 72, 72, 72, 72);
         gui.blit(recipe.spell().getIcon(), hX + 36, hY - 36, 0, 0, 16, 16, 16, 16);
 
-        // 1. Get the actual items currently on the world pedestals in order
-        List<ItemStack> actualPedestalItems = screen.getBlockEntity().getPedestalItems(); // Returns 8 items in order
+        // 1. Get the actual data currently on the world pedestals in order
+        List<ItemStack> actualPedestalItems = screen.getBlockEntity().getPedestalItems(); // Returns 8 data in order
         int[][] pos = {{36, -62}, {57, -57}, {62, -36}, {57, -15}, {36, -10}, {15, -15}, {10, -36}, {15, -57}};
         ItemStack hovered = ItemStack.EMPTY;
 
@@ -135,7 +135,7 @@ public class SpellPageView extends TableOfWizardryView {
         }
 
         // --- LAYER 2: The Pedestal Base (Middle) ---
-        // This renders once, on top of outlines but behind items
+        // This renders once, on top of outlines but behind data
         gui.blit(PEDESTALS, hX + 8, hY - 64, 0, 0, 72, 72, 72, 72);
 
         // --- LAYER 3: Items & Tooltip Logic (Top) ---

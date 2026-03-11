@@ -307,7 +307,7 @@ public class Mug extends BrutalityThrowingItem {
     }
 
     /**
-     * Allows items to add custom lines of information to the mouseover description.
+     * Allows data to add custom lines of information to the mouseover description.
      */
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);

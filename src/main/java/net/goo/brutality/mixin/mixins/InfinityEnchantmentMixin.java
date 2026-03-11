@@ -22,7 +22,7 @@ public abstract class InfinityEnchantmentMixin extends Enchantment {
     }
 
     /**
-     * Modify the compatibility check to allow Infinity and Mending on specific items.
+     * Modify the compatibility check to allow Infinity and Mending on specific data.
      */
     @Inject(
             method = "checkCompatibility",
