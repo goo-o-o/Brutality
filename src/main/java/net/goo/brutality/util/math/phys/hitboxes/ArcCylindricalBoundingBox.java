@@ -42,6 +42,10 @@ public class ArcCylindricalBoundingBox extends CylindricalBoundingBox {
     @Override
     public boolean intersectsAABB(AABB aabb) {
         if (center == null) return false;
+        // If arcDegrees not set or full circle → use cylinder result
+        if (arcDegrees >= 360f) return true;
+        if (arcDegrees <= 0f) return false;
+
 
         Matrix3f invRot = new Matrix3f(rotation).invert();
 
@@ -77,8 +81,7 @@ public class ArcCylindricalBoundingBox extends CylindricalBoundingBox {
         if (closestDistSq > radius * radius) return false;
         if (innerRadius > 0.01f && farthestDistSq < innerRadius * innerRadius) return false;
 
-        // If arcDegrees not set or full circle → use cylinder result
-        if (arcDegrees >= 360f || arcDegrees <= 0f) return true;
+
 
         // === ARC CHECK — local XZ plane only ===
         float halfArc = (float) Math.toRadians(arcDegrees * 0.5f);

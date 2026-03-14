@@ -1,5 +1,6 @@
 package net.goo.brutality.client.player_animation;
 
+import dev.kosmx.playerAnim.api.layered.KeyframeAnimationPlayer;
 import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.goo.brutality.Brutality;
@@ -11,14 +12,42 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class PoseManager {
-    public record PoseDefinition(
-            Predicate<LivingEntity> condition,
-            net.minecraft.resources.ResourceLocation animLoc,
-            int priority
-    ) {}
+    public static final class PoseDefinition {
+        private final Predicate<LivingEntity> condition;
+        private final KeyframeAnimation animation;
+        private final int priority;
+        @Nullable
+        private KeyframeAnimationPlayer player;
+
+        public PoseDefinition(
+                Predicate<LivingEntity> condition,
+                ResourceLocation animLoc,
+                int priority
+        ) {
+            this.condition = condition;
+            this.priority = priority;
+            this.animation = PlayerAnimationRegistry.getAnimation(animLoc);
+            if (animation != null) {
+                this.player = new KeyframeAnimationPlayer(animation);
+            }
+        }
+
+        public Predicate<LivingEntity> condition() {
+            return condition;
+        }
+
+        public int priority() {
+            return priority;
+        }
+
+        public KeyframeAnimation animation() {
+            return animation;
+        }
+    }
 
     private static final List<PoseDefinition> POSES = new ArrayList<>();
 
@@ -37,10 +66,10 @@ public class PoseManager {
     }
 
     @Nullable
-    public static KeyframeAnimation getActivePose(LivingEntity entity) {
+    public static PoseDefinition getActivePose(LivingEntity entity) {
         for (PoseDefinition pose : POSES) {
             if (pose.condition().test(entity)) {
-                return PlayerAnimationRegistry.getAnimation(pose.animLoc());
+                return pose;
             }
         }
         return null; // Default to no pose

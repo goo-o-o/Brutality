@@ -90,7 +90,11 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
         if (player != null && player.getMainHandItem().getItem() instanceof LastPrism) {
             if (event.getHand() == InteractionHand.OFF_HAND)
                 event.setCanceled(true);
+            if (player.isHolding(stack -> stack.getItem() instanceof RotatingAttackWeapon)) {
+                if (player.isUsingItem()) event.setCanceled(true);
+            }
         }
+
     }
 
     @SubscribeEvent
@@ -100,7 +104,6 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
                 event.setResult(Event.Result.DENY);
             }
     }
-
 
 
     @SubscribeEvent

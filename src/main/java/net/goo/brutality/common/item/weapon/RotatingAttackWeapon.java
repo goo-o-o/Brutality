@@ -42,19 +42,17 @@ public interface RotatingAttackWeapon {
     static ArcCylindricalBoundingBox getHitbox(Player player, float height, float radius, ItemStack stack, RotatingAttackWeapon weapon) {
         int useTicks = stack.getUseDuration() - player.getUseItemRemainingTicks();
 
-        // Calculate the arc "slice" for this specific tick
-        float prevDegs = calculateSpinRotation(useTicks - 1, 0, weapon);
         float currentDegs = calculateSpinRotation(useTicks, 0, weapon);
+        float prevDegs = useTicks > 1 ? calculateSpinRotation(useTicks - 1, 0, weapon) : 0;
+
         float arcSweep = currentDegs - prevDegs;
 
-        // Use the player's current rotation as the base, then offset by the spin
         float anchorYaw = SPIN_ANCHORS.computeIfAbsent(player, LivingEntity::getVisualRotationYInDegrees);
         float targetYRot = anchorYaw + prevDegs;
 
-        if (!player.level().isClientSide())
-            System.out.println("targetYRot: " + targetYRot + " | arcSweep: " + arcSweep);
-        // We use the 'origin' version of inWorld to ensure it pins to the player
-        return (ArcCylindricalBoundingBox) new ArcCylindricalBoundingBox(Vec3.ZERO, height, 0, radius, arcSweep)
+        float finalSweep = Math.max(0.01F, arcSweep);
+
+        return (ArcCylindricalBoundingBox) new ArcCylindricalBoundingBox(Vec3.ZERO, height, radius, 0, finalSweep)
                 .inWorld(player, Vec3.ZERO, 0, targetYRot);
     }
 

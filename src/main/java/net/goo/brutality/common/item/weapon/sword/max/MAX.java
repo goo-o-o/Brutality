@@ -1,21 +1,26 @@
 package net.goo.brutality.common.item.weapon.sword.max;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.weapon.RotatingAttackWeapon;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.ColorUtils;
 import net.goo.brutality.util.math.phys.hitboxes.ArcCylindricalBoundingBox;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class MAX extends Maximus implements RotatingAttackWeapon {
 
@@ -68,11 +73,20 @@ public class MAX extends Maximus implements RotatingAttackWeapon {
     public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
         if (pLivingEntity instanceof Player player) {
             ArcCylindricalBoundingBox arc =  RotatingAttackWeapon.getHitbox(player, 0.5F, 9, pStack, this);
-            arc.findEntitiesHit(player, LivingEntity.class).forEach(e -> {
-                System.out.println("Hurt " + e + " for 10 dmg");
-                e.hurt(e.damageSources().playerAttack(player), 10);
-            });
+            arc.findEntitiesHit(player, LivingEntity.class).forEach(player::attack);
         }
+    }
+
+    @Override
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        super.initializeClient(consumer);
+
+        consumer.accept(new IClientItemExtensions() {
+            @Override
+            public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess) {
+                return IClientItemExtensions.super.applyForgeHandTransform(poseStack, player, arm, itemInHand, partialTick, equipProcess, swingProcess);
+            }
+        });
     }
 
     @Override

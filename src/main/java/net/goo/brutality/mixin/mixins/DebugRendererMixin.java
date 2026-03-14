@@ -1,6 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.goo.brutality.common.item.weapon.RotatingAttackWeapon;
 import net.goo.brutality.common.item.weapon.axe.Deathsaw;
 import net.goo.brutality.common.item.weapon.generic.LastPrism;
@@ -11,16 +12,21 @@ import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.math.phys.hitboxes.ArcCylindricalBoundingBox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.debug.DebugRenderer;
+import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
 @Mixin(DebugRenderer.class)
 public abstract class DebugRendererMixin {
-    @Shadow public abstract void render(PoseStack pPoseStack, MultiBufferSource.BufferSource pBufferSource, double pCamX, double pCamY, double pCamZ);
+    @Shadow
+    public abstract void render(PoseStack pPoseStack, MultiBufferSource.BufferSource pBufferSource, double pCamX, double pCamY, double pCamZ);
 
     @Inject(
             method = {"render"},
@@ -31,22 +37,21 @@ public abstract class DebugRendererMixin {
         if ((client).getEntityRenderDispatcher().shouldRenderHitBoxes()) {
             LocalPlayer player = client.player;
             if (player != null) {
-                    if (player.isHolding(BrutalityItems.DEATHSAW.get())) {
-                        Deathsaw.HITBOX.inWorld(player, Deathsaw.OFFSET).render(matrixStack);
-                    } else if (player.isHolding(BrutalityItems.RHONGOMYNIAD.get())) {
-                        Rhongomyniad.HITBOX.inWorld(player, player.getEyePosition(), Rhongomyniad.OFFSET).render(matrixStack);
-                    } else if (player.isHolding(BrutalityItems.LAST_PRISM_ITEM.get())) {
-                        LastPrism.HITBOX.inWorld(player, player.getEyePosition(), LastPrism.OFFSET).render(matrixStack);
-                    } else if (player.isHolding(BrutalityItems.CALDRITH.get())) {
-                        Caldrith.HITBOX.inWorld(player, Caldrith.OFFSET, 0, player.getYRot()).render(matrixStack);
-                    } else if (player.isHolding(BrutalityItems.SCHISM.get())) {
-                        Schism.HITBOX.inWorld(player, Schism.OFFSET).render(matrixStack);
-                    } else if (player.isHolding(BrutalityItems.MAX.get()) && player.isUsingItem()) {
-                        ArcCylindricalBoundingBox arc =  RotatingAttackWeapon.getHitbox(player, 0.25F, 9, player.getMainHandItem(), (RotatingAttackWeapon) BrutalityItems.MAX.get());
-                        arc.render(matrixStack);
-                    }
-
+                if (player.isHolding(BrutalityItems.DEATHSAW.get())) {
+                    Deathsaw.HITBOX.inWorld(player, Deathsaw.OFFSET).render(matrixStack);
+                } else if (player.isHolding(BrutalityItems.RHONGOMYNIAD.get())) {
+                    Rhongomyniad.HITBOX.inWorld(player, player.getEyePosition(), Rhongomyniad.OFFSET).render(matrixStack);
+                } else if (player.isHolding(BrutalityItems.LAST_PRISM_ITEM.get())) {
+                    LastPrism.HITBOX.inWorld(player, player.getEyePosition(), LastPrism.OFFSET).render(matrixStack);
+                } else if (player.isHolding(BrutalityItems.CALDRITH.get())) {
+                    Caldrith.HITBOX.inWorld(player, Caldrith.OFFSET, 0, player.getYRot()).render(matrixStack);
+                } else if (player.isHolding(BrutalityItems.SCHISM.get())) {
+                    Schism.HITBOX.inWorld(player, Schism.OFFSET).render(matrixStack);
+                } else if (player.isHolding(BrutalityItems.MAX.get()) && player.isUsingItem()) {
+                    RotatingAttackWeapon.getHitbox(player, 0.25F, 9, player.getMainHandItem(), (RotatingAttackWeapon) BrutalityItems.MAX.get()).render(matrixStack);
                 }
+
+            }
 
         }
     }

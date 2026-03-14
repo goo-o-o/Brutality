@@ -1,6 +1,8 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.mojang.authlib.GameProfile;
+import dev.kosmx.playerAnim.api.firstPerson.FirstPersonConfiguration;
+import dev.kosmx.playerAnim.api.firstPerson.FirstPersonMode;
 import dev.kosmx.playerAnim.api.layered.IAnimation;
 import dev.kosmx.playerAnim.api.layered.KeyframeAnimationPlayer;
 import dev.kosmx.playerAnim.api.layered.ModifierLayer;
@@ -9,9 +11,10 @@ import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
 import dev.kosmx.playerAnim.core.util.Ease;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
+import net.bettercombat.client.animation.PoseSubStack;
 import net.goo.brutality.Brutality;
+import net.goo.brutality.client.config.BrutalityClientConfig;
 import net.goo.brutality.client.player_animation.PoseManager;
-import net.goo.brutality.client.player_animation.PoseSubStack;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
@@ -50,19 +53,37 @@ public abstract class AbstractClientPlayerMixin {
                 ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "pose")
         );
 
-        if (poseLayer != null) {
-            KeyframeAnimation nextPose = PoseManager.getActivePose(player);
 
-            if (nextPose != brutality$currentPose) {
-                if (nextPose != null) {
-                    poseLayer.replaceAnimationWithFade(
-                            AbstractFadeModifier.standardFadeIn(5, Ease.INOUTSINE),
-                            new KeyframeAnimationPlayer(nextPose)
-                    );
-                } else {
-                    poseLayer.replaceAnimationWithFade(AbstractFadeModifier.standardFadeIn(5, Ease.INOUTSINE), null);
+        if (poseLayer != null) {
+            PoseManager.PoseDefinition poseDefinition = PoseManager.getActivePose(player);
+            if (poseDefinition != null) {
+                KeyframeAnimation nextPose = poseDefinition.animation();
+                if (nextPose != brutality$currentPose) {
+                    if (nextPose != null) {
+
+                        KeyframeAnimationPlayer keyframeAnimationPlayer = new KeyframeAnimationPlayer(nextPose);
+
+                        boolean armsFlag = BrutalityClientConfig.THROWING_ANIMATION_SHOW_ARMS.get();
+                        boolean itemsFlag = BrutalityClientConfig.THROWING_ANIMATION_SHOW_ITEMS.get();
+
+                        if (armsFlag || itemsFlag) {
+                            keyframeAnimationPlayer.setFirstPersonMode(/*resourceLocation.getPath().equals("charge_arrow") ? FirstPersonMode.VANILLA : */FirstPersonMode.THIRD_PERSON_MODEL);
+                            keyframeAnimationPlayer.setFirstPersonConfiguration(new FirstPersonConfiguration(armsFlag, armsFlag, itemsFlag, itemsFlag));
+                        } else {
+                            keyframeAnimationPlayer.setFirstPersonMode(FirstPersonMode.DISABLED);
+                        }
+
+
+                        poseLayer.replaceAnimationWithFade(
+                                AbstractFadeModifier.standardFadeIn(5, Ease.INOUTSINE),
+                                new KeyframeAnimationPlayer(nextPose)
+                        );
+                    } else {
+                        poseLayer.replaceAnimationWithFade(AbstractFadeModifier.standardFadeIn(5, Ease.INOUTSINE), null, true);
+                    }
+                    brutality$currentPose = nextPose;
+
                 }
-                brutality$currentPose = nextPose;
             }
         }
     }
