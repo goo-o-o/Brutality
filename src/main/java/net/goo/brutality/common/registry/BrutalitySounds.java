@@ -23,6 +23,9 @@ public class BrutalitySounds {
     public static final RegistryObject<SoundEvent> BLOOD_MAGIC_MISSILE = registerSoundEvents("blood_magic_missile");
     public static final RegistryObject<SoundEvent> VOID_SLASH = registerSoundEvents("void_slash");
 
+    public static final RegistryObject<SoundEvent> SWORD_SWING = registerSoundEvents("sword_swing");
+    public static final RegistryObject<SoundEvent> HEAVY_WHOOSH = registerSoundEvents("heavy_whoosh");
+
     public static final RegistryObject<SoundEvent> LEAF_BLOWER_ON = registerSoundEvents("leaf_blower_on");
     public static final RegistryObject<SoundEvent> LEAF_BLOWER_ACTIVE = registerSoundEvents("leaf_blower_active");
     public static final RegistryObject<SoundEvent> LEAF_BLOWER_OFF = registerSoundEvents("leaf_blower_off");

@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-08T02:59:00.4543146	Item Models: brutality
+// 1.20.1	2026-03-14T15:52:03.9368177	Item Models: brutality
 4d2cb5931bdfc05b9f9f74aa98fcf2124089e766 assets/brutality/models/item/absolute_zero.json
 6e80778fb947ee57e15d0cfa92468737fd05e5f1 assets/brutality/models/item/abyssal_necklace.json
 7bdbfa2f9bc2d8878a025a707c169187a7da9390 assets/brutality/models/item/adamantite_augmentation_device.json
@@ -426,6 +426,7 @@ a4f7e82ecd636de8604950e71b6faf8d96d4094f assets/brutality/models/item/terra_legg
 915dd6aef8e8eda03db4867a99c827c508e98ef9 assets/brutality/models/item/the_clock_of_frozen_time.json
 16c77ea1ae217786bf7271d79f310141bc695280 assets/brutality/models/item/the_golden_spatula.json
 a62c8d148bb2987f47db94d651397f4776dcc397 assets/brutality/models/item/the_oath.json
+27f32d189dc50d003b43a4c61dd5c79f932db3ea assets/brutality/models/item/the_silver_perimeter.json
 c678601188d805245b2e3ddf4fb16654f70eb8cb assets/brutality/models/item/the_smokehouse.json
 93da8221181ccd422371dc360072b1d7d7212b40 assets/brutality/models/item/thunderbolt.json
 13981a5c42bb61a848dc0b8adc366e25983528e5 assets/brutality/models/item/timekeepers_clock.json

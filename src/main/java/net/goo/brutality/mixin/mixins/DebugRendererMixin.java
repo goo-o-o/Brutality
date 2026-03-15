@@ -1,7 +1,6 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.goo.brutality.common.item.weapon.RotatingAttackWeapon;
 import net.goo.brutality.common.item.weapon.axe.Deathsaw;
 import net.goo.brutality.common.item.weapon.generic.LastPrism;
@@ -9,14 +8,10 @@ import net.goo.brutality.common.item.weapon.scythe.Schism;
 import net.goo.brutality.common.item.weapon.spear.Caldrith;
 import net.goo.brutality.common.item.weapon.spear.Rhongomyniad;
 import net.goo.brutality.common.registry.BrutalityItems;
-import net.goo.brutality.util.math.phys.hitboxes.ArcCylindricalBoundingBox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.debug.DebugRenderer;
-import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -48,7 +43,7 @@ public abstract class DebugRendererMixin {
                 } else if (player.isHolding(BrutalityItems.SCHISM.get())) {
                     Schism.HITBOX.inWorld(player, Schism.OFFSET).render(matrixStack);
                 } else if (player.isHolding(BrutalityItems.MAX.get()) && player.isUsingItem()) {
-                    RotatingAttackWeapon.getHitbox(player, 0.25F, 9, player.getMainHandItem(), (RotatingAttackWeapon) BrutalityItems.MAX.get()).render(matrixStack);
+                    RotatingAttackWeapon.getHitbox(player, 0.25F, 9, player.getMainHandItem(), (RotatingAttackWeapon) BrutalityItems.MAX.get(), null).render(matrixStack);
                 }
 
             }

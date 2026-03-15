@@ -13,7 +13,7 @@ import net.goo.brutality.common.magic.IBrutalitySpell;
 import net.goo.brutality.common.recipe.ConjureRecipe;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.common.registry.BrutalityRecipes;
-import net.goo.brutality.util.RenderUtils;
+import net.goo.brutality.util.render.RenderUtils;
 import net.goo.brutality.util.magic.SpellStorage;
 import net.goo.brutality.util.math.PhysicsUtils;
 import net.minecraft.client.model.BookModel;

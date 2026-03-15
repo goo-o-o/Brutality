@@ -1,0 +1,8 @@
+{
+    "vertex": "brutality:ld_fast_blit",
+    "fragment": "brutality:ld_fast_blit",
+    "attributes": [ "Position" ],
+    "samplers": [
+        { "name": "DiffuseSampler" }
+    ]
+}

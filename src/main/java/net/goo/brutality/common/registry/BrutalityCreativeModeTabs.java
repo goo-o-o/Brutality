@@ -520,6 +520,7 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.MAXIMA.get());
                         output.accept(BrutalityItems.MAXIMUS.get());
                         output.accept(BrutalityItems.MAX.get());
+                        output.accept(BrutalityItems.THE_SILVER_PERIMETER.get());
                         output.accept(BrutalityItems.SCHISM.get());
                         output.accept(BrutalityItems.HELLSPEC_CLEAVER.get());
                         output.accept(BrutalityItems.CONDUCTITE_CAPACITOR.get());

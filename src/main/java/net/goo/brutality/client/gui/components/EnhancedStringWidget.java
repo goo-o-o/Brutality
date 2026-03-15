@@ -1,7 +1,7 @@
 package net.goo.brutality.client.gui.components;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.goo.brutality.util.RenderUtils;
+import net.goo.brutality.util.render.RenderUtils;
 import net.minecraft.Util;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

@@ -1,6 +1,5 @@
 package net.goo.brutality.mixin.mixins;
 
-import com.mojang.authlib.GameProfile;
 import dev.kosmx.playerAnim.api.firstPerson.FirstPersonConfiguration;
 import dev.kosmx.playerAnim.api.firstPerson.FirstPersonMode;
 import dev.kosmx.playerAnim.api.layered.IAnimation;
@@ -10,12 +9,8 @@ import dev.kosmx.playerAnim.api.layered.modifier.AbstractFadeModifier;
 import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
 import dev.kosmx.playerAnim.core.util.Ease;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
-import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
-import net.bettercombat.client.animation.PoseSubStack;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.config.BrutalityClientConfig;
 import net.goo.brutality.client.player_animation.PoseManager;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,21 +22,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(AbstractClientPlayer.class)
 public abstract class AbstractClientPlayerMixin {
 
-    @Inject(method = "<init>", at = @At("TAIL"))
-    private void initBrutalityPose(ClientLevel world, GameProfile profile, CallbackInfo ci) {
-        AbstractClientPlayer player = (AbstractClientPlayer) (Object) this;
-
-        PoseSubStack brutality$customPoseSubStack = new PoseSubStack(null, true, true);
-
-        PlayerAnimationAccess.getPlayerAssociatedData(player).set(
-                ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "pose_layer"),
-                brutality$customPoseSubStack.base
-        );
-    }
+//    @Inject(method = "<init>", at = @At("TAIL"))
+//    private void initBrutalityPose(ClientLevel world, GameProfile profile, CallbackInfo ci) {
+//        AbstractClientPlayer player = (AbstractClientPlayer) (Object) this;
+//
+//        PoseSubStack brutality$customPoseSubStack = new PoseSubStack(null, true, true);
+//
+//        PlayerAnimationAccess.getPlayerAssociatedData(player).set(
+//                ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "pose_layer"),
+//                brutality$customPoseSubStack.base
+//        );
+//    }
 
 
     @Unique
     private KeyframeAnimation brutality$currentPose = null;
+
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void onTick(CallbackInfo ci) {
@@ -53,38 +49,41 @@ public abstract class AbstractClientPlayerMixin {
                 ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "pose")
         );
 
-
         if (poseLayer != null) {
+            // 1. Get the definition (which might be null)
             PoseManager.PoseDefinition poseDefinition = PoseManager.getActivePose(player);
-            if (poseDefinition != null) {
-                KeyframeAnimation nextPose = poseDefinition.animation();
-                if (nextPose != brutality$currentPose) {
-                    if (nextPose != null) {
+            // 2. Extract the animation (null if definition is null)
+            KeyframeAnimation nextPose = (poseDefinition != null) ? poseDefinition.animation() : null;
 
-                        KeyframeAnimationPlayer keyframeAnimationPlayer = new KeyframeAnimationPlayer(nextPose);
+            // 3. This block must trigger if we are transitioning FROM a pose TO null
+            if (nextPose != brutality$currentPose) {
+                if (nextPose != null) {
+                    boolean armsFlag = true;
+                    boolean itemsFlag = true;
+                    KeyframeAnimationPlayer keyframeAnimationPlayer = new KeyframeAnimationPlayer(nextPose);
 
-                        boolean armsFlag = BrutalityClientConfig.THROWING_ANIMATION_SHOW_ARMS.get();
-                        boolean itemsFlag = BrutalityClientConfig.THROWING_ANIMATION_SHOW_ITEMS.get();
-
-                        if (armsFlag || itemsFlag) {
-                            keyframeAnimationPlayer.setFirstPersonMode(/*resourceLocation.getPath().equals("charge_arrow") ? FirstPersonMode.VANILLA : */FirstPersonMode.THIRD_PERSON_MODEL);
-                            keyframeAnimationPlayer.setFirstPersonConfiguration(new FirstPersonConfiguration(armsFlag, armsFlag, itemsFlag, itemsFlag));
-                        } else {
-                            keyframeAnimationPlayer.setFirstPersonMode(FirstPersonMode.DISABLED);
-                        }
-
-
-                        poseLayer.replaceAnimationWithFade(
-                                AbstractFadeModifier.standardFadeIn(5, Ease.INOUTSINE),
-                                new KeyframeAnimationPlayer(nextPose)
-                        );
+                    if (armsFlag || itemsFlag) {
+                        keyframeAnimationPlayer.setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL);
+                        keyframeAnimationPlayer.setFirstPersonConfiguration(new FirstPersonConfiguration(armsFlag, armsFlag, itemsFlag, itemsFlag));
                     } else {
-                        poseLayer.replaceAnimationWithFade(AbstractFadeModifier.standardFadeIn(5, Ease.INOUTSINE), null, true);
+                        keyframeAnimationPlayer.setFirstPersonMode(FirstPersonMode.DISABLED);
                     }
-                    brutality$currentPose = nextPose;
 
+                    poseLayer.replaceAnimationWithFade(
+                            AbstractFadeModifier.standardFadeIn(5, Ease.INOUTSINE),
+                            keyframeAnimationPlayer
+                    );
+                } else {
+                    // 4. This now correctly executes when getActivePose returns null
+                    poseLayer.replaceAnimationWithFade(
+                            AbstractFadeModifier.standardFadeIn(5, Ease.INOUTSINE),
+                            null
+                    );
                 }
+                // Update the tracker so we don't spam the fade every tick
+                brutality$currentPose = nextPose;
             }
         }
     }
+
 }

@@ -6,7 +6,6 @@ import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -35,14 +34,6 @@ public class SuspiciouslyLargeHandle extends BrutalityCurioItem {
             ICuriosItemHandler handler = handlerOptional.get();
             if (!stack.isEmpty() && handler.isEquipped(BrutalityItems.SUSPICIOUSLY_LARGE_HANDLE.get())) {
                 float attackSpeed = (float) player.getAttributeValue(Attributes.ATTACK_SPEED);
-                Multimap<Attribute, AttributeModifier> modifiers = stack.getAttributeModifiers(EquipmentSlot.MAINHAND);
-                for (AttributeModifier mod : modifiers.get(Attributes.ATTACK_SPEED)) {
-                    if (mod.getId().equals(BASE_ATTACK_SPEED_UUID)) {
-                        attackSpeed = (float) mod.getAmount();
-                        break;
-                    }
-                }
-
                 float difference = attackSpeed - 0.65F;
                 return difference * RATIO;
             }

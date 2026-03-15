@@ -42,74 +42,76 @@ public class ArcCylindricalBoundingBox extends CylindricalBoundingBox {
     @Override
     public boolean intersectsAABB(AABB aabb) {
         if (center == null) return false;
-        // If arcDegrees not set or full circle → use cylinder result
-        if (arcDegrees >= 360f) return true;
         if (arcDegrees <= 0f) return false;
-
 
         Matrix3f invRot = new Matrix3f(rotation).invert();
 
-        // Transform all 8 corners to local space
+        // 1. Setup local bounds trackers
+        float minY = Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
+        float minX = Float.MAX_VALUE, maxX = -Float.MAX_VALUE;
+        float minZ = Float.MAX_VALUE, maxZ = -Float.MAX_VALUE;
+
         Vector3f[] local = new Vector3f[8];
-        int i = 0;
-        for (int x = 0; x < 2; x++)
-            for (int y = 0; y < 2; y++)
+        int index = 0;
+
+        // 2. Transform corners AND update local bounds in one go
+        for (int x = 0; x < 2; x++) {
+            for (int y = 0; y < 2; y++) {
                 for (int z = 0; z < 2; z++) {
                     Vector3f c = new Vector3f(
                             (float)(x == 0 ? aabb.minX : aabb.maxX) - (float)center.x,
                             (float)(y == 0 ? aabb.minY : aabb.maxY) - (float)center.y,
                             (float)(z == 0 ? aabb.minZ : aabb.maxZ) - (float)center.z
                     );
+
                     invRot.transform(c);
-                    local[i++] = c;
+                    local[index++] = c;
+
+                    // Track the min/max in local space
+                    minX = Math.min(minX, c.x); maxX = Math.max(maxX, c.x);
+                    minY = Math.min(minY, c.y); maxY = Math.max(maxY, c.y);
+                    minZ = Math.min(minZ, c.z); maxZ = Math.max(maxZ, c.z);
                 }
-
-        // === Your original fast cylinder checks ===
-        float minY = Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
-        float closestDistSq = Float.MAX_VALUE;
-        float farthestDistSq = 0f;
-
-        for (Vector3f c : local) {
-            minY = Math.min(minY, c.y);
-            maxY = Math.max(maxY, c.y);
-            float d2 = c.x*c.x + c.z*c.z;
-            closestDistSq  = Math.min(closestDistSq,  d2);
-            farthestDistSq = Math.max(farthestDistSq, d2);
+            }
         }
 
+        // 3. Height Check (Local Y)
         if (maxY < -halfHeight || minY > halfHeight) return false;
+
+        // 4. Cylinder Check (Clamping to find the closest point)
+        // This stops the radius from "expanding" at high speeds
+        float closestX = Math.max(minX, Math.min(0f, maxX));
+        float closestZ = Math.max(minZ, Math.min(0f, maxZ));
+        float closestDistSq = closestX * closestX + closestZ * closestZ;
+
         if (closestDistSq > radius * radius) return false;
-        if (innerRadius > 0.01f && farthestDistSq < innerRadius * innerRadius) return false;
 
+        // 5. Full Circle Guard
+        if (arcDegrees >= 360f) return true;
 
-
-        // === ARC CHECK — local XZ plane only ===
+        // 6. Arc Check (Only runs if the arc is < 360)
         float halfArc = (float) Math.toRadians(arcDegrees * 0.5f);
-        float forwardAngle = (float) (Math.PI / 2.0); // +Z = 90° = forward (matches render)
+        float forwardAngle = (float) (Math.PI / 2.0); // +Z direction
 
         for (Vector3f c : local) {
-            float dx = c.x;
-            float dz = c.z;
-            float distSq = dx*dx + dz*dz;
+            float distSq = c.x * c.x + c.z * c.z;
 
+            // Skip corners that are outside the cylinder or inside the hole
             if (distSq > radius * radius) continue;
             if (innerRadius > 0.01f && distSq < innerRadius * innerRadius) continue;
+            if (distSq < 0.001f) return true; // Direct hit on center
 
-            if (distSq < 0.001f) return true; // center
-
-            float angle = (float) Math.atan2(dz, dx);
+            float angle = (float) Math.atan2(c.z, c.x);
             float delta = angle - forwardAngle;
-
-            // Normalize to [-π, π]
             delta = (float) ((delta + Math.PI) % (2f * Math.PI) - Math.PI);
 
-            if (Math.abs(delta) <= halfArc) {
-                return true;
-            }
+            if (Math.abs(delta) <= halfArc) return true;
         }
 
         return false;
     }
+
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public void render(PoseStack poseStack) {

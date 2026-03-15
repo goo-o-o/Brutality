@@ -3,10 +3,7 @@ package net.goo.brutality.event.mod.client;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.particle.base.WaveParticle;
 import net.goo.brutality.client.particle.custom.*;
-import net.goo.brutality.client.particle.custom.flat.HexingCircleParticle;
-import net.goo.brutality.client.particle.custom.flat.MurasamaSlashParticle;
-import net.goo.brutality.client.particle.custom.flat.StygianStepParticle;
-import net.goo.brutality.client.particle.custom.flat.VoidSlashParticle;
+import net.goo.brutality.client.particle.custom.flat.*;
 import net.goo.brutality.client.particle.providers.FlatParticleData;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.minecraft.client.particle.FlameParticle;
@@ -19,6 +16,9 @@ import net.minecraftforge.fml.common.Mod;
 public class BrutalityModParticleFactories {
     @SubscribeEvent
     public static void registerParticleFactories(final RegisterParticleProvidersEvent event) {
+
+
+
         // Register sprite-based particles
         event.registerSpriteSet(BrutalityParticles.COSMIC_PARTICLE.get(1).get(), CosmicParticle.Provider::new);
         event.registerSpriteSet(BrutalityParticles.COSMIC_PARTICLE.get(0).get(), CosmicParticle.Provider::new);
@@ -67,6 +67,7 @@ public class BrutalityModParticleFactories {
         event.registerSpriteSet(BrutalityParticles.EXPLOSION_MAGIC_CIRCLE_PARTICLE.get(), FlatParticleData.FlatParticleProvider::new);
         event.registerSpriteSet(BrutalityParticles.MURASAMA_SLASH_PARTICLE.get(), MurasamaSlashParticle.MurasamaSlashParticleProvider::new);
         event.registerSpriteSet(BrutalityParticles.VOID_SLASH_PARTICLE.get(), VoidSlashParticle.VoidSlashParticleProvider::new);
+        event.registerSpriteSet(BrutalityParticles.SILVER_SLASH_PARTICLE.get(), SilverSlashParticle.SilverSlashParticleProvider::new);
         event.registerSpriteSet(BrutalityParticles.HEXING_CIRCLE_PARTICLE.get(), HexingCircleParticle.Provider::new);
         event.registerSpriteSet(BrutalityParticles.STYGIAN_STEP_PARTICLE.get(), StygianStepParticle.Provider::new);
 

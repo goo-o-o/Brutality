@@ -35,7 +35,7 @@ public class CylindricalBoundingBox extends BaseBoundingBox {
     public AABB getAABB() {
         if (center == null) return new AABB(0, 0, 0, 0, 0, 0);
 
-        // Use the LARGER of inner and outer radius — this is the key!
+        // Use the LARGER of inner and outer radius
         float outer = Math.max(radius, innerRadius);
 
         // World X extent: contributions from local X, Y (height), and Z basis vectors

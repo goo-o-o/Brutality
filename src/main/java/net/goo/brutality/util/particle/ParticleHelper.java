@@ -1,4 +1,4 @@
-package net.goo.brutality.util;
+package net.goo.brutality.util.particle;
 
 import net.goo.brutality.Brutality;
 import net.minecraft.client.multiplayer.ClientLevel;

@@ -683,11 +683,27 @@
     ]
   },
   "table_of_wizardry": {
-  "category": "ambient",
-  "sounds": [
-    {
-      "name": "brutality:table_of_wizardry"
-    }
-  ]
-}
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:table_of_wizardry"
+      }
+    ]
+  },
+  "sword_swing": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:sword_swing"
+      }
+    ]
+  },
+  "heavy_whoosh": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:heavy_whoosh"
+      }
+    ]
+  }
 }

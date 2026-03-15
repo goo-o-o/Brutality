@@ -20,7 +20,8 @@ import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
 public class FlatParticle extends TextureSheetParticle {
     protected SpriteSet sprites;
     protected static final Quaternionf QUATERNION = new Quaternionf(0F, -0.7F, 0.7F, 0F);
-    protected final float rotX, rotY, rotZ, xOffset, yOffset, zOffset;
+    protected float rotX, rotY, rotZ, xOffset, yOffset, zOffset;
+    protected float rotXOld, rotYOld, rotZOld;
     protected final Entity relatedEntity;
 
     public FlatParticle(ClientLevel level, double x, double y, double z, FlatParticleData<?> data, SpriteSet sprites) {
@@ -54,9 +55,13 @@ public class FlatParticle extends TextureSheetParticle {
         float y = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPos.y());
         float z = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPos.z());
 
-        Quaternionf pitchRot = new Quaternionf().rotationX((float) (this.rotX * (Math.PI / 180))); // X-axis (pitch)
-        Quaternionf yawRot = new Quaternionf().rotationY((float) (this.rotY * (Math.PI / 180)));   // Y-axis (yaw)
-        Quaternionf rollRot = new Quaternionf().rotationZ((float) (this.rotZ * (Math.PI / 180)));  // Z-axis (roll)
+        float interpolatedX = Mth.lerp(partialTicks, this.rotXOld, this.rotX);
+        float interpolatedY = Mth.lerp(partialTicks, this.rotYOld, this.rotY);
+        float interpolatedZ = Mth.lerp(partialTicks, this.rotZOld, this.rotZ);
+
+        Quaternionf pitchRot = new Quaternionf().rotationX((float) (interpolatedX * (Math.PI / 180))); // X-axis (pitch)
+        Quaternionf yawRot = new Quaternionf().rotationY((float) (interpolatedY * (Math.PI / 180)));   // Y-axis (yaw)
+        Quaternionf rollRot = new Quaternionf().rotationZ((float) (interpolatedZ * (Math.PI / 180)));  // Z-axis (roll)
 
         Quaternionf combinedRot = new Quaternionf();
         combinedRot.mul(yawRot)

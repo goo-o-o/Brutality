@@ -64,6 +64,7 @@ import net.goo.brutality.common.item.weapon.staff.BambooStaff;
 import net.goo.brutality.common.item.weapon.staff.ChopstickStaff;
 import net.goo.brutality.common.item.weapon.sword.*;
 import net.goo.brutality.common.item.weapon.sword.max.MAX;
+import net.goo.brutality.common.item.weapon.sword.max.Maxim;
 import net.goo.brutality.common.item.weapon.sword.max.Maxima;
 import net.goo.brutality.common.item.weapon.sword.max.Maximus;
 import net.goo.brutality.common.item.weapon.sword.phasesaber.BasePhasesaber;
@@ -246,27 +247,27 @@ public class BrutalityItems {
             ));
     public static final RegistryObject<Item> ORANGE_SEAL = ITEMS.register("orange_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
             .withAttributes(
-                    new AttributeContainer(BrutalityAttributes.CRITICAL_STRIKE_CHANCE.get(),0.05, ADDITION)
+                    new AttributeContainer(BrutalityAttributes.CRITICAL_STRIKE_CHANCE.get(), 0.05, ADDITION)
             ));
     public static final RegistryObject<Item> PINK_SEAL = ITEMS.register("pink_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
             .withAttributes(
-                    new AttributeContainer(BrutalityAttributes.LIFESTEAL.get(),0.002, ADDITION)
+                    new AttributeContainer(BrutalityAttributes.LIFESTEAL.get(), 0.002, ADDITION)
             ));
     public static final RegistryObject<Item> PURPLE_SEAL = ITEMS.register("purple_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
             .withAttributes(
-                    new AttributeContainer(BrutalityAttributes.TENACITY.get(),0.015, ADDITION)
+                    new AttributeContainer(BrutalityAttributes.TENACITY.get(), 0.015, ADDITION)
             ));
     public static final RegistryObject<Item> RED_SEAL = ITEMS.register("red_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
             .withAttributes(
-                    new SlottedAttributeContainer(Attributes.MAX_HEALTH,2, ADDITION, EquipmentSlot.MAINHAND)
+                    new SlottedAttributeContainer(Attributes.MAX_HEALTH, 2, ADDITION, EquipmentSlot.MAINHAND)
             ));
     public static final RegistryObject<Item> CYAN_SEAL = ITEMS.register("cyan_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
             .withAttributes(
-                    new AttributeContainer(Attributes.ATTACK_DAMAGE,2, ADDITION)
+                    new AttributeContainer(Attributes.ATTACK_DAMAGE, 2, ADDITION)
             ));
     public static final RegistryObject<Item> YELLOW_SEAL = ITEMS.register("yellow_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
             .withAttributes(
-                    new AttributeContainer(Attributes.ATTACK_SPEED,0.1, MULTIPLY_TOTAL)
+                    new AttributeContainer(Attributes.ATTACK_SPEED, 0.1, MULTIPLY_TOTAL)
             ));
     public static final RegistryObject<Item> BOMB_SEAL = ITEMS.register("bomb_seal", () -> new BombSeal(new Item.Properties()).withPassiveLines(1));
     public static final RegistryObject<Item> COSMIC_SEAL = ITEMS.register("cosmic_seal", () -> new CosmicSeal(new Item.Properties()).withPassiveLines(1));
@@ -274,14 +275,14 @@ public class BrutalityItems {
 
     public static final RegistryObject<Item> GLASS_SEAL = ITEMS.register("glass_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
             .withAttributes(
-                    new AttributeContainer(Attributes.ATTACK_DAMAGE,0.15, MULTIPLY_TOTAL),
-                    new AttributeContainer(Attributes.ARMOR,-1, MULTIPLY_TOTAL),
+                    new AttributeContainer(Attributes.ATTACK_DAMAGE, 0.15, MULTIPLY_TOTAL),
+                    new AttributeContainer(Attributes.ARMOR, -1, MULTIPLY_TOTAL),
                     new AttributeContainer(BrutalityAttributes.DAMAGE_TAKEN.get(), 0.25, MULTIPLY_TOTAL)
             ));
 
     public static final RegistryObject<Item> QUANTITE_SEAL = ITEMS.register("quantite_seal", () -> new BrutalitySealAugmentItem(new Item.Properties())
             .withAttributes(
-                    new AttributeContainer(BrutalityAttributes.ARMOR_PENETRATION.get(),0.05, MULTIPLY_TOTAL)
+                    new AttributeContainer(BrutalityAttributes.ARMOR_PENETRATION.get(), 0.05, MULTIPLY_TOTAL)
             ));
 
     public static final RegistryObject<Item> DIMLITE_AUGMENTATION_DEVICE = ITEMS.register("dimlite_augmentation_device", () -> new BrutalityAugmentationDevice(
@@ -354,20 +355,36 @@ public class BrutalityItems {
             Tiers.NETHERITE, 6, -3F, BrutalityRarities.DIVINE, List.of(
             new ItemDescriptionComponent(ON_RIGHT_CLICK, 1))));
 
-    public static final RegistryObject<Item> MAXIM = ITEMS.register("maxim", () -> new BrutalitySwordItem(
+    public static final RegistryObject<Item> MAXIM = ITEMS.register("maxim", () -> new Maxim(
             Tiers.NETHERITE, 5, -2.6F, BrutalityRarities.LEGENDARY, List.of(
-            new ItemDescriptionComponent(LORE, 2)
+            new ItemDescriptionComponent(LORE, 2),
+            new ItemDescriptionComponent(PASSIVE, 1)
     )));
     public static final RegistryObject<Item> MAXIMA = ITEMS.register("maxima", () -> new Maxima(
             Tiers.NETHERITE, 15, -2.6F, 0.25F, BrutalityRarities.LEGENDARY, List.of(
-            new ItemDescriptionComponent(LORE, 4)
+            new ItemDescriptionComponent(LORE, 4),
+            new ItemDescriptionComponent(PASSIVE, 1),
+            new ItemDescriptionComponent(ON_HIT, 1)
     )));
     public static final RegistryObject<Item> MAXIMUS = ITEMS.register("maximus", () -> new Maximus(
-            Tiers.NETHERITE, 25, -2.6F, 0.5F, 5, BrutalityRarities.LEGENDARY, List.of(
-            new ItemDescriptionComponent(LORE, 2)
+            Tiers.NETHERITE, 25, -2.6F, 0.5F, 5, 0.25F, BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(LORE, 2),
+            new ItemDescriptionComponent(PASSIVE, 1),
+            new ItemDescriptionComponent(ON_HIT, 2)
     )));
     public static final RegistryObject<Item> MAX = ITEMS.register("max", () -> new MAX(
-            Tiers.NETHERITE, 35, -3F, 0.75F, 10, BrutalityRarities.GODLY));
+            Tiers.NETHERITE, 35, -3F, 0.75F, 10, 0.5F, BrutalityRarities.GODLY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1),
+            new ItemDescriptionComponent(ON_HIT, 2),
+            new ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1)
+    )));
+
+
+    public static final RegistryObject<Item> THE_SILVER_PERIMETER = ITEMS.register("the_silver_perimeter", () -> new TheSilverPerimeter(
+            Tiers.NETHERITE, 2, -3F, List.of(
+            new ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1)
+    ), new Item.Properties().rarity(BrutalityRarities.LEGENDARY).durability(10000)
+    ));
 
 
     public static final RegistryObject<Item> SCHISM = ITEMS.register("schism", () -> new Schism(
@@ -562,7 +579,7 @@ public class BrutalityItems {
             Tiers.IRON, 6, -2.3F, BrutalityRarities.LEGENDARY));
 
     public static final RegistryObject<Item> APPLE_CORE_LANCE = ITEMS.register("apple_core", () -> new BrutalitySwordItem(
-            Tiers.IRON, 8, -2.6F, BrutalityRarities.LEGENDARY, 100));
+            Tiers.IRON, 8, -2.6F, new Item.Properties().rarity(BrutalityRarities.LEGENDARY).durability(100)));
 
     public static final RegistryObject<Item> FRYING_PAN = ITEMS.register("frying_pan", () -> new FryingPanHammer(
             Tiers.IRON, 2, -2.3F, Rarity.EPIC, List.of(

@@ -9,7 +9,7 @@ import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.client.particle.providers.FlatParticleData;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.common.registry.BrutalitySounds;
-import net.goo.brutality.util.ParticleHelper;
+import net.goo.brutality.util.particle.ParticleHelper;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.goo.brutality.util.math.phys.hitboxes.OrientedBoundingBox;
 import net.minecraft.resources.ResourceLocation;

@@ -151,6 +151,14 @@ public class BrutalityParticles {
                 }
             });
 
+    public static final RegistryObject<ParticleType<FlatParticleData<?>>> SILVER_SLASH_PARTICLE = PARTICLE_TYPES.register("silver_slash_particle", () ->
+            new ParticleType<>(false, FlatParticleData.DESERIALIZER) {
+                @Override
+                public @NotNull Codec<FlatParticleData<?>> codec() {
+                    return FlatParticleData.CODEC;
+                }
+            });
+
     public static final RegistryObject<ParticleType<FlatParticleData<?>>> HEXING_CIRCLE_PARTICLE = PARTICLE_TYPES.register("hexing_star_particle", () ->
             new ParticleType<>(false, FlatParticleData.DESERIALIZER) {
                 @Override

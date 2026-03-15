@@ -1,6 +1,7 @@
 package net.goo.brutality.common.entity.capabilities;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.AutoRegisterCapability;
@@ -10,6 +11,7 @@ import java.util.function.Predicate;
 @AutoRegisterCapability
 public class PlayerBloodCap implements IBrutalityData {
     private float currentBlood = 0;
+    public static float maxBlood = 100;
     public static final String BLOOD_KEY = "blood";
 
     public float getBlood() {
@@ -17,7 +19,7 @@ public class PlayerBloodCap implements IBrutalityData {
     }
 
     public void setBlood(float amount) {
-        this.currentBlood = Math.max(0, amount);
+        this.currentBlood = Mth.clamp(0, amount, maxBlood);
     }
 
     public void modifyBloodValue(float amount) {

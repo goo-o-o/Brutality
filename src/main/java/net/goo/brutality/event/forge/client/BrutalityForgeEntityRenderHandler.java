@@ -87,9 +87,11 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
     @SubscribeEvent
     public static void onRenderHand(RenderHandEvent event) {
         Player player = Minecraft.getInstance().player;
-        if (player != null && player.getMainHandItem().getItem() instanceof LastPrism) {
-            if (event.getHand() == InteractionHand.OFF_HAND)
-                event.setCanceled(true);
+        if (player != null ){
+            if (player.getMainHandItem().getItem() instanceof LastPrism) {
+                if (event.getHand() == InteractionHand.OFF_HAND)
+                    event.setCanceled(true);
+            }
             if (player.isHolding(stack -> stack.getItem() instanceof RotatingAttackWeapon)) {
                 if (player.isUsingItem()) event.setCanceled(true);
             }
@@ -113,7 +115,7 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
 
 
         if (!useItem.isEmpty() && useItem.getItem() instanceof RotatingAttackWeapon weapon && entity.isUsingItem()) {
-            if (useItem.is(BrutalityItems.MAX.get())) {
+            if (useItem.is(BrutalityItems.MAX.get()) || useItem.is(BrutalityItems.THE_SILVER_PERIMETER.get())) {
                 RotatingAttackWeapon.handleRenderEvent(event, weapon);
             }
         } else {

@@ -1,6 +1,5 @@
 package net.goo.brutality.mixin.mixins.compat;
 
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.LoadingModList;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
@@ -13,9 +12,17 @@ public class BrutalityMixinPlugin implements IMixinConfigPlugin {
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         if (mixinClassName.contains("TooltipRendererMixinTooltipOverhaul")) {
-            return LoadingModList.get().getModFileById("tooltipoverhaul") != null;
+            return isLoaded("tooltipoverhaul");
+        }
+
+        if (mixinClassName.contains("net.goo.brutality.mixin.mixins.no_iris")) {
+            return !(isLoaded("iris") || isLoaded("oculus"));
         }
         return true;
+    }
+
+    private boolean isLoaded(String modId) {
+        return LoadingModList.get().getModFileById(modId) != null;
     }
 
     // Leave other methods empty/default

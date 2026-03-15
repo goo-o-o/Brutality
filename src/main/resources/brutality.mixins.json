@@ -54,7 +54,9 @@
     "defaultRequire": 1
   },
   "client": [
+    "accessors.BlendModeAccessor",
     "accessors.FontAccessor",
+    "accessors.ShaderInstanceAccessor",
     "mixins.AbstractClientPlayerMixin",
     "mixins.BakedGlyphMixin",
     "mixins.BiomeMixin",
@@ -75,12 +77,15 @@
     "mixins.ModelMixin",
     "mixins.MouseHandlerMixin",
     "mixins.OptionInstanceMixin",
+    "mixins.ParticleEngineMixin",
     "mixins.QuadrupedModelMixin",
     "mixins.RenderSystemMixin",
     "mixins.SimpleBakedModelMixin",
     "mixins.StringRenderOutputMixin",
     "mixins.StyleMixin",
     "mixins.TextureAtlasMixin",
-    "mixins.WindowMixin"
+    "mixins.WindowMixin",
+    "mixins.WorldSceneRendererMixin",
+    "mixins.no_iris.ParticleEngineMixin"
   ]
 }

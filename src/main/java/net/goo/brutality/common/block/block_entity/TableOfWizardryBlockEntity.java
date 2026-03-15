@@ -12,7 +12,7 @@ import net.goo.brutality.common.recipe.ConjureRecipe;
 import net.goo.brutality.common.registry.BrutalityBlockEntities;
 import net.goo.brutality.common.registry.BrutalityRecipes;
 import net.goo.brutality.common.registry.BrutalitySpells;
-import net.goo.brutality.util.ParticleHelper;
+import net.goo.brutality.util.particle.ParticleHelper;
 import net.goo.brutality.util.AugmentHelper;
 import net.goo.brutality.util.magic.ManaHelper;
 import net.goo.brutality.util.magic.SpellStorage;

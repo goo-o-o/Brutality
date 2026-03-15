@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-08T02:59:00.4583124	Tags for minecraft:item mod id brutality
+// 1.20.1	2026-03-14T15:52:03.9433457	Tags for minecraft:item mod id brutality
 2e23f1ef91f98f9837dbab358acf2cdfdd27e7eb data/brutality/tags/items/augmentation_device.json
 5efc78f2e0c381ff1bfe40fbeaddde0ce462817e data/brutality/tags/items/augments.json
 536ad75514f467bfbe4ec28fff691a6daad14a08 data/brutality/tags/items/gastronomist_items.json
@@ -24,5 +24,5 @@ ddd6b7ac695695384cc3844fd6ee89014f661fd5 data/forge/tags/items/tools/bows.json
 a7bd06a83b18d6caf25c6ee8439a9fce1bf84ad3 data/forge/tags/items/tools/tridents.json
 9593d2b7d3007cb16b6b75341986f3c2b917fb5e data/minecraft/tags/items/axes.json
 a4501b9fd50561e4fe3d81affad298c06ac8a041 data/minecraft/tags/items/candles.json
-8edd40871b06724aeb3a715e631189e7445f357c data/minecraft/tags/items/swords.json
+a91fdb2a4a2655914e7ad68d6a29af3a049dfd14 data/minecraft/tags/items/swords.json
 9593d2b7d3007cb16b6b75341986f3c2b917fb5e data/minecraft/tags/items/tools.json

@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.goo.brutality.common.block.block_entity.PedestalOfWizardryBlockEntity;
 import net.goo.brutality.common.block.block_entity.TableOfWizardryBlockEntity;
 import net.goo.brutality.common.block.custom.PedestalOfWizardryBlock;
-import net.goo.brutality.util.RenderUtils;
+import net.goo.brutality.util.render.RenderUtils;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;

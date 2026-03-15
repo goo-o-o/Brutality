@@ -27,8 +27,12 @@ public class BrutalitySwordItem extends SwordItem implements BrutalityGeoItem {
     public BrutalitySwordItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity) {
         super(pTier, (int) pAttackDamageModifier, pAttackSpeedModifier, new Item.Properties().rarity(rarity));
     }
-    public BrutalitySwordItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, int durability) {
-        super(pTier, (int) pAttackDamageModifier, pAttackSpeedModifier, new Item.Properties().rarity(rarity).durability(durability));
+    public BrutalitySwordItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, List<ItemDescriptionComponent> descriptionComponents, Item.Properties properties) {
+        super(pTier, (int) pAttackDamageModifier, pAttackSpeedModifier, properties);
+        this.descriptionComponents = descriptionComponents;
+    }
+    public BrutalitySwordItem(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Item.Properties properties) {
+        super(pTier, (int) pAttackDamageModifier, pAttackSpeedModifier, properties);
     }
 
     @Override

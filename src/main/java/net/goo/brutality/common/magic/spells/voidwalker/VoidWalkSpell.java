@@ -3,7 +3,7 @@ package net.goo.brutality.common.magic.spells.voidwalker;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.ParticleHelper;
+import net.goo.brutality.util.particle.ParticleHelper;
 import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.core.BlockPos;

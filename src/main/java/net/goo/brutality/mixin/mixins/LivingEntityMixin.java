@@ -1,17 +1,17 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.curios.charm.BaseBrokenClock;
 import net.goo.brutality.common.item.curios.charm.OmnidirectionalMovementGear;
 import net.goo.brutality.common.item.weapon.scythe.DarkinScythe;
+import net.goo.brutality.common.mixin_helpers.IBrutalityAttribute;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalityItems;
-import net.goo.brutality.common.mixin_helpers.IBrutalityAttribute;
 import net.goo.brutality.util.BrutalityEntityRotations;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
+import net.goo.brutality.util.build_archetypes.BloodHelper;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -249,15 +249,15 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
     private void handleOverheal(float pHealAmount, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        if (ModUtils.hasFullArmorSet(entity, BrutalityArmorMaterials.VAMPIRE_LORD)) {
-            float currentHealth = entity.getHealth();
-            if (currentHealth > 0.0F) {
-                float excess = (currentHealth + pHealAmount) - entity.getMaxHealth();
-                entity.getCapability(BrutalityCapabilities.BLOOD).ifPresent(cap -> cap.modifyBloodValue(excess * 0.5F));
-                entity.setHealth(currentHealth + pHealAmount);
-            }
+        if (entity instanceof Player player) {
+            if (ModUtils.hasFullArmorSet(entity, BrutalityArmorMaterials.VAMPIRE_LORD)) {
+                float currentHealth = entity.getHealth();
+                if (currentHealth > 0.0F) {
+                    float excess = (currentHealth + pHealAmount) - entity.getMaxHealth();
+                    BloodHelper.modifyBloodValue(player, excess * 0.5F);
+                    entity.setHealth(currentHealth + pHealAmount);
+                }
 
-            if (entity instanceof Player player) {
                 FoodData foodData = player.getFoodData();
                 int amount = (int) (pHealAmount * 0.25F);
                 if (foodData.needsFood()) {
@@ -268,6 +268,8 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
             }
             ci.cancel();
         }
+
+
     }
 
 

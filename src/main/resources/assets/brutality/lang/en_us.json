@@ -23,6 +23,8 @@
   "block.brutality.mana_crystal_block.description.1": "§7Wax to stop crystals from growing",
 
 
+  "item.brutality.the_silver_perimeter": "The Silver Perimeter",
+  "item.brutality.the_silver_perimeter.on_hold_right_click.1": "§e -Spin in a circle at blistering speeds, hitting nearby enemies and proc-ing On Hits",
 
   "item.brutality.solidified_mana": "Solidified Mana",
   "item.brutality.solidified_mana.description.1": "§7Can be liquified in a Cauldron above a heat source",
@@ -1387,20 +1389,32 @@
   "item.brutality.max.lore.2": "§7§oThe perfected form of the M.A.X. weapon. Truly, finally, this is a weapon that can fulfill its glorious, magnificent purpose.",
   "item.brutality.max.lore.3": "",
   "item.brutality.max.lore.4": "Deicide.",
+  "item.brutality.max.passive.1": "§e -Deals an additional 5 Hearts of Damage per Heart you are missing",
+  "item.brutality.max.on_hit.1": "§e -Automatically performs a delayed second attack for 75% damage",
+  "item.brutality.max.on_hit.2": "§e -Summons Chain Lightning which chains up to 10 enemies that deals half your Attack Damage",
+  "item.brutality.max.on_hold_right_click.1": "§e -Spin in a circle, hitting nearby enemies and proc-ing On Hits",
 
   "item.brutality.maximus": "Maximus",
   "item.brutality.maximus.lore.1": "§8[M.A.X. Mk.3]",
   "item.brutality.maximus.lore.2": "§7§oImprovement after improvement. What’s missing? What’s missing? It’s not yet perfect. It must be perfect. It must be perfect. It must be perfect.",
+  "item.brutality.maximus.passive.1": "§e -Deals an additional 4 Hearts of Damage per Heart you are missing",
+  "item.brutality.maximus.on_hit.1": "§e -Automatically performs a delayed second attack for 50% damage",
+  "item.brutality.maximus.on_hit.2": "§e -Summons Chain Lightning which chains up to 5 enemies that deals a quarter your Attack Damage",
+  "item.brutality.maximus.on_hold_right_click.1": "§e -Spin in a ",
 
   "item.brutality.maxima": "Maxima",
   "item.brutality.maxima.lore.1": "§8[M.A.X. Mk.2]",
   "item.brutality.maxima.lore.2": "§7§oAn improved version of the M.A.X. weapon. New materials have given the sword an improvement.",
   "item.brutality.maxima.lore.3": "",
   "item.brutality.maxima.lore.4": "§7§oBut it’s still not perfect.",
+  "item.brutality.maxima.passive.1": "§e -Deals an additional 3 Hearts of Damage per Heart you are missing",
+  "item.brutality.maxima.on_hit.1": "§e -Automatically performs a delayed second attack for 25% damage",
+
 
   "item.brutality.maxim": "Maxim",
   "item.brutality.maxim.lore.1": "§8[M.A.X. Mk.1]",
   "item.brutality.maxim.lore.2": "§7§oAn experimental greatsword built using scavenged technology from powerful mechs. A prototype, but powerful nonetheless.",
+  "item.brutality.maxim.passive.1": "§e -Deals an additional 2 Hearts of Damage per Heart you are missing",
 
 
   "block.brutality.toilet": "Toilet",

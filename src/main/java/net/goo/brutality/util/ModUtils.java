@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
 
 // contains methods that don't belong in other utils
 public class ModUtils {
-    protected static final RandomSource random = RandomSource.create();
+    public static final RandomSource random = RandomSource.create();
 
     private static final boolean HAS_BETTER_COMBAT = ModList.get().isLoaded("bettercombat");
 

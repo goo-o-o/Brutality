@@ -1,33 +1,29 @@
 package net.goo.brutality.common.item.weapon.sword.max;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.weapon.RotatingAttackWeapon;
 import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.util.ColorUtils;
 import net.goo.brutality.util.math.phys.hitboxes.ArcCylindricalBoundingBox;
-import net.minecraft.client.player.LocalPlayer;
+import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 public class MAX extends Maximus implements RotatingAttackWeapon {
 
-    public MAX(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, float secondAttackDamage, int lightningQuota, Rarity rarity) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, secondAttackDamage, lightningQuota, rarity, List.of());
+    public MAX(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, float secondAttackDamage, int lightningQuota, float chainLightningDamageRatio, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, secondAttackDamage, lightningQuota, chainLightningDamageRatio, rarity, descriptionComponents);
         this.rangeBonus = 6;
-
     }
 
     @Override
@@ -45,24 +41,6 @@ public class MAX extends Maximus implements RotatingAttackWeapon {
         return 72000;
     }
 
-//    @Override
-//    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-//        consumer.accept(new IClientItemExtensions() {
-//            @Override
-//            public HumanoidModel.ArmPose getArmPose(LivingEntity entityLiving, InteractionHand hand, ItemStack itemStack) {
-//                if (!itemStack.isEmpty() && entityLiving.isUsingItem() && entityLiving.getUseItem() == itemStack) {
-//                    return BrutalityPoseHandler.BRUTALITY_SPIN_POSE;
-//                }
-//                return HumanoidModel.ArmPose.EMPTY;
-//            }
-//
-//            @Override
-//            public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess) {
-//                BrutalityPoseHandler.getPose(itemInHand.getItem()).applyItem(player, itemInHand, arm, poseStack);
-//                return false; // Return true only if you want to skip all vanilla transforms
-//            }
-//        });
-//    }
 
     @Override
     public @NotNull UseAnim getUseAnimation(ItemStack pStack) {
@@ -72,21 +50,9 @@ public class MAX extends Maximus implements RotatingAttackWeapon {
     @Override
     public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
         if (pLivingEntity instanceof Player player) {
-            ArcCylindricalBoundingBox arc =  RotatingAttackWeapon.getHitbox(player, 0.5F, 9, pStack, this);
+            ArcCylindricalBoundingBox arc = RotatingAttackWeapon.getHitbox(player, 0.5F, 9, pStack, this, BrutalitySounds.HEAVY_WHOOSH.get());
             arc.findEntitiesHit(player, LivingEntity.class).forEach(player::attack);
         }
-    }
-
-    @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        super.initializeClient(consumer);
-
-        consumer.accept(new IClientItemExtensions() {
-            @Override
-            public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess) {
-                return IClientItemExtensions.super.applyForgeHandTransform(poseStack, player, arm, itemInHand, partialTick, equipProcess, swingProcess);
-            }
-        });
     }
 
     @Override
@@ -134,6 +100,7 @@ public class MAX extends Maximus implements RotatingAttackWeapon {
         pTooltipComponents.add(Component.translatable("item." + Brutality.MOD_ID + ".max.lore.4")
                 .withStyle(style -> style.withInsertion(ColorUtils.ColorData.MAX.name()).withBold(true)));
 
+        pTooltipComponents.add(Component.empty());
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 

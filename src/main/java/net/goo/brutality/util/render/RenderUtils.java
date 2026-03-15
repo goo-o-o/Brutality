@@ -1,4 +1,4 @@
-package net.goo.brutality.util;
+package net.goo.brutality.util.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -99,8 +99,9 @@ public class RenderUtils {
             pY += lineHeight;
         }
     }
+
     public static void drawWordWrap(GuiGraphics gui, Font pFont, FormattedText pText, int pX, int pY, int pLineWidth, int lineHeight, int pColor) {
-        for(FormattedCharSequence formattedcharsequence : pFont.split(pText, pLineWidth)) {
+        for (FormattedCharSequence formattedcharsequence : pFont.split(pText, pLineWidth)) {
             gui.drawString(pFont, formattedcharsequence, pX, pY, pColor, false);
             pY += lineHeight;
         }

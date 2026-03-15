@@ -12,7 +12,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 public class PoseManager {
@@ -54,7 +53,8 @@ public class PoseManager {
     static {
         // Example: Registering a pose for holding a shield
         register(new PoseDefinition(
-                entity -> entity.isUsingItem() && entity.getUseItem().is(BrutalityItems.MAX.get()),
+                entity -> entity.isUsingItem() &&
+                        (entity.getUseItem().is(BrutalityItems.MAX.get()) || entity.getUseItem().is(BrutalityItems.THE_SILVER_PERIMETER.get())),
             ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID,"spinning_pose"), 10));
 
     }
