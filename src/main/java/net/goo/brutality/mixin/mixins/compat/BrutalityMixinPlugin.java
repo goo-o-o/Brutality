@@ -15,9 +15,9 @@ public class BrutalityMixinPlugin implements IMixinConfigPlugin {
             return isLoaded("tooltipoverhaul");
         }
 
-        if (mixinClassName.contains("net.goo.brutality.mixin.mixins.no_iris")) {
-            return !(isLoaded("iris") || isLoaded("oculus"));
-        }
+//        if (mixinClassName.contains("net.goo.brutality.mixin.mixins.no_iris")) {
+//            return !(isLoaded("iris") || isLoaded("oculus"));
+//        }
         return true;
     }
 

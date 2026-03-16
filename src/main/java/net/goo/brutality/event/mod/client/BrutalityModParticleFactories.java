@@ -43,6 +43,10 @@ public class BrutalityModParticleFactories {
         event.registerSpriteSet(BrutalityParticles.YIN_PARTICLE.get(), YinParticle.Provider::new);
         event.registerSpriteSet(BrutalityParticles.YANG_PARTICLE.get(), YangParticle.Provider::new);
 
+
+        event.registerSpriteSet(BrutalityParticles.TRAIL_PARTICLE.get(), TrailParticle.Provider::new);
+
+
         event.registerSpriteSet(BrutalityParticles.BLACK_HOLE_PARTICLE.get(), BlackholeParticle.Provider::new);
         event.registerSpriteSet(BrutalityParticles.HEALING_PARTICLE.get(), HealingParticle.Provider::new);
         event.registerSpriteSet(BrutalityParticles.MIRACLE_BLIGHT_PARTICLE.get(), MiracleBlightParticle.Provider::new);

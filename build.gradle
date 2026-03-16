@@ -162,7 +162,7 @@ dependencies {
     implementation fg.deobf("curse.maven:inventory-hud-forge-357540:5639966")
 //    implementation fg.deobf("curse.maven:bocchud-916504:5492423")
     implementation fg.deobf("curse.maven:embeddium-908741:5681725")
-//    implementation fg.deobf("curse.maven:oculus-581495:6020952")
+    implementation fg.deobf("curse.maven:oculus-581495:6020952")
     implementation fg.deobf("curse.maven:tooltip-overhaul-1327508:7096296")
     implementation fg.deobf("curse.maven:free-cam-557076:4643128")
     implementation fg.deobf("curse.maven:model-gap-fix-676136:5200949")

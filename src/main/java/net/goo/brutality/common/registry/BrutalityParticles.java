@@ -38,6 +38,9 @@ public class BrutalityParticles {
     public static final RegistryObject<SimpleParticleType> DEPTH_CRUSHER_PARTICLE =
             PARTICLE_TYPES.register("depth_crusher_particle", () -> new SimpleParticleType(true));
 
+    public static final RegistryObject<SimpleParticleType> TRAIL_PARTICLE =
+            PARTICLE_TYPES.register("trail_particle", () -> new SimpleParticleType(true));
+
     public static final RegistryObject<SimpleParticleType> BLUE_FLAME_PARTICLE =
             PARTICLE_TYPES.register("blue_flame_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> WIZARDRY_PARTICLE =

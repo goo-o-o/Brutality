@@ -14,6 +14,7 @@ import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityMenuTypes;
 import net.goo.brutality.util.RarityBorderManager;
 import net.goo.brutality.util.tooltip.ItemAugmentComponent;
+import net.goo.photon.client.PhotonShaders;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -106,7 +107,7 @@ public class ModClientSetup {
         });
 
         event.enqueueWork(DustbinBlock::bootStrap);
-
+        event.enqueueWork(PhotonShaders::init);
         event.enqueueWork(() -> ItemProperties.register(BrutalityItems.DULL_KNIFE_DAGGER.get(), ResourceLocation.parse("texture"),
                 ((pStack, pLevel, pEntity, pSeed) -> pStack.getOrCreateTag().getInt("texture"))));
 
