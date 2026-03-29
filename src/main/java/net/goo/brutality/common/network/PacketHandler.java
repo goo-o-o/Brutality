@@ -50,6 +50,7 @@ public class PacketHandler {
         registerPacket(ClientboundDodgePacket.class, ClientboundDodgePacket::new);
         registerPacket(ClientboundSyncItemCooldownPacket.class, ClientboundSyncItemCooldownPacket::new);
         registerPacket(ClientboundStartPlayerAnimationPacket.class, ClientboundStartPlayerAnimationPacket::new);
+        registerPacket(ClientboundMaxAttackedPacket.class, ClientboundMaxAttackedPacket::new);
         registerPacket(ClientboundStopPlayerAnimationPacket.class, ClientboundStopPlayerAnimationPacket::new);
         registerPacket(ClientboundBrutalityExplodePacket.class, ClientboundBrutalityExplodePacket::new);
     }
@@ -83,7 +84,7 @@ public class PacketHandler {
         NETWORK_CHANNEL.send(PacketDistributor.ALL.noArg(), msg);
     }
 
-    public static void sendToNearbyClients(ServerLevel level, double x, double y, double z, double radius, Object msg) {
+    public static void sendToNearbyClients(Object msg, ServerLevel level, double x, double y, double z, double radius) {
         PacketDistributor.TargetPoint targetPoint = new PacketDistributor.TargetPoint(x, y, z, radius, level.dimension());
         NETWORK_CHANNEL.send(PacketDistributor.NEAR.with(() -> targetPoint), msg);
     }

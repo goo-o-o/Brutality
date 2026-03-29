@@ -5,8 +5,12 @@ import net.goo.brutality.client.particle.providers.ChainLightningParticleData;
 import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.clientbound.ClientboundChainLightningPacket;
+import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.util.AugmentHelper;
+import net.goo.brutality.util.math.PhysicsUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.item.ItemStack;
@@ -14,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Vector3f;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -28,7 +33,7 @@ public class ChainLightningHelper {
     };
 
     public enum LightningType {
-        MAX(ChainLightningParticleData.BoltRenderInfo.DEFAULT.color(MAX_COLORS).noise(0.2F, 0.6F).branching(0.25F, 0.15F));
+        MAX(ChainLightningParticleData.BoltRenderInfo.DEFAULT.color(MAX_COLORS).noise(0.65F, 0.2F).branching(0.15F, 0.1F));
 
         public final ChainLightningParticleData.BoltRenderInfo renderInfo;
 
@@ -49,6 +54,34 @@ public class ChainLightningHelper {
                     TargetingConditions.DEFAULT.ignoreLineOfSight().selector(e -> !hitMobs.contains(e)), origin, position.x(), position.y(), position.z(),
                     current.getBoundingBox().inflate(radius));
             float amount = maxDamage * ((float) modifiedQuota / quota);
+
+            // Inside while (modifiedQuota > 0)
+            BlockPos currentPos = BlockPos.containing(position);
+            int staticAttempts = 2; // How many "extra" static bolts to generate per jump
+
+            for (int i = 0; i < staticAttempts; i++) {
+                // Search in a small radius for a solid block
+                BlockPos randomOffset = currentPos.offset(
+                        level.random.nextInt(5) - 2,
+                        level.random.nextInt(5) - 2,
+                        level.random.nextInt(5) - 2
+                );
+
+                if (level.getBlockState(randomOffset).isSolidRender(level, randomOffset)) {
+                    // Send a "cosmetic" bolt to this block
+                    if (!level.isClientSide()) {
+                        PacketHandler.sendToNearbyClients(
+                                new ClientboundChainLightningPacket(
+                                        position.toVector3f(),
+                                        randomOffset.getCenter().toVector3f(),
+                                        particleSize * 0.5F, // Static bolts should be thinner
+                                        lifespan,         // and shorter lived
+                                        lightningType, 1, 0), // No branching for static
+                                (ServerLevel) level, currentPos.getX(), currentPos.getY(), currentPos.getZ(), 64
+                        );
+                    }
+                }
+            }
 
             if (closestEntity != null) {
                 closestEntity.hurt(closestEntity.damageSources().lightningBolt(), amount);
@@ -71,13 +104,26 @@ public class ChainLightningHelper {
                 current = closestEntity;
                 continue;
             }
-
             break;
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     public static class Client {
+        public static void handlePacket(int iterations, int delay, LightningType lightningType, Vector3f start, Vector3f end, float size, int lifespan) {
+            if (Minecraft.getInstance().level != null) {
+                for (int i = 0; i < iterations; i++) {
+                    DelayedTaskScheduler.queueClientWork(Minecraft.getInstance().level, delay * i, () ->
+                            ChainLightningHelper.Client.shock(
+                                    lightningType,
+                                    PhysicsUtils.fromVector3f(start),
+                                    PhysicsUtils.fromVector3f(end),
+                                    size,
+                                    lifespan));
+                }
+            }
+        }
+
         public static void shock(ChainLightningHelper.LightningType lightningType, Vec3 vectorStart, Vec3 vectorEnd, float size, int lifespan) {
             if (Minecraft.getInstance().level == null) {
                 return;

@@ -2,6 +2,7 @@ package net.goo.brutality.event.forge;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.curios.hands.PerfectCell;
+import net.goo.brutality.common.mob_effect.FractionedEffect;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.clientbound.ClientboundUpdateAbilityCooldownsPacket;
 import net.goo.brutality.common.registry.BrutalityEffects;
@@ -46,8 +47,17 @@ public class ForgeEffectSyncHandler {
                 PacketHandler.sendToPlayerClient(new ClientboundUpdateAbilityCooldownsPacket(
                         CommonConstants.COOLDOWN_BY_CLASS.get(effect.getClass()), instance.getDuration(), player.getItemBySlot(EquipmentSlot.CHEST)), player);
             }
+        }
+    }
 
+    @SubscribeEvent
+    public static void onEffectExpire(MobEffectEvent.Expired event) {
+        MobEffectInstance effectInstance = event.getEffectInstance();
+        LivingEntity entity = event.getEntity();
+        if (effectInstance == null) return;
 
+        if (effectInstance.getEffect() == BrutalityEffects.FRACTIONED.get()) {
+            FractionedEffect.onExpire(entity, effectInstance);
         }
 
     }

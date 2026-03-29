@@ -1,6 +1,6 @@
 package net.goo.brutality.common.network.clientbound;
 
-import net.goo.brutality.client.ClientAccess;
+import net.goo.brutality.client.ClientProxy;
 import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
@@ -59,7 +59,7 @@ public class ClientboundDodgePacket implements IBrutalityPacket<ClientboundDodge
 
     public void handle(ClientboundDodgePacket packet, Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
-        context.enqueueWork(() -> ClientAccess.handleDodgeClient(packet));
+        context.enqueueWork(() -> ClientProxy.handleDodgeClient(packet));
         context.setPacketHandled(true);
     }
 

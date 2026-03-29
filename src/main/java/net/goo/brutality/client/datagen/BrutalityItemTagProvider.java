@@ -30,6 +30,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
     protected void addTags(HolderLookup.Provider pProvider) {
         addCurioTags();
         addAugmentTags();
+        addMathTags();
         addMagicTags();
         addRageTags();
         addGastronomistTags();
@@ -134,6 +135,8 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
         this.tag(BrutalityTags.Items.CHARM).add(
                 // Original Items
                 BrutalityItems.PLUNDER_CHEST.get(),
+                BrutalityItems.CENSORED.get(),
+                BrutalityItems.REDACTED.get(),
                 BrutalityItems.RESPLENDENT_FEATHER.get(),
                 BrutalityItems.CELESTIAL_STARBOARD.get(),
                 BrutalityItems.YATA_NO_KAGAMI.get(),
@@ -268,11 +271,14 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
 
                 // Mathematical Set
                 BrutalityItems.PI.get(),
-                BrutalityItems.EXPONENTIAL_CHARM.get(),
+                BrutalityItems.EULERS_NUMBER.get(),
                 BrutalityItems.SINE.get(),
                 BrutalityItems.COSINE.get(),
                 BrutalityItems.ADDITION_CHARM.get(),
                 BrutalityItems.SUBTRACTION.get(),
+                BrutalityItems.FRACTION.get(),
+                BrutalityItems.FLOOR.get(),
+                BrutalityItems.CEIL.get(),
                 BrutalityItems.MULTIPLICATION.get(),
                 BrutalityItems.DIVISION.get(),
                 BrutalityItems.SUM.get(),
@@ -510,6 +516,22 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
         addNecklaceTags();
         addRingTags();
         addFeetTags();
+    }
+
+    private void addMathTags() {
+        this.tag(BrutalityTags.Items.MATH_ITEMS).add(
+                BrutalityItems.PI.get(),
+                BrutalityItems.EULERS_NUMBER.get(),
+                BrutalityItems.ADDITION_CHARM.get(),
+                BrutalityItems.SUBTRACTION.get(),
+                BrutalityItems.FRACTION.get(),
+                BrutalityItems.CEIL.get(),
+                BrutalityItems.FLOOR.get(),
+                BrutalityItems.DIVISION.get(),
+                BrutalityItems.SUM.get(),
+                BrutalityItems.SINE.get(),
+                BrutalityItems.COSINE.get()
+        );
     }
 
     private void addAugmentTags() {

@@ -24,6 +24,9 @@ public class BrutalityEffects {
     public static final RegistryObject<MobEffect> STONEFORM = EFFECTS.register("stoneform",
             () -> new StoneformEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 210, 160, 100)));
 
+    public static final RegistryObject<MobEffect> FRACTIONED = EFFECTS.register("fractioned",
+            () -> new FractionedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 255)));
+
 
     public static final RegistryObject<MobEffect> NEUTRAL = EFFECTS.register("neutral",
             () -> new NeutralEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 150, 150, 150)));
@@ -128,7 +131,7 @@ public class BrutalityEffects {
     public static final RegistryObject<MobEffect> SIPHONED = EFFECTS.register("siphoned",
             () -> new SiphonedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));
     public static final RegistryObject<MobEffect> TERRAMITICULOSIS = EFFECTS.register("terramiticulosis",
-            () -> new TerramiticulosisEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 255)));
+            () -> new BaseMobEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 255)));
 
 
     public static void register(IEventBus eventBus) {

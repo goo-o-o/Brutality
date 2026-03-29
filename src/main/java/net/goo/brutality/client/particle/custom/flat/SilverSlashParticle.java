@@ -22,15 +22,8 @@ public class SilverSlashParticle extends FlatParticle {
 
     @Override
     public void tick() {
-        this.xo = this.x;
-        this.yo = this.y;
-        this.zo = this.z;
-        this.rotXOld = this.rotX;
-        this.rotYOld = this.rotY;
-        this.rotZOld = this.rotZ;
-
-        this.setSpriteFromAge(this.sprites);
-
+        super.tick();
+        this.age = 0;
         if (this.relatedEntity != null && this.relatedEntity.isAlive()) {
             if (relatedEntity instanceof LivingEntity livingEntity) {
                 ItemStack stack = livingEntity.getUseItem();
@@ -39,9 +32,8 @@ public class SilverSlashParticle extends FlatParticle {
 
                     this.setPos(livingEntity.getX(), livingEntity.getY(0.75), livingEntity.getZ());
 
-                    int useTicks = stack.getUseDuration() - livingEntity.getUseItemRemainingTicks();
 
-                    this.rotY = -RotatingAttackWeapon.calculateSpinRotation(useTicks, weapon);
+                    this.rotY = -RotatingAttackWeapon.calculateSpinRotation(livingEntity.getTicksUsingItem(), weapon);
                 } else {
                     this.remove();
                 }

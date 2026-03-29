@@ -3,9 +3,9 @@ package net.goo.brutality.common.item.weapon.sword;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.common.item.base.BrutalitySwordItem;
-import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityAttributes;
-import net.goo.brutality.common.mixin_helpers.MixinInterfaces;
+import net.goo.brutality.common.registry.BrutalityEffects;
+import net.goo.brutality.util.EffectUtils;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -46,7 +46,7 @@ public class Pureblood extends BrutalitySwordItem {
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         MobEffectInstance instance = new MobEffectInstance(BrutalityEffects.SIPHONED.get(), 60, 0, false, false, true);
-        ((MixinInterfaces.MobEffectInstanceSourceAccessor) instance).brutality$setSourceID(attacker.getId());
+        EffectUtils.setEffectSource(instance, attacker);
         target.addEffect(instance);
 
         return super.hurtEnemy(stack, target, attacker);

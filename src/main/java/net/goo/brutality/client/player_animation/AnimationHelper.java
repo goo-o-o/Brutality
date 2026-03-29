@@ -30,6 +30,9 @@ public class AnimationHelper {
      * Adapted Iron's Spells
      */
     public static void playAnimation(Player player, ResourceLocation animationLocation, boolean mirrored, float speed) {
+        playAnimation(player, animationLocation, mirrored, speed, 2);
+    }
+    public static void playAnimation(Player player, ResourceLocation animationLocation, boolean mirrored, float speed, int fadeTicks) {
         KeyframeAnimation keyframeAnimation = PlayerAnimationRegistry.getAnimation(animationLocation);
         if (keyframeAnimation != null) {
             if (player instanceof AbstractClientPlayer abstractClientPlayer) {
@@ -58,7 +61,7 @@ public class AnimationHelper {
                     speedModifier.speed = speed;
                     layer.addModifierBefore(mirrorModifier);
                     layer.addModifierBefore(speedModifier);
-                    layer.replaceAnimationWithFade(AbstractFadeModifier.standardFadeIn(2, Ease.INOUTSINE), keyframeAnimationPlayer, true);
+                    layer.replaceAnimationWithFade(AbstractFadeModifier.standardFadeIn(fadeTicks, Ease.INOUTSINE), keyframeAnimationPlayer, true);
                 }
             }
         }
@@ -69,7 +72,7 @@ public class AnimationHelper {
      * Plays an animation on a remote player, identified by their {@link UUID}. This method checks local conditions
      * to avoid processing
      */
-    public static void playAnimation(UUID playerUUID, ResourceLocation animationLocation, boolean mirrored, float speed) {
+    public static void playAnimation(UUID playerUUID, ResourceLocation animationLocation, boolean mirrored, float speed, int fadeTicks) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.level == null || mc.player == null) {
             return;
@@ -81,7 +84,7 @@ public class AnimationHelper {
         if (player == null) {
             return;
         }
-        playAnimation(player, animationLocation, mirrored, speed);
+        playAnimation(player, animationLocation, mirrored, speed, fadeTicks);
     }
 
 

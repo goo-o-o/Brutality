@@ -1,8 +1,10 @@
 package net.goo.brutality.common.compat;
 
 import net.bettercombat.api.client.BetterCombatClientEvents;
+import net.goo.brutality.client.renderers.shaders.outline.MaxSwordOutlineShader;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.serverbound.ServerboundBetterCombatAttackStartListenerPacket;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,9 +19,14 @@ public class BetterCombatIntegration {
             ItemStack stack = hand.isOffHand() ? player.getOffhandItem() : player.getMainHandItem();
             PacketHandler.sendToServer(new ServerboundBetterCombatAttackStartListenerPacket(stack, hand.combo().current()));
 
+            if (stack.is(BrutalityItems.MAX.get())) {
+                MaxSwordOutlineShader.startAttack(player);
+            }
         });
 
     }
+
+
 }
 
 

@@ -7,16 +7,20 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.goo.brutality.Brutality;
+import net.goo.brutality.client.renderers.shaders.BrutalityShaders;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.OptionalDouble;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS;
 
@@ -25,6 +29,21 @@ public class BrutalityRenderTypes extends RenderType {
     public BrutalityRenderTypes(String string, VertexFormat vertexFormat, VertexFormat.Mode mode, int i, boolean b, boolean b1, Runnable runnable, Runnable runnable1) {
         super(string, vertexFormat, mode, i, b, b1, runnable, runnable1);
     }
+
+    public static List<RenderType> renderTypes = new ArrayList<>();
+    public static List<RenderType> normalRenderTypes = new ArrayList<>();
+    public static List<RenderType> particleRenderTypes = new ArrayList<>();
+
+    public static RenderType registerRenderType(RenderType type, boolean isParticle) {
+        renderTypes.add(type);
+        if (isParticle) {
+            particleRenderTypes.add(type);
+        } else {
+            normalRenderTypes.add(type);
+        }
+        return type;
+    }
+
 
     public static final RenderType LIGHTNING = RenderType.create(Brutality.MOD_ID + ":lightning", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder()
             .setShaderState(POSITION_COLOR_SHADER)
@@ -54,6 +73,7 @@ public class BrutalityRenderTypes extends RenderType {
                         .setWriteMaskState(COLOR_WRITE)
                         .createCompositeState(false));
     }
+
     public static final RenderType GLOW_NO_TEXTURE = RenderType.create(
             "brutality:glow_no_texture",
             DefaultVertexFormat.POSITION_COLOR,
@@ -81,61 +101,89 @@ public class BrutalityRenderTypes extends RenderType {
                     .createCompositeState(false)
     );
 
-    public static final RenderType NO_CULL_NO_DEPTH = create(
-            "no_cull_no_depth", // Unique name
-            DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, // Use a standard format matching your vertices
-            VertexFormat.Mode.QUADS, // Drawing quads
-            256, // Buffer size
-            false, // affectsCrumbling
-            true, // sortOnClient (good for transparent blending)
+    public static final ShaderStateShard ITEM_OUTLINE_SHADER = new ShaderStateShard(BrutalityShaders::getItemOutlineCoreShader);
+    public static final RenderType ITEM_OUTLINE = create(Brutality.MOD_ID + ":item_outline",
+            DefaultVertexFormat.BLOCK,  // was POSITION
+            VertexFormat.Mode.QUADS,
+            256,
+            false,
+            false,
             RenderType.CompositeState.builder()
-                    .setShaderState(RENDERTYPE_TRANSLUCENT_SHADER) // Use the translucent shader for transparency/blending
-                    .setLayeringState(NO_LAYERING)
-                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY) // Standard translucent blending
-                    .setDepthTestState(NO_DEPTH_TEST) // CRITICAL: Skip depth test (draw regardless of what's already drawn)
-                    .setCullState(NO_CULL)          // CRITICAL: Disable backface culling
-                    .setLightmapState(LIGHTMAP)
-                    .setWriteMaskState(COLOR_WRITE) // CRITICAL: Write to color buffer (A, R, G, B)
-                    .setLineState(new RenderStateShard.LineStateShard(OptionalDouble.empty()))
+                    .setShaderState(ITEM_OUTLINE_SHADER)
+                    .setTextureState(new RenderStateShard.TextureStateShard(
+                            InventoryMenu.BLOCK_ATLAS, false, false))
+                    .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                    .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
+                    .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
                     .createCompositeState(false)
     );
+    public static final ShaderStateShard PARTICLE_OUTLINE_SHADER = new ShaderStateShard(BrutalityShaders::getParticleOutlineCoreShader);
+    public static final RenderType PARTICLE_OUTLINE = registerRenderType(create(Brutality.MOD_ID + ":particle_outline",
+            DefaultVertexFormat.PARTICLE,
+            VertexFormat.Mode.QUADS,
+            256,
+            true,
+            true,
+            RenderType.CompositeState.builder().setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE).setLightmapState(RenderStateShard.LIGHTMAP).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setTextureState(RenderStateShard.BLOCK_SHEET).setShaderState(PARTICLE_OUTLINE_SHADER).createCompositeState(false)), true);
 
-    public static RenderType noCullTextured(ResourceLocation texture) {
+
+    public static final ParticleRenderType TRAIL_RENDER_TYPE = new ParticleRenderType() {
+        @Override
+        public void begin(BufferBuilder builder, TextureManager textureManager) {
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.depthMask(false);
+            textureManager.getTexture(TextureAtlas.LOCATION_BLOCKS).setFilter(false, false);
+            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
+            RenderSystem.setShader(GameRenderer::getParticleShader);
+            builder.begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.PARTICLE);
+        }
+
+        @Override
+        public void end(Tesselator tesselator) {
+            tesselator.end();
+            RenderSystem.depthMask(true);
+            RenderSystem.disableBlend();
+        }
+
+        @Override
+        public String toString() { return "brutality:trail"; }
+    };
+
+    public static RenderType createDepthClearRenderType() {
         return RenderType.create(
-                "brutality:no_cull_textured",
-                DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
+                "entity_depth_clear",
+                DefaultVertexFormat.POSITION_COLOR,
                 VertexFormat.Mode.QUADS,
                 256,
-                false,  // affects crumbling
-                true,   // transparency sorting
-                CompositeState.builder()
-                        .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
-                        .setTextureState(new TextureStateShard(texture, false, false))
-                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)   // or ADDITIVE_TRANSPARENCY
-                        .setLightmapState(LIGHTMAP)
-                        .setOverlayState(OVERLAY)
-                        .setCullState(CullStateShard.NO_CULL)             // ← no culling
+                false,
+                false,
+                RenderType.CompositeState.builder()
+                        .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
+                        .setTransparencyState(RenderStateShard.NO_TRANSPARENCY)
+                        .setDepthTestState(RenderStateShard.NO_DEPTH_TEST) // ALWAYS pass (ignore existing depth)
+                        .setWriteMaskState(RenderStateShard.DEPTH_WRITE) // Only write depth, not color
+                        .setCullState(RenderStateShard.NO_CULL)
                         .createCompositeState(false)
         );
     }
 
-    public static ParticleRenderType PARTICLE_ADDITIVE = new ParticleRenderType() {
-        public void begin(BufferBuilder builder, TextureManager manager) {
-            RenderSystem.depthMask(false);
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        public void end(Tesselator tesselator) {
-            tesselator.end();
-        }
-
-        public String toString() {
-            return Brutality.MOD_ID + ":additive";
-        }
-    };
-
-
+    // The actual visible black quad
+    public static RenderType createOverlayRenderType() {
+        return RenderType.create(
+                "entity_redacted_overlay",
+                DefaultVertexFormat.POSITION_COLOR,
+                VertexFormat.Mode.QUADS,
+                256,
+                false,
+                false,
+                RenderType.CompositeState.builder()
+                        .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
+                        .setTransparencyState(RenderStateShard.NO_TRANSPARENCY)
+                        .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST) // Now test against the cleared depth
+                        .setWriteMaskState(RenderStateShard.COLOR_WRITE) // Only write color
+                        .setCullState(RenderStateShard.NO_CULL)
+                        .createCompositeState(false)
+        );
+    }
 }

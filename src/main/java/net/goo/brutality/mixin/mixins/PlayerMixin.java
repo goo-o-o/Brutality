@@ -5,6 +5,7 @@ import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.goo.brutality.common.item.base.BrutalityThrowingItem;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.item.curios.charm.Cosine;
+import net.goo.brutality.common.item.curios.charm.Censored;
 import net.goo.brutality.common.item.curios.hands.SuspiciouslyLargeHandle;
 import net.goo.brutality.common.item.generic.augments.BrutalityAugmentItem;
 import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
@@ -20,6 +21,7 @@ import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
 import net.goo.brutality.util.build_archetypes.GastronomyHelper;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -38,6 +40,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
@@ -201,6 +204,14 @@ public abstract class PlayerMixin extends LivingEntity {
         }
 
         return modifiedAmount;
+    }
+
+    @Inject(method = "getDisplayName", at = @At("HEAD"), cancellable = true)
+    private void modifyDisplayName(CallbackInfoReturnable<Component> cir) {
+        if (Censored.shouldRedact((Player) (Object) this)) {
+            cir.setReturnValue(Component.literal("████████"));
+            cir.cancel();
+        }
     }
 
 }

@@ -1,11 +1,10 @@
 package net.goo.brutality.common.network.clientbound;
 
 import net.goo.brutality.common.network.IBrutalityPacket;
-import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.util.lightning.ChainLightningHelper;
-import net.goo.brutality.util.math.PhysicsUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 import org.joml.Vector3f;
 
@@ -51,21 +50,18 @@ public class ClientboundChainLightningPacket implements IBrutalityPacket<Clientb
     public void handle(ClientboundChainLightningPacket packet, Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
 
-        context.enqueueWork(() -> {
-            if (Minecraft.getInstance().level != null) {
-                for (int i = 0; i < packet.iterations; i++) {
-                    DelayedTaskScheduler.queueClientWork(Minecraft.getInstance().level, packet.delay * i, () ->
-                            ChainLightningHelper.Client.shock(
-                                    packet.lightningType,
-                                    PhysicsUtils.fromVector3f(packet.start),
-                                    PhysicsUtils.fromVector3f(packet.end),
-                                    packet.size,
-                                    packet.lifespan));
-                }
-            }
-        });
+        context.enqueueWork(() ->
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ChainLightningHelper.Client.handlePacket(
+                packet.iterations,
+                packet.delay,
+                packet.lightningType,
+                packet.start,
+                packet.end,
+                packet.size,
+                packet.lifespan
+        )));
+
         context.setPacketHandled(true);
     }
-
 
 }

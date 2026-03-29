@@ -1,16 +1,10 @@
 package net.goo.brutality.util;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
 import net.goo.brutality.Brutality;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.FogRenderer;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.util.FastColor;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.joml.Vector3f;
 
@@ -132,8 +126,8 @@ public class EnvironmentColorManager {
         return COLOR_OVERRIDES.get(type);
     }
 
-    private static final Vector3f skyLightColor = new Vector3f(0.5f, 0.7f, 1.0f);
-    private static boolean customSkyLight = false;
+    public static final Vector3f skyLightColor = new Vector3f(0.5f, 0.7f, 1.0f);
+    public static boolean customSkyLight = false;
 
     public static void setCustomSkyLight(float r, float g, float b) {
         skyLightColor.set(r, g, b);
@@ -149,28 +143,7 @@ public class EnvironmentColorManager {
         customSkyLight = false;
     }
 
-    @SubscribeEvent
-    public static void onRenderSky(RenderLevelStageEvent event) {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY && customSkyLight) {
-            RenderSystem.setShader(GameRenderer::getPositionColorShader);
-            RenderSystem.setShaderColor(skyLightColor.x(), skyLightColor.y(), skyLightColor.z(), 1f);
 
-            // Draw fullscreen quad
-            BufferBuilder buffer = Tesselator.getInstance().getBuilder();
-            buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
-            buffer.vertex(-100, -100, -100).endVertex();
-            buffer.vertex(-100, 100, -100).endVertex();
-            buffer.vertex(100, 100, -100).endVertex();
-            buffer.vertex(100, -100, -100).endVertex();
-            BufferUploader.drawWithShader(buffer.end());
-
-            RenderSystem.setShader(() -> {
-                ShaderInstance shader = GameRenderer.getRendertypeEntityTranslucentShader();
-                shader.safeGetUniform("Brightness").set(-0.5f); // Negative = darker
-                return shader;
-            });
-        }
-    }
 
     public static class ProximityColorSet {
         public final EnumMap<ColorType, Integer> inRangeColors = new EnumMap<>(ColorType.class);

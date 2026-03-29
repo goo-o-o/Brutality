@@ -14,6 +14,7 @@ import org.joml.Matrix3f;
 import java.util.List;
 
 public class HitboxUtils {
+
     public static Vec3 getShoulderPosition(Player player) {
         double shoulderHeight = (double) player.getBbHeight() * 0.15 * (double) player.getScale();
         return player.getEyePosition().add(0F, -shoulderHeight, 0F);

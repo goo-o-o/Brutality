@@ -5,9 +5,9 @@ import com.google.common.collect.Multimap;
 import net.goo.brutality.common.entity.projectile.generic.SpectralMawEntity;
 import net.goo.brutality.common.item.base.BrutalitySwordItem;
 import net.goo.brutality.common.registry.BrutalityAttributes;
-import net.goo.brutality.common.registry.BrutalityEntities;
 import net.goo.brutality.common.registry.BrutalityEffects;
-import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.common.registry.BrutalityEntities;
+import net.goo.brutality.util.EffectUtils;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -40,7 +40,7 @@ public class BladeOfTheRuinedKingSword extends BrutalitySwordItem {
     public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
         pTarget.invulnerableTime = 0;
 
-        ModUtils.modifyEffect(pTarget, BrutalityEffects.RUINED.get(), new ModUtils.ModValue(120, true), new ModUtils.ModValue(1, false), 3, e -> e.addEffect(new MobEffectInstance(BrutalityEffects.RUINED.get(), 120, 0)),
+        EffectUtils.modifyEffect(pTarget, BrutalityEffects.RUINED.get(), new EffectUtils.ModValue(120, true), new EffectUtils.ModValue(1, false), 3, e -> e.addEffect(new MobEffectInstance(BrutalityEffects.RUINED.get(), 120, 0)),
                 e -> {
                     e.removeEffect(BrutalityEffects.RUINED.get());
 

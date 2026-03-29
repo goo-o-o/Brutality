@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.renderers.BrutalityShaders;
+import net.goo.brutality.client.renderers.shaders.BrutalityShaders;
 import net.goo.brutality.client.config.BrutalityClientConfig;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.util.CommonConstants;

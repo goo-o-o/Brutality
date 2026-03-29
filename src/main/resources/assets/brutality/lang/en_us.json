@@ -26,6 +26,15 @@
   "item.brutality.the_silver_perimeter": "The Silver Perimeter",
   "item.brutality.the_silver_perimeter.on_hold_right_click.1": "§e -Spin in a circle at blistering speeds, hitting nearby enemies and proc-ing On Hits",
 
+  "item.brutality.censored": "████████",
+  "item.brutality.censored.passive.1": "§e -A black box permanently covers the wearer",
+  "item.brutality.censored.passive.2": "§e -The wearer's nametag is hidden",
+  "item.brutality.censored.passive.3": "§e -The wearer's name is removed from death messages",
+  "item.brutality.redacted": "████████",
+  "item.brutality.redacted.passive.1": "§e -The wearer's skin is removed",
+  "item.brutality.redacted.passive.2": "§e -The wearer's nametag is hidden",
+  "item.brutality.redacted.passive.3": "§e -The wearer's name is removed from death messages",
+
   "item.brutality.solidified_mana": "Solidified Mana",
   "item.brutality.solidified_mana.description.1": "§7Can be liquified in a Cauldron above a heat source",
   "item.brutality.liquified_mana_bucket": "Liquified Mana Bucket",
@@ -615,40 +624,47 @@
   "item.brutality.pi.passive.1": "§e -Summons 3 §9π §esymbols that orbit the user, dealing §9π §eDamage on hit",
   "item.brutality.pi.passive.2": "§e -Each §9π §esymbol orbits at a rate of §9π §erevolutions a second",
 
-  "item.brutality.exponential_charm": "Exponential Function",
-  "item.brutality.exponential_charm.passive.1": "§e -Initiates a combo, resets upon attacking a different mob, or after 5 seconds",
-  "item.brutality.exponential_charm.passive.2": "§e -A maximum of 15 hits can be in a combo before it is reset",
-  "item.brutality.exponential_charm.passive.3": "§e -Increases Attack Damage using the formula:",
-  "item.brutality.exponential_charm.passive.4": " ",
-  "item.brutality.exponential_charm.passive.5": "§e Damage§d^§f(§e1 §f+ §ecombo §fx §e0.01§f)",
+  "item.brutality.eulers_number": "Euler's Number",
 
   "item.brutality.sine": "Sine Function",
   "item.brutality.sine.lore.1": "§9A trigonometric function",
   "item.brutality.sine.passive.1": "§e -Increases Attack Damage using the formula:",
-  "item.brutality.sine.passive.2": "  §f(§9sin§f(§etime §fx §e0.025§f) §fx §e20 §f+ §e10§f)%",
+  "item.brutality.sine.passive.2": "  §f(§9sin§f(§etime §f× §e0.025§f) §f× §e20 §f+ §e10§f)%",
 
   "item.brutality.cosine": "Cosine Function",
   "item.brutality.cosine.lore.1": "§9A trigonometric function",
   "item.brutality.cosine.passive.1": "§e -Increases Attack Speed using the formula:",
-  "item.brutality.cosine.passive.2": "  §f(§ccos§f(§etime §fx §e0.025§f) §fx §e17.5 §f+ §e7.5§f)%",
+  "item.brutality.cosine.passive.2": "  §f(§ccos§f(§etime §f× §e0.025§f) §f× §e17.5 §f+ §e7.5§f)%",
 
-  "item.brutality.addition": "Addition (+)",
-  "item.brutality.multiplication": "Multiplication (x)",
+  "item.brutality.addition": "Addition +",
+  "item.brutality.multiplication": "Multiplication ×",
 
-  "item.brutality.subtraction": "Subtraction (-)",
+  "item.brutality.subtraction": "Subtraction -",
   "item.brutality.subtraction.passive.1": "§e -Reduces flat Damage taken by 3",
 
-  "item.brutality.division": "Division (÷)",
+  "item.brutality.fraction": "Fraction",
+  "item.brutality.fraction.lore.1": "§9Simplify them until nothing remains",
+  "item.brutality.fraction.on_hit.1": "§e -Applies Fractioned for 1 second",
+  "item.brutality.fraction.passive.1": "§e -When Fractioned expires, checks for an entity within 3 blocks",
+  "item.brutality.fraction.passive.2": "§e -If the Health of the other entity is a multiple of the original entity, both take damage",
+  "item.brutality.fraction.passive.3": "§e -The Damage dealt is the Greatest Common Divisor of the two Health values",
+
+  "item.brutality.division": "Division ÷",
   "item.brutality.division.passive.1": "§e -Divides Damage taken by 1.1",
 
-  "item.brutality.sum": "Sum (Σ)",
+  "item.brutality.floor": "Floor",
+  "item.brutality.floor.passive.1": "§e -Rounds damage taken down to the nearest Integer",
+  "item.brutality.ceil": "Ceil",
+  "item.brutality.ceil.passive.1": "§e -Rounds damage dealt up to the nearest Integer",
+
+  "item.brutality.sum": "Sum Σ",
   "item.brutality.sum.passive.1": "§e -Stores half of all Damage taken, max of 10 per instance",
   "item.brutality.sum.passive.2": "§e -Add the accumulated Damage stored to your next attack, max of 150",
   "item.brutality.sum.passive.3": "§e -Resets to 0 after use",
   "item.brutality.sum.damage_stored.1": "§cDamage Stored:",
 
   "item.brutality.scientific_calculator": "Scientific Calculator",
-  "item.brutality.scientific_calculator.lore.1": "§9Comes with 64KB of RAM",
+  "item.brutality.scientific_calculator.lore.1": "§9Comes with a built-in solar panel!",
   "item.brutality.scientific_calculator.passive.1": "§9 -Allows the use of mathematical functions, constants and concepts",
 
   "item.brutality.road_runners_ring": "Road Runner's Ring",
@@ -1182,7 +1198,11 @@
 
   "item.brutality.royal_guardian_sword": "Royal Guardian Sword",
   "item.brutality.royal_guardian_sword.lore.1": "§9None shall sully The King's name",
-  "item.brutality.royal_guardian_sword.on_hit.1": "§e -Inflicts §7Pulverized XXV§e for 3 ticks",
+  "item.brutality.royal_guardian_sword.on_release_right_click.1": "§e -Slam down your sword, dealing damage equivalent to 5x your Attack Damage",
+  "item.brutality.royal_guardian_sword.on_release_right_click.2": "§e -Launches a shockwave that deals your Attack Damage and ignores i-frames",
+  "item.brutality.royal_guardian_sword.on_release_right_click.3": "§e -Shockwave radius scales by quarter your Attack Damage",
+  "item.brutality.royal_guardian_sword.on_hold_right_click.1": "§e -Take 75% reduced Damage",
+  "item.brutality.royal_guardian_sword.on_hold_right_click.2": "§e -Charge up a Powerful Attack that must be charged to full to successfully trigger",
 
   "item.brutality.thunderbolt": "Thunderbolt",
   "item.brutality.thunderbolt.lore": "Crafted by§9 the hand of the mighty god Zeus",
@@ -1787,6 +1807,7 @@
   "attribute.modifier.take.2": "-%s%% Total %s",
 
 
+  "effect.brutality.fractioned": "Fractioned",
   "effect.brutality.neutral": "Neutral",
   "effect.brutality.happy": "Happy",
   "effect.brutality.sad": "Sad",
@@ -1844,6 +1865,7 @@
   "brutality.description.type.on_left_clicking_entity": "§6On Left Clicking Entity:",
   "brutality.description.type.on_shift_right_click": "§6On Shift Right Click:",
   "brutality.description.type.on_hold_right_click": "§6On Holding Right Click:",
+  "brutality.description.type.on_release_right_click": "§6On Release Right Click:",
   "brutality.description.type.on_kill": "§6On Kill:",
   "brutality.description.type.on_shoot": "§6On Shoot:",
   "brutality.description.type.dash_ability": "§6Dash Ability:",

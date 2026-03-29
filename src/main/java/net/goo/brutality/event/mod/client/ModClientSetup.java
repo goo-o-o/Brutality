@@ -6,6 +6,9 @@ import net.goo.brutality.client.config.BrutalityClientConfig;
 import net.goo.brutality.client.datagen.ingredients.AnySharpnessBookIngredient;
 import net.goo.brutality.client.gui.misc_elements.*;
 import net.goo.brutality.client.gui.screen.FilingCabinetScreen;
+import net.goo.brutality.client.renderers.shaders.BrutalityShaders;
+import net.goo.brutality.client.renderers.shaders.PostShaderInstance;
+import net.goo.brutality.client.renderers.shaders.outline.OutlineStyles;
 import net.goo.brutality.common.block.custom.DustbinBlock;
 import net.goo.brutality.common.compat.BetterCombatIntegration;
 import net.goo.brutality.common.registry.BrutalityBlocks;
@@ -14,13 +17,13 @@ import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityMenuTypes;
 import net.goo.brutality.util.RarityBorderManager;
 import net.goo.brutality.util.tooltip.ItemAugmentComponent;
-import net.goo.photon.client.PhotonShaders;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
@@ -48,6 +51,7 @@ public class ModClientSetup {
         event.registerAboveAll("ability_cooldown_meter", new CooldownMeter.AbilityCooldownMeter());
         event.registerAboveAll("armor_set_ability_cooldown_meter", new CooldownMeter.ArmorSetAbilityCooldownMeter());
         event.registerAboveAll("spell_selector", new SpellSelectionGui());
+        event.registerAboveAll("royal_guardian_sword", new RoyalGuardianSwordGui());
     }
 
 
@@ -67,8 +71,17 @@ public class ModClientSetup {
 
 
     @SubscribeEvent
-    public static void onAddReloadListeners(RegisterClientReloadListenersEvent event) {
+    public static void onResourceReload(RegisterClientReloadListenersEvent event) {
         event.registerReloadListener(new RarityBorderManager());
+        event.registerReloadListener((ResourceManagerReloadListener) resourceManager -> {
+            if (BrutalityShaders.itemOutlinePostShader != null)
+                BrutalityShaders.itemOutlinePostShader.close();
+            if (BrutalityShaders.maxSwordOutlinePostShader != null)
+                BrutalityShaders.maxSwordOutlinePostShader.close();
+            PostShaderInstance.resetDepthBackup();
+        });
+        event.registerReloadListener((ResourceManagerReloadListener) resourceManager -> OutlineStyles.registerAll());
+
     }
 
 
@@ -98,6 +111,7 @@ public class ModClientSetup {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
+
         if (ModList.get().isLoaded("bettercombat")) {
             BetterCombatIntegration.register();
         }
@@ -107,7 +121,6 @@ public class ModClientSetup {
         });
 
         event.enqueueWork(DustbinBlock::bootStrap);
-        event.enqueueWork(PhotonShaders::init);
         event.enqueueWork(() -> ItemProperties.register(BrutalityItems.DULL_KNIFE_DAGGER.get(), ResourceLocation.parse("texture"),
                 ((pStack, pLevel, pEntity, pSeed) -> pStack.getOrCreateTag().getInt("texture"))));
 
@@ -140,7 +153,7 @@ public class ModClientSetup {
                 if (entity == null) {
                     return 0.0F;
                 }
-                return entity.getUseItem() != stack ? 0.0F : (float) (stack.getUseDuration() - entity.getUseItemRemainingTicks()) / 20.0F;
+                return entity.getUseItem() != stack ? 0.0F : (float) (entity.getTicksUsingItem()) / 20.0F;
             });
 
             ItemProperties.register(BrutalityItems.PROVIDENCE.get(), ResourceLocation.parse("pulling"), (stack, level, entity, seed) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);

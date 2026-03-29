@@ -2,7 +2,8 @@ package net.goo.brutality.common.event.forge;
 
 import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.ClientAccess;
+import net.goo.brutality.client.ClientProxy;
+import net.goo.brutality.client.player_animation.AnimationHelper;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.weapon.axe.RhittaAxe;
@@ -13,6 +14,7 @@ import net.goo.brutality.common.item.weapon.sword.SupernovaSword;
 import net.goo.brutality.common.item.weapon.tome.BaseMagicTome;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.clientbound.ClientboundSyncItemCooldownPacket;
+import net.goo.brutality.common.network.serverbound.ServerboundStopPlayerAnimationPacket;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.CooldownUtils;
@@ -88,7 +90,7 @@ public class ForgeCommonPlayerStateHandler {
 
 
     @SubscribeEvent
-    public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+    public static void onPlayerCommonLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             SupernovaSword.clearAsteroids(player, player.serverLevel());
             CreaseOfCreation.handleCreaseOfCreation(player);
@@ -97,7 +99,7 @@ public class ForgeCommonPlayerStateHandler {
     }
 
     @SubscribeEvent
-    public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
+    public static void onPlayerCommonLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             ItemCooldowns itemCooldowns = player.getCooldowns();
             PacketHandler.sendToPlayerClient(new ClientboundSyncItemCooldownPacket(itemCooldowns.cooldowns, itemCooldowns.tickCount), player);
@@ -132,38 +134,21 @@ public class ForgeCommonPlayerStateHandler {
                             }
                         }
                 )));
-//        TOGGLE_ACTIONS.add(new Pair<>(
-//                stack -> stack.getItem() instanceof BladeOfTheRuinedKingSword,
-//                new HoldToggleAction(
-//                        (player) -> {
-//                            if (!(player.level() instanceof ServerLevel)) {
-//                                EntityEffect effect = new EntityEffect(RUINED_AURA_FX, player.level(), player, EntityEffect.AutoRotate.NONE);
-//                                effect.start();
-//                            }
-//                        },
-//                        (player) -> {
-//                            if (!(player.level() instanceof ServerLevel)) {
-//                                ModUtils.removeFX(player, RUINED_AURA_FX);
-//                            }
-//                        }
-//                )));
-
         TOGGLE_ACTIONS.add(new Pair<>(
                 stack -> stack.is(BrutalityItems.OLD_GPU.get()),
                 new HoldToggleAction(
                         (player) -> {
                             if (player.level().isClientSide) {
-                                ClientAccess.loadBitShader();
+                                ClientProxy.loadBitShader();
                             }
                         },
                         (player) -> {
                             if (player.level().isClientSide) {
-                                ClientAccess.stopAllShaders();
+                                ClientProxy.stopAllShaders();
                             }
                         }
                 )
         ));
-
         TOGGLE_ACTIONS.add(new Pair<>(
                 stack -> stack.is(BrutalityItems.DULL_KNIFE_DAGGER.get()),
                 new HoldToggleAction(
@@ -204,6 +189,19 @@ public class ForgeCommonPlayerStateHandler {
                         (player) -> {
                             if (!(player.level() instanceof ServerLevel)) {
                                 ModUtils.removeFX(player, LIGHTNING_AURA_FX.get());
+                            }
+                        }
+                )));
+        TOGGLE_ACTIONS.add(new Pair<>(
+                stack -> stack.is(BrutalityItems.ROYAL_GUARDIAN_SWORD.get()),
+                new HoldToggleAction(
+                        (player) -> {
+                        },
+                        (player) -> {
+                            if (player.level().isClientSide()) {
+                                AnimationHelper.stopAnimation(player, 5);
+                            } else {
+                                PacketHandler.sendToServer(new ServerboundStopPlayerAnimationPacket(player.getUUID(), 5));
                             }
                         }
                 )));

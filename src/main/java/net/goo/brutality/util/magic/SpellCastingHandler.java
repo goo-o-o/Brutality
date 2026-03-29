@@ -259,7 +259,7 @@ public class SpellCastingHandler {
             SpellStorage.SpellEntry currentSpell = SpellStorage.getCurrentSpellEntry(stack);
             if (currentSpell == null) return 0F;
             if (currentSpell.spell().getCategories().contains(BrutalitySpell.SpellCategory.CHANNELLING)) {
-                return (float) (stack.getUseDuration() - player.getUseItemRemainingTicks()) / currentSpell.spell().getActualCastTime(player, currentSpell.level());
+                return (float) (player.getTicksUsingItem()) / currentSpell.spell().getActualCastTime(player, currentSpell.level());
             }
         }
         return 0F;

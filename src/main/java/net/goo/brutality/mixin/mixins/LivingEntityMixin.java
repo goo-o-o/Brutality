@@ -1,6 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.curios.charm.BaseBrokenClock;
 import net.goo.brutality.common.item.curios.charm.OmnidirectionalMovementGear;
@@ -11,7 +12,6 @@ import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.BrutalityEntityRotations;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
-import net.goo.brutality.util.build_archetypes.BloodHelper;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -254,7 +254,7 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
                 float currentHealth = entity.getHealth();
                 if (currentHealth > 0.0F) {
                     float excess = (currentHealth + pHealAmount) - entity.getMaxHealth();
-                    BloodHelper.modifyBloodValue(player, excess * 0.5F);
+                    player.getCapability(BrutalityCapabilities.BLOOD).ifPresent(cap -> cap.modifyBloodValue(player, excess * 0.5F));
                     entity.setHealth(currentHealth + pHealAmount);
                 }
 

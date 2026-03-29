@@ -1,6 +1,6 @@
 package net.goo.brutality.common.network.clientbound;
 
-import net.goo.brutality.client.ClientAccess;
+import net.goo.brutality.client.ClientProxy;
 import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -33,7 +33,7 @@ public class ClientboundGenericSyncPacket implements IBrutalityPacket<Clientboun
 
     @Override
     public void handle(ClientboundGenericSyncPacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> ClientAccess.handleSync(packet.entityId, packet.key, packet.data));
+        ctx.get().enqueueWork(() -> ClientProxy.handleSync(packet.entityId, packet.key, packet.data));
         ctx.get().setPacketHandled(true);
     }
 }

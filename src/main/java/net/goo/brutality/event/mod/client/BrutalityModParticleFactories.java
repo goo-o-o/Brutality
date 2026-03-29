@@ -44,9 +44,6 @@ public class BrutalityModParticleFactories {
         event.registerSpriteSet(BrutalityParticles.YANG_PARTICLE.get(), YangParticle.Provider::new);
 
 
-        event.registerSpriteSet(BrutalityParticles.TRAIL_PARTICLE.get(), TrailParticle.Provider::new);
-
-
         event.registerSpriteSet(BrutalityParticles.BLACK_HOLE_PARTICLE.get(), BlackholeParticle.Provider::new);
         event.registerSpriteSet(BrutalityParticles.HEALING_PARTICLE.get(), HealingParticle.Provider::new);
         event.registerSpriteSet(BrutalityParticles.MIRACLE_BLIGHT_PARTICLE.get(), MiracleBlightParticle.Provider::new);
@@ -67,6 +64,9 @@ public class BrutalityModParticleFactories {
 
         event.registerSpriteSet(BrutalityParticles.BLUE_FLAME_PARTICLE.get(), FlameParticle.SmallFlameProvider::new);
         event.registerSpriteSet(BrutalityParticles.WIZARDRY_PARTICLE.get(), WizardryParticle.Provider::new);
+        event.registerSpriteSet(BrutalityParticles.MATH_PARTICLE.get(), MathParticle.Provider::new);
+
+//        event.registerSpriteSet(BrutalityParticles.TRAIL_PARTICLE.get(), TrailParticleData.TrailParticleProvider::new);
 
         event.registerSpriteSet(BrutalityParticles.EXPLOSION_MAGIC_CIRCLE_PARTICLE.get(), FlatParticleData.FlatParticleProvider::new);
         event.registerSpriteSet(BrutalityParticles.MURASAMA_SLASH_PARTICLE.get(), MurasamaSlashParticle.MurasamaSlashParticleProvider::new);

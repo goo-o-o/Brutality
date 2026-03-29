@@ -67,7 +67,7 @@ public class BrutalityModEvents {
                 BrutalityAttributes.MANA_COST.get(),
                 BrutalityAttributes.MANA_REGEN.get(),
                 BrutalityAttributes.MAX_MANA.get(),
-                BrutalityAttributes.MAX_BLOOD.get(),
+//                BrutalityAttributes.MAX_BLOOD.get(),
                 BrutalityAttributes.SPELL_COOLDOWN.get(),
                 BrutalityAttributes.CAST_TIME.get(),
                 BrutalityAttributes.SPELL_DAMAGE.get(),

@@ -38,7 +38,7 @@ public class BaseBrokenClock extends BrutalityCurioItem {
     @Override
     public boolean canEquip(SlotContext slotContext, ItemStack stack) {
         return CuriosApi.getCuriosInventory(slotContext.entity()).map(handler ->
-                handler.isEquipped(itemStack -> itemStack.getItem() instanceof BaseBrokenClock)
+                !handler.isEquipped(itemStack -> itemStack.getItem() instanceof BaseBrokenClock)
         ).orElse(super.canEquip(slotContext, stack));
     }
 

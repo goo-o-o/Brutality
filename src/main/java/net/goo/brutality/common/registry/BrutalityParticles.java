@@ -38,13 +38,12 @@ public class BrutalityParticles {
     public static final RegistryObject<SimpleParticleType> DEPTH_CRUSHER_PARTICLE =
             PARTICLE_TYPES.register("depth_crusher_particle", () -> new SimpleParticleType(true));
 
-    public static final RegistryObject<SimpleParticleType> TRAIL_PARTICLE =
-            PARTICLE_TYPES.register("trail_particle", () -> new SimpleParticleType(true));
-
     public static final RegistryObject<SimpleParticleType> BLUE_FLAME_PARTICLE =
             PARTICLE_TYPES.register("blue_flame_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> WIZARDRY_PARTICLE =
             PARTICLE_TYPES.register("wizardry_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> MATH_PARTICLE =
+            PARTICLE_TYPES.register("math_particle", () -> new SimpleParticleType(true));
 
     public static final RegistryObject<SimpleParticleType> CABBAGE_PARTICLE =
             PARTICLE_TYPES.register("cabbage_particle", () -> new SimpleParticleType(true));
@@ -131,6 +130,14 @@ public class BrutalityParticles {
     public static final RegistryObject<SimpleParticleType> SUPERNOVA_SWEEP_PARTICLE =
             PARTICLE_TYPES.register("supernova_sweep_particle", () -> new SimpleParticleType(true));
 
+
+//    public static final RegistryObject<ParticleType<TrailParticleData<?>>> TRAIL_PARTICLE = PARTICLE_TYPES.register("trail_particle", () ->
+//            new ParticleType<>(false, TrailParticleData.DESERIALIZER) {
+//                @Override
+//                public @NotNull Codec<TrailParticleData<?>> codec() {
+//                    return TrailParticleData.CODEC;
+//                }
+//            });
 
     public static final RegistryObject<ParticleType<FlatParticleData<?>>> EXPLOSION_MAGIC_CIRCLE_PARTICLE = PARTICLE_TYPES.register("explosion_magic_circle", () ->
             new ParticleType<>(false, FlatParticleData.DESERIALIZER) {

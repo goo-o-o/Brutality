@@ -68,15 +68,16 @@ public class ItemCategoryUtils {
         if (item instanceof BrutalityMagicItem magicItem) {
             return magicItem.type; // Returns MagicItemType.STAFF, TOME, etc.
         }
+        if (isSpear(item)) return BrutalityCategories.ItemType.SPEAR; // spear first since it extends axe item
+        if (isScythe(item)) return BrutalityCategories.ItemType.SCYTHE;
+        if (isHammer(item)) return BrutalityCategories.ItemType.HAMMER;
+        if (isThrowing(item)) return BrutalityCategories.ItemType.THROWING;
+
 
         if (isSword(item)) return BrutalityCategories.ItemType.SWORD;
         if (isAxe(item)) return BrutalityCategories.ItemType.AXE;
-        if (isHammer(item)) return BrutalityCategories.ItemType.HAMMER;
-        if (isScythe(item)) return BrutalityCategories.ItemType.SCYTHE;
-        if (isSpear(item)) return BrutalityCategories.ItemType.SPEAR;
         if (isTrident(item)) return BrutalityCategories.ItemType.TRIDENT;
         if (isBow(item)) return BrutalityCategories.ItemType.BOW;
-        if (isThrowing(item)) return BrutalityCategories.ItemType.THROWING;
         if (isPickaxe(item)) return BrutalityCategories.ItemType.PICKAXE;
 
         // 3. Handle Curios and Armor (if applicable)

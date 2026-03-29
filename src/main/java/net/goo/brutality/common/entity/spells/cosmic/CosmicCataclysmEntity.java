@@ -136,10 +136,10 @@ public class CosmicCataclysmEntity extends BrutalityAbstractArrow implements Bru
                 1.5F - (spellLevel / 50F), false);
 
         if (this.level() instanceof ServerLevel serverLevel && getOwner() instanceof LivingEntity owner) {
-            PacketHandler.sendToNearbyClients(serverLevel, x, y, z, 128, new ClientboundParticlePacket(
+            PacketHandler.sendToNearbyClients(new ClientboundParticlePacket(
                     waveParticleData, true, (float) x, (float) y + 0.1F, (float) z, 0, 0, 0,
                     0, 0, 0, 1
-            ));
+            ), serverLevel, x, y, z, 128);
 
             if (shouldApplyWaveEffect)
                 ModUtils.applyWaveEffect(serverLevel, this, Entity.class, waveParticleData, e -> e != owner,

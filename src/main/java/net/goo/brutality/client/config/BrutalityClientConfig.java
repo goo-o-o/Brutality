@@ -40,6 +40,7 @@ public class BrutalityClientConfig {
     public static final ForgeConfigSpec.IntValue RAGE_METER_SHAKE_INTENSITY;
     public static final ForgeConfigSpec.EnumValue<StatTrakGui.Position> STAT_TRAK_POSITION;
     public static final ForgeConfigSpec.BooleanValue RENDER_CUSTOM_TOOLTIP_BORDERS;
+    public static final ForgeConfigSpec.BooleanValue RENDER_OUTLINES;
 //    public static final ForgeConfigSpec.ConfigValue<String> STAT_TRAK_COLOR;
 
     static {
@@ -108,12 +109,16 @@ public class BrutalityClientConfig {
         }
         BUILDER.pop();
 
-        BUILDER.push("Sky Colors");
+        BUILDER.push("Environment");
         {
-            BLACK_HOLE_SKY_COLOR = BUILDER.comment("Should the Black Hole change the color of the Sky and Fog").define("black_hole_change_sky_color", true);
-            BORK_SKY_COLOR = BUILDER.comment("Should the Blade of the Ruined King change the color of the environment").define("bork_change_sky_color", true);
+            BUILDER.push("Sky Colors");
+            {
+                BLACK_HOLE_SKY_COLOR = BUILDER.comment("Should the Black Hole change the color of the Sky and Fog").define("black_hole_change_sky_color", true);
+                BORK_SKY_COLOR = BUILDER.comment("Should the Blade of the Ruined King change the color of the environment").define("bork_change_sky_color", true);
+            }
+            BUILDER.pop();
+            RENDER_OUTLINES = BUILDER.comment("Should Item Outlines be rendered? Disabling this can provide a significant FPS boost").define("should_render_item_outlines", true);
         }
-        BUILDER.pop();
 
 
         SPEC = BUILDER.build();

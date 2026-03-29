@@ -17,8 +17,6 @@ public class VoidSlashParticle extends FlatParticle {
         this.setSpriteFromAge(sprites);
     }
 
-
-
     public static class VoidSlashParticleProvider implements ParticleProvider<FlatParticleData<?>> {
         private final SpriteSet sprites;
 

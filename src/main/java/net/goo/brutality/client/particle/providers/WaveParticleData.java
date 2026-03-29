@@ -4,11 +4,6 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.goo.brutality.client.particle.base.WaveParticle;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
@@ -62,18 +57,4 @@ public class WaveParticleData<T extends ParticleOptions> extends FlatParticleDat
         }
     };
 
-    public static class WaveParticleProvider implements ParticleProvider<WaveParticleData<?>> {
-        private final SpriteSet sprites;
-
-        public WaveParticleProvider(SpriteSet sprites) {
-            this.sprites = sprites;
-        }
-
-        @Override
-        public Particle createParticle(@NotNull WaveParticleData data, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            WaveParticle particle = new WaveParticle(level, x, y, z, data, sprites);
-            particle.pickSprite(sprites);
-            return particle;
-        }
-    }
 }

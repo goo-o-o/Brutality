@@ -149,12 +149,12 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
                     float randomY = (float) this.getY((random.nextDouble()) * (5 + spellLevel));
                     float randomZ = (float) this.getRandomZ(5 + spellLevel);
 
-                    PacketHandler.sendToNearbyClients(serverLevel, this.getX(), this.getY(), this.getZ(), 128, new ClientboundParticlePacket(
+                    PacketHandler.sendToNearbyClients(new ClientboundParticlePacket(
                             TerramityModParticleTypes.ANTIMATTER.get(), true, randomX, randomY, randomZ, 0, 0, 0,
                             (float) (this.getX() - randomX) * (0.035F + 0.015F * (spellLevel + 1)),
                             (float) (this.getY() - randomY) * (0.035F + 0.015F * (spellLevel + 1)),
                             (float) (this.getZ() - randomZ) * (0.035F + 0.015F * (spellLevel + 1)), 1
-                    ));
+                    ), serverLevel, this.getX(), this.getY(), this.getZ(), 128);
                 }
 
                 List<Entity> nearbyEntities = level().getEntities(this, this.getBoundingBox().inflate(spellLevel / 2F + 3),

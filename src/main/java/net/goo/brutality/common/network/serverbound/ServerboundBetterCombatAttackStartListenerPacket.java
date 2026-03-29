@@ -5,7 +5,10 @@ import net.goo.brutality.common.item.weapon.hammer.AtomicJudgementHammer;
 import net.goo.brutality.common.item.weapon.scythe.Schism;
 import net.goo.brutality.common.item.weapon.spear.Rhongomyniad;
 import net.goo.brutality.common.item.weapon.sword.*;
+import net.goo.brutality.common.item.weapon.sword.max.MAX;
 import net.goo.brutality.common.network.IBrutalityPacket;
+import net.goo.brutality.common.network.PacketHandler;
+import net.goo.brutality.common.network.clientbound.ClientboundMaxAttackedPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -70,6 +73,8 @@ public class ServerboundBetterCombatAttackStartListenerPacket implements IBrutal
                 rhongomyniad.performRayAttack(player);
             } else if (item instanceof Schism schism) {
                 schism.performVoidSlash(player, serverLevel, packet.combo);
+            } else if (item instanceof MAX) {
+                PacketHandler.sendToNearbyClients(new ClientboundMaxAttackedPacket(player.getId()), serverLevel, player.getX(), player.getY(), player.getZ(), 64);
             }
         });
         context.setPacketHandled(true);

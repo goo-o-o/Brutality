@@ -6,6 +6,7 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.base.BrutalityThrowingItem;
 import net.goo.brutality.common.registry.BrutalityEffects;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -36,15 +37,22 @@ public abstract class KeyboardInputMixin extends Input {
         }
 
 
-        boolean isStunnedOrBound = player.hasEffect(BrutalityEffects.STUNNED.get()) || player.hasEffect(BrutalityEffects.LIGHT_BOUND.get());
+        boolean shouldCancel = player.hasEffect(BrutalityEffects.STUNNED.get()) || player.hasEffect(BrutalityEffects.LIGHT_BOUND.get());
+        shouldCancel |= (player.getUseItem().is(BrutalityItems.ROYAL_GUARDIAN_SWORD.get()));
+
+
 
         ModifierLayer<IAnimation> layer = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData(player).get(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "animation"));
+        boolean isLayerActive = false;
+        if (layer != null) {
+            isLayerActive = layer.isActive();
+        }
 
-        boolean isLayerActive = layer != null && layer.isActive();
+
         boolean isAnimationActive = isLayerActive && layer.getAnimation() != null && layer.isActive();
 
 
-        if (isStunnedOrBound) {
+        if (shouldCancel) {
             this.up = false;
             this.down = false;
             this.left = false;
@@ -65,6 +73,7 @@ public abstract class KeyboardInputMixin extends Input {
         this.forwardImpulse = brutality$calculateImpulse(this.up, this.down);
         this.leftImpulse = brutality$calculateImpulse(this.left, this.right);
         this.jumping = this.options.keyJump.isDown();
+
         if (isAnimationActive && player.isHolding(stack -> stack.getItem() instanceof BrutalityThrowingItem) &&
                 !ModList.get().isLoaded("bettercombat")) {
             this.shiftKeyDown = false;

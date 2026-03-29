@@ -54,15 +54,14 @@
     "defaultRequire": 1
   },
   "client": [
-    "accessors.BlendModeAccessor",
-    "accessors.FontAccessor",
-    "accessors.ShaderInstanceAccessor",
     "mixins.AbstractClientPlayerMixin",
     "mixins.BakedGlyphMixin",
     "mixins.BiomeMixin",
     "mixins.BlockEntityRenderDispatcherMixin",
     "mixins.ClientPacketListenerMixin",
     "mixins.DebugRendererMixin",
+    "mixins.EntityRendererMixin",
+    "mixins.GameRendererMixin",
     "mixins.GuiGraphicsMixin",
     "mixins.HierarchicalModelMixin",
     "mixins.HumanoidModelMixin",
@@ -77,15 +76,12 @@
     "mixins.ModelMixin",
     "mixins.MouseHandlerMixin",
     "mixins.OptionInstanceMixin",
-    "mixins.ParticleEngineMixin",
     "mixins.QuadrupedModelMixin",
     "mixins.RenderSystemMixin",
     "mixins.SimpleBakedModelMixin",
     "mixins.StringRenderOutputMixin",
     "mixins.StyleMixin",
     "mixins.TextureAtlasMixin",
-    "mixins.WindowMixin",
-    "mixins.WorldSceneRendererMixin",
-    "mixins.no_iris.ParticleEngineMixin"
+    "mixins.WindowMixin"
   ]
 }

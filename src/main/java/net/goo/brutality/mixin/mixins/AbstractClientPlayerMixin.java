@@ -11,6 +11,8 @@ import dev.kosmx.playerAnim.core.util.Ease;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.player_animation.PoseManager;
+import net.goo.brutality.common.item.curios.charm.Censored;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,22 +20,21 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import top.theillusivec4.curios.api.CuriosApi;
 
 @Mixin(AbstractClientPlayer.class)
 public abstract class AbstractClientPlayerMixin {
 
-//    @Inject(method = "<init>", at = @At("TAIL"))
-//    private void initBrutalityPose(ClientLevel world, GameProfile profile, CallbackInfo ci) {
-//        AbstractClientPlayer player = (AbstractClientPlayer) (Object) this;
-//
-//        PoseSubStack brutality$customPoseSubStack = new PoseSubStack(null, true, true);
-//
-//        PlayerAnimationAccess.getPlayerAssociatedData(player).set(
-//                ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "pose_layer"),
-//                brutality$customPoseSubStack.base
-//        );
-//    }
-
+    @Inject(method = "getSkinTextureLocation", at = @At("HEAD"), cancellable = true)
+    private void modifySkinTexture(CallbackInfoReturnable<ResourceLocation> cir) {
+        CuriosApi.getCuriosInventory((((AbstractClientPlayer) (Object) this))).ifPresent(handler -> {
+            if (handler.isEquipped(BrutalityItems.REDACTED.get())) {
+                cir.setReturnValue(Censored.REDACTED_SKIN);
+                cir.cancel();
+            }
+        });
+    }
 
     @Unique
     private KeyframeAnimation brutality$currentPose = null;

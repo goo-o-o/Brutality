@@ -22,11 +22,13 @@ public class Maximus extends Maxima {
 
     }
 
+
     @Override
     public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
         if (pAttacker.getAttribute(Attributes.ATTACK_DAMAGE) != null) {
-            ChainLightningHelper.chainLightning(pAttacker, pStack, pTarget, lightningQuota, 3.5F, (float) pAttacker.getAttributeValue(Attributes.ATTACK_DAMAGE) * chainLightningDamageRatio, 0.2F, 3, ChainLightningHelper.LightningType.MAX);
+            ChainLightningHelper.chainLightning(pAttacker, pStack, pTarget, lightningQuota, 3.5F, (float) pAttacker.getAttributeValue(Attributes.ATTACK_DAMAGE) * chainLightningDamageRatio, 0.1F, 3, ChainLightningHelper.LightningType.MAX);
         }
+        // trigger max alpha here and slowly tick down
         return super.hurtEnemy(pStack, pTarget, pAttacker);
     }
 }

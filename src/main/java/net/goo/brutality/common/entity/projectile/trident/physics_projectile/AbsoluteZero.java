@@ -81,10 +81,10 @@ public class AbsoluteZero extends BrutalityAbstractPhysicsThrowingProjectile imp
         WaveParticleData<?> waveParticleData = new WaveParticleData<>(BrutalityParticles.FROSTMOURNE_WAVE.get(), 5, 20);
 
         if (this.level() instanceof ServerLevel serverLevel) {
-            PacketHandler.sendToNearbyClients(serverLevel, loc.x, loc.y, loc.z, 128, new ClientboundParticlePacket(
+            PacketHandler.sendToNearbyClients(new ClientboundParticlePacket(
                     waveParticleData, true, (float) loc.x, (float) loc.y + 0.1F, (float) loc.z, 0, 0, 0,
                     0, 0, 0, 1
-            ));
+            ), serverLevel, loc.x, loc.y, loc.z, 128);
 
             ModUtils.applyWaveEffect(serverLevel, this, Entity.class, waveParticleData, e -> e != getOwner(),
                     e -> {

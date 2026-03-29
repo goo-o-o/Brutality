@@ -71,14 +71,62 @@ public class PlayerLoadoutsCap implements IBrutalityData {
     }
 
     public void switchLoadout(Player player, int index) {
-        if (index < 0 || index > loadoutStack.size()) return;
-        Optional<ICuriosItemHandler> curiosOpt = CuriosApi.getCuriosInventory(player).resolve();
-        if (curiosOpt.isPresent()) {
-            loadoutStack.set(activeIndex, new Loadout(curiosOpt.get().saveInventory(true), loadoutStack.get(activeIndex).name(), loadoutStack.get(activeIndex).icon()));
+        if (index < 0 || index >= loadoutStack.size()) return;
+
+        CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
+            // 1. Save current state
+            loadoutStack.set(activeIndex, new Loadout(
+                    handler.saveInventory(true),
+                    loadoutStack.get(activeIndex).name(),
+                    loadoutStack.get(activeIndex).icon()
+            ));
+
+            // 2. MANUALLY CLEAR AND TRIGGER UNEQUIP
+            for (Map.Entry<String, ICurioStacksHandler> entry : handler.getCurios().entrySet()) {
+                String identifier = entry.getKey();
+                ICurioStacksHandler stacksHandler = entry.getValue();
+                IDynamicStackHandler stacks = stacksHandler.getStacks();
+
+                for (int i = 0; i < stacks.getSlots(); i++) {
+                    ItemStack currentStack = stacks.getStackInSlot(i);
+                    if (!currentStack.isEmpty()) {
+                        // This is where the Capability logic lives
+                        Optional<ICurio> curioOpt = CuriosApi.getCurio(currentStack).resolve();
+                        if (curioOpt.isPresent()) {
+                            SlotContext ctx = new SlotContext(identifier, player, i, false, true);
+                            curioOpt.get().onUnequip(ctx, ItemStack.EMPTY);
+                        };
+
+                        // Crucial: Set to empty so loadInventory actually accepts the new item
+                        stacks.setStackInSlot(i, ItemStack.EMPTY);
+                    }
+                }
+            }
+
+            // 3. Update index and load into now-empty slots
             activeIndex = index;
-            curiosOpt.get().clearCachedSlotModifiers();
-            curiosOpt.get().loadInventory(loadoutStack.get(index).data());
-        }
+            handler.loadInventory(loadoutStack.get(index).data());
+
+            // 4. Trigger onEquip for the new items
+            for (Map.Entry<String, ICurioStacksHandler> entry : handler.getCurios().entrySet()) {
+                String identifier = entry.getKey();
+                ICurioStacksHandler stacksHandler = entry.getValue();
+                IDynamicStackHandler stacks = stacksHandler.getStacks();
+
+                for (int i = 0; i < stacks.getSlots(); i++) {
+                    ItemStack newStack = stacks.getStackInSlot(i);
+                    if (!newStack.isEmpty()) {
+                        Optional<ICurio> curioOpt = CuriosApi.getCurio(newStack).resolve();
+                        if (curioOpt.isPresent()) {
+                            SlotContext ctx = new SlotContext(identifier, player, i, false, true);
+                            curioOpt.get().onUnequip(ctx, ItemStack.EMPTY);
+                        }
+                    }
+                }
+            }
+
+            handler.clearCachedSlotModifiers();
+        });
     }
 
     @Override

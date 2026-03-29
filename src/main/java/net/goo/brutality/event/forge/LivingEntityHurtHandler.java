@@ -3,6 +3,7 @@ package net.goo.brutality.event.forge;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
+import net.goo.brutality.common.item.weapon.sword.RoyalGuardianSword;
 import net.goo.brutality.common.magic.spells.celestia.HolyMantleSpell;
 import net.goo.brutality.common.mob_effect.SadEffect;
 import net.goo.brutality.util.AugmentHelper;
@@ -77,6 +78,7 @@ public class LivingEntityHurtHandler {
     private static float handleEverytimePlayerHurt(Player victim, DamageSource source, float amount) {
         amount = SadEffect.processHurt(victim, amount);
         amount = applyOnWearerHurt(victim, source, amount);
+        amount = RoyalGuardianSword.processHurt(victim, amount);
         RageHelper.processDamage(victim, amount); // Victim gains rage from any damage
         return amount;
     }

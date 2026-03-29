@@ -845,7 +845,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('#', TerramityModItems.CONDUCTITE_UPGRADE_SMITHING_TEMPLATE.get())
                 .unlockedBy(getHasName(TerramityModItems.CONDUCTITE_UPGRADE_SMITHING_TEMPLATE.get()), has(TerramityModItems.CONDUCTITE_UPGRADE_SMITHING_TEMPLATE.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.EXPONENTIAL_CHARM.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.EULERS_NUMBER.get())
                 .pattern(" !@")
                 .pattern("#  ")
                 .pattern("@  ")

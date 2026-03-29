@@ -2,6 +2,7 @@ package net.goo.brutality.client.event.forge;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.config.BrutalityClientConfig;
+import net.goo.brutality.client.renderers.shaders.outline.MaxSwordOutlineShader;
 import net.goo.brutality.common.registry.BrutalityEntities;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.event.mod.client.Keybindings;
@@ -16,6 +17,7 @@ import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -88,6 +90,13 @@ public class ForgeClientPlayerStateHandler {
     }
 
     @SubscribeEvent
+    public static void onClientPlayerLogout(EntityLeaveLevelEvent event) {
+        if (event.getEntity() instanceof LocalPlayer localPlayer) {
+            MaxSwordOutlineShader.START_TIMES.removeLong(localPlayer.getUUID());
+        }
+    }
+
+    @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
         Minecraft mc = Minecraft.getInstance();
@@ -124,13 +133,13 @@ public class ForgeClientPlayerStateHandler {
         setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255, 0, 0, 0)));
         }
 
-        boolean rayNearby = StreamSupport.stream(level.entitiesForRendering().spliterator(), false)
-                .anyMatch(e -> e.getType() == BrutalityEntities.EXPLOSION_RAY.get() && e.distanceToSqr(player) <= 50 * 50);
-
-        apply("explosion_ray", rayNearby, new ProximityColorSet()
-                .setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255, 255, 140, 0))
-                .setColorAutoReset(ColorType.FOG, FastColor.ARGB32.color(255, 0, 0, 0))
-        );
+//        boolean rayNearby = StreamSupport.stream(level.entitiesForRendering().spliterator(), false)
+//                .anyMatch(e -> e.getType() == BrutalityEntities.EXPLOSION_RAY.get() && e.distanceToSqr(player) <= 50 * 50);
+//
+//        apply("explosion_ray", rayNearby, new ProximityColorSet()
+//                .setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255, 255, 140, 0))
+//                .setColorAutoReset(ColorType.FOG, FastColor.ARGB32.color(255, 0, 0, 0))
+//        );
 
         resolveAndApplyColors();
 

@@ -1,0 +1,14 @@
+{
+  "targets": ["final"],
+  "passes": [
+    {
+      "name": "brutality:max_sword_item_outline_post",
+      "intarget": "minecraft:main",
+      "outtarget": "final",
+      "auxtargets": [
+        { "name": "OutlineSampler", "id": "minecraft:main" },
+        { "name": "DepthSampler", "id": "minecraft:main" }
+      ]
+    }
+  ]
+}

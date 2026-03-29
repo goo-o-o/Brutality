@@ -14,6 +14,10 @@ public class BrutalityMixinPlugin implements IMixinConfigPlugin {
         if (mixinClassName.contains("TooltipRendererMixinTooltipOverhaul")) {
             return isLoaded("tooltipoverhaul");
         }
+        if (mixinClassName.contains("net.goo.brutality.mixin.mixins.sodium")) {
+            return isLoaded("sodium");
+        }
+
 
 //        if (mixinClassName.contains("net.goo.brutality.mixin.mixins.no_iris")) {
 //            return !(isLoaded("iris") || isLoaded("oculus"));

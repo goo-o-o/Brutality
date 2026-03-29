@@ -77,8 +77,8 @@ public class BrutalityAttributes {
     /**
      * Maximum capacity of the Blood pool.
      */
-    public static final RegistryObject<Attribute> MAX_BLOOD = ATTRIBUTES.register("max_blood",
-            () -> new RangedAttribute("attribute.name.generic.max_blood", 100.0, 0.0F, 16384F).setSyncable(true));
+//    public static final RegistryObject<Attribute> MAX_BLOOD = ATTRIBUTES.register("max_blood",
+//            () -> new RangedAttribute("attribute.name.generic.max_blood", 100.0, 0.0F, 16384F).setSyncable(true));
 
     /**
      * Percentage reduction for spell cooldowns. 1.0 = 100% reduction (No Cooldown).

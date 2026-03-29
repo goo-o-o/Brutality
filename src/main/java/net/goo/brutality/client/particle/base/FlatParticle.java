@@ -39,9 +39,22 @@ public class FlatParticle extends TextureSheetParticle {
         if (data.entityID() != null)
             this.relatedEntity = level.getEntity(data.entityID());
         else this.relatedEntity = null;
+        this.rotXOld = this.rotX;
+        this.rotYOld = this.rotY;
+        this.rotZOld = this.rotZ;
         this.setSpriteFromAge(sprites);
     }
 
+    @Override
+    public void tick() {
+        this.rotXOld = this.rotX;
+        this.rotYOld = this.rotY;
+        this.rotZOld = this.rotZ;
+
+        super.tick();
+
+        this.setSpriteFromAge(this.sprites);
+    }
 
     @Override
     public boolean shouldCull() {
@@ -112,11 +125,6 @@ public class FlatParticle extends TextureSheetParticle {
                 .uv(u1, v1).color(rCol, gCol, bCol, alpha).uv2(light).endVertex();
     }
 
-    @Override
-    public void tick() {
-        super.tick();
-        this.setSpriteFromAge(this.sprites);
-    }
 
     @Override
     public @NotNull ParticleRenderType getRenderType() {

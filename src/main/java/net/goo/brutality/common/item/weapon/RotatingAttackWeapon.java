@@ -47,8 +47,7 @@ public interface RotatingAttackWeapon {
         float anchorYaw = SPIN_ANCHORS.computeIfAbsent(entity, LivingEntity::getVisualRotationYInDegrees);
         float vanillaF = Mth.rotLerp(partialTick, entity.yBodyRotO, entity.yBodyRot);
 
-        int useTicks = useItem.getUseDuration() - entity.getUseItemRemainingTicks();
-        float spinDegrees = calculateSpinRotation(useTicks, partialTick, weapon);
+        float spinDegrees = calculateSpinRotation(entity.getTicksUsingItem(), partialTick, weapon);
 
         // cancel vanilla head and body rotation so that the player model stays in place
         float correction = vanillaF - (anchorYaw + spinDegrees);
@@ -57,7 +56,7 @@ public interface RotatingAttackWeapon {
 
 
     static ArcCylindricalBoundingBox getHitbox(Player player, float height, float radius, ItemStack stack, RotatingAttackWeapon weapon, @Nullable SoundEvent soundEvent) {
-        int useTicks = stack.getUseDuration() - player.getUseItemRemainingTicks();
+        int useTicks = player.getTicksUsingItem();
 
         float currentDegs = calculateSpinRotation(useTicks, 0, weapon);
         float prevDegs = useTicks > 1 ? calculateSpinRotation(useTicks - 1, 0, weapon) : 0;

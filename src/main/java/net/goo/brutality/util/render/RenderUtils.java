@@ -91,7 +91,6 @@ public class RenderUtils {
         }
     }
 
-
     public static void drawWordWrapWithAlignment(GuiGraphics gui, Font pFont, Component pText, int pX, int pY, int maxWidth, int pColor, int lineHeight, boolean dropShadow, float alignX) {
         for (FormattedCharSequence charSequence : pFont.split(pText, maxWidth)) {
             int centeredX = (int) (pX + (maxWidth - pFont.width(charSequence)) * alignX);

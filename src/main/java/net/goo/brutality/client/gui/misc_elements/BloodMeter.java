@@ -1,9 +1,9 @@
 package net.goo.brutality.client.gui.misc_elements;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.build_archetypes.BloodHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -31,28 +31,28 @@ public class BloodMeter {
         private static final ResourceLocation ICON = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/gui/blood_meter/icon.png");
 
         public static void render(GuiGraphics gui, Player player) {
-            float percent = BloodHelper.getCurrentBloodPercentage(player);
+            player.getCapability(BrutalityCapabilities.BLOOD).ifPresent(cap -> {
+                int fgW = 75;
+                int visibleWidth = (int) (fgW * cap.getCurrentBloodPercentage());
 
-            int fgW = 75;
-            int visibleWidth = (int) (fgW * percent);
+                int bgW = 81;
+                int bgH = 11;
+                int bgX = gui.guiWidth() / 2 - bgW / 2;
+                int bgY = (int) (gui.guiHeight() * 0.75F);
 
-            int bgW = 81;
-            int bgH = 11;
-            int bgX = gui.guiWidth() / 2 - bgW / 2;
-            int bgY = (int) (gui.guiHeight() * 0.75F);
+                int fgX = bgX + 3;
+                int fgY = bgY + 3;
+                int iconX = bgX + 25;
+                int iconY = bgY - 3;
 
-            int fgX = bgX + 3;
-            int fgY = bgY + 3;
-            int iconX = bgX + 25;
-            int iconY = bgY - 3;
-
-            gui.blit(BG, bgX, bgY, 0, 0, bgW, bgH, bgW, bgH);
-            int fgH = 5;
-            gui.blit(FG, fgX, fgY, 0, 0, visibleWidth, fgH, fgW, fgH);
-            int iconW = 31;
-            int iconH = 10;
-            gui.blit(DIVIDER, bgX, bgY, 0, 0, bgW, bgH, bgW, bgH);
-            gui.blit(ICON, iconX, iconY, 0, 0, iconW, iconH, iconW, iconH);
+                gui.blit(BG, bgX, bgY, 0, 0, bgW, bgH, bgW, bgH);
+                int fgH = 5;
+                gui.blit(FG, fgX, fgY, 0, 0, visibleWidth, fgH, fgW, fgH);
+                int iconW = 31;
+                int iconH = 10;
+                gui.blit(DIVIDER, bgX, bgY, 0, 0, bgW, bgH, bgW, bgH);
+                gui.blit(ICON, iconX, iconY, 0, 0, iconW, iconH, iconW, iconH);
+            });
         }
     }
 

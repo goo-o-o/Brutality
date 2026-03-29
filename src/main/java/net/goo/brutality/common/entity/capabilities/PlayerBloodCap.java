@@ -18,12 +18,13 @@ public class PlayerBloodCap implements IBrutalityData {
         return this.currentBlood;
     }
 
-    public void setBlood(float amount) {
+    public void setBlood(Player player, float amount) {
         this.currentBlood = Mth.clamp(0, amount, maxBlood);
+        BrutalityCapabilities.sync(player, BrutalityCapabilities.BLOOD);
     }
 
-    public void modifyBloodValue(float amount) {
-        setBlood(getBlood() + amount);
+    public void modifyBloodValue(Player player, float amount) {
+        setBlood(player, getBlood() + amount);
     }
 
     @Override
@@ -41,5 +42,9 @@ public class PlayerBloodCap implements IBrutalityData {
     @Override
     public Predicate<Entity> predicate() {
         return e -> e instanceof Player;
+    }
+
+    public float getCurrentBloodPercentage() {
+        return getBlood() / maxBlood;
     }
 }

@@ -31,6 +31,9 @@ import java.util.Optional;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
+
+
+
     @Shadow
     protected Vec3 stuckSpeedMultiplier;
 

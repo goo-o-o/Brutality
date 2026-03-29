@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.particle.providers.WaveParticleData;
+import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.entity.explosion.BloodExplosion;
 import net.goo.brutality.common.item.base.BrutalityArmorItem;
 import net.goo.brutality.common.network.PacketHandler;
@@ -15,7 +16,6 @@ import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.common.mixin_helpers.MixinInterfaces;
 import net.goo.brutality.util.ModExplosionHelper;
 import net.goo.brutality.util.ModUtils;
-import net.goo.brutality.util.build_archetypes.BloodHelper;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.minecraft.server.level.ServerLevel;
@@ -68,10 +68,10 @@ public class VampireLordArmorItem extends BrutalityArmorItem {
         float playerY = (float) player.getY(0.5);
         float playerZ = (float) player.getZ(0.5);
 
-        PacketHandler.sendToNearbyClients((ServerLevel) player.level(), playerX, playerY, playerZ, 5, new ClientboundParticlePacket(
+        PacketHandler.sendToNearbyClients(new ClientboundParticlePacket(
                 waveParticleData, true, playerX, playerY, playerZ, 0, 0, 0,
                 0, 0, 0, 1
-        ));
+        ), (ServerLevel) player.level(), playerX, playerY, playerZ, 5);
 
         ModUtils.applyWaveEffect(((ServerLevel) player.level()), playerX, playerY, playerZ, Entity.class, waveParticleData, e -> (e instanceof Projectile || e instanceof LivingEntity) && e != player,
                 e -> {
@@ -105,30 +105,31 @@ public class VampireLordArmorItem extends BrutalityArmorItem {
 
     public static void handleArmorSetAbility(Player player) {
         if (player.hasEffect(TerramityModMobEffects.ARMOR_SET_ABILITY_COOLDOWN.get())) return;
+        player.getCapability(BrutalityCapabilities.BLOOD).ifPresent(cap -> {
 
-        float percentage = BloodHelper.getCurrentBloodPercentage(player);
-        boolean success = false;
-        if (percentage > 0.99f) {
-            performBloodExplosionAttack(player);
-            BloodHelper.modifyBloodValue(player, -99);
-            success = true;
-        } else if (percentage > 0.66f) {
-            performBloodWaveAttack(player);
-            BloodHelper.modifyBloodValue(player, -66);
-            success = true;
-        } else if (percentage > 0.33f) {
-            performBloodDrainAttack(player);
-            BloodHelper.modifyBloodValue(player, -33);
-            success = true;
-        }
-        if (success)
-            player.addEffect(new MobEffectInstance(TerramityModMobEffects.ARMOR_SET_ABILITY_COOLDOWN.get(), 40, 0));
-
+            float percentage = cap.getCurrentBloodPercentage();
+            boolean success = false;
+            if (percentage > 0.99f) {
+                performBloodExplosionAttack(player);
+                cap.modifyBloodValue(player, -99);
+                success = true;
+            } else if (percentage > 0.66f) {
+                performBloodWaveAttack(player);
+                cap.modifyBloodValue(player, -66);
+                success = true;
+            } else if (percentage > 0.33f) {
+                performBloodDrainAttack(player);
+                cap.modifyBloodValue(player, -33);
+                success = true;
+            }
+            if (success)
+                player.addEffect(new MobEffectInstance(TerramityModMobEffects.ARMOR_SET_ABILITY_COOLDOWN.get(), 40, 0));
+        });
     }
 
     public static void resetBloodMeterOnUnequip(LivingEquipmentChangeEvent event) {
         if ((!(event.getTo().getItem() instanceof VampireLordArmorItem) && event.getFrom().getItem() instanceof ArmorItem) && event.getEntity() instanceof Player player) {
-            BloodHelper.setBloodValue(player, 0);
+            player.getCapability(BrutalityCapabilities.BLOOD).ifPresent(cap -> cap.setBlood(player, 0));
         }
     }
 

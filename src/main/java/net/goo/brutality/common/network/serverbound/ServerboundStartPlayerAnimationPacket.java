@@ -20,13 +20,20 @@ public class ServerboundStartPlayerAnimationPacket implements IBrutalityPacket<S
     ResourceLocation animation;
     boolean mirrored;
     float speed;
+    int fadeTicks;
 
     public ServerboundStartPlayerAnimationPacket(UUID playerId, ResourceLocation animation, boolean mirrored,
-                                                 float speed) {
+                                                 float speed, int fadeTicks) {
         this.playerId = playerId;
         this.animation = animation;
         this.mirrored = mirrored;
         this.speed = speed;
+        this.fadeTicks = fadeTicks;
+    }
+
+    public ServerboundStartPlayerAnimationPacket(UUID playerId, ResourceLocation animation, boolean mirrored,
+                                                 float speed) {
+        this(playerId, animation, mirrored, speed, 2);
     }
 
     public ServerboundStartPlayerAnimationPacket(FriendlyByteBuf buf) {
@@ -34,6 +41,7 @@ public class ServerboundStartPlayerAnimationPacket implements IBrutalityPacket<S
         this.animation = buf.readResourceLocation();
         this.mirrored = buf.readBoolean();
         this.speed = buf.readFloat();
+        this.fadeTicks = buf.readInt();
     }
 
     public void write(FriendlyByteBuf buf) {
@@ -41,6 +49,7 @@ public class ServerboundStartPlayerAnimationPacket implements IBrutalityPacket<S
         buf.writeResourceLocation(this.animation);
         buf.writeBoolean(this.mirrored);
         buf.writeFloat(this.speed);
+        buf.writeInt(this.fadeTicks);
     }
 
     public void handle(ServerboundStartPlayerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
@@ -50,7 +59,7 @@ public class ServerboundStartPlayerAnimationPacket implements IBrutalityPacket<S
             ServerLevel level = sender.serverLevel();
             for (ServerPlayer player : level.players()) {
                 if (player != ctx.get().getSender()) {
-                    PacketHandler.sendToPlayerClient(new ClientboundStartPlayerAnimationPacket(packet.playerId, packet.animation, packet.mirrored, packet.speed), player);
+                    PacketHandler.sendToPlayerClient(new ClientboundStartPlayerAnimationPacket(packet.playerId, packet.animation, packet.mirrored, packet.speed, packet.fadeTicks), player);
                 }
             }
         });

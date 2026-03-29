@@ -1,17 +1,17 @@
 package net.goo.brutality.common.item.weapon.spear;
 
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.player_animation.AnimationHelper;
-import net.goo.brutality.event.forge.DelayedTaskScheduler;
-import net.goo.brutality.common.item.base.BrutalitySpearItem;
-import net.goo.brutality.common.network.clientbound.ClientboundStartPlayerAnimationPacket;
-import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.client.particle.providers.FlatParticleData;
+import net.goo.brutality.client.player_animation.AnimationHelper;
+import net.goo.brutality.common.item.base.BrutalitySpearItem;
+import net.goo.brutality.common.network.PacketHandler;
+import net.goo.brutality.common.network.clientbound.ClientboundStartPlayerAnimationPacket;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.common.registry.BrutalitySounds;
+import net.goo.brutality.event.forge.DelayedTaskScheduler;
+import net.goo.brutality.util.math.phys.hitboxes.OrientedBoundingBox;
 import net.goo.brutality.util.particle.ParticleHelper;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
-import net.goo.brutality.util.math.phys.hitboxes.OrientedBoundingBox;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -36,14 +36,16 @@ public class Caldrith extends BrutalitySpearItem {
     public static final OrientedBoundingBox HITBOX = new OrientedBoundingBox(Vec3.ZERO, new Vec3(0.5F, 7.5, 18).scale(0.5F), 0, 0, 0);
     public static final Vec3 OFFSET = new Vec3(0, 2.5, 0);
 
+    private static final ResourceLocation animation = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "two_handed_slam_heavy");
+
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        ResourceLocation animation = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "two_handed_slam_heavy");
         pPlayer.setYBodyRot(pPlayer.getYRot());
         if (pLevel instanceof ServerLevel serverLevel) {
-            PacketHandler.sendToNearbyClients(serverLevel, pPlayer.getX(), pPlayer.getY(.5), pPlayer.getZ(), 128,
-                    new ClientboundStartPlayerAnimationPacket(pPlayer.getUUID(), animation,
-                            false, 1F));
+            PacketHandler.sendToNearbyClients(new ClientboundStartPlayerAnimationPacket(pPlayer.getUUID(), animation,
+                    false, 1F), serverLevel, pPlayer.getX(), pPlayer.getY(.5), pPlayer.getZ(), 128
+            );
 
 
             FlatParticleData<?> data = new FlatParticleData<>(BrutalityParticles.VOID_SLASH_PARTICLE.get(),

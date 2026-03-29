@@ -3,8 +3,8 @@ package net.goo.brutality.common.registry;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.config.BrutalityCommonConfig;
 import net.goo.brutality.common.entity.explosion.BloodExplosion;
-import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.BrutalityCategories;
+import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.armor.NoirArmorItem;
 import net.goo.brutality.common.item.armor.TerraArmorItem;
 import net.goo.brutality.common.item.armor.VampireLordArmorItem;
@@ -77,10 +77,7 @@ import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.IBrutalitySpell;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.event.mod.client.Keybindings;
-import net.goo.brutality.util.BrutalityTags;
-import net.goo.brutality.util.CooldownUtils;
-import net.goo.brutality.util.ModExplosionHelper;
-import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.util.*;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
 import net.goo.brutality.util.attribute.AttributeContainer;
 import net.goo.brutality.util.attribute.SlottedAttributeContainer;
@@ -93,6 +90,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -373,7 +371,7 @@ public class BrutalityItems {
             new ItemDescriptionComponent(ON_HIT, 2)
     )));
     public static final RegistryObject<Item> MAX = ITEMS.register("max", () -> new MAX(
-            Tiers.NETHERITE, 35, -3F, 0.75F, 10, 0.5F, BrutalityRarities.GODLY, List.of(
+            Tiers.NETHERITE, 35, -3.25F, 0.75F, 10, 0.5F, BrutalityRarities.GODLY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1),
             new ItemDescriptionComponent(ON_HIT, 2),
             new ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1)
@@ -421,7 +419,8 @@ public class BrutalityItems {
     public static final RegistryObject<Item> ROYAL_GUARDIAN_SWORD = ITEMS.register("royal_guardian_sword", () -> new RoyalGuardianSword(
             Tiers.NETHERITE, 50, -3.5F, BrutalityRarities.FABLED, List.of(
             new ItemDescriptionComponent(LORE, 1),
-            new ItemDescriptionComponent(ON_HIT, 1))));
+            new ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 2),
+            new ItemDescriptionComponent(ON_RELEASE_RIGHT_CLICK, 3))));
 
     public static final RegistryObject<Item> BLADE_OF_THE_RUINED_KING = ITEMS.register("blade_of_the_ruined_king", () -> new BladeOfTheRuinedKingSword(
             Tiers.DIAMOND, 9, -2.5F, BrutalityRarities.MYTHIC, List.of(
@@ -1088,8 +1087,8 @@ public class BrutalityItems {
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
         public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
-            ModUtils.modifyEffect(attacker, BrutalityEffects.PRECISION.get(),
-                    new ModUtils.ModValue(80, true), new ModUtils.ModValue(3, false),
+            EffectUtils.modifyEffect(attacker, BrutalityEffects.PRECISION.get(),
+                    new EffectUtils.ModValue(80, true), new EffectUtils.ModValue(3, false),
                     null, living -> living.addEffect(new MobEffectInstance(BrutalityEffects.PRECISION.get(), 80, 0)), null);
             return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
         }
@@ -2195,14 +2194,21 @@ public class BrutalityItems {
             BrutalityRarities.GODLY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))));
 
-    public static final RegistryObject<Item> ERROR_404 = ITEMS.register("error_404", () -> new BrutalityCurioItem(
+    public static final RegistryObject<Item> ERROR_404 = ITEMS.register("error_404", () -> new Error404(
             BrutalityRarities.NULL, List.of(
             new ItemDescriptionComponent(LORE, 1)))
             .withAttributes(
                     new AttributeContainer(Attributes.ATTACK_DAMAGE, 2, MULTIPLY_TOTAL),
                     new AttributeContainer(BrutalityAttributes.SLASH_DAMAGE.get(), 2, MULTIPLY_TOTAL)
             ));
-
+    public static final RegistryObject<Item> CENSORED = ITEMS.register("censored", () -> new Censored(
+            BrutalityRarities.DARK, List.of(
+            new ItemDescriptionComponent(PASSIVE, 3)))
+    );
+    public static final RegistryObject<Item> REDACTED = ITEMS.register("redacted", () -> new BrutalityCurioItem(
+            BrutalityRarities.DARK, List.of(
+            new ItemDescriptionComponent(PASSIVE, 3)))
+    );
     public static final RegistryObject<Item> QUANTUM_LUBRICANT = ITEMS.register("quantum_lubricant", () -> new BrutalityCurioItem(
             BrutalityRarities.FABLED).withAttributes(
             new AttributeContainer(BrutalityAttributes.GROUND_FRICTION.get(), -0.5, MULTIPLY_BASE),
@@ -2443,7 +2449,7 @@ public class BrutalityItems {
                     new AttributeContainer(Attributes.ATTACK_SPEED, 0.0314, MULTIPLY_TOTAL),
                     new AttributeContainer(Attributes.ATTACK_DAMAGE, 3.14, ADDITION)));
 
-    public static final RegistryObject<Item> EXPONENTIAL_CHARM = ITEMS.register("exponential_charm", () -> new BrutalityMathFunctionCurio(
+    public static final RegistryObject<Item> EULERS_NUMBER = ITEMS.register("eulers_number", () -> new BrutalityMathFunctionCurio(
             Rarity.EPIC)
             .withAttributes(
                     new AttributeContainer(Attributes.KNOCKBACK_RESISTANCE, 0.0271828F, MULTIPLY_TOTAL),
@@ -2463,6 +2469,38 @@ public class BrutalityItems {
         @Override
         public float onWearerHurt(LivingEntity wearer, ItemStack stack, DamageSource source, float amount) {
             return Math.max(0, amount - 3);
+        }
+    });
+    public static final RegistryObject<Item> FRACTION = ITEMS.register("fraction", () -> new BrutalityMathFunctionCurio(
+            Rarity.EPIC, List.of(
+            new ItemDescriptionComponent(LORE, 1),
+            new ItemDescriptionComponent(ON_HIT, 1),
+            new ItemDescriptionComponent(PASSIVE, 3)
+    )) {
+        @Override
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
+            if (victim instanceof LivingEntity livingEntity) {
+                MobEffectInstance instance = new MobEffectInstance(BrutalityEffects.FRACTIONED.get(), 20, 0, false, false);
+                EffectUtils.setEffectSource(instance, attacker);
+                livingEntity.addEffect(instance);
+            }
+            return amount;
+        }
+    });
+    public static final RegistryObject<Item> CEIL = ITEMS.register("ceil", () -> new BrutalityMathFunctionCurio(
+            Rarity.EPIC, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))) {
+        @Override
+        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
+            return Mth.ceil(amount);
+        }
+    });
+    public static final RegistryObject<Item> FLOOR = ITEMS.register("floor", () -> new BrutalityMathFunctionCurio(
+            Rarity.EPIC, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))) {
+        @Override
+        public float onWearerHurt(LivingEntity wearer, ItemStack stack, DamageSource source, float amount) {
+            return Mth.floor(amount);
         }
     });
 

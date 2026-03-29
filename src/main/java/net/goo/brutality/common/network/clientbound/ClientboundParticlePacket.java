@@ -1,6 +1,6 @@
 package net.goo.brutality.common.network.clientbound;
 
-import net.goo.brutality.client.ClientAccess;
+import net.goo.brutality.client.ClientProxy;
 import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -88,7 +88,7 @@ public class ClientboundParticlePacket implements IBrutalityPacket<ClientboundPa
     }
 
     public void handle(ClientboundParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> ClientAccess.spawnParticles(packet));
+        ctx.get().enqueueWork(() -> ClientProxy.spawnParticles(packet));
         ctx.get().setPacketHandled(true);
     }
 

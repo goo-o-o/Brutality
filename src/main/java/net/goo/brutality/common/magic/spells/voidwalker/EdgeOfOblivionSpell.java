@@ -50,12 +50,12 @@ public class EdgeOfOblivionSpell extends BrutalitySpell {
             double playerX = player.getX(), playerY = player.getY(0.5), playerZ = player.getZ();
             float offset = 0.1F + 0.025F * (spellLevel + 1);
             for (int i = 0; i < 16 + spellLevel * 4; i++) {
-                PacketHandler.sendToNearbyClients(serverLevel, playerX, playerY, playerZ, 128, new ClientboundParticlePacket(
+                PacketHandler.sendToNearbyClients(new ClientboundParticlePacket(
                         TerramityModParticleTypes.ANTIMATTER.get(), true, (float) playerX, (float) playerY, (float) playerZ, 0, 0, 0,
                         (player.getRandom().nextFloat() - 0.5F) * offset,
                         (player.getRandom().nextFloat() - 0.5F) * offset,
                         (player.getRandom().nextFloat() - 0.5F) * offset, 1
-                ));
+                ), serverLevel, playerX, playerY, playerZ, 128);
             }
             WaveParticleData<?> waveParticleData = new WaveParticleData<>(BrutalityParticles.ANTIMATTER_WAVE.get(), radius, 40);
 

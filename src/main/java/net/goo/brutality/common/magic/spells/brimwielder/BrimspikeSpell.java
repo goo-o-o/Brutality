@@ -81,7 +81,7 @@ public class BrimspikeSpell extends BrutalitySpell {
     public void onEndCast(Player player, ItemStack stack, int spellLevel) {
         if (getSpellEntity(player.level(), player) instanceof BrimspikeEntity brimspikeEntity) {
             brimspikeEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0,
-                    Math.min(3.5F, ((stack.getUseDuration() - player.getUseItemRemainingTicks())) / 40F), 0);
+                    Math.min(3.5F, (player.getTicksUsingItem()) / 40F), 0);
         }
     }
 

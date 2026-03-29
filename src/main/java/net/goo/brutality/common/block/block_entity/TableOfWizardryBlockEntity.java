@@ -361,7 +361,7 @@ public class TableOfWizardryBlockEntity extends BlockEntity implements Nameable 
 
     private void startExpungeOperation() {
         if (canExpunge())
-            if (this.craftingPlayer.getInventory().contains(this.craftingItem)) {
+            if (this.craftingPlayer.getInventory().contains(craftingItem)) {
                 this.craftingPlayer.getInventory().removeItem(craftingItem);
                 this.isCrafting = true;
                 this.progress = 0;

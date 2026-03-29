@@ -206,10 +206,12 @@ public class BrutalityCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
 
                         output.accept(BrutalityItems.PI.get());
-                        output.accept(BrutalityItems.EXPONENTIAL_CHARM.get());
+                        output.accept(BrutalityItems.EULERS_NUMBER.get());
                         output.accept(BrutalityItems.ADDITION_CHARM.get());
                         output.accept(BrutalityItems.SUBTRACTION.get());
-                        output.accept(BrutalityItems.MULTIPLICATION.get());
+                        output.accept(BrutalityItems.FRACTION.get());
+                        output.accept(BrutalityItems.CEIL.get());
+                        output.accept(BrutalityItems.FLOOR.get());
                         output.accept(BrutalityItems.DIVISION.get());
                         output.accept(BrutalityItems.SUM.get());
                         output.accept(BrutalityItems.SINE.get());
@@ -403,6 +405,8 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.SAD_UVOGRE.get());
                         output.accept(BrutalityItems.SUSPICIOUSLY_LARGE_HANDLE.get());
                         output.accept(BrutalityItems.ERROR_404.get());
+                        output.accept(BrutalityItems.CENSORED.get());
+                        output.accept(BrutalityItems.REDACTED.get());
 
                         output.accept(BrutalityItems.BROKEN_CLOCK.get());
                         output.accept(BrutalityItems.SHATTERED_CLOCK.get());

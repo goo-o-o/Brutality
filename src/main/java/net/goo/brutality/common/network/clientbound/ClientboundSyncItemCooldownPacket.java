@@ -1,6 +1,6 @@
 package net.goo.brutality.common.network.clientbound;
 
-import net.goo.brutality.client.ClientAccess;
+import net.goo.brutality.client.ClientProxy;
 import net.goo.brutality.common.network.IBrutalityPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.Item;
@@ -33,7 +33,7 @@ public class ClientboundSyncItemCooldownPacket implements IBrutalityPacket<Clien
 
     @Override
     public void handle(ClientboundSyncItemCooldownPacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> ClientAccess.syncItemCooldowns(cooldowns, tickCount));
+        ctx.get().enqueueWork(() -> ClientProxy.syncItemCooldowns(cooldowns, tickCount));
         ctx.get().setPacketHandled(true);
     }
 

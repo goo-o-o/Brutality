@@ -1,6 +1,6 @@
 package net.goo.brutality.common.entity.spells.brimwielder;
 
-import net.goo.brutality.client.ClientAccess;
+import net.goo.brutality.client.ClientProxy;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.common.entity.base.BrutalityRay;
 import net.goo.brutality.common.magic.BrutalitySpell;
@@ -27,7 +27,7 @@ public class ExtinctionEntity extends BrutalityRay implements BrutalityGeoEntity
     @Override
     public void tick() {
         if (firstTick && level().isClientSide()) {
-            ClientAccess.playExtinctionSpellSound(this);
+            ClientProxy.playExtinctionSpellSound(this);
         }
         super.tick();
     }
@@ -35,7 +35,7 @@ public class ExtinctionEntity extends BrutalityRay implements BrutalityGeoEntity
     @Override
     public void onClientRemoval() {
         super.onClientRemoval();
-        ClientAccess.stopExtinctionSpellSound();
+        ClientProxy.stopExtinctionSpellSound();
     }
 
 

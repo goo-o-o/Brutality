@@ -1,6 +1,6 @@
 package net.goo.brutality.common.item.weapon.axe;
 
-import net.goo.brutality.client.ClientAccess;
+import net.goo.brutality.client.ClientProxy;
 import net.goo.brutality.common.config.BrutalityCommonConfig;
 import net.goo.brutality.common.item.base.BrutalityAxeItem;
 import net.goo.brutality.common.registry.BrutalityDamageTypes;
@@ -39,7 +39,7 @@ public class Deathsaw extends BrutalityAxeItem {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
         ModUtils.setTextureIdx(stack, 1);
         pPlayer.startUsingItem(pUsedHand);
-        ClientAccess.startDeathsawSound(pPlayer);
+        ClientProxy.startDeathsawSound(pPlayer);
         return InteractionResultHolder.pass(stack);
     }
 
@@ -88,7 +88,7 @@ public class Deathsaw extends BrutalityAxeItem {
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int pTimeCharged) {
         ModUtils.removeTextureIdx(pStack);
         if (pLivingEntity instanceof Player player) player.getCooldowns().addCooldown(pStack.getItem(), 10);
-        ClientAccess.stopDeathsawSound(pLivingEntity);
+        ClientProxy.stopDeathsawSound(pLivingEntity);
         super.releaseUsing(pStack, pLevel, pLivingEntity, pTimeCharged);
     }
 
