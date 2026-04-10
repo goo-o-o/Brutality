@@ -35,7 +35,6 @@ public abstract class InfinityEnchantmentMixin extends Enchantment {
             // Get the item stack being enchanted (if available)
             ItemStack stack = EnchantmentHelper.getCurrentAnvilStack();
             if (stack != null && stack.getItem() instanceof ThunderboltTrident) {
-                // Allow Infinity and Mending to be compatible for your custom trident
                 cir.setReturnValue(true);
                 return;
             }

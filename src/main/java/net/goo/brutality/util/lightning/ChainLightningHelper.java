@@ -5,10 +5,9 @@ import net.goo.brutality.client.particle.providers.ChainLightningParticleData;
 import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.clientbound.ClientboundChainLightningPacket;
-import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.util.AugmentHelper;
-import net.goo.brutality.util.math.PhysicsUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,7 +17,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.joml.Vector3f;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -110,25 +108,8 @@ public class ChainLightningHelper {
 
     @OnlyIn(Dist.CLIENT)
     public static class Client {
-        public static void handlePacket(int iterations, int delay, LightningType lightningType, Vector3f start, Vector3f end, float size, int lifespan) {
-            if (Minecraft.getInstance().level != null) {
-                for (int i = 0; i < iterations; i++) {
-                    DelayedTaskScheduler.queueClientWork(Minecraft.getInstance().level, delay * i, () ->
-                            ChainLightningHelper.Client.shock(
-                                    lightningType,
-                                    PhysicsUtils.fromVector3f(start),
-                                    PhysicsUtils.fromVector3f(end),
-                                    size,
-                                    lifespan));
-                }
-            }
-        }
-
-        public static void shock(ChainLightningHelper.LightningType lightningType, Vec3 vectorStart, Vec3 vectorEnd, float size, int lifespan) {
-            if (Minecraft.getInstance().level == null) {
-                return;
-            }
-            ChainLightningParticle.INSTANCE.add(Minecraft.getInstance().level, new ChainLightningParticleData(lightningType.renderInfo, vectorStart, vectorEnd, lifespan).size(size), Minecraft.getInstance().getPartialTick());
+        public static void shock(ClientLevel clientLevel, ChainLightningHelper.LightningType lightningType, Vec3 vectorStart, Vec3 vectorEnd, float size, int lifespan) {
+            ChainLightningParticle.INSTANCE.add(clientLevel, new ChainLightningParticleData(lightningType.renderInfo, vectorStart, vectorEnd, lifespan).size(size), Minecraft.getInstance().getPartialTick());
         }
     }
 }

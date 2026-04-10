@@ -47,6 +47,7 @@ public class PacketHandler {
         registerPacket(ClientboundEnvironmentColorManagerPacket.class, ClientboundEnvironmentColorManagerPacket::new);
         registerPacket(ClientboundParticlePacket.class, ClientboundParticlePacket::new);
         registerPacket(ClientboundChainLightningPacket.class, ClientboundChainLightningPacket::new);
+        registerPacket(ClientboundEquipmentChangePacket.class, ClientboundEquipmentChangePacket::new);
         registerPacket(ClientboundDodgePacket.class, ClientboundDodgePacket::new);
         registerPacket(ClientboundSyncItemCooldownPacket.class, ClientboundSyncItemCooldownPacket::new);
         registerPacket(ClientboundStartPlayerAnimationPacket.class, ClientboundStartPlayerAnimationPacket::new);

@@ -21,7 +21,7 @@ public class VoidSeal extends BrutalitySealAugmentItem {
 
 
         spellEntity.setPos(targetPos);
-        spellEntity.setOwner(owner);
+//        spellEntity.setOwner(owner);
 
         level.addFreshEntity(spellEntity);
     }

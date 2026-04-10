@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
+import net.goo.brutality.util.tooltip.TooltipHelper;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
@@ -89,7 +90,7 @@ public class BrutalityTridentItem extends TridentItem implements BrutalityGeoIte
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, rarity);
+        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 

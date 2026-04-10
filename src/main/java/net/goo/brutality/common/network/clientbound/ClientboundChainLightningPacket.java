@@ -1,10 +1,9 @@
 package net.goo.brutality.common.network.clientbound;
 
+import net.goo.brutality.client.ClientPacketListener;
 import net.goo.brutality.common.network.IBrutalityPacket;
 import net.goo.brutality.util.lightning.ChainLightningHelper;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 import org.joml.Vector3f;
 
@@ -50,16 +49,7 @@ public class ClientboundChainLightningPacket implements IBrutalityPacket<Clientb
     public void handle(ClientboundChainLightningPacket packet, Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
 
-        context.enqueueWork(() ->
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ChainLightningHelper.Client.handlePacket(
-                packet.iterations,
-                packet.delay,
-                packet.lightningType,
-                packet.start,
-                packet.end,
-                packet.size,
-                packet.lifespan
-        )));
+        context.enqueueWork(() -> ClientPacketListener.handleChainLightning(packet));
 
         context.setPacketHandled(true);
     }

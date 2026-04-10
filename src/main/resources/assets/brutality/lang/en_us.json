@@ -1399,6 +1399,13 @@
   "item.brutality.profaned_ink": "Profaned Ink",
   "item.brutality.profaned_ink.passive.1": "§2Take 1 Damage whenever you cast a Spell",
 
+  "item.brutality.coin_item.on_right_click.1": "§e -Randomly throw out a coin that obeys the laws of Physics",
+
+  "item.brutality.paradime": "Paradime",
+  "item.brutality.paradime.on_heads.1": "§e -Grants Resistance 3 for 5 seconds",
+  "item.brutality.paradime.on_tails.1": "§e -Grants Weakness for 3 seconds",
+
+
   "item.brutality.solar_lens": "Solar Lens",
   "item.brutality.solar_lens.passive.1": "§e -Grants more Spell Damage the closer it is to Noon",
   "item.brutality.lunar_lens": "Lunar Lens",
@@ -1826,7 +1833,7 @@
   "effect.brutality.caffeinated": "Caffeinated",
   "effect.brutality.mashed": "§4Mashed",
   "effect.brutality.stunned": "§l§eStunned",
-  "effect.brutality.miracle_blight": "§eM§6i§cr§4a§dc§5l§1e§9 §3B§bl§ai§2g§eh§6t",
+  "effect.brutality.miracle_blight": "Miracle Blight",
   "effect.brutality.sprinkled": "§eS§6p§cr§4i§dn§5k§1l§9e§3d",
   "effect.brutality.candied": "§dCandied",
   "effect.brutality.caramelized": "§6Caramelized",
@@ -1861,6 +1868,8 @@
   "brutality.description.type.on_hit": "§6On Hit:",
   "brutality.description.type.on_swing": "§6On Swing:",
   "brutality.description.type.when_thrown": "§6When Thrown:",
+  "brutality.description.type.on_heads": "§6On Heads:",
+  "brutality.description.type.on_tails": "§6On Tails:",
   "brutality.description.type.on_right_click": "§6On Right Click:",
   "brutality.description.type.on_left_clicking_entity": "§6On Left Clicking Entity:",
   "brutality.description.type.on_shift_right_click": "§6On Shift Right Click:",

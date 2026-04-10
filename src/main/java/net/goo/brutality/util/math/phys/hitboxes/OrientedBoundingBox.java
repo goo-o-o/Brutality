@@ -17,7 +17,7 @@ import org.joml.Vector3f;
 
 import java.util.List;
 
-public final class OrientedBoundingBox extends BaseBoundingBox {
+public class OrientedBoundingBox extends BaseBoundingBox {
     public Vec3 halfExtents;
 
     // ────────────────── Constructors ──────────────────
@@ -26,6 +26,26 @@ public final class OrientedBoundingBox extends BaseBoundingBox {
         this.center = center;
         this.halfExtents = halfExtents;
         if (rotation != null) this.rotation.set(rotation);
+    }
+
+    public Matrix3f getInertiaTensor(float mass) {
+        float x2 = (float) (halfExtents.x * 2);
+        float y2 = (float) (halfExtents.y * 2);
+        float z2 = (float) (halfExtents.z * 2);
+
+        float fraction = mass / 12.0f;
+        Matrix3f localInertia = new Matrix3f(
+                fraction * (y2*y2 + z2*z2), 0, 0,
+                0, fraction * (x2*x2 + z2*z2), 0,
+                0, 0, fraction * (x2*x2 + y2*y2)
+        );
+
+        // Transform local inertia to world space: R * I_local * R^T
+        Matrix3f worldInertia = new Matrix3f(rotation);
+        worldInertia.mul(localInertia);
+        Matrix3f transposeRotation = new Matrix3f(rotation).transpose();
+        worldInertia.mul(transposeRotation);
+        return worldInertia;
     }
 
     /**
@@ -156,6 +176,8 @@ public final class OrientedBoundingBox extends BaseBoundingBox {
                 .color(c) // BufferBuilder has a simplified .color(int) helper
                 .endVertex();
     }
+
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public void render(PoseStack poseStack) {
@@ -165,7 +187,7 @@ public final class OrientedBoundingBox extends BaseBoundingBox {
 
         // Translate poseStack so OBB renders in world space correctly
         poseStack.pushPose();
-        poseStack.translate(-camPos.x, -camPos.y, -camPos.z);
+//        poseStack.translate(-camPos.x, -camPos.y, -camPos.z);
 
         RenderSystem.enableDepthTest();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
@@ -212,7 +234,7 @@ public final class OrientedBoundingBox extends BaseBoundingBox {
         buffer.vertex(mat, (float)second.x, (float)second.y, (float)second.z).color(r, g, b, a).endVertex();
     }
 
-    private Vec3[] getTransformedVertices() {
+    public Vec3[] getTransformedVertices() {
         Vec3 hx = getLocalAxis(0).scale(halfExtents.x);
         Vec3 hy = getLocalAxis(1).scale(halfExtents.y);
         Vec3 hz = getLocalAxis(2).scale(halfExtents.z);
@@ -305,5 +327,11 @@ public final class OrientedBoundingBox extends BaseBoundingBox {
         return filter(candidates);
     }
 
-
+    public void setRotation(float pitch, float yaw, float roll) {
+        this.rotation.rotationXYZ(
+                (float) Math.toRadians(pitch),
+                (float) Math.toRadians(yaw),
+                (float) Math.toRadians(roll)
+        );
+    }
 }

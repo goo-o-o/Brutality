@@ -8,6 +8,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.entity.spells.IBrutalitySpellEntity;
 import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
+import net.goo.brutality.common.item.curios.charm.Redacted;
 import net.goo.brutality.common.item.weapon.RotatingAttackWeapon;
 import net.goo.brutality.common.item.weapon.generic.LastPrism;
 import net.goo.brutality.common.magic.BrutalitySpell;
@@ -116,60 +117,59 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
 
     @SubscribeEvent
     public static <T extends LivingEntity, M extends EntityModel<T>> void postRender(RenderLivingEvent.Post<T, M> event) {
-        CuriosApi.getCuriosInventory(event.getEntity()).ifPresent(handler -> {
-            if (handler.isEquipped(BrutalityItems.CENSORED.get())) {
-                LivingEntity entity = event.getEntity();
-                PoseStack poseStack = event.getPoseStack();
-                Camera camera = Minecraft.getInstance().getEntityRenderDispatcher().camera;
+        if (Redacted.shouldRedact(event.getEntity())) {
+            LivingEntity entity = event.getEntity();
+            PoseStack poseStack = event.getPoseStack();
+            Camera camera = Minecraft.getInstance().getEntityRenderDispatcher().camera;
 
-                Vec3 camPos = camera.getPosition();
-                Vec3 entPos = entity.getPosition(event.getPartialTick()).add(0, entity.getBbHeight() * 0.5, 0);
+            Vec3 camPos = camera.getPosition();
+            Vec3 entPos = entity.getPosition(event.getPartialTick()).add(0, entity.getBbHeight() * 0.5, 0);
 
-                double dx = entPos.x - camPos.x;
-                double dy = entPos.y - camPos.y;
-                double dz = entPos.z - camPos.z;
-                double horizontalDistance = Math.sqrt(dx * dx + dz * dz);
+            double dx = entPos.x - camPos.x;
+            double dy = entPos.y - camPos.y;
+            double dz = entPos.z - camPos.z;
+            double horizontalDistance = Math.sqrt(dx * dx + dz * dz);
 
-                // 3. Calculate Angles (Radiant to Degrees)
-                float yaw = (float) (Math.atan2(dx, dz) * (180 / Math.PI));
-                float pitch = (float) (Math.atan2(dy, horizontalDistance) * (180 / Math.PI));
+            // 3. Calculate Angles (Radiant to Degrees)
+            float yaw = (float) (Math.atan2(dx, dz) * (180 / Math.PI));
+            float pitch = (float) (Math.atan2(dy, horizontalDistance) * (180 / Math.PI));
 
-                poseStack.pushPose();
+            poseStack.pushPose();
 
-                poseStack.translate(0, entity.getBbHeight() * 0.5f, 0);
+            poseStack.translate(0, entity.getBbHeight() * 0.5f, 0);
 
 
-                poseStack.mulPose(Axis.YP.rotationDegrees(yaw));
-                poseStack.mulPose(Axis.XP.rotationDegrees(-pitch));
+            poseStack.mulPose(Axis.YP.rotationDegrees(yaw));
+            poseStack.mulPose(Axis.XP.rotationDegrees(-pitch));
 
-                // Determine depth based on the vertical angle (pitch)
-                float lookDownFactor = Math.abs(pitch) / 90.0f;
-                float bbWidth = entity.getBbWidth();
-                float bbHeight = entity.getBbHeight();
+            // Determine depth based on the vertical angle (pitch)
+            float lookDownFactor = Math.abs(pitch) / 90.0f;
+            float bbWidth = entity.getBbWidth();
+            float bbHeight = entity.getBbHeight();
 
-                float depthOffset = Mth.lerp(lookDownFactor, bbWidth * 0.5f, bbHeight * 0.5f);
+            float depthOffset = Mth.lerp(lookDownFactor, bbWidth * 0.5f, bbHeight * 0.5f);
 
-                // Translate forward toward camera (Negative Z in local rotated space)
-                poseStack.translate(0, 0, -(depthOffset + 0.35f));
+            // Translate forward toward camera (Negative Z in local rotated space)
+            poseStack.translate(0, 0, -(depthOffset + 0.35f));
 
-                // 7. Dynamic Scaling
-                float dynamicHeight = Mth.lerp(lookDownFactor, bbHeight, bbWidth);
-                poseStack.scale(bbWidth * 1.5f, dynamicHeight * 1.5f, 1.0f);
+            // 7. Dynamic Scaling
+            float dynamicHeight = Mth.lerp(lookDownFactor, bbHeight, bbWidth);
+            poseStack.scale(bbWidth * 1.5f, dynamicHeight * 1.5f, 1.0f);
 
-                // 8. Render
-                VertexConsumer builder = event.getMultiBufferSource().getBuffer(RenderType.debugQuads());
-                renderVoidQuad(builder, poseStack.last().pose(), 0.5f);
+            // 8. Render
+            VertexConsumer builder = event.getMultiBufferSource().getBuffer(RenderType.debugQuads());
+            renderVoidQuad(builder, poseStack.last().pose(), 0.5f);
 
-                poseStack.popPose();
-            }
-        });
+            poseStack.popPose();
+        }
     }
+
 
     private static void renderVoidQuad(VertexConsumer builder, Matrix4f matrix, float s) {
         builder.vertex(matrix, -s, -s, 0).color(0, 0, 0, 255).uv(0, 0).endVertex();
-        builder.vertex(matrix, -s,  s, 0).color(0, 0, 0, 255).uv(0, 1).endVertex();
-        builder.vertex(matrix,  s,  s, 0).color(0, 0, 0, 255).uv(1, 1).endVertex();
-        builder.vertex(matrix,  s, -s, 0).color(0, 0, 0, 255).uv(1, 0).endVertex();
+        builder.vertex(matrix, -s, s, 0).color(0, 0, 0, 255).uv(0, 1).endVertex();
+        builder.vertex(matrix, s, s, 0).color(0, 0, 0, 255).uv(1, 1).endVertex();
+        builder.vertex(matrix, s, -s, 0).color(0, 0, 0, 255).uv(1, 0).endVertex();
     }
 
 

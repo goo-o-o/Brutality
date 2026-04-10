@@ -2,6 +2,7 @@ package net.goo.brutality.common.item.weapon.spear;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.entity.projectile.generic.BlackHole;
+import net.goo.brutality.common.item.ItemLeftInventoryTriggerable;
 import net.goo.brutality.common.item.base.BrutalitySpearItem;
 import net.goo.brutality.common.registry.BrutalityEntities;
 import net.goo.brutality.common.registry.BrutalitySounds;
@@ -29,7 +30,7 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class EventHorizon extends BrutalitySpearItem {
+public class EventHorizon extends BrutalitySpearItem implements ItemLeftInventoryTriggerable {
 
 
     public EventHorizon(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
@@ -83,10 +84,13 @@ public class EventHorizon extends BrutalitySpearItem {
         }
     }
 
+    @Override
+    public void onLeaveInventory(Player player, ItemStack stack) {
+        despawnBlackHole(player, stack);
+    }
+
     public void despawnBlackHole(Player player, ItemStack pStack) {
         if (player.level() instanceof ServerLevel serverLevel) {
-
-
             BlackHole blackHole = getOwnedBlackHoleFromID(player, pStack);
 //            System.out.println(pStack);
 //            System.out.println(pStack.getOrCreateTag().getInt("ID"));

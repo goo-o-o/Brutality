@@ -4,6 +4,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.client.particle.base.WaveParticle;
 import net.goo.brutality.client.particle.custom.*;
 import net.goo.brutality.client.particle.custom.flat.*;
+import net.goo.brutality.client.particle.custom.trail.HealingTrailParticle;
 import net.goo.brutality.client.particle.providers.FlatParticleData;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.minecraft.client.particle.FlameParticle;
@@ -66,7 +67,10 @@ public class BrutalityModParticleFactories {
         event.registerSpriteSet(BrutalityParticles.WIZARDRY_PARTICLE.get(), WizardryParticle.Provider::new);
         event.registerSpriteSet(BrutalityParticles.MATH_PARTICLE.get(), MathParticle.Provider::new);
 
-//        event.registerSpriteSet(BrutalityParticles.TRAIL_PARTICLE.get(), TrailParticleData.TrailParticleProvider::new);
+        event.registerSpriteSet(BrutalityParticles.HEADS_PARTICLE.get(), CoinflipParticle.Provider::new);
+        event.registerSpriteSet(BrutalityParticles.TAILS_PARTICLE.get(), CoinflipParticle.Provider::new);
+
+        event.registerSpecial(BrutalityParticles.HEALING_TRAIL_PARTICLE.get(), new HealingTrailParticle.Provider());
 
         event.registerSpriteSet(BrutalityParticles.EXPLOSION_MAGIC_CIRCLE_PARTICLE.get(), FlatParticleData.FlatParticleProvider::new);
         event.registerSpriteSet(BrutalityParticles.MURASAMA_SLASH_PARTICLE.get(), MurasamaSlashParticle.MurasamaSlashParticleProvider::new);

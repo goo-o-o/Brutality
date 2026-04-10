@@ -1,6 +1,6 @@
 package net.goo.brutality.mixin.mixins;
 
-import net.goo.brutality.common.item.curios.charm.Censored;
+import net.goo.brutality.common.item.curios.charm.Redacted;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -22,7 +22,7 @@ public abstract class EntityRendererMixin<T extends Entity> {
      */
     @ModifyVariable(method = "renderNameTag", at = @At("HEAD"), argsOnly = true)
     private Component modifyDisplayName(Component original, T pEntity) {
-        if (Censored.shouldRedact(pEntity)) {
+        if (Redacted.shouldRedact(pEntity)) {
             return Component.literal("REDACTED");
         }
         return original;
@@ -41,7 +41,7 @@ public abstract class EntityRendererMixin<T extends Entity> {
     )
     private int customDrawInBatch(Font instance, Component pText, float pX, float pY, int pColor, boolean pDropShadow, Matrix4f pMatrix, MultiBufferSource pBuffer, Font.DisplayMode pDisplayMode, int pBackgroundColor, int pPackedLight, T pEntity) {
 
-        if (Censored.shouldRedact(pEntity)) {
+        if (Redacted.shouldRedact(pEntity)) {
             return instance.drawInBatch(pText, pX, pY, 0xFF000000, false, pMatrix, pBuffer, pDisplayMode, 0xFF000000, pPackedLight);
         }
 

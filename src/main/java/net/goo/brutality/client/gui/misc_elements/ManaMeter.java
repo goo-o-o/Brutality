@@ -50,14 +50,14 @@ public class ManaMeter implements IGuiOverlay {
         private void renderOrb(GuiGraphics gui, int x, int y, int width, float percent) {
             int fireY = y - width;                // bottom-aligned, never moves
 
-            var shader = BrutalityShaders.getManaOrbShader();
+            var shader = BrutalityShaders.manaOrbShader;
             if (shader != null) {
                 float time = (System.currentTimeMillis() - startTime) / 1000f;
                 shader.safeGetUniform("Time").set(time);
                 shader.safeGetUniform("FillLevel").set(percent);  // intensity scales with mana
             }
 
-            RenderSystem.setShader(BrutalityShaders::getManaOrbShader);
+            RenderSystem.setShader(() -> BrutalityShaders.manaOrbShader);
             var matrix = gui.pose().last().pose();
 
             BufferBuilder builder = Tesselator.getInstance().getBuilder();

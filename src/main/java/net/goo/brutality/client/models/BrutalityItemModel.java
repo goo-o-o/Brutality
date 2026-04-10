@@ -18,10 +18,10 @@ public class BrutalityItemModel<T extends Item & BrutalityGeoItem> extends GeoMo
     @Override
     public ResourceLocation getModelResource(T animatable) {
         String model = renderer != null ? animatable.model(renderer.getCurrentItemStack()) : null;
-        String identifier = renderer != null ? model != null ? model : animatable.getRegistryName() : animatable.getRegistryName();
+        String identifier = renderer != null ? model != null ? model : animatable.toString() : animatable.toString();
 
         if (animatable instanceof BrutalityBlockItem) {
-            return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "geo/block/" + animatable.getRegistryName() + ".geo.json");
+            return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "geo/block/" + animatable + ".geo.json");
         }
 
         return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "geo/item/" + (animatable instanceof BrutalityCurioItem ? "/curio/" : "") + getCategoryAsString(animatable) + "/" +
@@ -31,24 +31,24 @@ public class BrutalityItemModel<T extends Item & BrutalityGeoItem> extends GeoMo
     @Override
     public ResourceLocation getTextureResource(T animatable) {
         String texture = renderer != null ? animatable.texture(renderer.getCurrentItemStack()) : null;
-        String identifier = renderer != null ? texture != null ? texture : animatable.getRegistryName() : animatable.getRegistryName();
+        String identifier = renderer != null ? texture != null ? texture : animatable.toString() : animatable.toString();
 
         if (animatable instanceof BrutalityBlockItem) {
-            return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/block/" + animatable.getRegistryName() + ".png");
+            return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/block/" + animatable + ".png");
         }
 
         return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/item/" + (animatable instanceof BrutalityCurioItem ? "/curio/" : "") + getCategoryAsString(animatable)
-                + "/" + animatable.getRegistryName() + "/" +
+                + "/" + animatable + "/" +
                 identifier + "_handheld.png");
     }
 
 
     public ResourceLocation getAnimationResource(T animatable) {
         String animation = renderer != null ? animatable.animation(renderer.getCurrentItemStack()) : null;
-        String identifier = renderer != null ? animation != null ? animation : animatable.getRegistryName() : animatable.getRegistryName();
+        String identifier = renderer != null ? animation != null ? animation : animatable.toString() : animatable.toString();
 
         if (animatable instanceof BrutalityBlockItem) {
-            return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "animations/block/" + animatable.getRegistryName() + ".animation.json");
+            return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "animations/block/" + animatable + ".animation.json");
         }
 
         return ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "animations/item/" + getCategoryAsString(animatable) + "/" +

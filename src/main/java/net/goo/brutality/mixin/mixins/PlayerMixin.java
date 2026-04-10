@@ -5,7 +5,7 @@ import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.goo.brutality.common.item.base.BrutalityThrowingItem;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.item.curios.charm.Cosine;
-import net.goo.brutality.common.item.curios.charm.Censored;
+import net.goo.brutality.common.item.curios.charm.Redacted;
 import net.goo.brutality.common.item.curios.hands.SuspiciouslyLargeHandle;
 import net.goo.brutality.common.item.generic.augments.BrutalityAugmentItem;
 import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
@@ -208,7 +208,7 @@ public abstract class PlayerMixin extends LivingEntity {
 
     @Inject(method = "getDisplayName", at = @At("HEAD"), cancellable = true)
     private void modifyDisplayName(CallbackInfoReturnable<Component> cir) {
-        if (Censored.shouldRedact((Player) (Object) this)) {
+        if (Redacted.shouldRedact((Player) (Object) this)) {
             cir.setReturnValue(Component.literal("████████"));
             cir.cancel();
         }

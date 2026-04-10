@@ -2,13 +2,13 @@ package net.goo.brutality.common.entity.spells.voidwalker;
 
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.common.entity.base.BrutalityAbstractPhysicsProjectile;
-import net.goo.brutality.event.forge.DelayedTaskScheduler;
-import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.entity.spells.IBrutalitySpellEntity;
+import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.spells.voidwalker.GraviticImplosionSpell;
-import net.goo.brutality.common.network.clientbound.ClientboundParticlePacket;
 import net.goo.brutality.common.network.PacketHandler;
+import net.goo.brutality.common.network.clientbound.ClientboundParticlePacket;
 import net.goo.brutality.common.registry.BrutalitySounds;
+import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -17,18 +17,15 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
@@ -40,14 +37,10 @@ import java.util.List;
 public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile implements BrutalityGeoEntity, IBrutalitySpellEntity {
     private static final EntityDataAccessor<Integer> SPELL_LEVEL_DATA = SynchedEntityData.defineId(GraviticImplosionEntity.class, EntityDataSerializers.INT);
 
-    public GraviticImplosionEntity(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public GraviticImplosionEntity(EntityType<? extends Projectile> type, Level level) {
+        super(type, level);
     }
 
-    @Override
-    protected boolean tryPickup(Player pPlayer) {
-        return false;
-    }
 
     @Override
     public boolean fireImmune() {
@@ -80,10 +73,7 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
         this.entityData.define(SPELL_LEVEL_DATA, 1);
     }
 
-    @Override
-    protected int getLifespan() {
-        return 100;
-    }
+
 
     @Override
     public void setSpellLevel(int spellLevel) {
@@ -103,10 +93,6 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
         }
     }
 
-    @Override
-    public @NotNull SoundEvent getHitGroundSoundEvent() {
-        return SoundEvents.EMPTY;
-    }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
@@ -114,22 +100,19 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
         tag.putInt(SPELL_LEVEL, this.getSpellLevel());
     }
 
-    @Override
-    public float getGravity() {
-        return 0.025F;
-    }
+
 
     @Override
     public void tick() {
         super.tick();
 
-        if (this.inGround) {
+        if (this.hasHitGround) {
             lockPitch();
             lockRoll();
             lockYaw();
         }
 
-        if (this.inGroundTime > 20) discard();
+        if (this.groundTicks > 20) discard();
     }
 
     @Override
@@ -193,10 +176,6 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
         this.setDeltaMovement(0,0,0);
     }
 
-    @Override
-    protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.EMPTY;
-    }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
@@ -212,8 +191,4 @@ public class GraviticImplosionEntity extends BrutalityAbstractPhysicsProjectile 
         return cache;
     }
 
-    @Override
-    protected int getBounceCount() {
-        return 0;
-    }
 }

@@ -1,31 +1,4 @@
 {
-  "leaf_blower_on": {
-    "category": "item",
-    "sounds": [
-      {
-        "name": "brutality:leaf_blower_on",
-        "stream": true
-      }
-    ]
-  },
-  "leaf_blower_active": {
-    "category": "item",
-    "sounds": [
-      {
-        "name": "brutality:leaf_blower_active",
-        "stream": true
-      }
-    ]
-  },
-  "leaf_blower_off": {
-    "category": "item",
-    "sounds": [
-      {
-        "name": "brutality:leaf_blower_off",
-        "stream": true
-      }
-    ]
-  },
   "treasure_chest_lock": {
     "category": "item",
     "sounds": [
@@ -39,14 +12,6 @@
     "sounds": [
       {
         "name": "brutality:shuriken_impact"
-      }
-    ]
-  },
-  "metal_pipe": {
-    "category": "item",
-    "sounds": [
-      {
-        "name": "brutality:metal_pipe"
       }
     ]
   },
@@ -703,6 +668,118 @@
     "sounds": [
       {
         "name": "brutality:heavy_whoosh"
+      }
+    ]
+  },
+  "retro_positive_1": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:retro_positive_1"
+      }
+    ]
+  },
+  "retro_positive_2": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:retro_positive_2"
+      }
+    ]
+  },
+  "retro_positive_3": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:retro_positive_3"
+      }
+    ]
+  },
+  "retro_positive_4": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:retro_positive_4"
+      }
+    ]
+  },
+  "retro_negative_1": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:retro_negative_1"
+      }
+    ]
+  },
+  "retro_negative_2": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:retro_negative_2"
+      }
+    ]
+  },
+  "retro_negative_3": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:retro_negative_3"
+      }
+    ]
+  },
+  "coin_impact_1": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:coin_impact_1"
+      }
+    ]
+  },
+  "coin_impact_2": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:coin_impact_2"
+      }
+    ]
+  },
+  "coin_impact_3": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:coin_impact_3"
+      }
+    ]
+  },
+  "coin_impact_4": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:coin_impact_4"
+      }
+    ]
+  },
+  "coin_flip_1": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:coin_flip_1"
+      }
+    ]
+  },
+  "coin_flip_2": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:coin_flip_2"
+      }
+    ]
+  },
+  "coin_flip_3": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "brutality:coin_flip_3"
       }
     ]
   }

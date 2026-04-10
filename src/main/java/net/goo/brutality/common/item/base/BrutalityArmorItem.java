@@ -4,6 +4,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.client.renderers.armor.BrutalityArmorRenderer;
 import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
+import net.goo.brutality.util.tooltip.TooltipHelper;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -48,7 +49,7 @@ public class BrutalityArmorItem extends ArmorItem implements BrutalityGeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
+        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
     }
     @Override
     public BrutalityCategories.AttackType getAttackType() {

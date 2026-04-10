@@ -70,7 +70,7 @@ public class RageMeter implements IGuiOverlay {
         private void renderFire(GuiGraphics gui, int x, int bottomY, int width, float percent) {
             int fireY = bottomY - width;                // bottom-aligned, never moves
 
-            var shader = BrutalityShaders.getFireShader();
+            var shader = BrutalityShaders.fireShader;
             if (shader != null) {
                 float time = (System.currentTimeMillis() - startTime) / 1000f;
                 shader.safeGetUniform("time").set(time);
@@ -81,7 +81,7 @@ public class RageMeter implements IGuiOverlay {
 //                shader.safeGetUniform("colour_2").set(INNER_COLOR[0], INNER_COLOR[1], INNER_COLOR[2], 1.0F);
             }
 
-            RenderSystem.setShader(BrutalityShaders::getFireShader);
+            RenderSystem.setShader(() -> BrutalityShaders.fireShader);
             var matrix = gui.pose().last().pose();
 
             BufferBuilder builder = Tesselator.getInstance().getBuilder();

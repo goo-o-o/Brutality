@@ -9,6 +9,7 @@ import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.util.AugmentHelper;
 import net.goo.brutality.util.item.ThrowableWeaponUtils;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
+import net.goo.brutality.util.tooltip.TooltipHelper;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -159,7 +160,7 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, rarity);
+        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents, rarity);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 

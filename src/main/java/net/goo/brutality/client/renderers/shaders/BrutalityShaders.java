@@ -17,29 +17,18 @@ import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BrutalityShaders {
-    private static ShaderInstance fireShader;
 
-    private static ShaderInstance itemOutlineCoreShader;
-    public static ShaderInstance getItemOutlineCoreShader() {
-        return itemOutlineCoreShader;
-    }
-    public static ShaderInstance getParticleOutlineCoreShader() {
-        return itemOutlineCoreShader;
-    }
-    private static ShaderInstance particleOutlineCoreShader;
-
-    public static ShaderInstance getFireShader() {
-        return fireShader;
-    }
-
-    private static ShaderInstance manaOrbShader;
-
-    public static ShaderInstance getManaOrbShader() {
-        return manaOrbShader;
-    }
+    public static ShaderInstance itemOutlineCoreShader;
+    public static ShaderInstance particleOutlineCoreShader;
+    public static ShaderInstance fireShader;
+    public static ShaderInstance manaOrbShader;
+    public static ShaderInstance pixelateShader;
 
     public static PostShaderInstance itemOutlinePostShader;
     public static PostShaderInstance maxSwordOutlinePostShader;
+
+    public static final ResourceLocation PIXELATED_SHADER = ResourceLocation.fromNamespaceAndPath("brutality", "shaders/post/pixelate_post.json");
+
 
     @SubscribeEvent
     public static void registerShaders(RegisterShadersEvent event) throws IOException {
@@ -47,20 +36,20 @@ public class BrutalityShaders {
         registerSafe(event, "orb", s -> BrutalityShaders.manaOrbShader = s, DefaultVertexFormat.POSITION_TEX);
         registerSafe(event, "item_outline", s -> BrutalityShaders.itemOutlineCoreShader = s, DefaultVertexFormat.BLOCK);
         registerSafe(event, "particle_outline", s -> BrutalityShaders.particleOutlineCoreShader = s, DefaultVertexFormat.POSITION);
+//        registerSafe(event, "pixelate", s -> BrutalityShaders.pixelateShader = s, DefaultVertexFormat.POSITION_COLOR_TEX);
 
         itemOutlinePostShader = new OutlineShader();
         itemOutlinePostShader.setActive(true);
         maxSwordOutlinePostShader = new MaxSwordOutlineShader();
         maxSwordOutlinePostShader.setActive(true);
+
+        PostEffectRegistry.registerEffect(PIXELATED_SHADER);
     }
 
 
+
     private static void registerSafe(RegisterShadersEvent event, String name, Consumer<ShaderInstance> callback, VertexFormat vertexFormat) throws IOException {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, name);
-        event.registerShader(
-                new ShaderInstance(event.getResourceProvider(), id, vertexFormat),
-                callback
-        );
+        event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, name), vertexFormat), callback);
     }
 
 

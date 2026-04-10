@@ -1,8 +1,11 @@
 package net.goo.brutality.common.item.weapon.trident;
 
+import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.common.entity.projectile.trident.ThrownThunderbolt;
+import net.goo.brutality.common.item.ItemEquipUnequipTriggerable;
 import net.goo.brutality.common.item.base.BrutalityTridentItem;
 import net.goo.brutality.common.registry.BrutalityEntities;
+import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -13,6 +16,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
@@ -22,14 +26,13 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.Set;
 
 import static java.lang.Math.PI;
 
-public class ThunderboltTrident extends BrutalityTridentItem {
+public class ThunderboltTrident extends BrutalityTridentItem implements ItemEquipUnequipTriggerable {
     protected final RandomSource random = RandomSource.create();
 
     private static final Set<Enchantment> ALLOWED_ENCHANTMENTS = Set.of(
@@ -80,8 +83,20 @@ public class ThunderboltTrident extends BrutalityTridentItem {
         }
     }
 
+
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    public void onEnterMainHand(LivingEntity livingEntity, ItemStack stack) {
+        if (livingEntity.level().isClientSide) {
+            EntityEffect effect = new EntityEffect(LIGHTNING_AURA_FX.get(), livingEntity.level(), livingEntity, EntityEffect.AutoRotate.NONE);
+            effect.start();
+        }
+    }
+
+    @Override
+    public void onLeaveMainHand(LivingEntity livingEntity, ItemStack stack) {
+        if (livingEntity.level().isClientSide) {
+            ModUtils.removeFX(livingEntity, LIGHTNING_AURA_FX.get());
+        }
     }
 
     @Override

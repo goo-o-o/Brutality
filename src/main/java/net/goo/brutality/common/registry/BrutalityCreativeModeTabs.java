@@ -55,6 +55,8 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.REVERIUM_AUGMENTATION_DEVICE.get());
                         output.accept(BrutalityItems.ADAMANTITE_AUGMENTATION_DEVICE.get());
 
+                        output.accept(BrutalityItems.PARADIME.get());
+
                     })
                     .build());
 
@@ -537,7 +539,7 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.AMATERASU.get());
                         output.accept(BrutalityItems.TSUKUYOMI.get());
 //                        output.accept(BrutalityModItems.MURASAMA_SWORD.get().getDefaultInstance());
-                        output.accept(BrutalityItems.DULL_KNIFE_DAGGER.get().getDefaultInstance());
+//                        output.accept(BrutalityItems.DULL_KNIFE_DAGGER.get().getDefaultInstance());
                         output.accept(BrutalityItems.ROYAL_GUARDIAN_SWORD.get().getDefaultInstance());
 
                         output.accept(BrutalityItems.STYROFOAM_CUP.get().getDefaultInstance());

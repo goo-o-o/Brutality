@@ -2,6 +2,7 @@ package net.goo.brutality.common.registry;
 
 import com.mojang.serialization.Codec;
 import net.goo.brutality.Brutality;
+import net.goo.brutality.client.particle.providers.EntityIdParticleData;
 import net.goo.brutality.client.particle.providers.FlatParticleData;
 import net.goo.brutality.client.particle.providers.PointToPointParticleData;
 import net.goo.brutality.client.particle.providers.WaveParticleData;
@@ -44,6 +45,11 @@ public class BrutalityParticles {
             PARTICLE_TYPES.register("wizardry_particle", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> MATH_PARTICLE =
             PARTICLE_TYPES.register("math_particle", () -> new SimpleParticleType(true));
+
+    public static final RegistryObject<SimpleParticleType> HEADS_PARTICLE =
+            PARTICLE_TYPES.register("heads_particle", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> TAILS_PARTICLE =
+            PARTICLE_TYPES.register("tails_particle", () -> new SimpleParticleType(true));
 
     public static final RegistryObject<SimpleParticleType> CABBAGE_PARTICLE =
             PARTICLE_TYPES.register("cabbage_particle", () -> new SimpleParticleType(true));
@@ -138,6 +144,14 @@ public class BrutalityParticles {
 //                    return TrailParticleData.CODEC;
 //                }
 //            });
+
+    public static final RegistryObject<ParticleType<EntityIdParticleData<?>>> HEALING_TRAIL_PARTICLE = PARTICLE_TYPES.register("healing_trail_particle", () ->
+            new ParticleType<>(false, EntityIdParticleData.DESERIALIZER) {
+                @Override
+                public @NotNull Codec<EntityIdParticleData<?>> codec() { return EntityIdParticleData.CODEC;
+                }
+            });
+
 
     public static final RegistryObject<ParticleType<FlatParticleData<?>>> EXPLOSION_MAGIC_CIRCLE_PARTICLE = PARTICLE_TYPES.register("explosion_magic_circle", () ->
             new ParticleType<>(false, FlatParticleData.DESERIALIZER) {

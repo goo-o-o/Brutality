@@ -2,6 +2,7 @@ package net.goo.brutality.common.item.weapon.axe;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.entity.projectile.generic.CruelSunEntity;
+import net.goo.brutality.common.item.ItemLeftInventoryTriggerable;
 import net.goo.brutality.common.item.base.BrutalityAxeItem;
 import net.goo.brutality.common.registry.BrutalityEntities;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
@@ -21,7 +22,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class RhittaAxe extends BrutalityAxeItem {
+public class RhittaAxe extends BrutalityAxeItem implements ItemLeftInventoryTriggerable {
 
 
     public RhittaAxe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
@@ -47,6 +48,11 @@ public class RhittaAxe extends BrutalityAxeItem {
         player.level().addFreshEntity(cruelSun);
         pStack.getOrCreateTag().putInt("ID", cruelSun.getId());
 
+    }
+
+    @Override
+    public void onLeaveInventory(Player player, ItemStack stack) {
+        despawnCruelSun(player, stack);
     }
 
     public void despawnCruelSun(Player player, ItemStack pStack) {

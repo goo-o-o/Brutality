@@ -44,7 +44,7 @@ public class BrutalityMagicItem extends BrutalityGenericItem {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         Minecraft mc = Minecraft.getInstance();
         boolean showExtendedView = InputConstants.isKeyDown(mc.getWindow().getWindow(), mc.options.keyShift.getKey().getValue());
         boolean showAllSpells = InputConstants.isKeyDown(mc.getWindow().getWindow(), mc.options.keySprint.getKey().getValue());

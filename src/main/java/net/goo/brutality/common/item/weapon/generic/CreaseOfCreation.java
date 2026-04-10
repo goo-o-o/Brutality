@@ -1,7 +1,9 @@
 package net.goo.brutality.common.item.weapon.generic;
 
+import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.common.config.BrutalityCommonConfig;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
+import net.goo.brutality.common.item.ItemEquipUnequipTriggerable;
 import net.goo.brutality.common.item.base.BrutalityGenericItem;
 import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
@@ -38,7 +40,7 @@ import java.util.Set;
 
 import static net.goo.brutality.util.EnchantmentHelper.restrictEnchants;
 
-public class CreaseOfCreation extends BrutalityGenericItem {
+public class CreaseOfCreation extends BrutalityGenericItem implements ItemEquipUnequipTriggerable {
 
 
     public CreaseOfCreation(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
@@ -81,6 +83,22 @@ public class CreaseOfCreation extends BrutalityGenericItem {
     @Override
     public @NotNull UseAnim getUseAnimation(ItemStack pStack) {
         return UseAnim.BOW;
+    }
+
+
+    @Override
+    public void onEnterMainHand(LivingEntity livingEntity, ItemStack stack) {
+        if (livingEntity.level().isClientSide) {
+            EntityEffect effect = new EntityEffect(CREASE_OF_CREATION_FX.get(), livingEntity.level(), livingEntity, EntityEffect.AutoRotate.NONE);
+            effect.start();
+        }
+    }
+
+    @Override
+    public void onLeaveMainHand(LivingEntity livingEntity, ItemStack stack) {
+        if (livingEntity.level().isClientSide) {
+            ModUtils.removeFX(livingEntity, CREASE_OF_CREATION_FX.get());
+        }
     }
 
     @Override

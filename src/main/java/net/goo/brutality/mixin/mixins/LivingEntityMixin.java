@@ -243,8 +243,7 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
 
     @Inject(
             method = "heal",
-            at = @At("HEAD"),
-            cancellable = true
+            at = @At("HEAD")
     )
     private void handleOverheal(float pHealAmount, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
@@ -252,10 +251,8 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
         if (entity instanceof Player player) {
             if (ModUtils.hasFullArmorSet(entity, BrutalityArmorMaterials.VAMPIRE_LORD)) {
                 float currentHealth = entity.getHealth();
-                if (currentHealth > 0.0F) {
-                    float excess = (currentHealth + pHealAmount) - entity.getMaxHealth();
-                    player.getCapability(BrutalityCapabilities.BLOOD).ifPresent(cap -> cap.modifyBloodValue(player, excess * 0.5F));
-                    entity.setHealth(currentHealth + pHealAmount);
+                if (currentHealth > entity.getMaxHealth()) {
+                    player.getCapability(BrutalityCapabilities.BLOOD).ifPresent(cap -> cap.modifyBloodValue(player, pHealAmount * 0.5F));
                 }
 
                 FoodData foodData = player.getFoodData();
@@ -266,9 +263,7 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
                     foodData.setSaturation(amount + foodData.getSaturationLevel());
                 }
             }
-            ci.cancel();
         }
-
 
     }
 

@@ -184,32 +184,32 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
             if (item instanceof BrutalityGeoItem geoItem) {
                 if (EXCLUDED_ITEMS.contains(geoItem.getClass())) continue;
 
-                String registryName = geoItem.getRegistryName();
+                String itemName = ((Item) geoItem).toString();
                 String category = ItemCategoryUtils.getCategory(item).toString().toLowerCase(Locale.ROOT);
                 ResourceLocation basePath =
                         modLoc("item/" + category + "/" + (
-                                geoItem instanceof ArmorItem armorItem ? armorItem.getMaterial().toString().toLowerCase(Locale.ROOT) : registryName) + "/" + registryName);
+                                geoItem instanceof ArmorItem armorItem ? armorItem.getMaterial().toString().toLowerCase(Locale.ROOT) : itemName) + "/" + itemName);
 
                 ResourceLocation handheldTexture = basePath.withSuffix("_handheld"), inventoryTexture = basePath.withSuffix("_inventory");
-                ResourceLocation handheldModel = modLoc("item/" + category + "/" + registryName + "_handheld");
+                ResourceLocation handheldModel = modLoc("item/" + category + "/" + itemName + "_handheld");
                 boolean hasHandheldTexture = existingFileHelper.exists(handheldTexture, TEXTURE);
                 boolean hasInventoryTexture = existingFileHelper.exists(inventoryTexture, TEXTURE);
                 boolean hasHandheldModel = existingFileHelper.exists(handheldModel, MODEL);
 
 
                 if (hasHandheldTexture && hasInventoryTexture && hasHandheldModel) {
-                    Brutality.LOGGER.info("generateSeparateTransforms({})", registryName);
-                    generateSeparateTransforms(registryName, handheldTexture, inventoryTexture, handheldModel);
+                    Brutality.LOGGER.info("generateSeparateTransforms({})", itemName);
+                    generateSeparateTransforms(itemName, handheldTexture, inventoryTexture, handheldModel);
                 } else if (hasHandheldTexture) {
                     if (hasHandheldModel) {
-                        Brutality.LOGGER.info("withExistingParentHandheld({})", registryName);
-                        withExistingParent(registryName, handheldModel).texture("layer0", handheldTexture);
+                        Brutality.LOGGER.info("withExistingParentHandheld({})", itemName);
+                        withExistingParent(itemName, handheldModel).texture("layer0", handheldTexture);
                     } else {
-                        withExistingParent(registryName, "item/handheld").texture("layer0", handheldTexture);
+                        withExistingParent(itemName, "item/handheld").texture("layer0", handheldTexture);
                     }
                 } else if (hasInventoryTexture) {
-                    Brutality.LOGGER.info("withExistingParentGenerated({})", registryName);
-                    withExistingParent(registryName, mcLoc("item/generated")).texture("layer0", inventoryTexture);
+                    Brutality.LOGGER.info("withExistingParentGenerated({})", itemName);
+                    withExistingParent(itemName, mcLoc("item/generated")).texture("layer0", inventoryTexture);
                 } else {
                     Brutality.LOGGER.warn("Missing textures for {}", item);
                 }

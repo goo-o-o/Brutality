@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
@@ -27,7 +28,7 @@ public class BrutalityMathFunctionCurio extends BrutalityCurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         if (!pStack.is(BrutalityItems.SCIENTIFIC_CALCULATOR.get())) {
             pTooltipComponents.add(Component.translatable("message." + Brutality.MOD_ID + ".requires_scientific_calculator").withStyle(ChatFormatting.DARK_GRAY));
             pTooltipComponents.add(Component.empty());

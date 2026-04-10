@@ -87,7 +87,7 @@ public class ShadowstepSword extends BrutalitySwordItem {
                     pPlayer.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 5, 0), pPlayer);
                 }
             } else {
-                pPlayer.displayClientMessage(Component.translatable("item." + Brutality.MOD_ID + "." + getRegistryName() + ".invalid").withStyle(Style.EMPTY.withColor(ChatFormatting.RED)), true);
+                pPlayer.displayClientMessage(Component.translatable("item." + Brutality.MOD_ID + "." + this + ".invalid").withStyle(Style.EMPTY.withColor(ChatFormatting.RED)), true);
             }
         }
     }

@@ -1,6 +1,8 @@
 package net.goo.brutality.common.item.weapon.tome;
 
 import net.goo.brutality.common.item.BrutalityCategories;
+import net.goo.brutality.common.item.ItemEquipUnequipTriggerable;
+import net.goo.brutality.common.item.ItemLeftInventoryTriggerable;
 import net.goo.brutality.common.item.base.BrutalityMagicItem;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.IBrutalitySpell;
@@ -32,7 +34,7 @@ import software.bernie.geckolib.core.object.PlayState;
 
 import java.util.List;
 
-public abstract class BaseMagicTome extends BrutalityMagicItem {
+public abstract class BaseMagicTome extends BrutalityMagicItem implements ItemLeftInventoryTriggerable, ItemEquipUnequipTriggerable {
 
 
     public BaseMagicTome(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents, int baseSpellSlots, int baseAugmentSlots) {
@@ -176,6 +178,19 @@ public abstract class BaseMagicTome extends BrutalityMagicItem {
             stopTriggeredAnim(player, GeoItem.getOrAssignId(stack, (ServerLevel) level), "main_controller", "cast_continuous");
             triggerAnim(player, GeoItem.getOrAssignId(stack, (ServerLevel) level), "book_controller", "close");
         }
+    }
+
+
+
+    @Override
+    public void onLeaveMainHand(LivingEntity livingEntity, ItemStack stack) {
+        if (livingEntity instanceof Player player)
+            tryCloseBook(player, stack);
+    }
+
+    @Override
+    public void onLeaveInventory(Player player, ItemStack stack) {
+        tryCloseBook(player, stack);
     }
 
     public void tryCloseBook(Player player, ItemStack stack) {

@@ -11,10 +11,7 @@ import net.goo.brutality.client.renderers.shaders.PostShaderInstance;
 import net.goo.brutality.client.renderers.shaders.outline.OutlineStyles;
 import net.goo.brutality.common.block.custom.DustbinBlock;
 import net.goo.brutality.common.compat.BetterCombatIntegration;
-import net.goo.brutality.common.registry.BrutalityBlocks;
-import net.goo.brutality.common.registry.BrutalityFluids;
-import net.goo.brutality.common.registry.BrutalityItems;
-import net.goo.brutality.common.registry.BrutalityMenuTypes;
+import net.goo.brutality.common.registry.*;
 import net.goo.brutality.util.RarityBorderManager;
 import net.goo.brutality.util.tooltip.ItemAugmentComponent;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -115,14 +112,18 @@ public class ModClientSetup {
         if (ModList.get().isLoaded("bettercombat")) {
             BetterCombatIntegration.register();
         }
+
+        BrutalityPhysicsBodies.registerClient();
+
+
         event.enqueueWork(() -> {
             ItemBlockRenderTypes.setRenderLayer(BrutalityFluids.LIQUIFIED_MANA_SOURCE.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(BrutalityFluids.LIQUIFIED_MANA_FLOWING.get(), RenderType.translucent());
         });
 
         event.enqueueWork(DustbinBlock::bootStrap);
-        event.enqueueWork(() -> ItemProperties.register(BrutalityItems.DULL_KNIFE_DAGGER.get(), ResourceLocation.parse("texture"),
-                ((pStack, pLevel, pEntity, pSeed) -> pStack.getOrCreateTag().getInt("texture"))));
+//        event.enqueueWork(() -> ItemProperties.register(BrutalityItems.DULL_KNIFE_DAGGER.get(), ResourceLocation.parse("texture"),
+//                ((pStack, pLevel, pEntity, pSeed) -> pStack.getOrCreateTag().getInt("texture"))));
 
 
         event.enqueueWork(() -> ItemProperties.register(BrutalityItems.DEATHSAW.get(), ResourceLocation.parse("texture"),

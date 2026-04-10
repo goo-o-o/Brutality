@@ -32,8 +32,8 @@ public class GraviticImplosionSpell extends BrutalitySpell {
         GraviticImplosionEntity graviticImplosionEntity = new GraviticImplosionEntity(BrutalityEntities.GRAVITIC_IMPLOSION_ENTITY.get(), player.level());
         graviticImplosionEntity.setSpellLevel(spellLevel);
         graviticImplosionEntity.setPos(player.getEyePosition());
-        graviticImplosionEntity.setOwner(player);
-        graviticImplosionEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0F, Math.min(0.5F + (spellLevel * 0.1F), 1), 0);
+//        graviticImplosionEntity.setOwner(player);
+//        graviticImplosionEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0F, Math.min(0.5F + (spellLevel * 0.1F), 1), 0);
         player.level().addFreshEntity(graviticImplosionEntity);
         return true;
     }

@@ -34,30 +34,6 @@ public abstract class ItemRendererMixin {
         }
     }
 
-//    @Shadow
-//    public abstract void renderModelLists(BakedModel pModel, ItemStack pStack, int pCombinedLight, int pCombinedOverlay, PoseStack pPoseStack, VertexConsumer pBuffer);
-
-//    @Inject(
-//            method = "render",
-//            at = @At("TAIL")
-//    )
-//    private void renderOutlineHull(ItemStack stack, ItemDisplayContext context, boolean leftHand, PoseStack ps, MultiBufferSource buffer, int light, int overlay, BakedModel model, CallbackInfo ci) {
-//        if (context == ItemDisplayContext.GUI || stack.isEmpty()) return;
-//
-//        // thickness is in "model units". 0.05f is roughly half a pixel on a 16x texture.
-//        ps.pushPose();
-//        model.applyTransform(context, ps, leftHand);
-//        InvertedHullBakedModel hullModel = new InvertedHullBakedModel(model, 0.05f);
-
-    /// /        ps.mulPose(Axis.ZP.rotationDegrees(180));
-    /// /        Vector3f scale = model.getTransforms().getTransform(context).scale;
-    /// /        ps.translate(-0.25, -0.25, -0.25);
-    /// /        ps.scale(-1.1F, -1.1F, -1.1F);
-//        // respect texture alpha (cutout) for standard item sprites
-//        VertexConsumer hullConsumer = buffer.getBuffer(RenderType.entityCutout(model.getParticleIcon().atlasLocation()));
-//        this.renderModelLists(hullModel, stack, light, overlay, ps, hullConsumer);
-//        ps.popPose();
-//    }
     @Inject(
             method = "render",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/ItemRenderer;renderModelLists(Lnet/minecraft/client/resources/model/BakedModel;Lnet/minecraft/world/item/ItemStack;IILcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;)V")

@@ -19,6 +19,7 @@ public class CommonRegistry {
         BrutalityRecipes.register(modEventBus);
         BrutalityFluids.register(modEventBus);
         BrutalityFluidTypes.register(modEventBus);
+        BrutalityPhysicsBodies.register();
     }
 
 

@@ -3,6 +3,7 @@ package net.goo.brutality.common.item.base;
 import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
+import net.goo.brutality.util.tooltip.TooltipHelper;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
@@ -54,7 +55,7 @@ public class BrutalitySpearItem extends AxeItem implements BrutalityGeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
+        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
     }
 
     @Override

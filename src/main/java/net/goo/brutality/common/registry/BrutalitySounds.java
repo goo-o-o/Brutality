@@ -13,7 +13,6 @@ import java.util.List;
 public class BrutalitySounds {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS =
             DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Brutality.MOD_ID);
-    public static final RegistryObject<SoundEvent> METAL_PIPE = registerSoundEvents("metal_pipe");
     public static final RegistryObject<SoundEvent> TREASURE_CHEST_LOCK = registerSoundEvents("treasure_chest_lock");
     public static final RegistryObject<SoundEvent> LIGHT_SWITCH = registerSoundEvents("light_switch");
     public static final RegistryObject<SoundEvent> LIGHT_SWITCH_MONO = registerSoundEvents("light_switch_mono");
@@ -99,6 +98,30 @@ public class BrutalitySounds {
             registerSoundEvents("transform_kayn"),
             registerSoundEvents("transform_shadow_assasin"),
             registerSoundEvents("transform_rhaast")
+    );
+    public static final List<RegistryObject<SoundEvent>> RETRO_NEGATIVE = List.of(
+            registerSoundEvents("retro_negative_1"),
+            registerSoundEvents("retro_negative_2"),
+            registerSoundEvents("retro_negative_3")
+    );
+
+    public static final List<RegistryObject<SoundEvent>> RETRO_POSITIVE = List.of(
+            registerSoundEvents("retro_positive_1"),
+            registerSoundEvents("retro_positive_2"),
+            registerSoundEvents("retro_positive_3"),
+            registerSoundEvents("retro_positive_4")
+    );
+
+    public static final List<RegistryObject<SoundEvent>> COIN_FLIP = List.of(
+            registerSoundEvents("coin_flip_1"),
+            registerSoundEvents("coin_flip_2"),
+            registerSoundEvents("coin_flip_3")
+    );
+
+    public static final List<RegistryObject<SoundEvent>> COIN_IMPACT = List.of(
+            registerSoundEvents("coin_impact_1"),
+            registerSoundEvents("coin_impact_2"),
+            registerSoundEvents("coin_impact_3")
     );
 
     public static final RegistryObject<SoundEvent> SHURIKEN_IMPACT = registerSoundEvents("shuriken_impact");

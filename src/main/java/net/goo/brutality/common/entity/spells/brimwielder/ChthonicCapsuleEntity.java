@@ -3,10 +3,9 @@ package net.goo.brutality.common.entity.spells.brimwielder;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.common.entity.base.BrutalityAbstractPhysicsProjectile;
 import net.goo.brutality.common.entity.explosion.BloodExplosion;
-import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.entity.spells.IBrutalitySpellEntity;
+import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.spells.voidwalker.GraviticImplosionSpell;
-import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.util.ModExplosionHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -14,16 +13,13 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
@@ -36,14 +32,10 @@ import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatCompo
 public class ChthonicCapsuleEntity extends BrutalityAbstractPhysicsProjectile implements BrutalityGeoEntity, IBrutalitySpellEntity {
     private static final EntityDataAccessor<Integer> SPELL_LEVEL_DATA = SynchedEntityData.defineId(ChthonicCapsuleEntity.class, EntityDataSerializers.INT);
 
-    public ChthonicCapsuleEntity(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public ChthonicCapsuleEntity(EntityType<? extends Projectile> type, Level level) {
+        super(type, level);
     }
 
-    @Override
-    protected boolean tryPickup(Player pPlayer) {
-        return false;
-    }
 
     @Override
     public boolean fireImmune() {
@@ -105,14 +97,14 @@ public class ChthonicCapsuleEntity extends BrutalityAbstractPhysicsProjectile im
     public void tick() {
         super.tick();
 
-        if (this.inGround) {
+        if (this.hasHitGround) {
             lockPitch();
             lockRoll();
             lockYaw();
         }
-        if (this.inGroundTime >= 100) {
+        if (this.groundTicks >= 100) {
             doExplosion();
-            if (this.inGroundTime > 100)
+            if (this.groundTicks > 100)
                 discard();
         }
     }
@@ -149,11 +141,6 @@ public class ChthonicCapsuleEntity extends BrutalityAbstractPhysicsProjectile im
     }
 
     @Override
-    protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
-        return BrutalitySounds.SQUELCH.get();
-    }
-
-    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "controller", state ->
                 PlayState.CONTINUE)
@@ -167,8 +154,4 @@ public class ChthonicCapsuleEntity extends BrutalityAbstractPhysicsProjectile im
         return cache;
     }
 
-    @Override
-    protected int getBounceCount() {
-        return 0;
-    }
 }

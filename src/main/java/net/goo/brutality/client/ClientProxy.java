@@ -5,23 +5,15 @@ import net.goo.brutality.client.sounds.DeathsawSoundInstance;
 import net.goo.brutality.client.sounds.ExtinctionSpellSoundInstance;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.entity.spells.brimwielder.ExtinctionEntity;
-import net.goo.brutality.common.item.base.BrutalityAnkletItem;
-import net.goo.brutality.common.network.clientbound.ClientboundDodgePacket;
 import net.goo.brutality.common.network.clientbound.ClientboundParticlePacket;
 import net.goo.brutality.common.registry.BrutalitySounds;
-import net.goo.brutality.event.LivingDodgeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -29,7 +21,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.client.gui.CuriosScreenV2;
 
@@ -174,24 +165,6 @@ public class ClientProxy {
                 return;
             }
 
-        }
-    }
-
-    public static void handleDodgeClient(ClientboundDodgePacket packet) {
-        ClientLevel level = mc.level;
-        if (level == null) return;
-        Holder<DamageType> damageType = level.registryAccess()
-                .registryOrThrow(Registries.DAMAGE_TYPE)
-                .getHolderOrThrow(ResourceKey.create(Registries.DAMAGE_TYPE, packet.damageTypeId));
-        Entity directEntity = packet.hasDirectEntity && packet.directEntityId != null ? level.getEntity(packet.directEntityId) : null;
-        Entity causingEntity = packet.hasCausingEntity && packet.causingEntityId != null ? level.getEntity(packet.causingEntityId) : null;
-        DamageSource source = new DamageSource(damageType, directEntity, causingEntity);
-        if (level.getEntity(packet.entityId) instanceof LivingEntity livingEntity) {
-            LivingDodgeEvent.Client client = new LivingDodgeEvent.Client(livingEntity, source, packet.amount);
-            ModLoader.get().postEvent(client);
-            if (packet.anklet.getItem() instanceof BrutalityAnkletItem ankletItem) {
-                ankletItem.onDodgeClient(livingEntity, source, packet.amount, packet.anklet);
-            }
         }
     }
 

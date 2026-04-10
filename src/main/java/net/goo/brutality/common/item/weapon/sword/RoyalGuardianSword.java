@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.particle.providers.WaveParticleData;
 import net.goo.brutality.client.player_animation.AnimationHelper;
+import net.goo.brutality.common.item.ItemEquipUnequipTriggerable;
 import net.goo.brutality.common.item.base.BrutalitySwordItem;
 import net.goo.brutality.common.network.PacketHandler;
 import net.goo.brutality.common.network.serverbound.ServerboundStartPlayerAnimationPacket;
@@ -44,7 +45,7 @@ import java.util.List;
 
 import static net.goo.brutality.common.registry.BrutalityAttributes.BASE_ENTITY_RANGE_UUID;
 
-public class RoyalGuardianSword extends BrutalitySwordItem {
+public class RoyalGuardianSword extends BrutalitySwordItem implements ItemEquipUnequipTriggerable {
     public static final OrientedBoundingBox DISPLAY_HITBOX = new OrientedBoundingBox(Vec3.ZERO, new Vec3(3F, 5, 20).scale(0.5F), 0, 0, 0);
     public static final Vec3 OFFSET = new Vec3(0, -1, 1.5 + DISPLAY_HITBOX.halfExtents.z);
     private static final ResourceLocation OVERHEAD_SWORD_POSE = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "overhead_sword_pose");
@@ -164,4 +165,18 @@ public class RoyalGuardianSword extends BrutalitySwordItem {
     }
 
 
+    @Override
+    public void onEnterMainHand(LivingEntity livingEntity, ItemStack stack) {
+
+    }
+
+    @Override
+    public void onLeaveMainHand(LivingEntity livingEntity, ItemStack stack) {
+        if (livingEntity instanceof Player player)
+            if (player.level().isClientSide()) {
+                AnimationHelper.stopAnimation(player, 5);
+            } else {
+                PacketHandler.sendToServer(new ServerboundStopPlayerAnimationPacket(player.getUUID(), 5));
+            }
+    }
 }

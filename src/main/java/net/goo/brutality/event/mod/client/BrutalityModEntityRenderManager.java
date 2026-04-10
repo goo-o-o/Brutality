@@ -97,6 +97,7 @@ public class BrutalityModEntityRenderManager {
                     renderer.addRenderLayer(new BrutalityAutoFullbrightAlphaLayer<>(renderer));
                 }));
 
+
         event.registerEntityRenderer(BrutalityEntities.EXPLOSION_RAY.get(), context -> new BrutalitySkyRayRenderer<>(context,
                 renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer))));
 
@@ -130,6 +131,7 @@ public class BrutalityModEntityRenderManager {
 
 
         event.registerEntityRenderer(BrutalityEntities.SUMMONED_STRAY.get(), StrayRenderer::new);
+        event.registerEntityRenderer(BrutalityEntities.PHYSICS_BOX.get(), PhysicsBoxRenderer::new);
 
         event.registerEntityRenderer(BrutalityEntities.LIGHT_ARROW.get(), context -> new BrutalityArrowRenderer<>(context,
                 renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer))));
@@ -141,6 +143,8 @@ public class BrutalityModEntityRenderManager {
 
         event.registerEntityRenderer(BrutalityEntities.GRAVITIC_IMPLOSION_ENTITY.get(), context -> new BrutalityAbstractPhysicsProjectileRenderer<>(context,
                 renderer -> renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer))));
+
+
 
         event.registerEntityRenderer(BrutalityEntities.COSMIC_CATACLYSM_ENTITY.get(), context -> new BrutalityAbstractPhysicsProjectileRenderer<>(context,
                 renderer -> {

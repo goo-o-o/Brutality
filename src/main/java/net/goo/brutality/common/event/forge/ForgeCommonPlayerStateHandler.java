@@ -1,24 +1,18 @@
 package net.goo.brutality.common.event.forge;
 
-import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.client.ClientProxy;
-import net.goo.brutality.client.player_animation.AnimationHelper;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
+import net.goo.brutality.common.item.ItemEquipUnequipTriggerable;
+import net.goo.brutality.common.item.ItemLeftInventoryTriggerable;
 import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
-import net.goo.brutality.common.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.common.item.weapon.generic.CreaseOfCreation;
-import net.goo.brutality.common.item.weapon.spear.EventHorizon;
-import net.goo.brutality.common.item.weapon.sword.DullKnifeSword;
 import net.goo.brutality.common.item.weapon.sword.SupernovaSword;
-import net.goo.brutality.common.item.weapon.tome.BaseMagicTome;
 import net.goo.brutality.common.network.PacketHandler;
+import net.goo.brutality.common.network.clientbound.ClientboundEquipmentChangePacket;
 import net.goo.brutality.common.network.clientbound.ClientboundSyncItemCooldownPacket;
-import net.goo.brutality.common.network.serverbound.ServerboundStopPlayerAnimationPacket;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.CooldownUtils;
-import net.goo.brutality.util.EnvironmentColorManager;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -30,27 +24,21 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.living.LivingSwapItemsEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import oshi.util.tuples.Pair;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 import static net.goo.brutality.util.EnvironmentColorManager.resetAllColors;
-import static net.goo.brutality.util.ModResources.CREASE_OF_CREATION_FX;
-import static net.goo.brutality.util.ModResources.LIGHTNING_AURA_FX;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeCommonPlayerStateHandler {
@@ -107,109 +95,6 @@ public class ForgeCommonPlayerStateHandler {
 
     }
 
-
-    @FunctionalInterface
-    public interface HoldEvent {
-        void run(Player player);
-    }
-
-    public record HoldToggleAction(HoldEvent onHold, HoldEvent onRelease) {
-    }
-
-    private static final List<Pair<Predicate<ItemStack>, HoldToggleAction>> TOGGLE_ACTIONS = new ArrayList<>();
-
-    static {
-        TOGGLE_ACTIONS.add(new Pair<>(
-                stack -> stack.is(BrutalityItems.CREASE_OF_CREATION.get()),
-                new HoldToggleAction(
-                        (player) -> {
-                            if (player.level().isClientSide) {
-                                EntityEffect effect = new EntityEffect(CREASE_OF_CREATION_FX.get(), player.level(), player, EntityEffect.AutoRotate.NONE);
-                                effect.start();
-                            }
-                        },
-                        (player) -> {
-                            if (player.level().isClientSide) {
-                                ModUtils.removeFX(player, CREASE_OF_CREATION_FX.get());
-                            }
-                        }
-                )));
-        TOGGLE_ACTIONS.add(new Pair<>(
-                stack -> stack.is(BrutalityItems.OLD_GPU.get()),
-                new HoldToggleAction(
-                        (player) -> {
-                            if (player.level().isClientSide) {
-                                ClientProxy.loadBitShader();
-                            }
-                        },
-                        (player) -> {
-                            if (player.level().isClientSide) {
-                                ClientProxy.stopAllShaders();
-                            }
-                        }
-                )
-        ));
-        TOGGLE_ACTIONS.add(new Pair<>(
-                stack -> stack.is(BrutalityItems.DULL_KNIFE_DAGGER.get()),
-                new HoldToggleAction(
-                        (player) -> {
-                            if (player.level().isClientSide()) {
-                                int emotionIndex = ModUtils.getTextureIdx(player.getMainHandItem());
-                                DullKnifeSword.EmotionColor emotion = DullKnifeSword.EmotionColor.byId(emotionIndex);
-                                EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.SKY, emotion.primaryColor);
-                                EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.FOG, emotion.secondaryColor);
-                            }
-                        },
-                        (player) -> resetAllColors()
-                )));
-
-
-        TOGGLE_ACTIONS.add(new Pair<>(
-                stack -> stack.getItem() instanceof BaseMagicTome,
-                new HoldToggleAction(
-                        (player) -> {
-                        },
-                        (player) -> {
-                            ItemStack main = player.getMainHandItem();
-                            if (main.getItem() instanceof BaseMagicTome tome) {
-                                tome.closeBook(player, main);
-                            }
-                        }
-                )));
-
-        TOGGLE_ACTIONS.add(new Pair<>(
-                stack -> stack.is(BrutalityItems.THUNDERBOLT_TRIDENT.get()),
-                new HoldToggleAction(
-                        (player) -> {
-                            if (!(player.level() instanceof ServerLevel)) {
-                                EntityEffect effect = new EntityEffect(LIGHTNING_AURA_FX.get(), player.level(), player, EntityEffect.AutoRotate.NONE);
-                                effect.start();
-                            }
-                        },
-                        (player) -> {
-                            if (!(player.level() instanceof ServerLevel)) {
-                                ModUtils.removeFX(player, LIGHTNING_AURA_FX.get());
-                            }
-                        }
-                )));
-        TOGGLE_ACTIONS.add(new Pair<>(
-                stack -> stack.is(BrutalityItems.ROYAL_GUARDIAN_SWORD.get()),
-                new HoldToggleAction(
-                        (player) -> {
-                        },
-                        (player) -> {
-                            if (player.level().isClientSide()) {
-                                AnimationHelper.stopAnimation(player, 5);
-                            } else {
-                                PacketHandler.sendToServer(new ServerboundStopPlayerAnimationPacket(player.getUUID(), 5));
-                            }
-                        }
-                )));
-
-
-    }
-
-
     @SubscribeEvent
     public static void onPlayerContainerOpen(PlayerContainerEvent.Open event) {
         Player player = event.getEntity();
@@ -237,8 +122,8 @@ public class ForgeCommonPlayerStateHandler {
                 int newCount = newStack.getCount();
 
                 // If count decreased for our specific item
-                if (oldCount > newCount && isSpecificItem(oldStack)) {
-                    triggerItemLeftInventory(player, oldStack);
+                if (oldCount > newCount && oldStack.getItem() instanceof ItemLeftInventoryTriggerable itemLeftInventoryTriggerable) {
+                    itemLeftInventoryTriggerable.onLeaveInventory(player, oldStack);
                 }
 
                 // update stored state
@@ -255,56 +140,36 @@ public class ForgeCommonPlayerStateHandler {
     @SubscribeEvent
     public static void onItemPutInFrame(PlayerInteractEvent.EntityInteractSpecific event) {
         if (event.getTarget() instanceof ItemFrame) {
-            if (isSpecificItem(event.getItemStack())) {
-                triggerItemLeftInventory(event.getEntity(), event.getItemStack());
+            if (event.getItemStack().getItem() instanceof ItemLeftInventoryTriggerable itemLeftInventoryTriggerable)
+                itemLeftInventoryTriggerable.onLeaveInventory(event.getEntity(), event.getItemStack());
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerUnequipItem(LivingEquipmentChangeEvent event) {
+        if (!event.getSlot().isArmor()) {
+            ItemStack from = event.getFrom();
+            ItemStack to = event.getTo();
+
+            if (from.getItem() instanceof ItemEquipUnequipTriggerable triggerable) {
+                triggerable.onLeaveMainHand(event.getEntity(), from);
+                if (event.getEntity() instanceof ServerPlayer player)
+                    PacketHandler.sendToPlayerClient(new ClientboundEquipmentChangePacket(event.getEntity(), from, true), player);
+            }
+            if (to.getItem() instanceof ItemEquipUnequipTriggerable triggerable) {
+                triggerable.onEnterMainHand(event.getEntity(), to);
+                if (event.getEntity() instanceof ServerPlayer player)
+                    PacketHandler.sendToPlayerClient(new ClientboundEquipmentChangePacket(event.getEntity(), to, false), player);
             }
         }
-    }
 
-    private static boolean isSpecificItem(ItemStack stack) {
-        if (stack.isEmpty()) return false;
-        Item item = stack.getItem();
-        return item instanceof EventHorizon
-                || item instanceof RhittaAxe
-                || item instanceof BaseMagicTome;
     }
-
-    private static void triggerItemLeftInventory(Player player, ItemStack oldStack) {
-        Item item = oldStack.getItem();
-        if (item instanceof EventHorizon lance) {
-            lance.despawnBlackHole(player, oldStack);
-        } else if (item instanceof RhittaAxe axe) {
-            axe.despawnCruelSun(player, oldStack);
-        } else if (item instanceof BaseMagicTome tome) {
-            tome.tryCloseBook(player, oldStack);
-        }
-    }
-
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {
 
             Player player = event.player;
-
-            for (var entry : TOGGLE_ACTIONS) {
-                Predicate<ItemStack> matcher = entry.getA();
-                HoldToggleAction action = entry.getB();
-
-                boolean isHolding = matcher.test(player.getMainHandItem()) || matcher.test(player.getOffhandItem());
-                String tagKey = "holding_action_" + TOGGLE_ACTIONS.indexOf(entry); // unique per entry
-
-                boolean wasHolding = player.getPersistentData().getBoolean(tagKey);
-                if (isHolding && !wasHolding) {
-//                    System.out.println("running OnHold");
-                    action.onHold().run(player);
-                    player.getPersistentData().putBoolean(tagKey, true);
-                } else if (!isHolding && wasHolding) {
-//                    System.out.println("running onRelease");
-                    action.onRelease().run(player);
-                    player.getPersistentData().putBoolean(tagKey, false);
-                }
-            }
 
             if (ModUtils.hasFullArmorSet(player, BrutalityArmorMaterials.TERRA)) {
                 if (player.isCrouching()) {

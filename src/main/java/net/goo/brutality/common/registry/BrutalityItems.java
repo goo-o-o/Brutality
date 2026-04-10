@@ -46,8 +46,9 @@ import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
 import net.goo.brutality.common.item.generic.augments.seals.BombSeal;
 import net.goo.brutality.common.item.generic.augments.seals.CosmicSeal;
 import net.goo.brutality.common.item.generic.augments.seals.VoidSeal;
+import net.goo.brutality.common.item.generic.coins.Paradime;
 import net.goo.brutality.common.item.weapon.axe.Deathsaw;
-import net.goo.brutality.common.item.weapon.axe.OldGpuAxe;
+import net.goo.brutality.common.item.weapon.axe.OldGpu;
 import net.goo.brutality.common.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.common.item.weapon.bow.Providence;
 import net.goo.brutality.common.item.weapon.generic.CanopyOfShadowsItem;
@@ -113,6 +114,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
@@ -131,6 +133,14 @@ public class BrutalityItems {
     }
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Brutality.MOD_ID);
+
+
+    public static final RegistryObject<Item> PARADIME = ITEMS.register("paradime", () ->
+            new Paradime(new Item.Properties().rarity(BrutalityRarities.DARK), 40, List.of(
+                    new ItemDescriptionComponent(ON_HEADS, 1),
+                    new ItemDescriptionComponent(ON_TAILS, 1)
+            )));
+
 
     public static final RegistryObject<Item> POCKET_BLACK_HOLE = ITEMS.register("pocket_black_hole", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> HIGH_FREQUENCY_ALLOY = ITEMS.register("high_frequency_alloy", () -> new Item(new Item.Properties()));
@@ -450,10 +460,10 @@ public class BrutalityItems {
             new ItemDescriptionComponent(LORE, 1),
             new ItemDescriptionComponent(ON_HIT, 1))));
 
-    public static final RegistryObject<Item> DULL_KNIFE_DAGGER = ITEMS.register("dull_knife", () -> new DullKnifeSword(
-            Tiers.NETHERITE, 4, -2F, BrutalityRarities.LEGENDARY, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1),
-            new ItemDescriptionComponent(ON_RIGHT_CLICK, 1))));
+//    public static final RegistryObject<Item> DULL_KNIFE_DAGGER = ITEMS.register("dull_knife", () -> new DullKnifeSword(
+//            Tiers.NETHERITE, 4, -2F, BrutalityRarities.LEGENDARY, List.of(
+//            new ItemDescriptionComponent(PASSIVE, 1),
+//            new ItemDescriptionComponent(ON_RIGHT_CLICK, 1))));
 
     public static final RegistryObject<Item> GUNGNIR_TRIDENT = ITEMS.register("gungnir", () -> new GungnirTrident(
             13, -3.2F, BrutalityRarities.MYTHIC, List.of(
@@ -494,7 +504,7 @@ public class BrutalityItems {
             new ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 2),
             new ItemDescriptionComponent(PASSIVE, 2))));
 
-    public static final RegistryObject<Item> OLD_GPU = ITEMS.register("old_gpu", () -> new OldGpuAxe(
+    public static final RegistryObject<Item> OLD_GPU = ITEMS.register("old_gpu", () -> new OldGpu(
             Tiers.DIAMOND, 23, -2.5F, BrutalityRarities.MYTHIC, List.of(
             new ItemDescriptionComponent(LORE, 1),
             new ItemDescriptionComponent(PASSIVE, 2))));
@@ -885,7 +895,7 @@ public class BrutalityItems {
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))) {
         @Override
-        public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
             pTooltipComponents.add(Component.empty());
             pTooltipComponents.add(Component.literal(String.format("%.2f", pStack.getOrCreateTag().getFloat("mana")) + " / 200").withStyle(ChatFormatting.BLUE));
@@ -2201,7 +2211,7 @@ public class BrutalityItems {
                     new AttributeContainer(Attributes.ATTACK_DAMAGE, 2, MULTIPLY_TOTAL),
                     new AttributeContainer(BrutalityAttributes.SLASH_DAMAGE.get(), 2, MULTIPLY_TOTAL)
             ));
-    public static final RegistryObject<Item> CENSORED = ITEMS.register("censored", () -> new Censored(
+    public static final RegistryObject<Item> CENSORED = ITEMS.register("censored", () -> new BrutalityCurioItem(
             BrutalityRarities.DARK, List.of(
             new ItemDescriptionComponent(PASSIVE, 3)))
     );

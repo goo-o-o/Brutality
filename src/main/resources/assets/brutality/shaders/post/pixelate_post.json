@@ -1,0 +1,28 @@
+{
+  "targets": [
+    "swap",
+    "final"
+  ],
+  "passes": [
+    {
+      "name": "brutality:pixelate",
+      "intarget": "minecraft:main",
+      "outtarget": "swap",
+      "auxtargets": [
+        {
+          "name": "PixelateSampler",
+          "id": "final"
+        }
+      ],
+      "uniforms": [
+        { "name": "PixelSize", "values": [ 16.0 ] },
+        { "name": "Spread", "values": [ 2.0 ] }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "swap",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}

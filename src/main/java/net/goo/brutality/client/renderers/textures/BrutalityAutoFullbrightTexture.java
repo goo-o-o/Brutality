@@ -1,7 +1,6 @@
 package net.goo.brutality.client.renderers.textures;
 
 import net.goo.brutality.client.renderers.BrutalityRenderTypes;
-import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.cache.texture.AutoGlowingTexture;
@@ -14,8 +13,7 @@ public class BrutalityAutoFullbrightTexture extends AutoGlowingTexture {
     }
 
     public static RenderType getRenderType(ResourceLocation texture) {
-//        return RenderType.entityTranslucent(texture);
-        return Util.memoize(BrutalityRenderTypes::getfullBright).apply(getEmissiveResource(texture));
+        return BrutalityRenderTypes.FULLBRIGHT.apply(getEmissiveResource(texture));
     }
 
     private static ResourceLocation getEmissiveResource(ResourceLocation baseResource) {

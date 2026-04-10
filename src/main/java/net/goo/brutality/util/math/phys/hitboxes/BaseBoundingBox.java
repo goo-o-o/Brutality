@@ -13,7 +13,13 @@ import java.util.List;
 public abstract class BaseBoundingBox {
     public Vec3 center;
     public Matrix3f rotation = new Matrix3f(); // every hitbox can be rotated
-
+    /**
+     * Returns world-space points used for collision.
+     * For physics to feel "solid," points should be spaced no more than 1 block apart.
+     */
+    /**
+     * Returns a list of points in world-space used to check for block collisions.
+     */
     public abstract AABB getAABB();
 
     public abstract BaseBoundingBox copy();
@@ -74,4 +80,29 @@ public abstract class BaseBoundingBox {
 
     public abstract <T extends Entity> List<T> findEntitiesHit(Player player, Class<T> clazz);
 
+
+    public void setCenter(Vec3 center) {
+        this.center = center;
+    }
+
+    /**
+     * Get the center position
+     */
+    public Vec3 getCenter() {
+        return center;
+    }
+
+    /**
+     * Get the rotation matrix
+     */
+    public Matrix3f getRotation() {
+        return rotation;
+    }
+
+    /**
+     * Set the rotation matrix
+     */
+    public void setRotationMatrix(Matrix3f rotation) {
+        this.rotation = rotation;
+    }
 }

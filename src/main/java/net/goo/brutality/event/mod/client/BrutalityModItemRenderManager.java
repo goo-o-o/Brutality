@@ -90,8 +90,8 @@ public class BrutalityModItemRenderManager {
 
             registerItemLayers(BrutalityItems.DOUBLE_DOWN.get(), renderer ->
                     renderer.addRenderLayer(new BrutalityAutoAlphaLayer<>(renderer)));
-            registerItemLayers(BrutalityItems.DULL_KNIFE_DAGGER.get(), renderer ->
-                    renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
+//            registerItemLayers(BrutalityItems.DULL_KNIFE_DAGGER.get(), renderer ->
+//                    renderer.addRenderLayer(new BrutalityAutoFullbrightLayer<>(renderer)));
 //            registerItemLayers(BrutalityModItems.MURAMASA_SWORD.get(), renderer ->
 //                    renderer.addRenderLayer(new BrutalityAutoFullbrightNoDepthLayer<>(renderer)));
 //            registerItemLayers(BrutalityModItems.MURASAMA_SWORD.get(), renderer -> {

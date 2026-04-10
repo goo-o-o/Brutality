@@ -3,8 +3,8 @@ package net.goo.brutality.common.entity.spells.cosmic;
 import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.common.entity.base.BrutalityAbstractPhysicsProjectile;
-import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.entity.spells.IBrutalitySpellEntity;
+import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.spells.cosmic.SingularityShiftSpell;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityParticles;
@@ -14,13 +14,10 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
@@ -35,17 +32,18 @@ import java.util.List;
 
 import static net.goo.brutality.util.ModResources.GRAVITY_FIELD_DOWN_FX;
 import static net.goo.brutality.util.ModResources.GRAVITY_FIELD_UP_FX;
-import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.DURATION;
 import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.SIZE;
 
 public class SingularityShiftEntity extends BrutalityAbstractPhysicsProjectile implements BrutalityGeoEntity, IBrutalitySpellEntity {
     private static final EntityDataAccessor<Integer> SPELL_LEVEL_DATA = SynchedEntityData.defineId(SingularityShiftEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> WEIGHTLESS_DATA = SynchedEntityData.defineId(SingularityShiftEntity.class, EntityDataSerializers.BOOLEAN);
 
-    public SingularityShiftEntity(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public SingularityShiftEntity(EntityType<? extends Projectile> type, Level level) {
+        super(type, level);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
+
     }
+
 
     @Override
     public String texture() {
@@ -55,11 +53,6 @@ public class SingularityShiftEntity extends BrutalityAbstractPhysicsProjectile i
     @Override
     public String model() {
         return "star_stream";
-    }
-
-    @Override
-    protected boolean tryPickup(Player pPlayer) {
-        return false;
     }
 
     @Override
@@ -102,17 +95,6 @@ public class SingularityShiftEntity extends BrutalityAbstractPhysicsProjectile i
         this.entityData.define(SPELL_LEVEL_DATA, 1);
         this.entityData.define(WEIGHTLESS_DATA, true);
     }
-
-    @Override
-    public float getGravity() {
-        return 0.01F;
-    }
-
-    @Override
-    protected int getLifespan() {
-        return 1500;
-    }
-
 
     @Override
     public BrutalitySpell getSpell() {
@@ -171,7 +153,8 @@ public class SingularityShiftEntity extends BrutalityAbstractPhysicsProjectile i
     public void tick() {
         super.tick();
 
-        if (this.inGround && !this.level().isClientSide()) { // Ensure server-side
+
+        if (this.hasHitGround && !this.level().isClientSide()) { // Ensure server-side
             if (tickCount % 5 == 0) {
                 BrutalitySpell spell = getSpell();
                 float range = spell.getFinalStat(getSpellLevel(), spell.getStat(SIZE));
@@ -196,16 +179,6 @@ public class SingularityShiftEntity extends BrutalityAbstractPhysicsProjectile i
         }
     }
 
-    @Override
-    protected int getInGroundLifespan() {
-        return (int) getSpell().getFinalStat(getSpellLevel(), getSpell().getStat(DURATION));
-    }
-
-    @Override
-    protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.EMPTY;
-    }
-
     AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     @Override
@@ -221,8 +194,4 @@ public class SingularityShiftEntity extends BrutalityAbstractPhysicsProjectile i
         );
     }
 
-    @Override
-    protected int getBounceCount() {
-        return 0;
-    }
 }

@@ -4,6 +4,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.common.entity.ChairSeatEntity;
 import net.goo.brutality.common.entity.base.BrutalityAbstractTrident;
 import net.goo.brutality.common.entity.base.BrutalityArrow;
+import net.goo.brutality.common.entity.base.phys.PhysicsEntity;
 import net.goo.brutality.common.entity.mobs.SummonedStray;
 import net.goo.brutality.common.entity.projectile.arrow.LightArrow;
 import net.goo.brutality.common.entity.projectile.generic.*;
@@ -206,7 +207,7 @@ public class BrutalityEntities {
 
     public static final RegistryObject<EntityType<HealingProjectile>> HEALING_PROJECTILE =
             ENTITY_TYPES.register("healing_projectile", () -> EntityType.Builder.of(HealingProjectile::new,
-                    MobCategory.MISC).sized(0F, 0F).build("healing_projectile"));
+                    MobCategory.MISC).sized(0.1F, 0.1F).build("healing_projectile"));
 
     public static final RegistryObject<EntityType<RhongomyniadRay>> RHONGOMYNIAD_RAY =
             ENTITY_TYPES.register("rhongomyniad_ray", () -> EntityType.Builder.of(RhongomyniadRay::new,
@@ -258,6 +259,7 @@ public class BrutalityEntities {
                     () -> EntityType.Builder.of(CruelSunEntity::new, MobCategory.MISC)
                             .sized(3.0f, 3.0f)
                             .build("cruel_sun"));
+
 
 
 //    public static final RegistryObject<EntityType<ExcaliburBeam>> EXCALIBUR_BEAM =
@@ -315,6 +317,11 @@ public class BrutalityEntities {
                     () -> EntityType.Builder.of(GraviticImplosionEntity::new, MobCategory.MISC)
                             .sized(0.5F, 0.5F)
                             .build("gravitic_implosion"));
+
+    public static final RegistryObject<EntityType<PhysicsEntity>> PHYSICS_BOX =
+            ENTITY_TYPES.register("physics_box", () -> EntityType.Builder.of(PhysicsEntity::new, MobCategory.MISC)
+                    .sized(1.0f, 1.0f) // This is for vanilla's internal tracking
+                    .build("physics_box"));
 
     public static final RegistryObject<EntityType<CosmicCataclysmEntity>> COSMIC_CATACLYSM_ENTITY =
             ENTITY_TYPES.register("cosmic_cataclysm",

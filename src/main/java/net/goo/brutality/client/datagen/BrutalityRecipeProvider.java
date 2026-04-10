@@ -331,17 +331,17 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(TerramityModItems.HELLSPEC_ALLOY.get()), has(TerramityModItems.HELLSPEC_ALLOY.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.DULL_KNIFE_DAGGER.get())
-                .pattern(" # ")
-                .pattern("$%@")
-                .pattern(" ^ ")
-                .define('#', TerramityModItems.SPECTRAL_SOUL.get())
-                .define('$', TerramityModItems.ACCURSED_SOUL.get())
-                .define('%', Items.NETHERITE_SWORD)
-                .define('@', TerramityModItems.LOST_SOUL.get())
-                .define('^', TerramityModItems.SPITEFUL_SOUL.get())
-                .unlockedBy(getHasName(Items.NETHERITE_SWORD), has(Items.NETHERITE_SWORD))
-                .save(consumer);
+//        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.DULL_KNIFE_DAGGER.get())
+//                .pattern(" # ")
+//                .pattern("$%@")
+//                .pattern(" ^ ")
+//                .define('#', TerramityModItems.SPECTRAL_SOUL.get())
+//                .define('$', TerramityModItems.ACCURSED_SOUL.get())
+//                .define('%', Items.NETHERITE_SWORD)
+//                .define('@', TerramityModItems.LOST_SOUL.get())
+//                .define('^', TerramityModItems.SPITEFUL_SOUL.get())
+//                .unlockedBy(getHasName(Items.NETHERITE_SWORD), has(Items.NETHERITE_SWORD))
+//                .save(consumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.CANOPY_OF_SHADOWS.get())
                 .pattern(" # ")

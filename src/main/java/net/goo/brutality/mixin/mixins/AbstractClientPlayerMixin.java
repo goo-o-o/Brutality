@@ -11,7 +11,7 @@ import dev.kosmx.playerAnim.core.util.Ease;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.client.player_animation.PoseManager;
-import net.goo.brutality.common.item.curios.charm.Censored;
+import net.goo.brutality.common.item.curios.charm.Redacted;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
@@ -29,8 +29,8 @@ public abstract class AbstractClientPlayerMixin {
     @Inject(method = "getSkinTextureLocation", at = @At("HEAD"), cancellable = true)
     private void modifySkinTexture(CallbackInfoReturnable<ResourceLocation> cir) {
         CuriosApi.getCuriosInventory((((AbstractClientPlayer) (Object) this))).ifPresent(handler -> {
-            if (handler.isEquipped(BrutalityItems.REDACTED.get())) {
-                cir.setReturnValue(Censored.REDACTED_SKIN);
+            if (handler.isEquipped(BrutalityItems.INCOGNITO_MODE.get())) {
+                cir.setReturnValue(Redacted.REDACTED_SKIN);
                 cir.cancel();
             }
         });

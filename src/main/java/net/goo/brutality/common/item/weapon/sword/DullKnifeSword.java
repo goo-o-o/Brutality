@@ -3,7 +3,6 @@ package net.goo.brutality.common.item.weapon.sword;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.base.BrutalitySwordItem;
 import net.goo.brutality.common.registry.BrutalityEffects;
-import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.util.EnvironmentColorManager;
 import net.goo.brutality.util.ModUtils;
@@ -119,9 +118,9 @@ public class DullKnifeSword extends BrutalitySwordItem {
 
         if (pLevel.isClientSide) {
 
-            if (stack.is(BrutalityItems.DULL_KNIFE_DAGGER.get())) {
-                ModUtils.setTextureIdx(stack, emotionIndex);
-            }
+//            if (stack.is(BrutalityItems.DULL_KNIFE_DAGGER.get())) {
+//                ModUtils.setTextureIdx(stack, emotionIndex);
+//            }
 
             EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.SKY, EmotionColor.byId(emotionIndex).primaryColor);
             EnvironmentColorManager.setColor(EnvironmentColorManager.ColorType.FOG, EmotionColor.byId(emotionIndex).secondaryColor);

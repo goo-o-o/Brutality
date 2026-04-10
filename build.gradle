@@ -169,7 +169,8 @@ dependencies {
 //    implementation fg.deobf("curse.maven:model-gap-fix-676136:5200949")
 //    implementation fg.deobf("curse.maven:loot-beams-506757:5548970")
     implementation fg.deobf("curse.maven:overflowing-bars-852662:5763974")
-
+    implementation fg.deobf("curse.maven:velthoric-1367260:7563464")
+    implementation fg.deobf("curse.maven:architectury-api-419699:5137938")
 //    implementation fg.deobf("curse.maven:attributefix-280510:4911084")
     implementation fg.deobf("curse.maven:bookshelf-228525:5423987")
     implementation fg.deobf("curse.maven:effortless-building-302113:6330928")
@@ -181,8 +182,13 @@ dependencies {
 //    implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220")
 //    implementation fg.deobf("curse.maven:just-enough-effect-descriptions-jeed-532286:6172935")
 
-    implementation fg.deobf("curse.maven:lendercataclysm-551586:6906993")
-    implementation fg.deobf("curse.maven:lionfish-api-1001614:5922047")
+
+    implementation fg.deobf("curse.maven:alexs-caves-924854:5848216")
+    implementation fg.deobf("curse.maven:citadel-331936:7476570")
+
+
+//    implementation fg.deobf("curse.maven:lendercataclysm-551586:6906993")
+//    implementation fg.deobf("curse.maven:lionfish-api-1001614:5922047")
 //    implementation fg.deobf("curse.maven:mekanism-268560:6552911")
 //    implementation fg.deobf("curse.maven:create-328085:7149905")
 

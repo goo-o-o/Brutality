@@ -6,6 +6,7 @@ import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
+import net.goo.brutality.util.tooltip.TooltipHelper;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -49,7 +50,7 @@ public class BrutalityHammerItem extends TieredItem implements BrutalityGeoItem 
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        brutalityTooltipHandler(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
+        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
     }
 
     @Override

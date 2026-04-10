@@ -151,7 +151,7 @@ public class BoosterPack extends BrutalityCurioItem {
 
         @OnlyIn(Dist.CLIENT)
         @Override
-        public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
             super.appendHoverText(stack, level, tooltip, flag);
 
             if (Minecraft.getInstance().player != null) {

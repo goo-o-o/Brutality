@@ -4,36 +4,28 @@ import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.common.entity.base.BrutalityAbstractPhysicsProjectile;
 import net.goo.brutality.common.entity.projectile.generic.AbyssProjectile;
 import net.goo.brutality.common.registry.BrutalityEntities;
-import net.goo.brutality.common.registry.BrutalitySounds;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.NotNull;
 
 public class DepthCrusher extends BrutalityAbstractPhysicsProjectile implements BrutalityGeoEntity {
     private static final EntityDataAccessor<Integer> DATA_FINAL_ROLL = SynchedEntityData.defineId(DepthCrusher.class, EntityDataSerializers.INT);
 
-    public DepthCrusher(EntityType<? extends AbstractArrow> trident, LivingEntity pShooter, Level pLevel) {
-        super(trident, pShooter, pLevel);
+    public DepthCrusher(EntityType<? extends Projectile> type, Player player, Level level) {
+        this(type, level);
+        this.setOwner(player);
+    }
+    public DepthCrusher(EntityType<? extends Projectile> type, Level level) {
+        super(type, level);
         this.entityData.set(DATA_FINAL_ROLL, level().random.nextIntBetweenInclusive(-50, 50));
         this.pitch = 0;
     }
-
-    public DepthCrusher(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
-        this.entityData.set(DATA_FINAL_ROLL, level().random.nextIntBetweenInclusive(-50, 50));
-        this.pitch = 0;
-    }
-
-
 
     @Override
     protected void defineSynchedData() {
@@ -41,23 +33,14 @@ public class DepthCrusher extends BrutalityAbstractPhysicsProjectile implements 
         this.entityData.define(DATA_FINAL_ROLL, 0);
     }
 
-    @Override
-    public int getInGroundLifespan() {
-        return 40;
-    }
 
     @Override
     public void tick() {
         super.tick();
-        if (inGround) {
+        if (hasHitGround) {
             this.roll = this.entityData.get(DATA_FINAL_ROLL);
         } else if (getDeltaMovement().length() > 0.1)
             this.yaw = -yaw;
-    }
-
-    @Override
-    protected float getRotationSpeed() {
-        return 90;
     }
 
     @Override
@@ -79,23 +62,4 @@ public class DepthCrusher extends BrutalityAbstractPhysicsProjectile implements 
         }
     }
 
-    @Override
-    protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
-        return random.nextIntBetweenInclusive(0, 100) < 1 ? BrutalitySounds.METAL_PIPE.get() : SoundEvents.TRIDENT_HIT_GROUND;
-    }
-
-    @Override
-    public void setPierceLevel(byte pPierceLevel) {
-        super.setPierceLevel((byte) 100);
-    }
-
-    @Override
-    protected float getBounciness() {
-        return 0.85F;
-    }
-
-    @Override
-    public float getModelHeight() {
-        return 29;
-    }
 }

@@ -23,18 +23,11 @@ public class BrutalityAbstractPhysicsProjectileRenderer<T extends Entity & Bruta
 
     @Override
     protected void applyRotations(T animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick) {
-        if (animatable instanceof BrutalityAbstractPhysicsProjectile object && !object.isNoPhysics()) {
+        if (animatable instanceof BrutalityAbstractPhysicsProjectile object && !object.noPhysics) {
 
-                poseStack.translate(0, (object.getModelHeight() / 2) / 16, 0);
-
-                float lerpedRoll = Mth.lerp(partialTick, object.prevRoll, object.roll);
-                float lerpedYaw = Mth.lerp(partialTick, object.prevYaw, object.yaw);
-                float lerpedPitch = Mth.lerp(partialTick, object.prevPitch, object.pitch);
-
-                // Apply rotations
-                poseStack.mulPose(Axis.YP.rotationDegrees(lerpedYaw));
-                poseStack.mulPose(Axis.ZP.rotationDegrees(lerpedPitch));
-                poseStack.mulPose(Axis.XP.rotationDegrees(lerpedRoll));
+                poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTick, object.prevYaw, object.yaw)));
+                poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, object.prevPitch, object.pitch)));
+                poseStack.mulPose(Axis.XP.rotationDegrees(Mth.lerp(partialTick, object.prevRoll, object.roll)));
 
         }
 
