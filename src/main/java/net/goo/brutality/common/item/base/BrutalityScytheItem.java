@@ -58,7 +58,7 @@ public class BrutalityScytheItem extends TieredItem implements BrutalityGeoItem 
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
+        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents);
     }
 
     @Override

@@ -37,21 +37,47 @@ public class BrutalityRenderTypes extends RenderType {
         }
     }, () -> Minecraft.getInstance().getMainRenderTarget().bindWrite(false));
 
-    public static final RenderType PIXELATE = RenderType.create(
-            Brutality.MOD_ID + ":pixelate",
+    // For items (uses block atlas)
+    public static final RenderType PIXELATE_ITEM = RenderType.create(
+            Brutality.MOD_ID + ":pixelate_item",
             DefaultVertexFormat.NEW_ENTITY,
             VertexFormat.Mode.QUADS,
             256,
             false,
-            true, // Keep depth test so the stencil is hidden behind blocks
+            true,
             RenderType.CompositeState.builder()
-                    // Use a shader that doesn't care about textures or lighting
-                    .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_SOLID_SHADER)
+                    .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_CUTOUT_SHADER)
+                    .setTextureState(new RenderStateShard.TextureStateShard(
+                            InventoryMenu.BLOCK_ATLAS,
+                            false,
+                            false
+                    ))
                     .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
                     .setOutputState(PIXELATED_OUTPUT)
                     .createCompositeState(false)
     );
 
+    public static final RenderType PIXELATE_ENTITY = RenderType.create(
+            Brutality.MOD_ID + ":pixelate_entity",
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
+            256,
+            false,
+            false,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_CUTOUT_SHADER)
+                    .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                    .setOutputState(PIXELATED_OUTPUT)
+
+                    // --- ADD THESE TWO ---
+                    // This ensures the stencil renders even if armor is "blocking" it
+                    .setDepthTestState(RenderStateShard.NO_DEPTH_TEST)
+                    // This ensures back-faces of the player (inside of arms) also trigger pixelation
+                    .setCullState(RenderStateShard.NO_CULL)
+                    // ---------------------
+
+                    .createCompositeState(true)
+    );
     public static final RenderType LIGHTNING = create(Brutality.MOD_ID + ":lightning",
             DefaultVertexFormat.POSITION_COLOR,
             VertexFormat.Mode.QUADS,

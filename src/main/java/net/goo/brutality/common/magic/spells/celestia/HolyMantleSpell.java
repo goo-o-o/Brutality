@@ -2,7 +2,6 @@ package net.goo.brutality.common.magic.spells.celestia;
 
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.registry.BrutalityEffects;
-import net.goo.brutality.common.registry.BrutalitySpells;
 import net.goo.brutality.util.tooltip.SpellTooltipRenderer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -45,16 +44,14 @@ public class HolyMantleSpell extends BrutalitySpell {
 
     @Override
     public boolean onStartCast(Player player, ItemStack stack, int spellLevel) {
-        player.addEffect(new MobEffectInstance(BrutalityEffects.GRACE.get(), (int) getFinalStat(spellLevel, getStat(DEFENSE)), spellLevel));
+        player.addEffect(new MobEffectInstance(BrutalityEffects.GRACE.get(), (int) getFinalStat(spellLevel, getStat(DEFENSE)), (int) getFinalStat(spellLevel, getStat(DURATION))));
         return true;
     }
 
     public static void processHurt(LivingHurtEvent event, LivingEntity victim, float amount) {
         if (victim.hasEffect(BrutalityEffects.GRACE.get())) {
             MobEffectInstance effectInstance = victim.getEffect(BrutalityEffects.GRACE.get());
-            if (effectInstance != null &&
-                    amount <= effectInstance.getAmplifier() * BrutalitySpells.HOLY_MANTLE.get()
-                            .getStat(SpellTooltipRenderer.SpellStatComponentType.DEFENSE).levelDelta()) {
+            if (effectInstance != null && amount <= effectInstance.getAmplifier()) {
 
                 event.setCanceled(true);
                 victim.removeEffect(BrutalityEffects.GRACE.get());

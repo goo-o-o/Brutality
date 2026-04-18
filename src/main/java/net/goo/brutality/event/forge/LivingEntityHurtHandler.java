@@ -5,6 +5,7 @@ import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
 import net.goo.brutality.common.item.weapon.sword.RoyalGuardianSword;
 import net.goo.brutality.common.magic.spells.celestia.HolyMantleSpell;
+import net.goo.brutality.common.mob_effect.Blockchained;
 import net.goo.brutality.common.mob_effect.SadEffect;
 import net.goo.brutality.util.AugmentHelper;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
@@ -32,86 +33,70 @@ public class LivingEntityHurtHandler {
         Entity attacker = source.getEntity();
         float amount = event.getAmount();
 
-        // 1. UNIVERSAL PRE-PROCESSING
-        // Applies to everything (Attributes, Holy Mantle)
-        amount = handleUniversalPreProcessing(event, source, victim, amount);
+        amount = onLivingHurt(event, source, victim, amount);
 
-        // 2. IDENTITY-BASED DISPATCHING
-        if (victim instanceof Player victimPlayer) {
-            // Victim is a Player
-            amount = handleEverytimePlayerHurt(victimPlayer, source, amount);
-
+        if (attacker instanceof LivingEntity livingAttacker) {
+            amount = onLivingHurtByLiving(victim, livingAttacker, source, amount);
             if (attacker instanceof Player attackerPlayer) {
-                amount = handleEverytimePlayerHurtByPlayer(victimPlayer, attackerPlayer, source, amount);
-            } else if (attacker instanceof LivingEntity livingAttacker) {
-                amount = handleEverytimePlayerHurtByMob(victimPlayer, livingAttacker, source, amount);
-            }
-        } else {
-            // Victim is a Mob
-            amount = handleEverytimeMobHurt(victim, source, amount);
-
-            if (attacker instanceof Player attackerPlayer) {
-                amount = handleEverytimeMobHurtByPlayer(victim, attackerPlayer, source, amount);
-            } else if (attacker instanceof LivingEntity livingAttacker) {
-                amount = handleEverytimeMobHurtByMob(victim, livingAttacker, source, amount);
+                amount = onLivingHurtByPlayer(victim, attackerPlayer, source, amount);
             }
         }
 
+        if (victim instanceof Player victimPlayer) {
+            // Victim is a Player
+            amount = onPlayerHurt(victimPlayer, source, amount);
+
+            if (attacker instanceof LivingEntity livingAttacker) {
+                amount = onPlayerHurtByLiving(victimPlayer, livingAttacker, source, amount);
+                if (attacker instanceof Player attackerPlayer) {
+                    amount = onPlayerHurtByPlayer(victimPlayer, attackerPlayer, source, amount);
+                }
+            }
+        }
         event.setAmount(amount);
     }
 
     // --- UNIVERSAL ---
 
-    private static float handleUniversalPreProcessing(LivingHurtEvent event, DamageSource source, LivingEntity victim, float amount) {
+    private static float onLivingHurt(LivingHurtEvent event, DamageSource source, LivingEntity victim, float amount) {
         amount = AttributeCalculationHelper.handleDamageTaken(amount, victim);
         HolyMantleSpell.processHurt(event, victim, amount);
         handleArmorSealsHurt(victim, source, amount);
+        amount = Blockchained.handleHurt(victim, amount);
+        amount = applyOnWearerHurt(victim, source, amount);
         return amount;
     }
 
-    // --- 1. EVERYTIME A MOB GETS HURT ---
-    private static float handleEverytimeMobHurt(LivingEntity victim, DamageSource source, float amount) {
-        return applyOnWearerHurt(victim, source, amount);
-    }
 
     // --- 2. EVERYTIME A PLAYER GETS HURT ---
-    private static float handleEverytimePlayerHurt(Player victim, DamageSource source, float amount) {
+    private static float onPlayerHurt(Player victim, DamageSource source, float amount) {
         amount = SadEffect.processHurt(victim, amount);
-        amount = applyOnWearerHurt(victim, source, amount);
         amount = RoyalGuardianSword.processHurt(victim, amount);
-        RageHelper.processDamage(victim, amount); // Victim gains rage from any damage
+        RageHelper.processDamageDealtAndTaken(victim, amount); // Victim gains rage from any damage
         return amount;
     }
 
     // --- 3. EVERYTIME A MOB GETS HURT FROM ANOTHER MOB ---
-    private static float handleEverytimeMobHurtByMob(LivingEntity victim, LivingEntity attacker, DamageSource source, float amount) {
+    private static float onLivingHurtByLiving(LivingEntity victim, LivingEntity attacker, DamageSource source, float amount) {
         amount = applyOnWearerHit(attacker, victim, source, amount);
         handleArmorSealsHurtByEntity(victim, attacker, source, amount);
         return amount;
     }
 
     // --- 4. EVERYTIME A MOB GETS HURT BY A PLAYER ---
-    private static float handleEverytimeMobHurtByPlayer(LivingEntity victim, Player attacker, DamageSource source, float amount) {
-        amount = applyOnWearerHit(attacker, victim, source, amount);
+    private static float onLivingHurtByPlayer(LivingEntity victim, Player attacker, DamageSource source, float amount) {
         AttributeCalculationHelper.handleOmnivamp(amount, attacker);
-        RageHelper.processDamage(attacker, amount); // Attacker gains rage from dealing damage
-        handleArmorSealsHurtByEntity(victim, attacker, source, amount);
+        RageHelper.processDamageDealtAndTaken(attacker, amount); // Attacker gains rage from dealing damage
         return amount;
     }
 
     // --- 5. EVERYTIME A PLAYER GETS HURT BY ANOTHER MOB ---
-    private static float handleEverytimePlayerHurtByMob(Player victim, LivingEntity attacker, DamageSource source, float amount) {
-        amount = applyOnWearerHit(attacker, victim, source, amount);
-        handleArmorSealsHurtByEntity(victim, attacker, source, amount);
+    private static float onPlayerHurtByLiving(Player victim, LivingEntity attacker, DamageSource source, float amount) {
         return amount;
     }
 
     // --- 6. EVERYTIME A PLAYER GETS HURT BY ANOTHER PLAYER ---
-    private static float handleEverytimePlayerHurtByPlayer(Player victim, Player attacker, DamageSource source, float amount) {
-        amount = applyOnWearerHit(attacker, victim, source, amount);
-        AttributeCalculationHelper.handleOmnivamp(amount, attacker);
-        RageHelper.processDamage(attacker, amount);
-        handleArmorSealsHurtByEntity(victim, attacker, source, amount);
+    private static float onPlayerHurtByPlayer(Player victim, Player attacker, DamageSource source, float amount) {
         return amount;
     }
 

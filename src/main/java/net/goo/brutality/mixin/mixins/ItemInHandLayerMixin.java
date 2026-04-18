@@ -1,7 +1,9 @@
 package net.goo.brutality.mixin.mixins;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.goo.brutality.client.renderers.shaders.outline.OutlineStyles;
+import net.goo.brutality.util.render.ShaderHelper;
+import net.minecraft.client.model.ArmedModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.world.entity.HumanoidArm;
@@ -15,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ItemInHandLayer.class)
-public class ItemInHandLayerMixin {
+public abstract class ItemInHandLayerMixin<T extends LivingEntity, M extends EntityModel<T> & ArmedModel> {
     @Inject(
             method = "renderArmWithItem",
             at = @At("HEAD")
@@ -23,7 +25,7 @@ public class ItemInHandLayerMixin {
     private void preRenderArmWithItem(
             LivingEntity pLivingEntity, ItemStack pItemStack, ItemDisplayContext pDisplayContext, HumanoidArm pArm, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, CallbackInfo ci) {
         if (pLivingEntity instanceof Player player) {
-            OutlineStyles.push(player, pItemStack);
+            ShaderHelper.push(player, pItemStack);
         }
     }
 
@@ -33,6 +35,7 @@ public class ItemInHandLayerMixin {
     )
     private void postRenderArmWithItem(
             LivingEntity pLivingEntity, ItemStack pItemStack, ItemDisplayContext pDisplayContext, HumanoidArm pArm, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, CallbackInfo ci) {
-        OutlineStyles.clear();
+        ShaderHelper.clear();
     }
+
 }

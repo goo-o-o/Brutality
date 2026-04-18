@@ -5,9 +5,12 @@
       "name": "brutality:item_outline_post",
       "intarget": "minecraft:main",
       "outtarget": "final",
-      "auxtargets": [
-        { "name": "OutlineSampler", "id": "minecraft:main" }
-      ]
+      "uniforms": []
+    },
+    {
+      "name": "blit",
+      "intarget": "final",
+      "outtarget": "minecraft:main"
     }
   ]
 }

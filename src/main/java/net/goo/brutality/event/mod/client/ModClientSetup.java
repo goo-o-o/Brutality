@@ -7,6 +7,7 @@ import net.goo.brutality.client.datagen.ingredients.AnySharpnessBookIngredient;
 import net.goo.brutality.client.gui.misc_elements.*;
 import net.goo.brutality.client.gui.screen.FilingCabinetScreen;
 import net.goo.brutality.client.renderers.shaders.BrutalityShaders;
+import net.goo.brutality.client.renderers.shaders.PostEffectRegistry;
 import net.goo.brutality.client.renderers.shaders.PostShaderInstance;
 import net.goo.brutality.client.renderers.shaders.outline.OutlineStyles;
 import net.goo.brutality.common.block.custom.DustbinBlock;
@@ -71,6 +72,7 @@ public class ModClientSetup {
     public static void onResourceReload(RegisterClientReloadListenersEvent event) {
         event.registerReloadListener(new RarityBorderManager());
         event.registerReloadListener((ResourceManagerReloadListener) resourceManager -> {
+            PostEffectRegistry.onInitializeOutline();
             if (BrutalityShaders.itemOutlinePostShader != null)
                 BrutalityShaders.itemOutlinePostShader.close();
             if (BrutalityShaders.maxSwordOutlinePostShader != null)

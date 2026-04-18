@@ -160,7 +160,7 @@ public class BrutalityThrowingItem extends Item implements BrutalityGeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents, rarity);
+        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents);
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 

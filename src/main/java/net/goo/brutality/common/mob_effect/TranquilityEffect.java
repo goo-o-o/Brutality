@@ -30,8 +30,6 @@ public class TranquilityEffect extends MobEffect {
             serverLevel.sendParticles(BrutalityParticles.YIN_YANG_PARTICLE.get(),
                     entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(), 1,
                     0.5, 0.5, 0.5, 0);
-
-
         }
 
     }

@@ -1,10 +1,8 @@
 package net.goo.brutality.common.item.curios.charm;
 
-import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Rarity;
@@ -26,6 +24,5 @@ public class Redacted extends BrutalityCurioItem {
         return false;
     }
 
-    public static ResourceLocation REDACTED_SKIN = ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "textures/entity/player/censored.png");
 
 }

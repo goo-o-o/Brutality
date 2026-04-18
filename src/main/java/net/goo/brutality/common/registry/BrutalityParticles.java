@@ -151,6 +151,12 @@ public class BrutalityParticles {
                 public @NotNull Codec<EntityIdParticleData<?>> codec() { return EntityIdParticleData.CODEC;
                 }
             });
+    public static final RegistryObject<ParticleType<EntityIdParticleData<?>>> BLOCKCHAINED_TRAIL_PARTICLE = PARTICLE_TYPES.register("blockchained_trail_particle", () ->
+            new ParticleType<>(false, EntityIdParticleData.DESERIALIZER) {
+                @Override
+                public @NotNull Codec<EntityIdParticleData<?>> codec() { return EntityIdParticleData.CODEC;
+                }
+            });
 
 
     public static final RegistryObject<ParticleType<FlatParticleData<?>>> EXPLOSION_MAGIC_CIRCLE_PARTICLE = PARTICLE_TYPES.register("explosion_magic_circle", () ->

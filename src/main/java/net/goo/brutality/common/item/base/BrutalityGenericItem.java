@@ -54,7 +54,7 @@ public class BrutalityGenericItem extends Item implements BrutalityGeoItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
+        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents);
     }
 
     @Override

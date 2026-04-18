@@ -45,7 +45,7 @@ public class BrutalityAxeItem extends AxeItem implements BrutalityGeoItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
+        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package net.goo.brutality.common.network.serverbound;
 
+import net.goo.brutality.common.item.curios.hands.HandOfMidas;
 import net.goo.brutality.common.network.IBrutalityPacket;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalityEffects;
@@ -72,6 +73,11 @@ public class ServerboundActiveAbilityPressPacket implements IBrutalityPacket<Ser
                 sender.addEffect(new MobEffectInstance(BrutalityEffects.TRANQUILITY.get(), 200, 9));
                 RageHelper.modifyRageValue(sender, 0);
             });
+
+            CooldownUtils.validateCurioCooldown(sender, BrutalityItems.GLOVE_OF_GREED.get(), 4 * 20, () -> HandOfMidas.activeAbility(sender, 2));
+
+            CooldownUtils.validateCurioCooldown(sender, BrutalityItems.HAND_OF_MIDAS.get(), 4 * 20, () -> HandOfMidas.activeAbility(sender, 1));
+
 
 
         });

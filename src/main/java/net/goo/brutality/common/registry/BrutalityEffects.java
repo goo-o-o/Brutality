@@ -4,8 +4,6 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.common.mob_effect.*;
 import net.goo.brutality.common.mob_effect.gastronomy.CaffeinatedEffect;
 import net.goo.brutality.common.mob_effect.gastronomy.HotAndSpicyEffect;
-import net.goo.brutality.common.mob_effect.gastronomy.MashedEffect;
-import net.goo.brutality.common.mob_effect.gastronomy.ScoredEffect;
 import net.goo.brutality.common.mob_effect.gastronomy.dry.*;
 import net.goo.brutality.common.mob_effect.gastronomy.wet.*;
 import net.minecraft.util.FastColor;
@@ -27,6 +25,8 @@ public class BrutalityEffects {
     public static final RegistryObject<MobEffect> FRACTIONED = EFFECTS.register("fractioned",
             () -> new FractionedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 255)));
 
+    public static final RegistryObject<MobEffect> BLOCKCHAINED = EFFECTS.register("blockchained",
+            () -> new Blockchained(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 255)));
 
     public static final RegistryObject<MobEffect> NEUTRAL = EFFECTS.register("neutral",
             () -> new NeutralEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 150, 150, 150)));
@@ -67,9 +67,9 @@ public class BrutalityEffects {
     public static final RegistryObject<MobEffect> PEPPERED = EFFECTS.register("peppered",
             () -> new PepperedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 126, 116, 93)));
     public static final RegistryObject<MobEffect> SCORED = EFFECTS.register("scored",
-            () -> new ScoredEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 200, 200)));
+            () -> new BaseMobEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 200, 200)));
     public static final RegistryObject<MobEffect> MASHED = EFFECTS.register("mashed",
-            () -> new MashedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 200, 200)));
+            () -> new BaseMobEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 200, 200)));
 
     public static final RegistryObject<MobEffect> SLICKED = EFFECTS.register("slicked",
             () -> new SlickedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 222, 131, 4)));

@@ -5,12 +5,14 @@ import com.github.stephengold.joltjni.Quat;
 import com.github.stephengold.joltjni.RVec3;
 import com.github.stephengold.joltjni.enumerate.EActivation;
 import net.goo.brutality.Brutality;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityPhysicsBodies;
 import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.common.velthoric.bodies.CoinRigidBody;
 import net.goo.brutality.util.ModUtils;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.goo.brutality.util.tooltip.TooltipHelper;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -26,12 +28,13 @@ import net.minecraft.world.phys.Vec3;
 import net.xmx.velthoric.math.VxTransform;
 import net.xmx.velthoric.physics.world.VxPhysicsWorld;
 import org.jetbrains.annotations.Nullable;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class BrutalityCoinItem extends Item {
-    private final int cooldownTime;
+    public final int cooldownTime;
     protected List<ItemDescriptionComponent> descriptionComponents = List.of();
 
     public BrutalityCoinItem(Properties pProperties, int cooldownTime) {
@@ -49,9 +52,10 @@ public abstract class BrutalityCoinItem extends Item {
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable(Brutality.MOD_ID + ".description.type.on_right_click"));
         pTooltipComponents.add(Component.translatable("item." + Brutality.MOD_ID + ".coin_item.on_right_click.1"));
+        pTooltipComponents.add(TooltipHelper.getCooldownComponent(this.cooldownTime).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.empty());
 
-        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents, getRarity(pStack));
+        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents);
     }
 
     /**
@@ -65,20 +69,28 @@ public abstract class BrutalityCoinItem extends Item {
     protected void playBuffSounds(Player player) {
         player.level().playSound(null, player.getX(), player.getY(0.5), player.getZ(), ModUtils.getRandomSound(BrutalitySounds.RETRO_POSITIVE), SoundSource.PLAYERS, 1, Mth.nextFloat(player.getRandom(), 0.8F, 1.2F));
     }
+
     protected void playDebuffSounds(Player player) {
         player.level().playSound(null, player.getX(), player.getY(0.5), player.getZ(), ModUtils.getRandomSound(BrutalitySounds.RETRO_NEGATIVE), SoundSource.PLAYERS, 1, Mth.nextFloat(player.getRandom(), 0.8F, 1.2F));
     }
 
-    public boolean playImpactSounds() {
+    public boolean shouldPlayImpactSounds() {
         return true;
+    }
+
+    public void playCoinTossSounds(Player pPlayer, ServerLevel serverLevel) {
+        if (shouldPlayCoinTossSounds()) {
+            serverLevel.playSound(null, pPlayer.getX(), pPlayer.getY(0.5F), pPlayer.getZ(), ModUtils.getRandomSound(BrutalitySounds.COIN_FLIP), SoundSource.PLAYERS, 1, Mth.nextFloat(pPlayer.getRandom(), 0.8F, 1.2F));
+        }
     }
 
     /**
      * @return True if should play sounds when throwing coins
      */
-    public boolean playCoinTossSounds() {
+    public boolean shouldPlayCoinTossSounds() {
         return true;
     }
+
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
@@ -88,15 +100,14 @@ public abstract class BrutalityCoinItem extends Item {
                 VxPhysicsWorld world = VxPhysicsWorld.get(serverLevel.dimension());
 
                 if (world != null && world.isRunning()) {
-                    // 1. Trigger the arm swing animation
                     pPlayer.swing(pUsedHand, true);
-                    if (playCoinTossSounds()) {
-                        serverLevel.playSound(null, pPlayer.getX(), pPlayer.getY(0.5F), pPlayer.getZ(), ModUtils.getRandomSound(BrutalitySounds.COIN_FLIP), SoundSource.PLAYERS, 1, Mth.nextFloat(pPlayer.getRandom(), 0.8F, 1.2F));
-                    }
-                    // 2. Execute physics spawn
-                    world.execute(() -> spawnAndLaunchCoin(pPlayer, stack, world));
+                    playCoinTossSounds(pPlayer, serverLevel);
 
                     pPlayer.getCooldowns().addCooldown(stack.getItem(), cooldownTime);
+
+                    spawnAndLaunchCoin(pPlayer, stack, world);
+
+
                     return InteractionResultHolder.sidedSuccess(stack, false);
                 }
             }
@@ -104,8 +115,48 @@ public abstract class BrutalityCoinItem extends Item {
         return InteractionResultHolder.pass(stack);
     }
 
+    protected abstract float getBasePixelDiameter();
 
-    private void spawnAndLaunchCoin(Player player, ItemStack coinStack, VxPhysicsWorld physicsWorld) {
+    protected float getDiameter(Player player, ItemStack coinStack) {
+        return getBasePixelDiameter() * 0.03125F * getPhysicsAndRenderScale(player, coinStack);
+    }
+    public void spawnAndLaunchCoin(Player player, ItemStack stack, VxPhysicsWorld physicsWorld) {
+        spawnAndLaunchCoin(player, stack, physicsWorld, 20);
+    }
+
+    public void spawnAndLaunchCoin(Player player, ItemStack stack, VxPhysicsWorld physicsWorld, float yawThreshold) {
+        physicsWorld.execute(() -> actuallySpawnAndLaunchCoin(player, stack, physicsWorld, yawThreshold));
+
+
+        CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
+            if (handler.isEquipped(BrutalityItems.OVERDRAW_POUCH.get())) {
+                List<ItemStack> coinItemsOffCooldown = player.getInventory().items.stream().filter(itemStack -> itemStack.getItem() instanceof BrutalityCoinItem coinItem && !player.getCooldowns().isOnCooldown(coinItem)).toList();
+
+                if (!coinItemsOffCooldown.isEmpty()) {
+                    ItemStack coinItemOffCooldown = coinItemsOffCooldown.get(player.getRandom().nextInt(coinItemsOffCooldown.size()));
+                    physicsWorld.execute(() -> actuallySpawnAndLaunchCoin(player, coinItemOffCooldown, physicsWorld));
+                    BrutalityCoinItem coinItem = (BrutalityCoinItem) coinItemOffCooldown.getItem();
+                    player.getCooldowns().addCooldown(coinItem, coinItem.cooldownTime);
+                }
+
+            }
+
+            if (handler.isEquipped(BrutalityItems.MIRRORED_MINT.get())) {
+                physicsWorld.execute(() -> actuallySpawnAndLaunchCoin(player, stack, physicsWorld));
+            }
+
+        });
+    }
+
+    public float getPhysicsAndRenderScale(@Nullable Player player, ItemStack coinStack) {
+        return 1;
+    }
+
+    public void actuallySpawnAndLaunchCoin(Player player, ItemStack coinStack, VxPhysicsWorld physicsWorld) {
+        actuallySpawnAndLaunchCoin(player, coinStack, physicsWorld, 20);
+    }
+
+    public void actuallySpawnAndLaunchCoin(Player player, ItemStack coinStack, VxPhysicsWorld physicsWorld, float yawThreshold) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
 
         // 1. Calculate Spawn Position
@@ -126,6 +177,7 @@ public abstract class BrutalityCoinItem extends Item {
                 coin -> {
                     coin.setCoin(coinStack);
                     coin.setOwner(player);
+                    coin.setServerData(CoinRigidBody.DATA_DIAMETER, this.getDiameter(player, coinStack));
                 }
         );
 
@@ -144,17 +196,15 @@ public abstract class BrutalityCoinItem extends Item {
         } else {
             launchPitch = -60F + random.nextInt(-10, 11); // Random arc between 30 and 60 degrees up
         }
-
+        float yawRange = yawThreshold * 0.5F;
         // Convert pitch/yaw to a launch vector
-        float f = -Mth.sin(player.getYRot() * ((float) Math.PI / 180F)) * Mth.cos(launchPitch * ((float) Math.PI / 180F));
+        float f = -Mth.sin((player.getYRot() + random.nextFloat(-yawRange, yawRange)) * ((float) Math.PI / 180F)) * Mth.cos(launchPitch * ((float) Math.PI / 180F));
         float f1 = -Mth.sin(launchPitch * ((float) Math.PI / 180F));
-        float f2 = Mth.cos(player.getYRot() * ((float) Math.PI / 180F)) * Mth.cos(launchPitch * ((float) Math.PI / 180F));
+        float f2 = Mth.cos((player.getYRot() + random.nextFloat(-yawRange, yawRange)) * ((float) Math.PI / 180F)) * Mth.cos(launchPitch * ((float) Math.PI / 180F));
 
         float strength = random.nextFloat(3, 6);
         com.github.stephengold.joltjni.Vec3 launchVelocity = new com.github.stephengold.joltjni.Vec3(f * strength, f1 * strength * 2, f2 * strength);
 
-        // 4. Calculate End-over-End Angular Velocity
-        // Find the 'Right' vector relative to the player's horizontal look
         double yawRad = player.getYRot() * (Math.PI / 180.0);
         Vec3 rightVec = new Vec3(-Math.cos(yawRad), 0, -Math.sin(yawRad)).normalize();
 
@@ -174,20 +224,22 @@ public abstract class BrutalityCoinItem extends Item {
     /**
      * Triggered when a coin flip lands on heads. Provides the player and the item stack involved in the flip.
      *
-     * @param player The {@link Player} who initiated the coin flip. This provides information such as player state and context.
-     * @param stack  The {@link ItemStack} representing the coin used in the flip. Contains details like the item's properties and state.
+     * @param player   The {@link Player} who initiated the coin flip. This provides information such as player state and context.
+     * @param stack    The {@link ItemStack} representing the coin used in the flip. Contains details like the item's properties and state.
+     * @param location The location at which the coin landed
      */
-    public abstract void onHeads(Player player, ItemStack stack);
+    public abstract void onHeads(Player player, ItemStack stack, Vec3 location);
 
     /**
      * Triggered when the Brutality Coin lands on tails after being used.
      * This method is abstract and must be implemented to define the specific behavior
      * that occurs when the tails side is the result of a coin flip.
      *
-     * @param player The {@link Player} who initiated the coin flip.
-     * @param stack  The {@link ItemStack} representing the Brutality Coin item being used.
+     * @param player   The {@link Player} who initiated the coin flip.
+     * @param stack    The {@link ItemStack} representing the Brutality Coin item being used.
+     * @param location The location at which the coin landed
      */
-    public abstract void onTails(Player player, ItemStack stack);
+    public abstract void onTails(Player player, ItemStack stack, Vec3 location);
 
 
     /**

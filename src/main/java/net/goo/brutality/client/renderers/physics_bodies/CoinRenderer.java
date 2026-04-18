@@ -4,6 +4,7 @@ import com.github.stephengold.joltjni.Quat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.goo.brutality.common.item.base.BrutalityCoinItem;
 import net.goo.brutality.common.velthoric.bodies.CoinRigidBody;
 import net.goo.brutality.util.render.RenderUtils;
 import net.minecraft.client.Minecraft;
@@ -84,6 +85,10 @@ public class CoinRenderer extends VxRigidBodyRenderer<CoinRigidBody> {
         Quat rot = vxRenderState.transform.getRotation();
         poseStack.mulPose(new Quaternionf(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));
 
+        BrutalityCoinItem coinItem = (BrutalityCoinItem) coinStack.getItem();
+
+        float scale = coinItem.getPhysicsAndRenderScale(coinRigidBody.getOwner(), coinStack);
+        poseStack.scale(scale, scale, scale);
         renderCoin(coinStack, poseStack, multiBufferSource, packedLight, alpha);
 
         poseStack.popPose();

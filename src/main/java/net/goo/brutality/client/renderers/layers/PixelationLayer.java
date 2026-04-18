@@ -22,13 +22,10 @@ public class PixelationLayer<T extends LivingEntity, M extends EntityModel<T>> e
 
     @Override
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (CuriosApi.getCuriosInventory(entity).map(h -> h.isEquipped(BrutalityItems.CENSORED.get())).orElse(false)) {
+        if (CuriosApi.getCuriosInventory(entity).map(h -> h.isEquipped(BrutalityItems.CENSORSHIP.get())).orElse(false)) {
             PostEffectRegistry.renderEffectForNextTick(BrutalityShaders.PIXELATED_SHADER);
-            VertexConsumer consumer = buffer.getBuffer(BrutalityRenderTypes.PIXELATE);
-            poseStack.pushPose();
-            poseStack.scale(1.25F, 1.25F, 1.25F);
+            VertexConsumer consumer = buffer.getBuffer(BrutalityRenderTypes.PIXELATE_ENTITY);
             this.getParentModel().renderToBuffer(poseStack, consumer, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0), 1, 1, 1, 1);
-            poseStack.popPose();
         }
     }
 }

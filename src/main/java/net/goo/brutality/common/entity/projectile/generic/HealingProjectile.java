@@ -3,6 +3,10 @@ package net.goo.brutality.common.entity.projectile.generic;
 import net.goo.brutality.client.particle.providers.EntityIdParticleData;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,6 +16,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 public class HealingProjectile extends ThrowableProjectile {
+    private static final EntityDataAccessor<Float> HEAL_AMOUNT_DATA = SynchedEntityData.defineId(HealingProjectile.class, EntityDataSerializers.FLOAT);
+    private static final String HEAL_AMOUNT = "heal_amount";
 
     public HealingProjectile(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -19,6 +25,22 @@ public class HealingProjectile extends ThrowableProjectile {
 
     @Override
     protected void defineSynchedData() {
+        this.entityData.define(HEAL_AMOUNT_DATA, 1F);
+    }
+    public void setHealAmount(float amount) {
+        this.entityData.set(HEAL_AMOUNT_DATA, amount);
+    }
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (tag.contains(HEAL_AMOUNT)) this.entityData.set(HEAL_AMOUNT_DATA, tag.getFloat(HEAL_AMOUNT));
+
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putFloat(HEAL_AMOUNT, this.entityData.get(HEAL_AMOUNT_DATA));
     }
 
 
@@ -59,7 +81,7 @@ public class HealingProjectile extends ThrowableProjectile {
         double dist = toOwner.length();
 
         if (dist < 0.5) {  // Close enough
-            owner.heal(1);
+            owner.heal(this.entityData.get(HEAL_AMOUNT_DATA));
             discard();
             return;
         }

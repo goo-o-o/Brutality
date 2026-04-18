@@ -20,7 +20,7 @@ public class SiphonedEffect extends MobEffect {
     @Override
     public void applyEffectTick(LivingEntity target, int amplifier) {
         if (target.level().isClientSide()) return;
-
+        float amount = amplifier + 1;
         MobEffectInstance inst = target.getEffect(BrutalityEffects.SIPHONED.get());
 
         if (inst != null) {
@@ -30,14 +30,15 @@ public class SiphonedEffect extends MobEffect {
                 HealingProjectile healingProjectile = new HealingProjectile(BrutalityEntities.HEALING_PROJECTILE.get(), target.level());
                 healingProjectile.setOwner(source);
                 healingProjectile.setPos(target.getX(), target.getY(0.5), target.getZ());
+                healingProjectile.setHealAmount(amount);
                 target.level().addFreshEntity(healingProjectile);
 
-                target.hurt(target.damageSources().indirectMagic(source, source), amplifier + 1);
+                target.hurt(target.damageSources().indirectMagic(source, source), amount);
                 return;
             }
         }
 
-        target.hurt(target.damageSources().magic(), amplifier + 1);
+        target.hurt(target.damageSources().magic(), amount);
     }
 
     @Override

@@ -35,7 +35,8 @@ public class ClientRenderLayers {
         for (String skinName : event.getSkins()) {
             LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = event.getSkin(skinName);
             if (renderer != null) {
-                renderer.addLayer(new PixelationLayer<>(renderer));
+//                renderer.addLayer(new PixelationLayer<>(renderer));
+                addLayerToRenderer(renderer);
             }
         }
     }

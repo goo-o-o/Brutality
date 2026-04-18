@@ -58,13 +58,13 @@ public class CoinContactListener extends FilteredContactListener {
         VxBody vb1 = world.getBodyManager().getByJoltBodyId(id1);
         VxBody vb2 = world.getBodyManager().getByJoltBodyId(id2);
 
-        if (vb1 instanceof CoinRigidBody coinRigidBody && ((BrutalityCoinItem) coinRigidBody.getCoinStack().getItem()).playImpactSounds()) world.execute(() -> {
+        if (vb1 instanceof CoinRigidBody coinRigidBody && ((BrutalityCoinItem) coinRigidBody.getCoinStack().getItem()).shouldPlayImpactSounds()) world.execute(() -> {
             ThreadLocalRandom random = ThreadLocalRandom.current();
             Vec3 position = b1.getPosition().toVec3();
             world.getLevel().playSound(null, position.getX(), position.getY(), position.getZ(), ModUtils.getRandomSound(BrutalitySounds.COIN_IMPACT), SoundSource.PLAYERS, 1F, random.nextFloat(0.8F, 1.2F));
         });
 
-        if (vb2 instanceof CoinRigidBody coinRigidBody && ((BrutalityCoinItem) coinRigidBody.getCoinStack().getItem()).playImpactSounds()) world.execute(() -> {
+        if (vb2 instanceof CoinRigidBody coinRigidBody && ((BrutalityCoinItem) coinRigidBody.getCoinStack().getItem()).shouldPlayImpactSounds()) world.execute(() -> {
             ThreadLocalRandom random = ThreadLocalRandom.current();
             Vec3 position = b2.getPosition().toVec3();
             world.getLevel().playSound(null, position.getX(), position.getY(), position.getZ(), ModUtils.getRandomSound(BrutalitySounds.COIN_IMPACT), SoundSource.PLAYERS, 1F, random.nextFloat(0.8F, 1.2F));

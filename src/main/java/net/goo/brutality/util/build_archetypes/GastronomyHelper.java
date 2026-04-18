@@ -82,7 +82,7 @@ public class GastronomyHelper {
     /**
      * Determines the potency multiplier based on the amplifier of Scored or Mashed effects.
      */
-    private static float getGastronomyTypeMultiplier(LivingEntity victim, net.minecraft.world.effect.MobEffect effect) {
+    private static float getGastronomyTypeMultiplier(LivingEntity victim, MobEffect effect) {
         MobEffectInstance instance = victim.getEffect(effect);
         if (instance == null) return 1.05F; // Base 5% boost even without amplifier
 

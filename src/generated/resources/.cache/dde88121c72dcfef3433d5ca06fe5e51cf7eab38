@@ -1,4 +1,4 @@
-// 1.20.1	2026-04-05T16:25:50.6603159	Item Models: brutality
+// 1.20.1	2026-04-19T03:24:25.9927148	Item Models: brutality
 4d2cb5931bdfc05b9f9f74aa98fcf2124089e766 assets/brutality/models/item/absolute_zero.json
 6e80778fb947ee57e15d0cfa92468737fd05e5f1 assets/brutality/models/item/abyssal_necklace.json
 7bdbfa2f9bc2d8878a025a707c169187a7da9390 assets/brutality/models/item/adamantite_augmentation_device.json
@@ -25,6 +25,7 @@ d6f059ddcfaf52cda5f34ecb8a1285cfa1fdb75f assets/brutality/models/item/battle_sca
 573079aac0791dbe42f03019e3b5da32aa45bbb5 assets/brutality/models/item/bead_of_life.json
 5ea4b0d3a9b4755e3322d9c333a4767552908f0b assets/brutality/models/item/big_steppa.json
 7fffb668df5ef1e5486f5dfbd83e411a132991de assets/brutality/models/item/biomech_reactor.json
+5c40997e2a2ede43ed627ed172b9f6a1dd4e1bbb assets/brutality/models/item/bit_coin.json
 487d7f615292253b45a9af12e5e9fe671d407a32 assets/brutality/models/item/black_concrete_slab.json
 b53af3070c576ed853fe242cbeed2b4dd4b07a0d assets/brutality/models/item/black_concrete_stair.json
 c5a94f2d211b4bc30df34b69dcd0f1d9609ead35 assets/brutality/models/item/black_hole_orb.json
@@ -32,6 +33,7 @@ c5a94f2d211b4bc30df34b69dcd0f1d9609ead35 assets/brutality/models/item/black_hole
 466db03c675514089e8014a202523c8b5ed1cb2b assets/brutality/models/item/black_seal.json
 905fa23f5c7fefa42f78357025d2687d7137397c assets/brutality/models/item/blade_of_the_ruined_king.json
 8d5b9dc83926d41b76f698ebf549be01d2bb3c26 assets/brutality/models/item/blast_barrel.json
+5cd9ce6dd186b90f9a812ac4ef67c844637eb215 assets/brutality/models/item/bloodstained_coin.json
 6d1ba6dd3a5bccb607aee754f72c6c37f41ca585 assets/brutality/models/item/bloodstained_mirror.json
 35baf19defc9283d5ac86d6155dbf68700f36ed0 assets/brutality/models/item/blood_chalice.json
 4dfd42cf5ec381585c14968a6521cb0c8e5c0fbf assets/brutality/models/item/blood_clot_anklet.json
@@ -73,6 +75,7 @@ b7c3a61e6df01d5a4f90a59ef4cbd9cc0cfa2781 assets/brutality/models/item/celestia_t
 8beaebfb569cc547625c8fdb6992c8e1749fa2ba assets/brutality/models/item/cheese_sauce.json
 ec84e2d23a8c807cc09a6de2b979ae64ec8e7658 assets/brutality/models/item/chocolate_bar.json
 36f316b0bb3d06452e9e26c984d67cc792aff0c3 assets/brutality/models/item/cinder_block.json
+0cbe4cce53166808f8b8196ae0ed621993847cec assets/brutality/models/item/clover_coin.json
 c4b9b9c6d2ab3a693769ac38a27d629b865e88af assets/brutality/models/item/cobalt_augmentation_device.json
 828d037e205fcc78f87635f239028cb5a8caf071 assets/brutality/models/item/conductite_anklet.json
 1555fd1b954616aaae8ede36c4ad1a0d41ae6b4c assets/brutality/models/item/conductite_augmentation_device.json
@@ -175,6 +178,7 @@ c9f581438ed1bf461d877bedd7d577c59408a420 assets/brutality/models/item/gladiators
 98c4897b8f5067c710b79ee92494514ad9eb2fb9 assets/brutality/models/item/glass_heart.json
 b41a145f2233bd7c9afba5d394c6b7db5be7e521 assets/brutality/models/item/glass_seal.json
 0c38c7cd3c4de7c685e14379c852494d2988da92 assets/brutality/models/item/globetrotters_badge.json
+a7c35695011b6b875e0a2486756d0c45b63ae356 assets/brutality/models/item/glove_of_greed.json
 1363573a4695441c593303fecf91b26d1a132cb8 assets/brutality/models/item/gluttony.json
 7ec9667b2884f5ab6c9d9b2125a758fbccd6482e assets/brutality/models/item/gnome_kings_anklet.json
 729959112c70f6fd063ec42f6aad59077a1985e8 assets/brutality/models/item/golden_headband.json
@@ -194,6 +198,7 @@ f23d6fa5fc2d59f62631e2fd1d2babddb9b18199 assets/brutality/models/item/green_conc
 90aeacbb6d387b15362a95fe5718bda20e49f01f assets/brutality/models/item/gundalfs_anklet.json
 f18dd8a8d20d24b09a87582a1478919b70dc0c99 assets/brutality/models/item/gungnir.json
 2409ddcfe8bbc79c8784b876de435a4c0e66ab6b assets/brutality/models/item/handcuffs.json
+e61ac40cbf9d014ec86fc45877bbcd7cbc4be13b assets/brutality/models/item/hand_of_midas.json
 4298e8ce0264e72dafec0a567677c2d21387efe7 assets/brutality/models/item/hate_sigil.json
 82c38774039f02df48073d1ae072b0458ce0cf4b assets/brutality/models/item/head_cushion.json
 957be50af10cd29fe86e2a34cb2d0058cd91e6d6 assets/brutality/models/item/heart_of_gold.json
@@ -264,6 +269,8 @@ c2ea06b16cb2875b0c9f7a79531d0eb83a60add1 assets/brutality/models/item/maxima.jso
 d7471d70ea2f2383becee210a035289b9472b3b3 assets/brutality/models/item/microblade_band.json
 057f50624ed47dae831a34bd8ce49e7ca878d8ef assets/brutality/models/item/miniature_anchor.json
 fce2eb27093eb5d2ee75d13ea146bedc2b5fa304 assets/brutality/models/item/miracle_cure.json
+e2050cefdc8ba85257ab5018bfca95fbacc8446f assets/brutality/models/item/mirrored_mint.json
+727f7e728cd4f3efa5127537efe106d4a457cc84 assets/brutality/models/item/mobius_strip.json
 950306a7b15b206b022ca50cdb147ac3627bc0d4 assets/brutality/models/item/molten_augmentation_device.json
 01e9081cdca52fb4122136bc1c1847f565c9570f assets/brutality/models/item/mortar_and_pestle.json
 ca59a7e3aee9b0f9f950d24726a6114eeab5a4df assets/brutality/models/item/multiplication.json
@@ -291,6 +298,7 @@ ee6707a3ce6245e8b6a2aef892edcf1ced20f780 assets/brutality/models/item/orange_con
 6920d8afe7ac95c53b7a043d29b50a6adcf3f175 assets/brutality/models/item/orange_seal.json
 6b72002ba3ec0bb129adf413deb062fb17ca7342 assets/brutality/models/item/overclocked_core.json
 56d82c9ad2ea7875cae451b92e7e5f38adb9fdeb assets/brutality/models/item/overclocked_toaster.json
+3056b8b05f218bd032ba0d48cbba42ae26c1d393 assets/brutality/models/item/overdraw_pouch.json
 35b0dac141005c0cd914440a0116c3df53a46ec9 assets/brutality/models/item/pack_of_cigarettes.json
 25a83da28e0a9c130ea1f2f481c28c016013029b assets/brutality/models/item/pain_catalyst.json
 3b07a743ee46ef1ab6bf76d5ec6fad7429f450ba assets/brutality/models/item/paper_airplane.json
@@ -341,6 +349,7 @@ a56bd27dee9a4638953b37f1b65ff6977350495d assets/brutality/models/item/purple_sea
 2cc8a1f351f18de48fce870d938200f970c2384d assets/brutality/models/item/quantum_lubricant.json
 05844b6d0d4e3e9e30b7e2644a4e55d2c1d4a1d0 assets/brutality/models/item/quicksilver_ink.json
 9806d9e4630bcf639a2dab8528951b6f358000a2 assets/brutality/models/item/quicksilver_spine.json
+7d1630d8525208bb87b89bb34d0740642777f728 assets/brutality/models/item/quick_silver.json
 ad1d1decb45d47e3cfbd7a3bd0d0932c943e6920 assets/brutality/models/item/rage_bait.json
 7762410ea08dff56283c9edaae732b839ef78294 assets/brutality/models/item/rage_stone.json
 de2070d22acc20c891349afdaf9952cb64f9ae59 assets/brutality/models/item/rampage_clock.json
@@ -350,6 +359,7 @@ de2070d22acc20c891349afdaf9952cb64f9ae59 assets/brutality/models/item/rampage_cl
 6f4c1acb6a9a52a359a627355f5a54144d7e4ef2 assets/brutality/models/item/red_seal.json
 290faee706e0e0bd7048dd4b370aa9e6f2953a1e assets/brutality/models/item/resplendent_feather.json
 c2eab12a13cb66351298e5c43cf6e40e72855586 assets/brutality/models/item/reverium_augmentation_device.json
+59ce2410d02c91adf5cddf0a8bbe696722b333a3 assets/brutality/models/item/reverse_coin.json
 5778b390d06695dad0d61c66d229ba0bcc5f0041 assets/brutality/models/item/rhitta.json
 8e4c38a32211d6c2b5ce915213f2fe957cfd6315 assets/brutality/models/item/rhongomyniad.json
 5d4d1faedfdf58e4c0cc0a957f82f46d86111a10 assets/brutality/models/item/ring_of_mana.json
@@ -451,6 +461,7 @@ ffbb1e4a8c480d57f3354b4d4249e66c5470a24f assets/brutality/models/item/trial_guar
 8b23075a4a0b8733bbc8bd7a8dbd10c961ec3c80 assets/brutality/models/item/umbral_tome.json
 b1b61b689659a41cfda4fe2f794f3646a90685c2 assets/brutality/models/item/unbridled_rage.json
 5fd323434887eee3eb4a55dfd40158e075ab00b6 assets/brutality/models/item/upper_hvac.json
+dbb86a33467a78475562c91062ca80d073fc2e4d assets/brutality/models/item/uriels_penny.json
 c3eba6ba186e5491f12dc5c96ef39e5b8b225382 assets/brutality/models/item/urinal.json
 39cdc2d7f4d79b34d0bc45e93f74da3fa2222c56 assets/brutality/models/item/uvogre_heart.json
 0c007a178cb4016fd4c6be1fef21e5931b5a5e1c assets/brutality/models/item/uvogre_vellum.json

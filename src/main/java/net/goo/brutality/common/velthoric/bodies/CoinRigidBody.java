@@ -4,14 +4,13 @@ import com.github.stephengold.joltjni.*;
 import com.github.stephengold.joltjni.enumerate.EMotionType;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.item.base.BrutalityCoinItem;
+import net.goo.brutality.common.item.curios.charm.ReverseCoin;
+import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityParticles;
-import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.common.velthoric.CoinContactListener;
 import net.goo.brutality.common.velthoric.CoinflipResult;
-import net.goo.brutality.util.ModUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +27,11 @@ import net.xmx.velthoric.physics.body.registry.VxBodyType;
 import net.xmx.velthoric.physics.body.type.VxRigidBody;
 import net.xmx.velthoric.physics.body.type.factory.VxRigidBodyFactory;
 import net.xmx.velthoric.physics.world.VxPhysicsWorld;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
+import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.UUID;
 
 public class CoinRigidBody extends VxRigidBody {
@@ -51,6 +54,7 @@ public class CoinRigidBody extends VxRigidBody {
         this.setServerData(DATA_OWNER_UUID, ownerUUID);
     }
 
+    @Nullable
     public Player getOwner() {
         if (this.ownerUUID == null) {
             UUID uuid = this.get(DATA_OWNER_UUID);
@@ -58,7 +62,7 @@ public class CoinRigidBody extends VxRigidBody {
                 this.ownerUUID = uuid;
             }
         }
-        return physicsWorld.getLevel().getPlayerByUUID(ownerUUID);
+        return physicsWorld != null ? physicsWorld.getLevel().getPlayerByUUID(ownerUUID) : null;
     }
 
     public void setCoin(ItemStack stack) {
@@ -134,34 +138,52 @@ public class CoinRigidBody extends VxRigidBody {
         }
     }
 
+    private enum FlipState {
+        NORMAL, CANCELLED, RELAUNCHED
+    }
+
     private void handleResult(CoinflipResult result, Vec3 location) {
-        // This runs on the Server Thread via world.executeMain
         Player player = getOwner();
+        if (player == null || !(coinStack.getItem() instanceof BrutalityCoinItem coinItem)) return;
 
-        if (player != null && coinStack.getItem() instanceof BrutalityCoinItem coinItem) {
-            switch (result) {
-                case HEADS -> {
-                    if (coinItem.spawnParticles()) {
-                        ((ServerLevel) player.level()).sendParticles(BrutalityParticles.HEADS_PARTICLE.get(), location.getX(), location.getY() + 0.25, location.getZ(), 1, 0, 0, 0, 0);
-                    }
+        FlipState flipState = FlipState.NORMAL;
 
+        if (result == CoinflipResult.TAILS) {
+            Optional<ICuriosItemHandler> resolve = CuriosApi.getCuriosInventory(player).resolve();
+            if (resolve.isPresent()) {
+                ICuriosItemHandler handler = resolve.get();
 
-                    coinItem.onHeads(player, coinStack);
+                if (handler.isEquipped(BrutalityItems.REVERSE_COIN.get()) && player.getRandom().nextFloat() <= 0.25F) {
+                    ReverseCoin.launchCoinIntoAir(this);
+                    flipState = FlipState.RELAUNCHED;
+                } else if (handler.isEquipped(BrutalityItems.MOBIUS_STRIP.get()) && player.getRandom().nextFloat() <= 0.5F) {
+                    flipState = FlipState.CANCELLED;
                 }
-                case TAILS -> {
-                    if (coinItem.spawnParticles()) {
-                        ((ServerLevel) player.level()).sendParticles(BrutalityParticles.TAILS_PARTICLE.get(), location.getX(), location.getY() + 0.25, location.getZ(), 1, 0, 0, 0, 0);
-                    }
-
-                    coinItem.onTails(player, coinStack);
-
-                }
-                // removed EDGE
             }
-            this.setServerData(DATA_DESPAWN_TICKS, 0);
         }
 
+        if (flipState == FlipState.NORMAL) {
+            ServerLevel level = (ServerLevel) player.level();
+            net.minecraft.world.phys.Vec3 vec = new net.minecraft.world.phys.Vec3(location.getX(), location.getY(), location.getZ());
+
+            if (result == CoinflipResult.HEADS) {
+                if (coinItem.spawnParticles()) {
+                    level.sendParticles(BrutalityParticles.HEADS_PARTICLE.get(), location.getX(), location.getY() + 0.25, location.getZ(), 1, 0, 0, 0, 0);
+                }
+                coinItem.onHeads(player, coinStack, vec);
+            } else {
+                if (coinItem.spawnParticles()) {
+                    level.sendParticles(BrutalityParticles.TAILS_PARTICLE.get(), location.getX(), location.getY() + 0.25, location.getZ(), 1, 0, 0, 0, 0);
+                }
+                coinItem.onTails(player, coinStack, vec);
+            }
+        }
+
+        if (flipState != FlipState.RELAUNCHED) {
+            this.setServerData(DATA_DESPAWN_TICKS, 0);
+        }
     }
+
 
     public CoinflipResult getPhysicalResult(Quat q) {
         // We extract the vertical component of the local 'Up' axis (Y)
@@ -181,9 +203,10 @@ public class CoinRigidBody extends VxRigidBody {
 
     @Override
     public int createJoltBody(VxRigidBodyFactory factory) {
-        float radius = this.get(DATA_RADIUS);
+        float diameter = this.get(DATA_DIAMETER);
         try (
-                ShapeSettings shapeSettings = new CylinderShapeSettings(0.03125F, radius);
+                // 0.03125 = 1 pixel
+                ShapeSettings shapeSettings = new CylinderShapeSettings(0.03125F, diameter * 0.5F);
                 BodyCreationSettings bcs = new BodyCreationSettings()
         ) {
             // Set basic physics properties.
@@ -199,12 +222,12 @@ public class CoinRigidBody extends VxRigidBody {
     }
 
     public static final VxServerAccessor<String> DATA_COIN;
-    public static final VxServerAccessor<Float> DATA_RADIUS;
+    public static final VxServerAccessor<Float> DATA_DIAMETER;
     public static final VxServerAccessor<UUID> DATA_OWNER_UUID;
     public static final VxServerAccessor<Integer> DATA_DESPAWN_TICKS;
 
     protected void defineSyncData(VxSynchronizedData.Builder builder) {
-        builder.define(DATA_RADIUS, 0.15F);
+        builder.define(DATA_DIAMETER, 0.15F);
         builder.define(DATA_COIN, "terramity:fateful_coin");
         builder.define(DATA_OWNER_UUID, null);
         builder.define(DATA_DESPAWN_TICKS, -1);
@@ -213,7 +236,7 @@ public class CoinRigidBody extends VxRigidBody {
     public void writePersistenceData(VxByteBuf buf) {
         String coinId = this.get(DATA_COIN);
         buf.writeUtf(coinId == null ? "terramity:fateful_coin" : coinId);
-        buf.writeFloat(this.get(DATA_RADIUS));
+        buf.writeFloat(this.get(DATA_DIAMETER));
         UUID ownerUUID = this.get(DATA_OWNER_UUID);
         buf.writeUUID(ownerUUID == null ? UUID.randomUUID() : ownerUUID);
         buf.writeInt(this.get(DATA_DESPAWN_TICKS));
@@ -222,14 +245,14 @@ public class CoinRigidBody extends VxRigidBody {
     public void readPersistenceData(VxByteBuf buf) {
         // Read the ID back as a String
         this.setServerData(DATA_COIN, buf.readUtf());
-        this.setServerData(DATA_RADIUS, buf.readFloat());
+        this.setServerData(DATA_DIAMETER, buf.readFloat());
         this.setServerData(DATA_OWNER_UUID, buf.readUUID());
         this.setServerData(DATA_DESPAWN_TICKS, buf.readInt());
     }
 
     static {
         DATA_COIN = VxServerAccessor.create(CoinRigidBody.class, VxDataSerializers.STRING);
-        DATA_RADIUS = VxServerAccessor.create(CoinRigidBody.class, VxDataSerializers.FLOAT);
+        DATA_DIAMETER = VxServerAccessor.create(CoinRigidBody.class, VxDataSerializers.FLOAT);
         DATA_OWNER_UUID = VxServerAccessor.create(CoinRigidBody.class, VxDataSerializers.UUID);
         DATA_DESPAWN_TICKS = VxServerAccessor.create(CoinRigidBody.class, VxDataSerializers.INTEGER);
     }

@@ -33,6 +33,11 @@ public class PostEffectRegistry {
     }
 
     public static void onInitializeOutline() {
+        postEffects.values().forEach(effect -> {
+            if (effect.postChain != null) {
+                effect.postChain.close();
+            }
+        });
         clear();
         Minecraft minecraft = Minecraft.getInstance();
         for (ResourceLocation resourceLocation : registry) {

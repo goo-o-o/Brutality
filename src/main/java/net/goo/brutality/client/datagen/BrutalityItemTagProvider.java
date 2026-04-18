@@ -135,7 +135,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
         this.tag(BrutalityTags.Items.CHARM).add(
                 // Original Items
                 BrutalityItems.PLUNDER_CHEST.get(),
-                BrutalityItems.CENSORED.get(),
+                BrutalityItems.CENSORSHIP.get(),
                 BrutalityItems.REDACTED.get(),
                 BrutalityItems.RESPLENDENT_FEATHER.get(),
                 BrutalityItems.CELESTIAL_STARBOARD.get(),
@@ -202,6 +202,8 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.ENDER_DRAGON_STEM_CELLS.get(),
                 BrutalityItems.BOILING_BLOOD.get(),
                 BrutalityItems.PACK_OF_CIGARETTES.get(),
+                BrutalityItems.MIRRORED_MINT.get(),
+                BrutalityItems.REVERSE_COIN.get(),
 
                 // Deadly Sins
                 BrutalityItems.PRIDE.get(),
@@ -296,7 +298,9 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.SCIENTIFIC_CALCULATOR.get(),
                 BrutalityItems.BRUTESKIN_BELT.get(),
                 BrutalityItems.MINIATURE_ANCHOR.get(),
+                BrutalityItems.OVERDRAW_POUCH.get(),
                 BrutalityItems.WARPSLICE_SCABBARD.get(),
+                BrutalityItems.MOBIUS_STRIP.get(),
                 BrutalityItems.POOL_FLOAT.get(),
                 BrutalityItems.BATTLE_SCARS.get()
         );
@@ -304,6 +308,8 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
 
     private void addHandTags() {
         this.tag(BrutalityTags.Items.HANDS).add(
+                BrutalityItems.HAND_OF_MIDAS.get(),
+                BrutalityItems.GLOVE_OF_GREED.get(),
                 BrutalityItems.NANOMACHINES.get(),
                 BrutalityItems.AQUEOUS_TUNER.get(),
                 BrutalityItems.DUELING_GLOVE.get(),

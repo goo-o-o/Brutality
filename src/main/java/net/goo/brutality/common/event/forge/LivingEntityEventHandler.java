@@ -79,6 +79,7 @@ public class LivingEntityEventHandler {
         LivingEntity healed = event.getEntity();
         float healing = event.getAmount();
         healing = BrutalityCurioItem.Hooks.applyOnWearerHeal(healed, healing);
+
         event.setAmount(healing);
     }
 
@@ -216,7 +217,7 @@ public class LivingEntityEventHandler {
     @SubscribeEvent
     public static void onLivingDrops(LivingDropsEvent evt) {
         LivingEntity livingEntity = evt.getEntity();
-       PlayerLoadoutsCap.handleDropEvent(evt, livingEntity);
+        PlayerLoadoutsCap.handleDropEvent(evt, livingEntity);
     }
 
 }

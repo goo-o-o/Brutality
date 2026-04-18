@@ -58,13 +58,13 @@ public class OutlineShader extends PostShaderInstance {
         boolean isFirstPerson = context == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND
                 || context == ItemDisplayContext.FIRST_PERSON_LEFT_HAND;
 
-        Player player = isFirstPerson ? Minecraft.getInstance().player : OutlineStyles.getPlayer();
+        Player player = isFirstPerson ? Minecraft.getInstance().player : ShaderHelper.getPlayer();
 
         OutlineStyle style = OutlineStyles.ITEM_STYLES.get(stack.getItem());
 
 
         if (style == null || !style.shouldRender(stack, player)) {
-            OutlineStyles.clear();
+            ShaderHelper.clear();
             return;
         }
 
@@ -84,7 +84,7 @@ public class OutlineShader extends PostShaderInstance {
         }
 
         renderer.renderModelLists(model, stack, light, overlay, ps, outlineConsumer);
-        OutlineStyles.clear();
+        ShaderHelper.clear();
     }
 
 

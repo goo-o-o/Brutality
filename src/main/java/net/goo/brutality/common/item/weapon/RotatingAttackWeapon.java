@@ -41,7 +41,6 @@ public interface RotatingAttackWeapon {
         LivingEntity entity = event.getEntity();
         PoseStack poseStack = event.getPoseStack();
         float partialTick = event.getPartialTick();
-        ItemStack useItem = entity.getUseItem();
 
         // handle starting rotation
         float anchorYaw = SPIN_ANCHORS.computeIfAbsent(entity, LivingEntity::getVisualRotationYInDegrees);

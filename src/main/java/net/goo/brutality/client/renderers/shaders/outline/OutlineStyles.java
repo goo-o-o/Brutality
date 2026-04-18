@@ -20,28 +20,6 @@ import java.util.Map;
 public class OutlineStyles {
     public static final Map<Item, OutlineStyle> ITEM_STYLES = new HashMap<>();
 
-    private static Player pendingPlayer = null;
-    private static ItemStack pendingStack = null;
-
-    public static void push(Player player, ItemStack stack) {
-        pendingPlayer = player;
-        pendingStack = stack;
-    }
-
-    public static void clear() {
-        pendingPlayer = null;
-        pendingStack = null;
-    }
-
-    @Nullable
-    public static Player getPlayer() {
-        return pendingPlayer;
-    }
-
-    public static ItemStack getStack() {
-        return pendingStack;
-    }
-
     private static void register(Item item, OutlineStyle style) {
         ITEM_STYLES.put(item, style);
     }
@@ -62,13 +40,13 @@ public class OutlineStyles {
                 if (player == null) return 0;
 
                 if (player.isUsingItem()) {
-                    int useTime = player.getTicksUsingItem(); // Cleaner than manual subtraction
-                    double period = 16;
-                    float radians = (float) (useTime * (2.0 * Math.PI / period));
-                    float alpha = (Mth.sin(radians) + 1.0f) / 2.0f;
-                    int alphaInt = (int) (alpha * 255);
+//                    int useTime = player.getTicksUsingItem(); // Cleaner than manual subtraction
+//                    double period = 16;
+//                    float radians = (float) (useTime * (2.0 * Math.PI / period));
+//                    float alpha = (Mth.sin(radians) + 1.0f) / 2.0f;
+//                    int alphaInt = (int) (alpha * 255);
 
-                    return FastColor.ARGB32.color(alphaInt, 255, 255, 0);
+                    return FastColor.ARGB32.color(255, 255, 255, 255);
                 }
 
                 if (!MaxSwordOutlineShader.START_TIMES.containsKey(player.getUUID())) return 0;

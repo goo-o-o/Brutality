@@ -40,8 +40,12 @@ public class ChainLightningHelper {
         }
     }
 
+    private static Vec3 getRandomPos(LivingEntity entity, float scale) {
+        return new Vec3(entity.getRandomX(scale), entity.getY(entity.getRandom().nextFloat() * scale), entity.getRandomZ(scale));
+    }
+
     public static void chainLightning(LivingEntity attacker, ItemStack weapon, LivingEntity origin, int quota, float radius, float maxDamage, float particleSize, int lifespan, LightningType lightningType) {
-        Vec3 position = origin.getRopeHoldPosition(0);
+        Vec3 position = getRandomPos(origin, origin.getBbHeight() * 0.75F);
         Level level = origin.level();
 
         int modifiedQuota = quota;
@@ -87,10 +91,10 @@ public class ChainLightningHelper {
                 hitMobs.add(closestEntity);
                 if (!level.isClientSide())
                     PacketHandler.sendToTracking(
-                            new ClientboundChainLightningPacket(position.toVector3f(), closestEntity.getRopeHoldPosition(0).toVector3f(), particleSize, lifespan, lightningType, 3, 2),
+                            new ClientboundChainLightningPacket(position.toVector3f(), getRandomPos(closestEntity, closestEntity.getBbHeight() * 0.75F).toVector3f(), particleSize, lifespan, lightningType, 3, 2),
                             closestEntity);
 
-                position = closestEntity.getRopeHoldPosition(0);
+                position = getRandomPos(closestEntity, closestEntity.getBbHeight() * 0.75F);
 
                 AugmentHelper.getAugmentCounts(weapon).forEach((brutalityAugmentItem, integer) -> {
                     if (brutalityAugmentItem instanceof BrutalitySealAugmentItem sealAugmentItem) {

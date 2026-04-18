@@ -1,10 +1,7 @@
 package net.goo.brutality.mixin.mixins;
 
 import net.goo.brutality.common.entity.base.BrutalityAbstractArrow;
-import net.goo.brutality.common.entity.base.BrutalityArrow;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,23 +12,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public abstract class AbstractArrowMixin {
 
     @Shadow protected abstract float getWaterInertia();
-
-    @Redirect(
-            method = "tick()V",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/level/Level;addParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)V",
-                    ordinal = 0
-            )
-    )
-    private void redirectCritParticle(Level instance, ParticleOptions pParticleData, double pX, double pY, double pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
-        AbstractArrow arrow = (AbstractArrow) (Object) this;
-        ParticleOptions particle = arrow instanceof BrutalityArrow
-                ? ((BrutalityArrow) arrow).getCritParticle()
-                : pParticleData;
-
-        instance.addParticle(particle, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
-    }
 
     @Redirect(
             method = "tick",

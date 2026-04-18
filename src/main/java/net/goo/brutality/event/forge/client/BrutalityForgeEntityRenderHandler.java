@@ -172,11 +172,12 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
         builder.vertex(matrix, s, -s, 0).color(0, 0, 0, 255).uv(1, 0).endVertex();
     }
 
-
     @SubscribeEvent
     public static <T extends LivingEntity, M extends EntityModel<T>> void preRender(RenderLivingEvent.Pre<T, M> event) {
         LivingEntity entity = event.getEntity();
         ItemStack useItem = entity.getUseItem();
+
+
         if (!useItem.isEmpty() && useItem.getItem() instanceof
                 RotatingAttackWeapon weapon && entity.isUsingItem()) {
             if (useItem.is(BrutalityItems.MAX.get()) || useItem.is(BrutalityItems.THE_SILVER_PERIMETER.get())) {

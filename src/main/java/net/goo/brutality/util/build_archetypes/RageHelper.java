@@ -28,12 +28,13 @@ public class RageHelper {
      * Processes damage taken by a player and applies rage gain mechanics
      * if the required conditions are met, such as specific equipment or effects.
      *
-     * @param player The player taking damage.
+     * @param player The player dealing damage.
      * @param damage The amount of damage taken by the player before any modifications.
      */
-    public static void processDamage(Player player, float damage) {
+    public static void processDamageDealtAndTaken(Player player, float damage) {
         // Prevent rage gain if the player is already in the Enraged state
         if (player.hasEffect(BrutalityEffects.ENRAGED.get())) return;
+        if (player.hasEffect(BrutalityEffects.TRANQUILITY.get())) return;
 
         // Ensure the player has the proper Curio equipment to enable rage gain
         Optional<ICuriosItemHandler> victimOpt = CuriosApi.getCuriosInventory(player).resolve();
@@ -42,7 +43,6 @@ public class RageHelper {
 
             // Checks if any equipped Curio belongs to the 'rage_items' tag
             if (handler.isEquipped(item -> item.is(BrutalityTags.Items.RAGE_ITEMS))) {
-
                 // Apply Attribute scaling (e.g., data that increase rage gain efficiency)
                 damage *= (float) player.getAttributeValue(BrutalityAttributes.DAMAGE_TO_RAGE_RATIO.get());
 
@@ -56,6 +56,7 @@ public class RageHelper {
             }
         }
     }
+
 
     /**
      * Modifies the rage value of a player by a specified amount. If the player
