@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class CoinHelper {
@@ -163,7 +164,7 @@ public class CoinHelper {
                 .collect(Collectors.toSet());
     }
 
-    public static int getNearbyCoinCount(LivingEntity player, float radius) {
+    public static int getNearbyCoinCount(LivingEntity player, float radius, Predicate<CoinRigidBody> predicate) {
         VxPhysicsWorld world = VxPhysicsWorld.get(player.level().dimension());
         if (world == null) return 0;
 
@@ -182,7 +183,7 @@ public class CoinHelper {
                 ChunkPos chunkPos = new ChunkPos(playerChunk.x + cx, playerChunk.z + cz);
 
                 chunkManager.forEachBodyInChunk(chunkPos, body -> {
-                    if (!(body instanceof CoinRigidBody)) {
+                    if (!(body instanceof CoinRigidBody coinRigidBody)) {
                         return;
                     }
 
@@ -199,7 +200,9 @@ public class CoinHelper {
                     double distanceSquared = dx * dx + dy * dy + dz * dz;
 
                     if (distanceSquared <= radiusSquared) {
-                        coinCount.getAndIncrement();
+                        if (predicate == null || predicate.test(coinRigidBody)) {
+                            coinCount.getAndIncrement();
+                        }
                     }
                 });
             }

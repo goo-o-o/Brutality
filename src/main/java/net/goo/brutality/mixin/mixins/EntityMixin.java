@@ -32,10 +32,10 @@ import java.util.Optional;
 @Mixin(Entity.class)
 public abstract class EntityMixin {
 
-
-
     @Shadow
     protected Vec3 stuckSpeedMultiplier;
+
+
 
     @ModifyVariable(method = "move", ordinal = 1, index = 3, name = "vec32", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/entity/Entity;collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"))
     private Vec3 giveFluidCollision(Vec3 original) {

@@ -31,6 +31,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -78,15 +79,63 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
         return modifiedInstance;
     }
 
-    @Inject(method = "updateWalkAnimation", at = @At("HEAD"))
-    private void cancelWalkAnimation(float pPartialTick, CallbackInfo ci) {
-//        if ((((LivingEntity) (Object) this)) instanceof Player player) {
-//            if (BrutalityPoseHandler.getPoseForEntity(player).shouldCancelWalkAnimation(player)) {
-//                ci.cancel();
-//            }
-//        }
+    @Shadow
+    protected abstract boolean isAffectedByFluids();
+
+    @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isAffectedByFluids()Z", ordinal = 0))
+    private boolean isAffectedByWater(LivingEntity instance) {
+        boolean blessing = CuriosApi.getCuriosInventory(instance).map(h -> h.isEquipped(BrutalityItems.POSEIDONS_BLESSING.get())).orElse(false);
+        if (blessing) {
+            // If this prints, you have successfully told the engine to skip water physics
+            System.out.println("Water physics bypassed!");
+            return false;
+        }
+        return ((LivingEntityMixin) (Object) instance).isAffectedByFluids();
     }
 
+    @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isAffectedByFluids()Z", ordinal = 1))
+    private boolean isAffectedByLava(LivingEntity instance) {
+        return ((LivingEntityMixin) (Object) instance).isAffectedByFluids() && !CuriosApi.getCuriosInventory(instance).map(handler -> handler.isEquipped(BrutalityItems.SURTRS_HORN.get())).orElse(false);
+    }
+
+    @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
+    private boolean redirectInWater(LivingEntity instance) {
+        // We want it to behave like water ONLY if the player doesn't have the item.
+        return instance.isInWater() && !CuriosApi.getCuriosInventory(instance)
+                .map(handler -> handler.isEquipped(BrutalityItems.POSEIDONS_BLESSING.get()))
+                .orElse(false);
+    }
+
+    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
+    private boolean brutality$forceGroundJumpPath(LivingEntity instance) {
+        if (CuriosApi.getCuriosInventory(instance)
+                .map(handler -> handler.isEquipped(BrutalityItems.POSEIDONS_BLESSING.get()))
+                .orElse(false)) {
+            return false;
+        }
+        return instance.isInWater();
+    }
+
+    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInLava()Z"))
+    private boolean brutality$forceGroundJumpLava(LivingEntity instance) {
+        if (CuriosApi.getCuriosInventory(instance)
+                .map(handler -> handler.isEquipped(BrutalityItems.SURTRS_HORN.get()))
+                .orElse(false)) {
+            return false;
+        }
+        return instance.isInLava();
+    }
+
+    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidJumpThreshold()D"))
+    private double redirectFluidJumpThreshold(LivingEntity instance) {
+        if (CuriosApi.getCuriosInventory(instance)
+                .map(handler -> handler.isEquipped(BrutalityItems.POSEIDONS_BLESSING.get()) || handler.isEquipped(BrutalityItems.SURTRS_HORN.get()))
+                .orElse(false)) {
+
+            return Double.MAX_VALUE;
+        }
+        return 0;
+    }
 
     @Inject(method = "getDamageAfterArmorAbsorb", at = @At("HEAD"), cancellable = true)
     private void alterArmorAbsorb(DamageSource pDamageSource, float pDamageAmount, CallbackInfoReturnable<Float> cir) {

@@ -7,7 +7,6 @@ import net.goo.brutality.client.datagen.ingredients.AnySharpnessBookIngredient;
 import net.goo.brutality.client.gui.misc_elements.*;
 import net.goo.brutality.client.gui.screen.FilingCabinetScreen;
 import net.goo.brutality.client.models.CoinModel;
-import net.goo.brutality.client.renderers.physics_bodies.CoinRenderer;
 import net.goo.brutality.client.renderers.shaders.BrutalityShaders;
 import net.goo.brutality.client.renderers.shaders.PostEffectRegistry;
 import net.goo.brutality.client.renderers.shaders.PostShaderInstance;
@@ -79,7 +78,6 @@ public class ModClientSetup {
             PostShaderInstance.resetDepthBackup();
         });
         event.registerReloadListener((ResourceManagerReloadListener) resourceManager -> OutlineStyles.registerAll());
-        CoinRenderer.clearCaches();
     }
 
     @SubscribeEvent

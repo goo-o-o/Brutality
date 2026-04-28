@@ -220,6 +220,7 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.MOBIUS_STRIP.get());
                         output.accept(BrutalityItems.OVERDRAW_POUCH.get());
                         output.accept(BrutalityItems.NUMISMATIC_CATALYST.get());
+                        output.accept(BrutalityItems.HEART_OF_THE_HOARDER.get());
                         output.accept(BrutalityItems.THE_GLUTTONS_PURSE.get());
                         output.accept(BrutalityItems.GLOVE_OF_GREED.get());
                         output.accept(BrutalityItems.HAND_OF_MIDAS.get());
@@ -260,6 +261,7 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.CELESTIAL_STARBOARD.get());
                         output.accept(BrutalityItems.PLUNDER_CHEST.get());
                         output.accept(BrutalityItems.ROAD_RUNNERS_RING.get());
+                        output.accept(BrutalityItems.RAINBOW_RING.get());
                         output.accept(BrutalityItems.ABYSSAL_NECKLACE.get());
                         output.accept(BrutalityItems.BRAIN_ROT.get());
                         output.accept(BrutalityItems.RESPLENDENT_FEATHER.get());
@@ -430,6 +432,8 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.CENSORSHIP.get());
                         output.accept(BrutalityItems.REDACTING_TAPE.get());
 
+                        output.accept(BrutalityItems.POSEIDONS_BLESSING.get());
+                        output.accept(BrutalityItems.SURTRS_HORN.get());
                         output.accept(BrutalityItems.BROKEN_CLOCK.get());
                         output.accept(BrutalityItems.SHATTERED_CLOCK.get());
                         output.accept(BrutalityItems.SUNDERED_CLOCK.get());

@@ -1,4 +1,4 @@
-// 1.20.1	2026-04-28T07:57:50.9413096	Item Models: brutality
+// 1.20.1	2026-04-28T23:31:26.5302247	Item Models: brutality
 4d2cb5931bdfc05b9f9f74aa98fcf2124089e766 assets/brutality/models/item/absolute_zero.json
 6e80778fb947ee57e15d0cfa92468737fd05e5f1 assets/brutality/models/item/abyssal_necklace.json
 7bdbfa2f9bc2d8878a025a707c169187a7da9390 assets/brutality/models/item/adamantite_augmentation_device.json
@@ -204,6 +204,7 @@ e61ac40cbf9d014ec86fc45877bbcd7cbc4be13b assets/brutality/models/item/hand_of_mi
 4298e8ce0264e72dafec0a567677c2d21387efe7 assets/brutality/models/item/hate_sigil.json
 82c38774039f02df48073d1ae072b0458ce0cf4b assets/brutality/models/item/head_cushion.json
 957be50af10cd29fe86e2a34cb2d0058cd91e6d6 assets/brutality/models/item/heart_of_gold.json
+32ec84bff01f82aa6b2aafb04aa32b0381963e90 assets/brutality/models/item/heart_of_the_hoarder.json
 2642f6fe8bec97caac9cfb815d88c81d7da01815 assets/brutality/models/item/heart_of_wrath.json
 de4799c14a65c253373040c7c7aa0e09759c7637 assets/brutality/models/item/hellspec_augmentation_device.json
 4746b33f57f578dc62e9b188f8fab1ad5ebde381 assets/brutality/models/item/hellspec_cleaver.json
@@ -333,6 +334,7 @@ a7feb06cd09e7504079e5fba352fc1d37dfdfa17 assets/brutality/models/item/pool_float
 b8b8d7061c140f83d9c699e3fd95d8e47a0114d1 assets/brutality/models/item/portable_mining_rig.json
 0ee524acc486294032c807f577312407a2a589fa assets/brutality/models/item/portable_quantum_thingamabob.json
 bb3d8ffb80e9d13d9e083304de410dc62e3b05e4 assets/brutality/models/item/portable_trampoline.json
+9e48b6bf8bae6f579cb0cb45c4ea164f183e56fd assets/brutality/models/item/poseidons_blessing.json
 883abe145f95d143a782ea1ae845f359bca28b89 assets/brutality/models/item/potato_masher.json
 26b13722293982903c529fc603d3e7ada66c9a87 assets/brutality/models/item/pouch_o_photons.json
 ea1fe2e4b53595dd7a1bfd6da193977c85881a17 assets/brutality/models/item/pride.json
@@ -441,6 +443,7 @@ e56a7db3be2c05bd1df2a5d08fd603b921e8377d assets/brutality/models/item/sum.json
 c3d7830a188aa1002b15798d5537b8795cee9018 assets/brutality/models/item/sundered_clock.json
 37b3d4d26d60d0e901d63627c596e75bce0139c9 assets/brutality/models/item/supernova.json
 86aa779375136e1bfbde899da41510056da72ec9 assets/brutality/models/item/super_dodge_anklet.json
+118f625030c118b4cdb010eb5a10b597666f792e assets/brutality/models/item/surtrs_horn.json
 f175b6facb6b09e8598e038567bee95622e8349d assets/brutality/models/item/suspiciously_large_handle.json
 effd4959a89b8176f937fb919d524c08d1254c06 assets/brutality/models/item/swallowed_penny.json
 ffd294f571047c8637167cee0d8cd99d2c785385 assets/brutality/models/item/target_cube.json

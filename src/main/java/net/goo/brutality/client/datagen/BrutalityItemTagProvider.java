@@ -287,6 +287,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.SUM.get(),
                 BrutalityItems.HYPERBOLIC_FEATHER.get(),
 
+                BrutalityItems.POSEIDONS_BLESSING.get(),
                 // Crypto & Tech
                 BrutalityItems.NUMISMATIC_CATALYST.get(),
                 BrutalityItems.CRYPTO_WALLET.get(),
@@ -348,6 +349,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
         this.tag(BrutalityTags.Items.HEAD).add(
                 BrutalityItems.MAGICIANS_TOP_HAT.get(),
                 BrutalityItems.HEAD_CUSHION.get(),
+                BrutalityItems.SURTRS_HORN.get(),
                 BrutalityItems.SERAPHIM_HALO.get(),
                 BrutalityItems.GOLDEN_HEADBAND.get(),
                 BrutalityItems.WOOLY_BLINDFOLD.get(),
@@ -381,6 +383,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.OVERCLOCKED_CORE.get(),
                 BrutalityItems.DRAGONHEART.get(),
                 BrutalityItems.UVOGRE_HEART.get(),
+                BrutalityItems.HEART_OF_THE_HOARDER.get(),
                 BrutalityItems.ZOMBIE_HEART.get(),
                 BrutalityItems.FROZEN_HEART.get(),
                 BrutalityItems.SECOND_HEART.get(),
@@ -418,6 +421,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.MINT_MASTERS_SIGNET.get(),
                 BrutalityItems.SANGUINE_SIGNET.get(),
                 BrutalityItems.AQUA_RULER.get(),
+                BrutalityItems.RAINBOW_RING.get(),
                 BrutalityItems.ROCK_CANDY_RING.get(),
                 BrutalityItems.ROAD_RUNNERS_RING.get()
         );

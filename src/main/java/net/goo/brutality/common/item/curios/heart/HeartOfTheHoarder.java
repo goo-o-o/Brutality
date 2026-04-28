@@ -1,4 +1,4 @@
-package net.goo.brutality.common.item.curios.charm;
+package net.goo.brutality.common.item.curios.heart;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -17,16 +17,15 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 import java.util.UUID;
 
-public class NumismaticCatalyst extends BrutalityCurioItem {
-    public NumismaticCatalyst(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
+public class HeartOfTheHoarder extends BrutalityCurioItem {
+    public HeartOfTheHoarder(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(rarity, descriptionComponents);
     }
 
     @Override
     public double getDynamicAttributeBonus(SlotContext slotContext, ItemStack stack, AttributeInstance attributeInstance, double currentBonus) {
         if (attributeInstance.getAttribute() == Attributes.ATTACK_DAMAGE) {
-            LivingEntity player = slotContext.entity();
-            return CoinHelper.getNearbyCoinCount(player, 5, coinRigidBody -> coinRigidBody.getOwner() == player);
+            return CoinHelper.getNearbyCoinCount(slotContext.entity(), 5, null);
         }
         return super.getDynamicAttributeBonus(slotContext, stack, attributeInstance, currentBonus);
     }
@@ -37,10 +36,10 @@ public class NumismaticCatalyst extends BrutalityCurioItem {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
             LivingEntity player = slotContext.entity();
 
-            double damageBonus = CoinHelper.getNearbyCoinCount(player, 5, coinRigidBody -> coinRigidBody.getOwner() == player);
+            double healthBonus = CoinHelper.getNearbyCoinCount(player, 5, null);
 
-            if (damageBonus > 0) {
-                builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, "Greed Damage", damageBonus, AttributeModifier.Operation.ADDITION));
+            if (healthBonus > 0) {
+                builder.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "MaxHealth", healthBonus, AttributeModifier.Operation.ADDITION));
             }
 
             return builder.build();

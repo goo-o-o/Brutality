@@ -29,11 +29,13 @@ import net.goo.brutality.common.item.curios.head.LunarLens;
 import net.goo.brutality.common.item.curios.head.SolarLens;
 import net.goo.brutality.common.item.curios.heart.BrutalHeart;
 import net.goo.brutality.common.item.curios.heart.FrozenHeart;
+import net.goo.brutality.common.item.curios.heart.HeartOfTheHoarder;
 import net.goo.brutality.common.item.curios.heart.RuneOfDelta;
 import net.goo.brutality.common.item.curios.necklace.AbyssalNecklace;
 import net.goo.brutality.common.item.curios.necklace.BlackMatterNecklace;
 import net.goo.brutality.common.item.curios.necklace.BloodHowlPendant;
 import net.goo.brutality.common.item.curios.necklace.KnightsPendant;
+import net.goo.brutality.common.item.curios.ring.RainbowRing;
 import net.goo.brutality.common.item.curios.ring.RoadRunnersRing;
 import net.goo.brutality.common.item.curios.vanity.TrialGuardianEyebrows;
 import net.goo.brutality.common.item.generic.ManaSyringe;
@@ -139,6 +141,9 @@ public class BrutalityItems {
             new ItemDescriptionComponent(LORE, 1),
             new ItemDescriptionComponent(PASSIVE, 3))));
     public static final RegistryObject<Item> NUMISMATIC_CATALYST = ITEMS.register("numismatic_catalyst", () -> new NumismaticCatalyst(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> HEART_OF_THE_HOARDER = ITEMS.register("heart_of_the_hoarder", () -> new HeartOfTheHoarder(
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))));
     public static final RegistryObject<Item> THE_GLUTTONS_PURSE = ITEMS.register("the_gluttons_purse", () -> new BrutalityCurioItem(
@@ -2739,6 +2744,11 @@ public class BrutalityItems {
             BrutalityRarities.CONDUCTIVE).withAttributes(
             new AttributeContainer(BrutalityAttributes.RAGE_LEVEL.get(), 3, ADDITION)));
 
+    public static final RegistryObject<Item> RAINBOW_RING = ITEMS.register("rainbow_ring", () -> new RainbowRing(
+            BrutalityRarities.GODLY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 5)
+    )));
+
     public static final RegistryObject<Item> FURY_BAND = ITEMS.register("fury_band", () -> new BrutalityCurioItem(
             BrutalityRarities.STYGIAN).withAttributes(
             new AttributeContainer(BrutalityAttributes.RAGE_TIME.get(), 0.75, MULTIPLY_TOTAL),
@@ -2752,6 +2762,35 @@ public class BrutalityItems {
             BrutalityRarities.STYGIAN, List.of(
             new ItemDescriptionComponent(PASSIVE, 1),
             new ItemDescriptionComponent(ACTIVE, 1, DistExecutor.unsafeRunForDist(() -> Keybindings::getRageActivateKey, () -> () -> null)))));
+
+    public static final RegistryObject<Item> POSEIDONS_BLESSING = ITEMS.register("poseidons_blessing", () -> new BrutalityCurioItem(
+            BrutalityRarities.MYTHIC, List.of(
+            new ItemDescriptionComponent(PASSIVE, 2))) {
+        @Override
+        public void curioTick(SlotContext slotContext, ItemStack stack) {
+            if (slotContext.entity().tickCount % 40 == 0) {
+                slotContext.entity().addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 60));
+                slotContext.entity().addEffect(new MobEffectInstance(MobEffects.CONDUIT_POWER, 60));
+            }
+        }
+    });
+
+    public static final RegistryObject<Item> SURTRS_HORN = ITEMS.register("surtrs_horn", () -> new BrutalityCurioItem(
+            BrutalityRarities.FIRE, List.of(
+            new ItemDescriptionComponent(PASSIVE, 3))) {
+        @Override
+        public void curioTick(SlotContext slotContext, ItemStack stack) {
+            if (slotContext.entity().tickCount % 40 == 0) slotContext.entity().addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60));
+        }
+
+        @Override
+        public float onWearerHit(LivingEntity attacker, ItemStack stack, Entity victim, DamageSource source, float amount) {
+            victim.setSecondsOnFire(10);
+            return super.onWearerHit(attacker, stack, victim, source, amount);
+        }
+    });
+
+
 
     public static final RegistryObject<Item> LIQUIFIED_MANA_BUCKET = ITEMS.register("liquified_mana_bucket",
             () -> new BucketItem(BrutalityFluids.LIQUIFIED_MANA_SOURCE, new Item.Properties()

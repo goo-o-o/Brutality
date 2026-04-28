@@ -906,6 +906,17 @@
   "item.brutality.uvogre_heart": "Uvogre Heart",
   "item.brutality.uvogre_heart.passive.1": "§e -Grants §dRegeneration IV§e when below 25% Health",
 
+  "item.brutality.ring_of_rings": "Ring of Rings",
+  "item.brutality.ring_of_rings.passive.1": "-Gain 1 Armor and Lethality for each ring worn by the wearer",
+
+
+  "item.brutality.rainbow_ring": "Rainbow Ring",
+  "item.brutality.rainbow_ring.passive.1": "§e -Grants Fire Resistance, Water Breathing, Dolphins Grace, Slow Falling",
+  "item.brutality.rainbow_ring.passive.2": "§e -Provides Poison immunity",
+  "item.brutality.rainbow_ring.passive.3": "§e -Counts as gold equipment for piglins",
+  "item.brutality.rainbow_ring.passive.4": "§e -The wearer does not anger Endermen when making eye contact",
+  "item.brutality.rainbow_ring.passive.5": "§e -The wearer can walk on powdered snow",
+
   "item.brutality.frozen_heart": "Frozen Heart",
   "item.brutality.frozen_heart.passive.1": "§e -Inflicts §7Slowness I§e and §fMining Fatigue I§e to nearby mobs",
 
@@ -1424,6 +1435,10 @@
   "item.brutality.mint_masters_signet": "Mint Master's Signet",
   "item.brutality.numismatic_catalyst": "Numismatic Catalyst",
   "item.brutality.numismatic_catalyst.passive.1": "§e -Gain 1 Attack Damage for each Coin in a 5 block radius that you own",
+
+  "item.brutality.heart_of_the_hoarder": "Heart of the Hoarder",
+  "item.brutality.heart_of_the_hoarder.passive.1": "§e -Grants 1 Max Health for each Coin in a 5 block radius that you own",
+
   "item.brutality.the_gluttons_purse": "The Gluttons Purse",
   "item.brutality.the_gluttons_purse.passive.1": "§e -Grants a stack of Avarice every time you throw a coin",
   "item.brutality.swallowed_penny": "Swallowed Penny",
@@ -1466,6 +1481,15 @@
   "item.brutality.bloodstained_coin.on_heads.1": "§e -Inflicts Siphoned 2 to the nearest mob for 10 seconds",
   "item.brutality.bloodstained_coin.on_tails.1": "§e -You take 6 Damage",
 
+
+  "item.brutality.surtrs_horn": "Surtr's Horn",
+  "item.brutality.surtrs_horn.passive.1": "§e -The wearer is unaffected by lava",
+  "item.brutality.surtrs_horn.passive.2": "§e -Grants Fire Resistance",
+  "item.brutality.surtrs_horn.passive.3": "§e -The wearer's attacks set victims on fire for 10 seconds",
+
+  "item.brutality.poseidons_blessing": "Poseidon's Blessing",
+  "item.brutality.poseidons_blessing.passive.1": "§e -The wearer is unaffected by water",
+  "item.brutality.poseidons_blessing.passive.2": "§e -Grants Water Breathing and Conduit Power",
 
   "item.brutality.solar_lens": "Solar Lens",
   "item.brutality.solar_lens.passive.1": "§e -Grants more Spell Damage the closer it is to Noon",

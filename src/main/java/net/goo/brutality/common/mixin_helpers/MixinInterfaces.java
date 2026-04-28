@@ -16,4 +16,5 @@ public class MixinInterfaces {
         Integer brutality$getSourceID();
         void brutality$setSourceID(int id);
     }
+
 }
