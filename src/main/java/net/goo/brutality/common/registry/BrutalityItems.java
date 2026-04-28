@@ -138,6 +138,12 @@ public class BrutalityItems {
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(LORE, 1),
             new ItemDescriptionComponent(PASSIVE, 3))));
+    public static final RegistryObject<Item> NUMISMATIC_CATALYST = ITEMS.register("numismatic_catalyst", () -> new NumismaticCatalyst(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> THE_GLUTTONS_PURSE = ITEMS.register("the_gluttons_purse", () -> new BrutalityCurioItem(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1))));
     public static final RegistryObject<Item> MIRRORED_MINT = ITEMS.register("mirrored_mint", () -> new BrutalityCurioItem(
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))));
@@ -148,6 +154,9 @@ public class BrutalityItems {
     public static final RegistryObject<Item> REVERSE_COIN = ITEMS.register("reverse_coin", () -> new BrutalityCurioItem(
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))));
+    public static final RegistryObject<Item> SWALLOWED_PENNY = ITEMS.register("swallowed_penny", () -> new SwallowedPenny(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 2, 20 * 3))));
     public static final RegistryObject<Item> GLOVE_OF_GREED = ITEMS.register("glove_of_greed", () -> new BrutalityCurioItem(
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(ACTIVE, 2, 4 * 20, DistExecutor.unsafeRunForDist(() -> Keybindings::getActiveAbilityKey, () -> () -> null)))));
@@ -155,8 +164,28 @@ public class BrutalityItems {
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(LORE, 1),
             new ItemDescriptionComponent(ACTIVE, 1, 4 * 20, DistExecutor.unsafeRunForDist(() -> Keybindings::getActiveAbilityKey, () -> () -> null)))));
+    public static final RegistryObject<Item> MINT_MASTERS_SIGNET = ITEMS.register("mint_masters_signet", () -> new BrutalityCurioItem(
+            BrutalityRarities.LEGENDARY).withAttributes(new AttributeContainer(BrutalityAttributes.COIN_COOLDOWN.get(), -0.1, ADDITION)));
 
 
+    public static final RegistryObject<Item> SLIME_COIN = ITEMS.register("slime_coin", () ->
+            new SlimeCoin(new Item.Properties().rarity(BrutalityRarities.LEGENDARY), 200, List.of(
+                    new ItemDescriptionComponent(PASSIVE, 1),
+                    new ItemDescriptionComponent(ON_HEADS, 1),
+                    new ItemDescriptionComponent(ON_TAILS, 1)
+            )));
+    public static final RegistryObject<Item> HONEY_COIN = ITEMS.register("honey_coin", () ->
+            new HoneyCoin(new Item.Properties().rarity(BrutalityRarities.LEGENDARY), 200, List.of(
+                    new ItemDescriptionComponent(PASSIVE, 1),
+                    new ItemDescriptionComponent(ON_HEADS, 1),
+                    new ItemDescriptionComponent(ON_TAILS, 1)
+            )));
+    public static final RegistryObject<Item> COIN_OF_DECEIT = ITEMS.register("coin_of_deceit", () ->
+            new CoinOfDeceit(new Item.Properties().rarity(BrutalityRarities.DARK), 300, List.of(
+                    new ItemDescriptionComponent(LORE, 1),
+                    new ItemDescriptionComponent(ON_HEADS, 2),
+                    new ItemDescriptionComponent(ON_TAILS, 2)
+            )));
     public static final RegistryObject<Item> PARADIME = ITEMS.register("paradime", () ->
             new Paradime(new Item.Properties().rarity(BrutalityRarities.DARK), 300, List.of(
                     new ItemDescriptionComponent(ON_HEADS, 1),
@@ -2271,9 +2300,9 @@ public class BrutalityItems {
             BrutalityRarities.DARK, List.of(
             new ItemDescriptionComponent(PASSIVE, 1)))
     );
-    public static final RegistryObject<Item> REDACTED = ITEMS.register("redacted", () -> new BrutalityCurioItem(
+    public static final RegistryObject<Item> REDACTING_TAPE = ITEMS.register("redacting_tape", () -> new BrutalityCurioItem(
             BrutalityRarities.DARK, List.of(
-            new ItemDescriptionComponent(PASSIVE, 3)))
+            new ItemDescriptionComponent(PASSIVE, 1)))
     );
     public static final RegistryObject<Item> QUANTUM_LUBRICANT = ITEMS.register("quantum_lubricant", () -> new BrutalityCurioItem(
             BrutalityRarities.FABLED).withAttributes(

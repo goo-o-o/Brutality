@@ -5,7 +5,8 @@ import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
 import net.goo.brutality.common.item.weapon.sword.RoyalGuardianSword;
 import net.goo.brutality.common.magic.spells.celestia.HolyMantleSpell;
-import net.goo.brutality.common.mob_effect.Blockchained;
+import net.goo.brutality.common.mob_effect.AvariceEffect;
+import net.goo.brutality.common.mob_effect.BlockchainedEffect;
 import net.goo.brutality.common.mob_effect.SadEffect;
 import net.goo.brutality.util.AugmentHelper;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
@@ -62,8 +63,9 @@ public class LivingEntityHurtHandler {
         amount = AttributeCalculationHelper.handleDamageTaken(amount, victim);
         HolyMantleSpell.processHurt(event, victim, amount);
         handleArmorSealsHurt(victim, source, amount);
-        amount = Blockchained.handleHurt(victim, amount);
+        amount = BlockchainedEffect.handleHurt(victim, amount);
         amount = applyOnWearerHurt(victim, source, amount);
+        AvariceEffect.handleHurt(victim);
         return amount;
     }
 
@@ -80,6 +82,7 @@ public class LivingEntityHurtHandler {
     private static float onLivingHurtByLiving(LivingEntity victim, LivingEntity attacker, DamageSource source, float amount) {
         amount = applyOnWearerHit(attacker, victim, source, amount);
         handleArmorSealsHurtByEntity(victim, attacker, source, amount);
+        amount = AvariceEffect.handleProc(victim, attacker, amount);
         return amount;
     }
 

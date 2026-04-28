@@ -58,6 +58,7 @@ public class BrutalityModEvents {
 
         // 3. Define the attributes that are player-specific (Mana, Spell Levels, etc.)
         Set<Attribute> playerOnlyAttributes = Set.of(
+                BrutalityAttributes.COIN_COOLDOWN.get(),
                 BrutalityAttributes.RAGE_TIME.get(),
                 BrutalityAttributes.LIFESTEAL.get(),
                 BrutalityAttributes.OMNIVAMP.get(),

@@ -1,6 +1,7 @@
 package net.goo.brutality.client.datagen;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.common.item.base.BrutalityCoinItem;
 import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.goo.brutality.common.item.weapon.axe.Deathsaw;
 import net.goo.brutality.common.item.weapon.generic.TheCloud;
@@ -18,6 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.client.model.generators.CustomLoaderBuilder;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -179,6 +181,17 @@ public class BrutalityItemModelProvider extends ItemModelProvider {
             if (item instanceof BucketItem) {
                 generateBucketModel(itemRegistryObject);
                 continue;
+            }
+
+            if (item instanceof BrutalityCoinItem) {
+                String name = itemRegistryObject.getId().getPath();
+                withExistingParent(name, mcLoc("item/generated"))
+                        .customLoader((builder, helper) -> new CustomLoaderBuilder<ItemModelBuilder>(
+                                ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "coin_model"), builder, helper) {})
+                        .end()
+                        .texture("layer0", modLoc("item/" + name))
+                        .texture("layer1", modLoc("item/" + name + "_tail"))
+                        .texture("particle", modLoc("item/" + name));
             }
 
             if (item instanceof BrutalityGeoItem geoItem) {

@@ -56,6 +56,9 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.ADAMANTITE_AUGMENTATION_DEVICE.get());
 
                         output.accept(BrutalityItems.PARADIME.get());
+                        output.accept(BrutalityItems.HONEY_COIN.get());
+                        output.accept(BrutalityItems.SLIME_COIN.get());
+                        output.accept(BrutalityItems.COIN_OF_DECEIT.get());
                         output.accept(BrutalityItems.QUICK_SILVER.get());
                         output.accept(BrutalityItems.BIT_COIN.get());
                         output.accept(BrutalityItems.CLOVER_COIN.get());
@@ -216,8 +219,12 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.MIRRORED_MINT.get());
                         output.accept(BrutalityItems.MOBIUS_STRIP.get());
                         output.accept(BrutalityItems.OVERDRAW_POUCH.get());
+                        output.accept(BrutalityItems.NUMISMATIC_CATALYST.get());
+                        output.accept(BrutalityItems.THE_GLUTTONS_PURSE.get());
                         output.accept(BrutalityItems.GLOVE_OF_GREED.get());
                         output.accept(BrutalityItems.HAND_OF_MIDAS.get());
+                        output.accept(BrutalityItems.SWALLOWED_PENNY.get());
+                        output.accept(BrutalityItems.MINT_MASTERS_SIGNET.get());
 
 
                         output.accept(BrutalityItems.PI.get());
@@ -421,7 +428,7 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.SUSPICIOUSLY_LARGE_HANDLE.get());
                         output.accept(BrutalityItems.ERROR_404.get());
                         output.accept(BrutalityItems.CENSORSHIP.get());
-                        output.accept(BrutalityItems.REDACTED.get());
+                        output.accept(BrutalityItems.REDACTING_TAPE.get());
 
                         output.accept(BrutalityItems.BROKEN_CLOCK.get());
                         output.accept(BrutalityItems.SHATTERED_CLOCK.get());

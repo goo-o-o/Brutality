@@ -8,16 +8,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class CalcifiedPathways extends MobEffect {
-    private static final UUID CALCIFIED_PATHWAYS_UUID = UUID.fromString("090aa673-694c-429a-ab44-e21dd78fa164");
-    public CalcifiedPathways(MobEffectCategory category, int color) {
+public class ArcaneBurnoutEffect extends MobEffect {
+    private static final UUID ARCANE_BURNOUT_UUID = UUID.fromString("dd38c3e9-0e9d-465f-bce6-057cb2d5267a");
+    public ArcaneBurnoutEffect(MobEffectCategory category, int color) {
         super(category, color);
-        this.addAttributeModifier(BrutalityAttributes.MANA_REGEN.get(), String.valueOf(CALCIFIED_PATHWAYS_UUID), 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(BrutalityAttributes.MANA_COST.get(), String.valueOf(ARCANE_BURNOUT_UUID), 0, AttributeModifier.Operation.MULTIPLY_BASE);
     }
 
     @Override
     public double getAttributeModifierValue(int amplifier, @NotNull AttributeModifier modifier) {
-        return (amplifier + 1) * -0.1F;
+        return (amplifier + 1) * -0.01F;
     }
 }
 

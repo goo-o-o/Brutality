@@ -8,17 +8,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class ManaBlight extends MobEffect {
-    private static final UUID MANA_BLIGHT_UUID = UUID.fromString("8648d591-d944-4b76-b19d-adbaa04b1e1a");
-
-    public ManaBlight(MobEffectCategory category, int color) {
+public class CelestialFluxEffect extends MobEffect {
+    private static final UUID CELESTIAL_FLUX_UUID = UUID.fromString("591d5e78-a28a-45af-87fc-d958738c3731");
+    public CelestialFluxEffect(MobEffectCategory category, int color) {
         super(category, color);
-        this.addAttributeModifier(BrutalityAttributes.SPELL_DAMAGE.get(), String.valueOf(MANA_BLIGHT_UUID), 0, AttributeModifier.Operation.MULTIPLY_BASE);
+        this.addAttributeModifier(BrutalityAttributes.MANA_REGEN.get(), String.valueOf(CELESTIAL_FLUX_UUID), 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
     @Override
     public double getAttributeModifierValue(int amplifier, @NotNull AttributeModifier modifier) {
-        return (amplifier + 1) * -0.01F;
+        return (amplifier + 1) * 0.1F;
     }
 }
 

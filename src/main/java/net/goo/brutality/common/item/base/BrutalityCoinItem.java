@@ -1,18 +1,18 @@
 package net.goo.brutality.common.item.base;
 
-import com.github.stephengold.joltjni.BodyInterface;
-import com.github.stephengold.joltjni.Quat;
-import com.github.stephengold.joltjni.RVec3;
-import com.github.stephengold.joltjni.enumerate.EActivation;
+import com.github.stephengold.joltjni.BodyCreationSettings;
+import com.github.stephengold.joltjni.enumerate.EMotionType;
 import net.goo.brutality.Brutality;
-import net.goo.brutality.common.registry.BrutalityItems;
-import net.goo.brutality.common.registry.BrutalityPhysicsBodies;
+import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalitySounds;
+import net.goo.brutality.common.velthoric.CoinContactListener;
 import net.goo.brutality.common.velthoric.bodies.CoinRigidBody;
 import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.util.build_archetypes.CoinHelper;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.goo.brutality.util.tooltip.TooltipHelper;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -25,34 +25,46 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.xmx.velthoric.math.VxTransform;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.xmx.velthoric.physics.VxPhysicsLayers;
+import net.xmx.velthoric.physics.body.type.VxBody;
 import net.xmx.velthoric.physics.world.VxPhysicsWorld;
 import org.jetbrains.annotations.Nullable;
-import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class BrutalityCoinItem extends Item {
-    public final int cooldownTime;
+    protected final int cooldownTime;
     protected List<ItemDescriptionComponent> descriptionComponents = List.of();
+    public BodyCreationSettings bcs = new BodyCreationSettings();
 
     public BrutalityCoinItem(Properties pProperties, int cooldownTime) {
         super(pProperties);
         this.cooldownTime = cooldownTime;
+        bcs.setMotionType(EMotionType.Dynamic);
+        bcs.setObjectLayer(VxPhysicsLayers.MOVING); // Makes it collide with other dynamic objects and terrain.
+        bcs.setRestitution(0.2f); // Bounciness
+        bcs.setFriction(0.5f);
+        bcs.setGravityFactor(2);
     }
 
     public BrutalityCoinItem(Properties pProperties, int cooldownTime, List<ItemDescriptionComponent> descriptionComponents) {
-        super(pProperties);
-        this.cooldownTime = cooldownTime;
+        this(pProperties, cooldownTime);
         this.descriptionComponents = descriptionComponents;
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+
         pTooltipComponents.add(Component.translatable(Brutality.MOD_ID + ".description.type.on_right_click"));
         pTooltipComponents.add(Component.translatable("item." + Brutality.MOD_ID + ".coin_item.on_right_click.1"));
-        pTooltipComponents.add(TooltipHelper.getCooldownComponent(this.cooldownTime).withStyle(ChatFormatting.DARK_AQUA));
+        if (Minecraft.getInstance().player != null) {
+            pTooltipComponents.add(TooltipHelper.getCooldownComponent(getCooldownTime(Minecraft.getInstance().player)).withStyle(ChatFormatting.DARK_AQUA));
+        } else {
+            pTooltipComponents.add(TooltipHelper.getCooldownComponent(cooldownTime).withStyle(ChatFormatting.DARK_AQUA));
+        }
         pTooltipComponents.add(Component.empty());
 
         TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents);
@@ -92,6 +104,10 @@ public abstract class BrutalityCoinItem extends Item {
     }
 
 
+    public int getCooldownTime(Player player) {
+        return (int) (cooldownTime * player.getAttributeValue(BrutalityAttributes.COIN_COOLDOWN.get()));
+    }
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
@@ -103,9 +119,9 @@ public abstract class BrutalityCoinItem extends Item {
                     pPlayer.swing(pUsedHand, true);
                     playCoinTossSounds(pPlayer, serverLevel);
 
-                    pPlayer.getCooldowns().addCooldown(stack.getItem(), cooldownTime);
+                    pPlayer.getCooldowns().addCooldown(stack.getItem(), getCooldownTime(pPlayer));
 
-                    spawnAndLaunchCoin(pPlayer, stack, world);
+                    CoinHelper.spawnAndLaunchCoin(this, pPlayer, stack, world);
 
 
                     return InteractionResultHolder.sidedSuccess(stack, false);
@@ -117,107 +133,12 @@ public abstract class BrutalityCoinItem extends Item {
 
     protected abstract float getBasePixelDiameter();
 
-    protected float getDiameter(Player player, ItemStack coinStack) {
+    public float getDiameter(Player player, ItemStack coinStack) {
         return getBasePixelDiameter() * 0.03125F * getPhysicsAndRenderScale(player, coinStack);
-    }
-    public void spawnAndLaunchCoin(Player player, ItemStack stack, VxPhysicsWorld physicsWorld) {
-        spawnAndLaunchCoin(player, stack, physicsWorld, 20);
-    }
-
-    public void spawnAndLaunchCoin(Player player, ItemStack stack, VxPhysicsWorld physicsWorld, float yawThreshold) {
-        physicsWorld.execute(() -> actuallySpawnAndLaunchCoin(player, stack, physicsWorld, yawThreshold));
-
-
-        CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
-            if (handler.isEquipped(BrutalityItems.OVERDRAW_POUCH.get())) {
-                List<ItemStack> coinItemsOffCooldown = player.getInventory().items.stream().filter(itemStack -> itemStack.getItem() instanceof BrutalityCoinItem coinItem && !player.getCooldowns().isOnCooldown(coinItem)).toList();
-
-                if (!coinItemsOffCooldown.isEmpty()) {
-                    ItemStack coinItemOffCooldown = coinItemsOffCooldown.get(player.getRandom().nextInt(coinItemsOffCooldown.size()));
-                    physicsWorld.execute(() -> actuallySpawnAndLaunchCoin(player, coinItemOffCooldown, physicsWorld));
-                    BrutalityCoinItem coinItem = (BrutalityCoinItem) coinItemOffCooldown.getItem();
-                    player.getCooldowns().addCooldown(coinItem, coinItem.cooldownTime);
-                }
-
-            }
-
-            if (handler.isEquipped(BrutalityItems.MIRRORED_MINT.get())) {
-                physicsWorld.execute(() -> actuallySpawnAndLaunchCoin(player, stack, physicsWorld));
-            }
-
-        });
     }
 
     public float getPhysicsAndRenderScale(@Nullable Player player, ItemStack coinStack) {
         return 1;
-    }
-
-    public void actuallySpawnAndLaunchCoin(Player player, ItemStack coinStack, VxPhysicsWorld physicsWorld) {
-        actuallySpawnAndLaunchCoin(player, coinStack, physicsWorld, 20);
-    }
-
-    public void actuallySpawnAndLaunchCoin(Player player, ItemStack coinStack, VxPhysicsWorld physicsWorld, float yawThreshold) {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-
-        // 1. Calculate Spawn Position
-        Vec3 eyePos = player.getEyePosition();
-        Vec3 lookVec = player.getLookAngle();
-        Vec3 spawnPosMc = eyePos.add(lookVec.scale(0.8)); // Close to player for a 'toss' feel
-
-        VxTransform transform = new VxTransform(
-                new RVec3(spawnPosMc.x, spawnPosMc.y, spawnPosMc.z),
-                Quat.sIdentity()
-        );
-
-        // 2. Create the Body (Forcing Activation)
-        CoinRigidBody coinBody = physicsWorld.getBodyManager().createRigidBody(
-                BrutalityPhysicsBodies.COIN,
-                transform,
-                EActivation.Activate,
-                coin -> {
-                    coin.setCoin(coinStack);
-                    coin.setOwner(player);
-                    coin.setServerData(CoinRigidBody.DATA_DIAMETER, this.getDiameter(player, coinStack));
-                }
-        );
-
-        if (coinBody == null) return;
-
-        BodyInterface bodyInterface = physicsWorld.getPhysicsSystem().getBodyInterface();
-        int bodyId = coinBody.getBodyId();
-
-        // 3. Calculate an Ideal Launch Pitch (Arc)
-        // If the player is looking within a 'natural' toss range (approx -20 to -70 pitch), use theirs.
-        // Otherwise, pick a random 'perfect arc' angle (e.g., -45 degrees).
-        float playerPitch = player.getXRot();
-        float launchPitch;
-        if (playerPitch < -35F && playerPitch > -60F) {
-            launchPitch = playerPitch;
-        } else {
-            launchPitch = -60F + random.nextInt(-10, 11); // Random arc between 30 and 60 degrees up
-        }
-        float yawRange = yawThreshold * 0.5F;
-        // Convert pitch/yaw to a launch vector
-        float f = -Mth.sin((player.getYRot() + random.nextFloat(-yawRange, yawRange)) * ((float) Math.PI / 180F)) * Mth.cos(launchPitch * ((float) Math.PI / 180F));
-        float f1 = -Mth.sin(launchPitch * ((float) Math.PI / 180F));
-        float f2 = Mth.cos((player.getYRot() + random.nextFloat(-yawRange, yawRange)) * ((float) Math.PI / 180F)) * Mth.cos(launchPitch * ((float) Math.PI / 180F));
-
-        float strength = random.nextFloat(3, 6);
-        com.github.stephengold.joltjni.Vec3 launchVelocity = new com.github.stephengold.joltjni.Vec3(f * strength, f1 * strength * 2, f2 * strength);
-
-        double yawRad = player.getYRot() * (Math.PI / 180.0);
-        Vec3 rightVec = new Vec3(-Math.cos(yawRad), 0, -Math.sin(yawRad)).normalize();
-
-        float spinSpeed = random.nextInt(25, 50); // Rapid flipping
-        spinSpeed = random.nextBoolean() ? spinSpeed : -spinSpeed;
-        com.github.stephengold.joltjni.Vec3 angularVel = new com.github.stephengold.joltjni.Vec3(
-                (float) rightVec.x * spinSpeed,
-                random.nextFloat() * 2.0f, // Tiny bit of random wobble on Y
-                (float) rightVec.z * spinSpeed
-        );
-
-        // 5. Apply Physics
-        bodyInterface.setLinearAndAngularVelocity(bodyId, launchVelocity, angularVel);
     }
 
 
@@ -240,6 +161,25 @@ public abstract class BrutalityCoinItem extends Item {
      * @param location The location at which the coin landed
      */
     public abstract void onTails(Player player, ItemStack stack, Vec3 location);
+
+    /**
+     * Triggered when the coin item collides with another object in the physics world.
+     * Handles collision-specific behavior depending on collision type and interacting entities.
+     *
+     * @param coinBody The {@link CoinRigidBody} representing the physical body of the coin
+     *                 in the physics simulation. Provides details about the coin's state
+     *                 and properties during the collision.
+     * @param stack    The {@link ItemStack} representing the coin item. Includes data
+     *                 on the item's state, such as enchantments or metadata.
+     * @param other    The {@link VxBody} that the coin collided with. Represents the
+     *                 other physical object in the simulation and can provide additional
+     *                 details about what the coin interacted with.
+     * @param type     The {@link CoinContactListener.CollisionType} indicating the type
+     *                 of collision that occurred, such as surface type or impact category.
+     *                 Use this to determine specific responses to different collision scenarios.
+     */
+    public void onCollide(CoinRigidBody coinBody, ItemStack stack, @Nullable VxBody other, CoinContactListener.CollisionType type) {
+    }
 
 
     /**

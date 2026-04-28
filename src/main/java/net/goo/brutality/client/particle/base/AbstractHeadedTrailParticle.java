@@ -109,7 +109,7 @@ public class AbstractHeadedTrailParticle extends AbstractTrailParticle {
         posestack.popPose();
 
         // Flush the buffer to ensure rendering
-        bufferSource.endBatch();
+//        bufferSource.endBatch();
     }
 
     public void render(VertexConsumer ignoredConsumer, Camera camera, float partialTick) {

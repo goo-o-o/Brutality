@@ -20,7 +20,6 @@ public abstract class TooltipRendererMixinTooltipOverhaul {
     @Inject(method = "render", at = @At("TAIL"), remap = false)
     private static void brutality$injectStatTrak(TooltipContext ctx, CallbackInfoReturnable<Boolean> cir) {
 
-        // 1. Check if the render was successful (returned true)
         if (!cir.getReturnValue()) {
             return;
         }

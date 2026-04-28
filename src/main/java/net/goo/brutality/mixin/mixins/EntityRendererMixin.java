@@ -1,11 +1,12 @@
 package net.goo.brutality.mixin.mixins;
 
-import net.goo.brutality.common.item.curios.charm.Redacted;
+import net.goo.brutality.common.registry.BrutalityEffects;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +23,7 @@ public abstract class EntityRendererMixin<T extends Entity> {
      */
     @ModifyVariable(method = "renderNameTag", at = @At("HEAD"), argsOnly = true)
     private Component modifyDisplayName(Component original, T pEntity) {
-        if (Redacted.shouldRedact(pEntity)) {
+        if (pEntity instanceof LivingEntity living && living.hasEffect(BrutalityEffects.REDACTED.get())) {
             return Component.literal("REDACTED");
         }
         return original;
@@ -41,7 +42,7 @@ public abstract class EntityRendererMixin<T extends Entity> {
     )
     private int customDrawInBatch(Font instance, Component pText, float pX, float pY, int pColor, boolean pDropShadow, Matrix4f pMatrix, MultiBufferSource pBuffer, Font.DisplayMode pDisplayMode, int pBackgroundColor, int pPackedLight, T pEntity) {
 
-        if (Redacted.shouldRedact(pEntity)) {
+        if (pEntity instanceof LivingEntity living && living.hasEffect(BrutalityEffects.REDACTED.get())) {
             return instance.drawInBatch(pText, pX, pY, 0xFF000000, false, pMatrix, pBuffer, pDisplayMode, 0xFF000000, pPackedLight);
         }
 

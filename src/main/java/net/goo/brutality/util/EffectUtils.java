@@ -46,12 +46,14 @@ public class EffectUtils {
                         newDuration += durationMod.value;
                     }
 
-                if (amplifierMod != null)
+                if (amplifierMod != null) {
+                    int value = Math.min(255, amplifierMod.value()); // just in case
                     if (amplifierMod.overwrite()) {
-                        newAmplifier = amplifierMod.value;
+                        newAmplifier = value;
                     } else {
-                        newAmplifier += amplifierMod.value;
+                        newAmplifier += value;
                     }
+                }
 
                 livingEntity.addEffect(new MobEffectInstance(mobEffect, newDuration, newAmplifier, original.isAmbient(), original.isVisible(), original.showIcon()));
             }

@@ -21,6 +21,13 @@ public class BrutalityAttributes {
     public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, Brutality.MOD_ID);
 
     /**
+     * Percentage of original coin cooldown, a value of 0.75 = 25% cd reduction
+     */
+    public static final RegistryObject<Attribute> COIN_COOLDOWN = ATTRIBUTES.register("coin_cooldown",
+            () -> new RangedPercentageAttribute("attribute.name.generic.coin_cooldown", 1, 0.1F, 1024F).setSyncable(true));
+
+
+    /**
      * The duration (in seconds) that the Rage state remains active.
      */
     public static final RegistryObject<Attribute> RAGE_TIME = ATTRIBUTES.register("rage_time",
@@ -81,7 +88,7 @@ public class BrutalityAttributes {
 //            () -> new RangedAttribute("attribute.name.generic.max_blood", 100.0, 0.0F, 16384F).setSyncable(true));
 
     /**
-     * Percentage reduction for spell cooldowns. 1.0 = 100% reduction (No Cooldown).
+     * Percentage spell cooldowns. 1.0 = default, 100% of original cooldown
      */
     public static final RegistryObject<Attribute> SPELL_COOLDOWN = ATTRIBUTES.register("spell_cooldown",
             () -> new RangedAttribute("attribute.name.generic.spell_cooldown", 1, 0, 128F).setSyncable(true));

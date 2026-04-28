@@ -5,7 +5,6 @@ import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.goo.brutality.common.item.base.BrutalityThrowingItem;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.item.curios.charm.Cosine;
-import net.goo.brutality.common.item.curios.charm.Redacted;
 import net.goo.brutality.common.item.curios.hands.SuspiciouslyLargeHandle;
 import net.goo.brutality.common.item.generic.augments.BrutalityAugmentItem;
 import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
@@ -14,6 +13,7 @@ import net.goo.brutality.common.item.weapon.sword.ShadowstepSword;
 import net.goo.brutality.common.item.weapon.sword.SupernovaSword;
 import net.goo.brutality.common.item.weapon.sword.max.MAX;
 import net.goo.brutality.common.item.weapon.throwing.VampireKnives;
+import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityParticles;
 import net.goo.brutality.util.AugmentHelper;
@@ -208,12 +208,11 @@ public abstract class PlayerMixin extends LivingEntity {
 
     @Inject(method = "getDisplayName", at = @At("HEAD"), cancellable = true)
     private void modifyDisplayName(CallbackInfoReturnable<Component> cir) {
-        if (Redacted.shouldRedact((Player) (Object) this)) {
+        if ((((Player) (Object) this).hasEffect(BrutalityEffects.REDACTED.get()))) {
             cir.setReturnValue(Component.literal("████████"));
             cir.cancel();
         }
     }
-
 }
 
 

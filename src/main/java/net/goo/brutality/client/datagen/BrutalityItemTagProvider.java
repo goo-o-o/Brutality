@@ -136,7 +136,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 // Original Items
                 BrutalityItems.PLUNDER_CHEST.get(),
                 BrutalityItems.CENSORSHIP.get(),
-                BrutalityItems.REDACTED.get(),
+                BrutalityItems.REDACTING_TAPE.get(),
                 BrutalityItems.RESPLENDENT_FEATHER.get(),
                 BrutalityItems.CELESTIAL_STARBOARD.get(),
                 BrutalityItems.YATA_NO_KAGAMI.get(),
@@ -204,6 +204,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.PACK_OF_CIGARETTES.get(),
                 BrutalityItems.MIRRORED_MINT.get(),
                 BrutalityItems.REVERSE_COIN.get(),
+                BrutalityItems.SWALLOWED_PENNY.get(),
 
                 // Deadly Sins
                 BrutalityItems.PRIDE.get(),
@@ -287,6 +288,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.HYPERBOLIC_FEATHER.get(),
 
                 // Crypto & Tech
+                BrutalityItems.NUMISMATIC_CATALYST.get(),
                 BrutalityItems.CRYPTO_WALLET.get(),
                 BrutalityItems.PORTABLE_MINING_RIG.get(),
                 BrutalityItems.CARTON_OF_PRISM_SOLUTION_MILK.get()
@@ -299,6 +301,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.BRUTESKIN_BELT.get(),
                 BrutalityItems.MINIATURE_ANCHOR.get(),
                 BrutalityItems.OVERDRAW_POUCH.get(),
+                BrutalityItems.THE_GLUTTONS_PURSE.get(),
                 BrutalityItems.WARPSLICE_SCABBARD.get(),
                 BrutalityItems.MOBIUS_STRIP.get(),
                 BrutalityItems.POOL_FLOAT.get(),
@@ -412,6 +415,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.MICROBLADE_BAND.get(),
                 BrutalityItems.RING_OF_MANA.get(),
                 BrutalityItems.RING_OF_MANA_PLUS.get(),
+                BrutalityItems.MINT_MASTERS_SIGNET.get(),
                 BrutalityItems.SANGUINE_SIGNET.get(),
                 BrutalityItems.AQUA_RULER.get(),
                 BrutalityItems.ROCK_CANDY_RING.get(),

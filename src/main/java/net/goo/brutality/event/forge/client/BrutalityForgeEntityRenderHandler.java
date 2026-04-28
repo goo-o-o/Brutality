@@ -8,10 +8,10 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.entity.spells.IBrutalitySpellEntity;
 import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
-import net.goo.brutality.common.item.curios.charm.Redacted;
 import net.goo.brutality.common.item.weapon.RotatingAttackWeapon;
 import net.goo.brutality.common.item.weapon.generic.LastPrism;
 import net.goo.brutality.common.magic.BrutalitySpell;
+import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.BrutalityEntityRotations;
 import net.goo.brutality.util.ModUtils;
@@ -117,7 +117,7 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
 
     @SubscribeEvent
     public static <T extends LivingEntity, M extends EntityModel<T>> void postRender(RenderLivingEvent.Post<T, M> event) {
-        if (Redacted.shouldRedact(event.getEntity())) {
+        if (event.getEntity().hasEffect(BrutalityEffects.REDACTED.get())) {
             LivingEntity entity = event.getEntity();
             PoseStack poseStack = event.getPoseStack();
             Camera camera = Minecraft.getInstance().getEntityRenderDispatcher().camera;

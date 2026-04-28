@@ -12,8 +12,8 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 
 import java.util.List;
 
-public class Blockchained extends MobEffect {
-    public Blockchained(MobEffectCategory pCategory, int pColor) {
+public class BlockchainedEffect extends MobEffect {
+    public BlockchainedEffect(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);
     }
 

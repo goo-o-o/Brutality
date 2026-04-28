@@ -8,16 +8,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class CelestialFlux extends MobEffect {
-    private static final UUID CELESTIAL_FLUX_UUID = UUID.fromString("591d5e78-a28a-45af-87fc-d958738c3731");
-    public CelestialFlux(MobEffectCategory category, int color) {
+public class ArcaneSurgeEffect extends MobEffect {
+    private static final UUID ARCANE_SURGE_UUID = UUID.fromString("f67edafa-653b-4cc3-a77b-45ce0a4fa9e9");
+
+    public ArcaneSurgeEffect(MobEffectCategory category, int color) {
         super(category, color);
-        this.addAttributeModifier(BrutalityAttributes.MANA_REGEN.get(), String.valueOf(CELESTIAL_FLUX_UUID), 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(BrutalityAttributes.SPELL_DAMAGE.get(), String.valueOf(ARCANE_SURGE_UUID), 0, AttributeModifier.Operation.MULTIPLY_BASE);
     }
 
     @Override
     public double getAttributeModifierValue(int amplifier, @NotNull AttributeModifier modifier) {
-        return (amplifier + 1) * 0.1F;
+        return (amplifier + 1) * 0.01F;
     }
 }
 

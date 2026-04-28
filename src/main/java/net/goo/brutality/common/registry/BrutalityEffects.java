@@ -25,8 +25,10 @@ public class BrutalityEffects {
     public static final RegistryObject<MobEffect> FRACTIONED = EFFECTS.register("fractioned",
             () -> new FractionedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 255)));
 
+    public static final RegistryObject<MobEffect> AVARICE = EFFECTS.register("avarice",
+            () -> new AvariceEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 255, 255, 0)));
     public static final RegistryObject<MobEffect> BLOCKCHAINED = EFFECTS.register("blockchained",
-            () -> new Blockchained(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 255)));
+            () -> new BlockchainedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 0)));
 
     public static final RegistryObject<MobEffect> NEUTRAL = EFFECTS.register("neutral",
             () -> new NeutralEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 150, 150, 150)));
@@ -46,11 +48,14 @@ public class BrutalityEffects {
     public static final RegistryObject<MobEffect> THE_VOID = EFFECTS.register("the_void",
             () -> new TheVoidEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 0, 0)));
 
+    public static final RegistryObject<MobEffect> REDACTED = EFFECTS.register("redacted",
+            () -> new BaseMobEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 0, 0)));
+
     public static final RegistryObject<MobEffect> PULVERIZED = EFFECTS.register("pulverized",
             () -> new PulverizedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 200, 200)));
 
     public static final RegistryObject<MobEffect> RUINED = EFFECTS.register("ruined",
-            () -> new RuinedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 12, 29, 28)));
+            () -> new BaseMobEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 12, 29, 28)));
 
     public static final RegistryObject<MobEffect> STUNNED = EFFECTS.register("stunned",
             () -> new StunnedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 0)));
@@ -110,22 +115,22 @@ public class BrutalityEffects {
 
     // Increases spell damage 1% per level
     public static final RegistryObject<MobEffect> ARCANE_SURGE = EFFECTS.register("arcane_surge",
-            () -> new ArcaneSurge(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 200, 0)));
+            () -> new ArcaneSurgeEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 200, 0)));
     // Reduces spell damage 1% per level
     public static final RegistryObject<MobEffect> MANA_BLIGHT = EFFECTS.register("mana_blight",
-            () -> new ManaBlight(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));
+            () -> new ManaBlightEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));
     // Reduces mana regen 10% per level
     public static final RegistryObject<MobEffect> CALCIFIED_PATHWAYS = EFFECTS.register("calcified_pathways",
-            () -> new CalcifiedPathways(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));
+            () -> new CalcifiedPathwaysEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));
     // Increases mana regen 10% per level
     public static final RegistryObject<MobEffect> CELESTIAL_FLUX = EFFECTS.register("celestial_flux",
-            () -> new CelestialFlux(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 200, 0)));
+            () -> new CelestialFluxEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 200, 0)));
     // Increases mana cost 10% per level
     public static final RegistryObject<MobEffect> ARCANE_BURNOUT = EFFECTS.register("arcane_burnout",
-            () -> new ArcaneBurnout(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));
+            () -> new ArcaneBurnoutEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));
     // Reduces mana cost 10% per level
     public static final RegistryObject<MobEffect> ETHERIC_FLOW = EFFECTS.register("etheric_flow",
-            () -> new EthericFlow(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 200, 0)));
+            () -> new EthericFlowEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 200, 0)));
 
 
     public static final RegistryObject<MobEffect> SIPHONED = EFFECTS.register("siphoned",

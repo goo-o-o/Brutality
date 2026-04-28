@@ -6,6 +6,8 @@ import net.goo.brutality.client.config.BrutalityClientConfig;
 import net.goo.brutality.client.datagen.ingredients.AnySharpnessBookIngredient;
 import net.goo.brutality.client.gui.misc_elements.*;
 import net.goo.brutality.client.gui.screen.FilingCabinetScreen;
+import net.goo.brutality.client.models.CoinModel;
+import net.goo.brutality.client.renderers.physics_bodies.CoinRenderer;
 import net.goo.brutality.client.renderers.shaders.BrutalityShaders;
 import net.goo.brutality.client.renderers.shaders.PostEffectRegistry;
 import net.goo.brutality.client.renderers.shaders.PostShaderInstance;
@@ -23,10 +25,7 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -80,9 +79,13 @@ public class ModClientSetup {
             PostShaderInstance.resetDepthBackup();
         });
         event.registerReloadListener((ResourceManagerReloadListener) resourceManager -> OutlineStyles.registerAll());
-
+        CoinRenderer.clearCaches();
     }
 
+    @SubscribeEvent
+    public static void onRegisterLoaders(ModelEvent.RegisterGeometryLoaders event) {
+        event.register("coin_model", CoinModel.Loader.INSTANCE);
+    }
 
     @SubscribeEvent
     public static void register(RegisterEvent event) {
