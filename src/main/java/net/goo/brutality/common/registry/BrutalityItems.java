@@ -21,10 +21,7 @@ import net.goo.brutality.common.item.curios.belt.BattleScars;
 import net.goo.brutality.common.item.curios.belt.ScientificCalculator;
 import net.goo.brutality.common.item.curios.charm.*;
 import net.goo.brutality.common.item.curios.feet.*;
-import net.goo.brutality.common.item.curios.hands.Handcuffs;
-import net.goo.brutality.common.item.curios.hands.PerfectCell;
-import net.goo.brutality.common.item.curios.hands.PhantomFinger;
-import net.goo.brutality.common.item.curios.hands.SuspiciouslyLargeHandle;
+import net.goo.brutality.common.item.curios.hands.*;
 import net.goo.brutality.common.item.curios.head.LunarLens;
 import net.goo.brutality.common.item.curios.head.SolarLens;
 import net.goo.brutality.common.item.curios.heart.BrutalHeart;
@@ -35,7 +32,8 @@ import net.goo.brutality.common.item.curios.necklace.AbyssalNecklace;
 import net.goo.brutality.common.item.curios.necklace.BlackMatterNecklace;
 import net.goo.brutality.common.item.curios.necklace.BloodHowlPendant;
 import net.goo.brutality.common.item.curios.necklace.KnightsPendant;
-import net.goo.brutality.common.item.curios.ring.RainbowRing;
+import net.goo.brutality.common.item.curios.ring.OmnichromeRing;
+import net.goo.brutality.common.item.curios.ring.RingOfRings;
 import net.goo.brutality.common.item.curios.ring.RoadRunnersRing;
 import net.goo.brutality.common.item.curios.vanity.TrialGuardianEyebrows;
 import net.goo.brutality.common.item.generic.ManaSyringe;
@@ -78,13 +76,12 @@ import net.goo.brutality.common.item.weapon.trident.GungnirTrident;
 import net.goo.brutality.common.item.weapon.trident.ThunderboltTrident;
 import net.goo.brutality.common.magic.BrutalitySpell;
 import net.goo.brutality.common.magic.IBrutalitySpell;
+import net.goo.brutality.common.registry.items.BrutalityGastronomyItems;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.event.mod.client.Keybindings;
 import net.goo.brutality.util.*;
-import net.goo.brutality.util.attribute.AttributeCalculationHelper;
 import net.goo.brutality.util.attribute.AttributeContainer;
 import net.goo.brutality.util.attribute.SlottedAttributeContainer;
-import net.goo.brutality.util.build_archetypes.GastronomyHelper;
 import net.goo.brutality.util.magic.ManaHelper;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.mcreator.terramity.init.TerramityModMobEffects;
@@ -92,10 +89,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -107,7 +102,6 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -129,10 +123,6 @@ import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operati
 
 public class BrutalityItems {
 
-
-    private static RegistryObject<Item> block(RegistryObject<Block> block) {
-        return ITEMS.register(block.getId().getPath(), () -> new BlockItem(block.get(), new Item.Properties()));
-    }
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Brutality.MOD_ID);
 
@@ -190,6 +180,11 @@ public class BrutalityItems {
                     new ItemDescriptionComponent(LORE, 1),
                     new ItemDescriptionComponent(ON_HEADS, 2),
                     new ItemDescriptionComponent(ON_TAILS, 2)
+            )));
+    public static final RegistryObject<Item> MIRROR_COIN = ITEMS.register("mirror_coin", () ->
+            new MirrorCoin(new Item.Properties().rarity(BrutalityRarities.GLACIAL), 150, List.of(
+                    new ItemDescriptionComponent(LORE, 1),
+                    new ItemDescriptionComponent(PASSIVE, 1)
             )));
     public static final RegistryObject<Item> PARADIME = ITEMS.register("paradime", () ->
             new Paradime(new Item.Properties().rarity(BrutalityRarities.DARK), 300, List.of(
@@ -526,7 +521,7 @@ public class BrutalityItems {
             Tiers.DIAMOND, 4, -3F, BrutalityRarities.CONDUCTIVE, List.of(
             new ItemDescriptionComponent(ON_HIT, 1))));
 
-    public static final RegistryObject<Item> RHITTA_AXE = ITEMS.register("rhitta", () -> new RhittaAxe(
+    public static final RegistryObject<Item> RHITTA = ITEMS.register("rhitta", () -> new RhittaAxe(
             Tiers.DIAMOND, 10, -3F, BrutalityRarities.MYTHIC, List.of(
             new ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 1),
             new ItemDescriptionComponent(PASSIVE, 1))));
@@ -536,7 +531,7 @@ public class BrutalityItems {
             new ItemDescriptionComponent(ON_HOLD_RIGHT_CLICK, 2),
             new ItemDescriptionComponent(ON_HIT, 1))));
 
-    public static final RegistryObject<Item> JACKPOT_HAMMER = ITEMS.register("jackpot", () -> new Jackpot(
+    public static final RegistryObject<Item> JACKPOT = ITEMS.register("jackpot", () -> new Jackpot(
             Tiers.DIAMOND, 0, -2.6F, BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(LORE, 1),
             new ItemDescriptionComponent(ON_HIT, 1))));
@@ -687,10 +682,6 @@ public class BrutalityItems {
             Tiers.IRON, 2, -2.3F, Rarity.EPIC, List.of(
             new ItemDescriptionComponent(ON_HIT, 1))));
 
-    public static final RegistryObject<Item> WHISK_HAMMER = ITEMS.register("whisk", () -> new WhiskHammer(
-            Tiers.IRON, 2, -2.3F, Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(ON_HIT, 1))));
-
     public static final RegistryObject<Item> PHOTON = ITEMS.register("photon", () -> new BrutalityThrowingItem(
             0, 0, BrutalityRarities.DIVINE, List.of(
             new ItemDescriptionComponent(WHEN_THROWN, 2)),
@@ -735,33 +726,6 @@ public class BrutalityItems {
             new ItemDescriptionComponent(WHEN_THROWN, 1)),
             BrutalityEntities.ABSOLUTE_ZERO));
 
-    public static final RegistryObject<Item> CRIMSON_DELIGHT = ITEMS.register("crimson_delight", () -> new BrutalityThrowingItem(
-            2, -1.5F, Rarity.EPIC,
-            BrutalityEntities.CRIMSON_DELIGHT));
-
-    public static final RegistryObject<Item> CANNONBALL_CABBAGE = ITEMS.register("cannonball_cabbage", () -> new BrutalityThrowingItem(
-            5, -2.2F, Rarity.EPIC,
-            BrutalityEntities.CANNONBALL_CABBAGE));
-
-    public static final RegistryObject<Item> CAVENDISH = ITEMS.register("cavendish", () -> new BrutalityThrowingItem(
-            2, -2.2F, Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(WHEN_THROWN, 1)),
-            BrutalityEntities.CAVENDISH));
-
-    public static final RegistryObject<Item> STICK_OF_BUTTER = ITEMS.register("stick_of_butter", () -> new BrutalityThrowingItem(
-            0, -3F, Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(WHEN_THROWN, 1)),
-            BrutalityEntities.STICK_OF_BUTTER));
-
-    public static final RegistryObject<Item> WINTER_MELON = ITEMS.register("winter_melon", () -> new BrutalityThrowingItem(
-            7, -2.75F, Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(WHEN_THROWN, 1)),
-            BrutalityEntities.WINTER_MELON));
-
-    public static final RegistryObject<Item> GOLDEN_PHOENIX = ITEMS.register("golden_phoenix", () -> new BrutalityThrowingItem(
-            9, -2.65F, Rarity.EPIC,
-            BrutalityEntities.GOLDEN_PHOENIX));
-
     public static final RegistryObject<Item> STICKY_BOMB = ITEMS.register("sticky_bomb", () -> new StickyBomb(
             0, -3.4F, Rarity.EPIC, List.of(
             new ItemDescriptionComponent(WHEN_THROWN, 1),
@@ -802,11 +766,6 @@ public class BrutalityItems {
             new ItemDescriptionComponent(PASSIVE, 2),
             new ItemDescriptionComponent(WHEN_THROWN, 1)),
             BrutalityEntities.MUG, BrutalityBlocks.MUG.get()));
-
-    public static final RegistryObject<Item> OVERCLOCKED_TOASTER = ITEMS.register("overclocked_toaster", () -> new BrutalityThrowingItem(
-            10, -3.5F, BrutalityRarities.LEGENDARY, List.of(
-            new ItemDescriptionComponent(WHEN_THROWN, 1)),
-            BrutalityEntities.OVERCLOCKED_TOASTER));
 
     public static final RegistryObject<Item> SCULK_GRENADE = ITEMS.register("sculk_grenade", () -> new BrutalityThrowingItem(
             10, -3F, BrutalityRarities.GLOOMY, List.of(
@@ -1510,6 +1469,12 @@ public class BrutalityItems {
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))));
 
+    public static final RegistryObject<Item> SUSPICIOUS_ROCK = ITEMS.register("suspicious_rock", () -> new SuspiciousRock(
+            Rarity.EPIC)
+            .withAttributes(
+                    new AttributeContainer(Attributes.ARMOR, 0.05, ADDITION),
+                    new AttributeContainer(Attributes.ATTACK_DAMAGE, 0.025, ADDITION)));
+
     public static final RegistryObject<Item> ANKLE_MONITOR = ITEMS.register("ankle_monitor", () -> new AnkleMonitor(
             Rarity.EPIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 3)))
@@ -1839,10 +1804,6 @@ public class BrutalityItems {
     public static final RegistryObject<Item> PENCIL_SHARPENER = ITEMS.register("pencil_sharpener", () -> new BrutalityCurioItem(
             BrutalityRarities.LEGENDARY).withAttributes(
             new AttributeContainer(BrutalityAttributes.PIERCING_DAMAGE.get(), 0.15, MULTIPLY_BASE)));
-    public static final RegistryObject<Item> CHOCOLATE_BAR = ITEMS.register("chocolate_bar", () -> new BrutalityCurioItem(
-            BrutalityRarities.LEGENDARY).withAttributes(
-            new AttributeContainer(Attributes.MOVEMENT_SPEED, 0.15, MULTIPLY_TOTAL),
-            new AttributeContainer(Attributes.ATTACK_SPEED, 0.15, MULTIPLY_TOTAL)));
 
     public static final RegistryObject<Item> PORTABLE_MINING_RIG = ITEMS.register("portable_mining_rig", () -> new PortableMiningRig(
             BrutalityRarities.LEGENDARY, List.of(
@@ -1853,12 +1814,6 @@ public class BrutalityItems {
             new AttributeContainer(BrutalityAttributes.BLUNT_DAMAGE.get(), 0.2, MULTIPLY_TOTAL),
             new AttributeContainer(Attributes.MOVEMENT_SPEED, -0.05, MULTIPLY_TOTAL),
             new AttributeContainer(Attributes.ATTACK_SPEED, -0.05, MULTIPLY_TOTAL)));
-
-    public static final RegistryObject<Item> BOX_OF_CHOCOLATES = ITEMS.register("box_of_chocolates", () -> new BrutalityCurioItem(
-            BrutalityRarities.LEGENDARY).withAttributes(
-            new AttributeContainer(Attributes.MOVEMENT_SPEED, 0.25, MULTIPLY_TOTAL),
-            new AttributeContainer(Attributes.MOVEMENT_SPEED, 0.25, MULTIPLY_TOTAL),
-            new AttributeContainer(BrutalityAttributes.STEALTH.get(), 0.15, ADDITION)));
 
     public static final RegistryObject<Item> BROKEN_HEART = ITEMS.register("broken_heart", () -> new BrutalityCurioItem(
             BrutalityRarities.LEGENDARY).withAttributes(
@@ -1884,18 +1839,6 @@ public class BrutalityItems {
     public static final RegistryObject<Item> MIRACLE_CURE = ITEMS.register("miracle_cure", () -> new BrutalityCurioItem(
             BrutalityRarities.LEGENDARY, List.of(
             new ItemDescriptionComponent(ACTIVE, 1, 20 * 60))));
-
-    public static final RegistryObject<Item> ESSENTIAL_OILS = ITEMS.register("essential_oils", () -> new BrutalityCurioItem(
-            BrutalityRarities.LEGENDARY, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public void curioTick(SlotContext slotContext, ItemStack stack) {
-            if (slotContext.entity() != null && slotContext.entity().tickCount % 10 == 0) {
-                LivingEntity livingEntity = slotContext.entity();
-                livingEntity.addEffect(new MobEffectInstance(BrutalityEffects.OILED.get(), 11, 1, false, false));
-            }
-        }
-    });
 
     public static final RegistryObject<Item> GLASS_HEART = ITEMS.register("glass_heart", () -> new BrutalityCurioItem(
             BrutalityRarities.LEGENDARY).withAttributes(
@@ -1923,22 +1866,26 @@ public class BrutalityItems {
             BrutalityRarities.PRISMATIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 1))));
 
+    public static final RegistryObject<Item> MIRROR_OF_DIVERGENCE = ITEMS.register("mirror_of_divergence", () -> new BrutalityCurioItem(
+            BrutalityRarities.PRISMATIC, List.of(
+            new ItemDescriptionComponent(PASSIVE, 2)
+    )) {
+        @Override
+        public void curioTick(SlotContext slotContext, ItemStack stack) {
+            if (slotContext.entity().tickCount % 40 == 0) {
+                slotContext.entity().addEffect(new MobEffectInstance(TerramityModMobEffects.DIVERGENCY.get(), 60));
+                slotContext.entity().addEffect(new MobEffectInstance(TerramityModMobEffects.MIRRORING.get(), 60));
+            }
+        }
+    });
+
     public static final RegistryObject<Item> SOLAR_SYSTEM = ITEMS.register("solar_system", () -> new BrutalityCurioItem(
             BrutalityRarities.LEGENDARY).followBodyRotations(false).translateIfSneaking(false));
 
-    public static final RegistryObject<Item> NANOMACHINES = ITEMS.register("nanomachines", () -> new BrutalityCurioItem(
+    public static final RegistryObject<Item> NANOMACHINES = ITEMS.register("nanomachines", () -> new Nanomachines(
             BrutalityRarities.MYTHIC, List.of(
             new ItemDescriptionComponent(LORE, 1),
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerHurt(LivingEntity wearer, ItemStack stack, DamageSource source, float amount) {
-            if (!source.is(DamageTypeTags.BYPASSES_ARMOR) && (source.is(DamageTypeTags.IS_PROJECTILE) || source.is(DamageTypes.MOB_ATTACK) ||
-                    source.is(DamageTypes.PLAYER_ATTACK) || source.is(DamageTypes.MOB_ATTACK_NO_AGGRO))) {
-                return amount * 0.5F;
-            }
-            return amount;
-        }
-    });
+            new ItemDescriptionComponent(PASSIVE, 4))));
 
     public static final RegistryObject<Item> DUELING_GLOVE = ITEMS.register("dueling_glove", () -> new BrutalityCurioItem(
             BrutalityRarities.MYTHIC, List.of(
@@ -2125,145 +2072,6 @@ public class BrutalityItems {
             BrutalityArmorMaterials.TERRA, ArmorItem.Type.BOOTS, BrutalityRarities.FABLED, List.of(
             new ItemDescriptionComponent(FULL_SET_PASSIVE, 1))));
 
-    public static final RegistryObject<Item> FRIDGE = ITEMS.register("fridge", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(LORE, 1),
-            new ItemDescriptionComponent(PASSIVE, 1))));
-    public static final RegistryObject<Item> SMART_FRIDGE = ITEMS.register("smart_fridge", () -> new BrutalityCurioItem(
-            BrutalityRarities.LEGENDARY, List.of(
-            new ItemDescriptionComponent(LORE, 1),
-            new ItemDescriptionComponent(PASSIVE, 1))));
-
-    public static final RegistryObject<Item> SALT_SHAKER = ITEMS.register("salt_shaker", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SALTED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> PEPPER_SHAKER = ITEMS.register("pepper_shaker", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.PEPPERED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> SALT_AND_PEPPER = ITEMS.register("salt_and_pepper", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerHit(LivingEntity attacker, ItemStack stack, Entity victim, DamageSource source, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SALTED.get(), 120, 1);
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.PEPPERED.get(), 120, 1);
-            return super.onWearerHit(attacker, stack, victim, source, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> BAMBOO_STEAMER = ITEMS.register("bamboo_steamer", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.STEAMED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> SMOKE_STONE = ITEMS.register("smoke_stone", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SMOKED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> THE_SMOKEHOUSE = ITEMS.register("the_smokehouse", () -> new BrutalityCurioItem(
-            BrutalityRarities.FABLED, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerHit(LivingEntity attacker, ItemStack stack, Entity victim, DamageSource source, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SMOKED.get(), 80, 1);
-            return super.onWearerHit(attacker, stack, victim, source, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> SUGAR_GLAZE = ITEMS.register("sugar_glaze", () -> new BrutalityCurioItem(
-            BrutalityRarities.LEGENDARY, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.GLAZED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> RAINBOW_SPRINKLES = ITEMS.register("rainbow_sprinkles", () -> new BrutalityCurioItem(
-            BrutalityRarities.LEGENDARY, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SPRINKLED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> ROCK_CANDY_RING = ITEMS.register("rock_candy_ring", () -> new BrutalityCurioItem(
-            BrutalityRarities.LEGENDARY, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.CANDIED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> CARAMEL_CRUNCH_MEDALLION = ITEMS.register("caramel_crunch_medallion", () -> new BrutalityCurioItem(
-            BrutalityRarities.LEGENDARY, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerHit(LivingEntity attacker, ItemStack stack, Entity victim, DamageSource source, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.CANDIED.get(), 80, 1);
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.CARAMELIZED.get(), 80, 1);
-            return super.onWearerHit(attacker, stack, victim, source, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> DUNKED_DONUT = ITEMS.register("dunked_donut", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerHit(LivingEntity attacker, ItemStack stack, Entity victim, DamageSource source, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.GLAZED.get(), 80, 1);
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SPRINKLED.get(), 80, 1);
-            return super.onWearerHit(attacker, stack, victim, source, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> LOLLIPOP_OF_ETERNITY = ITEMS.register("lollipop_of_eternity", () -> new BrutalityCurioItem(
-            BrutalityRarities.GODLY, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerHit(LivingEntity attacker, ItemStack stack, Entity victim, DamageSource source, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.GLAZED.get(), 120, 2);
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.CARAMELIZED.get(), 120, 2);
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SPRINKLED.get(), 120, 2);
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.CANDIED.get(), 120, 2);
-            return super.onWearerHit(attacker, stack, victim, source, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> ICE_CREAM_SANDWICH = ITEMS.register("ice_cream_sandwich", () -> new BrutalityCurioItem(
-            BrutalityRarities.GLACIAL, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))));
-
     public static final RegistryObject<Item> CROWN_OF_DOMINATION = ITEMS.register("crown_of_domination", () -> new BrutalityCurioItem(
             BrutalityRarities.FABLED, List.of(
             new ItemDescriptionComponent(LORE, 1),
@@ -2307,7 +2115,14 @@ public class BrutalityItems {
     );
     public static final RegistryObject<Item> REDACTING_TAPE = ITEMS.register("redacting_tape", () -> new BrutalityCurioItem(
             BrutalityRarities.DARK, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1)))
+            new ItemDescriptionComponent(PASSIVE, 1))){
+                @Override
+                public void curioTick(SlotContext slotContext, ItemStack stack) {
+                    if (slotContext.entity().tickCount % 40 == 0) {
+                        
+                    }
+                }
+            }
     );
     public static final RegistryObject<Item> QUANTUM_LUBRICANT = ITEMS.register("quantum_lubricant", () -> new BrutalityCurioItem(
             BrutalityRarities.FABLED).withAttributes(
@@ -2378,102 +2193,6 @@ public class BrutalityItems {
             BrutalityRarities.FABLED).withAttributes(
             new AttributeContainer(Attributes.ATTACK_KNOCKBACK, 1.5, ADDITION),
             new AttributeContainer(BrutalityAttributes.RAGE_TIME.get(), 0.25, MULTIPLY_BASE)));
-
-    public static final RegistryObject<Item> SEARED_SUGAR_BROOCH = ITEMS.register("seared_sugar_brooch", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.CARAMELIZED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> MORTAR_AND_PESTLE = ITEMS.register("mortar_and_pestle", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
-            if (weapon.is(BrutalityTags.Items.GASTRONOMIST_ITEMS) && victim instanceof LivingEntity livingVictim) {
-                livingVictim.addEffect(new MobEffectInstance(BrutalityEffects.PULVERIZED.get(), 3, 3));
-            }
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> BUTTER_GAUNTLETS = ITEMS.register("butter_gauntlets", () -> new BrutalityCurioItem(
-            BrutalityRarities.LEGENDARY, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1, 60))) {
-        @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
-            if (curio.is(BrutalityTags.Items.GASTRONOMIST_ITEMS) && victim instanceof LivingEntity livingVictim && attacker instanceof Player playerAttacker) {
-                if (AttributeCalculationHelper.Luck.roll(attacker, 0.1F, 0.1F))
-                    CooldownUtils.validateCurioCooldown(playerAttacker, curio.getItem(), 60, () ->
-                            livingVictim.addEffect(new MobEffectInstance(BrutalityEffects.STUNNED.get(), 4, 0)));
-            }
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> TOMATO_SAUCE = ITEMS.register("tomato_sauce", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SLICKED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> CHEESE_SAUCE = ITEMS.register("cheese_sauce", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SLICKED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> PIZZA_SLOP = ITEMS.register("pizza_slop", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerHit(LivingEntity attacker, ItemStack stack, Entity victim, DamageSource source, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.SLICKED.get(), 120, 1);
-            return super.onWearerHit(attacker, stack, victim, source, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> HOT_SAUCE = ITEMS.register("hot_sauce", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public void curioTick(SlotContext slotContext, ItemStack stack) {
-            if (slotContext.entity().tickCount % 40 == 0)
-                slotContext.entity().addEffect(new MobEffectInstance(BrutalityEffects.HOT_AND_SPICY.get(), 41, 1));
-        }
-    });
-
-    public static final RegistryObject<Item> OLIVE_OIL = ITEMS.register("olive_oil", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerMeleeHit(LivingEntity attacker, ItemStack weapon, ItemStack curio, Entity victim, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.OILED.get(), 60, 0);
-            return super.onWearerMeleeHit(attacker, weapon, curio, victim, amount);
-        }
-    });
-
-    public static final RegistryObject<Item> EXTRA_VIRGIN_OLIVE_OIL = ITEMS.register("extra_virgin_olive_oil", () -> new BrutalityCurioItem(
-            Rarity.EPIC, List.of(
-            new ItemDescriptionComponent(PASSIVE, 1))) {
-        @Override
-        public float onWearerHit(LivingEntity attacker, ItemStack stack, Entity victim, DamageSource source, float amount) {
-            GastronomyHelper.applyEffect(attacker, victim, BrutalityEffects.OILED.get(), 120, 3);
-            return super.onWearerHit(attacker, stack, victim, source, amount);
-        }
-    });
 
     public static final RegistryObject<Item> DIVERGENT_RECURSOR = ITEMS.register("divergent_recursor", () -> new BaseRecursor(
             BrutalityRarities.LEGENDARY, List.of(
@@ -2744,9 +2463,22 @@ public class BrutalityItems {
             BrutalityRarities.CONDUCTIVE).withAttributes(
             new AttributeContainer(BrutalityAttributes.RAGE_LEVEL.get(), 3, ADDITION)));
 
-    public static final RegistryObject<Item> RAINBOW_RING = ITEMS.register("rainbow_ring", () -> new RainbowRing(
+    public static final RegistryObject<Item> OMNICHROME_RING = ITEMS.register("omnichrome_ring", () -> new OmnichromeRing(
             BrutalityRarities.GODLY, List.of(
             new ItemDescriptionComponent(PASSIVE, 5)
+    )));
+    public static final RegistryObject<Item> RING_OF_RINGS = ITEMS.register("ring_of_rings", () -> new RingOfRings(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1)
+    )));
+    public static final RegistryObject<Item> FLIPPERS_OF_ICARUS = ITEMS.register("flippers_of_icarus", () -> new FlippersOfIcarus(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 2)
+    )));
+
+    public static final RegistryObject<Item> RING_OF_DESPAIR = ITEMS.register("ring_of_despair", () -> new BrutalityCurioItem(
+            BrutalityRarities.LEGENDARY, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1, 100, DistExecutor.unsafeRunForDist(() -> Keybindings::getActiveAbilityKey, () -> () -> null))
     )));
 
     public static final RegistryObject<Item> FURY_BAND = ITEMS.register("fury_band", () -> new BrutalityCurioItem(
@@ -2763,7 +2495,7 @@ public class BrutalityItems {
             new ItemDescriptionComponent(PASSIVE, 1),
             new ItemDescriptionComponent(ACTIVE, 1, DistExecutor.unsafeRunForDist(() -> Keybindings::getRageActivateKey, () -> () -> null)))));
 
-    public static final RegistryObject<Item> POSEIDONS_BLESSING = ITEMS.register("poseidons_blessing", () -> new BrutalityCurioItem(
+    public static final RegistryObject<Item> POSEIDONS_BLESSING = ITEMS.register("poseidons_blessing", () -> new PoseidonsBlessing(
             BrutalityRarities.MYTHIC, List.of(
             new ItemDescriptionComponent(PASSIVE, 2))) {
         @Override
@@ -2775,12 +2507,24 @@ public class BrutalityItems {
         }
     });
 
+    public static final RegistryObject<Item> HYDROPHOBIC_NANOCOATING = ITEMS.register("hydrophobic_nanocoating", () -> new BrutalityCurioItem(
+            BrutalityRarities.MYTHIC, List.of(
+            new ItemDescriptionComponent(PASSIVE, 1)
+    )));
+
+    public static final RegistryObject<Item> LAVA_LENSES = ITEMS.register("lava_lenses", () -> new BrutalityCurioItem(
+            BrutalityRarities.FIRE, List.of(
+            new ItemDescriptionComponent(PASSIVE, 2)
+    )));
+
+
     public static final RegistryObject<Item> SURTRS_HORN = ITEMS.register("surtrs_horn", () -> new BrutalityCurioItem(
             BrutalityRarities.FIRE, List.of(
-            new ItemDescriptionComponent(PASSIVE, 3))) {
+            new ItemDescriptionComponent(PASSIVE, 5))) {
         @Override
         public void curioTick(SlotContext slotContext, ItemStack stack) {
-            if (slotContext.entity().tickCount % 40 == 0) slotContext.entity().addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60));
+            if (slotContext.entity().tickCount % 40 == 0)
+                slotContext.entity().addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60));
         }
 
         @Override
@@ -2791,7 +2535,6 @@ public class BrutalityItems {
     });
 
 
-
     public static final RegistryObject<Item> LIQUIFIED_MANA_BUCKET = ITEMS.register("liquified_mana_bucket",
             () -> new BucketItem(BrutalityFluids.LIQUIFIED_MANA_SOURCE, new Item.Properties()
                     .craftRemainder(Items.BUCKET)
@@ -2799,6 +2542,18 @@ public class BrutalityItems {
 
 
     public static void register(IEventBus eventBus) {
+        // Just referencing these classes forces their static blocks to run
+        // which calls ITEMS.register() for all the items inside them.
+        init(BrutalityGastronomyItems.class);
+
         ITEMS.register(eventBus);
+    }
+
+    private static void init(Class<?> clazz) {
+        try {
+            Class.forName(clazz.getName());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

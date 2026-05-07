@@ -2,7 +2,6 @@ package net.goo.brutality.common.item.curios.feet;
 
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;

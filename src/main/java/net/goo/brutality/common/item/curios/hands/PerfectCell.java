@@ -15,6 +15,7 @@ import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class PerfectCell extends BrutalityCurioItem {
 
@@ -23,7 +24,7 @@ public class PerfectCell extends BrutalityCurioItem {
         super(rarity, descriptionComponents);
     }
 
-    private static final Set<MobEffect> DENIED_EFFECTS = Set.of(BrutalityEffects.ARCANE_BURNOUT.get(),
+    private static final Supplier<Set<MobEffect>> DENIED_EFFECTS = () -> Set.of(BrutalityEffects.ARCANE_BURNOUT.get(),
             BrutalityEffects.SIPHONED.get(), BrutalityEffects.RADIATION.get(), TerramityModMobEffects.ELECTRIC_SHOCK_EFFECT.get(),
             BrutalityEffects.PULVERIZED.get(), BrutalityEffects.MANA_BLIGHT.get());
 
@@ -37,7 +38,7 @@ public class PerfectCell extends BrutalityCurioItem {
     public static void denyEffect(MobEffectEvent.Applicable event) {
         CuriosApi.getCuriosInventory(event.getEntity()).ifPresent(handler -> {
             if (handler.isEquipped(BrutalityItems.PERFECT_CELL.get())) {
-                if (DENIED_EFFECTS.contains(event.getEffectInstance().getEffect())) {
+                if (DENIED_EFFECTS.get().contains(event.getEffectInstance().getEffect())) {
                     event.setCanceled(true);
                 }
             }

@@ -25,7 +25,7 @@ public abstract class ServerPlayerMixin extends Player {
     }
 //
 //    // Courtesy of MomLove
-//    @Redirect(method = "restoreFrom", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"))
+//    @Redirect(method = "restoreFrom", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/levels/GameRules;getBoolean(Lnet/minecraft/world/levels/GameRules$Key;)Z"))
 //    private boolean redirect$restoreFrom(GameRules instance, GameRules.Key<GameRules.BooleanValue> v) {
 //        ServerPlayer player = (((ServerPlayer) (Object) this));
 //        CombatTracker tracker = player.getCombatTracker();

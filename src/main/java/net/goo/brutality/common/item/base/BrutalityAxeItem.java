@@ -1,6 +1,5 @@
 package net.goo.brutality.common.item.base;
 
-import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.goo.brutality.util.tooltip.TooltipHelper;
@@ -46,11 +45,6 @@ public class BrutalityAxeItem extends AxeItem implements BrutalityGeoItem {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories.AttackType getAttackType() {
-        return BrutalityCategories.AttackType.SLASH;
     }
 
     @Override

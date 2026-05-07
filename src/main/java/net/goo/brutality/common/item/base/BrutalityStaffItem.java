@@ -1,7 +1,6 @@
 package net.goo.brutality.common.item.base;
 
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
-import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.goo.brutality.util.tooltip.TooltipHelper;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -39,10 +38,6 @@ public class BrutalityStaffItem extends AxeItem implements BrutalityGeoItem {
                 return BrutalityModItemRenderManager.createRenderer(BrutalityStaffItem.this);
             }
         });
-    }
-    @Override
-    public BrutalityCategories.AttackType getAttackType() {
-        return BrutalityCategories.AttackType.BLUNT;
     }
 
     @Override

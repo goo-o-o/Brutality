@@ -1,5 +1,6 @@
 package net.goo.brutality.util;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
@@ -13,7 +14,7 @@ public class ProjectileHelper {
                                        Player player, Level level, float velocity, @Nullable Boolean random, @Nullable Float delta, int angleOffset) {
         Vec3 playerPos;
         if (random != null && random) {
-            playerPos = new Vec3(player.getRandomX(delta != null ? delta : 1), player.getRandomY(),player.getRandomZ(delta != null ? delta : 1));
+            playerPos = new Vec3(player.getRandomX(delta != null ? delta : 1), player.getRandomY(), player.getRandomZ(delta != null ? delta : 1));
         } else {
             playerPos = player.position();
         }
@@ -30,5 +31,13 @@ public class ProjectileHelper {
         swordBeam.setPos(spawnX, spawnY, spawnZ);
         swordBeam.shootFromRotation(player, player.getXRot(), player.getYRot() + angleOffset, 0.0F, velocity, 0.0F);
         level.addFreshEntity(swordBeam);
+    }
+
+    public static void shootAtEntity(Projectile projectile, Entity target, float velocity, float innacuracy) {
+        double x = target.getX() - projectile.getX();
+        double y = target.getY(0.5) - projectile.getY(0.5);
+        double z = target.getZ() - projectile.getZ();
+
+        projectile.shoot(x, y, z, velocity, innacuracy);
     }
 }

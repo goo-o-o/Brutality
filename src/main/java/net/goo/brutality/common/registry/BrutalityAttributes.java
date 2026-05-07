@@ -26,6 +26,17 @@ public class BrutalityAttributes {
     public static final RegistryObject<Attribute> COIN_COOLDOWN = ATTRIBUTES.register("coin_cooldown",
             () -> new RangedPercentageAttribute("attribute.name.generic.coin_cooldown", 1, 0.1F, 1024F).setSyncable(true));
 
+    public static final RegistryObject<Attribute> GASTRONOMY_DAMAGE_DEALT_BOOST = ATTRIBUTES.register("gastronomy_damage_dealt",
+            () -> new RangedPercentageAttribute("attribute.name.generic.gastronomy_damage_dealt", 0, 0, 1024F).setSyncable(true));
+    public static final RegistryObject<Attribute> GASTRONOMY_WET_DEBUFF_DAMAGE_TAKEN_BOOST = ATTRIBUTES.register("gastronomy_wet_debuff_damage_taken",
+            () -> new RangedPercentageAttribute("attribute.name.generic.gastronomy_wet_debuff_damage_taken", 0, 0, 1024F).setSyncable(true));
+    public static final RegistryObject<Attribute> GASTRONOMY_DRY_DEBUFF_DAMAGE_TAKEN_BOOST = ATTRIBUTES.register("gastronomy_dry_debuff_damage_taken",
+            () -> new RangedPercentageAttribute("attribute.name.generic.gastronomy_dry_debuff_damage_taken", 0, 0, 1024F).setSyncable(true));
+    public static final RegistryObject<Attribute> GASTRONOMY_DEBUFF_LEVEL_MODIFIER = ATTRIBUTES.register("gastronomy_debuff_level_bonus",
+            () -> new RangedAttribute("attribute.name.generic.gastronomy_debuff_level_bonus", 0, -1024F, 1024F).setSyncable(true));
+    public static final RegistryObject<Attribute> GASTRONOMY_DEBUFF_DURATION_MULTIPLIER = ATTRIBUTES.register("gastronomy_debuff_duration_multiplier",
+            () -> new RangedPercentageAttribute("attribute.name.generic.gastronomy_debuff_duration_multiplier", 1, 0, 1024F).setSyncable(true));
+
 
     /**
      * The duration (in seconds) that the Rage state remains active.
@@ -46,7 +57,7 @@ public class BrutalityAttributes {
             () -> new RangedAttribute("attribute.name.generic.ground_friction", 1.0D, 0.0F, 128F).setSyncable(true));
 
     /**
-     * Current intensity level of the player's Rage.
+     * Current intensity levels of the player's Rage.
      */
     public static final RegistryObject<Attribute> RAGE_LEVEL = ATTRIBUTES.register("rage_level",
             () -> new RangedAttribute("attribute.name.generic.rage_level", 0.0D, 0.0F, 128F).setSyncable(true));
@@ -178,7 +189,7 @@ public class BrutalityAttributes {
             () -> new RangedAttribute("attribute.name.generic.stun_duration", 2, 0, 1024F).setSyncable(true));
 
     /**
-     * Percentage reduction in the duration of incoming negative status effects.
+     * Percentage reduction in the duration of incoming stuns.
      */
     public static final RegistryObject<Attribute> TENACITY = ATTRIBUTES.register("tenacity",
             () -> new RangedPercentageAttribute("attribute.name.generic.tenacity", 0.15, 0, 1F).setSyncable(true));

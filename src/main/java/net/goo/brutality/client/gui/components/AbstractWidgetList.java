@@ -96,7 +96,7 @@ public class AbstractWidgetList extends AbstractContainerEventHandler implements
     protected void drawBackground(GuiGraphics guiGraphics, Tesselator tess, float partialTick) {
 //        BufferBuilder worldr = tess.getBuilder();
 //
-//        if (this.client.level != null) {
+//        if (this.client.levels != null) {
 //            this.drawGradientRect(guiGraphics, this.left, this.top, this.right, this.bottom, bgColorFrom, bgColorTo);
 //        } else // Draw dark dirt background
 //        {

@@ -20,6 +20,10 @@ public class BrutalityDamageTypes {
             Registries.DAMAGE_TYPE,
             ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "dematerialize")
     );
+    public static final ResourceKey<DamageType> PULVERIZED = ResourceKey.create(
+            Registries.DAMAGE_TYPE,
+            ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "pulverized")
+    );
     public static final ResourceKey<DamageType> DEATHSAW = ResourceKey.create(
             Registries.DAMAGE_TYPE,
             ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "deathsaw")
@@ -39,15 +43,18 @@ public class BrutalityDamageTypes {
     );
 
     public static DamageSource last_prism(Entity indirectEntity) {
-        return new DamageSource(indirectEntity.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(LAST_PRISM),
-                indirectEntity
-        );
+        return new DamageSource(indirectEntity.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(LAST_PRISM), indirectEntity);
     }
+
+    public static DamageSource pulverized(Entity directEntity) {
+        return new DamageSource(directEntity.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(PULVERIZED), directEntity);
+    }
+
     public static DamageSource throwing_pierce(@Nullable Entity indirectEntity, Entity directEntity) {
         return new RandomDeathMessageDamageSource(directEntity.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(THROWING_PIERCE),
                 directEntity,
                 indirectEntity,
-                8
+                6
         );
     }
 
@@ -55,7 +62,7 @@ public class BrutalityDamageTypes {
         return new RandomDeathMessageDamageSource(directEntity.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(THROWING_BLUNT),
                 directEntity,
                 indirectEntity,
-                8
+                6
         );
     }
 
@@ -64,6 +71,7 @@ public class BrutalityDamageTypes {
                 causer.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DEMATERIALIZE),
                 causer);
     }
+
     public static DamageSource deathsaw(Entity causer) {
         return new DamageSource(
                 causer.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DEATHSAW),
@@ -75,19 +83,22 @@ public class BrutalityDamageTypes {
         event.register(Registries.DAMAGE_TYPE, helper -> {
             helper.register(
                     BrutalityDamageTypes.DEMATERIALIZE.location(),
-                    new DamageType("brutality.dematerialize", 0.1F));
+                    new DamageType(Brutality.MOD_ID + ".dematerialize", 0.1F));
             helper.register(
                     BrutalityDamageTypes.DEATHSAW.location(),
-                    new DamageType("brutality.deathsaw", 0.1F));
+                    new DamageType(Brutality.MOD_ID + ".deathsaw", 0.1F));
             helper.register(
                     BrutalityDamageTypes.THROWING_PIERCE.location(),
-                    new DamageType("brutality.throwing_pierce", 0.1F));
+                    new DamageType(Brutality.MOD_ID + ".throwing_pierce", 0.1F));
             helper.register(
                     BrutalityDamageTypes.THROWING_BLUNT.location(),
-                    new DamageType("brutality.throwing_blunt", 0.1F));
+                    new DamageType(Brutality.MOD_ID + ".throwing_blunt", 0.1F));
             helper.register(
                     BrutalityDamageTypes.LAST_PRISM.location(),
-                    new DamageType("brutality.last_prism", 0));
+                    new DamageType(Brutality.MOD_ID + ".last_prism", 0));
+            helper.register(
+                    BrutalityDamageTypes.PULVERIZED.location(),
+                    new DamageType(Brutality.MOD_ID + ".pulverized", 0));
         });
     }
 

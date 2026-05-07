@@ -164,12 +164,6 @@ public class RoyalGuardianSword extends BrutalitySwordItem implements ItemEquipU
         }
     }
 
-
-    @Override
-    public void onEnterMainHand(LivingEntity livingEntity, ItemStack stack) {
-
-    }
-
     @Override
     public void onLeaveMainHand(LivingEntity livingEntity, ItemStack stack) {
         if (livingEntity instanceof Player player)

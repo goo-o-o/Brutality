@@ -6,7 +6,6 @@ import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.function.Consumer;
 

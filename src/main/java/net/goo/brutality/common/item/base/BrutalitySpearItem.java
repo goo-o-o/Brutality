@@ -1,6 +1,5 @@
 package net.goo.brutality.common.item.base;
 
-import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.goo.brutality.util.tooltip.TooltipHelper;
@@ -36,11 +35,6 @@ public class BrutalitySpearItem extends AxeItem implements BrutalityGeoItem {
                 return BrutalityModItemRenderManager.createRenderer(BrutalitySpearItem.this);
             }
         });
-    }
-
-    @Override
-    public BrutalityCategories.AttackType getAttackType() {
-        return BrutalityCategories.AttackType.PIERCE;
     }
 
     @Override

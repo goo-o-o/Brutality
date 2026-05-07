@@ -56,7 +56,7 @@ public abstract class BrutalitySpell implements IBrutalitySpell {
 
     /**
      * Retrieves the {@link SpellTooltipRenderer.SpellStatComponent} for the specified {@link SpellTooltipRenderer.SpellStatComponentType} type.
-     * The stat component contains detailed information, such as its base value, level scaling ({@code levelDelta}), and optional minimum/maximum bounds.
+     * The stat component contains detailed information, such as its base value, levels scaling ({@code levelDelta}), and optional minimum/maximum bounds.
      *
      * @param type The {@link SpellTooltipRenderer.SpellStatComponentType} type specifying the desired statistic (e.g., {@code RANGE}, {@code SPEED}, etc.).
      *             Must be non-null to retrieve a valid result.

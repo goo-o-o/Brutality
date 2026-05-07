@@ -1,11 +1,9 @@
 package net.goo.brutality.common.entity.projectile.trident.physics_projectile;
 
-import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.common.entity.base.BrutalityAbstractThrowingProjectile;
 import net.mcreator.terramity.init.TerramityModParticleTypes;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -18,10 +16,8 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
-import static net.goo.brutality.util.ModResources.PHOTON_TRAIL_FX;
 
 public class Photon extends BrutalityAbstractThrowingProjectile implements BrutalityGeoEntity {
-    private Vec3 deltaMovementOld = Vec3.ZERO;
 
     public Photon(EntityType<? extends BrutalityAbstractThrowingProjectile> pEntityType, Level pLevel, ResourceKey<DamageType> damageTypeResourceKey) {
         super(pEntityType, pLevel, damageTypeResourceKey);
@@ -57,17 +53,6 @@ public class Photon extends BrutalityAbstractThrowingProjectile implements Bruta
     protected float getDamageMultiplier() {
         return (float) getDeltaMovement().length();
     }
-
-    @Override
-    public void tick() {
-        if (firstTick && !(level() instanceof ServerLevel)) {
-            EntityEffect photonTrail = new EntityEffect(PHOTON_TRAIL_FX.get(), level(), this, EntityEffect.AutoRotate.NONE);
-            photonTrail.start();
-        }
-
-        super.tick();
-    }
-
 
 
     @Override

@@ -9,9 +9,10 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ServerboundAddLoadoutPacket implements IBrutalityPacket<ServerboundAddLoadoutPacket> {
+public class ServerboundAddLoadoutPacket implements IBrutalityPacket {
     String name;
     ResourceLocation icon;
+
     public ServerboundAddLoadoutPacket(String name, ResourceLocation icon) {
         this.name = name;
         this.icon = icon;
@@ -22,17 +23,19 @@ public class ServerboundAddLoadoutPacket implements IBrutalityPacket<Serverbound
         this.icon = buf.readResourceLocation();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeUtf(this.name);
         buf.writeResourceLocation(this.icon);
     }
 
-    public void handle(ServerboundAddLoadoutPacket msg, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
             if (player != null) {
                 player.getCapability(BrutalityCapabilities.LOADOUTS).ifPresent(cap -> {
-                    cap.addLoadout(player, msg.name, msg.icon);
+                    cap.addLoadout(player, this.name, this.icon);
                     BrutalityCapabilities.sync(player, BrutalityCapabilities.LOADOUTS);
                 });
             }

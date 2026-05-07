@@ -60,7 +60,7 @@ public class Greed extends BrutalityCurioItem {
     //    @Override
 //    public void curioTick(SlotContext slotContext, ItemStack stack) {
 //        if (slotContext.entity() instanceof Player player) {
-//            int mobCount = player.level().getNearbyEntities(
+//            int mobCount = player.levels().getNearbyEntities(
 //                    LivingEntity.class,
 //                    TargetingConditions.DEFAULT.ignoreLineOfSight(),
 //                    player,

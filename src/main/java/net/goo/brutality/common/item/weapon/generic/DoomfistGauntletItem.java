@@ -16,7 +16,6 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 
@@ -28,11 +27,6 @@ public class DoomfistGauntletItem extends BrutalityGenericItem {
         super(rarity, descriptionComponents);
     }
 
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-
-    }
 
     @Override
     public int getUseDuration(ItemStack pStack) {

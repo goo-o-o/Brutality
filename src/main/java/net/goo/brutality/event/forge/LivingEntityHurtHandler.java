@@ -7,9 +7,14 @@ import net.goo.brutality.common.item.weapon.sword.RoyalGuardianSword;
 import net.goo.brutality.common.magic.spells.celestia.HolyMantleSpell;
 import net.goo.brutality.common.mob_effect.AvariceEffect;
 import net.goo.brutality.common.mob_effect.BlockchainedEffect;
+import net.goo.brutality.common.mob_effect.ResilienceEffect;
 import net.goo.brutality.common.mob_effect.SadEffect;
+import net.goo.brutality.common.mob_effect.gastronomy.BarkEffect;
+import net.goo.brutality.common.mob_effect.gastronomy.FriedEffect;
+import net.goo.brutality.common.mob_effect.gastronomy.SearedEffect;
 import net.goo.brutality.util.AugmentHelper;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
+import net.goo.brutality.util.build_archetypes.GastronomyHelper;
 import net.goo.brutality.util.build_archetypes.RageHelper;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -18,11 +23,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.SlotResult;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
-
-import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
 public class LivingEntityHurtHandler {
@@ -63,9 +63,15 @@ public class LivingEntityHurtHandler {
         amount = AttributeCalculationHelper.handleDamageTaken(amount, victim);
         HolyMantleSpell.processHurt(event, victim, amount);
         handleArmorSealsHurt(victim, source, amount);
-        amount = BlockchainedEffect.handleHurt(victim, amount);
-        amount = applyOnWearerHurt(victim, source, amount);
+        BlockchainedEffect.handleHurt(victim, amount);
+        amount = BrutalityCurioItem.Hooks.applyOnWearerHurt(victim, source, amount);
+        amount = SearedEffect.processHurt(victim, amount);
+        amount = BarkEffect.processHurt(victim, amount);
+        amount = FriedEffect.processHurt(victim, amount);
         AvariceEffect.handleHurt(victim);
+
+        ResilienceEffect.handleHurt(victim);
+
         return amount;
     }
 
@@ -80,8 +86,9 @@ public class LivingEntityHurtHandler {
 
     // --- 3. EVERYTIME A MOB GETS HURT FROM ANOTHER MOB ---
     private static float onLivingHurtByLiving(LivingEntity victim, LivingEntity attacker, DamageSource source, float amount) {
-        amount = applyOnWearerHit(attacker, victim, source, amount);
+        amount = BrutalityCurioItem.Hooks.applyOnWearerHit(attacker, victim, source, amount);
         handleArmorSealsHurtByEntity(victim, attacker, source, amount);
+        GastronomyHelper.inflictGastronomyEffects(attacker, victim, null);
         amount = AvariceEffect.handleProc(victim, attacker, amount);
         return amount;
     }
@@ -104,28 +111,6 @@ public class LivingEntityHurtHandler {
     }
 
     // --- REUSABLE HELPERS ---
-
-    private static float applyOnWearerHurt(LivingEntity victim, DamageSource source, float amount) {
-        float current = amount;
-        Optional<ICuriosItemHandler> opt = CuriosApi.getCuriosInventory(victim).resolve();
-        if (opt.isPresent()) {
-            for (SlotResult result : opt.get().findCurios(s -> s.getItem() instanceof BrutalityCurioItem)) {
-                current = ((BrutalityCurioItem) result.stack().getItem()).onWearerHurt(victim, result.stack(), source, current);
-            }
-        }
-        return current;
-    }
-
-    private static float applyOnWearerHit(LivingEntity attacker, LivingEntity victim, DamageSource source, float amount) {
-        float current = amount;
-        Optional<ICuriosItemHandler> opt = CuriosApi.getCuriosInventory(attacker).resolve();
-        if (opt.isPresent()) {
-            for (SlotResult result : opt.get().findCurios(s -> s.getItem() instanceof BrutalityCurioItem)) {
-                current = ((BrutalityCurioItem) result.stack().getItem()).onWearerHit(attacker, result.stack(), victim, source, current);
-            }
-        }
-        return current;
-    }
 
     private static void handleArmorSealsHurtByEntity(LivingEntity victim, LivingEntity attacker, DamageSource source, float amount) {
         victim.getArmorSlots().forEach(armor -> AugmentHelper.getAugmentCounts(armor).forEach((brutalityAugmentItem, integer) -> {

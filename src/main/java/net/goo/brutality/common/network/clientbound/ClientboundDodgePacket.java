@@ -11,7 +11,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ClientboundDodgePacket implements IBrutalityPacket<ClientboundDodgePacket> {
+public class ClientboundDodgePacket implements IBrutalityPacket {
     public final int entityId;
     public final ResourceLocation damageTypeId;
     public final float amount;
@@ -43,7 +43,8 @@ public class ClientboundDodgePacket implements IBrutalityPacket<ClientboundDodge
         this.anklet = buf.readItem();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeInt(entityId);
         buf.writeResourceLocation(damageTypeId);
         buf.writeBoolean(hasDirectEntity);
@@ -57,9 +58,10 @@ public class ClientboundDodgePacket implements IBrutalityPacket<ClientboundDodge
         buf.writeItem(this.anklet);
     }
 
-    public void handle(ClientboundDodgePacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
-        context.enqueueWork(() -> ClientPacketListener.handleDodgeClient(packet));
+        context.enqueueWork(() -> ClientPacketListener.handleDodgeClient(this));
         context.setPacketHandled(true);
     }
 

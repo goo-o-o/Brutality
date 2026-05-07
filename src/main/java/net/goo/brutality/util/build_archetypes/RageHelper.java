@@ -89,13 +89,13 @@ public class RageHelper {
     }
 
     /**
-     * Triggers the rage effect on the specified player. This method calculates the player's rage level and duration
+     * Triggers the rage effect on the specified player. This method calculates the player's rage levels and duration
      * based on their current {@link BrutalityCapabilities#RAGE} capability and attributes. Upon activation, it applies
      * an {@link MobEffectInstance} of the {@link BrutalityEffects#ENRAGED} effect to the player.
      * The player's current rage value is reset after activation, and a sound effect is played in the world.
      *
      * @param player The {@link Player} entity whose rage effect is triggered. This player's rage capability and attributes
-     *               are used to calculate the effect's level and duration. The player must have the {@code RAGE} capability
+     *               are used to calculate the effect's levels and duration. The player must have the {@code RAGE} capability
      *               for the method to execute properly.
      */
     public static void actuallyTriggerRage(Player player) {

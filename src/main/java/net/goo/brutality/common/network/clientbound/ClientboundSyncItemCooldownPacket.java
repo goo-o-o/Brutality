@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class ClientboundSyncItemCooldownPacket implements IBrutalityPacket<ClientboundSyncItemCooldownPacket> {
+public class ClientboundSyncItemCooldownPacket implements IBrutalityPacket {
     private final Map<Item, ItemCooldowns.CooldownInstance> cooldowns;
     private final int tickCount;
 
@@ -21,7 +21,8 @@ public class ClientboundSyncItemCooldownPacket implements IBrutalityPacket<Clien
         this.tickCount = tickCount;
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeVarInt(cooldowns.size());
         buf.writeVarInt(tickCount);
         for (Map.Entry<Item, ItemCooldowns.CooldownInstance> entry : cooldowns.entrySet()) {
@@ -32,7 +33,7 @@ public class ClientboundSyncItemCooldownPacket implements IBrutalityPacket<Clien
     }
 
     @Override
-    public void handle(ClientboundSyncItemCooldownPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> ClientProxy.syncItemCooldowns(cooldowns, tickCount));
         ctx.get().setPacketHandled(true);
     }

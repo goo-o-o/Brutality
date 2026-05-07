@@ -1,7 +1,6 @@
 package net.goo.brutality.common.item.base;
 
 import net.goo.brutality.common.entity.base.BrutalityArrow;
-import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.goo.brutality.util.tooltip.TooltipHelper;
@@ -37,11 +36,6 @@ public class BrutalityBowItem extends BowItem implements BrutalityGeoItem {
     public BrutalityBowItem(Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(new Item.Properties().stacksTo(1).rarity(rarity));
         this.descriptionComponents = descriptionComponents;
-    }
-
-    @Override
-    public BrutalityCategories.AttackType getAttackType() {
-        return BrutalityCategories.AttackType.NONE;
     }
 
     @Override

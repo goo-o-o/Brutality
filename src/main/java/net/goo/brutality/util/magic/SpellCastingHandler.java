@@ -13,7 +13,6 @@ import net.minecraftforge.fml.ModLoader;
 import java.util.List;
 
 import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.*;
-import static net.goo.brutality.common.magic.IBrutalitySpell.SpellCategory.CHANNELLING;
 
 public class SpellCastingHandler {
 
@@ -31,7 +30,7 @@ public class SpellCastingHandler {
      * @param player     The player trying to cast the spell.
      * @param stack      The {@link ItemStack} associated with the spell casting process, often the item used for it.
      * @param spell      The {@link BrutalitySpell} to be cast instantly.
-     * @param spellLevel The level of the spell being cast, affecting its behavior and mana cost.
+     * @param spellLevel The levels of the spell being cast, affecting its behavior and mana cost.
      * @return {@code true} if the spell was successfully cast; {@code false} otherwise.
      */
     public static boolean castInstantSpell(Player player, ItemStack stack, BrutalitySpell spell, int spellLevel) {
@@ -77,7 +76,7 @@ public class SpellCastingHandler {
      * @param player     The player attempting to cast the spell.
      * @param stack      The {@link ItemStack} associated with the spell, usually the item used for casting.
      * @param spell      The {@link BrutalitySpell} being continuously cast.
-     * @param spellLevel The level of the spell being cast, which may affect its behavior, damage, or mana cost.
+     * @param spellLevel The levels of the spell being cast, which may affect its behavior, damage, or mana cost.
      * @return {@code true} if the casting sequence was initiated successfully; {@code false} otherwise.
      */
     public static boolean startContinuousCast(Player player, ItemStack stack, BrutalitySpell spell, int spellLevel) {
@@ -120,7 +119,7 @@ public class SpellCastingHandler {
      * @param player     The player who is casting the spell.
      * @param stack      The {@link ItemStack} associated with the spell, likely the item used for casting.
      * @param spell      The {@link BrutalitySpell} being continuously cast by the player.
-     * @param spellLevel The level of the spell being cast, affecting its behavior and mana cost.
+     * @param spellLevel The levels of the spell being cast, affecting its behavior and mana cost.
      */
     public static void tickContinuousCast(Player player, ItemStack stack, BrutalitySpell spell, int spellLevel) {
         if (hasEnoughManaToCast(player, spell, spellLevel) && !SpellCooldownTracker.isOnCooldown(player, spell)) {
@@ -147,7 +146,7 @@ public class SpellCastingHandler {
      * @param player     The player for whom the continuous spell casting is to be ended.
      * @param stack      The {@link ItemStack} associated with the spell.
      * @param spell      The spell being cast, represented by a {@link BrutalitySpell} instance.
-     * @param spellLevel The level of the spell being cast, determining its effectiveness and cost.
+     * @param spellLevel The levels of the spell being cast, determining its effectiveness and cost.
      */
     public static void endContinuousCast(Player player, ItemStack stack, BrutalitySpell spell, int spellLevel) {
         spell.onEndCast(player, stack, spellLevel);
@@ -166,7 +165,7 @@ public class SpellCastingHandler {
      * @param player         The player attempting to cast the channeling spell.
      * @param stack          The {@link ItemStack} associated with the spell casting process.
      * @param spell          The {@link BrutalitySpell} being cast.
-     * @param spellLevel     The level of the spell being cast, determining its effectiveness or behavior.
+     * @param spellLevel     The levels of the spell being cast, determining its effectiveness or behavior.
      * @param remainingTicks The number of remaining ticks for the spell-casting process to complete.
      * @return {@code true} if the channeling spell was successfully cast; {@code false} otherwise.
      */
@@ -201,15 +200,15 @@ public class SpellCastingHandler {
     }
 
     /**
-     * Sets the cooldown for a specified player and spell based on the spell level.
+     * Sets the cooldown for a specified player and spell based on the spell levels.
      * <p>
      * This method computes the actual cooldown for a spell, considering the player's
-     * attributes and the spell's level, and applies it to the specified player.
+     * attributes and the spell's levels, and applies it to the specified player.
      * </p>
      *
      * @param player     The player for whom the cooldown is being set.
      * @param spell      The {@link BrutalitySpell} for which the cooldown is being applied.
-     * @param spellLevel The level of the spell, which influences the cooldown duration.
+     * @param spellLevel The levels of the spell, which influences the cooldown duration.
      */
     public static void setCooldown(Player player, BrutalitySpell spell, int spellLevel) {
         SpellCooldownTracker.setCooldown(player, spell, spell.getActualCooldown(player, spellLevel));
@@ -220,13 +219,13 @@ public class SpellCastingHandler {
      * Deducts the mana cost of a specified spell from the player's available mana.
      * <p>
      * This method calculates the actual mana cost of the spell based on the player's attributes and
-     * the spell's level. It then adjusts the player's mana accordingly by invoking
+     * the spell's levels. It then adjusts the player's mana accordingly by invoking
      * {@link ManaHelper#modifyManaValue}.
      * </p>
      *
      * @param player     The {@link Player} whose mana is to be adjusted.
      * @param spell      The {@link BrutalitySpell} for which the mana cost is being subtracted.
-     * @param spellLevel The level of the spell being cast, influencing the mana cost.
+     * @param spellLevel The levels of the spell being cast, influencing the mana cost.
      */
     public static void subtractSpellCost(Player player, BrutalitySpell spell, int spellLevel) {
         ManaHelper.modifyManaValue(player, -spell.getActualManaCost(player, spellLevel));

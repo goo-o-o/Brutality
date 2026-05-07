@@ -10,7 +10,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ServerboundHandleThrowingProjectilePacket implements IBrutalityPacket<ServerboundHandleThrowingProjectilePacket> {
+public class ServerboundHandleThrowingProjectilePacket implements IBrutalityPacket {
     private final ItemStack stack;
 
     public ServerboundHandleThrowingProjectilePacket(ItemStack stack) {
@@ -21,15 +21,17 @@ public class ServerboundHandleThrowingProjectilePacket implements IBrutalityPack
         this.stack = buf.readItem();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeItem(this.stack);
     }
 
-    public void handle(ServerboundHandleThrowingProjectilePacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
-            if (player == null || !(packet.stack.getItem() instanceof BrutalityThrowingItem throwingItem)) return;
-            DelayedTaskScheduler.queueCommonWork(player.serverLevel(), 6, () -> throwingItem.handleThrowPacket(packet.stack, player));
+            if (player == null || !(this.stack.getItem() instanceof BrutalityThrowingItem throwingItem)) return;
+            DelayedTaskScheduler.queueCommonWork(player.serverLevel(), 6, () -> throwingItem.handleThrowPacket(this.stack, player));
             ctx.get().setPacketHandled(true);
         });
     }

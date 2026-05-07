@@ -5,6 +5,7 @@ import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.item.armor.BrutalityArmorMaterials;
 import net.goo.brutality.common.item.curios.charm.BaseBrokenClock;
 import net.goo.brutality.common.item.curios.charm.OmnidirectionalMovementGear;
+import net.goo.brutality.common.item.curios.charm.PoseidonsBlessing;
 import net.goo.brutality.common.item.weapon.scythe.DarkinScythe;
 import net.goo.brutality.common.mixin_helpers.IBrutalityAttribute;
 import net.goo.brutality.common.registry.BrutalityAttributes;
@@ -30,6 +31,8 @@ import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.fluids.FluidType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -82,59 +85,65 @@ public abstract class LivingEntityMixin extends Entity implements BrutalityEntit
     @Shadow
     protected abstract boolean isAffectedByFluids();
 
-    @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isAffectedByFluids()Z", ordinal = 0))
-    private boolean isAffectedByWater(LivingEntity instance) {
-        boolean blessing = CuriosApi.getCuriosInventory(instance).map(h -> h.isEquipped(BrutalityItems.POSEIDONS_BLESSING.get())).orElse(false);
-        if (blessing) {
-            // If this prints, you have successfully told the engine to skip water physics
-            System.out.println("Water physics bypassed!");
+    @Redirect(
+            method = "travel",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;isAffectedByFluids()Z",
+                    ordinal = 0
+            )
+    )
+    private boolean redirectAffectedByWater(LivingEntity self) {
+        if (PoseidonsBlessing.shouldApply(self))
             return false;
-        }
-        return ((LivingEntityMixin) (Object) instance).isAffectedByFluids();
+        return ((LivingEntityMixin) ((Object) self)).isAffectedByFluids();
     }
 
-    @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isAffectedByFluids()Z", ordinal = 1))
-    private boolean isAffectedByLava(LivingEntity instance) {
-        return ((LivingEntityMixin) (Object) instance).isAffectedByFluids() && !CuriosApi.getCuriosInventory(instance).map(handler -> handler.isEquipped(BrutalityItems.SURTRS_HORN.get())).orElse(false);
-    }
-
-    @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
-    private boolean redirectInWater(LivingEntity instance) {
-        // We want it to behave like water ONLY if the player doesn't have the item.
-        return instance.isInWater() && !CuriosApi.getCuriosInventory(instance)
-                .map(handler -> handler.isEquipped(BrutalityItems.POSEIDONS_BLESSING.get()))
-                .orElse(false);
-    }
-
-    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
-    private boolean brutality$forceGroundJumpPath(LivingEntity instance) {
-        if (CuriosApi.getCuriosInventory(instance)
-                .map(handler -> handler.isEquipped(BrutalityItems.POSEIDONS_BLESSING.get()))
-                .orElse(false)) {
+    @Redirect(
+            method = "travel",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;isAffectedByFluids()Z",
+                    ordinal = 1
+            )
+    )
+    private boolean redirectAffectedByLava(LivingEntity self) {
+        if (ModUtils.isWearingCurio(self, BrutalityItems.SURTRS_HORN.get()))
             return false;
-        }
-        return instance.isInWater();
+        return ((LivingEntityMixin) ((Object) self)).isAffectedByFluids();
     }
 
-    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInLava()Z"))
-    private boolean brutality$forceGroundJumpLava(LivingEntity instance) {
-        if (CuriosApi.getCuriosInventory(instance)
-                .map(handler -> handler.isEquipped(BrutalityItems.SURTRS_HORN.get()))
-                .orElse(false)) {
-            return false;
-        }
-        return instance.isInLava();
-    }
 
-    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidJumpThreshold()D"))
-    private double redirectFluidJumpThreshold(LivingEntity instance) {
-        if (CuriosApi.getCuriosInventory(instance)
-                .map(handler -> handler.isEquipped(BrutalityItems.POSEIDONS_BLESSING.get()) || handler.isEquipped(BrutalityItems.SURTRS_HORN.get()))
-                .orElse(false)) {
+    @Shadow
+    protected abstract void jumpFromGround();
 
-            return Double.MAX_VALUE;
+
+    @Shadow
+    public abstract boolean isInWall();
+
+    @Redirect(
+            method = "aiStep",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;jumpInFluid(Lnet/minecraftforge/fluids/FluidType;)V"
+            )
+    )
+    private void useGroundJumpInWater(LivingEntity self, FluidType fluidType) {
+        if (ModUtils.isWearingCurio(self, BrutalityItems.FLIPPERS_OF_ICARUS.get())) {
+            self.jumpInFluid(fluidType);
+            return;
+        } else if (PoseidonsBlessing.shouldApply(self) && fluidType == ForgeMod.WATER_TYPE.get()) {
+            if (self.onGround()) {
+                ((LivingEntityMixin) (Object) self).jumpFromGround();
+            }
+            return;
+        } else if (ModUtils.isWearingCurio(self, BrutalityItems.SURTRS_HORN.get()) && fluidType == ForgeMod.LAVA_TYPE.get()) {
+            if (self.onGround()) {
+                ((LivingEntityMixin) (Object) self).jumpFromGround();
+            }
+            return;
         }
-        return 0;
+        self.jumpInFluid(fluidType);
     }
 
     @Inject(method = "getDamageAfterArmorAbsorb", at = @At("HEAD"), cancellable = true)

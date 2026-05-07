@@ -171,7 +171,7 @@ public class AttributeCalculationHelper {
          * Performs a probability roll.
          *
          * @param base      Base chance (0.0 to 1.0).
-         * @param increment Extra chance per level of Luck.
+         * @param increment Extra chance per levels of Luck.
          * @return {@code true} if the roll succeeds.
          */
         public static boolean roll(LivingEntity entity, float base, float increment) {

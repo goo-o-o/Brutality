@@ -19,7 +19,7 @@ import software.bernie.geckolib.animatable.GeoItem;
 
 import java.util.function.Supplier;
 
-public class ServerboundBetterCombatAttackStartListenerPacket implements IBrutalityPacket<ServerboundBetterCombatAttackStartListenerPacket> {
+public class ServerboundBetterCombatAttackStartListenerPacket implements IBrutalityPacket {
     private final ItemStack stack;
     private final int combo;
 
@@ -33,20 +33,22 @@ public class ServerboundBetterCombatAttackStartListenerPacket implements IBrutal
         this.combo = buf.readInt();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeItem(stack);
         buf.writeInt(combo);
     }
 
-    public void handle(ServerboundBetterCombatAttackStartListenerPacket packet, Supplier<NetworkEvent.Context> contextSupplier) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> {
             ServerPlayer player = context.getSender();
             if (player == null) return;
             ServerLevel serverLevel = player.serverLevel();
-            ItemStack stack = packet.stack;
+            ItemStack stack = this.stack;
             Item item = stack.getItem();
-            int combo = packet.combo;
+            int combo = this.combo;
             if (item instanceof ExobladeSword exobladeSword) {
                 exobladeSword.performExobladeBeam(stack, player);
             } else if (item instanceof SeventhStarSword seventhStarSword) {
@@ -72,7 +74,7 @@ public class ServerboundBetterCombatAttackStartListenerPacket implements IBrutal
             } else if (item instanceof Rhongomyniad rhongomyniad) {
                 rhongomyniad.performRayAttack(player);
             } else if (item instanceof Schism schism) {
-                schism.performVoidSlash(player, serverLevel, packet.combo);
+                schism.performVoidSlash(player, serverLevel, this.combo);
             } else if (item instanceof MAX) {
                 PacketHandler.sendToNearbyClients(new ClientboundMaxAttackedPacket(player.getId()), serverLevel, player.getX(), player.getY(), player.getZ(), 64);
             }

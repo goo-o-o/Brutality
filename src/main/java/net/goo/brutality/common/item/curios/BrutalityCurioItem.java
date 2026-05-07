@@ -47,6 +47,7 @@ public class BrutalityCurioItem extends BrutalityGenericItem implements ICurioIt
     }
 
 
+
     /**
      * Calculates a dynamic attributeInstance bonus for a given entity based on the provided parameters.
      *
@@ -175,6 +176,7 @@ public class BrutalityCurioItem extends BrutalityGenericItem implements ICurioIt
     public float onWearerHit(LivingEntity attacker, ItemStack stack, Entity victim, DamageSource source, float amount) {
         return amount;
     }
+
 
     /**
      * Melee-sensitive version of {@link BrutalityCurioItem#onWearerHit}
@@ -331,6 +333,28 @@ public class BrutalityCurioItem extends BrutalityGenericItem implements ICurioIt
                 }
             }
             return total;
+        }
+
+        public static float applyOnWearerHurt(LivingEntity victim, DamageSource source, float amount) {
+            float current = amount;
+            Optional<ICuriosItemHandler> opt = CuriosApi.getCuriosInventory(victim).resolve();
+            if (opt.isPresent()) {
+                for (SlotResult result : opt.get().findCurios(s -> s.getItem() instanceof BrutalityCurioItem)) {
+                    current = ((BrutalityCurioItem) result.stack().getItem()).onWearerHurt(victim, result.stack(), source, current);
+                }
+            }
+            return current;
+        }
+
+        public static float applyOnWearerHit(LivingEntity attacker, LivingEntity victim, DamageSource source, float amount) {
+            float current = amount;
+            Optional<ICuriosItemHandler> opt = CuriosApi.getCuriosInventory(attacker).resolve();
+            if (opt.isPresent()) {
+                for (SlotResult result : opt.get().findCurios(s -> s.getItem() instanceof BrutalityCurioItem)) {
+                    current = ((BrutalityCurioItem) result.stack().getItem()).onWearerHit(attacker, result.stack(), victim, source, current);
+                }
+            }
+            return current;
         }
     }
 }

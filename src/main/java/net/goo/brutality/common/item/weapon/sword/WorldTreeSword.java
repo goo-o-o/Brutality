@@ -1,8 +1,9 @@
 package net.goo.brutality.common.item.weapon.sword;
 
-import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.common.item.base.BrutalitySwordItem;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 
@@ -13,8 +14,10 @@ public class WorldTreeSword extends BrutalitySwordItem {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
     }
 
-    @Override
-    public BrutalityCategories.AttackType getAttackType() {
-        return BrutalityCategories.AttackType.BLUNT;
+    public static double getDamageBonus(Player player) {
+        if (player.level().getBiome(player.blockPosition()).is(BiomeTags.IS_FOREST)) {
+            return 10;
+        }
+        return 0;
     }
 }

@@ -7,6 +7,7 @@ import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalitySounds;
 import net.goo.brutality.util.CooldownUtils;
+import net.goo.brutality.util.EffectUtils;
 import net.goo.brutality.util.build_archetypes.RageHelper;
 import net.mcreator.terramity.init.TerramityModMobEffects;
 import net.mcreator.terramity.init.TerramityModSounds;
@@ -22,17 +23,19 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ServerboundActiveAbilityPressPacket implements IBrutalityPacket<ServerboundActiveAbilityPressPacket> {
+public class ServerboundActiveAbilityPressPacket implements IBrutalityPacket {
     public ServerboundActiveAbilityPressPacket() {
     }
 
     public ServerboundActiveAbilityPressPacket(FriendlyByteBuf buf) {
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
     }
 
-    public void handle(ServerboundActiveAbilityPressPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
             ServerPlayer sender = context.getSender();
@@ -78,6 +81,15 @@ public class ServerboundActiveAbilityPressPacket implements IBrutalityPacket<Ser
 
             CooldownUtils.validateCurioCooldown(sender, BrutalityItems.HAND_OF_MIDAS.get(), 4 * 20, () -> HandOfMidas.activeAbility(sender, 1));
 
+            CooldownUtils.validateCurioCooldown(sender, BrutalityItems.RING_OF_DESPAIR.get(), 5 * 20, () -> {
+                sender.level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, sender, sender.getBoundingBox().inflate(5)).forEach(entity ->
+                        EffectUtils.modifyEffect(entity, BrutalityEffects.DESPAIR.get(),
+                                new EffectUtils.ModValue(160, true),
+                                new EffectUtils.ModValue(5, false),
+                                null,
+                                e -> e.addEffect(new MobEffectInstance(BrutalityEffects.DESPAIR.get(), 160, 4)),
+                                null));
+            });
 
 
         });

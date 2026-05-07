@@ -125,12 +125,12 @@ public class SpellStorage {
         ResourceLocation spellId = BrutalitySpells.getIdFromSpell(spell);
         String spellIdString = spellId.toString();
 
-        // 1. Check if the exact same spell at the same level already exists
+        // 1. Check if the exact same spell at the same levels already exists
         for (int i = 0; i < spellsTag.size(); i++) {
             CompoundTag existingSpell = spellsTag.getCompound(i);
             if (existingSpell.getString(SPELL_ID_TAG).equals(spellIdString) &&
                     existingSpell.getInt(SPELL_LEVEL_TAG) == level) {
-                // Already exists at this level, do nothing
+                // Already exists at this levels, do nothing
                 return false;
             }
         }

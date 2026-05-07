@@ -48,16 +48,16 @@ public class CrescentScytheSpell extends BrutalitySpell {
 
 //        for (int i = 0; i < quantity; i++) {
 //            float angleOffset = (i - (quantity - 1) / 2f) * gap; // Center the arc
-//            CrescentScythe crescentScythe = new CrescentScythe(BrutalityEntities.CRESCENT_SCYTHE_ENTITY.get(), level);
+//            CrescentScythe crescentScythe = new CrescentScythe(BrutalityEntities.CRESCENT_SCYTHE_ENTITY.get(), levels);
 //            crescentScythe.setSpellLevel(spellLevel);
 //            crescentScythe.setOwner(player);
 //            crescentScythe.setPos(player.getX(), player.getY(0.75f), player.getZ());
 //            crescentScythe.shootFromRotation(player, player.getXRot(), player.getYRot() + angleOffset, 0, speed, 0);
 //
 //            if (i > 0) {
-//                DelayedTaskScheduler.queueServerWork(level, i * 2, () -> level.addFreshEntity(crescentScythe)); // Small delay for staggered spawn
+//                DelayedTaskScheduler.queueServerWork(levels, i * 2, () -> levels.addFreshEntity(crescentScythe)); // Small delay for staggered spawn
 //            } else {
-//                level.addFreshEntity(crescentScythe);
+//                levels.addFreshEntity(crescentScythe);
 //            }
 //        }
 

@@ -9,7 +9,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 
@@ -17,10 +16,6 @@ public class WhisperwaltzSword extends BrutalitySwordItem {
 
     public WhisperwaltzSword(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
     }
 
     @Override

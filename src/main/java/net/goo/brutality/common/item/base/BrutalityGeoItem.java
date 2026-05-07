@@ -1,6 +1,5 @@
 package net.goo.brutality.common.item.base;
 
-import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.util.ModResources;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -16,8 +15,6 @@ import java.util.UUID;
 public interface BrutalityGeoItem extends GeoItem, ModResources {
 
     int baseAugmentSlots = 1;
-
-    BrutalityCategories.AttackType getAttackType();
 
     UUID BASE_STUN_CHANCE_UUID = UUID.fromString("6d3d3787-e06f-4111-b03f-aed7c9317416");
 

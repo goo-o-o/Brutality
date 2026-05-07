@@ -7,6 +7,7 @@ import net.goo.brutality.common.registry.BrutalityBlockFamilies;
 import net.goo.brutality.common.registry.BrutalityBlocks;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalitySpells;
+import net.goo.brutality.common.registry.items.BrutalityGastronomyItems;
 import net.mcreator.terramity.init.TerramityModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -354,7 +355,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(TerramityModItems.DECAYED_BEDROCK_DUST.get()), has(TerramityModItems.DECAYED_BEDROCK_DUST.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.JACKPOT_HAMMER.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.JACKPOT.get())
                 .pattern(" #&")
                 .pattern("$%^")
                 .pattern("@$ ")
@@ -451,7 +452,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(TerramityModItems.CHTHONIAN_VOID.get()), has(TerramityModItems.CHTHONIAN_VOID.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.RHITTA_AXE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.RHITTA.get())
                 .pattern(" #@")
                 .pattern("$@#")
                 .pattern("&$ ")
@@ -652,7 +653,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.WHISK_HAMMER.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.WHISK_HAMMER.get())
                 .pattern(" ##")
                 .pattern(" @#")
                 .pattern("!  ")
@@ -672,7 +673,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.SALT_SHAKER.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.SALT_SHAKER.get())
                 .pattern(" # ")
                 .pattern("!@!")
                 .pattern("!!!")
@@ -681,7 +682,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('!', Items.GLASS)
                 .unlockedBy(getHasName(TerramityModItems.FAIRY_DUST.get()), has(TerramityModItems.FAIRY_DUST.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.PEPPER_SHAKER.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.PEPPER_SHAKER.get())
                 .pattern(" # ")
                 .pattern("!@!")
                 .pattern("!!!")
@@ -691,13 +692,13 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(TerramityModItems.DECAYED_BEDROCK_DUST.get()), has(TerramityModItems.DECAYED_BEDROCK_DUST.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, BrutalityItems.SALT_AND_PEPPER.get())
-                .requires(BrutalityItems.SALT_SHAKER.get())
-                .requires(BrutalityItems.PEPPER_SHAKER.get())
-                .unlockedBy(getHasName(BrutalityItems.PEPPER_SHAKER.get()), has(BrutalityItems.PEPPER_SHAKER.get()))
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, BrutalityGastronomyItems.SALT_AND_PEPPER.get())
+                .requires(BrutalityGastronomyItems.SALT_SHAKER.get())
+                .requires(BrutalityGastronomyItems.PEPPER_SHAKER.get())
+                .unlockedBy(getHasName(BrutalityGastronomyItems.PEPPER_SHAKER.get()), has(BrutalityGastronomyItems.PEPPER_SHAKER.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.MORTAR_AND_PESTLE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.MORTAR_AND_PESTLE.get())
                 .pattern(" # ")
                 .pattern("!@!")
                 .pattern("!!!")
@@ -707,7 +708,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(TerramityModItems.DAEMONIUM.get()), has(TerramityModItems.DAEMONIUM.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.BUTTER_GAUNTLETS.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.BUTTER_GAUNTLETS.get())
                 .pattern("###")
                 .pattern("#@#")
                 .pattern("!!!")
@@ -717,7 +718,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(TerramityModItems.HELLROK_GAUNTLET.get()), has(TerramityModItems.HELLROK_GAUNTLET.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.CHEESE_SAUCE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.CHEESE_SAUCE.get())
                 .pattern(" # ")
                 .pattern("!@!")
                 .pattern("!$!")
@@ -728,7 +729,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(Items.MILK_BUCKET), has(Items.MILK_BUCKET))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.TOMATO_SAUCE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.TOMATO_SAUCE.get())
                 .pattern(" # ")
                 .pattern("!@!")
                 .pattern("!$!")
@@ -739,13 +740,13 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(TerramityModItems.STYGIAN_BLOOD_BUCKET.get()), has(TerramityModItems.STYGIAN_BLOOD_BUCKET.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, BrutalityItems.PIZZA_SLOP.get())
-                .requires(BrutalityItems.CHEESE_SAUCE.get())
-                .requires(BrutalityItems.TOMATO_SAUCE.get())
-                .unlockedBy(getHasName(BrutalityItems.TOMATO_SAUCE.get()), has(BrutalityItems.TOMATO_SAUCE.get()))
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, BrutalityGastronomyItems.PIZZA_SLOP.get())
+                .requires(BrutalityGastronomyItems.CHEESE_SAUCE.get())
+                .requires(BrutalityGastronomyItems.TOMATO_SAUCE.get())
+                .unlockedBy(getHasName(BrutalityGastronomyItems.TOMATO_SAUCE.get()), has(BrutalityGastronomyItems.TOMATO_SAUCE.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.HOT_SAUCE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.HOT_SAUCE.get())
                 .pattern(" # ")
                 .pattern("!@!")
                 .pattern("!$!")
@@ -756,7 +757,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(Items.LAVA_BUCKET), has(Items.LAVA_BUCKET))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.OLIVE_OIL.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.OLIVE_OIL.get())
                 .pattern(" # ")
                 .pattern("#@#")
                 .pattern(" # ")
@@ -764,16 +765,16 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('@', TerramityModItems.EXTREMELY_THICK_OIL.get())
                 .unlockedBy(getHasName(TerramityModItems.EXTREMELY_THICK_OIL.get()), has(TerramityModItems.EXTREMELY_THICK_OIL.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.EXTRA_VIRGIN_OLIVE_OIL.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.EXTRA_VIRGIN_OLIVE_OIL.get())
                 .pattern("$#$")
                 .pattern("#@#")
                 .pattern("$#$")
                 .define('#', Items.ACACIA_SAPLING)
                 .define('$', TerramityModItems.HERMIT_BEAN.get())
-                .define('@', BrutalityItems.OLIVE_OIL.get())
-                .unlockedBy(getHasName(BrutalityItems.OLIVE_OIL.get()), has(BrutalityItems.OLIVE_OIL.get()))
+                .define('@', BrutalityGastronomyItems.OLIVE_OIL.get())
+                .unlockedBy(getHasName(BrutalityGastronomyItems.OLIVE_OIL.get()), has(BrutalityGastronomyItems.OLIVE_OIL.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.FRIDGE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.FRIDGE.get())
                 .pattern("##@")
                 .pattern("##@")
                 .pattern("##@")
@@ -781,7 +782,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('@', Items.IRON_DOOR)
                 .unlockedBy(getHasName(Items.IRON_BLOCK), has(Items.IRON_BLOCK))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.SMART_FRIDGE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.SMART_FRIDGE.get())
                 .pattern("#!^")
                 .pattern("#$ ")
                 .pattern("#!@")
@@ -789,8 +790,8 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('^', Items.LAPIS_LAZULI)
                 .define('@', Items.REDSTONE)
                 .define('!', Items.NETHERITE_INGOT)
-                .define('$', BrutalityItems.FRIDGE.get())
-                .unlockedBy(getHasName(BrutalityItems.FRIDGE.get()), has(BrutalityItems.FRIDGE.get()))
+                .define('$', BrutalityGastronomyItems.FRIDGE.get())
+                .unlockedBy(getHasName(BrutalityGastronomyItems.FRIDGE.get()), has(BrutalityGastronomyItems.FRIDGE.get()))
                 .save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.SCIENTIFIC_CALCULATOR.get())
                 .pattern("!#^")
@@ -1438,7 +1439,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .save(consumer);
 
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.SUGAR_GLAZE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.SUGAR_GLAZE.get())
                 .pattern("###")
                 .pattern("#@#")
                 .pattern("###")
@@ -1446,7 +1447,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('@', Items.CAKE)
                 .unlockedBy(getHasName(Items.CAKE), has(Items.CAKE))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.RAINBOW_SPRINKLES.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.RAINBOW_SPRINKLES.get())
                 .pattern("123")
                 .pattern("456")
                 .pattern(" @ ")
@@ -1459,16 +1460,16 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('@', Items.GLASS_BOTTLE)
                 .unlockedBy(getHasName(Items.GLASS_BOTTLE), has(Items.GLASS_BOTTLE))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.DUNKED_DONUT.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.DUNKED_DONUT.get())
                 .pattern(" ! ")
                 .pattern("1!3")
                 .pattern(" ! ")
-                .define('1', BrutalityItems.SUGAR_GLAZE.get())
+                .define('1', BrutalityGastronomyItems.SUGAR_GLAZE.get())
                 .define('!', TerramityModItems.DAEMONIUM.get())
-                .define('3', BrutalityItems.RAINBOW_SPRINKLES.get())
+                .define('3', BrutalityGastronomyItems.RAINBOW_SPRINKLES.get())
                 .unlockedBy(getHasName(TerramityModItems.DAEMONIUM.get()), has(TerramityModItems.DAEMONIUM.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.ROCK_CANDY_RING.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.ROCK_CANDY_RING.get())
                 .pattern("1#2")
                 .pattern("@!@")
                 .pattern("3#4")
@@ -1481,7 +1482,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('!', TerramityModItems.EMPTY_RING.get())
                 .unlockedBy(getHasName(TerramityModItems.PRISMATIC_CRYSTAL_CLUSTER.get()), has(TerramityModItems.PRISMATIC_CRYSTAL_CLUSTER.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.SEARED_SUGAR_BROOCH.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.SEARED_SUGAR_BROOCH.get())
                 .pattern("@#@")
                 .pattern("#!#")
                 .pattern("@#@")
@@ -1490,25 +1491,25 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('!', TerramityModItems.TOPAZ_PICKAXE.get())
                 .unlockedBy(getHasName(TerramityModItems.TOPAZ_PICKAXE.get()), has(TerramityModItems.TOPAZ_PICKAXE.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.CARAMEL_CRUNCH_MEDALLION.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.CARAMEL_CRUNCH_MEDALLION.get())
                 .pattern(" ! ")
                 .pattern("1!3")
                 .pattern(" ! ")
-                .define('1', BrutalityItems.SEARED_SUGAR_BROOCH.get())
+                .define('1', BrutalityGastronomyItems.SEARED_SUGAR_BROOCH.get())
                 .define('!', TerramityModItems.DAEMONIUM.get())
-                .define('3', BrutalityItems.ROCK_CANDY_RING.get())
+                .define('3', BrutalityGastronomyItems.ROCK_CANDY_RING.get())
                 .unlockedBy(getHasName(TerramityModItems.DAEMONIUM.get()), has(TerramityModItems.DAEMONIUM.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.LOLLIPOP_OF_ETERNITY.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.LOLLIPOP_OF_ETERNITY.get())
                 .pattern(" ! ")
                 .pattern("1!3")
                 .pattern(" ! ")
-                .define('1', BrutalityItems.DUNKED_DONUT.get())
+                .define('1', BrutalityGastronomyItems.DUNKED_DONUT.get())
                 .define('!', TerramityModItems.IRIDESCENT_SHARD.get())
-                .define('3', BrutalityItems.CARAMEL_CRUNCH_MEDALLION.get())
+                .define('3', BrutalityGastronomyItems.CARAMEL_CRUNCH_MEDALLION.get())
                 .unlockedBy(getHasName(TerramityModItems.IRIDESCENT_SHARD.get()), has(TerramityModItems.IRIDESCENT_SHARD.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.SMOKE_STONE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.SMOKE_STONE.get())
                 .pattern(" @ ")
                 .pattern("$!$")
                 .pattern(" # ")
@@ -1518,17 +1519,17 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('#', Items.MAGMA_BLOCK)
                 .unlockedBy(getHasName(TerramityModItems.SHARPENING_STONE.get()), has(TerramityModItems.SHARPENING_STONE.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.THE_SMOKEHOUSE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.THE_SMOKEHOUSE.get())
                 .pattern("#@#")
                 .pattern("#!#")
                 .pattern("$$$")
                 .define('@', TerramityModItems.PROFANUM.get())
                 .define('$', Items.COBBLESTONE)
-                .define('!', BrutalityItems.SMOKE_STONE.get())
+                .define('!', BrutalityGastronomyItems.SMOKE_STONE.get())
                 .define('#', Items.OAK_LOG)
                 .unlockedBy(getHasName(TerramityModItems.PROFANUM.get()), has(TerramityModItems.PROFANUM.get()))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.BAMBOO_STEAMER.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.BAMBOO_STEAMER.get())
                 .pattern("###")
                 .pattern("#!#")
                 .pattern("#$#")
@@ -1642,7 +1643,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(TerramityModItems.VOID_GLASS.get()), has(TerramityModItems.VOID_GLASS.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.ESSENTIAL_OILS.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.ESSENTIAL_OILS.get())
                 .pattern(" A ")
                 .pattern("BCB")
                 .pattern(" B ")
@@ -1687,7 +1688,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(BrutalityItems.UNBRIDLED_RAGE.get()), has(BrutalityItems.UNBRIDLED_RAGE.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.CHOCOLATE_BAR.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.CHOCOLATE_BAR.get())
                 .pattern("A")
                 .pattern("B")
                 .define('A', TerramityModItems.CARTON_OF_CHOCOLATE_MILK.get())
@@ -1703,12 +1704,12 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(Items.REDSTONE), has(Items.REDSTONE))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.BOX_OF_CHOCOLATES.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.BOX_OF_CHOCOLATES.get())
                 .pattern(" A")
                 .pattern("AB")
-                .define('A', BrutalityItems.CHOCOLATE_BAR.get())
+                .define('A', BrutalityGastronomyItems.CHOCOLATE_BAR.get())
                 .define('B', TerramityModItems.CARDBOARD_BOX.get())
-                .unlockedBy(getHasName(BrutalityItems.CHOCOLATE_BAR.get()), has(BrutalityItems.CHOCOLATE_BAR.get()))
+                .unlockedBy(getHasName(BrutalityGastronomyItems.CHOCOLATE_BAR.get()), has(BrutalityGastronomyItems.CHOCOLATE_BAR.get()))
                 .save(consumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.BLOOD_ORB.get())
@@ -2313,7 +2314,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(Items.TNT), has(Items.TNT))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.OVERCLOCKED_TOASTER.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.OVERCLOCKED_TOASTER.get())
                 .pattern(" T ")
                 .pattern("CBD")
                 .pattern("AAA")
@@ -2341,7 +2342,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(BrutalityItems.ICE_CUBE.get()), has(BrutalityItems.ICE_CUBE.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.WINTER_MELON.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.WINTER_MELON.get())
                 .pattern("AAA")
                 .pattern("ABA")
                 .pattern("AAA")
@@ -2349,7 +2350,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .define('B', Items.MELON)
                 .unlockedBy(getHasName(Items.PACKED_ICE), has(Items.PACKED_ICE))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.GOLDEN_PHOENIX.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.GOLDEN_PHOENIX.get())
                 .pattern("AAA")
                 .pattern("ABA")
                 .pattern("AAA")
@@ -2358,7 +2359,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(TerramityModItems.SPIKES.get()), has(TerramityModItems.SPIKES.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.STICK_OF_BUTTER.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.STICK_OF_BUTTER.get())
                 .pattern("AAA")
                 .pattern("ABA")
                 .pattern("AAA")
@@ -2367,7 +2368,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(Items.HONEYCOMB), has(Items.HONEYCOMB))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.CAVENDISH.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.CAVENDISH.get())
                 .pattern("CCA")
                 .pattern("CBC")
                 .pattern("CCC")
@@ -2377,7 +2378,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(TerramityModItems.TOPAZ.get()), has(TerramityModItems.TOPAZ.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.CANNONBALL_CABBAGE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.CANNONBALL_CABBAGE.get())
                 .pattern("AAA")
                 .pattern("ABA")
                 .pattern("AAA")
@@ -2386,7 +2387,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 .unlockedBy(getHasName(TerramityModItems.BALL_N_CHAIN.get()), has(TerramityModItems.BALL_N_CHAIN.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityItems.CRIMSON_DELIGHT.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, BrutalityGastronomyItems.CRIMSON_DELIGHT.get())
                 .pattern(" A ")
                 .pattern("ABA")
                 .pattern(" A ")
@@ -3354,7 +3355,7 @@ public class BrutalityRecipeProvider extends RecipeProvider implements IConditio
                 new EnchantmentInstance(Enchantments.SHARPNESS, 1)
         );
 
-        // Base NBT that matches any Sharpness level (no "lvl" tag required)
+        // Base NBT that matches any Sharpness levels (no "lvl" tag required)
         CompoundTag anySharpness = new CompoundTag();
         anySharpness.putString("id", "minecraft:sharpness"); // only id matters
         ListTag list = new ListTag();

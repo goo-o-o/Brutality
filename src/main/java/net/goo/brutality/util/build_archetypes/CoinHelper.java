@@ -1,6 +1,5 @@
 package net.goo.brutality.util.build_archetypes;
 
-import com.github.stephengold.joltjni.BodyInterface;
 import com.github.stephengold.joltjni.Quat;
 import com.github.stephengold.joltjni.RVec3;
 import com.github.stephengold.joltjni.enumerate.EActivation;
@@ -9,6 +8,7 @@ import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityPhysicsBodies;
 import net.goo.brutality.common.velthoric.bodies.CoinRigidBody;
+import net.goo.brutality.event.CoinTossEvent;
 import net.goo.brutality.util.EffectUtils;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.MinecraftForge;
 import net.xmx.velthoric.math.VxTransform;
 import net.xmx.velthoric.physics.body.manager.VxChunkManager;
 import net.xmx.velthoric.physics.body.manager.VxServerBodyDataStore;
@@ -34,32 +35,66 @@ import java.util.stream.Collectors;
 public class CoinHelper {
     public static void actuallySpawnAndLaunchCoin(BrutalityCoinItem coinItem, Player player, ItemStack coinStack, VxPhysicsWorld physicsWorld, float spreadIntensity) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
-
-        // Spread intensity clamped 0 to 1
         float intensity = Mth.clamp(spreadIntensity, 0, 1);
 
-        // 1. Jittered Spawn Position
+        // --- 1. PRE-COMPUTE POSITION ---
         Vec3 eyePos = player.getEyePosition();
         Vec3 lookVec = player.getLookAngle();
 
-        // Calculate a "Right" and "Up" vector relative to player look to create a flat spawning plane
+        // Create the coordinate system for jitter
         Vec3 right = lookVec.cross(new Vec3(0, 1, 0)).normalize();
-        if (right.lengthSqr() < 0.01) right = new Vec3(1, 0, 0); // Handle looking straight up/down
+        if (right.lengthSqr() < 0.01) right = new Vec3(1, 0, 0);
         Vec3 up = right.cross(lookVec).normalize();
 
-        // Max delta of 0.5 blocks as requested
         float posDelta = intensity * 0.5F;
         Vec3 offset = right.scale(random.nextFloat(-posDelta, posDelta))
                 .add(up.scale(random.nextFloat(-posDelta, posDelta)));
 
         Vec3 spawnPosMc = eyePos.add(lookVec.scale(0.8)).add(offset);
 
+        // --- 2. PRE-COMPUTE VELOCITIES ---
+        // Yaw/Pitch math
+        float yawRange = intensity * 80.0F;
+        float finalYaw = player.getYRot() + random.nextFloat(-yawRange, yawRange);
+        float playerPitch = player.getXRot();
+        float launchPitch = (playerPitch < -35F && playerPitch > -60F) ? playerPitch : -50F;
+        launchPitch += random.nextFloat(-15F, 15F) * intensity;
+
+        float yawRad = finalYaw * ((float) Math.PI / 180F);
+        float pitchRad = launchPitch * ((float) Math.PI / 180F);
+
+        float f = -Mth.sin(yawRad) * Mth.cos(pitchRad);
+        float f1 = -Mth.sin(pitchRad);
+        float f2 = Mth.cos(yawRad) * Mth.cos(pitchRad);
+
+        float strength = random.nextFloat(3, 6);
+        Vec3 launchVel = new Vec3(f * strength, f1 * strength * 2, f2 * strength);
+
+        // Angular math
+        float sideYawRad = (finalYaw + 90) * ((float) Math.PI / 180F);
+        Vec3 spinAxis = new Vec3(-Mth.sin(sideYawRad), 0, Mth.cos(sideYawRad));
+        float spinSpeed = random.nextInt(25, 50) * (random.nextBoolean() ? 1 : -1);
+
+        Vec3 angularVel = new Vec3(
+                (float) spinAxis.x * spinSpeed,
+                random.nextFloat(-2.0f, 2.0f) * intensity,
+                (float) spinAxis.z * spinSpeed
+        );
+
+        // --- 3. FIRE EVENT ---
+        // We pass spawnPosMc, launchVel, and angularVel so they can be modified
+        CoinTossEvent event = new CoinTossEvent(player, coinStack, spawnPosMc, launchVel, angularVel);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.isCanceled()) return;
+
+        // --- 4. EXECUTE CREATION ---
+        // Extract possibly modified values from the event
+        Vec3 finalPos = event.getSpawnPos();
         VxTransform transform = new VxTransform(
-                new RVec3(spawnPosMc.x, spawnPosMc.y, spawnPosMc.z),
+                new RVec3(finalPos.x, finalPos.y, finalPos.z),
                 Quat.sIdentity()
         );
 
-        // 2. Create the Body
         CoinRigidBody coinBody = physicsWorld.getBodyManager().createRigidBody(
                 BrutalityPhysicsBodies.COIN,
                 transform,
@@ -71,47 +106,17 @@ public class CoinHelper {
                 }
         );
 
-        if (coinBody == null) return;
+        if (coinBody != null) {
+            physicsWorld.getPhysicsSystem().getBodyInterface().setLinearAndAngularVelocity(
+                    coinBody.getBodyId(),
+                    fromVec3(event.getLaunchVelocity()),
+                    fromVec3(event.getAngularVelocity())
+            );
+        }
+    }
 
-        BodyInterface bodyInterface = physicsWorld.getPhysicsSystem().getBodyInterface();
-        int bodyId = coinBody.getBodyId();
-
-        // 3. Jittered Direction (Up to 160 degrees total spread)
-        // Intensity 1.0 = 80 degrees left/right from center
-        float yawRange = intensity * 80.0F;
-        float randomYawOffset = random.nextFloat(-yawRange, yawRange);
-        float finalYaw = player.getYRot() + randomYawOffset;
-
-        // Pitch logic
-        float playerPitch = player.getXRot();
-        float launchPitch = (playerPitch < -35F && playerPitch > -60F) ? playerPitch : -50F;
-        // Add a bit of vertical jitter based on intensity
-        launchPitch += random.nextFloat(-15F, 15F) * intensity;
-
-        float yawRad = finalYaw * ((float) Math.PI / 180F);
-        float pitchRad = launchPitch * ((float) Math.PI / 180F);
-
-        float f = -Mth.sin(yawRad) * Mth.cos(pitchRad);
-        float f1 = -Mth.sin(pitchRad);
-        float f2 = Mth.cos(yawRad) * Mth.cos(pitchRad);
-
-        float strength = random.nextFloat(3, 6);
-        com.github.stephengold.joltjni.Vec3 launchVelocity = new com.github.stephengold.joltjni.Vec3(f * strength, f1 * strength * 2, f2 * strength);
-
-        // 4. Spin (Right vector for flipping)
-        float sideYawRad = (finalYaw + 90) * ((float) Math.PI / 180F);
-        Vec3 spinAxis = new Vec3(-Mth.sin(sideYawRad), 0, Mth.cos(sideYawRad));
-
-        float spinSpeed = random.nextInt(25, 50);
-        if (random.nextBoolean()) spinSpeed *= -1;
-
-        com.github.stephengold.joltjni.Vec3 angularVel = new com.github.stephengold.joltjni.Vec3(
-                (float) spinAxis.x * spinSpeed,
-                random.nextFloat(-2.0f, 2.0f) * intensity, // Wobble increases with intensity
-                (float) spinAxis.z * spinSpeed
-        );
-
-        bodyInterface.setLinearAndAngularVelocity(bodyId, launchVelocity, angularVel);
+    private static com.github.stephengold.joltjni.Vec3 fromVec3(Vec3 from) {
+        return new com.github.stephengold.joltjni.Vec3(from.x(), from.y(), from.z());
     }
 
     public static void spawnAndLaunchCoin(BrutalityCoinItem coinItem, Player player, ItemStack stack, VxPhysicsWorld physicsWorld) {
@@ -120,6 +125,8 @@ public class CoinHelper {
 
     public static void spawnAndLaunchCoin(BrutalityCoinItem coinItem, Player player, ItemStack stack, VxPhysicsWorld physicsWorld, float spread) {
         physicsWorld.execute(() -> actuallySpawnAndLaunchCoin(coinItem, player, stack, physicsWorld, spread));
+
+
 
         CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
             if (handler.isEquipped(BrutalityItems.OVERDRAW_POUCH.get())) {

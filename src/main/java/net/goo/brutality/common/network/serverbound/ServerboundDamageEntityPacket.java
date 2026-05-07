@@ -14,7 +14,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ServerboundDamageEntityPacket implements IBrutalityPacket<ServerboundDamageEntityPacket> {
+public class ServerboundDamageEntityPacket implements IBrutalityPacket {
     private final int entityId;
     private final float damage;
     private final ResourceKey<DamageType> damageTypeKey;
@@ -35,7 +35,8 @@ public class ServerboundDamageEntityPacket implements IBrutalityPacket<Serverbou
         );
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeVarInt(entityId);
         buf.writeFloat(damage);
         buf.writeResourceLocation(damageTypeKey.location());
@@ -46,18 +47,19 @@ public class ServerboundDamageEntityPacket implements IBrutalityPacket<Serverbou
                 .getHolderOrThrow(damageTypeKey));
     }
 
-    public void handle(ServerboundDamageEntityPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
             ServerPlayer sender = context.getSender();
             if (sender == null) return;
 
             ServerLevel level = sender.serverLevel();
-            Entity target = level.getEntity(packet.entityId);
+            Entity target = level.getEntity(this.entityId);
 
             if (target == null || !target.isAlive()) return;
-            DamageSource source = packet.createDamageSource(level.registryAccess());
-            target.hurt(source, packet.damage);
+            DamageSource source = this.createDamageSource(level.registryAccess());
+            target.hurt(source, this.damage);
         });
         context.setPacketHandled(true);
     }

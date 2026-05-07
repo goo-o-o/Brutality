@@ -29,6 +29,7 @@ public record ItemDescriptionComponent(
         FULL_SET_PASSIVE,
         FULL_SET_ACTIVE,
         ON_HIT,
+        ON_TRUE_MELEE_HIT,
         WHEN_THROWN,
         ON_SWING,
         ON_LEFT_CLICKING_ENTITY,

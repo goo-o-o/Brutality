@@ -119,13 +119,13 @@ public class FirstExplosionStaff extends BrutalityGenericItem {
         Vec3 position = new Vec3(startPos.x + xOffset, startPos.y + height, startPos.z + zOffset);
 
 
-//        PacketHandler.sendToNearbyClients(level, position.x, position.y, position.z, 128, new ClientboundParticlePacket(
+//        PacketHandler.sendToNearbyClients(levels, position.x, position.y, position.z, 128, new ClientboundParticlePacket(
 //                new ExplosionMagicCircleParticle.ParticleData(
 //                        player.getId(),
-//                        level.random.nextIntBetweenInclusive(5, 50),
+//                        levels.random.nextIntBetweenInclusive(5, 50),
 //                        randPitch,
 //                        randYaw,
-//                        0, level.random.nextBoolean(), false
+//                        0, levels.random.nextBoolean(), false
 //                ), true, (float) position.x, (float) position.y, (float) position.z,
 //                0, 0, 0,
 //                0, 0, 0,
@@ -238,7 +238,7 @@ public class FirstExplosionStaff extends BrutalityGenericItem {
 //    public static void onOwnerDamaged(LivingHurtEvent event) {
 //        LivingEntity entity = event.getEntity();
 //        if (entity instanceof Player player) {
-//            if (!player.level().isClientSide() && player.getUseItem().getItem() instanceof FirstExplosionStaff) {
+//            if (!player.levels().isClientSide() && player.getUseItem().getItem() instanceof FirstExplosionStaff) {
 //                if (player.isUsingItem()) {
 //                    ItemStack pStack = player.getUseItem();
 //                    player.getCooldowns().addCooldown(pStack.getItem(), 200);

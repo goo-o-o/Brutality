@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
-public class ClientboundExactParticlePacket implements IBrutalityPacket<ClientboundExactParticlePacket> {
+public class ClientboundExactParticlePacket implements IBrutalityPacket {
     public final double x;
     public final double y;
     public final double z;
@@ -20,7 +20,8 @@ public class ClientboundExactParticlePacket implements IBrutalityPacket<Clientbo
     /**
      * Allows the sending of particles from the client side to all other clients through the server
      * This is the exacting version, with no Gaussian offset
-     * */
+     *
+     */
     public ClientboundExactParticlePacket(double pX, double pY, double pZ, ParticleOptions particle) {
         this.x = pX;
         this.y = pY;
@@ -36,7 +37,8 @@ public class ClientboundExactParticlePacket implements IBrutalityPacket<Clientbo
         this.particle = readParticle(pBuffer, type);
     }
 
-    public void write(FriendlyByteBuf pBuffer) {
+    @Override
+    public void encode(FriendlyByteBuf pBuffer) {
         pBuffer.writeRegistryId(ForgeRegistries.PARTICLE_TYPES, this.particle.getType());
         pBuffer.writeDouble(this.x);
         pBuffer.writeDouble(this.y);
@@ -48,11 +50,12 @@ public class ClientboundExactParticlePacket implements IBrutalityPacket<Clientbo
         return pParticleType.getDeserializer().fromNetwork(pParticleType, pBuffer);
     }
 
-    public void handle(ClientboundExactParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer sender = ctx.get().getSender();
             if (sender != null && sender.level() instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(packet.particle, packet.x, packet.y, packet.z, 1, 0,0,0,0);
+                serverLevel.sendParticles(this.particle, this.x, this.y, this.z, 1, 0, 0, 0, 0);
             }
         });
         ctx.get().setPacketHandled(true);

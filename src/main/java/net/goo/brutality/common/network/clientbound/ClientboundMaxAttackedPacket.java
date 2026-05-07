@@ -7,7 +7,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ClientboundMaxAttackedPacket implements IBrutalityPacket<ClientboundMaxAttackedPacket> {
+public class ClientboundMaxAttackedPacket implements IBrutalityPacket {
     private final int entityId;
 
     // Server-side constructor
@@ -20,13 +20,14 @@ public class ClientboundMaxAttackedPacket implements IBrutalityPacket<Clientboun
         this.entityId = buf.readInt();
     }
 
-    // Encoder (Writing to buffer)
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeInt(this.entityId);
     }
 
-    public void handle(ClientboundMaxAttackedPacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> ClientProxy.startMaxAttack(packet.entityId));
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> ClientProxy.startMaxAttack(this.entityId));
         ctx.get().setPacketHandled(true);
     }
 }

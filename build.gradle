@@ -104,8 +104,9 @@ repositories {
         name = "Illusive Soulworks maven"
         url = "https://maven.theillusivec4.top/"
     }
-
-    maven { url = "https://maven.firstdarkdev.xyz/snapshots" } // LDLib, Photon
+    maven { url = "https://maven.florens.be/releases" }
+    maven { url = "https://jitpack.io" }
+//    maven { url = "https://maven.firstdarkdev.xyz/snapshots" } // LDLib, Photon
 
     maven {
         url "https://cursemaven.com"
@@ -134,15 +135,37 @@ repositories {
 
 }
 
+
+tasks.jarJar.configure {
+    archiveClassifier = "" // Overwrites the standard jar with the JarJar one
+}
+
+// Ensure the standard jar task doesn't conflict
+tasks.jar.configure {
+    archiveClassifier = "raw"
+}
+
+// Link the jarJar task to the build process
+assemble.dependsOn('jarJar')
+
+
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
+    // ExpandAbility
+    implementation fg.deobf("be.florens:expandability-forge:9.0.4")
+    jarJar("be.florens:expandability-forge:9.0.4") {
+        transitive = false
+        jarJar.ranged(it, "[9.0.4,)")
+    }
+
     // Mixin
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.0"))
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.4"))
 
-    compileOnly("io.github.llamalad7:mixinextras-common:0.4.1")
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")) {
+
+    implementation fg.deobf("io.github.llamalad7:mixinextras-forge:0.5.4")
+    jarJar("io.github.llamalad7:mixinextras-forge:0.5.4") {
         jarJar.ranged(it, "[0.5.0,)")
     }
     // GeckoLib
@@ -161,6 +184,7 @@ dependencies {
     // Clientside (Disable when running Server)
     implementation fg.deobf("curse.maven:embeddium-908741:5681725")
     implementation fg.deobf("curse.maven:just-enough-effect-descriptions-jeed-532286:6172935")
+    implementation fg.deobf("curse.maven:appleskin-248787:4770828")
 //    implementation fg.deobf("curse.maven:inventory-hud-forge-357540:5639966")
 //    implementation fg.deobf("curse.maven:oculus-581495:6020952")
     compileOnly fg.deobf("curse.maven:oculus-581495:6020952")
@@ -202,7 +226,6 @@ dependencies {
     implementation fg.deobf("curse.maven:caelus-308989:5281700")
     implementation fg.deobf("curse.maven:lethality-a-terramity-addon-1282036:7332696")
     implementation fg.deobf("curse.maven:azurelib-817423:6849107")
-
     // compile against the JEI API but do not include it at runtime
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
@@ -216,10 +239,10 @@ dependencies {
     // Use the full Curios API jar at runtime
     runtimeOnly "top.theillusivec4.curios:curios-forge:${curios_version}"
 
-    implementation fg.deobf("com.lowdragmc.photon:photon-forge-1.20.1:${photon_version}") { transitive = false }
-    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-1.20.1:${ld_lib_version}") { transitive = false }
-    implementation fg.deobf("com.lowdragmc.photon:photon-common-1.20.1:${photon_version}") { transitive = false }
-    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-common-1.20.1:${ld_lib_version}") { transitive = false }
+//    implementation fg.deobf("com.lowdragmc.photon:photon-forge-1.20.1:${photon_version}") { transitive = false }
+//    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-1.20.1:${ld_lib_version}") { transitive = false }
+//    implementation fg.deobf("com.lowdragmc.photon:photon-common-1.20.1:${photon_version}") { transitive = false }
+//    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-common-1.20.1:${ld_lib_version}") { transitive = false }
 }
 
 tasks.named('processResources', ProcessResources).configure {

@@ -8,7 +8,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public class ClientboundStopPlayerAnimationPacket implements IBrutalityPacket<ClientboundStopPlayerAnimationPacket> {
+public class ClientboundStopPlayerAnimationPacket implements IBrutalityPacket {
     UUID playerId;
     int fadeOutTicks;
 
@@ -21,15 +21,15 @@ public class ClientboundStopPlayerAnimationPacket implements IBrutalityPacket<Cl
         this.playerId = buf.readUUID();
         this.fadeOutTicks = buf.readInt();
     }
-
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeUUID(this.playerId);
         buf.writeInt(this.fadeOutTicks);
     }
 
-
-    public void handle(ClientboundStopPlayerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> AnimationHelper.stopAnimation(packet.playerId, packet.fadeOutTicks));
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> AnimationHelper.stopAnimation(this.playerId, this.fadeOutTicks));
         ctx.get().setPacketHandled(true);
     }
 }

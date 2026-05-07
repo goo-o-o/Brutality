@@ -20,7 +20,7 @@ public interface BrutalityCauldronInteraction extends CauldronInteraction {
     CauldronInteraction SOLIDIFIED_MANA = (blockState, level, blockPos, player, hand, stack) -> {
         if (WalkNodeEvaluator.isBurningBlock(level.getBlockState(blockPos.below()))) {
             int currentLevel = 0;
-            // Check if the current block is already a Mana Cauldron to get its level
+            // Check if the current block is already a Mana Cauldron to get its levels
             if (blockState.hasProperty(LayeredCauldronBlock.LEVEL)) {
                 currentLevel = blockState.getValue(LayeredCauldronBlock.LEVEL);
             }

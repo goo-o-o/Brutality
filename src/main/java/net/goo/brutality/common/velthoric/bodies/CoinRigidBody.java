@@ -6,7 +6,7 @@ import net.goo.brutality.common.item.base.BrutalityCoinItem;
 import net.goo.brutality.common.item.curios.charm.ReverseCoin;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.common.registry.BrutalityParticles;
-import net.goo.brutality.common.velthoric.CoinflipResult;
+import net.goo.brutality.event.CoinflipEvent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
@@ -14,6 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.xmx.velthoric.network.VxByteBuf;
 import net.xmx.velthoric.physics.body.VxRemovalReason;
@@ -105,9 +106,10 @@ public class CoinRigidBody extends VxRigidBody {
                 Vec3 surfaceNormal = findSurfaceNormal(world, pos);
 
                 // 3. Determine result relative to that normal
-                CoinflipResult result = getPhysicalResultRelative(rot, surfaceNormal);
+                CoinflipEvent.CoinflipResult result = getPhysicalResultRelative(rot, surfaceNormal);
 
-                world.execute(() -> handleResult(result, pos.toVec3()));
+                Vec3 jniVec = pos.toVec3();
+                world.execute(() -> handleResult(result, new net.minecraft.world.phys.Vec3(jniVec.getX(), jniVec.getY(), jniVec.getZ())));
             }
         }
     }
@@ -202,7 +204,7 @@ public class CoinRigidBody extends VxRigidBody {
         return new com.github.stephengold.joltjni.Vec3(0, 1, 0);
     }
 
-    public CoinflipResult getPhysicalResultRelative(Quat q, Vec3 surfaceNormal) {
+    public CoinflipEvent.CoinflipResult getPhysicalResultRelative(Quat q, Vec3 surfaceNormal) {
         // Get the coin's local Up vector (0, 1, 0) transformed by its rotation
         Quaternionf jomlQuat = new Quaternionf(q.getX(), q.getY(), q.getZ(), q.getW());
         Vector3f coinUp = new Vector3f(0, 1, 0).rotate(jomlQuat);
@@ -212,10 +214,10 @@ public class CoinRigidBody extends VxRigidBody {
         float dot = coinUp.dot(surfaceNormalVec);
 
         float threshold = 0.6f;
-        if (dot > threshold) return CoinflipResult.HEADS;
-        if (dot < -threshold) return CoinflipResult.TAILS;
+        if (dot > threshold) return CoinflipEvent.CoinflipResult.HEADS;
+        if (dot < -threshold) return CoinflipEvent.CoinflipResult.TAILS;
 
-        return CoinflipResult.EDGE;
+        return CoinflipEvent.CoinflipResult.EDGE;
     }
 
 
@@ -244,13 +246,17 @@ public class CoinRigidBody extends VxRigidBody {
         NORMAL, CANCELLED, RELAUNCHED
     }
 
-    private void handleResult(CoinflipResult result, Vec3 location) {
+    private void handleResult(CoinflipEvent.CoinflipResult result, net.minecraft.world.phys.Vec3 location) {
         Player player = getOwner();
         if (player == null || !(coinStack.getItem() instanceof BrutalityCoinItem coinItem)) return;
 
+        CoinflipEvent event = new CoinflipEvent(player, coinStack, location, result);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.isCanceled()) return;
+        result = event.getFlipResult();
         FlipState flipState = FlipState.NORMAL;
 
-        if (result == CoinflipResult.TAILS) {
+        if (result == CoinflipEvent.CoinflipResult.TAILS) {
             Optional<ICuriosItemHandler> resolve = CuriosApi.getCuriosInventory(player).resolve();
             if (resolve.isPresent()) {
                 ICuriosItemHandler handler = resolve.get();
@@ -266,18 +272,17 @@ public class CoinRigidBody extends VxRigidBody {
 
         if (flipState == FlipState.NORMAL) {
             ServerLevel level = (ServerLevel) player.level();
-            net.minecraft.world.phys.Vec3 vec = new net.minecraft.world.phys.Vec3(location.getX(), location.getY(), location.getZ());
 
-            if (result == CoinflipResult.HEADS) {
+            if (result == CoinflipEvent.CoinflipResult.HEADS) {
                 if (coinItem.spawnParticles()) {
-                    level.sendParticles(BrutalityParticles.HEADS_PARTICLE.get(), location.getX(), location.getY() + 0.25, location.getZ(), 1, 0, 0, 0, 0);
+                    level.sendParticles(BrutalityParticles.HEADS_PARTICLE.get(), location.x(), location.y + 0.25, location.z, 1, 0, 0, 0, 0);
                 }
-                coinItem.onHeads(player, coinStack, vec);
+                coinItem.onHeads(player, coinStack, location);
             } else {
                 if (coinItem.spawnParticles()) {
-                    level.sendParticles(BrutalityParticles.TAILS_PARTICLE.get(), location.getX(), location.getY() + 0.25, location.getZ(), 1, 0, 0, 0, 0);
+                    level.sendParticles(BrutalityParticles.TAILS_PARTICLE.get(), location.x(), location.y() + 0.25, location.z(), 1, 0, 0, 0, 0);
                 }
-                coinItem.onTails(player, coinStack, vec);
+                coinItem.onTails(player, coinStack, location);
             }
         }
 
@@ -287,7 +292,7 @@ public class CoinRigidBody extends VxRigidBody {
     }
 
 
-    public CoinflipResult getPhysicalResult(Quat q) {
+    public CoinflipEvent.CoinflipResult getPhysicalResult(Quat q) {
         // We extract the vertical component of the local 'Up' axis (Y)
         // from the quaternion.
         float x = q.getX();
@@ -296,10 +301,10 @@ public class CoinRigidBody extends VxRigidBody {
         // The formula for the Y-axis alignment in a unit quaternion:
         float alignment = 1.0f - 2.0f * (x * x + z * z);
         float threshold = 0.6F;
-        if (alignment > threshold) return CoinflipResult.HEADS;      // Pointing Up
-        if (alignment < -threshold) return CoinflipResult.TAILS;     // Pointing Down
+        if (alignment > threshold) return CoinflipEvent.CoinflipResult.HEADS;      // Pointing Up
+        if (alignment < -threshold) return CoinflipEvent.CoinflipResult.TAILS;     // Pointing Down
 
-        return CoinflipResult.EDGE;
+        return CoinflipEvent.CoinflipResult.EDGE;
     }
 
 

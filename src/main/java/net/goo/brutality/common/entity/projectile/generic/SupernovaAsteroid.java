@@ -76,7 +76,7 @@ public class SupernovaAsteroid extends ThrowableProjectile implements BrutalityG
 
         super.tick();
         if (!this.trailSpawned) {
-//            this.level().addParticle((new AbstractWorldAlignedTrailParticle.OrbData(0.35F, 0, 0.5F, this.getBbWidth() / 2, this.getId(), 0, 0, 0, "circle", 10)), this.getX(), this.getY() + this.getBbHeight() / 2, this.getZ(), 0, 0, 0);
+//            this.levels().addParticle((new AbstractWorldAlignedTrailParticle.OrbData(0.35F, 0, 0.5F, this.getBbWidth() / 2, this.getId(), 0, 0, 0, "circle", 10)), this.getX(), this.getY() + this.getBbHeight() / 2, this.getZ(), 0, 0, 0);
             this.trailSpawned = true;
         }
 

@@ -67,7 +67,7 @@ public class MarianasTrenchSword extends BrutalitySwordItem {
     public void performMarianasTrenchAttack(ItemStack stack, Player player) {
         Level level = player.level();
         if (player.getCooldowns().isOnCooldown(stack.getItem())) return;
-//        if (level.isClientSide()) {
+//        if (levels.isClientSide()) {
 //            for (int i = 1; i <= 360; i += 45)
 //                PacketHandler.sendToServer(new ServerboundShootProjectilePacket(BrutalityModEntities.ABYSS_PROJECTILE.getId(), 0.5F, false, 0F, i));
 //        } else {

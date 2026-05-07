@@ -30,7 +30,7 @@ public abstract class GuiGraphicsMixin {
     private static long brutality$hoverTime = 0;
 
     @Shadow
-    public ItemStack tooltipStack;
+    private ItemStack tooltipStack;
 
 
     @Inject(method = "lambda$renderTooltipInternal$5", at = @At("HEAD"))
@@ -143,10 +143,6 @@ public abstract class GuiGraphicsMixin {
         brutality$renderVerticalLineGradient(pGuiGraphics, pX + pWidth - 1, pY, pHeight - 2, pZ, pTopColor, pBottomColor);
         brutality$renderHorizontalLine(pGuiGraphics, pX, pY - 1, pWidth, pZ, pTopColor);
         brutality$renderHorizontalLine(pGuiGraphics, pX, pY - 1 + pHeight - 1, pWidth, pZ, pBottomColor);
-    }
-
-    private static void renderVerticalLine(GuiGraphics pGuiGraphics, int pX, int pY, int pLength, int pZ, int pColor) {
-        pGuiGraphics.fill(pX, pY, pX + 1, pY + pLength, pZ, pColor);
     }
 
     @Unique

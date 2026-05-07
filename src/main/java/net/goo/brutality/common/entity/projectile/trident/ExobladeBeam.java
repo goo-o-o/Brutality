@@ -1,6 +1,5 @@
 package net.goo.brutality.common.entity.projectile.trident;
 
-import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.common.entity.base.BrutalityAbstractTrident;
 import net.goo.brutality.common.registry.BrutalityEffects;
@@ -25,7 +24,6 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import javax.annotation.Nullable;
 
-import static net.goo.brutality.util.ModResources.RAINBOW_TRAIL_FX;
 
 public class ExobladeBeam extends BrutalityAbstractTrident implements BrutalityGeoEntity {
     private static final EntityDataAccessor<Integer> HOMING_TARGET_ID = SynchedEntityData.defineId(ExobladeBeam.class, EntityDataSerializers.INT);
@@ -68,12 +66,10 @@ public class ExobladeBeam extends BrutalityAbstractTrident implements BrutalityG
 
 
     public void tick() {
-        if (firstTick && !(level() instanceof ServerLevel)) {
-//            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> {
-                EntityEffect rainbowTrail = new EntityEffect(RAINBOW_TRAIL_FX.get(), this.level(), this, EntityEffect.AutoRotate.NONE);
-                rainbowTrail.start();
-//            });
-        }
+//        if (firstTick && !(levels() instanceof ServerLevel)) {
+//            EntityEffect rainbowTrail = new EntityEffect(RAINBOW_TRAIL_FX.get(), this.levels(), this, EntityEffect.AutoRotate.NONE);
+//            rainbowTrail.start();
+//        }
         super.tick();
 
         tickDespawn();

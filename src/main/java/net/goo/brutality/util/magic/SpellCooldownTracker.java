@@ -75,7 +75,7 @@ public class SpellCooldownTracker {
             var entry = cap.getEntry(BrutalitySpells.getIdFromSpell(spell));
             if (entry == null || entry.total() <= 0) return 0f;
 
-            // This math is now level-independent because it uses the 'total' from the moment of casting
+            // This math is now levels-independent because it uses the 'total' from the moment of casting
             return (float) entry.remaining() / (float) entry.total();
         }).orElse(0f);
     }

@@ -79,11 +79,11 @@ public class SpellTooltipRenderer {
         String op = castTimeLevelScaling >= 0 ? " + " : " - ";
         boolean showMult = attributeMult != 1.0;
 
-        // Base Part: (Base ❤️ + (Scaling ❤️ * level))
+        // Base Part: (Base ❤️ + (Scaling ❤️ * levels))
         MutableComponent formula = Component.literal(base + "s").withStyle(ChatFormatting.GOLD)
                 .append(Component.literal(op + "(").withStyle(ChatFormatting.GRAY))
                 .append(Component.literal(Math.abs(castTimeLevelScaling) + "s").withStyle(ChatFormatting.GOLD))
-                .append(Component.literal(" × level)").withStyle(ChatFormatting.GRAY));
+                .append(Component.literal(" × levels)").withStyle(ChatFormatting.GRAY));
 
         // Multiplier Part: * Multiplier
         if (showMult) {
@@ -124,13 +124,13 @@ public class SpellTooltipRenderer {
         String op = damageLevelScaling >= 0 ? " + " : " - ";
         boolean showMult = attributeMult != 1.0;
 
-        // Base Part: (Base ❤️ + (Scaling ❤️ * level))
+        // Base Part: (Base ❤️ + (Scaling ❤️ * levels))
         MutableComponent formula = Component.literal(base + " ").withStyle(ChatFormatting.GOLD)
                 .append(HEART_ICON)
                 .append(Component.literal(op + "(").withStyle(ChatFormatting.GRAY))
                 .append(Component.literal(Math.abs(damageLevelScaling) + " ").withStyle(ChatFormatting.GOLD))
                 .append(HEART_ICON)
-                .append(Component.literal(" × level)").withStyle(ChatFormatting.GRAY));
+                .append(Component.literal(" × levels)").withStyle(ChatFormatting.GRAY));
 
         // Multiplier Part: * Multiplier
         if (showMult) {
@@ -172,13 +172,13 @@ public class SpellTooltipRenderer {
         String op = manaCostLevelScaling >= 0 ? " + " : " - ";
         boolean showMult = attributeMult != 1.0;
 
-        // Base Part: (Base ❤️ + (Scaling ❤️ * level))
+        // Base Part: (Base ❤️ + (Scaling ❤️ * levels))
         MutableComponent formula = Component.literal(base + " ").withStyle(ChatFormatting.GOLD)
                 .append(MANA_ICON)
                 .append(Component.literal(op + "(").withStyle(ChatFormatting.GRAY))
                 .append(Component.literal(Math.abs(manaCostLevelScaling) + " ").withStyle(ChatFormatting.GOLD))
                 .append(MANA_ICON)
-                .append(Component.literal(" × level)").withStyle(ChatFormatting.GRAY));
+                .append(Component.literal(" × levels)").withStyle(ChatFormatting.GRAY));
 
         // Multiplier Part: * Multiplier
         if (showMult) {
@@ -219,11 +219,11 @@ public class SpellTooltipRenderer {
         String op = cooldownLevelScaling >= 0 ? " + " : " - ";
         boolean showMult = attributeMult != 1.0;
 
-        // Base Part: (Base ❤️ + (Scaling ❤️ * level))
+        // Base Part: (Base ❤️ + (Scaling ❤️ * levels))
         MutableComponent formula = Component.literal(base + "s").withStyle(ChatFormatting.GOLD)
                 .append(Component.literal(op + "(").withStyle(ChatFormatting.GRAY))
                 .append(Component.literal(Math.abs(cooldownLevelScaling) + "s").withStyle(ChatFormatting.GOLD))
-                .append(Component.literal(" × level)").withStyle(ChatFormatting.GRAY));
+                .append(Component.literal(" × levels)").withStyle(ChatFormatting.GRAY));
 
         // Multiplier Part: * Multiplier
         if (showMult) {
@@ -279,11 +279,11 @@ public class SpellTooltipRenderer {
         component.append(Component.literal(String.valueOf(base)).withStyle(ChatFormatting.GOLD));
         component.append(unit);
 
-        // Scaling Part: op (LevelDelta [Unit] x level)
+        // Scaling Part: op (LevelDelta [Unit] x levels)
         component.append(Component.literal(op + "(").withStyle(ChatFormatting.GRAY));
         component.append(Component.literal(String.valueOf(Math.abs(levelDelta))).withStyle(ChatFormatting.GOLD));
         component.append(unit);
-        component.append(Component.literal(" × level)").withStyle(ChatFormatting.GRAY));
+        component.append(Component.literal(" × levels)").withStyle(ChatFormatting.GRAY));
 
         // Final Result: = Total [Unit]
         component.append(Component.literal(" = ").withStyle(ChatFormatting.GRAY));

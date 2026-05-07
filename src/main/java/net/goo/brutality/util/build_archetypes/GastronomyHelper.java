@@ -1,16 +1,22 @@
 package net.goo.brutality.util.build_archetypes;
 
-import net.goo.brutality.common.mob_effect.gastronomy.IGastronomyEffect;
+import net.goo.brutality.common.item.curios.BrutalityGastronomyCurioItem;
+import net.goo.brutality.common.mob_effect.gastronomy.GastronomyEffect;
+import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalityEffects;
-import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.BrutalityTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.CuriosApi;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Utility class for managing Gastronomy-related combat logic and status effects.
@@ -34,109 +40,84 @@ public class GastronomyHelper {
     public static float applyGastronomyDamageMultiplier(Player attacker, LivingEntity victim, ItemStack weapon, float amount) {
         if (!weapon.is(BrutalityTags.Items.GASTRONOMIST_ITEMS)) return amount;
 
-        float currentAmount = amount;
+        double wetBoost = victim.getAttributeValue(BrutalityAttributes.GASTRONOMY_WET_DEBUFF_DAMAGE_TAKEN_BOOST.get());
+        double dryBoost = victim.getAttributeValue(BrutalityAttributes.GASTRONOMY_DRY_DEBUFF_DAMAGE_TAKEN_BOOST.get());
+        double globalDealt = attacker.getAttributeValue(BrutalityAttributes.GASTRONOMY_DAMAGE_DEALT_BOOST.get());
 
-        // 1. Calculate the core multipliers for the Dry/Wet archetypes
-        float scoredMultiplier = getGastronomyTypeMultiplier(victim, BrutalityEffects.SCORED.get());
-        float mashedMultiplier = getGastronomyTypeMultiplier(victim, BrutalityEffects.MASHED.get());
+        wetBoost *= getConditionMultiplier(victim, BrutalityEffects.MASHED.get());
+        dryBoost *= getConditionMultiplier(victim, BrutalityEffects.SCORED.get());
 
-        // 2. Check for global gastronomy-boosting Curios (Ice Cream Sandwich)
-        boolean hasIceCreamBoost = CuriosApi.getCuriosInventory(attacker)
-                .map(h -> h.isEquipped(BrutalityItems.ICE_CREAM_SANDWICH.get()))
-                .orElse(false);
+        float totalMultiplier = (float) (1.0 + wetBoost + dryBoost + globalDealt);
+        float finalAmount = amount * totalMultiplier;
 
-        // 3. Iterate through effects and process IGastronomyEffect implementations
         for (MobEffectInstance instance : victim.getActiveEffects()) {
-            if (instance.getEffect() instanceof IGastronomyEffect gastro) {
-
-                if (gastro.modifiesDamage()) {
-                    float gastroScale = calculateGastroScale(gastro, instance);
-                    float typeMult = getCombinedTypeMultiplier(gastro.getType(), scoredMultiplier, mashedMultiplier);
-
-                    if (hasIceCreamBoost) {
-                        typeMult += 0.2F;
-                    }
-
-                    currentAmount *= (1 + gastroScale * typeMult);
-                }
-
-                // Apply any secondary logic associated with the effect
+            if (instance.getEffect() instanceof GastronomyEffect gastro) {
                 gastro.applyEffect(attacker, victim, instance.getAmplifier());
             }
         }
 
-        return currentAmount;
+        return finalAmount;
     }
 
-    /**
-     * Calculates the baseline multiplier for a specific Gastronomy Type (Wet/Dry/Both).
-     */
-    private static float getCombinedTypeMultiplier(IGastronomyEffect.Type type, float scored, float mashed) {
-        return switch (type) {
-            case DRY -> scored;
-            case WET -> mashed;
-            case BOTH -> (scored + mashed) / 2F;
-        };
+    private static double getConditionMultiplier(LivingEntity entity, MobEffect condition) {
+        MobEffectInstance effect = entity.getEffect(condition);
+        if (effect == null) return 1.0;
+        return 1.0 + (effect.getAmplifier() + 1) * 0.1;
+    }
+    
+    public static void inflictGastronomyEffects(LivingEntity attacker, LivingEntity victim, ItemStack weapon) {
+        boolean isGastronomistWeapon = weapon != null && weapon.is(BrutalityTags.Items.GASTRONOMIST_ITEMS);        // If it's a melee hit but NOT a Gastronomist weapon, we exit.
+
+        CuriosApi.getCuriosInventory(attacker).ifPresent(handler -> {
+            Set<BrutalityGastronomyCurioItem> uniqueGastronomyCurios = handler.findCurios(s -> s.getItem() instanceof BrutalityGastronomyCurioItem).stream().map(s -> ((BrutalityGastronomyCurioItem) s.stack().getItem())).collect(Collectors.toSet());
+
+            Map<MobEffect, EffectData> effectMap = new HashMap<>();
+            for (BrutalityGastronomyCurioItem item : uniqueGastronomyCurios) {
+                // 1. Always process non-melee debuffs
+                for (GastronomyDebuffContainer container : item.nonTrueMeleeDebuffs) {
+                    updateEffectMap(effectMap, container);
+                }
+
+                // 2. Only process true melee debuffs if the weapon requirement is met
+                if (isGastronomistWeapon) {
+                    for (GastronomyDebuffContainer container : item.trueMeleeDebuffs) {
+                        updateEffectMap(effectMap, container);
+                    }
+                }
+            }
+            int debuffBonus = Mth.ceil(attacker.getAttributeValue(BrutalityAttributes.GASTRONOMY_DEBUFF_LEVEL_MODIFIER.get()));
+            double debuffDuration = attacker.getAttributeValue(BrutalityAttributes.GASTRONOMY_DEBUFF_DURATION_MULTIPLIER.get());
+            effectMap.forEach((effect, data) ->
+                    victim.addEffect(new MobEffectInstance(effect, (int) (data.maxDuration * debuffDuration), data.summedLevel - 1 + debuffBonus)));
+        });
     }
 
-    /**
-     * Determines the potency multiplier based on the amplifier of Scored or Mashed effects.
-     */
-    private static float getGastronomyTypeMultiplier(LivingEntity victim, MobEffect effect) {
-        MobEffectInstance instance = victim.getEffect(effect);
-        if (instance == null) return 1.05F; // Base 5% boost even without amplifier
-
-        return 1.05F + (0.15F * instance.getAmplifier());
+    private static void updateEffectMap(Map<MobEffect, EffectData> map, GastronomyDebuffContainer container) {
+        map.compute(container.effect().get(), (effect, data) -> {
+            if (data == null) {
+                return new EffectData(container.levels(), container.duration());
+            }
+            data.addLevel(container.levels());
+            data.updateMaxDuration(container.duration());
+            return data;
+        });
     }
 
-    /**
-     * Calculates the final scale of a gastronomy effect based on its level.
-     */
-    private static float calculateGastroScale(IGastronomyEffect gastro, MobEffectInstance instance) {
-        float scale = gastro.baseMultiplier();
-        if (gastro.scalesWithLevel()) {
-            scale *= (1 + gastro.multiplierPerLevel() * (instance.getAmplifier() + 1));
+    private static class EffectData {
+        int summedLevel;
+        int maxDuration;
+
+        EffectData(int level, int duration) {
+            this.summedLevel = level;
+            this.maxDuration = duration;
         }
-        return scale;
-    }
 
-    /**
-     * Applies a status effect to an entity if a specific triggering item is equipped.
-     * <p>
-     * The duration of the effect is dynamically scaled based on the entity's
-     * current refrigeration-related gear (e.g., a 2x or 3x multiplier).
-     * </p>
-     *
-     * @param attacker  The entity attacking the victim.
-     * @param victim    The entity receiving the effect.
-     * @param effect    The {@link MobEffect} to be applied.
-     * @param duration  The base duration (in ticks) before multipliers are applied.
-     * @param amplifier The potency level of the effect (0 for Level I).
-     */
-    public static void applyEffect(LivingEntity attacker, Entity victim, MobEffect effect, int duration, int amplifier) {
-        if (victim instanceof LivingEntity livingVictim) // For convenience’s sake from calling methods
-            livingVictim.addEffect(new MobEffectInstance(effect, duration * getFridgeMult(attacker), amplifier));
-    }
+        void addLevel(int level) {
+            this.summedLevel += level;
+        }
 
-    /**
-     * Calculates the duration multiplier based on the highest tier of refrigeration gear equipped.
-     * <p>
-     * <b>Multipliers:</b>
-     * <ul>
-     * <li>{@link BrutalityItems#SMART_FRIDGE}: 3x Duration</li>
-     * <li>{@link BrutalityItems#FRIDGE}: 2x Duration</li>
-     * <li>None: 1x Duration (Standard)</li>
-     * </ul>
-     * </p>
-     *
-     * @param attacker The {@link LivingEntity} to get the multiplier from
-     * @return An integer multiplier for status effect durations.
-     */
-    private static int getFridgeMult(LivingEntity attacker) {
-        return CuriosApi.getCuriosInventory(attacker).map(handler -> {
-            if (handler.isEquipped(BrutalityItems.SMART_FRIDGE.get())) return 3;
-            if (handler.isEquipped(BrutalityItems.FRIDGE.get())) return 2;
-            return 1;
-        }).orElse(1);
+        void updateMaxDuration(int duration) {
+            this.maxDuration = Math.max(this.maxDuration, duration);
+        }
     }
 }

@@ -207,6 +207,7 @@
 
   "item.brutality.world_tree_sword": "World Tree Sword",
   "item.brutality.world_tree_sword.lore.1": "§9Carved by the Fairy King out of the roots of the World Tree",
+  "item.brutality.world_tree_sword.passive.1": "§e -Deals an additional 10 Damage when in a Forest",
 
   "item.brutality.deck_of_fate": "Deck Of Fate",
   "item.brutality.deck_of_fate.when_thrown.1": "§e -Throws out a Fate Card, each Fate Card has 1 out of 5 effects:",
@@ -450,44 +451,88 @@
   "item.brutality.suspicious_slot_machine": "Suspicious Slot Machine (BROKEN)",
   "item.brutality.suspicious_slot_machine.lore.1": "§9Can it be trusted?",
 
-
-  "item.brutality.salt_shaker": "Salt Shaker",
-  "item.brutality.salt_shaker.passive.1": "§e -True melee hits inflict §fSalted I§e for 3 seconds",
-  "item.brutality.pepper_shaker": "Pepper Shaker",
-  "item.brutality.pepper_shaker.passive.1": "§e -True melee hits inflict §7Peppered I§e for 3 seconds",
-  "item.brutality.salt_and_pepper": "Salt and Pepper",
-  "item.brutality.salt_and_pepper.passive.1": "§e -All Damage inflicts §7Peppered II§e and §fSalted II§e for 6 seconds",
+  "item.brutality.suspicious_rock": "Suspicious Rock",
+  "item.brutality.suspicious_rock.passive.1": "§e -Grants 1 Charm slot",
 
   "item.brutality.perfect_cell": "Perfect Cell",
   "item.brutality.perfect_cell.passive.1": "§e -Grants §fImmunity",
   "item.brutality.perfect_cell.passive.2": "§e -Additionally grants immunity to other debuffs",
 
+  "item.brutality.salt_shaker": "Salt Shaker",
+  "item.brutality.pepper_shaker": "Pepper Shaker",
+  "item.brutality.salt_and_pepper": "Salt and Pepper",
   "item.brutality.smoke_stone": "Smoke Stone",
-  "item.brutality.smoke_stone.passive.1": "§e -True melee hits inflict §7Smoked I§e for 3 seconds",
   "item.brutality.the_smokehouse": "The Smokehouse",
-  "item.brutality.the_smokehouse.passive.1": "§e -All Damage inflicts §7Smoked II§e for 6 seconds",
-
   "item.brutality.rock_candy_ring": "Rock Candy Ring",
-  "item.brutality.rock_candy_ring.passive.1": "§e -True melee hits inflict §dCandied I§e for 3 seconds",
-
   "item.brutality.rainbow_sprinkles": "Rainbow Sprinkles",
-  "item.brutality.rainbow_sprinkles.passive.1": "§e -True melee hits inflict §eS§6p§cr§4i§dn§5k§1l§9e§3d §bI§e for 3 seconds",
-
   "item.brutality.seared_sugar_brooch": "Seared Sugar Brooch",
-  "item.brutality.seared_sugar_brooch.passive.1": "§e -True melee hits inflict §6Caramelized I§e for 3 seconds",
-
   "item.brutality.sugar_glaze": "Sugar Glaze",
-  "item.brutality.sugar_glaze.passive.1": "§e -True melee hits inflict §fGlazed I§e for 3 seconds",
-
   "item.brutality.caramel_crunch_medallion": "Caramel Crunch Medallion",
-  "item.brutality.caramel_crunch_medallion.passive.1": "§e -All Damage inflicts §6Caramelized II§e and §dCandied II§e for 6 seconds",
-
   "item.brutality.dunked_donut": "Dunked Donut",
-  "item.brutality.dunked_donut.passive.1": "§e -All Damage inflicts §eS§6p§cr§4i§dn§5k§1l§9e§3d §bI§aI§e and §fGlazed II§e for 4 seconds",
-
   "item.brutality.lollipop_of_eternity": "Lollipop of Eternity",
-  "item.brutality.lollipop_of_eternity.passive.1": "§e -All Damage inflicts §eS§6p§cr§4i§dn§5k§1l§9e§3d §bI§aI§e§2I, §fGlazed III§e, §6Caramelized III§e and §dCandied III§e for 6 seconds",
 
+  "item.brutality.strawberry_smoothie": "Strawberry Smoothie",
+  "item.brutality.strawberry_smoothie.on_true_melee_hit.1": "§e -Freeze the Entity for 2 seconds, stacking infinitely",
+  "item.brutality.banana_smoothie": "Banana Smoothie",
+  "item.brutality.banana_smoothie.on_true_melee_hit.1": "§e -Deal additional Damage equivalent to 0.5x of the Frozen time remaining",
+  "item.brutality.mango_smoothie": "Mango Smoothie",
+  "item.brutality.mango_smoothie.passive.1": "§e -Deal 15% more Damage when in a Cold Biome",
+  "item.brutality.blueberry_smoothie": "Blueberry Smoothie",
+  "item.brutality.blueberry_smoothie.passive.1": "§e- The wearer deals 15% more Damage to frozen Entities",
+  "item.brutality.mixed_berry_smoothie": "Mixed Berry Smoothie",
+  "item.brutality.mixed_berry_smoothie.passive.1": "§e- Deal 20% more Damage when in a Cold Biome",
+  "item.brutality.mixed_berry_smoothie.passive.2": "§e- The wearer deals 20% more Damage to frozen Entities",
+  "item.brutality.mixed_berry_smoothie.on_true_melee_hit.1": "§e- Freeze the Entity for 3 seconds, stacking infinitely",
+  "item.brutality.mixed_berry_smoothie.on_true_melee_hit.2": "§e- Deal additional damage equivalent to 0.75x of the Frozen time remaining",
+
+  "item.brutality.bamboo_steamer": "Bamboo Steamer",
+  "item.brutality.convection_smoker": "Convection Smoker",
+
+  "item.brutality.fridge": "Refrigerator",
+  "item.brutality.fridge.lore.1": "§9Old fashioned, but gets the job done",
+  "item.brutality.fridge.passive.1": "§e -2x Gastronomy debuff duration",
+  "item.brutality.smart_fridge": "Smart Fridge",
+  "item.brutality.smart_fridge.lore.1": "§9Can send messages!",
+  "item.brutality.smart_fridge.passive.1": "§e -3x Gastronomy debuff duration",
+  "item.brutality.industrial_freezer": "Industrial Freezer",
+  "item.brutality.industrial_freezer.lore.1": "§9Industry grade!",
+  "item.brutality.industrial_freezer.passive.1": "§e -4x Gastronomy debuff duration",
+  "item.brutality.pickle_jar": "Pickle Jar",
+
+  "item.brutality.mortar_and_pestle": "Mortar and Pestle",
+  "item.brutality.mortar_and_pestle.passive.1": "§e -True melee hits using Gastronomy items inflict §7Pulverized III§e for 3 ticks",
+
+
+  "item.brutality.hot_sauce": "Hot Sauce",
+  "item.brutality.hot_sauce.passive.1": "§e -Grants §cHot & Spicy II",
+
+  "item.brutality.olive_oil": "Olive Oil",
+  "item.brutality.olive_oil.passive.1": "§e -True melee hits inflict §2Oiled II §efor 3 seconds",
+  "item.brutality.extra_virgin_olive_oil": "Extra Virgin Olive Oil",
+  "item.brutality.extra_virgin_olive_oil.passive.1": "§e -All Damage inflict §2Oiled IV §efor 6 seconds",
+  "item.brutality.butter_gauntlets": "Butter Gauntlets",
+  "item.brutality.butter_gauntlets.on_true_melee_hit.1": "§e -Inflict §6Stunned §efor 4 ticks, with a base chance of 10%, increasing 2% with each level of §aLuck",
+
+  "item.brutality.apple_cider_vinegar": "Apple Cider Vinegar",
+  "item.brutality.smoked_paprika": "Smoked Paprika",
+  "item.brutality.bbq_rub": "BBQ Rub",
+  "item.brutality.bbq_sauce": "BBQ Sauce",
+  "item.brutality.commercialized_bbq_seasoning": "Commercialized BBQ Seasoning",
+  "item.brutality.commercialized_bbq_seasoning.on_hit.1": "§e -Inflicts Pulverized II for 2 ticks",
+  "item.brutality.tomato_sauce": "Tomato Sauce",
+  "item.brutality.cheese_sauce": "Cheese Sauce",
+  "item.brutality.pizza_slop": "Pizza Slop",
+  "item.brutality.italian_classic": "Italian Classic",
+
+  "item.brutality.golden_delight": "Golden Delight",
+  "item.brutality.uvogre_steak": "Uvogre Steak",
+  "item.brutality.uvogre_steak.passive.1": "§e -Grants Regeneration I",
+  "item.brutality.shadowflame_seared_steak": "Shadowflame-seared Steak",
+  "item.brutality.shadowflame_seared_steak.passive.1": "§e -Grants Regeneration II",
+
+
+  "item.brutality.gastronomy_item.inflicts": "§e -Inflicts %s %s§e for %s§e seconds",
+  "item.brutality.gastronomy_item.only_works_with_gastronomist_weapons": "§8Only works with Gastronomist Weapons",
 
   "item.brutality.omega_gauntlet": "Omega Gauntlet",
   "item.brutality.broken_controller": "Broken Controller",
@@ -524,35 +569,6 @@
 
 
 
-  "item.brutality.bamboo_steamer": "Bamboo Steamer",
-  "item.brutality.bamboo_steamer.passive.1": "§e -True melee hits inflict §bSteamed I§e for 3 seconds",
-
-  "item.brutality.fridge": "Refrigerator",
-  "item.brutality.fridge.lore.1": "§9Old fashioned, but gets the job done",
-  "item.brutality.fridge.passive.1": "§e -Doubles the duration of Gastronomy debuffs",
-  "item.brutality.smart_fridge": "Smart Fridge",
-  "item.brutality.smart_fridge.lore.1": "§9Can send messages!",
-  "item.brutality.smart_fridge.passive.1": "§e -Triples the duration of Gastronomy debuffs",
-  "item.brutality.mortar_and_pestle": "Mortar and Pestle",
-  "item.brutality.mortar_and_pestle.passive.1": "§e -True melee hits using Gastronomy items inflict §7Pulverized III§e for 3 ticks",
-
-
-  "item.brutality.hot_sauce": "Hot Sauce",
-  "item.brutality.hot_sauce.passive.1": "§e -Grants §cHot & Spicy II",
-
-  "item.brutality.olive_oil": "Olive Oil",
-  "item.brutality.olive_oil.passive.1": "§e -True melee hits inflict §2Oiled II §efor 3 seconds",
-  "item.brutality.extra_virgin_olive_oil": "Extra Virgin Olive Oil",
-  "item.brutality.extra_virgin_olive_oil.passive.1": "§e -All Damage inflict §2Oiled IV §efor 6 seconds",
-  "item.brutality.butter_gauntlets": "Butter Gauntlets",
-  "item.brutality.butter_gauntlets.passive.1": "§e -True melee hits inflict §6Stunned §efor 4 ticks, with a base chance of 10%, increasing 2% with each level of §aLuck",
-
- "item.brutality.tomato_sauce": "Tomato Sauce",
-  "item.brutality.tomato_sauce.passive.1": "§e -True melee hits inflict §6Slicked I §efor 3 seconds",
-  "item.brutality.cheese_sauce": "Cheese Sauce",
-  "item.brutality.cheese_sauce.passive.1": "§e -True melee hits inflict §6Slicked I §efor 3 seconds",
-  "item.brutality.pizza_slop": "Pizza Slop",
-  "item.brutality.pizza_slop.passive.1": "§e -All Damage inflicts §6Slicked II §efor 6 seconds",
 
   "item.brutality.knife_block": "Knife Block",
 
@@ -887,9 +903,15 @@
   "item.brutality.microblade_band.lore.1": "§9Ouch!",
 
 
-  "item.brutality.nanomachines": "Nano Machines",
+  "item.brutality.mirror_of_divergence": "Mirror of Divergence",
+  "item.brutality.mirror_of_divergence.passive.1": "§e -Grants Divergency",
+  "item.brutality.mirror_of_divergence.passive.2": "§e -Grants Mirroring",
+  "item.brutality.nanomachines": "Nanomachines",
   "item.brutality.nanomachines.lore.1": "§9Nanomachines, son!",
-  "item.brutality.nanomachines.passive.1": "§e -Reduces §6Physical §eDamage taken by 50%",
+  "item.brutality.nanomachines.passive.1": "§e -Incoming arrows are automatically reflected at 2x velocity",
+  "item.brutality.nanomachines.passive.2": "§e -Blunt and Explosive damage taken are capped at 4 Health",
+  "item.brutality.nanomachines.passive.3": "§e -The wearer heals 1 Health every 2 seconds",
+  "item.brutality.nanomachines.passive.4": "§e -The wearer uses twice the amount of hunger",
 
   "item.brutality.plunder_chest": "Plunder Chest",
   "item.brutality.plunder_chest.passive.1": "§e -True melee hits steal enemy §aBuffs§e, with a base chance of 10%, increasing 2% with each level of §aLuck",
@@ -907,15 +929,17 @@
   "item.brutality.uvogre_heart.passive.1": "§e -Grants §dRegeneration IV§e when below 25% Health",
 
   "item.brutality.ring_of_rings": "Ring of Rings",
-  "item.brutality.ring_of_rings.passive.1": "-Gain 1 Armor and Lethality for each ring worn by the wearer",
+  "item.brutality.ring_of_rings.passive.1": "§e -Gain 1 Armor and Lethality for each ring worn by the wearer",
 
+  "item.brutality.ring_of_despair": "Ring of Despair",
+  "item.brutality.ring_of_despair.passive.1": "§e -Inflicts 5 stacks of Despair to nearby entities for 8 seconds",
 
-  "item.brutality.rainbow_ring": "Rainbow Ring",
-  "item.brutality.rainbow_ring.passive.1": "§e -Grants Fire Resistance, Water Breathing, Dolphins Grace, Slow Falling",
-  "item.brutality.rainbow_ring.passive.2": "§e -Provides Poison immunity",
-  "item.brutality.rainbow_ring.passive.3": "§e -Counts as gold equipment for piglins",
-  "item.brutality.rainbow_ring.passive.4": "§e -The wearer does not anger Endermen when making eye contact",
-  "item.brutality.rainbow_ring.passive.5": "§e -The wearer can walk on powdered snow",
+  "item.brutality.omnichrome_ring": "Omnichrome Ring",
+  "item.brutality.omnichrome_ring.passive.1": "§e -Grants Fire Resistance, Water Breathing, Dolphins Grace, Slow Falling",
+  "item.brutality.omnichrome_ring.passive.2": "§e -Provides Poison immunity",
+  "item.brutality.omnichrome_ring.passive.3": "§e -Counts as gold equipment for piglins",
+  "item.brutality.omnichrome_ring.passive.4": "§e -The wearer does not anger Endermen when making eye contact",
+  "item.brutality.omnichrome_ring.passive.5": "§e -The wearer can walk on powdered snow",
 
   "item.brutality.frozen_heart": "Frozen Heart",
   "item.brutality.frozen_heart.passive.1": "§e -Inflicts §7Slowness I§e and §fMining Fatigue I§e to nearby mobs",
@@ -1445,6 +1469,10 @@
   "item.brutality.swallowed_penny.passive.1": "§e -Taking 2 or more hearts of Damage throws out a random coin from your inventory that does not go on cooldown",
   "item.brutality.swallowed_penny.passive.2": "§e -Coins that are on cooldown may also be thrown",
 
+  "item.brutality.mirror_coin": "Mirror Coin",
+  "item.brutality.mirror_coin.lore.1": "§9Its lack of uniqueness is what makes it unique",
+  "item.brutality.mirror_coin.passive.1": "§e -Copies the abilities of the previously thrown coin",
+  "item.brutality.mirror_coin.previous_coin": "§8Previous Coin:§e %s",
 
   "item.brutality.honey_coin": "Honey Coin",
   "item.brutality.honey_coin.passive.1": "§e -Sticks to walls",
@@ -1482,13 +1510,25 @@
   "item.brutality.bloodstained_coin.on_tails.1": "§e -You take 6 Damage",
 
 
+  "item.brutality.lava_lenses": "Lava Lenses",
+  "item.brutality.lava_lenses.passive.1": "§e -Grants clearer vision under lava",
+  "item.brutality.lava_lenses.passive.2": "§e -Lowers the Fire overlay texture",
+
   "item.brutality.surtrs_horn": "Surtr's Horn",
-  "item.brutality.surtrs_horn.passive.1": "§e -The wearer is unaffected by lava",
+  "item.brutality.surtrs_horn.passive.1": "§e -Grants uninhibited lava movement",
   "item.brutality.surtrs_horn.passive.2": "§e -Grants Fire Resistance",
   "item.brutality.surtrs_horn.passive.3": "§e -The wearer's attacks set victims on fire for 10 seconds",
+  "item.brutality.surtrs_horn.passive.4": "§e -Grants extremely clear vision under lava",
+  "item.brutality.surtrs_horn.passive.5": "§e -Lowers the Fire overlay texture",
 
+  "item.brutality.flippers_of_icarus": "Flippers of Icarus",
+  "item.brutality.flippers_of_icarus.passive.1": "§e -Allows the user to swim in Air as if in Water",
+  "item.brutality.flippers_of_icarus.passive.2": "§e -Going too high in the sky will set the wearer on Fire",
+
+  "item.brutality.hydrophobic_nanocoating": "Hydrophobic Nanocoating",
+  "item.brutality.hydrophobic_nanocoating.passive.1": "§e -Grants uninhibited water movement",
   "item.brutality.poseidons_blessing": "Poseidon's Blessing",
-  "item.brutality.poseidons_blessing.passive.1": "§e -The wearer is unaffected by water",
+  "item.brutality.poseidons_blessing.passive.1": "§e -Grants uninhibited water movement",
   "item.brutality.poseidons_blessing.passive.2": "§e -Grants Water Breathing and Conduit Power",
 
   "item.brutality.solar_lens": "Solar Lens",
@@ -1829,6 +1869,11 @@
   "creativeTab.brutality_miscellaneous_tab": "Brutality Miscellaneous Items",
   "creativeTab.brutality_block_tab": "Brutality Blocks",
 
+  "attribute.name.generic.gastronomy_debuff_level_bonus": "Global Gastronomy Debuff Level",
+  "attribute.name.generic.gastronomy_debuff_duration_multiplier": "Gastronomy Debuff Duration",
+  "attribute.name.generic.gastronomy_damage_dealt": "Gastronomy Damage Dealt",
+  "attribute.name.generic.gastronomy_wet_damage_taken": "Gastronomy Wet Damage Taken",
+  "attribute.name.generic.gastronomy_dry_damage_taken": "Gastronomy Dry Damage Taken",
   "attribute.name.generic.coin_cooldown": "Coin Cooldown",
   "attribute.name.generic.ground_friction": "Ground Friction",
   "attribute.name.generic.air_friction": "Air Friction",
@@ -1901,6 +1946,14 @@
 
   "fluid_type.brutality.liquified_mana": "Liquified Mana",
 
+  "effect.brutality.fortitude": "Fortitude",
+  "effect.brutality.resilience": "Resilience",
+  "effect.brutality.resilience.description": "Grants an additional i-frame per level",
+  "effect.brutality.despair": "Despair",
+  "effect.brutality.despair.description": "Reduces Brightness by 10% and Mouse Sensitivity by 4% per level",
+  "effect.brutality.hope": "Hope",
+  "effect.brutality.hope.description": "Nullifies Despair",
+
   "effect.brutality.avarice": "§6§lAvarice",
   "effect.brutality.avarice.description": "At a 100 stacks, your next attack deals 10x Damage and clears all stacks. You take 1% more Damage per stack. Lose all stacks upon taking Damage.",
   "effect.brutality.redacted": "§0§lRedacted",
@@ -1921,32 +1974,41 @@
   "effect.brutality.ruined": "Ruined",
   "effect.brutality.radiation": "Radiation",
   "effect.brutality.stoneform": "Stoneform",
+
+
+  "effect.brutality.fried": "Fried",
+  "effect.brutality.fried.description": "Oiled targets take an additional 15% damage.",
+  "effect.brutality.bark": "Bark",
+  "effect.brutality.bark.description": "Take an additional 2.5% damage per level of Salted or Peppered currently inflicted.",
+  "effect.brutality.pickled": "Pickled",
   "effect.brutality.salted": "§fSalted",
   "effect.brutality.peppered": "§7Peppered",
   "effect.brutality.hot_and_spicy": "§cHot & Spicy",
   "effect.brutality.hot_and_spicy.description": "Damage dealt with Gastronomy items will also set the mob on fire whenever they take Damage. The duration is equal to double the level of the effect.",
   "effect.brutality.slicked": "§6Slicked",
-  "effect.brutality.oiled": "§0Oiled",
+  "effect.brutality.seared": "Seared",
+  "effect.brutality.seared.description": "Take an additional 15% Damage per level of this effect when on Fire.",
+  "effect.brutality.oiled": "§8Oiled",
   "effect.brutality.oiled.description": "Take damage equal to the level of the effect whenever you take fire damage.",
   "effect.brutality.scored": "§mScored",
-  "effect.brutality.scored.description": "Increases the effectiveness of Dry Gastronomy Effects by 15% per Level.",
+  "effect.brutality.scored.description": "Increases the effectiveness of Dry Gastronomy Effects by 10% per Level.",
   "effect.brutality.mashed": "§4Mashed",
-  "effect.brutality.mashed.description": "Increases the effectiveness of Wet Gastronomy Effects by 15% per Level.",
+  "effect.brutality.mashed.description": "Increases the effectiveness of Wet Gastronomy Effects by 10% per Level.",
   "effect.brutality.marinated": "Marinated",
   "effect.brutality.caffeinated": "Caffeinated",
   "effect.brutality.caffeinated.description": "You are unable to sleep.",
-  "effect.brutality.stunned": "§l§eStunned",
-  "effect.brutality.stunned.description": "You are unable to move and look around.",
-  "effect.brutality.miracle_blight": "Miracle Blight",
   "effect.brutality.sprinkled": "§eS§6p§cr§4i§dn§5k§1l§9e§3d",
   "effect.brutality.candied": "§dCandied",
   "effect.brutality.caramelized": "§6Caramelized",
   "effect.brutality.glazed": "§fGlazed",
+
+  "effect.brutality.miracle_blight": "Miracle Blight",
+  "effect.brutality.stunned": "§l§eStunned",
+  "effect.brutality.stunned.description": "You are unable to move and look around.",
   "effect.brutality.grace": "Grace",
   "effect.brutality.grace.description": "If the Damage taken is less than the level of the effect, the Damage is nullified and the effect is removed.",
   "effect.brutality.lightbound": "Lightbound",
   "effect.brutality.lightbound.description": "You are unable to move.",
-
   "effect.brutality.enraged": "Enraged",
   "effect.brutality.the_void": "The Void",
   "effect.brutality.steamed": "§7Steamed",
@@ -1977,6 +2039,7 @@
   "brutality.description.type.full_set_passive": "§6Passive Effect (Full Set):",
   "brutality.description.type.full_set_active": "§6Armor Set Ability:",
   "brutality.description.type.on_hit": "§6On Hit:",
+  "brutality.description.type.on_true_melee_hit": "§6On True Melee Hit:",
   "brutality.description.type.on_swing": "§6On Swing:",
   "brutality.description.type.when_thrown": "§6When Thrown:",
   "brutality.description.type.on_heads": "§6On Heads:",
@@ -2000,6 +2063,7 @@
   "curios.identifier.feet": "Feet",
   "curios.identifier.anklet": "Anklet",
   "curios.modifiers.heart": "When worn as heart:",
+  "curios.modifiers.feet": "When worn on feet:",
   "curios.modifiers.anklet": "When worn as anklet:",
 
   "item.modifiers.tome": "When on Tome:",
@@ -2033,6 +2097,8 @@
   "container.brutality.filing_cabinet": "Filing Cabinet",
 
 
+  "death.attack.pulverized": "%1$s was pulverized",
+  "death.attack.pulverized.player": "%1$s was made into powder by %2$s",
   "death.attack.dematerialize": "%1$s was dematerialized",
   "death.attack.dematerialize.player": "%1$s had their atoms revoked by %2$s",
 
@@ -2046,8 +2112,6 @@
   "death.attack.throwing_pierce.4": "%1$s was given a new hole",
   "death.attack.throwing_pierce.5": "%1$s got swooned",
   "death.attack.throwing_pierce.6": "%1$s got their organs poked",
-  "death.attack.throwing_pierce.7": "",
-  "death.attack.throwing_pierce.8": "",
 
   "death.attack.throwing_pierce.0.player": "%1$s was made into a pincushion by %2$s",
   "death.attack.throwing_pierce.1.player": "%1$s was shish kebab'd by %2$s",
@@ -2056,26 +2120,20 @@
   "death.attack.throwing_pierce.4.player": "%1$s was crucified by %2$s",
   "death.attack.throwing_pierce.5.player": "%2$s was swiss cheesed by %1$s",
   "death.attack.throwing_pierce.6.player": "%1$s got swooned by %2$s",
-  "death.attack.throwing_pierce.7.player": "%1$s got their utensils poked by %2$s",
-  "death.attack.throwing_pierce.8.player": "",
 
   "death.attack.throwing_blunt.0": "%1$s discovered blunt force",
   "death.attack.throwing_blunt.1": "%1$s was brutally indented",
   "death.attack.throwing_blunt.2": "%1$s was folded like laundry",
-  "death.attack.throwing_blunt.3": "%1$s got isekai'd",
+  "death.attack.throwing_blunt.3": "%1$s collided with a fatal projectile",
   "death.attack.throwing_blunt.4": "%1$s experienced Newton's second law",
-  "death.attack.throwing_blunt.5": "",
-  "death.attack.throwing_blunt.6": "",
-  "death.attack.throwing_blunt.7": "",
-  "death.attack.throwing_blunt.8": "",
+  "death.attack.throwing_blunt.5": "%1$s was squashed",
+  "death.attack.throwing_blunt.6": "%1$s was made into a pancake",
 
   "death.attack.throwing_blunt.0.player": "%1$s was brutally indented by %2$s",
   "death.attack.throwing_blunt.1.player": "%1$s was folded like laundry by %2$s",
   "death.attack.throwing_blunt.2.player": "%1$s got isekai'd by %2$s",
-  "death.attack.throwing_blunt.3.player": "",
-  "death.attack.throwing_blunt.4.player": "",
-  "death.attack.throwing_blunt.5.player": "",
-  "death.attack.throwing_blunt.6.player": "",
-  "death.attack.throwing_blunt.7.player": "",
-  "death.attack.throwing_blunt.8.player": ""
+  "death.attack.throwing_blunt.3.player": "%2$s bouldered %1$s",
+  "death.attack.throwing_blunt.4.player": "%2$s taught %2$s about Newton's second law",
+  "death.attack.throwing_blunt.5.player": "%1$s was squashed by %2$s",
+  "death.attack.throwing_blunt.6.player": "%1$s was made into a pancake by %2$s"
 }

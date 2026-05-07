@@ -9,7 +9,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 
@@ -20,10 +19,7 @@ public class CanopyOfShadowsItem extends BrutalityGenericItem {
         super(rarity, descriptionComponents);
     }
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 
-    }
 
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {

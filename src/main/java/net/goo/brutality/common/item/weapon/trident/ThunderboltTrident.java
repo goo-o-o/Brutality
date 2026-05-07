@@ -1,11 +1,10 @@
 package net.goo.brutality.common.item.weapon.trident;
 
-import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.common.entity.projectile.trident.ThrownThunderbolt;
 import net.goo.brutality.common.item.ItemEquipUnequipTriggerable;
 import net.goo.brutality.common.item.base.BrutalityTridentItem;
 import net.goo.brutality.common.registry.BrutalityEntities;
-import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.util.lightning.ChainLightningHelper;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -14,6 +13,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
@@ -85,17 +85,16 @@ public class ThunderboltTrident extends BrutalityTridentItem implements ItemEqui
 
 
     @Override
-    public void onEnterMainHand(LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity.level().isClientSide) {
-            EntityEffect effect = new EntityEffect(LIGHTNING_AURA_FX.get(), livingEntity.level(), livingEntity, EntityEffect.AutoRotate.NONE);
-            effect.start();
-        }
-    }
-
-    @Override
-    public void onLeaveMainHand(LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity.level().isClientSide) {
-            ModUtils.removeFX(livingEntity, LIGHTNING_AURA_FX.get());
+    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+        if (pLevel.isClientSide() && pEntity.tickCount % pLevel.getRandom().nextInt(5, 15) == 0) {
+            if (pEntity instanceof LivingEntity livingEntity) {
+                if (livingEntity.isHolding(this))
+                    ChainLightningHelper.Client.visualStaticArc(pEntity, ChainLightningHelper.LightningType.THUNDERBOLT,
+                            pLevel.getRandom().nextInt(3, 8),
+                            pLevel.getRandom().nextFloat() * 5 + 3,
+                            pLevel.getRandom().nextFloat() * 0.2F + 0.05F,
+                            pLevel.getRandom().nextInt(3, 9));
+            }
         }
     }
 

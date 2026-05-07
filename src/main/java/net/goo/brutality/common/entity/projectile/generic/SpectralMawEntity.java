@@ -73,9 +73,9 @@ public class SpectralMawEntity extends ThrowableProjectile implements BrutalityG
     @Override
     public void tick() {
 
-//        if (!trailSpawned && this.level().isClientSide()) {
+//        if (!trailSpawned && this.levels().isClientSide()) {
 //            for (int i = 0; i < 4; i++)
-//                this.level().addParticle(new TrailParticleData(BrutalityModParticles.RUINED_PARTICLE.get(), 0.18F, 0.47F, 0.44F, 1,
+//                this.levels().addParticle(new TrailParticleData(BrutalityModParticles.RUINED_PARTICLE.get(), 0.18F, 0.47F, 0.44F, 1,
 //                                this.getBbHeight() * 0.75F, this.getId(), 10), this.getRandomX(2),
 //                        this.getRandomY() - this.getBbHeight() / 2, this.getRandomZ(2), 0, 0, 0);
 //            trailSpawned = true;
@@ -90,7 +90,7 @@ public class SpectralMawEntity extends ThrowableProjectile implements BrutalityG
 
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
-//        if (pResult.getEntity() instanceof LivingEntity entity && level() instanceof ServerLevel serverLevel) {
+//        if (pResult.getEntity() instanceof LivingEntity entity && levels() instanceof ServerLevel serverLevel) {
 //            entity.addEffect(new MobEffectInstance(BrutalityModMobEffects.STUNNED.get(), 3, 0));
 //                serverLevel.sendParticles(new TrailParticleData(BrutalityModParticles.RUINED_PARTICLE.get(), 0.18F, 0.47F, 0.44F, 1,
 //                                this.getBbHeight() * 0.75F, this.getId(), 10),

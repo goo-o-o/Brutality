@@ -8,7 +8,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -76,11 +75,6 @@ public class StarEntity extends BrutalityShuriken implements BrutalityGeoEntity 
                     loc.x, loc.y, loc.z, 10, 0.5, 0.5, 0.5, 0);
 
         super.onHitBlock(pResult);
-    }
-
-    @Override
-    protected @NotNull ItemStack getPickupItem() {
-        return ItemStack.EMPTY;
     }
 
 

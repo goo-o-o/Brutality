@@ -2,7 +2,7 @@ package net.goo.brutality.mixin.mixins;
 
 import net.goo.brutality.common.item.curios.charm.BaseBrokenClock;
 import net.goo.brutality.common.mixin_helpers.MixinInterfaces;
-import net.goo.brutality.common.mob_effect.gastronomy.wet.SteamedEffect;
+import net.goo.brutality.common.mob_effect.gastronomy.SteamedEffect;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;

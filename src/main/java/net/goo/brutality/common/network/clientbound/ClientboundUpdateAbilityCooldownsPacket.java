@@ -9,7 +9,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ClientboundUpdateAbilityCooldownsPacket implements IBrutalityPacket<ClientboundUpdateAbilityCooldownsPacket> {
+public class ClientboundUpdateAbilityCooldownsPacket implements IBrutalityPacket {
 
     final int tickCount;
     final ItemStack itemStack;
@@ -27,23 +27,24 @@ public class ClientboundUpdateAbilityCooldownsPacket implements IBrutalityPacket
         this.itemStack = buf.readItem();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeEnum(cooldownType);
         buf.writeInt(tickCount);
         buf.writeItem(itemStack);
     }
 
     @Override
-    public void handle(ClientboundUpdateAbilityCooldownsPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             switch (cooldownType) {
                 case ABILITY -> {
-                    CooldownMeter.AbilityCooldownMeter.maxTicks = packet.tickCount;
-                    CooldownMeter.AbilityCooldownMeter.itemStack = packet.itemStack;
+                    CooldownMeter.AbilityCooldownMeter.maxTicks = this.tickCount;
+                    CooldownMeter.AbilityCooldownMeter.itemStack = this.itemStack;
                 }
                 case ARMOR_SET -> {
-                    CooldownMeter.ArmorSetAbilityCooldownMeter.maxTicks = packet.tickCount;
-                    CooldownMeter.ArmorSetAbilityCooldownMeter.itemStack = packet.itemStack;
+                    CooldownMeter.ArmorSetAbilityCooldownMeter.maxTicks = this.tickCount;
+                    CooldownMeter.ArmorSetAbilityCooldownMeter.itemStack = this.itemStack;
                 }
             }
         });

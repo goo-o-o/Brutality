@@ -51,7 +51,7 @@ public class ExobladeSword extends BrutalitySwordItem {
         Item item = stack.getItem();
         if (!player.getCooldowns().isOnCooldown(item)) {
             player.getCooldowns().addCooldown(item, 5);
-//            if (level.isClientSide()) {
+//            if (levels.isClientSide()) {
 //                for (int i = 0; i < 4; i++)
 //                    PacketHandler.sendToServer(new ServerboundShootProjectilePacket(BrutalityModEntities.EXOBLADE_BEAM.getId(), 2F, true, 1.5F, 0));
 //            } else {

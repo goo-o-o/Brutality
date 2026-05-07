@@ -38,9 +38,7 @@ public class HeartOfTheHoarder extends BrutalityCurioItem {
 
             double healthBonus = CoinHelper.getNearbyCoinCount(player, 5, null);
 
-            if (healthBonus > 0) {
-                builder.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "MaxHealth", healthBonus, AttributeModifier.Operation.ADDITION));
-            }
+            builder.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "MaxHealth", healthBonus, AttributeModifier.Operation.ADDITION));
 
             return builder.build();
         }

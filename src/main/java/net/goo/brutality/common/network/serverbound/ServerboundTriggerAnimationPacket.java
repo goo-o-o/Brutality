@@ -11,7 +11,7 @@ import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 
 import java.util.function.Supplier;
 
-public class ServerboundTriggerAnimationPacket implements IBrutalityPacket<ServerboundTriggerAnimationPacket> {
+public class ServerboundTriggerAnimationPacket implements IBrutalityPacket {
     private final ItemStack stack;
     private final String controllerName, animationName;
     private final long id;
@@ -30,20 +30,22 @@ public class ServerboundTriggerAnimationPacket implements IBrutalityPacket<Serve
         this.animationName = buf.readUtf();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeItem(stack);
         buf.writeLong(id);
         buf.writeUtf(controllerName);
         buf.writeUtf(animationName);
     }
 
-    public void handle(ServerboundTriggerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             Player sender = ctx.get().getSender();
             assert sender != null;
             if (sender.level() instanceof ServerLevel) {
 
-                ((SingletonGeoAnimatable) sender.getMainHandItem().getItem()).triggerAnim(sender, GeoItem.getOrAssignId(sender.getMainHandItem(), ((ServerLevel) sender.level())), packet.controllerName, packet.animationName);
+                ((SingletonGeoAnimatable) sender.getMainHandItem().getItem()).triggerAnim(sender, GeoItem.getOrAssignId(sender.getMainHandItem(), ((ServerLevel) sender.level())), this.controllerName, this.animationName);
             }
         });
 

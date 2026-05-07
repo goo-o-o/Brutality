@@ -75,7 +75,7 @@ public class BrutalityMagicEventHandler {
         RandomSource random = player.getRandom();
         float roll = random.nextFloat();
 
-        // Define paragon configs: item, threshold base, luck bonus per level, max extra casts, mana multiplier
+        // Define paragon configs: item, threshold base, luck bonus per levels, max extra casts, mana multiplier
         record MulticastConfig(RegistryObject<Item> item, float baseThreshold, float luckBonus, int maxExtra,
                                float manaMult) {
         }

@@ -58,68 +58,61 @@ public class SynthesisView extends TableOfWizardryView {
     }
 
 
-    public static class SynthesisResult {
-        public final int levelGain;
-        public final double chance;
-
-        public SynthesisResult(int levelGain, double chance) {
-            this.levelGain = levelGain;
-            this.chance = chance;
-        }
+    public record SynthesisResult(int levelGain, double chance) {
 
         public static int getLevelBonus(double points, double threshold) {
-            // 1. Calculate the 'Stay' probability (P)
-            double p = points / (points + 100.0);
+                // 1. Calculate the 'Stay' probability (P)
+                double p = points / (points + 100.0);
 
-            if (p <= 0) return 0;
+                if (p <= 0) return 0;
 
-            // 2. Calculate the "Theoretical Max Level"
-            // We use (1-P) because that is the probability of stopping at Level 0.
-            double failChance = 1.0 - p;
-            int maxPossible = (int) (Math.log(threshold / failChance) / Math.log(p));
+                // 2. Calculate the "Theoretical Max Level"
+                // We use (1-P) because that is the probability of stopping at Level 0.
+                double failChance = 1.0 - p;
+                int maxPossible = (int) (Math.log(threshold / failChance) / Math.log(p));
 
-            double roll = Math.random();
+                double roll = Math.random();
 
-            // 4. Solve for n: P^n = roll -> n = ln(roll) / ln(P)
-            // We use Math.max(0, ...) to ensure we don't get negative levels.
-            int result = (int) Math.floor(Math.log(roll) / Math.log(p));
+                // 4. Solve for n: P^n = roll -> n = ln(roll) / ln(P)
+                // We use Math.max(0, ...) to ensure we don't get negative levels.
+                int result = (int) Math.floor(Math.log(roll) / Math.log(p));
 
-            // 5. Clamp to the threshold limit to match your UI's 100% normalization
-            return Math.min(result, maxPossible);
-        }
-
-        public static List<SynthesisResult> calculateProbabilities(double points, double threshold) {
-            List<SynthesisResult> rawOutcomes = new ArrayList<>();
-
-            // P is the chance to "ascend" to the next level.
-            double p = points / (points + 100.0);
-            double failChance = 1.0 - p;
-
-            double totalWeightSeen = 0;
-            int levelGain = 0;
-
-            // Step 1: Gather all outcomes above the threshold
-            while (true) {
-                double rawChance = Math.pow(p, levelGain) * failChance;
-
-                if (rawChance < threshold) break;
-
-                rawOutcomes.add(new SynthesisResult(levelGain, rawChance));
-                totalWeightSeen += rawChance;
-                levelGain++;
-
-                if (levelGain > 100) break;
+                // 5. Clamp to the threshold limit to match your UI's 100% normalization
+                return Math.min(result, maxPossible);
             }
 
-            // Step 2: Normalize so the list sums to 1.0 (100%)
-            List<SynthesisResult> normalizedOutcomes = new ArrayList<>();
-            for (SynthesisResult raw : rawOutcomes) {
-                // By dividing by totalWeightSeen, we redistribute the
-                // "missing" infinitesimal % back into the visible levels.
-                normalizedOutcomes.add(new SynthesisResult(raw.levelGain, raw.chance / totalWeightSeen));
-            }
+            public static List<SynthesisResult> calculateProbabilities(double points, double threshold) {
+                List<SynthesisResult> rawOutcomes = new ArrayList<>();
 
-            return normalizedOutcomes;
+                // P is the chance to "ascend" to the next levels.
+                double p = points / (points + 100.0);
+                double failChance = 1.0 - p;
+
+                double totalWeightSeen = 0;
+                int levelGain = 0;
+
+                // Step 1: Gather all outcomes above the threshold
+                while (true) {
+                    double rawChance = Math.pow(p, levelGain) * failChance;
+
+                    if (rawChance < threshold) break;
+
+                    rawOutcomes.add(new SynthesisResult(levelGain, rawChance));
+                    totalWeightSeen += rawChance;
+                    levelGain++;
+
+                    if (levelGain > 100) break;
+                }
+
+                // Step 2: Normalize so the list sums to 1.0 (100%)
+                List<SynthesisResult> normalizedOutcomes = new ArrayList<>();
+                for (SynthesisResult raw : rawOutcomes) {
+                    // By dividing by totalWeightSeen, we redistribute the
+                    // "missing" infinitesimal % back into the visible levels.
+                    normalizedOutcomes.add(new SynthesisResult(raw.levelGain, raw.chance / totalWeightSeen));
+                }
+
+                return normalizedOutcomes;
+            }
         }
-    }
 }

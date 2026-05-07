@@ -1,6 +1,7 @@
 package net.goo.brutality.common.registry;
 
 import net.goo.brutality.Brutality;
+import net.goo.brutality.common.registry.items.BrutalityGastronomyItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -59,6 +60,7 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.HONEY_COIN.get());
                         output.accept(BrutalityItems.SLIME_COIN.get());
                         output.accept(BrutalityItems.COIN_OF_DECEIT.get());
+                        output.accept(BrutalityItems.MIRROR_COIN.get());
                         output.accept(BrutalityItems.QUICK_SILVER.get());
                         output.accept(BrutalityItems.BIT_COIN.get());
                         output.accept(BrutalityItems.CLOVER_COIN.get());
@@ -155,7 +157,6 @@ public class BrutalityCreativeModeTabs {
                     }).build());
 
 
-
     public static final RegistryObject<CreativeModeTab> BRUTALITY_GASTRONOMY_TAB = CREATIVE_MODE_TABS.register("brutality_gastronomy_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(BrutalityItems.THE_GOLDEN_SPATULA_HAMMER.get()))
                     .title(Component.translatable("creativeTab.brutality_gastronomy_tab"))
@@ -172,41 +173,56 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.BAMBOO_STAFF.get().getDefaultInstance());
                         output.accept(BrutalityItems.FRYING_PAN.get().getDefaultInstance());
                         output.accept(BrutalityItems.POTATO_MASHER.get().getDefaultInstance());
-                        output.accept(BrutalityItems.WHISK_HAMMER.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.WHISK_HAMMER.get().getDefaultInstance());
 //                        output.accept(BrutalityModItems.PANDORAS_CAULDRON.get());
 
-                        output.accept(BrutalityItems.PEPPER_SHAKER.get().getDefaultInstance());
-                        output.accept(BrutalityItems.SALT_SHAKER.get().getDefaultInstance());
-                        output.accept(BrutalityItems.SALT_AND_PEPPER.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.PEPPER_SHAKER.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.SALT_SHAKER.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.SALT_AND_PEPPER.get().getDefaultInstance());
 
-                        output.accept(BrutalityItems.SMOKE_STONE.get().getDefaultInstance());
-                        output.accept(BrutalityItems.THE_SMOKEHOUSE.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.SMOKE_STONE.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.THE_SMOKEHOUSE.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.BAMBOO_STEAMER.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.CONVECTION_SMOKER.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.APPLE_CIDER_VINEGAR.get());
+                        output.accept(BrutalityGastronomyItems.SMOKED_PAPRIKA.get());
+                        output.accept(BrutalityGastronomyItems.BBQ_RUB.get());
+                        output.accept(BrutalityGastronomyItems.BBQ_SAUCE.get());
+                        output.accept(BrutalityGastronomyItems.COMMERCIALIZED_BBQ_SEASONING.get());
 
-                        output.accept(BrutalityItems.BAMBOO_STEAMER.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.SUGAR_GLAZE.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.RAINBOW_SPRINKLES.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.ROCK_CANDY_RING.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.SEARED_SUGAR_BROOCH.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.DUNKED_DONUT.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.CARAMEL_CRUNCH_MEDALLION.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.LOLLIPOP_OF_ETERNITY.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.ICE_CREAM_SANDWICH.get().getDefaultInstance());
 
-                        output.accept(BrutalityItems.SUGAR_GLAZE.get().getDefaultInstance());
-                        output.accept(BrutalityItems.RAINBOW_SPRINKLES.get().getDefaultInstance());
-                        output.accept(BrutalityItems.ROCK_CANDY_RING.get().getDefaultInstance());
-                        output.accept(BrutalityItems.SEARED_SUGAR_BROOCH.get().getDefaultInstance());
-                        output.accept(BrutalityItems.DUNKED_DONUT.get().getDefaultInstance());
-                        output.accept(BrutalityItems.CARAMEL_CRUNCH_MEDALLION.get().getDefaultInstance());
-                        output.accept(BrutalityItems.LOLLIPOP_OF_ETERNITY.get().getDefaultInstance());
-                        output.accept(BrutalityItems.ICE_CREAM_SANDWICH.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.MORTAR_AND_PESTLE.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.BUTTER_GAUNTLETS.get().getDefaultInstance());
 
-                        output.accept(BrutalityItems.MORTAR_AND_PESTLE.get().getDefaultInstance());
-                        output.accept(BrutalityItems.BUTTER_GAUNTLETS.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.TOMATO_SAUCE.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.CHEESE_SAUCE.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.PIZZA_SLOP.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.ITALIAN_CLASSIC.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.UVOGRE_STEAK.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.SHADOWFLAME_SEARED_STEAK.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.GOLDEN_DELIGHT.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.STRAWBERRY_SMOOTHIE.get());
+                        output.accept(BrutalityGastronomyItems.BLUEBERRY_SMOOTHIE.get());
+                        output.accept(BrutalityGastronomyItems.MANGO_SMOOTHIE.get());
+                        output.accept(BrutalityGastronomyItems.BANANA_SMOOTHIE.get());
+                        output.accept(BrutalityGastronomyItems.MIXED_BERRY_SMOOTHIE.get());
+                        output.accept(BrutalityGastronomyItems.HOT_SAUCE.get());
 
-                        output.accept(BrutalityItems.TOMATO_SAUCE.get().getDefaultInstance());
-                        output.accept(BrutalityItems.CHEESE_SAUCE.get().getDefaultInstance());
-                        output.accept(BrutalityItems.PIZZA_SLOP.get().getDefaultInstance());
+                        output.accept(BrutalityGastronomyItems.OLIVE_OIL.get());
+                        output.accept(BrutalityGastronomyItems.EXTRA_VIRGIN_OLIVE_OIL.get());
 
-                        output.accept(BrutalityItems.HOT_SAUCE.get());
-
-                        output.accept(BrutalityItems.OLIVE_OIL.get());
-                        output.accept(BrutalityItems.EXTRA_VIRGIN_OLIVE_OIL.get());
-
-                        output.accept(BrutalityItems.FRIDGE.get());
-                        output.accept(BrutalityItems.SMART_FRIDGE.get());
+                        output.accept(BrutalityGastronomyItems.FRIDGE.get());
+                        output.accept(BrutalityGastronomyItems.SMART_FRIDGE.get());
+                        output.accept(BrutalityGastronomyItems.INDUSTRIAL_FREEZER.get());
+                        output.accept(BrutalityGastronomyItems.PICKLE_JAR.get());
                     }).build());
 
 
@@ -245,23 +261,28 @@ public class BrutalityCreativeModeTabs {
 
                         output.accept(BrutalityItems.CARTON_OF_PRISM_SOLUTION_MILK.get());
                         output.accept(BrutalityItems.LIGHT_SWITCH.get());
+                        output.accept(BrutalityItems.MIRROR_OF_DIVERGENCE.get());
                         output.accept(BrutalityItems.FUZZY_DICE.get());
+                        output.accept(BrutalityItems.SUSPICIOUS_ROCK.get());
                         output.accept(BrutalityItems.DIVINE_IMMOLATION.get());
                         output.accept(BrutalityItems.CRYPTO_WALLET.get());
                         output.accept(BrutalityItems.PORTABLE_MINING_RIG.get());
                         output.accept(BrutalityItems.DUMBBELL.get());
-                        output.accept(BrutalityItems.BOX_OF_CHOCOLATES.get());
+                        output.accept(BrutalityGastronomyItems.BOX_OF_CHOCOLATES.get());
                         output.accept(BrutalityItems.BROKEN_HEART.get());
 //                        output.accept(BrutalityModItems.BIKERS_HELMET.get());
                         output.accept(BrutalityItems.ESCAPE_KEY.get());
                         output.accept(BrutalityItems.MIRACLE_CURE.get());
-                        output.accept(BrutalityItems.ESSENTIAL_OILS.get());
+                        output.accept(BrutalityGastronomyItems.ESSENTIAL_OILS.get());
                         output.accept(BrutalityItems.GLASS_HEART.get());
                         output.accept(BrutalityItems.GOOD_BOOK.get());
                         output.accept(BrutalityItems.CELESTIAL_STARBOARD.get());
                         output.accept(BrutalityItems.PLUNDER_CHEST.get());
                         output.accept(BrutalityItems.ROAD_RUNNERS_RING.get());
-                        output.accept(BrutalityItems.RAINBOW_RING.get());
+                        output.accept(BrutalityItems.OMNICHROME_RING.get());
+                        output.accept(BrutalityItems.RING_OF_DESPAIR.get());
+                        output.accept(BrutalityItems.RING_OF_RINGS.get());
+                        output.accept(BrutalityItems.FLIPPERS_OF_ICARUS.get());
                         output.accept(BrutalityItems.ABYSSAL_NECKLACE.get());
                         output.accept(BrutalityItems.BRAIN_ROT.get());
                         output.accept(BrutalityItems.RESPLENDENT_FEATHER.get());
@@ -372,7 +393,7 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.LUCKY_BOOKMARK.get());
                         output.accept(BrutalityItems.EMERGENCY_MEETING.get());
                         output.accept(BrutalityItems.PENCIL_SHARPENER.get());
-                        output.accept(BrutalityItems.CHOCOLATE_BAR.get());
+                        output.accept(BrutalityGastronomyItems.CHOCOLATE_BAR.get());
                         output.accept(BrutalityItems.VAMPIRIC_TALISMAN.get());
                         output.accept(BrutalityItems.FALLEN_ANGELS_HALO.get());
                         output.accept(BrutalityItems.HELLSPEC_TIE.get());
@@ -392,7 +413,6 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.LAVA_WALKERS.get());
                         output.accept(BrutalityItems.WATER_WALKERS.get());
                         output.accept(BrutalityItems.POOL_FLOAT.get());
-
 
 
                         output.accept(BrutalityItems.RAGE_STONE.get());
@@ -432,7 +452,9 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.CENSORSHIP.get());
                         output.accept(BrutalityItems.REDACTING_TAPE.get());
 
+                        output.accept(BrutalityItems.HYDROPHOBIC_NANOCOATING.get());
                         output.accept(BrutalityItems.POSEIDONS_BLESSING.get());
+                        output.accept(BrutalityItems.LAVA_LENSES.get());
                         output.accept(BrutalityItems.SURTRS_HORN.get());
                         output.accept(BrutalityItems.BROKEN_CLOCK.get());
                         output.accept(BrutalityItems.SHATTERED_CLOCK.get());
@@ -504,15 +526,15 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.DECK_OF_FATE.get());
                         output.accept(BrutalityItems.PERFUME_BOTTLE.get());
                         output.accept(BrutalityItems.ABSOLUTE_ZERO.get());
-                        output.accept(BrutalityItems.CRIMSON_DELIGHT.get());
-                        output.accept(BrutalityItems.CANNONBALL_CABBAGE.get());
-                        output.accept(BrutalityItems.CAVENDISH.get());
-                        output.accept(BrutalityItems.STICK_OF_BUTTER.get());
-                        output.accept(BrutalityItems.GOLDEN_PHOENIX.get());
-                        output.accept(BrutalityItems.WINTER_MELON.get());
+                        output.accept(BrutalityGastronomyItems.CRIMSON_DELIGHT.get());
+                        output.accept(BrutalityGastronomyItems.CANNONBALL_CABBAGE.get());
+                        output.accept(BrutalityGastronomyItems.CAVENDISH.get());
+                        output.accept(BrutalityGastronomyItems.STICK_OF_BUTTER.get());
+                        output.accept(BrutalityGastronomyItems.GOLDEN_PHOENIX.get());
+                        output.accept(BrutalityGastronomyItems.WINTER_MELON.get());
                         output.accept(BrutalityItems.ICE_CUBE.get());
                         output.accept(BrutalityItems.PERMAFROST_CUBE.get());
-                        output.accept(BrutalityItems.OVERCLOCKED_TOASTER.get());
+                        output.accept(BrutalityGastronomyItems.OVERCLOCKED_TOASTER.get());
                         output.accept(BrutalityItems.HOLY_HAND_GRENADE.get());
                         output.accept(BrutalityItems.GUNGNIR_TRIDENT.get().getDefaultInstance());
                         output.accept(BrutalityItems.VAMPIRE_KNIVES.get().getDefaultInstance());
@@ -531,7 +553,7 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.CREASE_OF_CREATION.get().getDefaultInstance());
                         output.accept(BrutalityItems.EVENT_HORIZON.get().getDefaultInstance());
                         output.accept(BrutalityItems.PUREBLOOD.get().getDefaultInstance());
-                        output.accept(BrutalityItems.JACKPOT_HAMMER.get().getDefaultInstance());
+                        output.accept(BrutalityItems.JACKPOT.get().getDefaultInstance());
                         output.accept(BrutalityItems.PROVIDENCE.get().getDefaultInstance());
                         output.accept(BrutalityItems.SEVENTH_STAR.get().getDefaultInstance());
                         output.accept(BrutalityItems.DOUBLE_DOWN.get().getDefaultInstance());
@@ -558,7 +580,7 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.CRIMSON_SCISSOR_BLADE.get());
                         output.accept(BrutalityItems.DARKIN_BLADE_SWORD.get().getDefaultInstance());
                         output.accept(BrutalityItems.DARKIN_SCYTHE.get().getDefaultInstance());
-                        output.accept(BrutalityItems.RHITTA_AXE.get().getDefaultInstance());
+                        output.accept(BrutalityItems.RHITTA.get().getDefaultInstance());
                         output.accept(BrutalityItems.FROSTMOURNE_SWORD.get().getDefaultInstance());
                         output.accept(BrutalityItems.AMATERASU.get());
                         output.accept(BrutalityItems.TSUKUYOMI.get());
@@ -573,7 +595,6 @@ public class BrutalityCreativeModeTabs {
                         output.accept(BrutalityItems.RUBY_PHASESABER.get().getDefaultInstance());
                         output.accept(BrutalityItems.SAPPHIRE_PHASESABER.get().getDefaultInstance());
                         output.accept(BrutalityItems.TOPAZ_PHASESABER.get().getDefaultInstance());
-
 
 
 //                        output.accept(BrutalityModItems.TERRA_BLADE_SWORD.get().getDefaultInstance());

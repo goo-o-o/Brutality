@@ -11,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraftforge.common.ForgeMod;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,10 +18,6 @@ import java.util.UUID;
 public class ChopstickStaff extends BrutalityStaffItem {
     public ChopstickStaff(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Rarity rarity, List<ItemDescriptionComponent> descriptionComponents) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, rarity, descriptionComponents);
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
     }
 
 

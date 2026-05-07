@@ -3,7 +3,6 @@ package net.goo.brutality.common.item.base;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
-import net.goo.brutality.common.item.BrutalityCategories;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.goo.brutality.util.tooltip.TooltipHelper;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -59,11 +58,6 @@ public class BrutalityScytheItem extends TieredItem implements BrutalityGeoItem 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents);
-    }
-
-    @Override
-    public BrutalityCategories.AttackType getAttackType() {
-        return BrutalityCategories.AttackType.SLASH;
     }
 
     @Override

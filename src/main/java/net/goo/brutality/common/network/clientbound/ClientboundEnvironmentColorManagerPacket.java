@@ -8,7 +8,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ClientboundEnvironmentColorManagerPacket implements IBrutalityPacket<ClientboundEnvironmentColorManagerPacket> {
+public class ClientboundEnvironmentColorManagerPacket implements IBrutalityPacket {
     private final EnvironmentColorManager.ColorType type;
     private final int r, g, b;
     private final boolean isReset;
@@ -29,7 +29,8 @@ public class ClientboundEnvironmentColorManagerPacket implements IBrutalityPacke
         this.isReset = buf.readBoolean();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeEnum(type);
         buf.writeInt(r);
         buf.writeInt(g);
@@ -38,12 +39,12 @@ public class ClientboundEnvironmentColorManagerPacket implements IBrutalityPacke
     }
 
     @Override
-    public void handle(ClientboundEnvironmentColorManagerPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            if (packet.isReset)
+            if (this.isReset)
                 EnvironmentColorManager.resetAllColors();
             else
-                EnvironmentColorManager.setColor(packet.type, FastColor.ARGB32.color(255, packet.r, packet.g, packet.b));
+                EnvironmentColorManager.setColor(this.type, FastColor.ARGB32.color(255, this.r, this.g, this.b));
         });
         ctx.get().setPacketHandled(true);
 

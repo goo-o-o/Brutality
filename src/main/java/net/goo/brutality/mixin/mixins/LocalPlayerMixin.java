@@ -1,11 +1,14 @@
 package net.goo.brutality.mixin.mixins;
 
 import net.goo.brutality.common.item.curios.charm.OmnidirectionalMovementGear;
+import net.goo.brutality.common.item.curios.charm.PoseidonsBlessing;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.AugmentHelper;
+import net.goo.brutality.util.ModUtils;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,6 +19,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import java.util.Optional;
+import java.util.function.BiPredicate;
 
 @Mixin(LocalPlayer.class)
 public class LocalPlayerMixin {
@@ -67,18 +71,57 @@ public class LocalPlayerMixin {
         return instance.isUsingItem();
     }
 
+    // we need !(this.isInWater() || this.isInFluidType((fluidType, height) -> this.canSwimInFluidType(fluidType))) to be false
+    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isInWater()Z", ordinal = 0))
+    private boolean redirectInWater(LocalPlayer instance) {
+        if (PoseidonsBlessing.shouldApply(instance))
+            return false;
+        return instance.isInWater();
+    }
+    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isInWater()Z"))
+    private boolean onTrySprintWhenPartiallySubmerged(LocalPlayer instance) {
+        if (PoseidonsBlessing.shouldApply(instance))
+            return false;
+
+        return instance.isInWater();
+    }
+
+
+    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUnderWater()Z"))
+    private boolean allowCrouchUnderwater(LocalPlayer instance) {
+        if (PoseidonsBlessing.shouldApply(instance))
+            return false;
+        return instance.isUnderWater();
+    }
+
+    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isSwimming()Z"))
+    private boolean redirectSwimmingWhenCrouch(LocalPlayer instance) {
+        if (PoseidonsBlessing.shouldApply(instance))
+            return false;
+        return instance.isSwimming();
+    }
+
+    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isAffectedByFluids()Z"))
+    private boolean redirectIsAffectedByFluidsSinkInFluid(LocalPlayer instance) {
+        if (PoseidonsBlessing.shouldApply(instance))
+            return false;
+        return instance.isAffectedByFluids();
+    }
+
+
+    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isInFluidType(Ljava/util/function/BiPredicate;)Z"))
+    private boolean redirectCanSwimInFluidType(LocalPlayer instance, BiPredicate<FluidType, Double> predicate) {
+        if (PoseidonsBlessing.shouldApply(instance))
+            return false;
+        return instance.isInFluidType(predicate);
+    }
+
     @Redirect(
             method = "aiStep",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUsingItem()Z", ordinal = 1)
     )
     private boolean bypassContinuousItemUseSprintCheck(LocalPlayer instance) {
-
-        Optional<ICuriosItemHandler> curiosOpt = CuriosApi.getCuriosInventory(instance).resolve();
-        if (curiosOpt.isPresent()) {
-            ICuriosItemHandler handler = curiosOpt.get();
-            if (handler.isEquipped(BrutalityItems.VECTOR_STABILIZER.get())) return false;
-        }
-
+        if (ModUtils.isWearingCurio(instance, BrutalityItems.VECTOR_STABILIZER.get())) return false;
         return instance.isUsingItem();
     }
 

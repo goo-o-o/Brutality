@@ -1,6 +1,5 @@
 package net.goo.brutality.common.item.weapon.generic;
 
-import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.common.config.BrutalityCommonConfig;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.item.ItemEquipUnequipTriggerable;
@@ -86,20 +85,6 @@ public class CreaseOfCreation extends BrutalityGenericItem implements ItemEquipU
     }
 
 
-    @Override
-    public void onEnterMainHand(LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity.level().isClientSide) {
-            EntityEffect effect = new EntityEffect(CREASE_OF_CREATION_FX.get(), livingEntity.level(), livingEntity, EntityEffect.AutoRotate.NONE);
-            effect.start();
-        }
-    }
-
-    @Override
-    public void onLeaveMainHand(LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity.level().isClientSide) {
-            ModUtils.removeFX(livingEntity, CREASE_OF_CREATION_FX.get());
-        }
-    }
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {

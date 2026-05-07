@@ -19,7 +19,7 @@ import net.minecraft.world.phys.Vec3;
 public class ParticleHelper {
 
     /**
-     * Adds particles to the provided client-level instance, either as a single particle or a group of particles,
+     * Adds particles to the provided client-levels instance, either as a single particle or a group of particles,
      * based on the specified parameters.
      *
      * @param level         The {@link ClientLevel} where the particles will be added.

@@ -33,9 +33,9 @@ public class BlockchainedEffect extends MobEffect {
         return pDuration % 10 == 0;
     }
 
-    public static float handleHurt(LivingEntity originHurt, float damage) {
+    public static void handleHurt(LivingEntity originHurt, float damage) {
         // 1. Remove the effect IMMEDIATELY to prevent recursion
-        if (!originHurt.hasEffect(BrutalityEffects.BLOCKCHAINED.get())) return damage;
+        if (!originHurt.hasEffect(BrutalityEffects.BLOCKCHAINED.get())) return;
         int amp = originHurt.getEffect(BrutalityEffects.BLOCKCHAINED.get()).getAmplifier();
         originHurt.removeEffect(BrutalityEffects.BLOCKCHAINED.get());
 
@@ -51,7 +51,7 @@ public class BlockchainedEffect extends MobEffect {
                 .filter(e -> e.hasEffect(BrutalityEffects.BLOCKCHAINED.get()))
                 .toList();
 
-        if (targets.isEmpty()) return damage;
+        if (targets.isEmpty()) return;
 
         // 2. Calculate damage per node (including origin if desired, or just spread)
         float dmgPer = damage * 0.05F * (amp + 1);
@@ -70,6 +70,5 @@ public class BlockchainedEffect extends MobEffect {
         }
 
         // 3. Return the reduced damage for the original victim
-        return damage;
     }
 }

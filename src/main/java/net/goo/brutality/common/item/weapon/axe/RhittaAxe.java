@@ -106,10 +106,10 @@ public class RhittaAxe extends BrutalityAxeItem implements ItemLeftInventoryTrig
 
     @Override
     public float hurtEnemyModifiable(Player attacker, LivingEntity victim, ItemStack weapon, float amount) {
-        return amount + computeAttackDamageBonus(attacker.level());
+        return amount + getDamageBonus(attacker.level());
     }
 
-    public static float computeAttackDamageBonus(Level world) {
+    public static float getDamageBonus(Level world) {
         float time = world.getDayTime() % 24000;
         float bonus = (float) Math.cos((Math.PI * (time - 6000)) / 12000);
         bonus = Math.max(0, bonus);

@@ -8,17 +8,19 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ServerboundActivateRagePacket implements IBrutalityPacket<ServerboundActivateRagePacket> {
+public class ServerboundActivateRagePacket implements IBrutalityPacket {
     public ServerboundActivateRagePacket() {
     }
 
     public ServerboundActivateRagePacket(FriendlyByteBuf buf) {
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
     }
 
-    public void handle(ServerboundActivateRagePacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
             ServerPlayer sender = context.getSender();

@@ -1,7 +1,8 @@
 package net.goo.brutality.common.entity.projectile.generic;
 
-import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
+import net.goo.brutality.client.particle.providers.EntityIdParticleData;
+import net.goo.brutality.common.registry.BrutalityParticles;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -18,7 +19,6 @@ import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import static net.goo.brutality.util.ModResources.ABYSS_TRAIL_FX;
 
 public class AbyssProjectile extends ThrowableProjectile implements BrutalityGeoEntity {
     private static final EntityDataAccessor<Integer> HOMING_TARGET_ID = SynchedEntityData.defineId(AbyssProjectile.class, EntityDataSerializers.INT);
@@ -43,10 +43,10 @@ public class AbyssProjectile extends ThrowableProjectile implements BrutalityGeo
     @Override
     public void tick() {
 
-        if (firstTick && !(level() instanceof ServerLevel)) {
-            EntityEffect abyssTrail = new EntityEffect(ABYSS_TRAIL_FX.get(), this.level(), this, EntityEffect.AutoRotate.NONE);
-            abyssTrail.start();
-        }
+        if (firstTick)
+            if (getOwner() != null && level() instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(new EntityIdParticleData<>(BrutalityParticles.ABYSS_TRAIL_PARTICLE.get(), getId()), getX(), getY(0.5), getZ(), 1, 0, 0, 0, 0);
+            }
 
 
         super.tick();

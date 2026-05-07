@@ -4,6 +4,7 @@ package net.goo.brutality.client.renderers.shaders;
 import com.mojang.blaze3d.pipeline.MainTarget;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.goo.brutality.Brutality;
 import net.goo.brutality.client.event.forge.ShaderRenderEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.PostChain;
@@ -71,7 +72,7 @@ public abstract class PostShaderInstance {
                 postChain.resize(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
                 passes = postChain.passes;
             } catch (IOException exception) {
-                exception.printStackTrace();
+                Brutality.LOGGER.error("Unable to create postChain: {}", postChain);
             }
         }
         if (postChain != null) {

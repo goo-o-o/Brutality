@@ -31,10 +31,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGuiEvent;
-import net.minecraftforge.client.event.RenderHandEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.RenderNameTagEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -71,6 +68,15 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
     }
 
     @SubscribeEvent
+    public static void onRenderBlockOverlay(RenderBlockScreenEffectEvent event) {
+        if (event.getOverlayType() == RenderBlockScreenEffectEvent.OverlayType.FIRE) {
+            if (ModUtils.isWearingCurio(event.getPlayer(), BrutalityItems.LAVA_LENSES.get(), BrutalityItems.SURTRS_HORN.get())) {
+                event.getPoseStack().translate(0, -0.25, 0);
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onRenderSpell(GeoRenderEvent.Entity.Pre event) {
         if (event.getEntity() instanceof IBrutalitySpellEntity entity) {
             int spellLevel = entity.getSpellLevel();
@@ -78,7 +84,7 @@ public class BrutalityForgeEntityRenderHandler extends RenderStateShard {
 
             float scaleIncrement = entity.getSizeScaling();
             if (scaleIncrement == 0) return;
-            float finalScale = 1.0F + (spellLevel - 1) * scaleIncrement; // Scale factor: 1.0 at level 1, 1.5 at level 2, 2.0 at level 3, etc.
+            float finalScale = 1.0F + (spellLevel - 1) * scaleIncrement; // Scale factor: 1.0 at levels 1, 1.5 at levels 2, 2.0 at levels 3, etc.
 
             BrutalitySpell spell = entity.getSpell();
             SpellTooltipRenderer.SpellStatComponent sizeStat = spell.getStat(SpellTooltipRenderer.SpellStatComponentType.SIZE);

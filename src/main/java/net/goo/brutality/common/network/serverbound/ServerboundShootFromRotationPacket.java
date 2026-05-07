@@ -17,7 +17,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
-public class ServerboundShootFromRotationPacket implements IBrutalityPacket<ServerboundShootFromRotationPacket> {
+public class ServerboundShootFromRotationPacket implements IBrutalityPacket {
     private final ResourceLocation entityTypeId;
     private final float x;
     float y;
@@ -50,7 +50,8 @@ public class ServerboundShootFromRotationPacket implements IBrutalityPacket<Serv
         this.inaccuracy = buf.readFloat();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeItem(this.stack);
         buf.writeResourceLocation(this.entityTypeId);
         buf.writeFloat(this.x);
@@ -62,22 +63,23 @@ public class ServerboundShootFromRotationPacket implements IBrutalityPacket<Serv
         buf.writeFloat(this.inaccuracy);
     }
 
-    public void handle(ServerboundShootFromRotationPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
             if (player == null) return;
             ServerLevel level = player.serverLevel();
             DelayedTaskScheduler.queueCommonWork(level, 6, () -> {
 
-            EntityType<?> entityType = ForgeRegistries.ENTITY_TYPES.getValue(packet.entityTypeId);
+                EntityType<?> entityType = ForgeRegistries.ENTITY_TYPES.getValue(this.entityTypeId);
                 if (entityType != null) {
                     Entity entity = entityType.create(level);
                     if (entity instanceof Projectile projectile) {
-                        projectile.setPos(packet.x, packet.y, packet.z);
-                        projectile.shootFromRotation(player, packet.xRot, packet.yRot, 0, packet.vel, packet.inaccuracy);
+                        projectile.setPos(this.x, this.y, this.z);
+                        projectile.shootFromRotation(player, this.xRot, this.yRot, 0, this.vel, this.inaccuracy);
                         projectile.setOwner(player);
 
-                        AugmentHelper.addAugmentsToProjectile(packet.stack, projectile);
+                        AugmentHelper.addAugmentsToProjectile(this.stack, projectile);
 
                         level.addFreshEntity(projectile);
                     }

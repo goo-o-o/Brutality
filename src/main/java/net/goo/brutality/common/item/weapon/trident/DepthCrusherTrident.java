@@ -12,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 
@@ -28,11 +27,6 @@ public class DepthCrusherTrident extends BrutalityTridentItem {
     @Override
     public boolean isDamageable(ItemStack stack) {
         return false;
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
     }
 
     @Override

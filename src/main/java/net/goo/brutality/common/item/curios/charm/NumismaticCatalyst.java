@@ -39,9 +39,7 @@ public class NumismaticCatalyst extends BrutalityCurioItem {
 
             double damageBonus = CoinHelper.getNearbyCoinCount(player, 5, coinRigidBody -> coinRigidBody.getOwner() == player);
 
-            if (damageBonus > 0) {
-                builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, "Greed Damage", damageBonus, AttributeModifier.Operation.ADDITION));
-            }
+            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, "Greed Damage", damageBonus, AttributeModifier.Operation.ADDITION));
 
             return builder.build();
         }

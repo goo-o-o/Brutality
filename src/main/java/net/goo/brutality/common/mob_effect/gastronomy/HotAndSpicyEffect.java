@@ -1,39 +1,12 @@
 package net.goo.brutality.common.mob_effect.gastronomy;
 
 import net.goo.brutality.common.registry.BrutalityEffects;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 
-public class HotAndSpicyEffect extends MobEffect implements IGastronomyEffect {
-
-    public HotAndSpicyEffect(MobEffectCategory pCategory, int pColor) {
-        super(pCategory, pColor);
-    }
-
-    @Override
-    public Type getType() {
-        return Type.WET;
-    }
-
-    @Override
-    public boolean scalesWithLevel() {
-        return false;
-    }
-
-    @Override
-    public boolean modifiesDamage() {
-        return false;
-    }
-
-    @Override
-    public float baseMultiplier() {
-        return 0.05F;
-    }
-
-    @Override
-    public float multiplierPerLevel() {
-        return 0;
+public class HotAndSpicyEffect extends GastronomyEffect {
+    public HotAndSpicyEffect(MobEffectCategory pCategory, Type type, float baseMult, float perLevelMult) {
+        super(pCategory, type, baseMult, perLevelMult);
     }
 
     @Override

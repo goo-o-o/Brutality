@@ -18,7 +18,6 @@ public class MouseHandlerMixin {
             boolean shouldCancel = player.hasEffect(BrutalityEffects.STUNNED.get());
 //            shouldCancel |= player.getUseItem().is(BrutalityItems.ROYAL_GUARDIAN_SWORD.get());
 
-
             if (shouldCancel) {
                 ci.cancel();
             }

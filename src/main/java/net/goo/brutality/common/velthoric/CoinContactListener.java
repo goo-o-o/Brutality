@@ -11,7 +11,6 @@ import net.goo.brutality.common.velthoric.bodies.CoinRigidBody;
 import net.goo.brutality.util.ModUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.xmx.velthoric.physics.body.type.VxBody;

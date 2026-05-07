@@ -5,8 +5,9 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public interface IBrutalityPacket<T extends IBrutalityPacket<T>> {
-    void write(FriendlyByteBuf buf);
+public interface IBrutalityPacket {
+    // cannot be named write() as it inteferes with minecrafts packet definition
+    void encode(FriendlyByteBuf buf); // make sure to do @Override for non-dev env
 
-    void handle(T packet, Supplier<NetworkEvent.Context> ctx);
+    void handle(Supplier<NetworkEvent.Context> ctx);
 }

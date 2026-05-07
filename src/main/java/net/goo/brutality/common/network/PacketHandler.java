@@ -56,16 +56,19 @@ public class PacketHandler {
         registerPacket(ClientboundBrutalityExplodePacket.class, ClientboundBrutalityExplodePacket::new);
     }
 
-    private static <T extends IBrutalityPacket<T>> void registerPacket(
+    private static <T extends IBrutalityPacket> void registerPacket(
             Class<T> packetClass,
             Function<FriendlyByteBuf, T> decoder
     ) {
         NETWORK_CHANNEL.registerMessage(
                 id++,
                 packetClass,
-                IBrutalityPacket::write,
+                (msg, buf) -> msg.encode(buf), // Changed from IBrutalityPacket::write for explicit type clarification
                 decoder,
-                (msg, ctx) -> msg.handle(msg, ctx) // Use a lambda for handle
+                (msg, ctxSupplier) -> {
+                    ctxSupplier.get().enqueueWork(() -> msg.handle(ctxSupplier));
+                    ctxSupplier.get().setPacketHandled(true);
+                }
         );
     }
 

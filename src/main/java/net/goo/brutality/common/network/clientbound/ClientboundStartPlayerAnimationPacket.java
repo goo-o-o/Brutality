@@ -9,7 +9,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public class ClientboundStartPlayerAnimationPacket implements IBrutalityPacket<ClientboundStartPlayerAnimationPacket> {
+public class ClientboundStartPlayerAnimationPacket implements IBrutalityPacket {
     UUID playerId;
     ResourceLocation animation;
     boolean mirrored;
@@ -36,8 +36,8 @@ public class ClientboundStartPlayerAnimationPacket implements IBrutalityPacket<C
         this.speed = buf.readFloat();
         this.fadeTicks = buf.readInt();
     }
-
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeUUID(this.playerId);
         buf.writeResourceLocation(this.animation);
         buf.writeBoolean(this.mirrored);
@@ -45,9 +45,9 @@ public class ClientboundStartPlayerAnimationPacket implements IBrutalityPacket<C
         buf.writeInt(this.fadeTicks);
     }
 
-
-    public void handle(ClientboundStartPlayerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> AnimationHelper.playAnimation(packet.playerId, packet.animation, packet.mirrored, packet.speed, packet.fadeTicks));
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> AnimationHelper.playAnimation(this.playerId, this.animation, this.mirrored, this.speed, this.fadeTicks));
         ctx.get().setPacketHandled(true);
     }
 }

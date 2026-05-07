@@ -1,15 +1,19 @@
 package net.goo.brutality.common.event.forge;
 
+import be.florens.expandability.api.forge.LivingFluidCollisionEvent;
+import be.florens.expandability.api.forge.PlayerSwimEvent;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.entity.capabilities.BrutalityCapabilities;
 import net.goo.brutality.common.entity.capabilities.PlayerLoadoutsCap;
 import net.goo.brutality.common.item.armor.VampireLordArmorItem;
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.common.item.curios.charm.BoosterPack;
+import net.goo.brutality.common.item.curios.charm.PoseidonsBlessing;
 import net.goo.brutality.common.item.curios.charm.RespawnCard;
 import net.goo.brutality.common.item.curios.charm.SelfRepairNexus;
 import net.goo.brutality.common.item.generic.StatTrakkerItem;
 import net.goo.brutality.common.item.generic.augments.BrutalitySealAugmentItem;
+import net.goo.brutality.common.item.generic.coins.MirrorCoin;
 import net.goo.brutality.common.item.weapon.generic.CreaseOfCreation;
 import net.goo.brutality.common.item.weapon.hammer.AtomicJudgementHammer;
 import net.goo.brutality.common.item.weapon.spear.EventHorizon;
@@ -17,25 +21,36 @@ import net.goo.brutality.common.item.weapon.sword.SupernovaSword;
 import net.goo.brutality.common.registry.BrutalityDamageTypes;
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.event.CoinTossEvent;
 import net.goo.brutality.util.EffectUtils;
+import net.goo.brutality.util.ModUtils;
+import net.goo.brutality.util.ProjectileHelper;
 import net.goo.brutality.util.attribute.AttributeCalculationHelper;
+import net.goo.brutality.util.build_archetypes.CoinHelper;
 import net.goo.brutality.util.item.ItemCategoryUtils;
 import net.goo.brutality.util.item.StatTrakUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -45,6 +60,45 @@ import static net.goo.brutality.util.EnvironmentColorManager.resetAllColors;
 
 @Mod.EventBusSubscriber(modid = Brutality.MOD_ID)
 public class LivingEntityEventHandler {
+
+    @SubscribeEvent
+    public static void onCoinToss(CoinTossEvent event) {
+        if (!event.getCoinStack().is(BrutalityItems.MIRROR_COIN.get()))
+            CoinHelper.getCoinsInInventory(event.getPlayer()).forEach(coin -> {
+                if (coin.is(BrutalityItems.MIRROR_COIN.get())) {
+                    MirrorCoin.setPreviousCoin(coin, event.getCoinItem());
+                }
+            });
+    }
+
+    @SubscribeEvent
+    public static void onPlayerSwim(PlayerSwimEvent event) {
+        if (ModUtils.isWearingCurio(event.getEntity(), BrutalityItems.FLIPPERS_OF_ICARUS.get())) {
+            event.setResult(Event.Result.ALLOW);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingFluidCollision(LivingFluidCollisionEvent event) {
+        if (ModUtils.isWearingCurio(event.getEntity(), BrutalityItems.WATER_WALKERS.get()) && event.getFluidState().is(FluidTags.WATER)) {
+            event.setResult(Event.Result.ALLOW);
+        } else if (ModUtils.isWearingCurio(event.getEntity(), BrutalityItems.LAVA_WALKERS.get()) && event.getFluidState().is(FluidTags.LAVA)) {
+            event.setResult(Event.Result.ALLOW);
+        }
+    }
+
+
+    @SubscribeEvent
+    public static void onEntitySize(EntityEvent.Size event) {
+        if (event.getEntity() instanceof Player player && player.isAddedToWorld()) {
+            if (event.getPose() == Pose.SWIMMING) {
+                if (PoseidonsBlessing.shouldApply(player)) {
+                    event.setNewSize(event.getEntity().getDimensions(Pose.STANDING));
+                    event.setNewEyeHeight(event.getEntity().getEyeHeight());
+                }
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void onEquipmentChange(LivingEquipmentChangeEvent event) {
@@ -85,8 +139,12 @@ public class LivingEntityEventHandler {
 
     @SubscribeEvent
     public static void onProjectileImpact(ProjectileImpactEvent event) {
-        if (event.getProjectile().getOwner() instanceof LivingEntity owner) {
-            event.getProjectile().getCapability(BrutalityCapabilities.AUGMENT).ifPresent(cap -> {
+        Projectile projectile = event.getProjectile();
+        HitResult hitResult = event.getRayTraceResult();
+
+
+        if (projectile.getOwner() instanceof LivingEntity owner) {
+            projectile.getCapability(BrutalityCapabilities.AUGMENT).ifPresent(cap -> {
                 Vec3 location;
                 if (event.getRayTraceResult() instanceof EntityHitResult entityHitResult) {
                     location = entityHitResult.getEntity().getPosition(1).add(0, entityHitResult.getEntity().getY(0.5F), 0);
@@ -106,6 +164,29 @@ public class LivingEntityEventHandler {
                     StatTrakUtils.incrementStatTrakIfPossible(owner.getMainHandItem());
                 } else if (ItemCategoryUtils.isRangedWeapon(owner.getOffhandItem())) {
                     StatTrakUtils.incrementStatTrakIfPossible(owner.getOffhandItem());
+                }
+            }
+        }
+
+        if (hitResult instanceof EntityHitResult entityHitResult) {
+            if (entityHitResult.getEntity() instanceof LivingEntity livingVictim) {
+                if (ModUtils.isWearingCurio(livingVictim, BrutalityItems.NANOMACHINES.get())) {
+                    if (projectile instanceof AbstractArrow abstractArrow) {
+                        if (abstractArrow.getOwner() instanceof LivingEntity attacker) {
+                            // double the velocity and shoot it back at the owner
+                            abstractArrow.setOwner(livingVictim);
+                            // This prevents the arrow from re-colliding with the victim
+                            // the moment it starts moving again.
+                            abstractArrow.piercedAndKilledEntities = null;
+                            if (abstractArrow.piercingIgnoreEntityIds != null) {
+                                abstractArrow.piercingIgnoreEntityIds.clear();
+                            }
+                            ProjectileHelper.shootAtEntity(abstractArrow, attacker, 3F, 0F);
+                            abstractArrow.inGround = false;
+                            abstractArrow.hasImpulse = true;
+                            event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
+                        }
+                    }
                 }
             }
         }

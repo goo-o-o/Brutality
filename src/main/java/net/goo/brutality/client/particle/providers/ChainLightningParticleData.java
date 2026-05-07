@@ -311,7 +311,7 @@ public class ChainLightningParticleData {
         public static final BoltRenderInfo DEFAULT = defaultConfig();
 
         /**
-         * Represents the noise level of the bolt's parallel segments or strands,
+         * Represents the noise levels of the bolt's parallel segments or strands,
          * influencing how much random deviation is applied along the bolt's direction.
          *
          * This parameter is used to adjust the randomness in the parallel offset of

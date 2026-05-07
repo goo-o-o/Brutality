@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 /**
  * Triggers an animation from client-side to be synchronized across other clients.
  */
-public class ServerboundStartPlayerAnimationPacket implements IBrutalityPacket<ServerboundStartPlayerAnimationPacket> {
+public class ServerboundStartPlayerAnimationPacket implements IBrutalityPacket {
     UUID playerId;
     ResourceLocation animation;
     boolean mirrored;
@@ -44,7 +44,8 @@ public class ServerboundStartPlayerAnimationPacket implements IBrutalityPacket<S
         this.fadeTicks = buf.readInt();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeUUID(this.playerId);
         buf.writeResourceLocation(this.animation);
         buf.writeBoolean(this.mirrored);
@@ -52,14 +53,15 @@ public class ServerboundStartPlayerAnimationPacket implements IBrutalityPacket<S
         buf.writeInt(this.fadeTicks);
     }
 
-    public void handle(ServerboundStartPlayerAnimationPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer sender = ctx.get().getSender();
             if (sender == null) return;
             ServerLevel level = sender.serverLevel();
             for (ServerPlayer player : level.players()) {
                 if (player != ctx.get().getSender()) {
-                    PacketHandler.sendToPlayerClient(new ClientboundStartPlayerAnimationPacket(packet.playerId, packet.animation, packet.mirrored, packet.speed, packet.fadeTicks), player);
+                    PacketHandler.sendToPlayerClient(new ClientboundStartPlayerAnimationPacket(this.playerId, this.animation, this.mirrored, this.speed, this.fadeTicks), player);
                 }
             }
         });

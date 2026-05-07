@@ -1,7 +1,6 @@
 package net.goo.brutality.common.item.base;
 
 import net.goo.brutality.event.mod.client.BrutalityModItemRenderManager;
-import net.goo.brutality.common.item.BrutalityCategories;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
@@ -18,11 +17,6 @@ public class BrutalityBlockItem extends BlockItem implements BrutalityGeoItem {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     public BrutalityBlockItem(Block pBlock, Properties pProperties) {
         super(pBlock, pProperties);
-    }
-
-    @Override
-    public BrutalityCategories.AttackType getAttackType() {
-        return BrutalityCategories.AttackType.NONE;
     }
 
     @Override

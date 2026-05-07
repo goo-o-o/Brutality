@@ -55,7 +55,7 @@ public class BloodExplosion extends BrutalityExplosion {
     @Override
     public void onHit(Entity entity, double impactFactor) {
 //        if (entity instanceof LivingEntity livingEntity && livingEntity != getIndirectSourceEntity()) {
-//            if (!livingEntity.level().isClientSide()) {
+//            if (!livingEntity.levels().isClientSide()) {
 //                livingEntity.addEffect(new MobEffectInstance(TerramityModMobEffects.HEXED.get(), 60, 0));
 //            }
 //        }

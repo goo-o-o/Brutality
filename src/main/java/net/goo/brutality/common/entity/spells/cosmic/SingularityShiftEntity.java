@@ -1,6 +1,5 @@
 package net.goo.brutality.common.entity.spells.cosmic;
 
-import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.common.entity.base.BrutalityAbstractPhysicsProjectile;
 import net.goo.brutality.common.entity.spells.IBrutalitySpellEntity;
@@ -30,8 +29,6 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 
-import static net.goo.brutality.util.ModResources.GRAVITY_FIELD_DOWN_FX;
-import static net.goo.brutality.util.ModResources.GRAVITY_FIELD_UP_FX;
 import static net.goo.brutality.util.tooltip.SpellTooltipRenderer.SpellStatComponentType.SIZE;
 
 public class SingularityShiftEntity extends BrutalityAbstractPhysicsProjectile implements BrutalityGeoEntity, IBrutalitySpellEntity {
@@ -132,13 +129,6 @@ public class SingularityShiftEntity extends BrutalityAbstractPhysicsProjectile i
                     2, 0.25, 0.25, 0.25, 0);
 
             stopTriggeredAnimation(null, "show");
-        } else {
-                EntityEffect gravityField = new EntityEffect(isWeightless() ? GRAVITY_FIELD_UP_FX.get() : GRAVITY_FIELD_DOWN_FX.get(), this.level(), this, EntityEffect.AutoRotate.NONE);
-                float scale = getSpell().getFinalStat(getSpellLevel(), getSpell().getStat(SIZE));
-                scale *= 0.4F;
-                scale -= 0.8F;
-                gravityField.setScale(1 + scale, 1 + scale, 1 + scale);
-                gravityField.start();
         }
     }
 

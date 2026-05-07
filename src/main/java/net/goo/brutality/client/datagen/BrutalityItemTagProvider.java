@@ -3,6 +3,7 @@ package net.goo.brutality.client.datagen;
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.registry.BrutalityBlocks;
 import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.common.registry.items.BrutalityGastronomyItems;
 import net.goo.brutality.util.BrutalityTags;
 import net.goo.brutality.util.item.ItemCategoryUtils;
 import net.mcreator.terramity.init.TerramityModItems;
@@ -135,6 +136,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
         this.tag(BrutalityTags.Items.CHARM).add(
                 // Original Items
                 BrutalityItems.PLUNDER_CHEST.get(),
+                BrutalityItems.SUSPICIOUS_ROCK.get(),
                 BrutalityItems.CENSORSHIP.get(),
                 BrutalityItems.REDACTING_TAPE.get(),
                 BrutalityItems.RESPLENDENT_FEATHER.get(),
@@ -151,12 +153,12 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.EARTHEN_BLESSING.get(),
 
                 // Utility & General Charms
-                BrutalityItems.ESSENTIAL_OILS.get(),
+                BrutalityGastronomyItems.ESSENTIAL_OILS.get(),
                 BrutalityItems.OLD_GUILLOTINE.get(),
                 BrutalityItems.PINCUSHION.get(),
                 BrutalityItems.DEADSHOT_BROOCH.get(),
                 BrutalityItems.ENERGY_FOCUSER.get(),
-                BrutalityItems.CHOCOLATE_BAR.get(),
+                BrutalityGastronomyItems.CHOCOLATE_BAR.get(),
                 BrutalityItems.DAEMONIUM_SEWING_KIT.get(),
                 BrutalityItems.KNUCKLE_WRAPS.get(),
                 BrutalityItems.PENCIL_SHARPENER.get(),
@@ -244,26 +246,42 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.DECK_OF_CARDS.get(),
 
                 // Culinary Set
-                BrutalityItems.PEPPER_SHAKER.get(),
-                BrutalityItems.SALT_SHAKER.get(),
-                BrutalityItems.HOT_SAUCE.get(),
-                BrutalityItems.TOMATO_SAUCE.get(),
-                BrutalityItems.CHEESE_SAUCE.get(),
-                BrutalityItems.PIZZA_SLOP.get(),
-                BrutalityItems.OLIVE_OIL.get(),
-                BrutalityItems.EXTRA_VIRGIN_OLIVE_OIL.get(),
-                BrutalityItems.SALT_AND_PEPPER.get(),
-                BrutalityItems.FRIDGE.get(),
-                BrutalityItems.SMART_FRIDGE.get(),
-                BrutalityItems.MORTAR_AND_PESTLE.get(),
-                BrutalityItems.THE_SMOKEHOUSE.get(),
-                BrutalityItems.RAINBOW_SPRINKLES.get(),
-                BrutalityItems.SMOKE_STONE.get(),
-                BrutalityItems.SUGAR_GLAZE.get(),
-                BrutalityItems.BAMBOO_STEAMER.get(),
-                BrutalityItems.SEARED_SUGAR_BROOCH.get(),
-                BrutalityItems.DUNKED_DONUT.get(),
-                BrutalityItems.LOLLIPOP_OF_ETERNITY.get(),
+                BrutalityGastronomyItems.PEPPER_SHAKER.get(),
+                BrutalityGastronomyItems.SALT_SHAKER.get(),
+                BrutalityGastronomyItems.HOT_SAUCE.get(),
+                BrutalityGastronomyItems.STRAWBERRY_SMOOTHIE.get(),
+                BrutalityGastronomyItems.BLUEBERRY_SMOOTHIE.get(),
+                BrutalityGastronomyItems.MANGO_SMOOTHIE.get(),
+                BrutalityGastronomyItems.BANANA_SMOOTHIE.get(),
+                BrutalityGastronomyItems.MIXED_BERRY_SMOOTHIE.get(),
+                BrutalityGastronomyItems.TOMATO_SAUCE.get(),
+                BrutalityGastronomyItems.CHEESE_SAUCE.get(),
+                BrutalityGastronomyItems.PIZZA_SLOP.get(),
+                BrutalityGastronomyItems.ITALIAN_CLASSIC.get(),
+                BrutalityGastronomyItems.UVOGRE_STEAK.get(),
+                BrutalityGastronomyItems.SHADOWFLAME_SEARED_STEAK.get(),
+                BrutalityGastronomyItems.OLIVE_OIL.get(),
+                BrutalityGastronomyItems.EXTRA_VIRGIN_OLIVE_OIL.get(),
+                BrutalityGastronomyItems.SALT_AND_PEPPER.get(),
+                BrutalityGastronomyItems.FRIDGE.get(),
+                BrutalityGastronomyItems.SMART_FRIDGE.get(),
+                BrutalityGastronomyItems.INDUSTRIAL_FREEZER.get(),
+                BrutalityGastronomyItems.PICKLE_JAR.get(),
+                BrutalityGastronomyItems.MORTAR_AND_PESTLE.get(),
+                BrutalityGastronomyItems.THE_SMOKEHOUSE.get(),
+                BrutalityGastronomyItems.CONVECTION_SMOKER.get(),
+                BrutalityGastronomyItems.APPLE_CIDER_VINEGAR.get(),
+                BrutalityGastronomyItems.SMOKED_PAPRIKA.get(),
+                BrutalityGastronomyItems.BBQ_RUB.get(),
+                BrutalityGastronomyItems.BBQ_SAUCE.get(),
+                BrutalityGastronomyItems.COMMERCIALIZED_BBQ_SEASONING.get(),
+                BrutalityGastronomyItems.RAINBOW_SPRINKLES.get(),
+                BrutalityGastronomyItems.SMOKE_STONE.get(),
+                BrutalityGastronomyItems.SUGAR_GLAZE.get(),
+                BrutalityGastronomyItems.BAMBOO_STEAMER.get(),
+                BrutalityGastronomyItems.SEARED_SUGAR_BROOCH.get(),
+                BrutalityGastronomyItems.DUNKED_DONUT.get(),
+                BrutalityGastronomyItems.LOLLIPOP_OF_ETERNITY.get(),
 
                 // Vampiric Set
                 BrutalityItems.SELF_REPAIR_NEXUS.get(),
@@ -287,7 +305,9 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.SUM.get(),
                 BrutalityItems.HYPERBOLIC_FEATHER.get(),
 
+                BrutalityItems.MIRROR_OF_DIVERGENCE.get(),
                 BrutalityItems.POSEIDONS_BLESSING.get(),
+                BrutalityItems.HYDROPHOBIC_NANOCOATING.get(),
                 // Crypto & Tech
                 BrutalityItems.NUMISMATIC_CATALYST.get(),
                 BrutalityItems.CRYPTO_WALLET.get(),
@@ -312,12 +332,13 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
 
     private void addHandTags() {
         this.tag(BrutalityTags.Items.HANDS).add(
+                BrutalityGastronomyItems.GOLDEN_DELIGHT.get(),
                 BrutalityItems.HAND_OF_MIDAS.get(),
                 BrutalityItems.GLOVE_OF_GREED.get(),
                 BrutalityItems.NANOMACHINES.get(),
                 BrutalityItems.AQUEOUS_TUNER.get(),
                 BrutalityItems.DUELING_GLOVE.get(),
-                BrutalityItems.BUTTER_GAUNTLETS.get(),
+                BrutalityGastronomyItems.BUTTER_GAUNTLETS.get(),
                 BrutalityItems.GOOD_BOOK.get(),
                 BrutalityItems.THE_OATH.get(),
                 BrutalityItems.EYE_OF_THE_DRAGON.get(),
@@ -334,7 +355,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.OMEGA_GAUNTLET.get(),
                 BrutalityItems.PERFECT_CELL.get(),
                 BrutalityItems.SUSPICIOUSLY_LARGE_HANDLE.get(),
-                BrutalityItems.ICE_CREAM_SANDWICH.get(),
+                BrutalityGastronomyItems.ICE_CREAM_SANDWICH.get(),
                 BrutalityItems.DELICATE_JEWEL.get(),
                 BrutalityItems.GLOBETROTTERS_BADGE.get(),
                 BrutalityItems.SCOUTS_BADGE.get(),
@@ -350,6 +371,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.MAGICIANS_TOP_HAT.get(),
                 BrutalityItems.HEAD_CUSHION.get(),
                 BrutalityItems.SURTRS_HORN.get(),
+                BrutalityItems.LAVA_LENSES.get(),
                 BrutalityItems.SERAPHIM_HALO.get(),
                 BrutalityItems.GOLDEN_HEADBAND.get(),
                 BrutalityItems.WOOLY_BLINDFOLD.get(),
@@ -392,7 +414,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.GLASS_HEART.get(),
                 BrutalityItems.HEART_OF_GOLD.get(),
                 BrutalityItems.NINJA_HEART.get(),
-                BrutalityItems.BOX_OF_CHOCOLATES.get(),
+                BrutalityGastronomyItems.BOX_OF_CHOCOLATES.get(),
                 BrutalityItems.BRUTAL_HEART.get(),
                 TerramityModItems.CRYSTAL_HEART.get()
         );
@@ -408,7 +430,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.HEMOMATIC_LOCKET.get(),
                 BrutalityItems.BLACK_MATTER_NECKLACE.get(),
                 BrutalityItems.FUZZY_DICE.get(),
-                BrutalityItems.CARAMEL_CRUNCH_MEDALLION.get()
+                BrutalityGastronomyItems.CARAMEL_CRUNCH_MEDALLION.get()
         );
     }
 
@@ -421,8 +443,10 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.MINT_MASTERS_SIGNET.get(),
                 BrutalityItems.SANGUINE_SIGNET.get(),
                 BrutalityItems.AQUA_RULER.get(),
-                BrutalityItems.RAINBOW_RING.get(),
-                BrutalityItems.ROCK_CANDY_RING.get(),
+                BrutalityItems.RING_OF_RINGS.get(),
+                BrutalityItems.RING_OF_DESPAIR.get(),
+                BrutalityItems.OMNICHROME_RING.get(),
+                BrutalityGastronomyItems.ROCK_CANDY_RING.get(),
                 BrutalityItems.ROAD_RUNNERS_RING.get()
         );
     }
@@ -441,6 +465,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.UMBRAL_TIPTOES.get(),
                 BrutalityItems.PLATED_STEELCAPS.get(),
                 BrutalityItems.SLIPSTREAM_TRACERS.get(),
+                BrutalityItems.FLIPPERS_OF_ICARUS.get(),
                 BrutalityItems.CONSTRUCTION_BOOTS.get(),
                 BrutalityItems.VECTOR_STABILIZER.get(),
                 BrutalityItems.ICE_SKATES.get()
@@ -480,6 +505,7 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
 
     private void addGastronomistTags() {
         this.tag(BrutalityTags.Items.GASTRONOMIST_ITEMS).add(
+                BrutalityGastronomyItems.GOLDEN_DELIGHT.get(),
                 BrutalityItems.SPATULA_HAMMER.get(),
                 BrutalityItems.THE_GOLDEN_SPATULA_HAMMER.get(),
                 BrutalityItems.IRON_KNIFE.get(),
@@ -492,31 +518,47 @@ public class BrutalityItemTagProvider extends ItemTagsProvider {
                 BrutalityItems.BAMBOO_STAFF.get(),
                 BrutalityItems.FRYING_PAN.get(),
                 BrutalityItems.POTATO_MASHER.get(),
-                BrutalityItems.WHISK_HAMMER.get(),
-                BrutalityItems.PEPPER_SHAKER.get(),
-                BrutalityItems.SALT_SHAKER.get(),
-                BrutalityItems.SALT_AND_PEPPER.get(),
-                BrutalityItems.SMOKE_STONE.get(),
-                BrutalityItems.THE_SMOKEHOUSE.get(),
-                BrutalityItems.BAMBOO_STEAMER.get(),
-                BrutalityItems.SUGAR_GLAZE.get(),
-                BrutalityItems.RAINBOW_SPRINKLES.get(),
-                BrutalityItems.ROCK_CANDY_RING.get(),
-                BrutalityItems.SEARED_SUGAR_BROOCH.get(),
-                BrutalityItems.DUNKED_DONUT.get(),
-                BrutalityItems.CARAMEL_CRUNCH_MEDALLION.get(),
-                BrutalityItems.LOLLIPOP_OF_ETERNITY.get(),
-                BrutalityItems.ICE_CREAM_SANDWICH.get(),
-                BrutalityItems.MORTAR_AND_PESTLE.get(),
-                BrutalityItems.BUTTER_GAUNTLETS.get(),
-                BrutalityItems.TOMATO_SAUCE.get(),
-                BrutalityItems.CHEESE_SAUCE.get(),
-                BrutalityItems.PIZZA_SLOP.get(),
-                BrutalityItems.HOT_SAUCE.get(),
-                BrutalityItems.OLIVE_OIL.get(),
-                BrutalityItems.EXTRA_VIRGIN_OLIVE_OIL.get(),
-                BrutalityItems.FRIDGE.get(),
-                BrutalityItems.SMART_FRIDGE.get()
+                BrutalityGastronomyItems.WHISK_HAMMER.get(),
+                BrutalityGastronomyItems.STRAWBERRY_SMOOTHIE.get(),
+                BrutalityGastronomyItems.BLUEBERRY_SMOOTHIE.get(),
+                BrutalityGastronomyItems.MANGO_SMOOTHIE.get(),
+                BrutalityGastronomyItems.BANANA_SMOOTHIE.get(),
+                BrutalityGastronomyItems.MIXED_BERRY_SMOOTHIE.get(),
+                BrutalityGastronomyItems.APPLE_CIDER_VINEGAR.get(),
+                BrutalityGastronomyItems.SMOKED_PAPRIKA.get(),
+                BrutalityGastronomyItems.BBQ_RUB.get(),
+                BrutalityGastronomyItems.BBQ_SAUCE.get(),
+                BrutalityGastronomyItems.COMMERCIALIZED_BBQ_SEASONING.get(),
+                BrutalityGastronomyItems.PEPPER_SHAKER.get(),
+                BrutalityGastronomyItems.SALT_SHAKER.get(),
+                BrutalityGastronomyItems.SALT_AND_PEPPER.get(),
+                BrutalityGastronomyItems.SMOKE_STONE.get(),
+                BrutalityGastronomyItems.THE_SMOKEHOUSE.get(),
+                BrutalityGastronomyItems.BAMBOO_STEAMER.get(),
+                BrutalityGastronomyItems.CONVECTION_SMOKER.get(),
+                BrutalityGastronomyItems.SUGAR_GLAZE.get(),
+                BrutalityGastronomyItems.RAINBOW_SPRINKLES.get(),
+                BrutalityGastronomyItems.ROCK_CANDY_RING.get(),
+                BrutalityGastronomyItems.SEARED_SUGAR_BROOCH.get(),
+                BrutalityGastronomyItems.DUNKED_DONUT.get(),
+                BrutalityGastronomyItems.CARAMEL_CRUNCH_MEDALLION.get(),
+                BrutalityGastronomyItems.LOLLIPOP_OF_ETERNITY.get(),
+                BrutalityGastronomyItems.ICE_CREAM_SANDWICH.get(),
+                BrutalityGastronomyItems.MORTAR_AND_PESTLE.get(),
+                BrutalityGastronomyItems.BUTTER_GAUNTLETS.get(),
+                BrutalityGastronomyItems.TOMATO_SAUCE.get(),
+                BrutalityGastronomyItems.CHEESE_SAUCE.get(),
+                BrutalityGastronomyItems.PIZZA_SLOP.get(),
+                BrutalityGastronomyItems.ITALIAN_CLASSIC.get(),
+                BrutalityGastronomyItems.UVOGRE_STEAK.get(),
+                BrutalityGastronomyItems.SHADOWFLAME_SEARED_STEAK.get(),
+                BrutalityGastronomyItems.HOT_SAUCE.get(),
+                BrutalityGastronomyItems.OLIVE_OIL.get(),
+                BrutalityGastronomyItems.EXTRA_VIRGIN_OLIVE_OIL.get(),
+                BrutalityGastronomyItems.PICKLE_JAR.get(),
+                BrutalityGastronomyItems.FRIDGE.get(),
+                BrutalityGastronomyItems.SMART_FRIDGE.get(),
+                BrutalityGastronomyItems.INDUSTRIAL_FREEZER.get()
         );
     }
 

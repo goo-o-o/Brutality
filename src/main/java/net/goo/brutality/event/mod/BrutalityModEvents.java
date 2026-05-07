@@ -29,6 +29,9 @@ public class BrutalityModEvents {
 
         // 1. Define the attributes that are generic (Friction, Damage Taken, etc.)
         Set<Attribute> genericAttributes = Set.of(
+                BrutalityAttributes.GASTRONOMY_DAMAGE_DEALT_BOOST.get(),
+                BrutalityAttributes.GASTRONOMY_WET_DEBUFF_DAMAGE_TAKEN_BOOST.get(),
+                BrutalityAttributes.GASTRONOMY_DRY_DEBUFF_DAMAGE_TAKEN_BOOST.get(),
                 BrutalityAttributes.AIR_FRICTION.get(),
                 BrutalityAttributes.GROUND_FRICTION.get(),
                 BrutalityAttributes.DAMAGE_TAKEN.get(),
@@ -58,6 +61,8 @@ public class BrutalityModEvents {
 
         // 3. Define the attributes that are player-specific (Mana, Spell Levels, etc.)
         Set<Attribute> playerOnlyAttributes = Set.of(
+                BrutalityAttributes.GASTRONOMY_DEBUFF_LEVEL_MODIFIER.get(),
+                BrutalityAttributes.GASTRONOMY_DEBUFF_DURATION_MULTIPLIER.get(),
                 BrutalityAttributes.COIN_COOLDOWN.get(),
                 BrutalityAttributes.RAGE_TIME.get(),
                 BrutalityAttributes.LIFESTEAL.get(),

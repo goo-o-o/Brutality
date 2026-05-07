@@ -26,7 +26,7 @@ public class BrutalityTooltipFetcher {
         String projectDir = System.getProperty("user.dir");
 
         if (projectDir.endsWith("run")) {
-            // Go up one level to the project root
+            // Go up one levels to the project root
             projectDir = Paths.get(projectDir).getParent().toString();
             Brutality.LOGGER.info("Detected 'run' folder, moving up to: {}", projectDir);
         }
@@ -92,7 +92,7 @@ public class BrutalityTooltipFetcher {
                     }
                 }
 
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
 
         });

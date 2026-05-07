@@ -1,16 +1,9 @@
 package net.goo.brutality.common.item.curios.charm;
 
-import com.lowdragmc.photon.PhotonNetworking;
-import com.lowdragmc.photon.client.fx.EntityEffect;
-import com.lowdragmc.photon.client.fx.FX;
-import com.lowdragmc.photon.client.fx.FXHelper;
-import com.lowdragmc.photon.command.EntityEffectCommand;
-import com.lowdragmc.photon.command.RemoveEntityEffectCommand;
-import net.goo.brutality.Brutality;
+
 import net.goo.brutality.common.item.curios.BrutalityCurioItem;
 import net.goo.brutality.util.tooltip.ItemDescriptionComponent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -18,7 +11,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.ModList;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -43,36 +35,6 @@ public class CelestialStarboard extends BrutalityCurioItem {
         );
     }
 
-    @Override
-    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
-        super.onEquip(slotContext, prevStack, stack);
-        if (ModList.get().isLoaded("photon")) {
-            if (!(slotContext.entity() instanceof Player player)) return;
-
-            if (!(player.level() instanceof ServerLevel)) {
-                EntityEffectCommand command = new EntityEffectCommand();
-
-                FX effect = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "celestial_starboard_trail"));
-                if (effect == null) return;
-                command.setLocation(effect.getFxLocation());
-                command.setEntities(List.of(player));
-                command.setAutoRotate(EntityEffect.AutoRotate.FORWARD);
-                PhotonNetworking.NETWORK.sendToAll(command);
-            }
-        }
-    }
-
-    @Override
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (ModList.get().isLoaded("photon")) {
-            RemoveEntityEffectCommand command = new RemoveEntityEffectCommand();
-            FX effect = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(Brutality.MOD_ID, "celestial_starboard_trail"));
-            if (effect == null) return;
-            command.setLocation(effect.getFxLocation());
-            command.setEntities(List.of(slotContext.entity()));
-            PhotonNetworking.NETWORK.sendToAll(command);
-        }
-    }
 
     private boolean wasOnGround;
 

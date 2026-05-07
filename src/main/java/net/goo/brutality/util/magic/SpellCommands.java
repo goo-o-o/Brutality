@@ -33,7 +33,7 @@ public class SpellCommands {
                                             }
                                             return builder.buildFuture();
                                         })
-                                        .then(Commands.argument("level", IntegerArgumentType.integer(0))
+                                        .then(Commands.argument("levels", IntegerArgumentType.integer(0))
                                                 .executes(SpellCommands::addSpellToHeldItem)
                                         )
                                 )
@@ -69,7 +69,7 @@ public class SpellCommands {
 
     private static int addSpellToHeldItem(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         String spellName = StringArgumentType.getString(context, "spell_name");
-        int level = IntegerArgumentType.getInteger(context, "level");
+        int level = IntegerArgumentType.getInteger(context, "levels");
         Player player = context.getSource().getPlayerOrException();
         ItemStack heldItem = player.getMainHandItem();
 

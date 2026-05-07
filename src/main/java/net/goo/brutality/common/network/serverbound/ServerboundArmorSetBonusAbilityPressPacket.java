@@ -10,17 +10,19 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ServerboundArmorSetBonusAbilityPressPacket implements IBrutalityPacket<ServerboundArmorSetBonusAbilityPressPacket> {
+public class ServerboundArmorSetBonusAbilityPressPacket implements IBrutalityPacket {
     public ServerboundArmorSetBonusAbilityPressPacket() {
     }
 
     public ServerboundArmorSetBonusAbilityPressPacket(FriendlyByteBuf buf) {
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
     }
 
-    public  void handle(ServerboundArmorSetBonusAbilityPressPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
             ServerPlayer sender = context.getSender();

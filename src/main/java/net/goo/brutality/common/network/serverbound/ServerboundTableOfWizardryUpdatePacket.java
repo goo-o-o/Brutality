@@ -16,7 +16,7 @@ import net.minecraftforge.network.NetworkEvent;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
-public class ServerboundTableOfWizardryUpdatePacket implements IBrutalityPacket<ServerboundTableOfWizardryUpdatePacket> {
+public class ServerboundTableOfWizardryUpdatePacket implements IBrutalityPacket {
     private final BlockPos pos;
     private final String section, state;
     private final @Nullable ResourceLocation spellId;
@@ -55,7 +55,8 @@ public class ServerboundTableOfWizardryUpdatePacket implements IBrutalityPacket<
         }
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeBlockPos(this.pos);
         buf.writeUtf(this.section);
         buf.writeUtf(this.state);
@@ -73,28 +74,29 @@ public class ServerboundTableOfWizardryUpdatePacket implements IBrutalityPacket<
         }
     }
 
-    public void handle(ServerboundTableOfWizardryUpdatePacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
             if (player == null) return;
 
-            if (player.level().getBlockEntity(packet.pos) instanceof TableOfWizardryBlockEntity be) {
+            if (player.level().getBlockEntity(this.pos) instanceof TableOfWizardryBlockEntity be) {
                 try {
-                    be.currentSection = TableOfWizardryBookSection.valueOf(packet.section);
-                    be.currentState = TableOfWizardryBlockEntity.GuiState.valueOf(packet.state);
+                    be.currentSection = TableOfWizardryBookSection.valueOf(this.section);
+                    be.currentState = TableOfWizardryBlockEntity.GuiState.valueOf(this.state);
 
                     // --- UPDATE ITEMSTACK ---
-                    be.craftingItem = packet.craftingItem;
+                    be.craftingItem = this.craftingItem;
 
-                    if (packet.expungeEntry != null) {
-                        be.expungeEntry = packet.expungeEntry;
+                    if (this.expungeEntry != null) {
+                        be.expungeEntry = this.expungeEntry;
                         be.tryStartCrafting(player, be.craftingItem);
                     }
 
-                    be.currentSpell = packet.spellId != null ? BrutalitySpells.getSpell(packet.spellId) : null;
+                    be.currentSpell = this.spellId != null ? BrutalitySpells.getSpell(this.spellId) : null;
 
                     be.setChanged();
-                    player.level().sendBlockUpdated(packet.pos, be.getBlockState(), be.getBlockState(), 3);
+                    player.level().sendBlockUpdated(this.pos, be.getBlockState(), be.getBlockState(), 3);
                 } catch (IllegalArgumentException e) {
                     Brutality.LOGGER.error("Received invalid TableOfWizardry state from player: " + player.getName().getString());
                 }

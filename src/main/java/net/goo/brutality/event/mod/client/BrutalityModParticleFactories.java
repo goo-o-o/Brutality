@@ -4,6 +4,7 @@ import net.goo.brutality.Brutality;
 import net.goo.brutality.client.particle.base.WaveParticle;
 import net.goo.brutality.client.particle.custom.*;
 import net.goo.brutality.client.particle.custom.flat.*;
+import net.goo.brutality.client.particle.custom.trail.AbyssTrailParticle;
 import net.goo.brutality.client.particle.custom.trail.BlockchainTrailParticle;
 import net.goo.brutality.client.particle.custom.trail.HealingTrailParticle;
 import net.goo.brutality.client.particle.providers.FlatParticleData;
@@ -72,6 +73,7 @@ public class BrutalityModParticleFactories {
         event.registerSpriteSet(BrutalityParticles.TAILS_PARTICLE.get(), CoinflipParticle.Provider::new);
 
         event.registerSpecial(BrutalityParticles.HEALING_TRAIL_PARTICLE.get(), new HealingTrailParticle.Provider());
+        event.registerSpecial(BrutalityParticles.ABYSS_TRAIL_PARTICLE.get(), new AbyssTrailParticle.Provider());
         event.registerSpecial(BrutalityParticles.BLOCKCHAINED_TRAIL_PARTICLE.get(), new BlockchainTrailParticle.Provider());
 
         event.registerSpriteSet(BrutalityParticles.EXPLOSION_MAGIC_CIRCLE_PARTICLE.get(), FlatParticleData.FlatParticleProvider::new);

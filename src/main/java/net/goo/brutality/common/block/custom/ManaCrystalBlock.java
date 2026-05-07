@@ -64,7 +64,7 @@ public class ManaCrystalBlock extends BuddingAmethystBlock implements IBrutality
                 }
 
                 if (block != null) {
-                    BlockState blockState = block.defaultBlockState().setValue(AmethystClusterBlock.FACING, direction).setValue(AmethystClusterBlock.WATERLOGGED, Boolean.valueOf(blockstate.getFluidState().getType() == Fluids.WATER));
+                    BlockState blockState = block.defaultBlockState().setValue(AmethystClusterBlock.FACING, direction).setValue(AmethystClusterBlock.WATERLOGGED, blockstate.getFluidState().getType() == Fluids.WATER);
                     pLevel.setBlockAndUpdate(blockpos, blockState);
                 }
 

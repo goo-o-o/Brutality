@@ -46,7 +46,7 @@ public class BrutalityMagicAugmentItem extends BrutalityAugmentItem {
     public void onAugmentedItemPostCast(Player caster, ItemStack parent, BrutalitySpell spell, int spellLevel, IBrutalitySpell.SpellCategory type) {
     }
 
-    // ran everytime a magic item is cast which has this item, ran before a spell is actually cast, can also be used to modify spell level
+    // ran everytime a magic item is cast which has this item, ran before a spell is actually cast, can also be used to modify spell levels
     public int onAugmentedItemPreCast(Player caster, ItemStack parent, BrutalitySpell spell, int spellLevel, IBrutalitySpell.SpellCategory type) {
         return spellLevel;
     }

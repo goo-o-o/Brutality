@@ -4,14 +4,18 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.goo.brutality.common.item.weapon.sword.RoyalGuardianSword;
 import net.goo.brutality.common.registry.BrutalityItems;
+import net.goo.brutality.util.ModUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.material.FogType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -60,6 +64,25 @@ public class LevelRenderEvents {
                     if (player.isUsingItem() && player.getUseItem().is(BrutalityItems.ROYAL_GUARDIAN_SWORD.get())) {
                         RoyalGuardianSword.renderDisplayHitbox(player, event.getPoseStack());
                     }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onFogRender(ViewportEvent.RenderFog event) {
+        if (event.getType() == FogType.LAVA) {
+            Entity entity = event.getCamera().getEntity();
+
+            if (entity instanceof LivingEntity living) {
+                float farPlaneDistance = event.getFarPlaneDistance();
+                if (ModUtils.isWearingCurio(living, BrutalityItems.LAVA_LENSES.get()))
+                    farPlaneDistance = 50;
+                if (ModUtils.isWearingCurio(living, BrutalityItems.SURTRS_HORN.get()))
+                    farPlaneDistance = 150;
+
+                event.setNearPlaneDistance(-8.0f);
+                event.setFarPlaneDistance(farPlaneDistance);
+                event.setCanceled(true);
             }
         }
     }

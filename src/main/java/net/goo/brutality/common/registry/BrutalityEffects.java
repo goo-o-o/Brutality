@@ -2,10 +2,8 @@ package net.goo.brutality.common.registry;
 
 import net.goo.brutality.Brutality;
 import net.goo.brutality.common.mob_effect.*;
-import net.goo.brutality.common.mob_effect.gastronomy.CaffeinatedEffect;
-import net.goo.brutality.common.mob_effect.gastronomy.HotAndSpicyEffect;
-import net.goo.brutality.common.mob_effect.gastronomy.dry.*;
-import net.goo.brutality.common.mob_effect.gastronomy.wet.*;
+import net.goo.brutality.common.mob_effect.gastronomy.*;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -14,8 +12,19 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.function.Supplier;
+
 public class BrutalityEffects {
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Brutality.MOD_ID);
+
+    public static final RegistryObject<MobEffect> DESPAIR = EFFECTS.register("despair",
+            () -> new BaseMobEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 0, 0, 0)));
+    public static final RegistryObject<MobEffect> HOPE = EFFECTS.register("hope",
+            () -> new BaseMobEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 255, 200, 0)));
+    public static final RegistryObject<MobEffect> FORTITUDE = EFFECTS.register("fortitude",
+            () -> new FortitudeEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 255, 0)));
+    public static final RegistryObject<MobEffect> RESILIENCE = EFFECTS.register("resilience",
+            () -> new ResilienceEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 255, 0)));
 
     public static final RegistryObject<MobEffect> RADIATION = EFFECTS.register("radiation",
             () -> new RadiationEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 0, 250, 68)));
@@ -62,36 +71,29 @@ public class BrutalityEffects {
 
     public static final RegistryObject<MobEffect> MIRACLE_BLIGHT = EFFECTS.register("miracle_blight",
             () -> new MiracleBlightEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 255, 0)));
+
     public static final RegistryObject<MobEffect> CAFFEINATED = EFFECTS.register("caffeinated",
-            () -> new CaffeinatedEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 140, 33, 0)));
+            () -> new CaffeinatedEffect(MobEffectCategory.BENEFICIAL, GastronomyEffect.Type.WET, 0F, 0F));
     public static final RegistryObject<MobEffect> HOT_AND_SPICY = EFFECTS.register("hot_and_spicy",
-            () -> new HotAndSpicyEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 255, 68, 13)));
+            () -> new HotAndSpicyEffect(MobEffectCategory.BENEFICIAL, GastronomyEffect.Type.WET, 0.05F, 0F));
 
-    public static final RegistryObject<MobEffect> SALTED = EFFECTS.register("salted",
-            () -> new SaltedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 255)));
-    public static final RegistryObject<MobEffect> PEPPERED = EFFECTS.register("peppered",
-            () -> new PepperedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 126, 116, 93)));
-    public static final RegistryObject<MobEffect> SCORED = EFFECTS.register("scored",
-            () -> new BaseMobEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 200, 200)));
-    public static final RegistryObject<MobEffect> MASHED = EFFECTS.register("mashed",
-            () -> new BaseMobEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 200, 200)));
+    public static final RegistryObject<MobEffect> SCORED = registerGastronomyEffect("scored", () -> new GastronomyEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.DRY, 0.0F, 0.0F));
+    public static final RegistryObject<MobEffect> MASHED = registerGastronomyEffect("mashed", () -> new GastronomyEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.WET, 0.0F, 0.0F));
 
-    public static final RegistryObject<MobEffect> SLICKED = EFFECTS.register("slicked",
-            () -> new SlickedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 222, 131, 4)));
-    public static final RegistryObject<MobEffect> OILED = EFFECTS.register("oiled",
-            () -> new OiledEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 80, 82, 37)));
-    public static final RegistryObject<MobEffect> STEAMED = EFFECTS.register("steamed",
-            () -> new SteamedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 189, 205, 222)));
-    public static final RegistryObject<MobEffect> SMOKED = EFFECTS.register("smoked",
-            () -> new SmokedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 75, 75, 75)));
-    public static final RegistryObject<MobEffect> CANDIED = EFFECTS.register("candied",
-            () -> new CandiedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 192, 203)));
-    public static final RegistryObject<MobEffect> CARAMELIZED = EFFECTS.register("caramelized",
-            () -> new CaramelizedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 204, 156, 80)));
-    public static final RegistryObject<MobEffect> GLAZED = EFFECTS.register("glazed",
-            () -> new GlazedEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 255)));
-    public static final RegistryObject<MobEffect> SPRINKLED = EFFECTS.register("sprinkled",
-            () -> new SprinkledEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 97, 255, 160)));
+    public static final RegistryObject<MobEffect> SEARED = registerGastronomyEffect("seared", () -> new SearedEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.DRY, 0.05F, 0.05F));
+    public static final RegistryObject<MobEffect> BARK = registerGastronomyEffect("bark", () -> new BarkEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.DRY, 0.05F, 0.05F));
+    public static final RegistryObject<MobEffect> FRIED = registerGastronomyEffect("fried", () -> new FriedEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.DRY, 0.05F, 0.05F));
+    public static final RegistryObject<MobEffect> SALTED = registerGastronomyEffect("salted", () -> new GastronomyParticleEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.DRY, 0.25F, 0.05F, BrutalityParticles.SALT_PARTICLE));
+    public static final RegistryObject<MobEffect> PEPPERED = registerGastronomyEffect("peppered", () -> new GastronomyParticleEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.DRY, 0.25F, 0.05F, BrutalityParticles.PEPPER_PARTICLE));
+    public static final RegistryObject<MobEffect> SLICKED = registerGastronomyEffect("slicked", () -> new SlickedEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.WET, 0.05F, 0.15F, BrutalityParticles.SLICKED_PARTICLE));
+    public static final RegistryObject<MobEffect> OILED = registerGastronomyEffect("oiled", () -> new OiledEffect(MobEffectCategory.NEUTRAL, GastronomyEffect.Type.WET, 0.1F, 0F, BrutalityParticles.OILED_PARTICLE));
+    public static final RegistryObject<MobEffect> STEAMED = registerGastronomyEffect("steamed", () -> new SteamedEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.WET, 0F, 0F, BrutalityParticles.STEAM_PARTICLE));
+    public static final RegistryObject<MobEffect> SMOKED = registerGastronomyEffect("smoked", () -> new GastronomyParticleEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.DRY, 0.05F, 0.2F, () -> ParticleTypes.LARGE_SMOKE));
+    public static final RegistryObject<MobEffect> CANDIED = registerGastronomyEffect("candied", () -> new CandiedEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.DRY, 0.05F, 0.01F));
+    public static final RegistryObject<MobEffect> CARAMELIZED = registerGastronomyEffect("caramelized", () -> new GastronomyEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.WET, 0.125F, 0F));
+    public static final RegistryObject<MobEffect> GLAZED = registerGastronomyEffect("glazed", () -> new GlazedEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.WET, 0.05F, 0.1F));
+    public static final RegistryObject<MobEffect> SPRINKLED = registerGastronomyEffect("sprinkled", () -> new GastronomyEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.DRY, 0.15F, 0.05F));
+    public static final RegistryObject<MobEffect> PICKLED = registerGastronomyEffect("pickled", () -> new GastronomyEffect(MobEffectCategory.HARMFUL, GastronomyEffect.Type.WET, 0.05F, 0.1F));
 
     public static final RegistryObject<MobEffect> GRACE = EFFECTS.register("grace",
             () -> new GraceEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 255, 253, 153)));
@@ -104,7 +106,6 @@ public class BrutalityEffects {
             () -> new HypergravityEffect(MobEffectCategory.NEUTRAL, FastColor.ARGB32.color(255, 200, 0, 0), 0.25));
 
 
-
     public static final RegistryObject<MobEffect> ULTRA_DODGE = EFFECTS.register("ultra_dodge",
             () -> new UltraDodgeEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 255, 245, 255)));
     public static final RegistryObject<MobEffect> DODGE_COOLDOWN = EFFECTS.register("dodge_cooldown",
@@ -113,22 +114,22 @@ public class BrutalityEffects {
     public static final RegistryObject<MobEffect> PRECISION = EFFECTS.register("precision",
             () -> new PrecisionEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 255, 0, 0)));
 
-    // Increases spell damage 1% per level
+    // Increases spell damage 1% per levels
     public static final RegistryObject<MobEffect> ARCANE_SURGE = EFFECTS.register("arcane_surge",
             () -> new ArcaneSurgeEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 200, 0)));
-    // Reduces spell damage 1% per level
+    // Reduces spell damage 1% per levels
     public static final RegistryObject<MobEffect> MANA_BLIGHT = EFFECTS.register("mana_blight",
             () -> new ManaBlightEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));
-    // Reduces mana regen 10% per level
+    // Reduces mana regen 10% per levels
     public static final RegistryObject<MobEffect> CALCIFIED_PATHWAYS = EFFECTS.register("calcified_pathways",
             () -> new CalcifiedPathwaysEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));
-    // Increases mana regen 10% per level
+    // Increases mana regen 10% per levels
     public static final RegistryObject<MobEffect> CELESTIAL_FLUX = EFFECTS.register("celestial_flux",
             () -> new CelestialFluxEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 200, 0)));
-    // Increases mana cost 10% per level
+    // Increases mana cost 10% per levels
     public static final RegistryObject<MobEffect> ARCANE_BURNOUT = EFFECTS.register("arcane_burnout",
             () -> new ArcaneBurnoutEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 200, 0, 0)));
-    // Reduces mana cost 10% per level
+    // Reduces mana cost 10% per levels
     public static final RegistryObject<MobEffect> ETHERIC_FLOW = EFFECTS.register("etheric_flow",
             () -> new EthericFlowEffect(MobEffectCategory.BENEFICIAL, FastColor.ARGB32.color(255, 0, 200, 0)));
 
@@ -138,6 +139,14 @@ public class BrutalityEffects {
     public static final RegistryObject<MobEffect> TERRAMITICULOSIS = EFFECTS.register("terramiticulosis",
             () -> new BaseMobEffect(MobEffectCategory.HARMFUL, FastColor.ARGB32.color(255, 255, 255, 255)));
 
+
+    private static RegistryObject<MobEffect> registerGastronomyEffect(String name, Supplier<GastronomyEffect> effectSupplier) {
+        return EFFECTS.register(name, () -> {
+            GastronomyEffect effect = effectSupplier.get();
+            effect.initAttribute(name);
+            return effect;
+        });
+    }
 
     public static void register(IEventBus eventBus) {
         EFFECTS.register(eventBus);

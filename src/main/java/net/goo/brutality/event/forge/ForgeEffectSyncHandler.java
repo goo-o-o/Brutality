@@ -8,10 +8,12 @@ import net.goo.brutality.common.network.clientbound.ClientboundUpdateAbilityCool
 import net.goo.brutality.common.registry.BrutalityEffects;
 import net.goo.brutality.common.registry.BrutalityItems;
 import net.goo.brutality.util.CommonConstants;
+import net.goo.brutality.util.ModUtils;
 import net.mcreator.terramity.potion.ArmorSetAbilityCooldownMobEffect;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
@@ -27,20 +29,9 @@ public class ForgeEffectSyncHandler {
         LivingEntity entity = event.getEntity();
         MobEffectInstance instance = event.getEffectInstance();
         MobEffect effect = instance.getEffect();
-//        if (entity.level() instanceof ServerLevel) {
-//            entity.getCapability(BrutalityCapabilities.ENTITY_EFFECT_CAP).ifPresent(cap -> {
-//                if (effect == BrutalityModMobEffects.MIRACLE_BLIGHT.get()) {
-//                    cap.setMiracleBlighted(true);
-//                } else if (effect == BrutalityModMobEffects.ENRAGED.get()) {
-//                    cap.setRage(true);
-//                } else if (effect == BrutalityModMobEffects.THE_VOID.get()) {
-//                    cap.setTheVoid(true);
-//                } else if (effect == BrutalityModMobEffects.LIGHT_BOUND.get()) {
-//                    cap.setLightBound(true);
-//                }
-//                PacketHandler.sendToAllClients(new ClientboundSyncCapabilitiesPacket(entity.getId(), entity));
-//            });
-//        }
+
+        if (ModUtils.isWearingCurio(entity, BrutalityItems.OMNICHROME_RING.get()) && effect == MobEffects.POISON)
+            event.setCanceled(true);
 
         if (entity instanceof ServerPlayer player) {
             if (effect instanceof ArmorSetAbilityCooldownMobEffect) {

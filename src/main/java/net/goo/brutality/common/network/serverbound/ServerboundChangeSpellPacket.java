@@ -10,7 +10,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ServerboundChangeSpellPacket implements IBrutalityPacket<ServerboundChangeSpellPacket> {
+public class ServerboundChangeSpellPacket implements IBrutalityPacket {
     private final int direction;
     private final int index;
 
@@ -24,18 +24,20 @@ public class ServerboundChangeSpellPacket implements IBrutalityPacket<Serverboun
         this.index = buf.readInt();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeInt(direction);
         buf.writeInt(index);
     }
 
-    public void handle(ServerboundChangeSpellPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
             if (player != null) {
-                ItemStack stack = player.getInventory().getItem(packet.index);
+                ItemStack stack = player.getInventory().getItem(this.index);
                 if (stack.getItem() instanceof BaseMagicTome) {
-                    SpellStorage.cycleSelectedSpell(stack, packet.direction);
+                    SpellStorage.cycleSelectedSpell(stack, this.direction);
                 }
             }
         });

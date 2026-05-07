@@ -30,7 +30,7 @@ public class EmergencyFlask extends BrutalityCurioItem {
 //    public void curioTick(SlotContext slotContext, ItemStack stack) {
 //        if (slotContext.entity() != null) {
 //            LivingEntity livingEntity = slotContext.entity();
-//            if (!livingEntity.level().isClientSide() && livingEntity.tickCount % 10 == 0) {
+//            if (!livingEntity.levels().isClientSide() && livingEntity.tickCount % 10 == 0) {
 //                AttributeInstance castTime = livingEntity.getAttribute(BrutalityAttributes.CAST_TIME.get());
 //                boolean active = livingEntity.getHealth() / livingEntity.getMaxHealth() < 0.5F;
 //                UUID uuid = livingEntity.getUUID();

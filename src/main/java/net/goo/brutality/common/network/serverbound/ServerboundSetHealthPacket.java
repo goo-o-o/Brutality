@@ -10,7 +10,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ServerboundSetHealthPacket implements IBrutalityPacket<ServerboundSetHealthPacket> {
+public class ServerboundSetHealthPacket implements IBrutalityPacket {
     private final int entityId;
     private final float health;
 
@@ -24,22 +24,24 @@ public class ServerboundSetHealthPacket implements IBrutalityPacket<ServerboundS
         this.health = buf.readFloat();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeVarInt(entityId);
         buf.writeFloat(health);
     }
 
-    public void handle(ServerboundSetHealthPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
             ServerPlayer sender = context.getSender();
             if (sender == null) return;
 
             ServerLevel level = sender.serverLevel();
-            Entity target = level.getEntity(packet.entityId);
+            Entity target = level.getEntity(this.entityId);
 
             if (target instanceof LivingEntity livingTarget && target.isAlive()) {
-                livingTarget.setHealth(packet.health);
+                livingTarget.setHealth(this.health);
             }
 
         });

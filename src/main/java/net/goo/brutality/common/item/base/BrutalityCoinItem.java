@@ -58,6 +58,11 @@ public abstract class BrutalityCoinItem extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
 
+
+
+        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents);
+        pTooltipComponents.add(Component.empty());
+
         pTooltipComponents.add(Component.translatable(Brutality.MOD_ID + ".description.type.on_right_click"));
         pTooltipComponents.add(Component.translatable("item." + Brutality.MOD_ID + ".coin_item.on_right_click.1"));
         if (Minecraft.getInstance().player != null) {
@@ -65,9 +70,6 @@ public abstract class BrutalityCoinItem extends Item {
         } else {
             pTooltipComponents.add(TooltipHelper.getCooldownComponent(cooldownTime).withStyle(ChatFormatting.DARK_AQUA));
         }
-        pTooltipComponents.add(Component.empty());
-
-        TooltipHelper.handleItemDescriptions(pStack, pTooltipComponents, descriptionComponents);
     }
 
     /**

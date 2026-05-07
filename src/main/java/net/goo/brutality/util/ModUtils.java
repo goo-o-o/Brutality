@@ -1,19 +1,13 @@
 package net.goo.brutality.util;
 
-import com.lowdragmc.photon.client.fx.EntityEffect;
-import com.lowdragmc.photon.client.fx.FX;
-import com.lowdragmc.photon.client.fx.FXRuntime;
 import net.goo.brutality.client.particle.providers.WaveParticleData;
 import net.goo.brutality.common.config.BrutalityCommonConfig;
-import net.goo.brutality.common.item.BrutalityCategories;
-import net.goo.brutality.common.item.base.BrutalityGeoItem;
 import net.goo.brutality.event.forge.DelayedTaskScheduler;
 import net.goo.brutality.util.math.phys.hitboxes.CylindricalBoundingBox;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
@@ -35,6 +29,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import javax.annotation.Nullable;
 import java.lang.invoke.MethodHandle;
@@ -113,6 +108,7 @@ public class ModUtils {
      * standard compression would cause jitter or trajectory snapping.
      * * Credits: Original logic by Hesperos; refined by Team CoFH.
      * * @param fval The 32-bit float velocity component
+     *
      * @return A 16-bit encoded representation of the float
      */
     public static int packHalfFloat(float fval) {
@@ -174,58 +170,6 @@ public class ModUtils {
         seed = seed * 31 + (long) (entity.getZ() * 1000); // Player Z position (scaled)
         seed = seed * 31 + entity.tickCount;
         return new Random(seed);
-    }
-
-
-    private static BrutalityCategories.AttackType getAttackType(Item item, ItemStack stack) {
-        if (item == null || stack == null)
-            return BrutalityCategories.AttackType.NONE;
-
-        if (item instanceof BrutalityGeoItem geoItem) {
-            return geoItem.getAttackType();
-        }
-        if (item instanceof SwordItem || stack.is(ItemTags.SWORDS)) {
-            return BrutalityCategories.AttackType.SLASH;
-        }
-        if (item instanceof AxeItem || stack.is(ItemTags.AXES)) {
-            return BrutalityCategories.AttackType.SLASH;
-        }
-        return BrutalityCategories.AttackType.NONE;
-    }
-
-
-    public static void removeFX(Entity entity, FX fx) {
-        List<EntityEffect> effects = EntityEffect.CACHE.get(entity);
-        if (effects == null) return;
-
-        boolean hasEffect = effects.stream().anyMatch(effect -> effect.getFx().equals(fx));
-        if (!hasEffect) return;
-
-        Iterator<EntityEffect> iter = effects.iterator();
-        while (iter.hasNext()) {
-            EntityEffect nextEffect = iter.next();
-            FX nextFX = nextEffect.getFx();
-
-            if (nextFX != null && nextFX.equals(fx)) {
-                iter.remove();
-                FXRuntime runtime = nextEffect.getRuntime();
-                if (runtime != null && runtime.isAlive()) {
-                    runtime.destroy(false);
-                }
-            }
-        }
-
-        if (effects.isEmpty()) {
-            EntityEffect.CACHE.remove(entity);
-        }
-    }
-
-
-    public static List<? extends Entity> getEntitiesInSphere(Entity origin, @Nullable Predicate<? super Entity> predicate, double radius) {
-        List<? extends Entity> aabbEntities = predicate == null ?
-                origin.level().getEntities(origin, origin.getBoundingBox().inflate(radius)) :
-                origin.level().getEntities(origin, origin.getBoundingBox().inflate(radius), predicate);
-        return aabbEntities.stream().filter(entity -> entity.distanceTo(origin) < radius).toList();
     }
 
     public static <T extends Entity> List<T> getEntitiesInSphere(Class<T> clazz, Entity origin, Predicate<? super Entity> predicate, double radius) {
@@ -406,8 +350,8 @@ public class ModUtils {
      * @param player The player whose position is being checked.
      * @param target The entity whose back we are looking for.
      * @param angle  The tolerance angle in degrees.
-     * 90 means "anywhere behind the shoulders" (180° total cone).
-     * 45 means a narrower "true backstab" zone (90° total cone).
+     *               90 means "anywhere behind the shoulders" (180° total cone).
+     *               45 means a narrower "true backstab" zone (90° total cone).
      * @return {@code true} if the player is within the specified angle behind the entity.
      */
     public static boolean isPlayerBehind(Player player, Entity target, float angle) {
@@ -441,7 +385,7 @@ public class ModUtils {
      * @return {@code true} if all 4 slots are filled with armor of the same material;
      * {@code false} if any slot is empty or contains a different material.
      */
-    public static boolean hasMatchingArmorSet(LivingEntity entity) {
+    public static boolean hasFullArmorSet(LivingEntity entity) {
         ArmorMaterial materialName = null;
         for (ItemStack stack : entity.getArmorSlots()) {
             // If the slot is empty or not an ArmorItem, it's not a complete set
@@ -498,7 +442,6 @@ public class ModUtils {
     }
 
 
-
     public static BlockPos getBlockLookingAt(Player player, boolean isFluid, float hitDistance) {
         HitResult block = player.pick(hitDistance, 1.0F, isFluid);
 
@@ -514,15 +457,6 @@ public class ModUtils {
         } else {
             return gcd(b, a % b);
         }
-    }
-
-
-    public static Vec3 getRandomPosAroundPlayer(Player player, float scale) {
-        double randomX = player.getRandomX(Mth.nextFloat(player.getRandom(), -scale, scale));
-        double randomY = player.getRandomY() * Mth.nextFloat(player.getRandom(), -scale, scale);
-        double randomZ = player.getRandomZ(Mth.nextFloat(player.getRandom(), -scale, scale));
-
-        return new Vec3(randomX, randomY, randomZ);
     }
 
 
@@ -571,6 +505,26 @@ public class ModUtils {
         }
 
         return closestEntity; // Return the closest entity or null if none found
+    }
+
+    // returns if any of the curios are equipped
+    public static boolean isWearingCurio(LivingEntity livingEntity, Item... curios) {
+        return CuriosApi.getCuriosInventory(livingEntity).map(handler -> {
+                    for (Item curio : curios) {
+                        if (handler.isEquipped(curio)) return true;
+                    }
+                    return false;
+                }
+        ).orElse(false);
+    }
+    public static boolean isWearingAllCurios(LivingEntity livingEntity, Item... curios) {
+        return CuriosApi.getCuriosInventory(livingEntity).map(handler -> {
+                    for (Item curio : curios) {
+                        if (!handler.isEquipped(curio)) return false;
+                    }
+                    return true;
+                }
+        ).orElse(false);
     }
 
 }

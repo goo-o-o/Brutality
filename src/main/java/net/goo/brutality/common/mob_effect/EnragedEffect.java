@@ -20,13 +20,13 @@ public class EnragedEffect extends MobEffect {
 
     public EnragedEffect(MobEffectCategory category, int color) {
         super(category, color);
-        // movement speed (20% + 10% per level)
+        // movement speed (20% + 10% per levels)
         this.addAttributeModifier(Attributes.MOVEMENT_SPEED, ENRAGED_MS_UUID.toString(), 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        // attack speed (20% + 10% per level)
+        // attack speed (20% + 10% per levels)
         this.addAttributeModifier(Attributes.ATTACK_SPEED, ENRAGED_AS_UUID.toString(), 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        // attack damage (50% + 5% per level)
+        // attack damage (50% + 5% per levels)
         this.addAttributeModifier(Attributes.ATTACK_DAMAGE, ENRAGED_AD_UUID.toString(), 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        // armor (capped at 0, starts at -100% + 10% per level)
+        // armor (capped at 0, starts at -100% + 10% per levels)
         this.addAttributeModifier(Attributes.ARMOR, ENRAGED_ARMOR_UUID.toString(), 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
@@ -41,8 +41,6 @@ public class EnragedEffect extends MobEffect {
 
 
         }
-
-
     }
 
 
@@ -50,13 +48,13 @@ public class EnragedEffect extends MobEffect {
     public double getAttributeModifierValue(int amplifier, @NotNull AttributeModifier modifier) {
         UUID modifierId = modifier.getId();
         if (modifierId.equals(ENRAGED_MS_UUID)) {
-            return 0.2 + (0.1 * amplifier); // Movement speed: 20% + 10% per level
+            return 0.2 + (0.1 * amplifier); // Movement speed: 20% + 10% per levels
         } else if (modifierId.equals(ENRAGED_AS_UUID)) {
-            return 0.2 + (0.1 * amplifier); // Attack speed: 20% + 10% per level
+            return 0.2 + (0.1 * amplifier); // Attack speed: 20% + 10% per levels
         } else if (modifierId.equals(ENRAGED_AD_UUID)) {
-            return 0.5 + (0.05 * amplifier); // Attack damage: 50% + 5% per level
+            return 0.5 + (0.05 * amplifier); // Attack damage: 50% + 5% per levels
         } else if (modifierId.equals(ENRAGED_ARMOR_UUID)) {
-            return Math.min(-1.0 + (0.1 * amplifier), 0); // Armor: -100% + 10% per level, capped at 0
+            return Math.min(-1.0 + (0.1 * amplifier), 0); // Armor: -100% + 10% per levels, capped at 0
         }
         return 0; // Fallback for unknown modifiers
     }

@@ -9,7 +9,7 @@ import org.joml.Vector3f;
 
 import java.util.function.Supplier;
 
-public class ClientboundChainLightningPacket implements IBrutalityPacket<ClientboundChainLightningPacket> {
+public class ClientboundChainLightningPacket implements IBrutalityPacket {
     public Vector3f start;
     public Vector3f end;
     public float size;
@@ -36,7 +36,8 @@ public class ClientboundChainLightningPacket implements IBrutalityPacket<Clientb
         this.delay = buf.readInt();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeVector3f(this.start);
         buf.writeVector3f(this.end);
         buf.writeFloat(this.size);
@@ -46,10 +47,11 @@ public class ClientboundChainLightningPacket implements IBrutalityPacket<Clientb
         buf.writeInt(this.delay);
     }
 
-    public void handle(ClientboundChainLightningPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
 
-        context.enqueueWork(() -> ClientPacketListener.handleChainLightning(packet));
+        context.enqueueWork(() -> ClientPacketListener.handleChainLightning(this));
 
         context.setPacketHandled(true);
     }

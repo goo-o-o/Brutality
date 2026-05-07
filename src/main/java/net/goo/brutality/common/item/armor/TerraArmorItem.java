@@ -11,7 +11,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Rarity;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 import java.util.UUID;
@@ -34,10 +33,5 @@ public class TerraArmorItem extends BrutalityArmorItem {
             return builder.build();
         }
         return super.getDefaultAttributeModifiers(pEquipmentSlot);
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
     }
 }

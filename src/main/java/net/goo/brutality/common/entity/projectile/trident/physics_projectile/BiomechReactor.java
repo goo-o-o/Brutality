@@ -1,6 +1,5 @@
 package net.goo.brutality.common.entity.projectile.trident.physics_projectile;
 
-import com.lowdragmc.photon.client.fx.EntityEffect;
 import net.goo.brutality.client.entity.BrutalityGeoEntity;
 import net.goo.brutality.common.config.BrutalityCommonConfig;
 import net.goo.brutality.common.entity.base.BrutalityAbstractPhysicsThrowingProjectile;
@@ -28,7 +27,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
 import org.jetbrains.annotations.NotNull;
 
-import static net.goo.brutality.util.ModResources.RAINBOW_TRAIL_FX;
 
 public class BiomechReactor extends BrutalityAbstractPhysicsThrowingProjectile implements BrutalityGeoEntity {
     private static final EntityDataAccessor<Integer> HOMING_TARGET_ID = SynchedEntityData.defineId(BiomechReactor.class, EntityDataSerializers.INT);
@@ -81,10 +79,10 @@ public class BiomechReactor extends BrutalityAbstractPhysicsThrowingProjectile i
 
     @Override
     public void tick() {
-        if (firstTick && !(level() instanceof ServerLevel)) {
-            EntityEffect rainbowTrail = new EntityEffect(RAINBOW_TRAIL_FX.get(), this.level(), this, EntityEffect.AutoRotate.NONE);
-            rainbowTrail.start();
-        }
+//        if (firstTick && !(levels() instanceof ServerLevel)) {
+//            EntityEffect rainbowTrail = new EntityEffect(RAINBOW_TRAIL_FX.get(), this.levels(), this, EntityEffect.AutoRotate.NONE);
+//            rainbowTrail.start();
+//        }
 
 
         int cooldown = this.entityData.get(HOMING_COOLDOWN);

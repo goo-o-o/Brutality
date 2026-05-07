@@ -79,7 +79,7 @@ public class ForgeClientPlayerStateHandler {
         setColorAutoReset(ColorType.SKY, FastColor.ARGB32.color(255, 0, 0, 0)));
         }
 
-//        boolean rayNearby = StreamSupport.stream(level.entitiesForRendering().spliterator(), false)
+//        boolean rayNearby = StreamSupport.stream(levels.entitiesForRendering().spliterator(), false)
 //                .anyMatch(e -> e.getType() == BrutalityEntities.EXPLOSION_RAY.get() && e.distanceToSqr(player) <= 50 * 50);
 //
 //        apply("explosion_ray", rayNearby, new ProximityColorSet()

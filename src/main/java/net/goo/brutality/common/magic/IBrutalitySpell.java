@@ -58,15 +58,15 @@ public interface IBrutalitySpell {
 
     /**
      * Calculates the actual mana cost for casting a spell, based on the livingEntity's attributes
-     * and the spell's base and level-scaling mana costs.
+     * and the spell's base and levels-scaling mana costs.
      *
      * @param livingEntity The livingEntity who is casting the spell. Used for retrieving the
      *                     relevant attributes to modify mana cost.
-     * @param spellLevel   The level of the spell being cast. Impacts the scaling component
+     * @param spellLevel   The levels of the spell being cast. Impacts the scaling component
      *                     of mana cost.
      * @return The calculated mana cost for the spell, adjusted by livingEntity attributes and
      * constrained to a minimum of 1.
-     *  The actual spell level (affected by attributes) should be passed in
+     *  The actual spell levels (affected by attributes) should be passed in
      */
     default float getActualManaCost(LivingEntity livingEntity, int spellLevel) {
         float base = getBaseManaCost() + getManaCostLevelScaling() * spellLevel;
@@ -84,8 +84,8 @@ public interface IBrutalitySpell {
     }
 
     /**
-     * Calculates the "True" level of a spell by adding the caster's Magic School Attribute
-     * to the spell's base level.
+     * Calculates the "True" levels of a spell by adding the caster's Magic School Attribute
+     * to the spell's base levels.
      */
     default int getActualSpellLevel(@Nullable Entity caster, int spellLevel) {
         MagicSchool school = getSchool();
@@ -180,7 +180,7 @@ public interface IBrutalitySpell {
 
     /**
      * Resolves a stat component (like range or radius) to a final float,
-     * applying level scaling and min/max clamping.
+     * applying levels scaling and min/max clamping.
      */
     default float getFinalStat(int spellLevel, @Nullable SpellTooltipRenderer.SpellStatComponent stat) {
         if (stat != null) {

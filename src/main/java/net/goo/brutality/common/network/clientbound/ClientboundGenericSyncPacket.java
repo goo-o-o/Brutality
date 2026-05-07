@@ -8,7 +8,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ClientboundGenericSyncPacket implements IBrutalityPacket<ClientboundGenericSyncPacket> {
+public class ClientboundGenericSyncPacket implements IBrutalityPacket {
     private final int entityId; // New field
     private final String key;
     private final CompoundTag data;
@@ -25,15 +25,16 @@ public class ClientboundGenericSyncPacket implements IBrutalityPacket<Clientboun
         this.data = buf.readNbt();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeInt(entityId);
         buf.writeUtf(key);
         buf.writeNbt(data);
     }
 
     @Override
-    public void handle(ClientboundGenericSyncPacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> ClientProxy.handleSync(packet.entityId, packet.key, packet.data));
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> ClientProxy.handleSync(this.entityId, this.key, this.data));
         ctx.get().setPacketHandled(true);
     }
 }

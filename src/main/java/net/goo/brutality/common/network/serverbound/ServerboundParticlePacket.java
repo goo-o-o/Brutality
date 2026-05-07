@@ -14,7 +14,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class ServerboundParticlePacket implements IBrutalityPacket<ServerboundParticlePacket> {
+public class ServerboundParticlePacket implements IBrutalityPacket {
     private final double x, y, z, xDelta, yDelta, zDelta;
     private final ParticleOptions particle;
     private final int count;
@@ -45,7 +45,8 @@ public class ServerboundParticlePacket implements IBrutalityPacket<ServerboundPa
         this.speed = pBuffer.readFloat();
     }
 
-    public void write(FriendlyByteBuf pBuffer) {
+    @Override
+    public void encode(FriendlyByteBuf pBuffer) {
         writeParticleType(pBuffer, particle.getType());
         pBuffer.writeDouble(this.x);
         pBuffer.writeDouble(this.y);
@@ -76,12 +77,13 @@ public class ServerboundParticlePacket implements IBrutalityPacket<ServerboundPa
         return ParticleTypes.EXPLOSION;
     }
 
-    public void handle(ServerboundParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             Player sender = ctx.get().getSender();
             assert sender != null;
             if (sender.level() instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(packet.particle, packet.x, packet.y, packet.z, packet.count, packet.xDelta, packet.yDelta, packet.zDelta, packet.speed);
+                serverLevel.sendParticles(this.particle, this.x, this.y, this.z, this.count, this.xDelta, this.yDelta, this.zDelta, this.speed);
             }
         });
 

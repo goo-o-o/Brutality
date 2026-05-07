@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 import static net.goo.brutality.Brutality.LOGGER;
 
-public class ClientboundParticlePacket implements IBrutalityPacket<ClientboundParticlePacket> {
+public class ClientboundParticlePacket implements IBrutalityPacket {
     public final float x;
     public final float y;
     public final float z;
@@ -62,7 +62,8 @@ public class ClientboundParticlePacket implements IBrutalityPacket<ClientboundPa
         this.particle = this.readParticle(pBuffer, particletype);
     }
 
-    public void write(FriendlyByteBuf pBuffer) {
+    @Override
+    public void encode(FriendlyByteBuf pBuffer) {
         pBuffer.writeRegistryId(ForgeRegistries.PARTICLE_TYPES, this.particle.getType());
         pBuffer.writeBoolean(this.overrideLimiter);
         pBuffer.writeFloat(this.x);
@@ -87,8 +88,9 @@ public class ClientboundParticlePacket implements IBrutalityPacket<ClientboundPa
         }
     }
 
-    public void handle(ClientboundParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> ClientProxy.spawnParticles(packet));
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> ClientProxy.spawnParticles(this));
         ctx.get().setPacketHandled(true);
     }
 

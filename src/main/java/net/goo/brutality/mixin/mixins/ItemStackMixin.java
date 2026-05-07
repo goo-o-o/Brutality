@@ -8,6 +8,7 @@ import net.goo.brutality.common.item.curios.hands.SuspiciouslyLargeHandle;
 import net.goo.brutality.common.item.generic.augments.BrutalityAugmentItem;
 import net.goo.brutality.common.item.weapon.axe.RhittaAxe;
 import net.goo.brutality.common.item.weapon.hammer.Jackpot;
+import net.goo.brutality.common.item.weapon.sword.WorldTreeSword;
 import net.goo.brutality.common.item.weapon.sword.max.MAX;
 import net.goo.brutality.common.registry.BrutalityAttributes;
 import net.goo.brutality.common.registry.BrutalityItems;
@@ -76,10 +77,12 @@ public abstract class ItemStackMixin {
 
             double modified = itemBase;
 
-            if (stack.getItem() instanceof RhittaAxe) {
-                modified += RhittaAxe.computeAttackDamageBonus(player.level());
-            } else if (stack.getItem() instanceof Jackpot) {
+            if (stack.is(BrutalityItems.RHITTA.get())) {
+                modified += RhittaAxe.getDamageBonus(player.level());
+            } else if (stack.is(BrutalityItems.JACKPOT.get())) {
                 modified = Jackpot.getRandomDamage(player);
+            } else if (stack.is(BrutalityItems.WORLD_TREE_SWORD.get())) {
+                modified += WorldTreeSword.getDamageBonus(player);
             }
 
 

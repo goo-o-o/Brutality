@@ -10,7 +10,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 // instead of mixin into net.minecraft.network.protocol.game.ClientGamePacketListener.handleSetEquipment lets just make our own
-public class ClientboundEquipmentChangePacket implements IBrutalityPacket<ClientboundEquipmentChangePacket> {
+public class ClientboundEquipmentChangePacket implements IBrutalityPacket {
 
     public ItemStack itemStack;
     public int entityId;
@@ -28,15 +28,16 @@ public class ClientboundEquipmentChangePacket implements IBrutalityPacket<Client
         this.isUnequip = buf.readBoolean();
     }
 
-    public void write(FriendlyByteBuf buf) {
+    @Override
+    public void encode(FriendlyByteBuf buf) {
         buf.writeItem(itemStack);
         buf.writeInt(entityId);
         buf.writeBoolean(isUnequip);
     }
 
     @Override
-    public void handle(ClientboundEquipmentChangePacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> ClientPacketListener.handleEquipmentChange(packet));
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> ClientPacketListener.handleEquipmentChange(this));
         ctx.get().setPacketHandled(true);
     }
 

@@ -296,17 +296,8 @@ public class CollisionResolver {
     }
     
     // Helper classes
-    
-    private static class BlockCollision {
-        final BlockPos pos;
-        final BlockState state;
-        final AABB aabb;
-        
-        BlockCollision(BlockPos pos, BlockState state, AABB aabb) {
-            this.pos = pos;
-            this.state = state;
-            this.aabb = aabb;
-        }
+
+    private record BlockCollision(BlockPos pos, BlockState state, AABB aabb) {
     }
     
     private static class SweepResult {

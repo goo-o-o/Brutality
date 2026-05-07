@@ -188,7 +188,7 @@ public class ItemCategoryUtils {
     }
 
     public static boolean isBow(Item item) {
-        return item instanceof BowItem || nameHas(item, "bow") || item.builtInRegistryHolder().is(Tags.Items.TOOLS_BOWS);
+        return item instanceof BowItem || item.builtInRegistryHolder().is(Tags.Items.TOOLS_BOWS);
     }
     public static boolean isBow(ItemStack stack) {
         return isBow(stack.getItem());

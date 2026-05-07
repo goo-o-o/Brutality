@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class ClientboundBrutalityExplodePacket extends ClientboundExplodePacket implements IBrutalityPacket<ClientboundBrutalityExplodePacket> {
+public class ClientboundBrutalityExplodePacket extends ClientboundExplodePacket implements IBrutalityPacket {
     private final String clazz;
     private final boolean spawnParticles;
 
@@ -31,7 +31,8 @@ public class ClientboundBrutalityExplodePacket extends ClientboundExplodePacket 
         this.spawnParticles = buf.readBoolean();
     }
 
-    public void write(@NotNull FriendlyByteBuf buf) {
+    @Override
+    public void encode(@NotNull FriendlyByteBuf buf) {
         super.write(buf);
         buf.writeUtf(this.clazz);
         buf.writeBoolean(this.spawnParticles);
@@ -52,11 +53,9 @@ public class ClientboundBrutalityExplodePacket extends ClientboundExplodePacket 
 
     }
 
-
-
-
-    public void handle(ClientboundBrutalityExplodePacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> ModExplosionHelper.Client.handleExplosion(packet));
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> ModExplosionHelper.Client.handleExplosion(this));
         ctx.get().setPacketHandled(true);
     }
 }

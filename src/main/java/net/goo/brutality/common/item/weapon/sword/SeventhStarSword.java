@@ -74,7 +74,7 @@ public class SeventhStarSword extends BrutalitySwordItem {
 
     public void shootTriStar(Player player) {
         Level level = player.level();
-//        if (level.isClientSide()) {
+//        if (levels.isClientSide()) {
 //            for (int i = -15; i <= 15; i += 15)
 //                PacketHandler.sendToServer(new ServerboundShootProjectilePacket(BrutalityModEntities.STAR_ENTITY.getId(), 2.5F, false, 0F, i));
 //        } else {

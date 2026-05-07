@@ -25,7 +25,7 @@ public interface BrutalityCategories {
     }
 
     enum AttackType implements BrutalityCategories {
-        BLUNT, SLASH, PIERCE, NONE
+        BLUNT, PIERCE
     }
 
 }
